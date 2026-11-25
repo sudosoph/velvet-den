@@ -31,8 +31,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 46 subplots accurately—including Hormonal/Low-Iron/Perimenopause/Menopause real talk, Cub Bench-Press training, and Post-Banging Sister-Age Shock across all tracks', () => {
-    expect(EPISODES.length).toBe(46);
+  it('routes 48 subplots accurately—including Pop-Culture Cougar Renaissance, Cub "Grooming" Glow-Up, Hormonal/Menopause real talk, Bench-Press, and Sister-Age Shock across all tracks', () => {
+    expect(EPISODES.length).toBe(48);
 
     const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
     const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
@@ -43,13 +43,15 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     const celeste62 = HER_ARCHETYPES.find((h) => h.id === 'celeste-panther-icon')!;
     const leo25 = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
 
-    // 6-Year "Junior Cougar" (38F × 32M = 6-yr gap): gets 2008 math, bench press, 30s low-iron ferritin, sister-age shock, 7-wedding summer, 6-yr clock Doubt, and sweet-spot finale!
+    // 6-Year "Junior Cougar" (38F × 32M = 6-yr gap): gets 2008 math, bench press, cub grooming, pop-culture renaissance, 30s low-iron ferritin, sister-age shock, 7-wedding summer, 6-yr clock Doubt, and Miley & Maxx sweet-spot finale!
     const juniorPairing = analyzePairing(sienna38, miles32, 'her');
     expect(juniorPairing.ageGap).toBe(6);
     expect(juniorPairing.badgeLabel).toBe('6-Year Junior Cougar Matchup');
     const juniorIds = createRun(juniorPairing).episodeQueue.map((e) => e.id);
     expect(juniorIds).toContain('junior-cougar-gatekeeper-tease');
     expect(juniorIds).toContain('cub-bench-press-cougar-training');
+    expect(juniorIds).toContain('cub-grooming-red-carpet-glowup');
+    expect(juniorIds).toContain('pop-culture-cougar-renaissance');
     expect(juniorIds).toContain('puma-low-iron-ferritin-care');
     expect(juniorIds).toContain('steamy-texts-sister-age-shock');
     expect(juniorIds).toContain('junior-cougar-condo-vs-lease');
@@ -132,6 +134,19 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       fireEvent.click(screen.getByRole('button', { name: /Press Rep/i }));
     }
     expect(screen.getByText(/5x225 Crushed! Stairway-Carry Strength Unlocked/i)).toBeInTheDocument();
+  });
+
+  it('plays the Cougar "Grooming" Salon minigame and polishes all 4 Cub red-carpet upgrades', () => {
+    window.history.replaceState({}, '', '/?dilemma=cub-grooming-red-carpet-glowup');
+    render(<App />);
+
+    expect(screen.getByText(/Cougar “Grooming” Salon/i)).toBeInTheDocument();
+    const groomBtns = screen.getAllByRole('button', { name: /Tap to Groom!/i });
+    expect(groomBtns).toHaveLength(4);
+    for (const btn of groomBtns) {
+      fireEvent.click(btn);
+    }
+    expect(screen.getByText(/Full “Cougar-Groomed” Glow-Up Complete!/i)).toBeInTheDocument();
   });
 
   it('renders the interactive 2 AM Doubt Breaker minigame on Stage 5 Doubt episodes and awards EQ + Maturity', () => {

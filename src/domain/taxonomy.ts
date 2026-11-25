@@ -48,7 +48,7 @@ export interface FieldGuideEntry {
   id: string;
   label: string;
   ageRange: string;
-  category: 'feline_scale' | 'cub_taxonomy' | 'crossover_lore';
+  category: 'feline_scale' | 'cub_taxonomy' | 'crossover_lore' | 'pop_culture';
   headline: string;
   insiderLore: string;
   signatureTell: string;
@@ -383,6 +383,56 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     insiderLore:
       'Slang cousins in the broader age-gap ecosystem (Panther = under-40 male counterpart; Mountain Lion / Silver Fox = 40+ male counterpart).',
     signatureTell: 'Gets zero side-eyes from society—highlighting the double standard Cougars laugh past.',
+  },
+  {
+    id: 'pop_jessica_danny',
+    label: 'Jessica Alba & Danny Ramirez',
+    ageRange: '~12-Yr Cougar × Cub Glow',
+    category: 'pop_culture',
+    headline: 'Iconic 40s Mogul × Top Gun Cub Energy',
+    insiderLore:
+      'Post-divorce Cougar renaissance personified: effortless Cabo & red-carpet radiance with a devoted early-30s Captain America / Top Gun star and zero apologies.',
+    signatureTell: 'He looks thrilled just holding the car door while paparazzi flashbulbs melt.',
+  },
+  {
+    id: 'pop_sienna_oli',
+    label: 'Sienna Miller & Oli Green',
+    ageRange: '15-Yr Gap • 40s Babies & Red Carpets',
+    category: 'pop_culture',
+    headline: 'Shattered Every Tabloid Timeline Rule',
+    insiderLore:
+      'While pearl-clutchers debated a 15-year gap (44F × 29M), Sienna and Oli casually welcomed two children together and owned every London & Met Gala carpet.',
+    signatureTell: 'Boho couture maternity glow with a 6-foot-plus Cub beaming beside her.',
+  },
+  {
+    id: 'pop_ellie_beau',
+    label: 'Ellie Goulding & Beau Minniear',
+    ageRange: '11-Yr Gap • 2026 Baby Joy',
+    category: 'pop_culture',
+    headline: 'Pop Royalty × Actor Cub Family Chapter',
+    insiderLore:
+      'Welcomed their baby girl together in 2026—living proof alongside Sienna Miller that late-30s/40s women and devoted late-20s Cubs write their own family rules.',
+    signatureTell: 'Cozy London strolls, quiet devotion, and zero tabloid noise.',
+  },
+  {
+    id: 'pop_miley_maxx',
+    label: 'Miley Cyrus & Maxx Morando',
+    ageRange: '6-Yr "Junior Cougar" Newlyweds',
+    category: 'pop_culture',
+    headline: 'Patron Saints of the 6-Year Junior Cougar Track',
+    insiderLore:
+      'Six years apart (33F × 27M drummer/producer) and officially married in an intimate Palm Springs wedding—proving the sub-10-year Junior Cougar sweet spot is pure rockstar gold.',
+    signatureTell: 'Shared studio sessions, zero ego competition, and Palm Springs vows.',
+  },
+  {
+    id: 'pop_cub_grooming_joke',
+    label: '"Cub Grooming" vs. The ATJ Discourse',
+    ageRange: '25+ Prefrontal Rule Only!',
+    category: 'pop_culture',
+    headline: 'Beard Oil & Tailoring—Never Creepy Power Gaps',
+    insiderLore:
+      'Whenever an adult Cub dates a Cougar, TikTok brings up Sam & Aaron Taylor-Johnson. Velvet Den Law: prefrontal cortexes must be 25+ baked—the ONLY "grooming" here is upgrading his beard oil, SPF 50, and linen shirts!',
+    signatureTell: 'His 5-in-1 neon-blue shower gel mysteriously vanishes after Weekend #2.',
   },
 ];
 

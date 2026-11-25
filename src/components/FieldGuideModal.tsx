@@ -13,7 +13,14 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
   unlockedStamps,
   onClose,
 }) => {
+  const [activeFilter, setActiveFilter] = React.useState<'all' | 'pop_culture' | 'feline_scale' | 'cub_taxonomy'>('all');
+
   if (!open) return null;
+
+  const visibleEntries =
+    activeFilter === 'all'
+      ? FIELD_GUIDE_ENTRIES
+      : FIELD_GUIDE_ENTRIES.filter((entry) => entry.category === activeFilter);
 
   return (
     <div
@@ -26,13 +33,13 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
         <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
           <div>
             <span className="inline-block rounded bg-teal-400/20 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-teal-300">
-              Insider Community Glossary
+              Insider Community Glossary &amp; Pop-Culture Hall of Fame
             </span>
             <h2 className="mt-1 font-display text-3xl sm:text-4xl text-white">
-              The Age-Gap Field Guide: Puma, Cougar, Jaguar &amp; Cub Lore
+              The Age-Gap Field Guide: Lore &amp; Celebrity Icons
             </h2>
             <p className="text-sm text-slate-300">
-              Learn the real r/CougarsAndCubs terminology so you never mislabel a 36-year-old Puma or fall for a &ldquo;hey&rdquo; DM Goblin.
+              From Puma/Cougar/Jaguar law to Jessica Alba, Sienna Miller, Ellie Goulding, Miley Cyrus &amp; the &ldquo;Cub Grooming&rdquo; glow-up.
             </p>
           </div>
           <button
@@ -45,13 +52,40 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
           </button>
         </div>
 
-        <div className="mt-5 grid gap-3.5 sm:grid-cols-2">
-          {FIELD_GUIDE_ENTRIES.map((entry) => {
+        <div className="mt-4 flex flex-wrap gap-2">
+          {[
+            { id: 'all', label: 'All Lore' },
+            { id: 'pop_culture', label: '✨ Pop-Culture Cougars & Cubs' },
+            { id: 'feline_scale', label: '🐆 Feline Scale' },
+            { id: 'cub_taxonomy', label: '🥂 Cub Taxonomy' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
+              className={`rounded-full border-2 border-black px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
+                activeFilter === tab.id
+                  ? 'bg-gradient-to-r from-amber-400 to-pink-500 text-slate-950'
+                  : 'bg-slate-900 text-slate-200 hover:bg-slate-800'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 grid gap-3.5 sm:grid-cols-2">
+          {visibleEntries.map((entry) => {
             const stamped = unlockedStamps.includes(entry.id);
+            const isPop = entry.category === 'pop_culture';
             return (
               <div
                 key={entry.id}
-                className="rounded-xl border-2 border-black bg-[#211234] p-4 shadow-[4px_4px_0px_#09050f]"
+                className={`rounded-xl border-2 p-4 shadow-[4px_4px_0px_#09050f] ${
+                  isPop
+                    ? 'border-pink-400/70 bg-gradient-to-br from-[#2b1138] to-[#1a1333]'
+                    : 'border-black bg-[#211234]'
+                }`}
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-display text-2xl text-amber-300">{entry.label}</span>

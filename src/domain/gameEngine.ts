@@ -107,6 +107,7 @@ export function buildEpisodeQueue(
     pushById('junior-cougar-micro-gen-overlap');
     pushById('cub-bench-press-cougar-training');
     pushById('junior-cougar-condo-vs-lease');
+    pushById('cub-grooming-red-carpet-glowup');
     pushById('puma-low-iron-ferritin-care');
     pushById('steamy-texts-sister-age-shock');
 
@@ -116,6 +117,7 @@ export function buildEpisodeQueue(
     }
 
     pushById('houseboy-sunday-sanctuary');
+    pushById('pop-culture-cougar-renaissance');
     pushById('junior-cougar-wedding-season-marathon');
     pushById('doubt-junior-cougar-timeline-sync');
 
@@ -136,6 +138,7 @@ export function buildEpisodeQueue(
       pushById('code-switch-texting');
       pushById('cub-bench-press-cougar-training');
       pushById('puma-weaponized-incompetence-test');
+      pushById('cub-grooming-red-carpet-glowup');
       pushById('puma-low-iron-ferritin-care');
       pushById('steamy-texts-sister-age-shock');
 
@@ -145,6 +148,7 @@ export function buildEpisodeQueue(
       }
 
       pushById('houseboy-sunday-sanctuary');
+      pushById('pop-culture-cougar-renaissance');
       pushById('puma-brunch-cynical-peers');
       pushById('doubt-puma-peer-cynicism');
 
@@ -163,6 +167,7 @@ export function buildEpisodeQueue(
       pushById('code-switch-texting');
       pushById('cub-bench-press-cougar-training');
       pushById('puma-kid-intro-boundary');
+      pushById('cub-grooming-red-carpet-glowup');
       pushById('puma-low-iron-ferritin-care');
       pushById('steamy-texts-sister-age-shock');
 
@@ -172,6 +177,7 @@ export function buildEpisodeQueue(
       }
 
       pushById('houseboy-sunday-sanctuary');
+      pushById('pop-culture-cougar-renaissance');
       pushById('puma-boys-groupchat-kid');
       pushById('doubt-puma-divorce-scar');
 
@@ -187,7 +193,7 @@ export function buildEpisodeQueue(
       }
     }
   } else if (tier === 'cougar') {
-    // 40s Cougar / Princess Cougar Arc (with Bench Press, Perimenopause Surge/3 AM Sheets & Sister-Shock!)
+    // 40s Cougar / Princess Cougar Arc (with Bench Press, Cub Grooming, Perimenopause, Pop-Culture & Sister-Shock!)
     pushById('check-drop');
     pushById('code-switch-texting');
     if (tags.has('princess_treatment')) {
@@ -197,6 +203,7 @@ export function buildEpisodeQueue(
     }
     pushById('cub-bench-press-cougar-training');
     pushById('cougar-salary-negotiation');
+    pushById('cub-grooming-red-carpet-glowup');
     pushById('cougar-perimenopause-surge-nightsweats');
     pushById('steamy-texts-sister-age-shock');
     pushById('mirror-game-insecurities');
@@ -207,6 +214,7 @@ export function buildEpisodeQueue(
     }
 
     pushById('houseboy-sunday-sanctuary');
+    pushById('pop-culture-cougar-renaissance');
     if (ageGap >= 18) {
       pushById('waiter-son-incident');
     }
@@ -224,12 +232,13 @@ export function buildEpisodeQueue(
       pushById('adult-kid-brunch');
     }
   } else if (tier === 'jaguar') {
-    // 50s Gen-X Jaguar Arc (with Bench Press, Menopause Intimacy Masterclass & Sister-Shock!)
+    // 50s Gen-X Jaguar Arc (with Bench Press, Cub Grooming, Menopause Intimacy, Pop-Culture & Sister-Shock!)
     pushById('jaguar-genx-phone-call');
     pushById('check-drop');
     pushById('trail-run-short-leash');
     pushById('jaguar-pilates-core-shake');
     pushById('cub-bench-press-cougar-training');
+    pushById('cub-grooming-red-carpet-glowup');
     pushById('menopause-intimacy-masterclass');
     pushById('steamy-texts-sister-age-shock');
 
@@ -239,6 +248,7 @@ export function buildEpisodeQueue(
     }
 
     pushById('houseboy-sunday-sanctuary');
+    pushById('pop-culture-cougar-renaissance');
     pushById('waiter-son-incident');
     pushById('adult-kid-brunch');
     pushById('doubt-jaguar-worlds-collide');
@@ -253,11 +263,12 @@ export function buildEpisodeQueue(
     }
     pushById('jaguar-lat-living-apart');
   } else {
-    // 60+ Panther Icon Arc (with Bench Press, Menopause Intimacy Masterclass & Sister-Shock!)
+    // 60+ Panther Icon Arc (with Bench Press, Cub Grooming, Menopause Intimacy, Pop-Culture & Sister-Shock!)
     pushById('panther-black-tie-gala');
     pushById('check-drop');
     pushById('code-switch-texting');
     pushById('cub-bench-press-cougar-training');
+    pushById('cub-grooming-red-carpet-glowup');
     pushById('menopause-intimacy-masterclass');
     pushById('steamy-texts-sister-age-shock');
     pushById('mirror-game-insecurities');
@@ -268,6 +279,7 @@ export function buildEpisodeQueue(
     }
 
     pushById('houseboy-sunday-sanctuary');
+    pushById('pop-culture-cougar-renaissance');
     pushById('waiter-son-incident');
     pushById('panther-protective-friends');
     pushById('doubt-panther-real-world-gravity');

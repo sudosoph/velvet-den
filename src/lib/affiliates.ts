@@ -141,6 +141,17 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     whyItConverts: 'Direct tie-in to the Cub Bench-Press Training minigame.',
     merchantUrl: 'https://www.amazon.com/s?k=foldable+adjustable+weight+bench+home+gym',
   },
+  {
+    id: 'cub-grooming-beard-skincare-kit',
+    name: 'Sandalwood Beard Oil, Peptide Moisturizer & Barber Grooming Kit',
+    category: 'princess_luxury',
+    priceDisplay: '$46',
+    badge: '"Cougar-Groomed" Red-Carpet Kit',
+    cheekyPitch:
+      'The ONLY kind of "grooming" endorsed by The Velvet Den: throw out his 5-in-1 neon-blue shower gel and polish a grown 26+ Cub to Danny Ramirez red-carpet sheen.',
+    whyItConverts: 'Direct payoff to the Cub "Grooming" Salon minigame & pop-culture episode.',
+    merchantUrl: 'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set',
+  },
 ];
 
 export interface AffiliateTagOverrides {

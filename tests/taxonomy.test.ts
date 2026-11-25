@@ -72,6 +72,11 @@ describe('Age-gap taxonomy & generational pairing analyzer', () => {
         'dm_goblin',
         'kitten',
         'mountain_lion',
+        'pop_jessica_danny',
+        'pop_sienna_oli',
+        'pop_ellie_beau',
+        'pop_miley_maxx',
+        'pop_cub_grooming_joke',
       ]),
     );
   });

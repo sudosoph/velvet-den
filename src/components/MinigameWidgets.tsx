@@ -463,10 +463,100 @@ const BenchPressCougarGame: React.FC<{
   );
 };
 
+/**
+ * 6. CubGroomingGlowUpGame: Literal physical "grooming" glow-up!
+ * Upgrade a consenting adult Cub from 5-in-1 blue body wash to Danny Ramirez / Oli Green red-carpet polish!
+ */
+const GROOMING_UPGRADES = [
+  {
+    id: 'beard',
+    before: '🪒 Scruffy Neckbeard',
+    after: '✨ Sculpted Jawline + Beard Oil',
+  },
+  {
+    id: 'skincare',
+    before: '🧴 5-in-1 Neon-Blue Gel',
+    after: '🌿 Peptide Cleanser + SPF 50',
+  },
+  {
+    id: 'collar',
+    before: '👕 Faded Frat Graphic Tee',
+    after: '🥂 Tailored Rolled-Cuff Linen',
+  },
+  {
+    id: 'scent',
+    before: '💨 Locker-Room Body Spray',
+    after: '🔥 Santal & Bergamot Parfum',
+  },
+];
+
+const CubGroomingGlowUpGame: React.FC<{
+  completed: boolean;
+  hisName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, hisName, onWin }) => {
+  const [polishedIds, setPolishedIds] = useState<string[]>(
+    completed ? GROOMING_UPGRADES.map((g) => g.id) : [],
+  );
+
+  const handlePolish = (id: string) => {
+    if (completed || polishedIds.includes(id)) return;
+    sfx.hotspotFix();
+    const next = [...polishedIds, id];
+    setPolishedIds(next);
+    if (next.length === GROOMING_UPGRADES.length) {
+      sfx.victoryFanfare();
+      onWin({ chemistry: 8, chivalry: 8 }, 'Cougar-Groomed Red-Carpet Certified');
+    }
+  };
+
+  const allDone = completed || polishedIds.length === GROOMING_UPGRADES.length;
+
+  return (
+    <div className="rounded-2xl border-2 border-pink-400/70 bg-gradient-to-r from-[#2b1038] via-[#1c1332] to-[#11262d] p-4 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-300">
+          <Sparkles className="h-4 w-4 text-amber-300" /> Cougar &ldquo;Grooming&rdquo; Salon • Polish {hisName} ({polishedIds.length}/4)
+        </span>
+        <span className="text-[11px] font-bold text-amber-300">
+          +8 Chemistry &amp; +8 Chivalry (Red-Carpet Glow-Up!)
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {GROOMING_UPGRADES.map((item) => {
+          const isPolished = completed || polishedIds.includes(item.id);
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => handlePolish(item.id)}
+              className={`rounded-xl border-2 px-3 py-2 text-left text-xs font-extrabold transition cursor-pointer ${
+                isPolished
+                  ? 'border-emerald-400 bg-emerald-950/60 text-emerald-200'
+                  : 'border-rose-400/60 bg-rose-950/50 text-rose-200 hover:bg-rose-900/60'
+              }`}
+            >
+              {isPolished ? item.after : `${item.before} (Tap to Groom!)`}
+            </button>
+          );
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-xs font-extrabold text-emerald-300">
+          ✂️ Full &ldquo;Cougar-Groomed&rdquo; Glow-Up Complete! {hisName} looks ready to walk out beside Jessica Alba—now pick your move below!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
   herName,
+  hisName,
   onWinBonus,
 }) => {
   if (type === 'check_reflex') {
@@ -483,6 +573,11 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   if (type === 'bench_press') {
     return (
       <BenchPressCougarGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+    );
+  }
+  if (type === 'cub_grooming') {
+    return (
+      <CubGroomingGlowUpGame completed={alreadyCompleted} hisName={hisName} onWin={onWinBonus} />
     );
   }
   return <RoomAuditHotspotGame completed={alreadyCompleted} onWin={onWinBonus} />;

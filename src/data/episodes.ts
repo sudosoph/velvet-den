@@ -6,7 +6,8 @@ export type MinigameType =
   | 'trail_pace'
   | 'room_audit'
   | 'doubt_spiral'
-  | 'bench_press';
+  | 'bench_press'
+  | 'cub_grooming';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -690,9 +691,9 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'fertility_talk',
     setupHer:
-      'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: unlike 50+, biology isn’t closed yet—so people assume you’re hunting a baby daddy, when you actually love your life as-is and refuse vague 8-year "maybe" timelines.',
+      'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: with **Sienna Miller & Oli Green** and **Ellie Goulding & Beau Minniear** welcoming babies with their 20s Cubs all over the headlines, everyone assumes you’re either rushing a baby clock or playing casual—when you actually want real intentionality.',
     setupHim:
-      '{herName} is {herAge}—radiant, thriving, and crystal clear: she isn’t auditioning you to rush into a baby tomorrow, AND she won’t spend ages 36–41 in "let’s see where things go" situationship limbo.',
+      '{herName} is {herAge}—radiant, thriving, and crystal clear: whether a couple goes the **Sienna Miller / Ellie Goulding** Cougar-Cub baby route or stays one-and-done, she refuses to spend ages 36–41 in vague "let’s see where things go" situationship limbo.',
     choices: [
       {
         labelHer: 'Align on an intentional 1-to-2 year partnership roadmap—exclusive, proud, and crystal clear on family goals.',
@@ -1909,9 +1910,9 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     setupHer:
-      'Six stages cleared: you laughed through 2008 geometry math, survived his friends’ wedding marathon, and synced watches through the Doubt stage. Time to claim what couples with a 5-to-9 year **Junior Cougar** gap call the secret cheat code of modern dating.',
+      'Six stages cleared: you laughed through 2008 geometry math, survived his friends’ wedding marathon, and synced watches through the Doubt stage. Just like **Miley Cyrus marrying her 6-year Junior Cougar Cub Maxx Morando** in Palm Springs, you’ve unlocked modern dating’s secret sweet-spot cheat code.',
     setupHim:
-      'Standing on the terrace with {herName} ({herAge}F): six years older, wiser, magnetic, and completely in lockstep with you ({hisAge}M). How do you seal Stage 6?',
+      'Standing on the terrace with {herName} ({herAge}F): six years older, wiser, magnetic, and completely in lockstep with you ({hisAge}M)—channeling peak **Miley & Maxx Morando** 6-year newlywed harmony. How do you seal Stage 6?',
     choices: [
       {
         labelHer: 'Go all-in on the Junior Cougar Sweet Spot—combining her hard-won wisdom & standards with his fresh energy for decades of side-by-side adventures!',
@@ -2205,6 +2206,104 @@ export const EPISODES: Episode[] = [
           'Smartest house rule in age-gap history.',
         toastBanner: 'NO BEDROOM MATH RULE +20',
         deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+
+  // --- 2 POP-CULTURE COUGAR RENAISSANCE & "CUB GROOMING" GLOW-UP EPISODES ---
+  {
+    id: 'cub-grooming-red-carpet-glowup',
+    act: 2,
+    stage: 3,
+    minigame: 'cub_grooming',
+    title: '"Grooming" Your Cub: The ATJ TikTok Discourse vs. Literal Beard-Oil Glow-Up',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Internet trolls yell \'grooming\' at consenting 27yo men—meanwhile the only grooming I did was throwing out his 5-in-1 body wash!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'bathroom_audit',
+    setupHer:
+      'The moment a chronically online acquaintance hears your {herAge}F × {hisAge}M gap, they bring up **Aaron Taylor-Johnson** and smirk: *"Careful, TikTok’s gonna say you’re \'grooming\' him!"* Please—{hisName} is a grown {hisAge}-year-old adult with a W-2 and a fully baked prefrontal cortex. Though if **"grooming"** means confiscating his 5-in-1 neon-blue shower gel, lining up his jawline with sandalwood beard oil, and putting him in tailored linen until he looks like **Danny Ramirez** on **Jessica Alba’s** arm? Guilty as charged.',
+    setupHim:
+      'Your buddy sends a TikTok meme comparing every older-woman/younger-man couple to **Aaron Taylor-Johnson** with air-quotes *"grooming."* You laugh—you’re {hisAge}, fully grown, and pursuing {herName} ({herAge}F) on purpose. Meanwhile, she’s eyeing your 5-in-1 body wash and scruffy collar ready to give you the full **"Cougar-Groomed" Red-Carpet Glow-Up**!',
+    recommendedAffiliateId: 'cub-grooming-beard-skincare-kit',
+    choices: [
+      {
+        labelHer: 'Shut down creepy teen-gap comparisons (grown 25+ adults only!) and lean hilariously into literal "Cub Grooming"—upgrading his beard oil, SPF 50, cologne, and linen shirt.',
+        labelHim: 'Roast the TikTok trolls ("My prefrontal cortex and 401(k) are doing great") and happily let her upgrade your skincare, beard line-up, and tailored collar.',
+        outcomeHer:
+          'Two weeks later he walks into cocktails smelling like Santal & bergamot with glowing skin and rolled linen cuffs—your friends gasp: "Okay, THAT kind of \'Cub grooming\' deserves a Nobel Prize."',
+        outcomeHim:
+          'Even your barber asks who upgraded your skincare and collar game—you step out beside {herName} looking straight off a **Jessica Alba & Danny Ramirez** vacation pap walk.',
+        toastBanner: '"COUGAR-GROOMED" GLOW-UP! • CHEMISTRY +25 • CHIVALRY +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Cougar-Groomed Glow-Up Icon',
+      },
+      {
+        labelHer: 'He clings to his neon-blue 5-in-1 shampoo/car-wash gel, refuses moisturizer, and wears wrinkled cargo shorts to wine night.',
+        labelHim: 'Defend your 5-in-1 body wash to the death and show up in wrinkled gym shorts.',
+        outcomeHer:
+          'Refusing SPF and sandalwood beard oil when a radiant woman offers you a red-carpet upgrade is a felony against your own jawline.',
+        outcomeHim:
+          'Clinging to dorm-room 5-in-1 gel costs you a 10/10 glow-up.',
+        toastBanner: 'RED FLAG! • 5-IN-1 SHOWER GEL CRIME (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -15, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Make it a playful Saturday spa + shopping date—espresso, barber trim, and picking a signature cologne together.',
+        labelHim: 'Turn it into a fun Saturday afternoon date: fresh barber fade, espresso, and letting her pick your new date-night cologne.',
+        outcomeHer:
+          'Picking out the exact scent on his neck that drives you wild? Elite Saturday investment.',
+        outcomeHim:
+          'Letting her choose the cologne she wants to smell up close tonight is 200-IQ romance.',
+        toastBanner: 'SIGNATURE SCENT UNLOCKED +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'pop-culture-cougar-renaissance',
+    act: 3,
+    stage: 4,
+    title: 'Pop-Culture Cougar Renaissance: Alba, Sienna Miller, Ellie Goulding & Miley!',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Between Jessica Alba, Sienna Miller, Ellie Goulding having babies with cubs & Miley marrying Maxx—it’s officially Cougar Season!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'At cocktail hour, the table starts talking celebrity couples—and pop culture is officially in its Golden Cougar Era: **Jessica Alba** thriving with her Cub **Danny Ramirez**, **Sienna Miller & Oli Green** plus **Ellie Goulding & Beau Minniear** welcoming babies with devoted younger partners, and **Miley Cyrus** marrying her 6-year Cub **Maxx Morando**! Someone turns to you ({herAge}F) and {hisName} ({hisAge}M): *"So are Cougars & Cubs just trendy now because of Hollywood?"*',
+    setupHim:
+      'Drinks with friends turns into celebrity age-gap trivia—**Jessica Alba & Danny Ramirez**, **Sienna Miller & Oli Green**, **Ellie Goulding & Beau Minniear**, and newlyweds **Miley Cyrus & Maxx Morando**. Someone teases you ({hisAge}M) and {herName} ({herAge}F): *"Did you two copy celebrity Cougar summer?"*',
+    choices: [
+      {
+        labelHer: 'Toast the double standard finally dying: men dated younger in Hollywood for 80 years—watching Alba, Sienna, Ellie & Miley thrive publicly just proves women stopped asking permission.',
+        labelHim: 'Raise your glass grinning: "Danny Ramirez, Oli Green, Beau Minniear, and Maxx Morando just figured out what smart Cubs already knew—confident women are the ultimate prize."',
+        outcomeHer:
+          'Mic drop at the cocktail table! Half the women raise their martinis cheering while {hisName} slips his arm around your waist beaming.',
+        outcomeHim:
+          'Smooth, celebratory, zero awkwardness—{herName} clinks your glass laughing while everyone at the table nods in respect.',
+        toastBanner: 'HOLLYWOOD COUGAR ERA! • CHEMISTRY +25 • EQ +25',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Red-Carpet Cougar Era Certified',
+      },
+      {
+        labelHer: 'He gets weird and insecure comparing himself to celebrity actors or calls successful older women "a passing fad."',
+        labelHim: 'Mumble awkwardly that celebrity Cougar marriages "probably won’t last anyway."',
+        outcomeHer:
+          'Rooting against Sienna, Jessica, Ellie, and Miley right beside your own girlfriend?! Read the room!',
+        outcomeHim:
+          'Trash-talking iconic Cougar/Cub couples while sitting next to yours tanks the whole night.',
+        toastBanner: 'RED FLAG! • DOUBLE-STANDARD FUMBLE (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Playfully vote on which celebrity Cougar-Cub duo matches your exact vibe on the drive home.',
+        labelHim: 'Debate playfully whether you two give more Alba & Danny vacation glow, Sienna & Oli London chic, or Miley & Maxx rockstar energy.',
+        outcomeHer:
+          'Flirty, fun pop-culture banter all the way home.',
+        outcomeHim:
+          'Playful celebrity-couple casting keeps the date-night energy electric.',
+        toastBanner: 'POP-CULTURE SPARK +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 20, redFlags: 0 },
       },
     ],
   },
