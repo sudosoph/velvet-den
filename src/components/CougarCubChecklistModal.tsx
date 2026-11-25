@@ -59,9 +59,9 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
     episodeId: 'cub-friends-memes-roblox-shock',
   },
   {
-    id: 'cubsplaining',
-    text: 'Caught a Cub "Cubsplaining" Fleetwood Mac, vinyl, or mortgages to an actual homeowner.',
-    episodeId: 'cubsplaining-and-bouncer-id-check',
+    id: 'hawaiitimeshare',
+    text: 'Had a skeptical-age college Cub invite you to "my place in Hawaii"—then admit it’s his parents’ timeshare.',
+    episodeId: 'parents-hawaii-timeshare-flex-trap',
   },
   {
     id: 'uvbouncer',
@@ -169,6 +169,33 @@ function rankForScore(score: number): { title: string; subtitle: string; recomme
   };
 }
 
+const CHECKLIST_STORAGE_KEY = 'cc_club_checklist_v1';
+
+export function loadChecklistCheckedIds(): string[] {
+  try {
+    if (typeof window === 'undefined' || !window.localStorage) return [];
+    const raw = window.localStorage.getItem(CHECKLIST_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+export function toggleChecklistItemInStorage(id: string): string[] {
+  const curr = loadChecklistCheckedIds();
+  const next = curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id];
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem(CHECKLIST_STORAGE_KEY, JSON.stringify(next));
+    }
+  } catch {
+    // Ignore storage block
+  }
+  return next;
+}
+
 export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = ({
   open,
   referralCode,
@@ -176,8 +203,14 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
   onClaimChecklistReward,
   onPlayMatchedScenario,
 }) => {
-  const [checkedIds, setCheckedIds] = useState<string[]>([]);
+  const [checkedIds, setCheckedIds] = useState<string[]>(() => loadChecklistCheckedIds());
   const [shareToast, setShareToast] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (open) {
+      setCheckedIds(loadChecklistCheckedIds());
+    }
+  }, [open]);
 
   if (!open) return null;
 
@@ -188,7 +221,19 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
 
   const toggleItem = (id: string) => {
     sfx.messagePop();
-    setCheckedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    const next = toggleChecklistItemInStorage(id);
+    setCheckedIds(next);
+  };
+
+  const resetAll = () => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem(CHECKLIST_STORAGE_KEY);
+      }
+    } catch {
+      // Ignore storage block
+    }
+    setCheckedIds([]);
   };
 
   const handleShareScore = async () => {
@@ -250,7 +295,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
             {checkedIds.length > 0 && (
               <button
                 type="button"
-                onClick={() => setCheckedIds([])}
+                onClick={resetAll}
                 title="Reset checkboxes"
                 className="rounded-lg border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] cursor-pointer"
               >

@@ -24,6 +24,7 @@ import { parseChoiceCardSpec } from '../lib/choiceParser';
 import { renderRichText } from '../lib/richText';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { getLocalChoicePercentagesSync, localCrowdStatsService } from '../services/adapters';
+import { InGameClubAside } from './InGameClubAside';
 import { MinigameWidget, resolveSceneGameType } from './MinigameWidgets';
 
 interface EpisodeStageProps {
@@ -35,6 +36,8 @@ interface EpisodeStageProps {
   onShareDilemma: (episodeId: string, title: string) => void;
   onOpenBoutique: () => void;
   onFinishRun: () => void;
+  onOpenPopTrivia?: () => void;
+  onOpenChecklist?: () => void;
 }
 
 const STAGE_PILLS: { stage: RelationshipStage; short: string }[] = [
@@ -223,6 +226,8 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
   onShareDilemma,
   onOpenBoutique,
   onFinishRun,
+  onOpenPopTrivia,
+  onOpenChecklist,
 }) => {
   const [showingOutcomeForEpId, setShowingOutcomeForEpId] = useState<string | null>(null);
   const [crowdPcts, setCrowdPcts] = useState<number[]>(() =>
@@ -235,7 +240,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
   const [stageReaction, setStageReaction] = useState<'idle' | 'green' | 'red'>('idle');
   const [curtainTitle, setCurtainTitle] = useState<string | null>(null);
   const [tiltState, setTiltState] = useState<{ idx: number; rx: number; ry: number } | null>(null);
-  const [whispersOpen, setWhispersOpen] = useState(true);
+  const [whispersOpen, setWhispersOpen] = useState(false);
   const [speakingEpId, setSpeakingEpId] = useState<string | null>(null);
   const stopVoiceRef = useRef<(() => void) | null>(null);
 
@@ -730,17 +735,26 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
           <h3 className="font-display text-2xl sm:text-3xl text-[#1E1022]">
             {resolvedEpisode.title}
           </h3>
-          <p className="text-base font-medium leading-relaxed text-[#34223B]">
+          <p className="text-base sm:text-lg font-medium leading-relaxed text-[#1E1022] max-w-3xl">
             {renderRichText(lastEntry.outcomeText)}
           </p>
 
-          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-sm font-bold text-[#1E1022]">
+          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-sm sm:text-base font-bold text-[#1E1022]">
             Global Club Pulse:{' '}
             <strong className="text-[#FF2E63]">
               {crowdPcts[lastEntry.choiceIndex] ?? 48}%
             </strong>{' '}
             of players made this exact move.
           </div>
+
+          {/* Embedded Pop-Culture & Viral IRL Club Aside Right Inside Scene Flow! */}
+          <InGameClubAside
+            key={`aside-${resolvedEpisode.id}`}
+            seedKey={resolvedEpisode.id}
+            matchedEpisodeId={resolvedEpisode.id}
+            onOpenFullTrivia={onOpenPopTrivia}
+            onOpenFullChecklist={onOpenChecklist}
+          />
 
           {resolvedChoice?.triggerTipPrompt && Boolean(lastEntry.badgeUnlocked) && (
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4">
@@ -856,12 +870,12 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             {currentEpisode.title}
           </h2>
 
-          {/* Dream-Daddy Visual-Novel Speaker Plaque + Dialogue Box */}
-          <div className="animate-vn-box relative rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-5">
-            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 font-display text-xs font-extrabold text-[#1E1022] mb-2">
+          {/* Dream-Daddy Visual-Novel Speaker Plaque + Large Scannable Dialogue Box */}
+          <div className="animate-vn-box relative rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-5 sm:p-6">
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 font-display text-xs font-extrabold text-[#1E1022] mb-2.5">
               🎬 {role === 'her' ? `${run.pairing.her.name}’s POV` : `${run.pairing.his.name}’s POV`}
             </span>
-            <p className="text-[15px] sm:text-base font-medium leading-relaxed text-[#1E1022]">
+            <p className="text-base sm:text-[18px] font-medium leading-relaxed text-[#1E1022] max-w-4xl">
               {renderRichText(
                 personalizeText(
                   role === 'her' ? currentEpisode.setupHer : currentEpisode.setupHim,
@@ -999,12 +1013,12 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                         </span>
                       </div>
 
-                      <div className="text-[15px] font-extrabold leading-snug text-[#1E1022]">
+                      <div className="text-base sm:text-[17px] font-extrabold leading-snug text-[#1E1022]">
                         {renderRichText(parsed.headline)}
                       </div>
 
                       {parsed.restText && (
-                        <div className="text-sm font-medium leading-relaxed text-[#3D2A45]">
+                        <div className="text-[15px] font-medium leading-relaxed text-[#34223B]">
                           {renderRichText(parsed.restText)}
                         </div>
                       )}

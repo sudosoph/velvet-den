@@ -99,6 +99,7 @@ export function buildEpisodeQueue(
     }
     if (tags.has('broke_dutch_obstacle') || pairing.his.age <= 23) {
       pushById('broke-college-dutch-calculator-horror');
+      pushById('parents-hawaii-timeshare-flex-trap');
     }
     if (tags.has('montana_cowboy_slider')) {
       pushById('montana-cowboy-age-slider-dare');

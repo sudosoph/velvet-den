@@ -333,7 +333,7 @@ const STATIC_GUIDES = [
     ],
     faqs: [
       {
-        q: 'How can a younger man on a modest budget plan an amazing date for an older woman?',
+        q: 'How can a younger man on an early-career or student budget plan an amazing date for an older woman?',
         a: 'Thoughtful preparation beats expensive flash every time: pack a linen-blanket meadow picnic with fresh baguette and strawberries, followed by playful retro bowling.',
       },
     ],

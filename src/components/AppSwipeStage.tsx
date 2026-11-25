@@ -15,6 +15,7 @@ import {
 import { getSwipeDeckForRole, type SwipeProfile } from '../data/appProfiles';
 import type { PlayerRole } from '../domain/taxonomy';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
+import { InGameClubAside } from './InGameClubAside';
 
 interface AppSwipeStageProps {
   role: PlayerRole;
@@ -25,6 +26,8 @@ interface AppSwipeStageProps {
   onSpendXrayCredit: () => boolean;
   onShareDilemma: (profileId: string, headline: string) => void;
   onCompleteSwipes: () => void;
+  onOpenPopTrivia?: () => void;
+  onOpenChecklist?: () => void;
 }
 
 export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
@@ -36,6 +39,8 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   onSpendXrayCredit,
   onShareDilemma,
   onCompleteSwipes,
+  onOpenPopTrivia,
+  onOpenChecklist,
 }) => {
   const deck = getSwipeDeckForRole(role);
   const [index, setIndex] = useState(() =>
@@ -269,6 +274,24 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                   className="pop-btn rounded-full bg-[#FF2E63] px-3 py-1 text-xs font-extrabold text-white cursor-pointer"
                 >
                   🚨 Drop to 21 (Danger Zone)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAgePref(21);
+                    sfx.shockZoom();
+                    setSliderBanner(
+                      '🌺 MOM’S HAWAII TIMESHARE ALERT! Trevor (21M) just invited you to "his place in Maui"!',
+                    );
+                    const idx = deck.findIndex((d) => d.id === 'trevor-hawaii-timeshare-trap');
+                    if (idx >= 0) {
+                      setIndex(idx);
+                      setPhotoIdx(0);
+                    }
+                  }}
+                  className="pop-btn rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                >
+                  🌺 21yo Hawaii Timeshare
                 </button>
               </>
             ) : (
@@ -564,7 +587,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               </div>
 
               <div
-                className={`rounded-xl border-2 border-[#1E1022] px-3.5 py-2 text-xs font-bold ${
+                className={`rounded-xl border-2 border-[#1E1022] px-4 py-2.5 text-sm font-bold leading-snug ${
                   currentPhoto.isRedFlagPhoto
                     ? 'bg-[#FFE4E6] text-[#9F1239]'
                     : 'bg-[#FFF7F0] text-[#1E1022]'
@@ -575,11 +598,11 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               </div>
 
               {ageZoomed && (
-                <div className="animate-shock-zoom rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] p-3.5 text-[#1E1022]">
+                <div className="animate-shock-zoom rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] p-4 text-[#1E1022]">
                   <div className="text-xs font-extrabold uppercase tracking-wide">
                     🔍 Age Check: {profile.age}
                   </div>
-                  <p className="mt-0.5 text-sm font-bold">
+                  <p className="mt-1 text-base font-bold leading-snug">
                     {role === 'her' ? profile.ageShockQuipHer : profile.ageShockQuipHim}
                   </p>
                 </div>
@@ -619,13 +642,13 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Cohesive Pop-Art Profile Dossier */}
+        {/* RIGHT COLUMN: Large, Scannable Pop-Art Profile Dossier + Embedded Club Aside */}
         <div
           className={`${
             mobileTab === 'photo' ? 'hidden lg:block' : 'block'
-          } vice-panel rounded-3xl p-6 space-y-4`}
+          } vice-panel rounded-3xl p-6 sm:p-7 space-y-5`}
         >
-          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4 space-y-2.5">
+          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-5 space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
                 {role === 'her' ? 'Opening Message & Voice Note' : 'Her Opening Challenge'}
@@ -633,7 +656,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               <button
                 type="button"
                 onClick={handleToggleVoiceNote}
-                className={`pop-btn inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-extrabold cursor-pointer ${
+                className={`pop-btn inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-extrabold cursor-pointer ${
                   playingVoiceId === profile.id
                     ? 'bg-[#FF2E63] text-white'
                     : 'bg-[#FFBE0B] text-[#1E1022]'
@@ -645,96 +668,110 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 </span>
               </button>
             </div>
-            <p className="text-[15px] font-bold leading-relaxed text-[#1E1022]">
+            <p className="text-base sm:text-lg font-bold leading-relaxed text-[#1E1022]">
               &ldquo;{profile.openingDm}&rdquo;
             </p>
           </div>
 
           {xrayOpen && (
-            <div className="animate-stage-in rounded-2xl border-2 border-[#1E1022] bg-[#D1FAE5] p-4 text-sm font-bold text-[#065F46]">
+            <div className="animate-stage-in rounded-2xl border-2 border-[#1E1022] bg-[#D1FAE5] p-4 text-base font-bold text-[#065F46]">
               <strong>👁️ X-Ray Scan:</strong> {profile.xrayLeak}
             </div>
           )}
 
-          <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-[#FFF7F0] p-4 space-y-2.5">
-            <p className="text-[15px] font-medium leading-relaxed text-[#34223B]">
+          <div className="rounded-2xl border-2 border-[#1E1022]/20 bg-[#FFF7F0] p-5 space-y-3">
+            <div className="text-xs font-extrabold uppercase tracking-wide text-[#5A4664]">
+              Profile Bio
+            </div>
+            <p className="text-base sm:text-lg font-medium leading-relaxed text-[#1E1022]">
               &ldquo;{profile.tinderBio}&rdquo;
             </p>
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-[#1E1022] bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022]">
-              <Music2 className="h-3.5 w-3.5 text-[#FF2E63]" />
-              <span>Anthem: {profile.spotifyAnthem}</span>
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-white px-3.5 py-1 text-sm font-bold text-[#1E1022]">
+                <Music2 className="h-4 w-4 text-[#FF2E63]" />
+                <span>{profile.spotifyAnthem}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFFBEB] px-3.5 py-1 text-sm font-bold text-[#1E1022]">
+                <span>🎯 {profile.lookingFor}</span>
+              </span>
             </div>
           </div>
 
-          <div className="grid gap-3.5 sm:grid-cols-2 items-stretch">
-            <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-white p-4 space-y-1">
+          <div className="grid gap-4 sm:grid-cols-2 items-stretch">
+            <div className="rounded-2xl border-2 border-[#1E1022]/20 bg-white p-4 sm:p-5 space-y-1.5">
               <div className="text-xs font-extrabold uppercase text-[#D90452]">
                 <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#FFBE0B]" />
                 {profile.hingePromptQuestion}
               </div>
-              <div className="text-sm font-semibold leading-relaxed text-[#1E1022]">
+              <div className="text-[15px] sm:text-base font-semibold leading-relaxed text-[#1E1022]">
                 {profile.hingePromptAnswer}
               </div>
             </div>
 
             {profile.secondPromptQuestion && profile.secondPromptAnswer && (
-              <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-white p-4 space-y-1">
+              <div className="rounded-2xl border-2 border-[#1E1022]/20 bg-white p-4 sm:p-5 space-y-1.5">
                 <div className="text-xs font-extrabold uppercase text-[#B45309]">
                   <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#FF2E63]" />
                   {profile.secondPromptQuestion}
                 </div>
-                <div className="text-sm font-semibold leading-relaxed text-[#1E1022]">
+                <div className="text-[15px] sm:text-base font-semibold leading-relaxed text-[#1E1022]">
                   {profile.secondPromptAnswer}
                 </div>
               </div>
             )}
           </div>
 
-          <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-[#FFFBEB] p-4 space-y-2.5">
-            <div className="text-sm">
-              <span className="font-bold text-[#5A4664]">Looking for: </span>
-              <span className="font-extrabold text-[#1E1022]">&ldquo;{profile.lookingFor}&rdquo;</span>
-              <span className="block text-xs italic font-semibold text-[#5A4664] mt-0.5">
-                {profile.lookingForSubtext}
-              </span>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5">
-              {profile.interests.map((interest) => {
-                const red = [
-                  'Nightlife',
-                  'Tequila',
-                  'Clubs',
-                  'Bottle Service',
-                  'Crypto',
-                  'VIP Tables',
-                  'Yachts',
-                ].includes(interest);
-                return (
-                  <span
-                    key={interest}
-                    className={`rounded-full border border-[#1E1022] px-3 py-1 text-xs font-extrabold ${
-                      red ? 'bg-[#FFE4E6] text-[#9F1239]' : 'bg-white text-[#1E1022]'
-                    }`}
-                  >
-                    {red ? '🚩 ' : '✨ '}
-                    {interest}
-                  </span>
-                );
-              })}
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {profile.interests.map((interest) => {
+              const red = [
+                'Nightlife',
+                'Tequila',
+                'Clubs',
+                'Bottle Service',
+                'Crypto',
+                'VIP Tables',
+                'Yachts',
+                'Maui Timeshares',
+                'Mom’s Airline Miles',
+                'Going Dutch',
+              ].includes(interest);
+              return (
+                <span
+                  key={interest}
+                  className={`rounded-full border-2 border-[#1E1022] px-3.5 py-1 text-sm font-extrabold ${
+                    red ? 'bg-[#FFE4E6] text-[#9F1239]' : 'bg-white text-[#1E1022]'
+                  }`}
+                >
+                  {red ? '🚩 ' : '✨ '}
+                  {interest}
+                </span>
+              );
+            })}
           </div>
 
           {!xrayOpen && (
             <button
               type="button"
               onClick={handleUnlockXray}
-              className="pop-btn w-full rounded-2xl bg-[#FFBE0B] py-3 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+              className="pop-btn w-full rounded-2xl bg-[#FFBE0B] py-3.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
             >
-              <Eye className="inline h-4 w-4 mr-1" />
+              <Eye className="inline h-4 w-4 mr-1.5" />
               Run Maturity X-Ray Scan ({isFounderUnlimited ? 'FREE • ∞ Founder' : `1 Credit • ${credits} left`})
             </button>
           )}
+
+          {/* Embedded In-Game Viral & Pop-Culture Aside */}
+          <InGameClubAside
+            key={profile.id}
+            seedKey={profile.id}
+            matchedEpisodeId={
+              profile.id === 'trevor-hawaii-timeshare-trap'
+                ? 'parents-hawaii-timeshare-flex-trap'
+                : undefined
+            }
+            onOpenFullTrivia={onOpenPopTrivia}
+            onOpenFullChecklist={onOpenChecklist}
+          />
         </div>
       </div>
     </div>

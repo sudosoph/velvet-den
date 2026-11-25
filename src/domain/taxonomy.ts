@@ -1356,7 +1356,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     vibeSummary:
       '23M editorial portrait photographer who prefers quiet jazz bars and art bookstores over loud clubs—and makes her feel like cinema.',
     secretInsecurity:
-      'Building his freelance studio from the ground up—makes up for modest budget with unforgettable creative dates.',
+      'Building his freelance studio from the ground up—wins hearts with unforgettable 35mm film walks and gallery nights.',
     subplotTags: ['modest_accent_gentleman', 'spontaneous_getaway'],
     portraitVariant: 'oldsoul',
     photoUrl: './images/cast/devon-23m.jpg',
@@ -1425,10 +1425,10 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     id: 'rafael-accented-gentleman-cub',
     name: 'Rafael',
     age: 26,
-    title: 'Modest-Roots Accented Gentleman Cub',
+    title: 'Self-Made Craftsman & Old-World Gentleman',
     shortHook: 'Warm melodic accent, ironed linen shirts, meadow picnics & retro bowling.',
     tagline:
-      'Raised working-class with old-world manners and a warm accent—zero trust-fund money, 100% pride in sweeping a refined woman off her feet.',
+      'Self-made master electrician with old-world manners and a warm accent—zero trust-fund flash, 100% pride in sweeping a woman off her feet.',
     vibeSummary:
       '26M master electrician & craftsman. Owns immaculately ironed white linen shirts, opens every door automatically, and proves a hand-packed meadow picnic + neon bowling night beats lazy luxury flash.',
     secretInsecurity:

@@ -1347,6 +1347,87 @@ const HobosexualBagInterceptGame: React.FC<{
   );
 };
 
+const TIMESHARE_QUESTIONS = [
+  {
+    id: 'deed',
+    prompt: '🤨 Ask: "Wait—is Hawaii YOUR home, or your parents’?"',
+    reveal: '💦 Confession #1: "Okay yeah… technically my parents have a Maui timeshare!"',
+  },
+  {
+    id: 'master',
+    prompt: '🧐 Ask: "And who is sleeping in the master bedroom that week?"',
+    reveal: '💀 Confession #2: "My mom Linda & stepdad Greg! We get the pull-out sofa in the kitchenette!"',
+  },
+  {
+    id: 'catch',
+    prompt: '🧾 Ask: "What’s the catch for the pool wristbands?"',
+    reveal: '🚨 Confession #3: "Mom says we have to attend an 8 AM 90-minute condo sales pitch Tuesday!"',
+  },
+] as const;
+
+const TimeshareInterrogationGame: React.FC<{
+  completed: boolean;
+  hisName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, hisName, onWin }) => {
+  const [exposedIds, setExposedIds] = useState<string[]>(
+    completed ? TIMESHARE_QUESTIONS.map((q) => q.id) : [],
+  );
+
+  const handlePress = (id: string) => {
+    if (completed || exposedIds.includes(id)) return;
+    sfx.shockZoom();
+    const next = [...exposedIds, id];
+    setExposedIds(next);
+    if (next.length === TIMESHARE_QUESTIONS.length) {
+      sfx.greenFlag();
+      onWin({ maturity: 10, eq: 10 }, 'Exposed Mom’s Maui Timeshare Flex');
+    }
+  };
+
+  const done = completed || exposedIds.length === TIMESHARE_QUESTIONS.length;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#FFBE0B]">
+          <Radar className="h-4 w-4 text-[#FF2E63]" /> Cross-Examine {hisName}’s "My Place in Hawaii" Flex ({exposedIds.length}/3)
+        </span>
+        <span className="text-xs font-bold text-stone-200">+10 Maturity · +10 EQ</span>
+      </div>
+
+      <div className="grid gap-2">
+        {TIMESHARE_QUESTIONS.map((q) => {
+          const exposed = completed || exposedIds.includes(q.id);
+          return (
+            <button
+              key={q.id}
+              type="button"
+              onClick={() => handlePress(q.id)}
+              className={`flex items-center justify-between gap-3 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm font-bold transition cursor-pointer ${
+                exposed
+                  ? 'border-emerald-400 bg-emerald-950/70 text-emerald-100'
+                  : 'border-[#FFBE0B]/60 bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <span>{exposed ? q.reveal : q.prompt}</span>
+              <span className="shrink-0 rounded-full bg-[#FF2E63] px-2.5 py-0.5 text-xs font-extrabold text-white">
+                {exposed ? 'EXPOSED ✓' : 'PRESS →'}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {done && (
+        <div className="text-sm font-bold text-emerald-300">
+          🌺 Mom’s Maui Timeshare Exposed in 4K! Zero pull-out couches next to Linda—now deliver your verdict below!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -1356,6 +1437,14 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   onWinBonus,
 }) => {
   switch (type) {
+    case 'timeshare_interrogation':
+      return (
+        <TimeshareInterrogationGame
+          completed={alreadyCompleted}
+          hisName={hisName}
+          onWin={onWinBonus}
+        />
+      );
     case 'check_reflex':
       return <CheckDropReflexGame completed={alreadyCompleted} onWin={onWinBonus} />;
     case 'trail_pace':

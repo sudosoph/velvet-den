@@ -33,8 +33,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 78 subplots accurately—including Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy & Broke College Dutch-Splitter across both Marathon and Approach A Curated modes', () => {
-    expect(EPISODES.length).toBe(78);
+  it('routes 79 subplots accurately—including Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(79);
     expect(HER_ARCHETYPES.length).toBe(37);
     expect(HIS_ARCHETYPES.length).toBe(17);
 
@@ -550,5 +550,33 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(location).toContain('linkCode=ll2');
     expect(location).toContain('utm_campaign=houseboy_scene');
     expect(memoryKv.get('aff_clicks:houseboy-linen-apron')).toBe('1');
+  });
+
+  it('exposes the College Cub "My Place in Hawaii" (Mom’s Timeshare) trap, embeds Pop-Culture & Viral Asides inside gameplay, and removes "Modest-Roots"', () => {
+    for (const cub of HIS_ARCHETYPES) {
+      expect(cub.title.toLowerCase()).not.toContain('modest-roots');
+    }
+
+    render(<App />);
+    fireEvent.click(
+      screen.getByRole('button', { name: /"Come to My Place in Hawaii" \(Mom’s Timeshare\)/i }),
+    );
+
+    expect(screen.getByText(/Cross-Examine .* "My Place in Hawaii" Flex/i)).toBeInTheDocument();
+    const pressBtns = screen.getAllByRole('button', { name: /PRESS →/i });
+    expect(pressBtns).toHaveLength(3);
+    for (const btn of pressBtns) {
+      fireEvent.click(btn);
+    }
+    expect(screen.getByText(/Mom’s Maui Timeshare Exposed in 4K!/i)).toBeInTheDocument();
+
+    // Pick a play card and verify the embedded Viral IRL Check & Pop-Culture Aside appear inline!
+    fireEvent.click(screen.getByRole('button', { name: /Burst out laughing at the sheer audacity/i }));
+    expect(screen.getByRole('button', { name: /Viral IRL Check/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Pop-Culture Aside/i })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Viral IRL Check/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Lived This IRL!/i }));
+    expect(screen.getByText(/of Club regulars have survived this exact moment!/i)).toBeInTheDocument();
   });
 });

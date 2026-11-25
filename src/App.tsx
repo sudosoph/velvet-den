@@ -660,6 +660,8 @@ export default function App() {
             }}
             onShareDilemma={handleShareDilemma}
             onCompleteSwipes={() => setPhase('episodes')}
+            onOpenPopTrivia={() => setPopTriviaOpen(true)}
+            onOpenChecklist={() => setChecklistOpen(true)}
           />
         ) : phase === 'episodes' && run ? (
           <EpisodeStage
@@ -687,6 +689,8 @@ export default function App() {
             onShareDilemma={handleShareDilemma}
             onOpenBoutique={() => setBoutiqueOpen(true)}
             onFinishRun={() => setPhase('outcome')}
+            onOpenPopTrivia={() => setPopTriviaOpen(true)}
+            onOpenChecklist={() => setChecklistOpen(true)}
           />
         ) : phase === 'outcome' && run ? (
           <OutcomeAndViralView

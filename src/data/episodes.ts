@@ -13,7 +13,8 @@ export type MinigameType =
   | 'black_cat_pace'
   | 'venmo_calculator_block'
   | 'roommate_kitchen_escape'
-  | 'hobosexual_bag_intercept';
+  | 'hobosexual_bag_intercept'
+  | 'timeshare_interrogation';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -2890,7 +2891,7 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -25, chivalry: -15, eq: -15, chemistry: -25, redFlags: 1 },
       },
       {
-        labelHer: 'Modest studio budget, spotless surfaces, fresh flowers on the table, and her favorite sparkling water stocked in the fridge.',
+        labelHer: 'Cozy starter studio, spotless surfaces, fresh flowers on the table, and her favorite sparkling water stocked in the fridge.',
         labelHim: 'Small entry-level studio, scrubbed spotless, stocked with her exact LaCroix flavor and clean cotton sheets.',
         outcomeHer:
           'Proof of what Cougars repeat daily: square footage doesn’t matter—cleanliness and thoughtfulness do.',
@@ -3192,13 +3193,13 @@ export const EPISODES: Episode[] = [
     id: 'retro-bowling-and-meadow-picnic',
     act: 2,
     stage: 3,
-    title: 'Old-World Pride on a Modest Budget: Meadow Picnic & Retro Neon Bowling',
-    subredditThreadInspiration: 'Cougars & Cubs Club Original • "Modest roots, gentleman pride: hand-packed golden-hour meadow picnic + retro neon bowling"',
+    title: 'All Heart, Zero Flash: Hand-Packed Park Picnic & Retro Neon Bowling',
+    subredditThreadInspiration: 'Cougars & Cubs Club Original • "Self-made pride: hand-packed golden-hour park picnic + retro neon bowling"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'princess_bouquet',
     setupHer:
-      '{hisName} ({hisAge}M) comes from a modest, hardworking background—warm accent, immaculate ironed shirt, zero trust-fund flash, and fierce gentleman pride about impressing you with *effort* rather than credit-card flexing. For Saturday, he packs a handmade meadow picnic (fresh baguette, strawberries, cheeses from home, wildflowers) followed by trash-talking **retro neon bowling**!',
+      '{hisName} ({hisAge}M) is a self-made craftsman—warm accent, freshly pressed linen shirt, zero trust-fund flash, and real gentleman pride about impressing you with *effort* rather than credit-card flexing. For Saturday, he packs a handmade meadow picnic (fresh baguette, strawberries, cheeses, wildflowers) followed by trash-talking **retro neon bowling**!',
     setupHim:
       'You didn’t grow up with country-club money, and {herName} ({herAge}F) can afford any five-star restaurant in town on her own. Instead of faking wealth or splitting chains, you lean into old-school romance: a hand-packed golden-hour **park picnic** followed by playful **retro neon bowling**.',
     choices: [
@@ -3536,7 +3537,7 @@ export const EPISODES: Episode[] = [
     setupHer:
       'You dared to drag your app age slider into the **Sub-23 Danger Zone**! {hisName} ({hisAge}M) begged to take you out for sushi, ordered two dragon rolls + hot sake for himself while you had one salmon roll, watched his university Meal-Plan card decline off-campus, and now has his iPhone calculator open at the table muttering: *"Okay if we go Dutch plus 8.75% tax and you ate four of the seven edamame pods… can you Venmo me $41.63 right now?"*',
     setupHim:
-      'Budget Reality Test! You’re {hisAge} on a tight student/early-career budget taking {herName} ({herAge}F) out. Your roommate swore you should *"make her go 50/50 Dutch down to the penny with your phone calculator so you don’t get used"*—while every Cougar on earth is watching how you handle a modest wallet with class.',
+      'Budget Reality Test! You’re {hisAge} on a tight student/early-career budget taking {herName} ({herAge}F) out. Your roommate swore you should *"make her go 50/50 Dutch down to the penny with your phone calculator so you don’t get used"*—while every Cougar on earth is watching how you date on a starter budget with real class.',
     choices: [
       {
         labelHer: 'Pay the whole check once with icy grace so the waiter isn’t stiffed, politely tell him why inviting someone out and itemizing edamame on Venmo is a crime, and raise your age slider back to 25+ before reaching your car!',
@@ -3961,6 +3962,56 @@ export const EPISODES: Episode[] = [
           'Pre-splitting your two-top check before drinks arrive is elite grown-up foresight.',
         toastBanner: 'PROACTIVE TWO-TOP TAB +25',
         deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'parents-hawaii-timeshare-flex-trap',
+    act: 2,
+    stage: 1,
+    minigame: 'timeshare_interrogation',
+    title: '🌺 College-Cub Red Flag: "Come to My Place in Hawaii" (Spoiler: It’s His Mom’s Timeshare)',
+    subredditThreadInspiration:
+      'Sub-23 College Flex Horror • "Skeptical he’s in undergrad → he invites you to \'my place in Hawaii\' → admits it’s his parents’ Maui timeshare!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'You raise a skeptical eyebrow when {hisName} ({hisAge}M) mentions mid-drink that he still has two semesters of undergrad left. Trying to act like an international high-roller, he leans back and says smoothly: *"Come to my place in Hawaii with me next month."* You pause, look him dead in the eye, and ask: **"Wait—that’s not your home, it’s your parents’, right?"** He blinks twice and grins: *"Yeah… they have a timeshare! My mom Linda’s only using the master bedroom till Thursday!"*',
+    setupHim:
+      '{herName} ({herAge}F) expresses totally fair skepticism that you’re {hisAge} and still finishing college. Your frat roommate told you to flex *"Come to my place in Maui"* using your parents’ Marriott Vacation Club timeshare week—hoping she won’t ask whose name is on the deed or why your mom Linda is down the hall. How do you play this?',
+    choices: [
+      {
+        labelHer: 'Burst out laughing at the sheer audacity of a college junior trying to pimp himself out with his mom’s Maui timeshare points, decline the pull-out kitchenette sofa next to Linda, and send him back to study hall!',
+        labelHim: 'NEVER pretend your parents’ timeshare, boat, or lake house is "my place"—own where you actually are in life with humor and plan a real weekend getaway you booked and paid for yourself!',
+        outcomeHer:
+          'Crisis averted! You dodge a 90-minute 8 AM lobby timeshare seminar AND awkward continental-breakfast waffle-iron small talk with his mom Linda!',
+        outcomeHim:
+          'Owning your real stage of life with honesty and self-funded effort beats fake trust-fund flexing on your mom’s Marriott points every single time!',
+        toastBanner: '🌺 MOM’S TIMESHARE EXPOSED! • MATURITY +30 • EQ +25',
+        deltas: { maturity: 30, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Spotted Mom’s Hawaii Timeshare Flex',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He doubles down: "C’mon my mom’s super chill, we just have to sit through one 90-minute Tuesday condo presentation for the luau buffet wristbands!!"',
+        labelHim: 'Try to sell an accomplished grown woman on sleeping on a timeshare pull-out couch down the hall from your parents for free buffet wristbands.',
+        outcomeHer:
+          'PIMPIN’ HIMSELF OUT ON LINDA’S MARRIOTT POINTS?! You pay for your drink, block his number before the valet brings your car, and dine out on this story for six months!',
+        outcomeHim:
+          'Nothing dries up attraction across the Pacific faster than pitching a romantic getaway funded by your mom’s timeshare binder.',
+        toastBanner: 'RED FLAG! • MOM’S TIMESHARE WRISTBAND HORROR (-30)',
+        deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Tell him gently: "Sweetheart, call me in four years when the hotel room—and the frequent-flyer miles—have your own name on them."',
+        labelHim: 'Save up from your own real work to book a charming coastal B&B one town over—100% under your own name, zero parents within 500 miles.',
+        outcomeHer:
+          'Classy exit with a life lesson he desperately needed.',
+        outcomeHim:
+          'One night you genuinely earned yourself beats seven nights in your parents’ condo.',
+        toastBanner: 'GROWN-UP BOUNDARY SET +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 15, redFlags: 0 },
       },
     ],
   },

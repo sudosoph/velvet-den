@@ -694,6 +694,57 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     ],
   },
   {
+    id: 'trevor-hawaii-timeshare-trap',
+    name: 'Trevor',
+    age: 21,
+    height: '6\'0"',
+    zodiac: 'Leo',
+    lookBadge: '6\'0" • College Junior • "My Maui Place" Trap 🚩',
+    occupation: 'Undergrad Business Junior • "Bi-Coastal Jetsetter"',
+    distance: '2 miles away (Frat Row)',
+    activeAgo: 'Active now',
+    spotifyAnthem: 'Jack Johnson — Banana Pancakes',
+    tinderBio:
+      '21 in undergrad 📚 Whenever older women get skeptical about my age I just invite them to my place in Maui for the week 🌺✈️ Oceanfront lanai, Mai Tais, zero stress—pack a bikini!',
+    hingePromptQuestion: 'Wait… is "your place in Hawaii" actually your parents’?',
+    hingePromptAnswer:
+      'Haha okay yeah my mom & stepdad Greg have a biennial Marriott timeshare week!! They’ll just be in the master bedroom down the hall & we get pool-towel wristbands!',
+    secondPromptQuestion: 'Only catch on our Maui getaway',
+    secondPromptAnswer:
+      'My mom says we have to sit through a 90-minute 8 AM lobby timeshare pitch on Tuesday for the free luau buffet vouchers 🌺',
+    ageShockZoom: true,
+    ageShockQuipHer:
+      '"COME TO MY PLACE IN HAWAII" — AND IT’S HIS MOM LINDA’S MARRIOTT TIMESHARE?! Trying to pimp himself out with his parents’ timeshare points while Linda sleeps down the hall!!',
+    ageShockQuipHim:
+      'COLLEGE RED FLAG HALL OF FAME: Never brag about "my place in Hawaii" when it’s your mom’s Week-14 timeshare binder.',
+    lookingFor: 'Someone to split Uber to the airport (Mom booked the room)',
+    lookingForSubtext: 'Will introduce you to his mom at the continental waffle iron at 7:45 AM.',
+    interests: ['Nightlife', 'Maui Timeshares', 'Spring Break', 'Clubs', 'Mom’s Airline Miles'],
+    openingDm:
+      'i know ur skeptical bc im 21 & in college lol… let me take u to my place in Hawaii next month! (ok yeah technically my parents have a timeshare there haha u down??) 🌺✈️',
+    xrayLeak:
+      'X-RAY SCAN: 🚨 MOM’S TIMESHARE FLEXER! Zero deed, zero flight money—his mom Linda & stepdad Greg own Week 14 at the Kāʻanapali Marriott and sleep on the other side of the kitchenette wall.',
+    isGreenFlagMatch: false,
+    photos: [
+      {
+        caption: 'Photo 1 of 2 • "My Place in Maui" Resort Pool Flex',
+        shortTab: '🏝️ "My Hawaii Place"',
+        vibeNote: 'Sunlit resort cabana photo cropped right where his mom’s beach tote was sitting… check Photo 2!',
+        variant: 'golden_trail_stud',
+        photoUrl: './images/cast/noah-22m.jpg',
+      },
+      {
+        caption: 'Photo 2 of 2 • Deeded to Linda & Greg (Week 14 Timeshare Binder)',
+        shortTab: '🧾 Mom’s Timeshare 🚩',
+        vibeNote:
+          '🚨 CAUGHT IN 4K: Trying to pimp himself out with his parents’ biennial Maui timeshare + mandatory 8 AM condo sales pitch!',
+        variant: 'crew_socks_mirror',
+        photoUrl: './images/cast/kayden-21m.jpg',
+        isRedFlagPhoto: true,
+      },
+    ],
+  },
+  {
     id: 'sam-golden-retriever-cub',
     name: 'Sam',
     age: 26,
