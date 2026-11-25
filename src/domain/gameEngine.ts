@@ -223,9 +223,12 @@ export function buildEpisodeQueue(
     }
   } else if (tier === 'cougar') {
     // 40s Cougar / Princess Cougar Arc (with Bench Press, Cub Grooming, Perimenopause, Pop-Culture & Sister-Shock!)
+    pushById('babygirl-hotel-bar-milk-or-martini');
+    pushById('gym-headphones-vs-three-week-nod');
     pushById('check-drop');
     pushCustomDateSpecials();
     pushById('forum-redflag-pocket-secret-test');
+    pushById('cubsplaining-and-bouncer-id-check');
     pushById('code-switch-texting');
     pushById('generational-1900s-venmo-whiplash');
     if (tags.has('princess_treatment')) {
@@ -255,6 +258,7 @@ export function buildEpisodeQueue(
     pushById('younger-sibling-same-birth-year');
     pushById('first-wedding-plus-one-debut');
     pushById('meeting-his-parents-same-age-mom');
+    pushById('hotel-checkin-two-queen-beds-mixup');
     if (ageGap >= 18) {
       pushById('waiter-son-incident');
       if (tags.has('adult_children')) {

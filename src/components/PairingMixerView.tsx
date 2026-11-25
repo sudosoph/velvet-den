@@ -46,6 +46,7 @@ interface PairingMixerViewProps {
   onStartGame: () => void;
   onOpenLiveInbox: () => void;
   onOpenPopTrivia: () => void;
+  onOpenChecklist?: () => void;
   onQuickCreateAudition: () => void;
   onOpenFieldGuide: () => void;
 }
@@ -71,6 +72,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onStartGame,
   onOpenLiveInbox,
   onOpenPopTrivia,
+  onOpenChecklist,
   onQuickCreateAudition,
   onOpenFieldGuide,
 }) => {
@@ -232,6 +234,20 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 <Award className="h-4 w-4 text-amber-300" />
                 <span>🎬 Pop-Culture Quiz (+3 Cr)</span>
               </button>
+
+              {onOpenChecklist && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    sfx.messagePop();
+                    onOpenChecklist();
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-black bg-[#331029] px-4 py-3 text-xs font-extrabold text-amber-200 shadow-[3px_3px_0px_#09050f] hover:bg-[#451638] cursor-pointer"
+                >
+                  <Sparkles className="h-4 w-4 text-pink-300" />
+                  <span>📋 25-Pt Viral Score Test</span>
+                </button>
+              )}
             </div>
           </div>
 

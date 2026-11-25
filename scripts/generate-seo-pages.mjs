@@ -381,6 +381,68 @@ const STATIC_GUIDES = [
       },
     ],
   },
+  {
+    slug: 'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man',
+    title: 'Best Older-Woman / Younger-Man Movies: Babygirl, The Idea of You, Bridget Jones & Lonely Planet',
+    description:
+      'Loved Babygirl’s hotel-bar scene, The Idea of You, Bridget Jones: Mad About the Boy, or Lonely Planet? Explore the golden wave of Cougar & Cub cinema—and play the scenarios live.',
+    episodeId: 'babygirl-hotel-bar-milk-or-martini',
+    paragraphs: [
+      'Cinema and streaming have entered a full-scale older-woman / younger-man renaissance—led by Nicole Kidman and Harris Dickinson in A24’s Babygirl (and its endlessly memed hotel-bar glass-of-milk power play), Anne Hathaway and Nicholas Galitzine in The Idea of You, Renée Zellweger and Leo Woodall in Bridget Jones: Mad About the Boy, and Laura Dern and Liam Hemsworth in Lonely Planet.',
+      'Across all four hits—plus classic comfort television like Courteney Cox’s Cougar Town—the modern narrative celebrates accomplished women reclaiming desire, humor, and autonomy alongside emotionally present younger men.',
+    ],
+    faqs: [
+      {
+        q: 'Why did the glass of milk scene in Babygirl go viral?',
+        a: 'In Babygirl, Harris Dickinson’s younger character sends Nicole Kidman’s CEO character a glass of milk across a hotel bar—a bold real-life moment borrowed from director Halina Reijn that sparked millions of TikTok parodies.',
+      },
+      {
+        q: 'What are the best recent older-woman / younger-man romance movies to stream?',
+        a: 'Top recent titles include The Idea of You (2024), Lonely Planet (2024), Babygirl (2024), Bridget Jones: Mad About the Boy (2025), and Good Luck to You, Leo Grande.',
+      },
+    ],
+    picks: [
+      {
+        name: '22-Momme Mulberry Silk Kimono Lounge Robe ($118)',
+        url: 'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
+      },
+      {
+        name: 'Weighted Copper Espresso Martini Barware Set ($54)',
+        url: 'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
+      },
+    ],
+  },
+  {
+    slug: 'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',
+    title: 'How to Meet Older Women "In the Wild": Hotel Bars, Gym Headphone Rules & Zero Cubsplaining',
+    description:
+      'Real advice from r/CougarsAndCubs on meeting Cougars in real life: why upscale hotel bars beat supermarket ambushes, the sacred gym headphone rule, and avoiding Cubsplaining.',
+    episodeId: 'gym-headphones-vs-three-week-nod',
+    paragraphs: [
+      'Younger men frequently ask where to meet confident women in their late 30s, 40s, and 50s offline without coming across as intrusive. Community veterans agree on rule #1: never interrupt a woman mid-workout when her headphones are on, and skip rehearsed grocery-aisle pickup lines.',
+      'Instead, focus on organic, high-trust settings: upscale hotel lobby bars where solo business travelers unwind, recurring fitness or climbing communities where three weeks of polite nods build natural rapport, trivia nights, and wine tastings—and never "Cubsplain" basic life skills she mastered twenty years ago.',
+    ],
+    faqs: [
+      {
+        q: 'Should you approach an older woman at the gym while she wears headphones?',
+        a: 'Never interrupt a set or ask someone to remove headphones. Build friendly, non-intrusive familiarity over several weeks and say hello naturally at the smoothie counter once headphones are off.',
+      },
+      {
+        q: 'What is the best place to meet single older women offline?',
+        a: 'Upscale hotel bars, wine tastings, run clubs, dance classes, and community trivia nights rank highest because guests are already in a relaxed, social mindset.',
+      },
+    ],
+    picks: [
+      {
+        name: 'Warm Cedar, Bergamot & Amber Eau de Parfum ($68)',
+        url: 'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men',
+      },
+      {
+        name: 'Sandalwood Beard Oil & Men’s Skincare Kit ($46)',
+        url: 'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set',
+      },
+    ],
+  },
 ];
 
 function escapeHtml(str) {

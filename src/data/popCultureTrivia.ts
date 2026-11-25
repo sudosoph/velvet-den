@@ -113,4 +113,34 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     funFact:
       'Jules Cobb’s legendary giant wine glass "Big Carl" (succeeded by "Big Joe" and "Big Lou") + Cul-de-Sac Crew Penny Can turned "Cougar Town" into comfort-watch royalty!',
   },
+  {
+    id: 'babygirl-glass-of-milk-meme',
+    badge: 'Viral A24 TikTok Meme',
+    question:
+      'In Nicole Kidman & Harris Dickinson’s hit film "Babygirl" (inspired by director Halina Reijn’s real life!), what unexpected drink does the younger man send across the hotel bar?',
+    options: ['A Dirty Martini', 'A Tall Glass of Milk', 'An Espresso Shot', 'Dom Pérignon'],
+    correctIndex: 1,
+    funFact:
+      'Director Halina Reijn revealed a younger Belgian actor actually sent her a glass of milk in a bar—sparking thousands of TikTok parodies and Nicole Kidman’s iconic milk toast!',
+  },
+  {
+    id: 'idea-of-you-coachella',
+    badge: 'Streaming Romance Smash',
+    question:
+      'In "The Idea of You," where does Anne Hathaway’s 40-year-old single mom Solène accidentally walk into 24-year-old Nicholas Galitzine’s VIP trailer?',
+    options: ['Glastonbury', 'The Met Gala', 'Coachella', 'Sundance'],
+    correctIndex: 2,
+    funFact:
+      '"The Idea of You" broke Prime Video rom-com records, igniting a massive wave of 2024–2026 older-woman / younger-man cinema alongside "Bridget Jones: Mad About the Boy" and "Lonely Planet"!',
+  },
+  {
+    id: 'bridget-jones-roxster',
+    badge: 'Second-Act Tinder Joy',
+    question:
+      'In "Bridget Jones: Mad About the Boy," what is the day job of Leo Woodall’s charming 29-year-old Cub "Roxster" after matching with Bridget on Tinder?',
+    options: ['Park Ranger', 'Sous Chef', 'Firefighter', 'Art Dealer'],
+    correctIndex: 0,
+    funFact:
+      'Roxster rescues Bridget and her kids from a tree in Hampstead Heath—celebrating widowed & divorced women rediscovering playful romance with high-EQ younger men!',
+  },
 ];

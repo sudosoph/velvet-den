@@ -22,6 +22,8 @@ const GUIDE_SLUGS = [
   'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man',
   'cougar-town-pop-culture-age-gap-dating-history',
   'astrology-zodiac-compatibility-older-woman-younger-man',
+  'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man',
+  'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',
 ];
 
 const today = new Date().toISOString().slice(0, 10);

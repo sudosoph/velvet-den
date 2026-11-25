@@ -4,6 +4,7 @@ import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AppSwipeStage } from './components/AppSwipeStage';
 import { BoutiqueAndVipModal } from './components/BoutiqueAndVipModal';
+import { CougarCubChecklistModal } from './components/CougarCubChecklistModal';
 import { EpisodeStage } from './components/EpisodeStage';
 import { FieldGuideModal } from './components/FieldGuideModal';
 import { LiveInboxModal } from './components/LiveInboxModal';
@@ -66,6 +67,7 @@ function readInitialUrlState() {
       unlockQuery: '',
       stripeSessionId: null as string | null,
       refCode: null as string | null,
+      openChecklist: false,
     };
   }
   const params = new URLSearchParams(window.location.search);
@@ -78,6 +80,7 @@ function readInitialUrlState() {
     params.has('unlock') || params.has('founder') ? window.location.search : '';
   const stripeSessionId = params.get('session_id');
   const refCode = params.get('ref');
+  const openChecklist = params.get('checklist') === '1';
 
   return {
     challenge: decoded,
@@ -87,6 +90,7 @@ function readInitialUrlState() {
     unlockQuery,
     stripeSessionId,
     refCode,
+    openChecklist,
   };
 }
 
@@ -127,6 +131,7 @@ export default function App() {
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
   const [liveInboxOpen, setLiveInboxOpen] = useState(false);
   const [popTriviaOpen, setPopTriviaOpen] = useState(false);
+  const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
       ? 'Heads up: that audition link looked truncated or expired—mix your own Cougar & Cub run below!'
@@ -523,6 +528,7 @@ export default function App() {
             onStartGame={handleStartGame}
             onOpenLiveInbox={() => setLiveInboxOpen(true)}
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
+            onOpenChecklist={() => setChecklistOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
           />
@@ -580,6 +586,22 @@ export default function App() {
           const res = grantRewardCredits(wallet, key, amount);
           if (res.granted) updateWallet(res.wallet);
           return res.granted;
+        }}
+      />
+
+      <CougarCubChecklistModal
+        open={checklistOpen}
+        referralCode={wallet.referralCode}
+        onClose={() => setChecklistOpen(false)}
+        onClaimChecklistReward={(key, amount) => {
+          const res = grantRewardCredits(wallet, key, amount);
+          if (res.granted) updateWallet(res.wallet);
+          return res.granted;
+        }}
+        onPlayMatchedScenario={(episodeId) => {
+          setRun(createRun(pairing, selectedVipIds, episodeId));
+          setActiveTab('game');
+          setPhase('episodes');
         }}
       />
 

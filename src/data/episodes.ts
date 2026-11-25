@@ -3324,4 +3324,195 @@ export const EPISODES: Episode[] = [
       },
     ],
   },
+
+  // --- 4 REDDIT "IN THE WILD" & POP-CULTURE BLOCKBUSTER SCENES (BABYGIRL MILK, GYM HEADPHONES, CUBSPLAINING/ID, HOTEL 2-QUEENS) ---
+  {
+    id: 'babygirl-hotel-bar-milk-or-martini',
+    act: 2,
+    stage: 1,
+    title: 'Solo Business-Trip Hotel Bar: The Viral "Babygirl" Glass-of-Milk Dare!',
+    subredditThreadInspiration: 'r/CougarsAndCubs + TikTok "Babygirl" Trend: "Sitting solo at an upscale hotel bar on a work trip—and a bold 27yo sends a drink down the bar..."',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'Per `r/CougarsAndCubs` law, an upscale **hotel lobby bar** on a solo work trip is the #1 "in-the-wild" spot for lightning to strike. You’re unwinding in silk after a keynote when the bartender sets down TWO glasses from {hisName} ({hisAge}M) at the end of the bar: your exact dirty martini—AND, with a cheeky wink referencing Nicole Kidman’s viral ***Babygirl*** scene, a tiny shot glass of cold oat milk with a cocktail napkin reading: *"Pick your poison—zero pressure."* ',
+    setupHim:
+      '{herName} ({herAge}F) is unwinding solo at the boutique hotel bar—radiating pure CEO poise. Everyone on TikTok knows the infamous ***Babygirl*** "send her a glass of milk across the bar" power move, while `r/CougarsAndCubs` warns never to interrupt a solo traveler rudely. How do you make your opening move?',
+    choices: [
+      {
+        labelHer: 'Burst out laughing at the cheeky *Babygirl* visual gag, raise the dirty martini in a toast, wave him over for a 20-minute nightcap, and watch sparks fly.',
+        labelHim: 'Send her exact martini alongside a miniature comedy *Babygirl* milk-shot wink on a napkin—giving her a laugh AND total control over whether to wave you over.',
+        outcomeHer:
+          'Self-aware pop-culture wit + actual martini class + respecting solo hotel-bar boundaries = the smoothest "in-the-wild" opener of the year!',
+        outcomeHim:
+          'She laughs into her hand, holds up the martini glass, and motions to the leather barstool beside her: "Okay, points for cinema literacy AND ordering gin properly."',
+        toastBanner: 'HOTEL BAR CINEMA! • CHEMISTRY +30 • EQ +25',
+        deltas: { maturity: 20, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Survived the "Babygirl" Hotel-Bar Test',
+      },
+      {
+        labelHer: 'He sends an unironic pint of warm whole milk to your lactose-intolerant self and whispers "good girl" like a TikTok cringe reel.',
+        labelHim: 'Send a literal pint of warm whole milk with zero context and try to growl a movie line to a stranger.',
+        outcomeHer:
+          'Warm dairy at 9:30 PM?! Security—and Lactaid—to the lobby bar immediately!',
+        outcomeHim:
+          'Life is not an A24 screenplay—unsolicited dairy + zero rapport gets an immediate tab close.',
+        toastBanner: 'RED FLAG! • UNIRONIC WARM DAIRY CRIME (-25)',
+        deltas: { maturity: -25, chivalry: -15, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Chat effortlessly for 30 minutes at the bar, exchange numbers, and keep your solo beauty sleep intact for Round 2 Friday.',
+        labelHim: 'Keep the hotel-bar conversation brisk, witty, and bounded to one drink so she gets great sleep before her morning flight.',
+        outcomeHer:
+          'Leaving on a high note after one electric hotel-bar drink guarantees Date #2.',
+        outcomeHim:
+          'Knowing when to end a hotel-bar meet-cute after 30 electric minutes is peak confidence.',
+        toastBanner: 'HOTEL LOUNGE CLASS +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'gym-headphones-vs-three-week-nod',
+    act: 2,
+    stage: 1,
+    title: '"In the Wild" Gym Law: The AirPods Max Crime vs. The 3-Week Slow Burn',
+    subredditThreadInspiration: 'r/CougarsAndCubs #1 FAQ: "PSA to Cubs: NEVER tap a woman’s shoulder mid-squat when her headphones are on—play the 3-week polite nod game!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'ridge_trail_leash',
+    setupHer:
+      'Every single week on `r/CougarsAndCubs`, younger guys ask how to approach a fit Cougar at the gym—and every woman replies with the Sacred Headphone Law. You’re in the zone with noise-canceling headphones on; {hisName} ({hisAge}M) has been training in the next rack at 7 AM for three weeks.',
+    setupHim:
+      'You’ve spotted {herName} ({herAge}F) crushing RDLs at your 7 AM gym for three weeks straight. Right now her over-ear noise-canceling headphones are ON. Every veteran on `r/CougarsAndCubs` is watching—what’s your play?',
+    choices: [
+      {
+        labelHer: 'He NEVER interrupts a single set while your headphones are on—just trades warm smiles for three weeks, reracks his 45-lb plates cleanly, and strikes up an easy 60-second chat at the smoothie bar *after* your headphones come off!',
+        labelHim: 'Respect the headphones 100% during sets, rerack your weights like an adult, build three weeks of friendly eye-contact rapport, and say hi naturally at the smoothie counter once her headphones are off.',
+        outcomeHer:
+          'Patience, gym etiquette, AND reracking 45-lb plates without slamming them? You suggest post-workout coffee before he even finishes his sentence!',
+        outcomeHim:
+          'Respecting her workout zone puts you ahead of 99% of gym bros—she smiles wide at the smoothie bar and locks in Saturday coffee.',
+        toastBanner: 'SACRED HEADPHONE LAW PASSED! • EQ +25 • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Gym Headphone Etiquette MVP',
+      },
+      {
+        labelHer: 'He waves his hand two inches from your face mid-squat to make you take off your headphones and critiques your form.',
+        labelHim: 'Interrupt her mid-rep with headphones on and offer unsolicited form advice.',
+        outcomeHer:
+          'Interrupting a woman mid-set TO MANSPLAIN HER SQUAT FORM?! Banned from this zip code!',
+        outcomeHim:
+          'Breaking the headphone rule + unsolicited form coaching = permanent gym pariah status.',
+        toastBanner: 'RED FLAG! • MID-SET HEADPHONE VIOLATION (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -30, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Ask him to spot one heavy bench set—letting you initiate the conversation on your own terms.',
+        labelHim: 'Wait until she asks if you’re using the cable attachment, keep it breezy and respectful, and let the rapport build.',
+        outcomeHer:
+          'Zero pressure, total comfort, natural gym spark.',
+        outcomeHim:
+          'Letting her set the pace at the gym wins trust effortlessly.',
+        toastBanner: 'SLOW-BURN GYM RAPPORT +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 25, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'cubsplaining-and-bouncer-id-check',
+    act: 2,
+    stage: 2,
+    title: '"Cubsplaining" 2008 Mortgages & The Bouncer UV-Flashlight ID Check',
+    subredditThreadInspiration: 'r/CougarsAndCubs Pet Peeve Hall of Fame: "When he tries to explain Fleetwood Mac to you—right before the bouncer inspects HIS ID for 45 seconds"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'waiter_shock',
+    setupHer:
+      'Two classic `r/CougarsAndCubs` comedy moments hit back-to-back outside a speakeasy jazz bar: in line, {hisName} ({hisAge}M) catches himself mid-sentence starting to explain how vinyl pressings and fixed-rate mortgages work (*"Cubsplaining"*!). Five seconds later, the 23-year-old bouncer shines a UV flashlight on **{hisName}’s** license for 40 seconds while waving you straight through the velvet rope.',
+    setupHim:
+      'Outside the jazz lounge with {herName} ({herAge}F), you realize two seconds into a sentence about *Rumours*-era Fleetwood Mac that she literally owned the original vinyl before you were born—and then the bouncer quizzes YOUR birthday under a blacklight while waving her right inside!',
+    choices: [
+      {
+        labelHer: 'He catches his own "Cubsplain" laughing ("Wait—I am literally explaining mortgages to a homeowner, shut me up!"), tips the bouncer grinning when you ask to get carded too, and buys the first round.',
+        labelHim: 'Roast yourself mid-"Cubsplain" before finishing the sentence, playfully insist the bouncer check her ID too ("Look at her, clearly 29!"), and grab the corner velvet booth.',
+        outcomeHer:
+          'Self-awareness cures "Cubsplaining" in 0.2 seconds—and watching him get grilled on his zip code by the bouncer gives you bestie-brunch material for a month!',
+        outcomeHim:
+          'Catching yourself instead of lecturing her—plus turning the ID check into pure flattery—has her laughing against your shoulder all set long.',
+        toastBanner: 'ZERO CUBSPLAINING! • EQ +25 • CHEMISTRY +25',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Survived the Speakeasy UV Bouncer',
+      },
+      {
+        labelHer: 'He lectures you for 15 minutes on "how credit scores work" and pouts when the bouncer double-checks his ID.',
+        labelHim: 'Double down lecturing her about basic adult life skills and snap defensively at the bouncer.',
+        outcomeHer:
+          'Being lectured on credit scores by someone whose car insurance just dropped last birthday?! Hard pass!',
+        outcomeHim:
+          'Patronizing an accomplished woman ("Cubsplaining") is the #1 fastest turnoff on the entire subreddit.',
+        toastBanner: 'RED FLAG! • TERMINAL CUBSPLAINING (-25)',
+        deltas: { maturity: -25, chivalry: -15, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Ask him to teach you something he genuinely mastered while you school him on 90s concert history.',
+        labelHim: 'Ask for her real lived take instead of guessing—turning experience differences into mutual curiosity.',
+        outcomeHer:
+          'Mutual respect and genuine curiosity make the conversation electric.',
+        outcomeHim:
+          'Listening beats lecturing 100 times out of 100.',
+        toastBanner: 'MUTUAL SPARK +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'hotel-checkin-two-queen-beds-mixup',
+    act: 3,
+    stage: 4,
+    title: 'Boutique Hotel Check-In: "Did You Want Two Queen Beds for You and Your Son?!"',
+    subredditThreadInspiration: 'r/CougarsAndCubs Top Funny Thread: "Front desk clerk tried to \'helpfully\' switch our King oceanfront suite to Two Queens—our reaction got us upgraded to Champagne!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'waiter_shock',
+    minAgeGap: 14,
+    setupHer:
+      'You and {hisName} ({hisAge}M) step up to the marble reception desk for your weekend coastal trip. The well-meaning 21-year-old clerk glances between your reservation and {hisName}, taps furiously on his keyboard, and whispers helpfully: *"Oh! The system booked ONE King bed by mistake—let me switch you and your son into Two Queens at no charge!"*',
+    setupHim:
+      'Classic `r/CougarsAndCubs` rite of passage at the boutique hotel front desk: the young check-in clerk thinks he’s saving the day by offering to split your oceanfront King suite with {herName} ({herAge}F) into **Two Queen Beds**!',
+    choices: [
+      {
+        labelHer: 'He wraps one arm smoothly around your waist, kisses your temple smiling, and tells the clerk warmly: "Trust me, one King bed is *definitely* right"—turning the clerk bright red AND scoring complimentary lobby champagne!',
+        labelHim: 'Slip your arm warmly around her waist with a relaxed grin ("Oh, one King bed is definitely what we booked—we’re celebrating all weekend!"), making her laugh and watching the embarrassed clerk send up free champagne.',
+        outcomeHer:
+          'Not a flicker of embarrassment—just effortless affection, humor, AND a free bottle of Veuve Clicquot sent up by a mortified front-desk manager!',
+        outcomeHim:
+          'The clerk turns crimson, upgrades you to the corner ocean-view suite in apology, and {herName} pulls you in by your collar the second the suite door clicks shut!',
+        toastBanner: 'FREE CHAMPAGNE UPGRADE! • CHEMISTRY +30 • CHIVALRY +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'One-King-Bed Suite Upgrade Pro',
+      },
+      {
+        labelHer: 'He steps three feet away from you at the desk looking mortified and mutters, "Yeah uh whatever is fine."',
+        labelHim: 'Drop her hand in embarrassment and stare at your shoes while she handles the awkward clerk alone.',
+        outcomeHer:
+          'Actually, Mr. Clerk—DO make it two separate rooms, and put his on a separate credit card!',
+        outcomeHim:
+          'Shrinking away during a public mix-up turns a funny 5-second moment into a real wound.',
+        toastBanner: 'RED FLAG! • FRONT-DESK SHRINKING (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -20, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Wink at the clerk together ("Definitely one King—and send up two robe sizes, please!") and laugh all the way up in the elevator.',
+        labelHim: 'Share an unbothered laugh with her in the elevator—treating public mix-ups as your favorite recurring comedy bit.',
+        outcomeHer:
+          'Couples who laugh off front-desk mix-ups in five seconds are invincible.',
+        outcomeHim:
+          'Humor + zero ego turns every awkward stranger into an inside joke.',
+        toastBanner: 'UNBOTHERED SUITE GOALS +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
 ];

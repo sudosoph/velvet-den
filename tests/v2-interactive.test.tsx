@@ -33,8 +33,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 65 subplots accurately—including Star Signs, 18h Getaway, Campus PhD Sushi, Fiery Foreign, Picnic/Bowling, Anniversaries & Forum Red Flags across all tracks', () => {
-    expect(EPISODES.length).toBe(65);
+  it('routes 69 subplots accurately—including Babygirl Hotel-Bar Milk, Gym Headphones, Cubsplaining, Hotel 2-Queens, Star Signs, 18h Getaway, Campus PhD Sushi & Anniversaries across all tracks', () => {
+    expect(EPISODES.length).toBe(69);
     expect(HER_ARCHETYPES.length).toBe(16);
     expect(HIS_ARCHETYPES.length).toBe(10);
 
@@ -106,6 +106,10 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     const cougarIds = createRun(analyzePairing(claire45, leo25, 'her')).episodeQueue.map(
       (e) => e.id,
     );
+    expect(cougarIds).toContain('babygirl-hotel-bar-milk-or-martini');
+    expect(cougarIds).toContain('gym-headphones-vs-three-week-nod');
+    expect(cougarIds).toContain('cubsplaining-and-bouncer-id-check');
+    expect(cougarIds).toContain('hotel-checkin-two-queen-beds-mixup');
     expect(cougarIds).toContain('forum-redflag-pocket-secret-test');
     expect(cougarIds).toContain('generational-1900s-venmo-whiplash');
     expect(cougarIds).toContain('cub-bench-press-cougar-training');
@@ -213,6 +217,18 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       screen.getByRole('dialog', { name: /Pop-Culture Cougar & Cub Trivia/i }),
     ).toBeInTheDocument();
     expect(screen.getByText(/Maxx Morando in Palm Springs/i)).toBeInTheDocument();
+  });
+
+  it('opens the TikTok-ready 25-Point Viral Experience Checklist via ?checklist=1 and scores checked boxes', () => {
+    window.history.replaceState({}, '', '/?checklist=1');
+    render(<App />);
+
+    expect(
+      screen.getByRole('dialog', { name: /25-Point Cougars & Cubs Viral Experience Checklist/i }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /late 1900s/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Babygirl/i }));
+    expect(screen.getByText('8/100')).toBeInTheDocument();
   });
 
   it('renders the interactive 2 AM Doubt Breaker minigame on Stage 5 Doubt episodes and awards EQ + Maturity', () => {
