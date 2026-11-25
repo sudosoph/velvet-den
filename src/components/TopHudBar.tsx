@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import {
   BookOpen,
   Crown,
+  Flame,
   Gamepad2,
-  MessageCircle,
   Music,
   Newspaper,
   ShoppingBag,
@@ -67,7 +67,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
   return (
     <header className="sticky top-0 z-30 border-b-[2.5px] border-[#1E1022] bg-[#FFFDF9]/95 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2.5 px-4 py-2.5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-2.5 px-4 py-2.5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex shrink-0 items-center justify-between lg:justify-start gap-2.5">
           <button
             type="button"
@@ -105,6 +105,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
           <button
             type="button"
+            title="Live AI Chat on Tinder, iMessage & Discord"
             onClick={() =>
               activeTab === 'inbox' ? onSelectTab('game') : onOpenLiveInbox()
             }
@@ -114,10 +115,10 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                 : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
             }`}
           >
-            <MessageCircle
+            <Flame
               className={`h-4 w-4 ${activeTab === 'inbox' ? 'text-white' : 'text-[#FD267A]'}`}
             />
-            <span>Tinder · iMessage · Discord</span>
+            <span>Live Chat</span>
           </button>
 
           <button

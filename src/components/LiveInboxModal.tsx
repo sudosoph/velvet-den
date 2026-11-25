@@ -76,22 +76,23 @@ const INBOX_CONTACTS: InboxContact[] = [
     role: 'her' as const,
     photoUrl: h.photoUrl,
     openingPrompt:
-      h.subplotTags.includes('seed_oil_bernedoodle_mommy') ||
-      h.subplotTags.includes('qigong_mommy_domme')
-        ? `fair warning sweet boy 🧘‍♀️✨ i'm 100% gluten + seed oil free, teach 6:30am qigong, and just hit #2 on the tricolor mini bernedoodle waitlist 🐶 what's our friday dinner plan? (zero cubsplaining pls lol)`
-        : h.subplotTags.includes('black_cat_energy')
-          ? `easy there puppy 🐈‍⬛ every guy in my dms promises the moon on day 1 lol. i take my time... convince me why i shouldn't make you wait till next week 👀`
-          : h.subplotTags.includes('junior_cougar_gap')
-            ? `quick math check 😅 i'm ${h.age}, so our gap officially makes me a junior cougar lol. tell me where you were in 2008 + your actual friday drink plan 🍸`
-            : h.subplotTags.includes('dog_mom_divorced')
-              ? `${h.age}, happily divorced, and lowered my age slider bc every 43yo guy on here just rants about his ex 😭💀 tell me our friday plan + how you're winning over my rescue pup 🐾`
-              : h.age < 40
-                ? `hiii! my $25/hr sitter is officially booked for friday at 7 🙌 i get ONE free night out this month so don't fumble... where are you taking me? 🥂`
-                : h.age >= 60
-                  ? `caught you looking over at the palm springs gallery opening 🥂 most younger men get nervous around me... how would you actually court me this weekend? ✨`
-                  : h.subplotTags.includes('princess_treatment')
-                    ? `i've made 400 executive decisions this week and refuse to plan friday night 💅 how are you spoiling me? 🍸`
-                    : `okay you swiped right on a ${h.age}yo ${h.title.split('•')[0].trim().toLowerCase()} 😏 90% of guys open with "hey" or ask for my snapchat lol. you get one shot, what's our friday move? 🍸`,
+      h.id === 'sedona-qigong-mommy'
+        ? `morning sweet boy 🧘‍♀️✨ i guide 6:30am qigong, skip all seed oils, and love a calm nervous system. what's our friday tea or dinner plan? (zero cubsplaining lol)`
+        : h.subplotTags.includes('seed_oil_bernedoodle_mommy')
+          ? `fair warning cutie 🥑🐶 strictly gluten + seed oil free and #2 on the waitlist for a tricolor mini bernedoodle! where are you taking me friday? ✨`
+          : h.subplotTags.includes('black_cat_energy')
+            ? `easy there puppy 🐈‍⬛ every guy in my dms promises the moon on day 1 lol. i take my time... convince me why i shouldn't make you wait till next week 👀`
+            : h.subplotTags.includes('junior_cougar_gap')
+              ? `quick math check 😅 i'm ${h.age}, so our gap officially makes me a junior cougar lol. tell me where you were in 2008 + your friday ${(h.signatureDrink || 'espresso martini').toLowerCase()} spot 🍸`
+              : h.subplotTags.includes('dog_mom_divorced')
+                ? `${h.age}, happily divorced, and lowered my age slider bc every 43yo guy on here just rants about his ex 😭💀 tell me our friday plan + how you're winning over my pup 🐾`
+                : h.age < 40
+                  ? `hiii! my sitter is officially booked for friday at 7 🙌 i get ONE free night for a ${(h.signatureDrink || 'cocktail').toLowerCase()} this month so don't fumble... where are we going? 🥂`
+                  : h.age >= 60
+                    ? `caught you looking over at the gallery opening 🥂 most younger men get nervous around a ${h.age}yo ${(h.zodiac || 'Scorpio').split(' ')[0]}... how would you court me this weekend? ✨`
+                    : h.subplotTags.includes('princess_treatment')
+                      ? `${h.name} here 💅 long week as a ${h.title.split('•')[0].trim().toLowerCase()} and i'm craving a ${(h.signatureDrink || 'martini').toLowerCase()}. zero planning on my end... where are you taking me friday? ✨`
+                      : `okay you swiped right on a ${h.age}yo ${h.title.split('•')[0].trim().toLowerCase()} 😏 skip the "hey / whats ur snap" lol... where are we grabbing ${(h.signatureDrink || 'espresso martini').toLowerCase()}s friday? 🍸`,
     steamyPrompt:
       h.subplotTags.includes('qigong_mommy_domme')
         ? `still smiling from how fast you melted into tai chi cloud hands when mommy fixed your posture this morning 😌🔥 keep that grounded energy going before sauna tonight...`
