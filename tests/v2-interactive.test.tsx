@@ -727,4 +727,18 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       screen.getByText(/Zero seed oils, zero gluten, AND puppy-ready for her Tricolor Mini Bernedoodle/i),
     ).toBeInTheDocument();
   });
+
+  it('surfaces playable Live Pop-Culture Blitz and Viral IRL Check above the fold in the Matchmaker lobby', () => {
+    render(<App />);
+
+    expect(screen.getByText(/Live Pop-Culture Blitz/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Danny Ramirez/i }));
+    expect(screen.getByText(/\+15XP/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/poster couple for effortless post-divorce 40s Cougar/i),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Lived This! \(\+15 XP\)/i }));
+    expect(screen.getByText(/Club Viral Score: 4 pts/i)).toBeInTheDocument();
+  });
 });

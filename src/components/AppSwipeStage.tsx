@@ -245,12 +245,12 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     <div className="w-full space-y-5 animate-stage-in">
       {/* Aligned Age-Preference Slider Bar */}
       <div className="vice-panel rounded-3xl px-5 py-4 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold text-[#1E1022]">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex h-9 items-center rounded-xl border-2 border-[#1E1022] bg-[#FFBE0B] px-3 text-xs font-bold text-[#1E1022]">
               Act I • Profile {index + 1} of {deck.length}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFF4F7] px-3 py-1 text-xs font-extrabold text-[#1E1022]">
+            <span className="inline-flex h-9 items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFF4F7] px-3 text-xs font-bold text-[#1E1022]">
               <SlidersHorizontal className="h-3.5 w-3.5 text-[#FF2E63]" />
               <span>
                 {role === 'her' ? `Age Filter: ${agePref}–45` : `Age Filter: 30–${agePref}`}
@@ -264,14 +264,14 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(25)}
-                  className="pop-btn rounded-full bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                  className="pop-btn h-9 rounded-xl bg-[#FFBE0B] px-3 text-xs text-[#1E1022] cursor-pointer"
                 >
                   🤠 Drop to 25 (Montana Cowboy)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(21)}
-                  className="pop-btn rounded-full bg-[#FF2E63] px-3 py-1 text-xs font-extrabold text-white cursor-pointer"
+                  className="pop-btn h-9 rounded-xl bg-[#FF2E63] px-3 text-xs text-white cursor-pointer"
                 >
                   🚨 Drop to 21 (Danger Zone)
                 </button>
@@ -289,7 +289,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       setPhotoIdx(0);
                     }
                   }}
-                  className="pop-btn rounded-full bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                  className="pop-btn h-9 rounded-xl bg-white px-3 text-xs text-[#1E1022] cursor-pointer"
                 >
                   🌺 21yo Hawaii Timeshare
                 </button>
@@ -299,14 +299,14 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(53)}
-                  className="pop-btn rounded-full bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                  className="pop-btn h-9 rounded-xl bg-[#FFBE0B] px-3 text-xs text-[#1E1022] cursor-pointer"
                 >
                   🔥 50s Jaguars
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(64)}
-                  className="pop-btn rounded-full bg-[#FF2E63] px-3 py-1 text-xs font-extrabold text-white cursor-pointer"
+                  className="pop-btn h-9 rounded-xl bg-[#FF2E63] px-3 text-xs text-white cursor-pointer"
                 >
                   👑 60+ Icons
                 </button>
@@ -316,7 +316,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             <button
               type="button"
               onClick={onCompleteSwipes}
-              className="text-xs font-extrabold text-[#1E1022] hover:text-[#FF2E63] underline ml-1 cursor-pointer"
+              className="pop-btn h-9 rounded-xl bg-[#1E1022] px-3 text-xs text-white cursor-pointer"
             >
               Skip to Date #1 →
             </button>

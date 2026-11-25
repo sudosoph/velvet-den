@@ -80,16 +80,16 @@ interface FloatingPopup {
   ttl: number;
 }
 
-const CANVAS_W = 800;
-const CANVAS_H = 440;
+const CANVAS_W = 960;
+const CANVAS_H = 500;
 
 const BUILDINGS: WorldBuilding[] = [
   {
     id: 'b_qigong',
-    x: 132,
-    y: 94,
+    x: 165,
+    y: 86,
     title: 'Qigong & Seed-Oil-Free Sanctuary',
-    shortLabel: 'Qigong & Seed-Oil Café',
+    shortLabel: 'QIGONG CAFE',
     buttonName: 'Qigong & Tai Chi Cloud Hands ("Yes, Mommy")',
     emoji: '🧘‍♀️',
     roofColor: '#059669',
@@ -98,10 +98,10 @@ const BUILDINGS: WorldBuilding[] = [
   },
   {
     id: 'b_puppy',
-    x: 400,
+    x: 480,
     y: 86,
     title: 'Tricolor Mini Bernedoodle Waitlist #1',
-    shortLabel: 'Mini Bernedoodle & Ghee Kitchen',
+    shortLabel: 'PUPPY & GHEE',
     buttonName: 'Seed-Oil-Free & Tricolor Mini Bernedoodle Mommy',
     emoji: '🐶',
     roofColor: '#FF2E63',
@@ -111,10 +111,10 @@ const BUILDINGS: WorldBuilding[] = [
   },
   {
     id: 'b_hawaii',
-    x: 668,
-    y: 94,
+    x: 795,
+    y: 86,
     title: 'Mom’s Maui Timeshare Cabana',
-    shortLabel: 'Maui Timeshare Trap',
+    shortLabel: 'MAUI TRAP',
     buttonName: '"Come to My Place in Hawaii" (Mom’s Timeshare)',
     emoji: '🌺',
     roofColor: '#F59E0B',
@@ -123,10 +123,10 @@ const BUILDINGS: WorldBuilding[] = [
   },
   {
     id: 'b_venmo',
-    x: 132,
-    y: 354,
+    x: 165,
+    y: 414,
     title: '$41.63 Edamame Venmo Sushi',
-    shortLabel: '$41.63 Venmo Boss',
+    shortLabel: 'VENMO SUSHI',
     buttonName: 'Swat the $41.63 Edamame Venmo',
     emoji: '🚨',
     roofColor: '#E11D48',
@@ -135,10 +135,10 @@ const BUILDINGS: WorldBuilding[] = [
   },
   {
     id: 'b_velvet',
-    x: 400,
-    y: 360,
+    x: 480,
+    y: 414,
     title: 'Hotel Bar ("Babygirl" Lounge)',
-    shortLabel: 'Babygirl Hotel Bar',
+    shortLabel: 'HOTEL LOUNGE',
     buttonName: '18-Hour Pool & Cedar Sauna',
     emoji: '🍸',
     roofColor: '#7C3AED',
@@ -147,10 +147,10 @@ const BUILDINGS: WorldBuilding[] = [
   },
   {
     id: 'b_sanctuary',
-    x: 668,
-    y: 354,
+    x: 795,
+    y: 414,
     title: 'Sanctuary Door & 4-Roommate Escape',
-    shortLabel: 'Hobosexual Bouncer',
+    shortLabel: 'DOOR BOUNCER',
     buttonName: 'Hobosexual PS5 & Laundry Bouncer',
     emoji: '🎮',
     roofColor: '#2563EB',
@@ -162,28 +162,28 @@ const BUILDINGS: WorldBuilding[] = [
 const WORLD_NODES: WorldNode[] = [
   {
     id: 'jukebox_west',
-    x: 256,
-    y: 218,
+    x: 245,
+    y: 252,
     kind: 'trivia',
-    label: 'Pop-Culture Arcade #1',
+    label: 'POP QUIZ #1',
     emoji: '🕹️',
     triviaOffset: 0,
   },
   {
     id: 'totem_viral',
-    x: 400,
-    y: 182,
+    x: 480,
+    y: 175,
     kind: 'viral',
-    label: '25-Pt Viral IRL Shrine',
+    label: 'VIRAL SHRINE',
     emoji: '🔥',
     triviaOffset: 3,
   },
   {
     id: 'jukebox_east',
-    x: 544,
-    y: 218,
+    x: 715,
+    y: 252,
     kind: 'trivia',
-    label: 'Mommy-Domme & Cinema Quiz',
+    label: 'CINEMA QUIZ',
     emoji: '🎬',
     triviaOffset: 7,
   },
@@ -196,10 +196,10 @@ const PATROL_GOBLINS: PatrolGoblin[] = [
     emoji: '🛢️',
     taunt: '"Everything is deep-fried in soybean oil & wheat flour!!"',
     roastLine: 'Zapped with Cold-Pressed EVOO, Grass-Fed Ghee & Cassava Sourdough!',
-    baseX: 235,
-    baseY: 148,
+    baseX: 315,
+    baseY: 168,
     axis: 'x',
-    range: 58,
+    range: 48,
     speed: 0.032,
   },
   {
@@ -208,10 +208,10 @@ const PATROL_GOBLINS: PatrolGoblin[] = [
     emoji: '🤓',
     taunt: '"Well actually, let me explain Qigong & mortgages to you..."',
     roastLine: 'Silenced with two fingers under his chin: "Breathe with Mommy, good boy."',
-    baseX: 565,
-    baseY: 292,
+    baseX: 645,
+    baseY: 336,
     axis: 'x',
-    range: 56,
+    range: 48,
     speed: 0.036,
   },
   {
@@ -220,21 +220,21 @@ const PATROL_GOBLINS: PatrolGoblin[] = [
     emoji: '🌺',
     taunt: '"Come to MY place in Hawaii (Mom’s in the master suite)!"',
     roastLine: 'Exposed the 8 AM condo seminar & sent him back to study hall!',
-    baseX: 645,
-    baseY: 218,
+    baseX: 795,
+    baseY: 252,
     axis: 'y',
-    range: 46,
+    range: 40,
     speed: 0.038,
   },
 ];
 
 const WORLD_PICKUPS: WorldPickup[] = [
-  { id: 'evoo_bottle', x: 196, y: 162, label: '+20 XP Cold-Pressed EVOO', color: '#10B981', accent: '#FEF08A' },
-  { id: 'ghee_jar', x: 325, y: 132, label: '+20 XP Grass-Fed Ghee', color: '#F59E0B', accent: '#FFFBEB' },
-  { id: 'bernedoodle_bone', x: 475, y: 132, label: '+20 XP Bernedoodle Treat', color: '#FF2E63', accent: '#FFFFFF' },
-  { id: 'oolong_tea', x: 204, y: 290, label: '+20 XP Jasmine Oolong', color: '#14B8A6', accent: '#CCFBF1' },
-  { id: 'gluten_free_tart', x: 492, y: 318, label: '+20 XP GF Cassava Tart', color: '#EC4899', accent: '#FCE7F3' },
-  { id: 'martini_star', x: 604, y: 156, label: '+20 XP Zero-Proof Elixir', color: '#8B5CF6', accent: '#EDE9FE' },
+  { id: 'evoo_bottle', x: 165, y: 168, label: '+20 XP Cold-Pressed EVOO', color: '#10B981', accent: '#FEF08A' },
+  { id: 'ghee_jar', x: 350, y: 336, label: '+20 XP Grass-Fed Ghee', color: '#F59E0B', accent: '#FFFBEB' },
+  { id: 'bernedoodle_bone', x: 615, y: 168, label: '+20 XP Bernedoodle Treat', color: '#FF2E63', accent: '#FFFFFF' },
+  { id: 'oolong_tea', x: 165, y: 336, label: '+20 XP Jasmine Oolong', color: '#14B8A6', accent: '#CCFBF1' },
+  { id: 'gluten_free_tart', x: 480, y: 336, label: '+20 XP GF Cassava Tart', color: '#EC4899', accent: '#FCE7F3' },
+  { id: 'martini_star', x: 795, y: 168, label: '+20 XP Zero-Proof Elixir', color: '#8B5CF6', accent: '#EDE9FE' },
 ];
 
 export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
@@ -261,15 +261,15 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const playerRef = useRef<{ x: number; y: number; dir: number; frame: number; targetX: number | null; targetY: number | null }>({
-    x: 400,
-    y: 236,
+    x: 480,
+    y: 312,
     dir: 1,
     frame: 0,
     targetX: null,
     targetY: null,
   });
   const trailRef = useRef<{ x: number; y: number }[]>(
-    Array.from({ length: 18 }, () => ({ x: 372, y: 242 })),
+    Array.from({ length: 18 }, () => ({ x: 452, y: 316 })),
   );
   const keysRef = useRef<Set<string>>(new Set());
   const dpadRef = useRef<{ dx: number; dy: number }>({ dx: 0, dy: 0 });
@@ -614,38 +614,38 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         }
       }
 
-      // Sandstone Resort Boardwalk Roads
+      // Sandstone Resort Boardwalk Roads (Spacious 960x500 Grid — Zero Overlaps!)
       ctx.fillStyle = '#FDE68A';
-      ctx.fillRect(90, 128, 620, 44); // North boulevard
-      ctx.fillRect(90, 278, 620, 44); // South boulevard
-      ctx.fillRect(112, 92, 44, 266); // West avenue
-      ctx.fillRect(378, 86, 44, 278); // Center avenue
-      ctx.fillRect(646, 92, 44, 266); // East avenue
+      ctx.fillRect(115, 146, 730, 44); // North boulevard
+      ctx.fillRect(115, 314, 730, 44); // South boulevard
+      ctx.fillRect(143, 86, 44, 328);  // West avenue
+      ctx.fillRect(458, 86, 44, 328);  // Center avenue
+      ctx.fillRect(773, 86, 44, 328);  // East avenue
       ctx.strokeStyle = '#1E1022';
       ctx.lineWidth = 2;
-      ctx.strokeRect(90, 128, 620, 44);
-      ctx.strokeRect(90, 278, 620, 44);
+      ctx.strokeRect(115, 146, 730, 44);
+      ctx.strokeRect(115, 314, 730, 44);
 
-      // Central Shimmering Palm Springs Tiki Pool
+      // Central Shimmering Palm Springs Tiki Pool (Cleanly Isolated!)
       ctx.fillStyle = '#1E1022';
-      ctx.fillRect(292, 200, 216, 68);
+      ctx.fillRect(352, 214, 256, 78);
       ctx.fillStyle = '#06B6D4';
-      ctx.fillRect(296, 204, 208, 60);
+      ctx.fillRect(356, 218, 248, 70);
       ctx.fillStyle = '#67E8F9';
-      for (let wx = 308; wx < 490; wx += 28) {
+      for (let wx = 372; wx < 584; wx += 32) {
         const waveX = wx + Math.round(Math.sin(tick * 0.07 + wx) * 5);
-        ctx.fillRect(waveX, 220, 14, 4);
-        ctx.fillRect(waveX + 6, 242, 12, 4);
+        ctx.fillRect(waveX, 238, 16, 4);
+        ctx.fillRect(waveX + 8, 264, 14, 4);
       }
 
       // Swaying Palm Trees
       const sway = Math.sin(tick * 0.045) * 2.2;
-      drawPixelPalm(44, 108, sway);
-      drawPixelPalm(752, 108, -sway);
-      drawPixelPalm(44, 384, sway);
-      drawPixelPalm(752, 384, -sway);
-      drawPixelPalm(282, 108, sway * 0.7);
-      drawPixelPalm(518, 108, -sway * 0.7);
+      drawPixelPalm(54, 118, sway);
+      drawPixelPalm(902, 118, -sway);
+      drawPixelPalm(54, 424, sway);
+      drawPixelPalm(902, 424, -sway);
+      drawPixelPalm(322, 118, sway * 0.7);
+      drawPixelPalm(638, 118, -sway * 0.7);
 
       // Draw 6 Enterable Pixel Buildings
       for (const b of BUILDINGS) {
@@ -653,36 +653,31 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         if (isNear) {
           ctx.strokeStyle = '#FF2E63';
           ctx.lineWidth = 3;
-          ctx.strokeRect(b.x - 58, b.y - 42, 116, 76);
+          ctx.strokeRect(b.x - 62, b.y - 42, 124, 78);
         }
-        // Building shadow + body
         ctx.fillStyle = '#1E1022';
-        ctx.fillRect(b.x - 50, b.y - 34, 104, 64);
+        ctx.fillRect(b.x - 54, b.y - 34, 112, 64);
         ctx.fillStyle = b.wallColor;
-        ctx.fillRect(b.x - 52, b.y - 36, 100, 60);
+        ctx.fillRect(b.x - 56, b.y - 36, 108, 60);
         ctx.strokeStyle = '#1E1022';
         ctx.lineWidth = 2.5;
-        ctx.strokeRect(b.x - 52, b.y - 36, 100, 60);
-        // Striped 8-Bit Awning Roof
+        ctx.strokeRect(b.x - 56, b.y - 36, 108, 60);
         ctx.fillStyle = b.roofColor;
-        ctx.fillRect(b.x - 54, b.y - 38, 104, 18);
-        ctx.strokeRect(b.x - 54, b.y - 38, 104, 18);
-        // Pixel Door
+        ctx.fillRect(b.x - 58, b.y - 38, 112, 18);
+        ctx.strokeRect(b.x - 58, b.y - 38, 112, 18);
         ctx.fillStyle = '#1E1022';
         ctx.fillRect(b.x - 9, b.y + 4, 18, 20);
         ctx.fillStyle = '#FFBE0B';
         ctx.fillRect(b.x + 4, b.y + 13, 3, 3);
 
-        // Signpost Label
-        ctx.font = '800 11px "Plus Jakarta Sans", sans-serif';
+        ctx.font = '13px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillStyle = '#FFFFFF';
         ctx.fillText(b.emoji, b.x, b.y - 24);
         ctx.fillStyle = '#1E1022';
-        ctx.fillRect(b.x - 62, b.y + 27, 124, 17);
+        ctx.fillRect(b.x - 56, b.y + 27, 112, 16);
         ctx.fillStyle = '#FFFDF9';
-        ctx.font = '800 10px "Plus Jakarta Sans", sans-serif';
-        ctx.fillText(b.shortLabel, b.x, b.y + 39);
+        ctx.font = '700 9px "Silkscreen", monospace';
+        ctx.fillText(b.shortLabel, b.x, b.y + 38);
       }
 
       // Draw Pickups
@@ -702,22 +697,21 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         const solved = prog.solvedNodeIds.includes(n.id);
         const pulse = Math.round(Math.sin(tick * 0.12) * 2);
         ctx.fillStyle = '#1E1022';
-        ctx.fillRect(n.x - 16, n.y - 20 + pulse, 32, 36);
+        ctx.fillRect(n.x - 16, n.y - 18 + pulse, 32, 34);
         ctx.fillStyle = solved ? '#10B981' : '#FFBE0B';
-        ctx.fillRect(n.x - 14, n.y - 18 + pulse, 28, 32);
-        ctx.fillStyle = '#1E1022';
-        ctx.font = '800 13px sans-serif';
+        ctx.fillRect(n.x - 14, n.y - 16 + pulse, 28, 30);
+        ctx.font = '13px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(n.emoji, n.x, n.y + 3 + pulse);
+        ctx.fillText(n.emoji, n.x, n.y + 4 + pulse);
 
         ctx.fillStyle = '#1E1022';
-        ctx.fillRect(n.x - 52, n.y - 35 + pulse, 104, 14);
+        ctx.fillRect(n.x - 46, n.y - 33 + pulse, 92, 13);
         ctx.fillStyle = '#FFBE0B';
-        ctx.font = '800 9px "Plus Jakarta Sans", sans-serif';
-        ctx.fillText(n.label, n.x, n.y - 25 + pulse);
+        ctx.font = '700 8px "Silkscreen", monospace';
+        ctx.fillText(n.label, n.x, n.y - 24 + pulse);
       }
 
-      // Draw Roaming Red-Flag Patrol Goblins
+      // Draw Roaming Red-Flag Patrol Goblins (Compact non-overlapping badge!)
       for (const g of PATROL_GOBLINS) {
         if (prog.defeatedGoblinIds.includes(g.id)) continue;
         const gx = Math.round(
@@ -730,15 +724,15 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         ctx.fillRect(gx - 13, gy - 13, 26, 26);
         ctx.fillStyle = '#FB7185';
         ctx.fillRect(gx - 11, gy - 11, 22, 22);
-        ctx.font = '800 13px sans-serif';
+        ctx.font = '13px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText(g.emoji, gx, gy + 5);
 
         ctx.fillStyle = '#9F1239';
-        ctx.fillRect(gx - 42, gy - 27, 84, 13);
+        ctx.fillRect(gx - 18, gy - 26, 36, 12);
         ctx.fillStyle = '#FFFFFF';
-        ctx.font = '800 9px "Plus Jakarta Sans", sans-serif';
-        ctx.fillText('🚩 TAP TO ROAST', gx, gy - 18);
+        ctx.font = '700 8px "Silkscreen", monospace';
+        ctx.fillText('ROAST', gx, gy - 17);
       }
 
       // Target click reticle
@@ -764,9 +758,9 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
       ctx.fillStyle = '#1E1022';
       ctx.fillRect(p.x - 34, p.y - 39, 68, 13);
       ctx.fillStyle = '#FFBE0B';
-      ctx.font = '800 9px "Plus Jakarta Sans", sans-serif';
+      ctx.font = '700 8px "Silkscreen", monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(`★ ${avatarName.slice(0, 10)}`, p.x, p.y - 29);
+      ctx.fillText(`★ ${avatarName.slice(0, 9)}`, p.x, p.y - 29);
 
       // Draw Floating XP Popups
       popupsRef.current = popupsRef.current.filter((pop) => pop.ttl > 0);
@@ -774,7 +768,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         pop.y -= 0.55;
         pop.ttl -= 1;
         ctx.fillStyle = '#1E1022';
-        ctx.font = '800 11px "Outfit", sans-serif';
+        ctx.font = '700 11px "Fredoka", sans-serif';
         ctx.fillText(pop.text, pop.x + 1, pop.y + 1);
         ctx.fillStyle = pop.color;
         ctx.fillText(pop.text, pop.x, pop.y);
@@ -822,23 +816,23 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
 
   return (
     <section className="vice-panel rounded-3xl p-4 sm:p-6 space-y-4 bg-gradient-to-b from-[#FFFDF9] to-[#FFF4F7]">
-      {/* Top 8-Bit Arcade & Progression Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
+      {/* Top 8-Bit Arcade & Progression Header — Strictly Single-Row Aligned on Desktop */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FF2E63] px-3 py-0.5 text-xs font-extrabold uppercase text-white shadow-[2px_2px_0px_#1E1022]">
+            <span className="font-pixel inline-flex h-7 items-center gap-1.5 rounded-lg border-2 border-[#1E1022] bg-[#FF2E63] px-2.5 text-[11px] font-bold uppercase text-white shadow-[2px_2px_0px_#1E1022]">
               <Gamepad2 className="h-3.5 w-3.5" /> Live 8-Bit Adventure World
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 text-xs font-extrabold text-[#1E1022]">
-              {levelInfo.badgeEmoji} Lv.{levelInfo.level} {levelInfo.title} • {progress.xp} XP
+            <span className="font-pixel inline-flex h-7 items-center gap-1 rounded-lg border-2 border-[#1E1022] bg-[#FFBE0B] px-2.5 text-[11px] font-bold text-[#1E1022]">
+              {levelInfo.badgeEmoji} Lv.{levelInfo.level} • {progress.xp} XP
             </span>
           </div>
-          <h2 className="mt-1.5 font-display text-xl sm:text-2xl text-[#1E1022]">
+          <h2 className="font-display text-xl sm:text-2xl text-[#1E1022]">
             Walk the 8-Bit Club Resort: Pop-Culture Jukeboxes, Seed-Oil Goblins &amp; Date Venues!
           </h2>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <button
             type="button"
             onClick={() => {
@@ -853,7 +847,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
                 showWorldToast('🐶 Miso gave two happy barks! Walk around the map to watch him follow.');
               }
             }}
-            className={`pop-btn rounded-xl px-3 py-2 text-xs font-extrabold cursor-pointer ${
+            className={`pop-btn h-11 rounded-xl px-4 text-sm cursor-pointer ${
               progress.bernedoodleAdopted
                 ? 'bg-[#D1FAE5] text-[#065F46]'
                 : 'bg-[#FFBE0B] text-[#1E1022]'
@@ -867,9 +861,9 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-white px-3 py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+            className="pop-btn h-11 inline-flex items-center gap-1.5 rounded-xl bg-white px-4 text-sm text-[#1E1022] cursor-pointer"
           >
-            {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+            {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
             <span>{expanded ? 'Compact View' : 'Expand Arcade'}</span>
           </button>
         </div>
@@ -1171,9 +1165,9 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         )}
       </div>
 
-      {/* Mobile / Desktop Tactile 8-Bit Arcade Controls + Embedded Jukebox Triggers */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-white p-3">
-        <div className="flex items-center gap-1.5">
+      {/* Symmetrical 44px-Height Arcade Controls + Equal-Width Encounter Buttons */}
+      <div className="grid gap-3 lg:grid-cols-[auto_1fr] items-center rounded-2xl border-2 border-[#1E1022] bg-white p-3">
+        <div className="flex items-center gap-2">
           {(
             [
               ['◀', -1, 0, 'Walk Left'],
@@ -1214,7 +1208,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
                 playerRef.current.frame += 1;
                 sfx.pixelStep(playerRef.current.frame);
               }}
-              className="pop-btn h-9 w-9 rounded-xl bg-[#FFF7F0] font-extrabold text-sm text-[#1E1022] cursor-pointer select-none"
+              className="pop-btn h-11 w-11 rounded-xl bg-[#FFF7F0] text-sm text-[#1E1022] cursor-pointer select-none"
             >
               {glyph}
             </button>
@@ -1223,47 +1217,45 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
           <button
             type="button"
             onClick={handleInteractNearest}
-            className="pop-btn ml-1 inline-flex items-center gap-1 rounded-xl bg-[#FF2E63] px-3.5 py-2 text-xs font-extrabold text-white cursor-pointer"
+            className="pop-btn h-11 inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-4 text-sm text-white cursor-pointer"
           >
-            <Sparkles className="h-3.5 w-3.5" />
+            <Sparkles className="h-4 w-4" />
             <span>A • INTERACT</span>
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <button
             type="button"
             onClick={() => triggerNodeEncounter(WORLD_NODES[0])}
-            className="pop-btn rounded-xl bg-[#FFBE0B] px-3 py-1.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#FFBE0B] px-3 text-sm text-[#1E1022] cursor-pointer"
           >
             🕹️ Jukebox Trivia (+35 XP)
           </button>
           <button
             type="button"
             onClick={() => triggerNodeEncounter(WORLD_NODES[1])}
-            className="pop-btn rounded-xl bg-[#FFF4F7] px-3 py-1.5 text-xs font-extrabold text-[#D90452] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#FFF4F7] px-3 text-sm text-[#D90452] cursor-pointer"
           >
             🔥 Viral Shrine (+25 XP)
           </button>
-          {PATROL_GOBLINS.some((g) => !progress.defeatedGoblinIds.includes(g.id)) && (
-            <button
-              type="button"
-              onClick={() => {
-                const nextGoblin =
-                  PATROL_GOBLINS.find((g) => !progress.defeatedGoblinIds.includes(g.id)) ??
-                  PATROL_GOBLINS[0];
-                sfx.shockZoom();
-                setActiveEncounter({ type: 'goblin', goblin: nextGoblin });
-              }}
-              className="pop-btn rounded-xl bg-[#FFE4E6] px-3 py-1.5 text-xs font-extrabold text-[#9F1239] cursor-pointer"
-            >
-              ⚡ Intercept Red-Flag Goblin (+30 XP)
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => {
+              const nextGoblin =
+                PATROL_GOBLINS.find((g) => !progress.defeatedGoblinIds.includes(g.id)) ??
+                PATROL_GOBLINS[0];
+              sfx.shockZoom();
+              setActiveEncounter({ type: 'goblin', goblin: nextGoblin });
+            }}
+            className="pop-btn h-11 w-full rounded-xl bg-[#FFE4E6] px-3 text-sm text-[#9F1239] cursor-pointer"
+          >
+            ⚡ Intercept Red-Flag Goblin
+          </button>
         </div>
       </div>
 
-      {/* 1-Tap Fast-Travel Venue Cards (Instant Jump or Walk!) */}
+      {/* Equal-Height 3x2 Fast-Travel Venue Grid */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
         {BUILDINGS.map((b) => (
           <button
@@ -1274,17 +1266,17 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
               onGainXp(15);
               onEnterEpisode(b.episodeId);
             }}
-            className="pop-btn rounded-2xl bg-white p-3.5 text-left hover:bg-[#FFFBEB] cursor-pointer flex items-center justify-between gap-2"
+            className="pop-btn h-20 rounded-2xl bg-white px-4 text-left hover:bg-[#FFFBEB] cursor-pointer flex items-center justify-between gap-3"
           >
             <div className="min-w-0">
-              <div className="text-xs font-extrabold text-[#D90452]">
+              <div className="text-xs font-bold text-[#D90452]">
                 {b.emoji} Fast-Travel Venue
               </div>
-              <div className="font-display text-base text-[#1E1022] leading-snug">
+              <div className="font-display text-base text-[#1E1022] leading-snug line-clamp-2">
                 {b.buttonName}
               </div>
             </div>
-            <span className="shrink-0 rounded-xl border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-1 text-xs font-extrabold text-[#1E1022]">
+            <span className="shrink-0 inline-flex h-9 items-center rounded-xl border-2 border-[#1E1022] bg-[#FFBE0B] px-3 text-xs font-bold text-[#1E1022]">
               Play →
             </span>
           </button>

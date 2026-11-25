@@ -2,8 +2,9 @@
 
 @layer base {
   :root {
-    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
-    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Fredoka', system-ui, -apple-system, sans-serif;
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-pixel: 'Silkscreen', monospace;
     --bg-canvas: #FFF7F0;
     --bg-card: #FFFFFF;
     --bg-well: #FFF4F7;
@@ -26,19 +27,24 @@
       radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255, 133, 161, 0.12), transparent 65%);
     background-attachment: fixed;
     color: var(--ink);
-    line-height: 1.55;
+    line-height: 1.5;
     overflow-x: hidden;
   }
 }
 
 .font-display {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   line-height: 1.15;
 }
 
-/* Palm Springs / Dream-Daddy Tactile Pop-Art Surface System */
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.02em;
+}
+
+/* Tactile Zynga / Dream-Daddy Game Surface & Button System */
 .vice-panel,
 .velvet-card,
 .pop-card {
@@ -56,9 +62,12 @@
 }
 
 .pop-btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.005em;
   border: 2px solid #1E1022;
   box-shadow: 3px 3px 0px #1E1022;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
 }
 .pop-btn:hover {
   transform: translate(-1px, -1px);
