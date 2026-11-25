@@ -3,6 +3,7 @@ import {
   Award,
   BookOpen,
   Crown,
+  Gamepad2,
   MessageCircle,
   Music,
   Newspaper,
@@ -23,8 +24,9 @@ import {
 
 interface TopHudBarProps {
   wallet: WalletState;
-  activeTab: 'game' | 'journal';
-  onSelectTab: (tab: 'game' | 'journal') => void;
+  activeTab: 'game' | 'world' | 'journal';
+  levelBadge?: string;
+  onSelectTab: (tab: 'game' | 'world' | 'journal') => void;
   onOpenFieldGuide: () => void;
   onOpenBoutique: () => void;
   onOpenLiveInbox: () => void;
@@ -36,6 +38,7 @@ interface TopHudBarProps {
 export const TopHudBar: React.FC<TopHudBarProps> = ({
   wallet,
   activeTab,
+  levelBadge,
   onSelectTab,
   onOpenFieldGuide,
   onOpenBoutique,
@@ -81,6 +84,24 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
         </button>
 
         <nav className="flex w-full lg:w-auto overflow-x-auto no-scrollbar items-center lg:justify-end gap-2 pb-0.5 lg:pb-0">
+          <button
+            type="button"
+            onClick={() => onSelectTab(activeTab === 'world' ? 'game' : 'world')}
+            className={`pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl px-3 text-sm font-extrabold cursor-pointer ${
+              activeTab === 'world'
+                ? 'bg-[#FF2E63] text-white'
+                : 'bg-[#ECFDF5] text-[#065F46] hover:bg-[#D1FAE5]'
+            }`}
+          >
+            <Gamepad2 className="h-4 w-4" />
+            <span>8-Bit World</span>
+            {levelBadge && (
+              <span className="hidden xl:inline rounded-md border border-[#1E1022] bg-[#FFBE0B] px-1.5 py-0.2 text-[11px] font-extrabold text-[#1E1022]">
+                {levelBadge}
+              </span>
+            )}
+          </button>
+
           <button
             type="button"
             onClick={onOpenLiveInbox}

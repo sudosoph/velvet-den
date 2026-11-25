@@ -1530,6 +1530,92 @@ const QigongMommyBreathGame: React.FC<{
   );
 };
 
+const SEED_OIL_SWAPS = [
+  {
+    id: 'canola',
+    bad: '🛢️ Ditch Canola & Soybean Oil → Swap to Cold-Pressed EVOO & Grass-Fed Ghee',
+    good: '✓ 100% Seed-Oil-Free Kitchen (EVOO, Tallow & Grass-Fed Ghee Only!)',
+  },
+  {
+    id: 'gluten',
+    bad: '🌾 Ditch Wheat Flour Pasta → Swap to Organic Cassava & Almond Fettuccine',
+    good: '✓ Certified 100% Gluten-Free Dinner Prep',
+  },
+  {
+    id: 'bernedoodle',
+    bad: '🐶 Prep Corner Crate & Organic Treats for Incoming Tricolor Mini Bernedoodle',
+    good: '✓ Tricolor Mini Bernedoodle "Miso" Waitlist Corner Ready!',
+  },
+  {
+    id: 'castiron',
+    bad: '🥩 Sear Grass-Fed Ribeye in Cast Iron for Wellness Mommy',
+    good: '✓ Tallow-Seared Ribeye Plated ("Good Boy" Praise Unlocked!)',
+  },
+] as const;
+
+const SeedOilBernedoodleAuditGame: React.FC<{
+  completed: boolean;
+  herName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, herName, onWin }) => {
+  const [swappedIds, setSwappedIds] = useState<string[]>(
+    completed ? SEED_OIL_SWAPS.map((s) => s.id) : [],
+  );
+
+  const handleSwap = (id: string) => {
+    if (completed || swappedIds.includes(id)) return;
+    sfx.hotspotFix();
+    const next = [...swappedIds, id];
+    setSwappedIds(next);
+    if (next.length === SEED_OIL_SWAPS.length) {
+      sfx.greenFlag();
+      onWin({ chivalry: 10, chemistry: 10 }, 'Seed-Oil-Free & Bernedoodle Ready');
+    }
+  };
+
+  const done = completed || swappedIds.length === SEED_OIL_SWAPS.length;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#FFBE0B]">
+          <Sparkles className="h-4 w-4 text-[#FF2E63]" /> {herName}’s Gluten/Seed-Oil-Free &amp; Mini Bernedoodle Audit ({swappedIds.length}/4)
+        </span>
+        <span className="text-xs font-bold text-stone-200">+10 Chivalry · +10 Chemistry</span>
+      </div>
+
+      <div className="grid gap-2">
+        {SEED_OIL_SWAPS.map((s) => {
+          const ok = done || swappedIds.includes(s.id);
+          return (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => handleSwap(s.id)}
+              className={`flex items-center justify-between gap-3 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm font-bold transition cursor-pointer ${
+                ok
+                  ? 'border-emerald-400 bg-emerald-950/70 text-emerald-100'
+                  : 'border-[#FFBE0B]/60 bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <span>{ok ? s.good : s.bad}</span>
+              <span className="shrink-0 rounded-full bg-[#FF2E63] px-2.5 py-0.5 text-xs font-extrabold text-white">
+                {ok ? 'CLEAN ✓' : 'UPGRADE →'}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {done && (
+        <div className="text-sm font-bold text-emerald-300">
+          🥑🐶 Zero seed oils, zero gluten, AND puppy-ready for her Tricolor Mini Bernedoodle (+20 stats)!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -1539,6 +1625,14 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   onWinBonus,
 }) => {
   switch (type) {
+    case 'seed_oil_audit':
+      return (
+        <SeedOilBernedoodleAuditGame
+          completed={alreadyCompleted}
+          herName={herName}
+          onWin={onWinBonus}
+        />
+      );
     case 'qigong_breath_sync':
       return (
         <QigongMommyBreathGame

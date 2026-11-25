@@ -5,6 +5,7 @@ import { MONETIZATION_CONFIG } from './config/monetization';
 import { AppSwipeStage } from './components/AppSwipeStage';
 import { BoutiqueAndVipModal } from './components/BoutiqueAndVipModal';
 import { CougarCubChecklistModal } from './components/CougarCubChecklistModal';
+import { EightBitAdventureWorld } from './components/EightBitAdventureWorld';
 import { EpisodeStage } from './components/EpisodeStage';
 import { FieldGuideModal } from './components/FieldGuideModal';
 import { LiveInboxModal } from './components/LiveInboxModal';
@@ -40,6 +41,12 @@ import {
   type RunPacingMode,
 } from './domain/gameEngine';
 import {
+  getLevelInfo,
+  grantAdventureXp,
+  loadAdventureProgress,
+  type AdventureProgressState,
+} from './domain/progression';
+import {
   analyzePairing,
   HER_ARCHETYPES,
   HIS_ARCHETYPES,
@@ -72,6 +79,7 @@ function readInitialUrlState() {
       stripeSessionId: null as string | null,
       refCode: null as string | null,
       openChecklist: false,
+      openWorld: false,
     };
   }
   const params = new URLSearchParams(window.location.search);
@@ -84,6 +92,7 @@ function readInitialUrlState() {
   const stripeSessionId = params.get('session_id');
   const refCode = params.get('ref');
   const openChecklist = params.get('checklist') === '1';
+  const openWorld = params.get('world') === '1';
 
   return {
     challenge: decoded,
@@ -94,6 +103,7 @@ function readInitialUrlState() {
     stripeSessionId,
     refCode,
     openChecklist,
+    openWorld,
   };
 }
 
@@ -129,8 +139,11 @@ export default function App() {
   const [pacingMode, setPacingMode] = useState<RunPacingMode>('curated');
   const [customEditCount, setCustomEditCount] = useState<number>(0);
   const [selectedVipIds, setSelectedVipIds] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState<'game' | 'journal'>(
-    initialUrl.journalSlug ? 'journal' : 'game',
+  const [adventureProgress, setAdventureProgress] = useState<AdventureProgressState>(() =>
+    loadAdventureProgress(),
+  );
+  const [activeTab, setActiveTab] = useState<'game' | 'world' | 'journal'>(
+    initialUrl.journalSlug ? 'journal' : initialUrl.openWorld ? 'world' : 'game',
   );
   const [fieldGuideOpen, setFieldGuideOpen] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
@@ -187,6 +200,28 @@ export default function App() {
   const updateWallet = (next: WalletState) => {
     setWallet(next);
     saveWallet(next);
+  };
+
+  const handleGainAdventureXp = (
+    deltaXp: number,
+    patch?: Partial<AdventureProgressState>,
+    rewardKey?: string,
+  ) => {
+    setAdventureProgress((prev) => {
+      const res = grantAdventureXp(prev, deltaXp, patch);
+      if (res.leveledUp) {
+        setNoticeBanner(
+          `🕹️ LEVEL UP! You reached Lv.${res.levelInfo.level} ${res.levelInfo.badgeEmoji} ${res.levelInfo.title}!`,
+        );
+      }
+      return res.next;
+    });
+    if (rewardKey) {
+      const bonus = grantRewardCredits(wallet, rewardKey, 1);
+      if (bonus.granted) {
+        updateWallet(bonus.wallet);
+      }
+    }
   };
 
   useEffect(() => {
@@ -480,6 +515,7 @@ export default function App() {
       <TopHudBar
         wallet={wallet}
         activeTab={activeTab}
+        levelBadge={`Lv.${getLevelInfo(adventureProgress.xp).level}`}
         onSelectTab={setActiveTab}
         onOpenFieldGuide={() => setFieldGuideOpen(true)}
         onOpenBoutique={() => setBoutiqueOpen(true)}
@@ -631,6 +667,22 @@ export default function App() {
               setPhase('episodes');
             }}
           />
+        ) : activeTab === 'world' ? (
+          <EightBitAdventureWorld
+            role={role}
+            herName={her.name}
+            hisName={his.name}
+            progress={adventureProgress}
+            defaultExpanded={true}
+            onGainXp={handleGainAdventureXp}
+            onEnterEpisode={(episodeId) => {
+              setRun(createRun(pairing, selectedVipIds, episodeId));
+              setActiveTab('game');
+              setPhase('episodes');
+            }}
+            onOpenFullTrivia={() => setPopTriviaOpen(true)}
+            onOpenFullChecklist={() => setChecklistOpen(true)}
+          />
         ) : phase === 'audition' && activeChallenge ? (
           <PartnerAuditionView
             challenge={activeChallenge}
@@ -668,12 +720,14 @@ export default function App() {
             run={run}
             credits={wallet.credits}
             onSelectChoice={(choiceIdx) => {
+              handleGainAdventureXp(20);
               setRun((prev) => {
                 if (!prev) return prev;
                 return applyEpisodeChoice(prev, choiceIdx);
               });
             }}
             onCompleteMinigame={(episodeId, bonus, badge) => {
+              handleGainAdventureXp(20);
               setRun((prev) => (prev ? applyMinigameBonus(prev, episodeId, bonus, badge) : prev));
             }}
             onRewindLast={() => {
@@ -776,6 +830,8 @@ export default function App() {
             onOpenChecklist={() => setChecklistOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
+            adventureProgress={adventureProgress}
+            onGainAdventureXp={handleGainAdventureXp}
             onJumpToMapScene={(episodeId) => {
               setRun(createRun(pairing, selectedVipIds, episodeId));
               setActiveTab('game');

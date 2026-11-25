@@ -34,8 +34,8 @@ const INBOX_CONTACTS: InboxContact[] = [
     role: 'her' as const,
     photoUrl: h.photoUrl,
     openingPrompt:
-      h.subplotTags.includes('qigong_mommy_domme')
-        ? `🧘‍♀️ Unclench your jaw and drop your shoulders before typing, sweet boy. I guide 6:30 AM Qigong & Tai Chi Cloud Hands—tell me your Friday plan, and promise you won’t try to Cubsplain breathwork to Mommy.`
+      h.subplotTags.includes('seed_oil_bernedoodle_mommy') || h.subplotTags.includes('qigong_mommy_domme')
+        ? `🧘‍♀️🥑 Unclench your jaw, sweet boy: I’m strictly gluten-free & seed-oil-free, guide 6:30 AM Qigong, and just moved up to #2 on the tricolor Mini Bernedoodle waitlist. Tell me your Friday dinner plan—and zero Cubsplaining.`
         : h.subplotTags.includes('black_cat_energy')
           ? `🐈‍⬛ Slow down, eager puppy—every guy in my inbox promises the moon on Day 1. I take my time and I’m not easy to impress. Why shouldn’t I make you wait till next week?`
           : h.subplotTags.includes('junior_cougar_gap')
@@ -57,11 +57,11 @@ const INBOX_CONTACTS: InboxContact[] = [
           : h.age >= 40
             ? `Can’t focus on this VP deck after last night—hope you hit bench press today because you’re carrying me straight upstairs at 8 🔥 What’s the plan?`
             : `Still blushing at my desk thinking about last night (right until I panicked realizing you’re my baby sister’s age 😱😂). Keep the spark going—what are you doing to me Friday?`,
-    quickChips: h.subplotTags.includes('qigong_mommy_domme')
+    quickChips: h.subplotTags.includes('seed_oil_bernedoodle_mommy') || h.subplotTags.includes('qigong_mommy_domme')
       ? [
-          'Yes, Mommy—shoulders dropped and podcast brain muted! Meet you at 6:30 AM in the bamboo courtyard for Qigong, Tai Chi Cloud Hands & warm jasmine oolong.',
-          'Booked us a quiet Friday 7:30 tea lounge & cedar sauna session—zero Cubsplaining, just following your lead.',
-          'Well actually let me explain how vagus-nerve breathwork works from a podcast I heard!!',
+          'Yes, Mommy—already called the chef to confirm 100% grass-fed ghee/olive-oil & gluten-free prep, plus bought a puppy toy for your tricolor Mini Bernedoodle!',
+          'Meet you at 6:30 AM in the bamboo courtyard for Qigong & Tai Chi Cloud Hands—podcast brain muted.',
+          'Well actually let me explain why canola oil and wheat are fine from a podcast I heard!!',
         ]
       : [
           'Take all the time you want—honestly a woman who doesn’t rush makes me 10x more excited. I’ll hold Friday at 7:30 at The Cougar Lounge whenever you’re ready.',

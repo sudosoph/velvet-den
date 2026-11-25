@@ -15,7 +15,8 @@ export type MinigameType =
   | 'roommate_kitchen_escape'
   | 'hobosexual_bag_intercept'
   | 'timeshare_interrogation'
-  | 'qigong_breath_sync';
+  | 'qigong_breath_sync'
+  | 'seed_oil_audit';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -4068,6 +4069,58 @@ export const EPISODES: Episode[] = [
           'Curiosity + booking recovery logistics earns effortless Wellness Mommy adoration.',
         toastBanner: 'TAI CHI PUSHING-HANDS SPARK +25',
         deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'seed-oil-gluten-free-bernedoodle-mommy',
+    act: 2,
+    stage: 2,
+    minigame: 'seed_oil_audit',
+    recommendedAffiliateId: 'cast-iron-steak-skillet',
+    requiredAnyTags: ['seed_oil_bernedoodle_mommy', 'qigong_mommy_domme', 'zero_proof_wellness'],
+    title: '🥑 Health-Nut Wellness Mommy: Zero Seed Oils, Gluten-Free Bliss & The Tricolor Mini Bernedoodle Waitlist!',
+    loreQuote:
+      'Wellness Mommy Lore • "100% gluten-free, zero industrial seed oils, and #3 on the waitlist for a Tricolor Mini Bernedoodle—when he calls the chef ahead AND puppy-proofs his baseboards!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'houseboy_apron',
+    setupHer:
+      'Your body is a temple, sweet boy: you are strictly **100% gluten-free and seed-oil-free** (grass-fed tallow, ghee & cold-pressed olive oil ONLY—not a drop of canola or soybean oil!), AND you just moved up to **#2 on the breeder’s waitlist to adopt a Tricolor Mini Bernedoodle puppy** named **Miso**. {hisName} ({hisAge}M) invites you over to cook Friday dinner at his place. What awaits you inside?',
+    setupHim:
+      'High-Stakes Health-Nut Mommy Vetting! {herName} ({herAge}F) glows like sunlit marble because she’s strictly **gluten-free & seed-oil-free**—and her eyes light up every time she checks her email from the **Tricolor Mini Bernedoodle** waitlist. You’re cooking for her tonight. How do you prove you’re Mommy’s ultimate co-pilot?',
+    choices: [
+      {
+        labelHer: 'He banished every bottle of canola oil and wheat flour, sears grass-fed ribeye in grass-fed ghee & cast iron with cassava sourdough, AND surprises you with a tiny woven collar tag engraved "MISO" for your incoming Tricolor Mini Bernedoodle!',
+        labelHim: 'Audit every ingredient (100% gluten-free cassava bread + grass-fed ghee & extra-virgin olive oil in cast iron—zero seed oils!), hide electrical cords at puppy-chew height, and surprise her with a handmade chew toy for her incoming Tricolor Mini Bernedoodle!',
+        outcomeHer:
+          'Zero bloat, zero canola contraband, AND he’s already prepping for your Tricolor Mini Bernedoodle?! You pull him in by his linen apron strings and whisper: "Good boy. You just moved to #1 on Mommy’s waitlist too."',
+        outcomeHim:
+          'Remembering her exact gluten-free & seed-oil-free standards AND celebrating her incoming Tricolor Mini Bernedoodle unlocks instant Mommy-Domme devotion!',
+        toastBanner: '🥑🐶 SEED-OIL-FREE & BERNEDOODLE CO-PILOT! • +30 CHEMISTRY',
+        deltas: { maturity: 25, chivalry: 30, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Tricolor Mini Bernedoodle & Seed-Oil-Free MVP',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He tries to "Cubsplain" that canola oil and gluten are "basically fine in moderation," serves wheat-breaded takeout fried in soybean oil, and calls Mini Bernedoodles "overpriced designer mops."',
+        labelHim: 'Cubsplain nutrition to a radiant Wellness Mommy while serving soybean-oil takeout and mocking her dream Tricolor Mini Bernedoodle.',
+        outcomeHer:
+          'INSULTING THE TRICOLOR MINI BERNEDOODLE WHILE SERVING SOYBEAN OIL AND WHEAT?! Grab your organic matcha and block him before the elevator doors close!',
+        outcomeHim:
+          'Never Cubsplain her wellness non-negotiables—and NEVER disrespect the incoming Tricolor Mini Bernedoodle.',
+        toastBanner: 'RED FLAG! • CANOLA OIL + PUPPY SLANDER (-30)',
+        deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Call the farm-to-table bistro chef together ahead of time to confirm 100% butter & olive-oil prep, then spend dessert comparing puppy crate setups.',
+        labelHim: 'Call the restaurant kitchen at 4 PM so the chef preps her entrée in 100% grass-fed butter & olive oil on a gluten-free pan—zero awkwardness at the table!',
+        outcomeHer:
+          'A Cub who quietly handles the kitchen seed-oil & gluten check before you even sit down is pure soft-life luxury.',
+        outcomeHim:
+          'Handling restaurant ingredient logistics ahead of time is top-1% chivalry.',
+        toastBanner: 'PROACTIVE CHEF CALL +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
       },
     ],
   },

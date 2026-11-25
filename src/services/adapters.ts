@@ -133,7 +133,7 @@ export function evaluateDmLocally(params: {
   const hasPlayfulMommyOrQigong =
     !hasSugarFreeloader &&
     !hasCubsplaining &&
-    /\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong)\b/.test(
+    /\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(
       lower,
     );
   const hasForYourAge = /for\s+(your|ur)\s+age/.test(lower) || /\blook\s+good\s+for\b/.test(lower);

@@ -33,18 +33,25 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 80 subplots accurately—including Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
-    expect(EPISODES.length).toBe(80);
-    expect(HER_ARCHETYPES.length).toBe(38);
+  it('routes 81 subplots accurately—including Seed-Oil-Free & Bernedoodle Mommy, Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(81);
+    expect(HER_ARCHETYPES.length).toBe(39);
     expect(HIS_ARCHETYPES.length).toBe(17);
 
     const sedona46 = HER_ARCHETYPES.find((h) => h.id === 'sedona-qigong-mommy')!;
+    const sloane42 = HER_ARCHETYPES.find((h) => h.id === 'sloane-seedoil-bernedoodle-mommy')!;
     const leoForSedona = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
     const sedonaIds = createRun(analyzePairing(sedona46, leoForSedona, 'him')).episodeQueue.map(
       (e) => e.id,
     );
     expect(sedonaIds).toContain('qigong-tai-chi-wellness-mommy-domme');
+    expect(sedonaIds).toContain('seed-oil-gluten-free-bernedoodle-mommy');
     expect(sedonaIds).toContain('zero-proof-mocktail-smoothie-date');
+
+    const sloaneIds = createRun(analyzePairing(sloane42, leoForSedona, 'him')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(sloaneIds).toContain('seed-oil-gluten-free-bernedoodle-mommy');
 
     const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
     const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
@@ -681,5 +688,43 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
 
     fireEvent.click(screen.getByRole('button', { name: /Yes, Mommy—podcast brain officially muted/i }));
     expect(screen.getByText(/MOMMY-DOMME QIGONG SYNC!/i)).toBeInTheDocument();
+  });
+
+  it('plays the Live 8-Bit Adventure World: adopts Tricolor Mini Bernedoodle, solves embedded Jukebox Trivia, zaps Red-Flag Goblin, and plays Seed-Oil-Free Mommy scene', () => {
+    render(<App />);
+
+    // Switch to full 8-Bit World tab
+    fireEvent.click(screen.getByRole('button', { name: /8-Bit World/i }));
+    expect(screen.getByText(/Live 8-Bit Adventure World/i)).toBeInTheDocument();
+
+    // Adopt Miso the Tricolor Mini Bernedoodle from Waitlist #1 (+35 XP)
+    fireEvent.click(screen.getByRole('button', { name: /Adopt Tricolor Mini Bernedoodle/i }));
+    expect(screen.getByText(/Miso \(Tricolor Bernedoodle\) Following/i)).toBeInTheDocument();
+
+    // Intercept & roast a roaming Red-Flag Goblin (+30 XP)
+    fireEvent.click(screen.getByRole('button', { name: /Intercept Red-Flag Goblin/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Roast & Zap Red-Flag Goblin/i }));
+    expect(screen.getByText(/Goblins Roasted: 1\/3/i)).toBeInTheDocument();
+
+    // Open embedded Jukebox Trivia right inside the 8-Bit Overworld
+    fireEvent.click(screen.getByRole('button', { name: /Jukebox Trivia/i }));
+    expect(screen.getByText(/8-Bit Jukebox Trivia/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Continue Walking/i }));
+
+    // Enter the Seed-Oil-Free & Tricolor Mini Bernedoodle Mommy venue and complete all 4 swaps
+    fireEvent.click(
+      screen.getByRole('button', { name: /Seed-Oil-Free & Tricolor Mini Bernedoodle Mommy/i }),
+    );
+    expect(
+      screen.getByText(/Gluten\/Seed-Oil-Free & Mini Bernedoodle Audit/i),
+    ).toBeInTheDocument();
+    const upgradeBtns = screen.getAllByRole('button', { name: /UPGRADE →/i });
+    expect(upgradeBtns).toHaveLength(4);
+    for (const btn of upgradeBtns) {
+      fireEvent.click(btn);
+    }
+    expect(
+      screen.getByText(/Zero seed oils, zero gluten, AND puppy-ready for her Tricolor Mini Bernedoodle/i),
+    ).toBeInTheDocument();
   });
 });

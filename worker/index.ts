@@ -313,13 +313,13 @@ function fallbackEvaluateDm(req: {
     };
   }
 
-  if (/\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong)\b/.test(lower)) {
+  if (/\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(lower)) {
     return {
-      herReply: `🧘‍♀️ Good boy—shoulders relaxed, zero Cubsplaining, and real follow-through. Meet Mommy in the bamboo courtyard at 6:30 AM for Qigong & jasmine oolong. 🍵`,
+      herReply: `🧘‍♀️🥑 Good boy—100% gluten & seed-oil free, zero Cubsplaining, and excited for my tricolor Mini Bernedoodle? Meet Mommy in the courtyard at 6:30 AM. 🍵`,
       maturityDelta: 22,
       chivalryDelta: 20,
       chemistryDelta: 25,
-      coachNote: 'Playful Mommy-Domme polarity + grounded effort unlocked!',
+      coachNote: 'Playful Wellness Mommy-Domme polarity + seed-oil-free care unlocked!',
       passedVibeCheck: true,
     };
   }
@@ -702,7 +702,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v15-qigong-mommy-audit',
+        version: 'v16-8bit-bernedoodle-mommy',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),

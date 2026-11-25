@@ -1445,10 +1445,10 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     activeAgo: 'Active 2m ago',
     spotifyAnthem: 'Khruangbin — Texas Sun',
     tinderBio:
-      '6:30 AM bamboo-courtyard Qigong, Yang-style Tai Chi Cloud Hands, and jasmine oolong 🧘‍♀️ Soft Mommy-Domme energy for an attentive, emotionally fluent Cub who drops his shoulders when I say "breathe with Mommy"—and never tries to Cubsplain a biohacking podcast to me.',
+      '6:30 AM bamboo-courtyard Qigong, 100% gluten-free & seed-oil-free (grass-fed ghee & olive oil ONLY), and #3 on the waitlist to adopt a tricolor Mini Bernedoodle 🧘‍♀️🐶 Soft Mommy-Domme praise for an attentive Cub who drops his shoulders when I say "breathe with Mommy"—and never tries to Cubsplain a podcast to me.',
     hingePromptQuestion: 'Two quickest ways to get my full Mommy-Domme praise',
     hingePromptAnswer:
-      'Show up grounded with zero Cubsplaining, match my slow Tai Chi breathwork, and remember Rule #1: Mommy-Domme means playful command & care—never an ATM.',
+      'Call the chef ahead to confirm zero canola/soybean oil & gluten-free prep, match my slow Tai Chi breathwork, and help me pick puppy names for my incoming tricolor Mini Bernedoodle.',
     ageShockZoom: false,
     ageShockQuipHer: 'Serene Wellness Mommy-Domme mastery.',
     ageShockQuipHim:

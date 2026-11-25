@@ -94,6 +94,9 @@ export function buildEpisodeQueue(
     if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
       pushById('black-cat-pushback-golden-retriever-test');
     }
+    if (tags.has('seed_oil_bernedoodle_mommy') || tags.has('qigong_mommy_domme')) {
+      pushById('seed-oil-gluten-free-bernedoodle-mommy');
+    }
     if (tags.has('qigong_mommy_domme')) {
       pushById('qigong-tai-chi-wellness-mommy-domme');
     }

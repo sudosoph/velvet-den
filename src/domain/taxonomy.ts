@@ -26,7 +26,8 @@ export type SubplotTag =
   | 'black_cat_energy'
   | 'golden_retriever_energy'
   | 'zero_proof_wellness'
-  | 'qigong_mommy_domme';
+  | 'qigong_mommy_domme'
+  | 'seed_oil_bernedoodle_mommy';
 
 export interface HerArchetype {
   id: string;
@@ -175,30 +176,86 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     id: 'sedona-qigong-mommy',
     name: 'Sedona',
     age: 46,
-    title: 'Qigong & Tai Chi Wellness Mommy-Domme',
-    shortHook: '6:30 AM bamboo-courtyard Qigong, soft Mommy-Domme praise & zero Cubsplaining.',
+    title: 'Qigong, Seed-Oil-Free & Bernedoodle Mommy-Domme',
+    shortHook: '6:30 AM Qigong, 100% gluten & seed-oil free, soft Mommy-Domme praise & Mini Bernedoodle waitlist.',
     tagline:
-      '46F Tai Chi & nervous-system studio founder: serene Mommy-Domme command, jasmine oolong, and "Breathe with Mommy, good boy."',
+      '46F Tai Chi & wellness founder: gluten & seed-oil free, #3 on the Tricolor Mini Bernedoodle waitlist, and "Breathe with Mommy, good boy."',
     vibeSummary:
-      'Guides dawn Qigong and slow Tai Chi Cloud Hands in a sunlit desert courtyard. Fixes an over-caffeinated Cub’s posture with two fingers under his chin, melts him with calm Mommy-Domme praise, and shuts down "Cubsplaining" with a single knowing smirk.',
+      'Guides dawn Qigong and slow Tai Chi Cloud Hands, cooks strictly gluten-free & seed-oil-free (grass-fed tallow, ghee & cold-pressed olive oil ONLY), and is on the breeder waitlist to adopt a tricolor Mini Bernedoodle named Miso. Fixes a Cub’s posture with two fingers under his chin and shuts down Cubsplaining with one smirk.',
     secretInsecurity:
-      'Everyone comes to her to be grounded and regulated—privately loves when an attentive Cub draws her herbal bath and rubs her feet without trying to lecture her on Huberman podcasts.',
-    subplotTags: ['qigong_mommy_domme', 'zero_proof_wellness', 'black_cat_energy', 'solo_sanctuary', 'done_with_kids'],
+      'Everyone comes to her to be grounded and regulated—privately melts when an attentive Cub calls the restaurant chef ahead to check for canola oil & gluten and brings puppy toys for incoming Miso.',
+    subplotTags: [
+      'qigong_mommy_domme',
+      'seed_oil_bernedoodle_mommy',
+      'zero_proof_wellness',
+      'black_cat_energy',
+      'solo_sanctuary',
+      'done_with_kids',
+    ],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/sedona-qigong-46f.jpg',
-    lookBadge: 'Auburn Silver Waves • Qigong Mommy-Domme',
-    statusPill: 'Tai Chi Sanctuary • Zero-Proof',
+    lookBadge: 'Auburn Silver Waves • Seed-Oil-Free Mommy-Domme',
+    statusPill: 'GF & Seed-Oil Free • Bernedoodle Waitlist',
     zodiac: '♍ Virgo Sun • ♏ Scorpio Rising',
     height: '5\'9"',
-    loveLanguage: 'Guided Qigong Breathwork & "Good Boy" Praise',
+    loveLanguage: 'Guided Qigong, Grass-Fed Ghee Cooking & "Good Boy" Praise',
     originOrAccent: 'Serene Sedona Velvet Cadence',
-    signatureDrink: 'Warm Jasmine Oolong & Adaptogen Matcha Smoothie',
+    signatureDrink: 'Warm Jasmine Oolong & Collagen Matcha (Zero Seed Oils)',
+    petName: 'Miso (Tricolor Mini Bernedoodle — Waitlist #3)',
     galleryPhotos: [
       { label: '🧘‍♀️ Dawn Qigong', url: './images/cast/sedona-qigong-46f.jpg' },
       { label: '🏔️ Canyon Trail', url: './images/cast/valerie-53f.jpg' },
-      { label: '🐾 Meadow Tea', url: './images/cast/dog-park-picnic.jpg' },
+      { label: '🐶 Puppy Picnic', url: './images/cast/dog-park-picnic.jpg' },
     ],
-    interests: ['Qigong & Tai Chi', 'Breathwork', 'Mommy-Domme Praise', 'Jasmine Oolong', 'Cold Plunge & Sauna'],
+    interests: [
+      'Qigong & Tai Chi',
+      '100% Gluten & Seed-Oil Free',
+      'Tricolor Mini Bernedoodle Waitlist',
+      'Mommy-Domme Praise',
+      'Cold Plunge & Sauna',
+    ],
+  },
+  {
+    id: 'sloane-seedoil-bernedoodle-mommy',
+    name: 'Sloane',
+    age: 42,
+    title: 'Holistic Health-Nut Mommy-Domme • Cougar',
+    shortHook: 'Strictly gluten & seed-oil free, grass-fed ghee chef & #2 on the tricolor Mini Bernedoodle waitlist.',
+    tagline:
+      '42F holistic nutrition founder: bans canola oil at 50 paces, bakes cassava sourdough, and rewards attentive Cubs with soft Mommy praise.',
+    vibeSummary:
+      'Reads every ingredient label in 1.4 seconds, cooks exclusively in grass-fed ghee, beef tallow & cold-pressed olive oil, and has a puppy nursery ready for her incoming tricolor Mini Bernedoodle puppy Miso.',
+    secretInsecurity:
+      'Tired of grumpy 44-year-old dates rolling their eyes when she asks the waiter about cooking oils—adores an enthusiastic Cub who calls the chef ahead so she never has to ask.',
+    subplotTags: [
+      'seed_oil_bernedoodle_mommy',
+      'qigong_mommy_domme',
+      'zero_proof_wellness',
+      'princess_treatment',
+      'solo_sanctuary',
+    ],
+    portraitVariant: 'cougar',
+    photoUrl: './images/cast/brooke-42f.jpg',
+    lookBadge: 'Sunlit Honey Waves • Health-Nut Wellness Mommy',
+    statusPill: '100% GF & Seed-Oil Free • Puppy Waitlist #2',
+    zodiac: '♉ Taurus Sun • ♍ Virgo Rising',
+    height: '5\'7"',
+    loveLanguage: 'Seed-Oil-Free Home Cooking & Puppy-Nursery Prep',
+    originOrAccent: 'Montecito Farmers-Market Warmth',
+    signatureDrink: 'Organic Tart-Cherry & Magnesium Mocktail',
+    petName: 'Miso (Tricolor Mini Bernedoodle — Waitlist #2)',
+    galleryPhotos: [
+      { label: '🥑 Clean Glow', url: './images/cast/brooke-42f.jpg' },
+      { label: '🐶 Puppy Lawn', url: './images/cast/dog-park-picnic.jpg' },
+      { label: '🏔️ Morning Walk', url: './images/cast/astrid-41f.jpg' },
+    ],
+    interests: [
+      'Zero Seed Oils',
+      '100% Gluten-Free',
+      'Tricolor Mini Bernedoodle',
+      'Grass-Fed Tallow & Ghee',
+      'Red-Light & Infrared Sauna',
+    ],
   },
   {
     id: 'scarlett-redhead-jaguar',
@@ -1667,6 +1724,16 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     insiderLore:
       'The ultimate nervous-system magnet: a radiant Qigong, Tai Chi, or Pilates Wellness Mommy who slows an anxious 26-year-old’s racing heart with two fingers under his chin and calm Mommy-Domme command ("Drop your shoulders and breathe with Mommy"). Rule #1 still holds: Mommy-Domme means romantic authority & praise—NEVER paying a freeloader’s rent!',
     signatureTell: 'Fixes his posture in 3 seconds flat and makes him forget every podcast he was about to Cubsplain.',
+  },
+  {
+    id: 'health_nut_bernedoodle_mommy',
+    label: '🥑🐶 Health-Nut Mommy (GF, Seed-Oil-Free & Mini Bernedoodle)',
+    ageRange: 'Clean-Living Royalty • Ages 35–55+',
+    category: 'crossover_lore',
+    headline: 'Grass-Fed Ghee, Zero Canola/Gluten & Moving Up the Tricolor Mini Bernedoodle Waitlist',
+    insiderLore:
+      'Cooks strictly in grass-fed tallow, ghee & cold-pressed extra-virgin olive oil, spots hidden soybean oil or gluten from across the dining room, and checks breeder updates twice a day as she climbs to #1 on the waitlist for a tricolor Mini Bernedoodle puppy. Top-1% Cubs call the chef at 4 PM to confirm butter/olive-oil prep and puppy-proof their apartment baseboards in advance.',
+    signatureTell: 'Whispers "Good boy" the second he swaps canola oil for grass-fed ghee and buys a puppy chew toy.',
   },
   {
     id: 'cubsplaining_lore',

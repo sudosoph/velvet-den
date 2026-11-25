@@ -39,9 +39,9 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
     episodeId: 'code-switch-texting',
   },
   {
-    id: 'seatwarmer',
-    text: 'Used a phone flashlight on a tiny menu—while he pre-heated your passenger-seat warmer.',
-    episodeId: 'candlelit-menu-font-seatwarmer',
+    id: 'seedoilbernedoodle',
+    text: 'Called a restaurant ahead for 100% gluten-free & seed-oil-free prep—while celebrating moving up the waitlist for a tricolor Mini Bernedoodle.',
+    episodeId: 'seed-oil-gluten-free-bernedoodle-mommy',
   },
   {
     id: 'twoqueens',

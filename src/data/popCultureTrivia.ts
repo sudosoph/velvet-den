@@ -183,4 +183,19 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     funFact:
       'A Qigong or Pilates Wellness Mommy-Domme loves melting an attentive Cub with serene command ("Drop your shoulders and breathe with Mommy")—zero ATM freeloading and zero Cubsplaining allowed!',
   },
+  {
+    id: 'health-nut-mommy-bernedoodle',
+    badge: '🥑🐶 Seed-Oil-Free & Mini Bernedoodle Lore',
+    question:
+      'When courting a 100% Gluten-Free & Seed-Oil-Free Health-Nut Wellness Mommy who just hit #2 on the Tricolor Mini Bernedoodle waitlist, what is the top-1% Cub move?',
+    options: [
+      'Order wheat mozzarella sticks deep-fried in soybean oil',
+      'Call the chef at 4 PM to confirm grass-fed butter/olive-oil & GF prep, stock grass-fed ghee at home, and puppy-proof your baseboards for her incoming Bernedoodle!',
+      'Cubsplain that canola oil is actually a vegetable',
+      'Ask her to split the gluten-free bread surcharge on Venmo',
+    ],
+    correctIndex: 1,
+    funFact:
+      'Taking the ingredient-check mental load off a gluten-free, seed-oil-free Wellness Mommy—and hyping up her incoming tricolor Mini Bernedoodle—earns instant #1 Co-Pilot status!',
+  },
 ];

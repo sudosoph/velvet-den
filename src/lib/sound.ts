@@ -170,6 +170,26 @@ export const sfx = {
       playTone(f, 0.22, 'triangle', 0.08, idx * 0.08);
     });
   },
+  pixelStep(frame = 0) {
+    playTone(frame % 2 === 0 ? 190 : 230, 0.03, 'square', 0.022);
+  },
+  pixelCoin() {
+    playTone(987.77, 0.075, 'square', 0.055, 0);
+    playTone(1318.51, 0.18, 'square', 0.06, 0.07);
+  },
+  pixelZap() {
+    playTone(680, 0.08, 'square', 0.065, 0, 220);
+    playTone(880, 0.12, 'square', 0.06, 0.06, 1240);
+  },
+  puppyBark() {
+    playTone(540, 0.065, 'triangle', 0.07, 0, 760);
+    playTone(620, 0.075, 'triangle', 0.07, 0.09, 860);
+  },
+  levelUp8Bit() {
+    [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f, idx) => {
+      playTone(f, 0.14, 'square', 0.065, idx * 0.065);
+    });
+  },
 };
 
 export function playVoiceNotePreview(
