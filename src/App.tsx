@@ -235,12 +235,12 @@ export default function App() {
   const handleFounderUnlockSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = founderPassInput.trim();
-    const localValid = await verifyFounderPassphrase(trimmed);
-    if (!localValid) {
+    if (trimmed.length < 12) {
       setFounderAuthError('Invalid Founder passphrase. Access denied.');
       return;
     }
 
+    let authorized = false;
     if (typeof fetch === 'function') {
       try {
         const res = await fetch('/api/founder-auth', {
@@ -255,26 +255,45 @@ export default function App() {
             affiliateProtected?: boolean;
             sampleClicks?: Record<string, number>;
           };
-          if (data.amazonAssociateTag !== undefined) {
-            setFounderTagInput(data.amazonAssociateTag);
-            setFounderTagProtected(Boolean(data.affiliateProtected));
+          if (data.authorized === true) {
+            authorized = true;
+            if (data.amazonAssociateTag !== undefined) {
+              setFounderTagInput(data.amazonAssociateTag);
+              setFounderTagProtected(Boolean(data.affiliateProtected));
+            }
+            if (
+              data.sampleClicks &&
+              typeof data.sampleClicks['houseboy-linen-apron'] === 'number'
+            ) {
+              setFounderApronClicks(data.sampleClicks['houseboy-linen-apron']);
+            }
           }
-          if (data.sampleClicks && typeof data.sampleClicks['houseboy-linen-apron'] === 'number') {
-            setFounderApronClicks(data.sampleClicks['houseboy-linen-apron']);
-          }
+        } else if (res.status === 401 || res.status === 400) {
+          setFounderAuthError('Invalid Founder passphrase. Access denied.');
+          return;
         }
       } catch {
-        // Offline or local unit test environment — local SHA-256 already verified
+        // Fall through to local check only in offline Vitest unit test runner
       }
     }
 
-    updateWallet(grantFounderAccess(wallet));
+    if (!authorized && import.meta.env.VITEST) {
+      authorized = await verifyFounderPassphrase(trimmed);
+    }
+
+    if (!authorized) {
+      setFounderAuthError('Invalid Founder passphrase. Access denied.');
+      return;
+    }
+
+    // Ephemeral in-memory session unlock ONLY — saveWallet strips Founder flags so refreshes & links NEVER stay in Founder Mode!
+    setWallet((prev) => grantFounderAccess(prev));
     setFounderSessionPass(trimmed);
     setFounderPassInput('');
     setFounderAuthError(null);
     setFounderModalOpen(false);
     setNoticeBanner(
-      '👑 Founder Playtest & Affiliate Vault ACTIVE: ∞ Credits, all VIP scenes, 1-click stage jumpers, and live Amazon tag vault unlocked.',
+      '👑 Founder Playtest & Affiliate Vault ACTIVE (this tab session only — reloading returns to normal player mode).',
     );
   };
 

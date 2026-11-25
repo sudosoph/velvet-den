@@ -2,21 +2,11 @@ import { MONETIZATION_CONFIG } from '../config/monetization';
 
 export const WALLET_STORAGE_KEY = 'velvet_den_wallet_v1';
 
-/**
- * Salted SHA-256 digest of the Founder passphrase.
- * Plaintext password is NEVER stored in client or repository source.
- */
-export const FOUNDER_SALT = 'cc_founder_v1:';
-export const FOUNDER_SHA256_HEX =
-  '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac';
-const FOUNDER_SESSION_PROOF = FOUNDER_SHA256_HEX.slice(0, 24);
-
 export interface WalletState {
   credits: number;
   lastRefillDate: string;
   isVip: boolean;
   isFounderUnlimited?: boolean;
-  founderSessionToken?: string;
   referralCode?: string;
   unlockedEpisodeIds: string[];
   claimedRewards: string[];
@@ -75,11 +65,18 @@ function constantTimeEquals(a: string, b: string): boolean {
 }
 
 export async function verifyFounderPassphrase(passphrase: string): Promise<boolean> {
+  if (!import.meta.env.VITEST) {
+    // Production verification happens exclusively server-side at POST /api/founder-auth
+    return false;
+  }
   const trimmed = passphrase.trim();
   if (trimmed.length < 12) return false;
   try {
-    const hash = await sha256Hex(`${FOUNDER_SALT}${trimmed}`);
-    return constantTimeEquals(hash, FOUNDER_SHA256_HEX);
+    const hash = await sha256Hex(`cc_founder_v1:${trimmed}`);
+    return constantTimeEquals(
+      hash,
+      '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac',
+    );
   } catch {
     return false;
   }
@@ -88,19 +85,20 @@ export async function verifyFounderPassphrase(passphrase: string): Promise<boole
 export function grantFounderAccess(wallet: WalletState): WalletState {
   return {
     ...wallet,
-    isVip: true,
     isFounderUnlimited: true,
-    founderSessionToken: FOUNDER_SESSION_PROOF,
-    credits: Math.max(wallet.credits, 999),
   };
 }
 
 export function revokeFounderAccess(wallet: WalletState): WalletState {
+  const hasRealVipClaim = wallet.claimedRewards.some(
+    (r) => r.startsWith('stripe_') || r.startsWith('code_'),
+  );
   return {
     ...wallet,
     isFounderUnlimited: false,
-    founderSessionToken: undefined,
-    credits: MONETIZATION_CONFIG.dailyFreeCredits,
+    isVip: hasRealVipClaim ? wallet.isVip : false,
+    credits:
+      wallet.credits >= 900 ? MONETIZATION_CONFIG.dailyFreeCredits : wallet.credits,
   };
 }
 
@@ -133,7 +131,9 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
       return fresh;
     }
 
-    const parsed = JSON.parse(raw) as Partial<WalletState>;
+    const parsed = JSON.parse(raw) as Partial<WalletState> & {
+      founderSessionToken?: string;
+    };
     if (
       typeof parsed !== 'object' ||
       parsed === null ||
@@ -145,36 +145,46 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
       return recovered;
     }
 
+    const claimedRewards = Array.isArray(parsed.claimedRewards) ? parsed.claimedRewards : [];
+    const hadLegacyFounderState =
+      Boolean(parsed.isFounderUnlimited) ||
+      Boolean(parsed.founderSessionToken) ||
+      parsed.credits >= 900;
+
+    const hasRealVipClaim = claimedRewards.some(
+      (r) => r.startsWith('stripe_') || r.startsWith('code_'),
+    );
+
     const lastDate = typeof parsed.lastRefillDate === 'string' ? parsed.lastRefillDate : today;
+    const baseCredits = hadLegacyFounderState
+      ? MONETIZATION_CONFIG.dailyFreeCredits
+      : parsed.credits;
     const credits =
       lastDate < today
-        ? Math.max(parsed.credits, MONETIZATION_CONFIG.dailyFreeCredits)
-        : Math.max(0, Math.floor(parsed.credits));
+        ? Math.max(baseCredits, MONETIZATION_CONFIG.dailyFreeCredits)
+        : Math.max(0, Math.floor(baseCredits));
 
     const referralCode =
       typeof parsed.referralCode === 'string' && /^vd[a-z0-9]{4,8}$/.test(parsed.referralCode)
         ? parsed.referralCode
         : generateReferralCode();
 
-    const verifiedFounder =
-      Boolean(parsed.isFounderUnlimited) &&
-      parsed.founderSessionToken === FOUNDER_SESSION_PROOF;
-
+    // CRITICAL SECURITY INVARIANT: Never auto-load Founder Mode from localStorage!
+    // Every visitor & page load starts as a normal player unless unlocked in-memory via /api/founder-auth.
     const normalized: WalletState = {
       credits,
       lastRefillDate: lastDate < today ? today : lastDate,
-      isVip: Boolean(parsed.isVip),
-      isFounderUnlimited: verifiedFounder,
-      founderSessionToken: verifiedFounder ? FOUNDER_SESSION_PROOF : undefined,
+      isVip: hadLegacyFounderState ? hasRealVipClaim && Boolean(parsed.isVip) : Boolean(parsed.isVip),
+      isFounderUnlimited: false,
       referralCode,
       unlockedEpisodeIds: Array.isArray(parsed.unlockedEpisodeIds) ? parsed.unlockedEpisodeIds : [],
-      claimedRewards: Array.isArray(parsed.claimedRewards) ? parsed.claimedRewards : [],
+      claimedRewards,
       unlockedStamps: Array.isArray(parsed.unlockedStamps)
         ? parsed.unlockedStamps
         : ['puma', 'cougar'],
     };
 
-    if (lastDate < today || !parsed.referralCode) {
+    if (lastDate < today || !parsed.referralCode || hadLegacyFounderState) {
       saveWallet(normalized, store);
     }
     return normalized;
@@ -189,7 +199,12 @@ export function saveWallet(wallet: WalletState, storage?: StorageLike): void {
   const store = storage ?? getDefaultStorage();
   if (!store) return;
   try {
-    store.setItem(WALLET_STORAGE_KEY, JSON.stringify(wallet));
+    // Strip ephemeral Founder session flag so localStorage can NEVER auto-boot anyone into Founder Mode
+    const { isFounderUnlimited: _ephemeralFounder, ...persisted } = wallet;
+    store.setItem(
+      WALLET_STORAGE_KEY,
+      JSON.stringify({ ...persisted, isFounderUnlimited: false }),
+    );
   } catch {
     // Ignore QuotaExceededError in private mode
   }

@@ -73,21 +73,31 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     expect(applyUnlockCodeOrQuery(initial, 'foundermode').unlocked).toBeNull();
     expect(applyUnlockCodeOrQuery(initial, '?founder=1').unlocked).toBeNull();
 
-    // Forged localStorage without valid session proof is rejected by loadWallet
-    const forged = makeMemoryStorage({
-      velvet_den_wallet_v1: JSON.stringify({ ...initial, isFounderUnlimited: true }),
+    // Stale or forged localStorage (including legacy 999-credit founder tokens) is ALWAYS scrubbed to normal player mode on load!
+    const legacyFounderStorage = makeMemoryStorage({
+      velvet_den_wallet_v1: JSON.stringify({
+        ...initial,
+        credits: 999,
+        isVip: true,
+        isFounderUnlimited: true,
+        founderSessionToken: '6db6ba6ecc5e83f90d1678b2',
+      }),
     });
-    expect(loadWallet(forged, new Date('2026-11-24T12:00:00Z')).isFounderUnlimited).toBe(false);
+    const scrubbed = loadWallet(legacyFounderStorage, new Date('2026-11-24T12:00:00Z'));
+    expect(scrubbed.isFounderUnlimited).toBe(false);
+    expect(scrubbed.isVip).toBe(false);
+    expect(scrubbed.credits).toBe(10);
 
     // Salted SHA-256 passphrase verification succeeds only with exact private passphrase
     expect(await verifyFounderPassphrase('foundermode')).toBe(false);
     expect(await verifyFounderPassphrase('wrong-passphrase-2026')).toBe(false);
     expect(await verifyFounderPassphrase('ChampagneClub!2026#Sophia')).toBe(true);
 
+    // Ephemeral in-memory Founder unlock NEVER persists to localStorage across page reloads!
     const granted = grantFounderAccess(initial);
     expect(granted.isFounderUnlimited).toBe(true);
     saveWallet(granted, storage);
-    expect(loadWallet(storage, new Date('2026-11-24T12:00:00Z')).isFounderUnlimited).toBe(true);
+    expect(loadWallet(storage, new Date('2026-11-24T12:00:00Z')).isFounderUnlimited).toBe(false);
     expect(revokeFounderAccess(granted).isFounderUnlimited).toBe(false);
 
     const orig = MONETIZATION_CONFIG.sandboxPreviewMode;
