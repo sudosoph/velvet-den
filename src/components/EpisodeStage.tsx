@@ -24,7 +24,14 @@ interface EpisodeStageProps {
   onFinishRun: () => void;
 }
 
-const STAGES: RelationshipStage[] = [1, 2, 3, 4, 5];
+const STAGE_PILLS: { stage: RelationshipStage; short: string }[] = [
+  { stage: 1, short: '1·Spark' },
+  { stage: 2, short: '2·Rhythm' },
+  { stage: 3, short: '3·Doors' },
+  { stage: 4, short: '4·Public' },
+  { stage: 5, short: '5·Doubt' },
+  { stage: 6, short: '6·Future' },
+];
 
 export const EpisodeStage: React.FC<EpisodeStageProps> = ({
   run,
@@ -131,9 +138,9 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
           </div>
         </div>
 
-        {/* 5-Stage Relationship Stepper */}
-        <div className="grid grid-cols-5 gap-1.5">
-          {STAGES.map((st) => {
+        {/* 6-Stage Relationship Stepper (including Stage 5: The Doubt!) */}
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+          {STAGE_PILLS.map(({ stage: st, short }) => {
             const reached = st <= activeStage;
             const current = st === activeStage;
             return (
@@ -141,13 +148,15 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 key={st}
                 className={`rounded-lg px-2 py-1 text-center text-[10px] font-extrabold transition ${
                   current
-                    ? 'bg-gradient-to-r from-rose-500 to-amber-400 text-slate-950 shadow'
+                    ? st === 5
+                      ? 'bg-gradient-to-r from-fuchsia-500 to-rose-400 text-white shadow ring-1 ring-amber-300'
+                      : 'bg-gradient-to-r from-rose-500 to-amber-400 text-slate-950 shadow'
                     : reached
                       ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-400/30'
                       : 'bg-black/40 text-slate-500'
                 }`}
               >
-                S{st}
+                {short}
               </div>
             );
           })}

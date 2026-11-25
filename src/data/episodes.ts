@@ -1,14 +1,15 @@
 import type { FelineTier, SubplotTag } from '../domain/taxonomy';
 
-export type RelationshipStage = 1 | 2 | 3 | 4 | 5;
-export type MinigameType = 'check_reflex' | 'trail_pace' | 'room_audit';
+export type RelationshipStage = 1 | 2 | 3 | 4 | 5 | 6;
+export type MinigameType = 'check_reflex' | 'trail_pace' | 'room_audit' | 'doubt_spiral';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
   2: 'Stage 2 • Courting Rhythm',
   3: 'Stage 3 • Behind Closed Doors',
   4: 'Stage 4 • Friends, Family & Public',
-  5: 'Stage 5 • The Real Future',
+  5: 'Stage 5 • The Doubt ("Can This Actually Work?")',
+  6: 'Stage 6 • The Real Future',
 };
 
 export interface StatDeltas {
@@ -482,8 +483,8 @@ export const EPISODES: Episode[] = [
   {
     id: 'fertility-kids-crossroads',
     act: 3,
-    stage: 5,
-    title: 'Stage 5 Finale: The Kids & Timeline Crossroads',
+    stage: 6,
+    title: 'Stage 6 Finale: The Kids & Timeline Crossroads',
     subredditThreadInspiration: 'r/CougarsAndCubs: "She’s done having kids / can’t have more, and we fell deeply in love"',
     isVip: false,
     creditCost: 0,
@@ -676,9 +677,9 @@ export const EPISODES: Episode[] = [
   {
     id: 'puma-one-and-done-clock',
     act: 3,
-    stage: 5,
+    stage: 6,
     allowedTiers: ['lynx', 'puma'],
-    title: 'Stage 5 Finale: The 36F "One-and-Done" vs. Baby #2 Timeline',
+    title: 'Stage 6 Finale: The 36F "One-and-Done" vs. Baby #2 Timeline',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Pumas in late 30s—everyone assumes we’re rushing for another baby, or he assumes we have 10 years to decide"',
     isVip: false,
     creditCost: 0,
@@ -966,9 +967,9 @@ export const EPISODES: Episode[] = [
   {
     id: 'jaguar-lat-living-apart',
     act: 3,
-    stage: 5,
+    stage: 6,
     allowedTiers: ['jaguar'],
-    title: 'Stage 5 Finale: "Living Apart Together" (LAT) Commitment',
+    title: 'Stage 6 Finale: "Living Apart Together" (LAT) Commitment',
     subredditThreadInspiration: 'r/CougarsAndCubs: "50s Jaguars in multi-year relationships—why Living Apart Together (LAT) is the ultimate cheat code"',
     isVip: false,
     creditCost: 0,
@@ -1111,9 +1112,9 @@ export const EPISODES: Episode[] = [
   {
     id: 'panther-timeline-75-45',
     act: 3,
-    stage: 5,
+    stage: 6,
     allowedTiers: ['panther'],
-    title: 'Stage 5 Finale: "When I’m 75 and You’re 45..."',
+    title: 'Stage 6 Finale: "When I’m 75 and You’re 45..."',
     subredditThreadInspiration: 'r/CougarsAndCubs: "25–35 year gaps—talking honestly about aging timelines and choosing real love today"',
     isVip: false,
     creditCost: 0,
@@ -1155,6 +1156,231 @@ export const EPISODES: Episode[] = [
           'Integrity and transparency build unshakeable trust.',
         toastBanner: 'PURE-HEART INTEGRITY +25',
         deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+
+  // --- 4 STAGE 5 DOUBT EPISODES ("CAN THIS ACTUALLY WORK?") ---
+  {
+    id: 'doubt-puma-divorce-scar',
+    act: 3,
+    stage: 5,
+    minigame: 'doubt_spiral',
+    allowedTiers: ['lynx', 'puma'],
+    title: 'Stage 5 • The Doubt: Post-Divorce Cold Feet ("Can This Actually Work?")',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Everything is amazing—why am I suddenly terrified of getting hurt by a 25-year-old and pulling away?"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Four months in, the honeymoon rush turns into real love—and panic hits at 2 AM. You already rebuilt your life once after divorce. Watching {hisName} ({hisAge}M) sleep peacefully, a cold wave asks: *Can this actually work in real life, or will he wake up at 29 wanting a carefree girl with zero history?*',
+    setupHim:
+      'Everything was electric—then suddenly {herName} ({herAge}F) went quiet all Sunday. Over rain-streaked tea, she admits the doubt keeping her awake: *Can a divorced woman in her 30s and a {hisAge}-year-old man actually go the distance without breaking each other’s hearts?*',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 2 AM spiral: "I survived one heartbreak already. Am I crazy betting my real heart on a man who hasn’t lived through mortgages or custody storms yet?"',
+      hisDoubt:
+        'His 2 AM spiral: "Why is she pulling back right when it got real? Does she think I’m just her fun post-divorce chapter until a 39-year-old executive shows up?"',
+    },
+    recommendedAffiliateId: 'after-dark-couples-deck',
+    choices: [
+      {
+        labelHer: 'Voice the fear instead of self-sabotaging—and let him prove through steady Tuesday reliability (not big speeches) that he’s anchored.',
+        labelHim: 'Don’t get defensive—hold space for her scar, name your own fear of being seen as a rebound, and prove steadiness on unglamorous weekdays.',
+        outcomeHer:
+          'Naming the fear broke its spell. Instead of love-bombing promises, he showed up Tuesday with groceries, zero drama, and rock-solid calm—proving this actually works.',
+        outcomeHim:
+          'You didn’t argue her feelings away—you met her vulnerability with calm consistency, turning the scariest doubt wobble into deeper trust.',
+        toastBanner: 'DOUBT STAGE WEATHERED! • EQ +25 • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 15, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Weathered The Doubt Together',
+      },
+      {
+        labelHer: 'Preemptively blow it up via text ("Let’s end this before someone gets hurt") without giving him a voice.',
+        labelHim: 'Snap angrily ("Fine, go date some boring 42-year-old then!") and storm out.',
+        outcomeHer:
+          'Self-sabotaging out of fear protects your pride for five minutes and leaves an ache for months.',
+        outcomeHim:
+          'Exploding when she shares her deepest fear confirms every worry she had about emotional maturity.',
+        toastBanner: 'RED FLAG! • FEAR-DRIVEN SELF-SABOTAGE (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Slow the pace slightly for two weeks while talking openly instead of ghosting.',
+        labelHim: 'Give her breathing room without pulling away—stay warm, punctual, and pressure-free.',
+        outcomeHer:
+          'Steady nervous-system regulation beats panic moves every time.',
+        outcomeHim:
+          'Calm patience proves you aren’t going anywhere when real emotions surface.',
+        toastBanner: 'STEADY NERVOUS SYSTEM +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 10, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'doubt-cougar-honeymoon-cliff',
+    act: 3,
+    stage: 5,
+    minigame: 'doubt_spiral',
+    allowedTiers: ['cougar'],
+    title: 'Stage 5 • The Doubt: The Wedding "+1" Reality Check ("Can This Actually Work?")',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Inside our bubble it’s magic, then a corporate gala/wedding invite arrives and the doubt hits hard"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'A heavy cream envelope lands on your island: your industry colleague’s formal wedding (`+1` RSVP due Friday). Suddenly the bedroom bubble collides with real life—career gaps, colleagues whispering, ten-year horizons—and you stare at the card wondering: *Can {herAge}F and {hisAge}M actually work out in the daylight world?*',
+    setupHim:
+      'You spot the unmailed wedding RSVP on {herName}’s counter with the `+1` box still blank. When you ask gently, her voice catches: *"Inside this house we’re effortless—but out there in our two completely different worlds, can this actually work?"*',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 2 AM spiral: "Am I fooling myself thinking hot weekend chemistry survives corporate tables, career stages, and a 15-to-20 year gap?"',
+      hisDoubt:
+        'His 2 AM spiral: "That blank +1 box stings—is she secretly waiting for the clock to run out on us before letting me into her real life?"',
+    },
+    recommendedAffiliateId: 'after-dark-couples-deck',
+    choices: [
+      {
+        labelHer: 'Put down the armor, admit why the blank RSVP scared you, and check the "+1" box with {hisName}’s name in ink right there together.',
+        labelHim: 'Meet her eyes calmly: "We don’t owe a ballroom of strangers an explanation—let’s test us in real daylight, starting with that +1 box."',
+        outcomeHer:
+          'Writing his name in ink felt like jumping off a cliff—and watching him beam with quiet pride proved your bubble belongs in the whole world.',
+        outcomeHim:
+          'She picks up the pen, writes your full name on the RSVP card, and exhales like a ten-pound weight just left her chest.',
+        toastBanner: 'REAL-WORLD DOUBT CONQUERED! • MATURITY +25 • EQ +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Checked the "+1" Box in Ink',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'RSVP "Attending Solo" in secret and pretend the relationship only exists Friday after 8 PM.',
+        labelHim: 'Ultimatum-spiral at midnight ("Put me on Instagram right now or we’re done!").',
+        outcomeHer:
+          'Keeping a devoted partner in a secret Friday-night compartment slowly poisons the real thing.',
+        outcomeHim:
+          'Turning vulnerable doubt into an angry midnight ultimatum blows up the bridge instead of crossing it.',
+        toastBanner: 'RED FLAG! • SECRET-COMPARTMENT SPIRAL (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Bridge the worlds first with a relaxed dinner alongside your two closest work peers.',
+        labelHim: 'Suggest grabbing casual drinks with two of her work friends first so the wedding feels effortless.',
+        outcomeHer:
+          'Smart bridge-building dissolves the scary unknown in one evening.',
+        outcomeHim:
+          'Low-stakes integration turns anxiety into confidence.',
+        toastBanner: 'SMART WORLD-BRIDGING +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'doubt-jaguar-worlds-collide',
+    act: 3,
+    stage: 5,
+    minigame: 'doubt_spiral',
+    allowedTiers: ['jaguar'],
+    title: 'Stage 5 • The Doubt: The "Am I Stealing His 20s?" Spiral',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "53F Jaguar—almost broke up with my amazing cub out of fear I was holding him back from someone his own age"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Sunday sunset after seeing {hisName}’s friends post engagement parties and backpacking trips. A fierce wave of protective doubt hits your chest: you’ve already lived your 20s, raised kids, built your empire. *Can this actually work without quietly stealing milestones from him—or risking your hard-won peace?*',
+    setupHim:
+      'Out on the canyon overlook, {herName} ({herAge}F) goes uncharacteristically quiet—about to pull the classic noble martyr move: *"Maybe I’m being selfish keeping you when you could build a normal life with someone {hisAge}..."*',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 2 AM spiral: "I love him enough to let him go if loving me shrinks his life. Can two people twenty-five years apart truly want the same road?"',
+      hisDoubt:
+        'His 2 AM spiral: "Please don’t make decisions *for* me like I’m a kid! How do I make her see I’m choosing her with wide-open adult agency?"',
+    },
+    choices: [
+      {
+        labelHer: 'Drop the noble-martyr shield—respect {hisName}’s adult agency to choose his own life instead of deciding for him out of fear.',
+        labelHim: 'Stop the martyr speech gently but firmly: "I’m a grown man, {herName}—respect me enough to let *me* decide what makes my life full. It’s you."',
+        outcomeHer:
+          'Hearing him claim his adult agency snapped you right out of the fear spiral. Treating him as an equal means trusting his yes.',
+        outcomeHim:
+          'Firm, loving clarity cuts straight through her protective armor—she pulls you close, done trying to talk you out of loving her.',
+        toastBanner: 'MARTYR SPIRAL BROKEN! • MATURITY +30 • EQ +25',
+        deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Equal Adult Agency Certified',
+      },
+      {
+        labelHer: 'Send a unilateral "I’m setting you free for your own good" breakup text and block replies.',
+        labelHim: 'Beg desperately ("I’ll give up my friends and hobbies just don’t leave!").',
+        outcomeHer:
+          'Deciding what’s "best for him" unilaterally treats your partner like a child instead of an equal.',
+        outcomeHim:
+          'Offering to shrink your whole life validates her exact fear that the relationship costs too much!',
+        toastBanner: 'RED FLAG! • AGENCY BREAKDOWN (-20)',
+        deltas: { maturity: -20, chivalry: -10, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Check in explicitly every six months so both of your lives keep expanding rather than shrinking.',
+        labelHim: 'Keep thriving in your own career and friendships while showing steady devotion—proving neither of you shrinks.',
+        outcomeHer:
+          'Seeing his life expand *because* of your love silences every doubt.',
+        outcomeHim:
+          'Thriving alongside her proves the partnership adds to both lives.',
+        toastBanner: 'EXPANSIVE PARTNERSHIP +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'doubt-panther-real-world-gravity',
+    act: 3,
+    stage: 5,
+    minigame: 'doubt_spiral',
+    allowedTiers: ['panther'],
+    title: 'Stage 5 • The Doubt: When Glamour Meets Real-World Gravity',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "60+ Panther—catching the flu / minor surgery made me wonder if a younger man stays when the glamour is off"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'No emerald velvet tonight: a sprained ankle and fever leave you in flannel pajamas with zero makeup and an ice pack. When {hisName} ({hisAge}M) texts that he’s heading over, a sharp doubt hits: *Anyone loves a Panther over Palm Springs martinis—can this actually work when real-life vulnerability walks in?*',
+    setupHim:
+      '{herName} ({herAge}F) twisted her ankle and caught a nasty chill—and suddenly tells you *"Don’t come over this week, wait till I’m presentable."* You can hear the real fear underneath: *Does a younger man stay when the silver-screen glamour turns off?*',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 2 AM spiral: "If he sees me tired, mortal, and unglamorous, does the spell break right here?"',
+      hisDoubt:
+        'His 2 AM spiral: "She thinks I’m only in love with an untouchable icon—how do I show her I love the real human woman underneath?"',
+    },
+    choices: [
+      {
+        labelHer: 'Unlock the front door in your flannel pajamas—let him bring homemade soup, swap the ice pack, and see the real woman behind the icon.',
+        labelHim: 'Show up softly with homemade lemon-ginger soup, fresh tea, and zero fuss—making her laugh in flannel pajamas with unmistakable tenderness.',
+        outcomeHer:
+          'Watching a {hisAge}-year-old man tuck a blanket over your ankle and look at you with even deeper adoration in zero makeup answered "Can this work?" forever.',
+        outcomeHim:
+          'Letting her rest without needing to perform "glamorous Panther" sealed a deeper intimacy than ten black-tie galas ever could.',
+        toastBanner: 'UNCONDITIONAL REALNESS +30 • EQ +30',
+        deltas: { maturity: 30, chivalry: 25, eq: 30, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Beyond-Glamour Devotion',
+      },
+      {
+        labelHer: 'Lock him out coldly for two weeks pretending nothing is ever hard.',
+        labelHim: 'Ghost until next weekend ("Text me when you’re back up for drinks!").',
+        outcomeHer:
+          'If you never let him show up on a hard Tuesday, the relationship stays trapped as theater.',
+        outcomeHim:
+          'Vanishing the second date night isn’t glamorous proves her worst fear right.',
+        toastBanner: 'RED FLAG! • FAIR-WEATHER FANTASY ONLY (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Start by letting him drop off soup on the patio and stay for twenty quiet minutes.',
+        labelHim: 'Respect her space gently—drop warm soup and flowers inside the foyer with a sweet note and zero pressure.',
+        outcomeHer:
+          'Gentle care without crowding melts the armor naturally.',
+        outcomeHim:
+          'Thoughtful care without intruding builds deep safety.',
+        toastBanner: 'TENDER PATIENCE +20',
+        deltas: { maturity: 20, chivalry: 25, eq: 20, chemistry: 15, redFlags: 0 },
       },
     ],
   },

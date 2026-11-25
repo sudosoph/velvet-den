@@ -293,6 +293,97 @@ const RoomAuditHotspotGame: React.FC<{
   );
 };
 
+/**
+ * 4. DoubtSpiralGame: Tap all 4 intrusive "2 AM Can This Actually Work?" fear bubbles
+ * to ground them in honest adult reality before self-sabotage takes over!
+ */
+const DOUBT_THOUGHTS = [
+  {
+    id: 'stares',
+    spiral: '🌀 "Everyone outside our bubble is judging the age gap..."',
+    grounded: '💎 "Strangers stare for 5 seconds; real joy is ours every day."',
+  },
+  {
+    id: 'phase',
+    spiral: '🌀 "What if I’m just a fun temporary chapter?"',
+    grounded: '💎 "Judge consistent effort & actions—not midnight fear."',
+  },
+  {
+    id: 'martyr',
+    spiral: '🌀 "Maybe I should end it first before someone gets hurt..."',
+    grounded: '💎 "Never self-sabotage or make choices for your partner."',
+  },
+  {
+    id: 'mundane',
+    spiral: '🌀 "Does this still work on unglamorous Tuesdays?"',
+    grounded: '💎 "Ordinary Tuesdays are where real partnership shines."',
+  },
+];
+
+const DoubtSpiralGame: React.FC<{
+  completed: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, onWin }) => {
+  const [clearedIds, setClearedIds] = useState<string[]>(
+    completed ? DOUBT_THOUGHTS.map((d) => d.id) : [],
+  );
+
+  const handleClear = (id: string) => {
+    if (completed || clearedIds.includes(id)) return;
+    sfx.hotspotFix();
+    const next = [...clearedIds, id];
+    setClearedIds(next);
+    if (next.length === DOUBT_THOUGHTS.length) {
+      sfx.greenFlag();
+      onWin({ eq: 8, maturity: 8 }, '2 AM Doubt-Spiral Breaker');
+    }
+  };
+
+  const allCleared = completed || clearedIds.length === DOUBT_THOUGHTS.length;
+
+  return (
+    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-br from-[#240e35] via-[#18122e] to-[#0f242c] p-4 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-fuchsia-300">
+          <Sparkles className="h-4 w-4 text-amber-300" /> Interactive 2 AM Doubt Breaker • Reframe All 4 Fears ({clearedIds.length}/4)
+        </span>
+        <span className="text-[11px] font-bold text-teal-300">
+          +8 EQ &amp; +8 Maturity (Stop Self-Sabotage!)
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {DOUBT_THOUGHTS.map((item) => {
+          const isCleared = completed || clearedIds.includes(item.id);
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => handleClear(item.id)}
+              className={`flex items-center justify-between gap-2 rounded-xl border-2 border-black px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
+                isCleared
+                  ? 'bg-teal-500/25 text-teal-100 border-teal-400/60'
+                  : 'bg-fuchsia-950/70 text-pink-200 hover:bg-fuchsia-900/70'
+              }`}
+            >
+              <span>{isCleared ? item.grounded : item.spiral}</span>
+              <span className="shrink-0 rounded px-1.5 py-0.5 text-[10px] font-extrabold bg-black/40">
+                {isCleared ? '✓ GROUNDED' : 'REFRAME'}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {allCleared && (
+        <div className="text-xs font-extrabold text-emerald-300">
+          💞 2 AM Spiral Cleared! +8 EQ &amp; +8 Maturity unlocked—now handle the real conversation below!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -306,6 +397,9 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
     return (
       <TrailPaceRunnerGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
     );
+  }
+  if (type === 'doubt_spiral') {
+    return <DoubtSpiralGame completed={alreadyCompleted} onWin={onWinBonus} />;
   }
   return <RoomAuditHotspotGame completed={alreadyCompleted} onWin={onWinBonus} />;
 };

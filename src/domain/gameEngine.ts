@@ -116,6 +116,7 @@ export function buildEpisodeQueue(
 
     pushById('houseboy-sunday-sanctuary');
     pushById('puma-boys-groupchat-kid');
+    pushById('doubt-puma-divorce-scar');
 
     for (const vipId of includeVipEpisodeIds) {
       const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
@@ -152,6 +153,7 @@ export function buildEpisodeQueue(
       pushById('waiter-son-incident');
     }
     pushById('cougar-boys-groupchat-ceo');
+    pushById('doubt-cougar-honeymoon-cliff');
 
     for (const vipId of includeVipEpisodeIds) {
       const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
@@ -164,7 +166,7 @@ export function buildEpisodeQueue(
       pushById('adult-kid-brunch');
     }
   } else if (tier === 'jaguar') {
-    // 50s Gen-X Jaguar Arc: 6 PM Phone Calls, 6 AM Short-Leash Ridge, Pilates Shake, Adult Daughter & LAT
+    // 50s Gen-X Jaguar Arc: 6 PM Phone Calls, 6 AM Short-Leash Ridge, Pilates Shake, Adult Daughter, The Doubt & LAT
     pushById('jaguar-genx-phone-call');
     pushById('check-drop');
     pushById('trail-run-short-leash');
@@ -179,6 +181,7 @@ export function buildEpisodeQueue(
     pushById('houseboy-sunday-sanctuary');
     pushById('waiter-son-incident');
     pushById('adult-kid-brunch');
+    pushById('doubt-jaguar-worlds-collide');
 
     for (const vipId of includeVipEpisodeIds) {
       const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
@@ -190,7 +193,7 @@ export function buildEpisodeQueue(
     }
     pushById('jaguar-lat-living-apart');
   } else {
-    // 60+ Panther Icon Arc: Black-Tie Gala, Public Stigma Mastery, Fierce Friends & "75 and 45" Timeline
+    // 60+ Panther Icon Arc: Black-Tie Gala, Public Stigma Mastery, Fierce Friends, The Doubt & "75 and 45" Timeline
     pushById('panther-black-tie-gala');
     pushById('check-drop');
     pushById('code-switch-texting');
@@ -207,6 +210,7 @@ export function buildEpisodeQueue(
     pushById('houseboy-sunday-sanctuary');
     pushById('waiter-son-incident');
     pushById('panther-protective-friends');
+    pushById('doubt-panther-real-world-gravity');
 
     for (const vipId of includeVipEpisodeIds) {
       const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);

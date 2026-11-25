@@ -281,21 +281,23 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         };
       }
 
-      let parsed: {
+      interface ParsedAiReply {
         herReply?: string;
         maturityDelta?: number;
         chivalryDelta?: number;
         chemistryDelta?: number;
         coachNote?: string;
         passedVibeCheck?: boolean;
-      } | null = null;
+      }
+
+      let parsed: ParsedAiReply | null = null;
 
       if (rawResult?.response && typeof rawResult.response === 'object') {
-        parsed = rawResult.response as typeof parsed;
+        parsed = rawResult.response as ParsedAiReply;
       } else if (typeof rawResult?.response === 'string') {
         const jsonMatch = rawResult.response.trim().match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-          parsed = JSON.parse(jsonMatch[0]) as typeof parsed;
+          parsed = JSON.parse(jsonMatch[0]) as ParsedAiReply;
         }
       }
 

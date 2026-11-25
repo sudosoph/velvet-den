@@ -75,7 +75,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </h1>
 
             <p className="text-sm text-slate-200 max-w-xl">
-              Pick your Cougar &amp; Cub below—every age bracket unlocks its own 5-stage relationship arc, tactile arcade minigames, and live AI texting.
+              Pick your Cougar &amp; Cub below—every age bracket unlocks its own 6-stage relationship arc (from First Spark through The Doubt to The Real Future), tactile arcade minigames, and live AI texting.
             </p>
 
             {/* Role Toggle Pills */}

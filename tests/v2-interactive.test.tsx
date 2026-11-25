@@ -31,23 +31,38 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 26 subplots accurately by age bracket so 36F Puma never gets "Is that your son?" while 53F Jaguar & 62F Panther get age-authentic 5-stage arcs', () => {
-    expect(EPISODES.length).toBe(26);
+  it('routes 30 subplots accurately by age bracket across 6 stages—including a dedicated Stage 5 Doubt crisis before Stage 6 Future', () => {
+    expect(EPISODES.length).toBe(30);
 
     const maya36 = HER_ARCHETYPES.find((h) => h.id === 'maya-puma-mom')!;
+    const claire45 = HER_ARCHETYPES.find((h) => h.id === 'claire-cougar-exec')!;
     const valerie53 = HER_ARCHETYPES.find((h) => h.id === 'valerie-jaguar-trail')!;
     const celeste62 = HER_ARCHETYPES.find((h) => h.id === 'celeste-panther-icon')!;
     const leo25 = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
 
-    // 36F Puma × 25M Cub (11-yr gap): gets babysitter, 6-month kid boundary, 30s timeline; NEVER waiter-son-incident!
-    const pumaIds = createRun(analyzePairing(maya36, leo25, 'her')).episodeQueue.map((e) => e.id);
+    // 36F Puma × 25M Cub (11-yr gap): gets babysitter, 6-month kid boundary, Puma Doubt stage, 30s timeline; NEVER waiter-son-incident!
+    const pumaQueue = createRun(analyzePairing(maya36, leo25, 'her')).episodeQueue;
+    const pumaIds = pumaQueue.map((e) => e.id);
     expect(pumaIds).toContain('babysitter-flake-test');
     expect(pumaIds).toContain('puma-kid-intro-boundary');
+    expect(pumaIds).toContain('doubt-puma-divorce-scar');
     expect(pumaIds).toContain('puma-one-and-done-clock');
+    expect(pumaIds.indexOf('doubt-puma-divorce-scar')).toBeLessThan(
+      pumaIds.indexOf('puma-one-and-done-clock'),
+    );
     expect(pumaIds).not.toContain('waiter-son-incident');
     expect(pumaIds).not.toContain('adult-kid-brunch');
 
-    // 53F Jaguar × 25M Cub (28-yr gap): gets 6 PM Gen-X call, Pilates shake, waiter-son-incident, adult-kid-brunch, and LAT finale!
+    // 45F Cougar × 25M Cub: hits Stage 5 Doubt (doubt-cougar-honeymoon-cliff) before Stage 6 fertility/kids finale!
+    const cougarIds = createRun(analyzePairing(claire45, leo25, 'her')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(cougarIds).toContain('doubt-cougar-honeymoon-cliff');
+    expect(cougarIds.indexOf('doubt-cougar-honeymoon-cliff')).toBeLessThan(
+      cougarIds.indexOf('fertility-kids-crossroads'),
+    );
+
+    // 53F Jaguar × 25M Cub (28-yr gap): gets 6 PM Gen-X call, Pilates shake, waiter-son-incident, adult-kid-brunch, Stage 5 Doubt, and Stage 6 LAT finale!
     const jaguarIds = createRun(analyzePairing(valerie53, leo25, 'her')).episodeQueue.map(
       (e) => e.id,
     );
@@ -55,15 +70,32 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(jaguarIds).toContain('jaguar-pilates-core-shake');
     expect(jaguarIds).toContain('waiter-son-incident');
     expect(jaguarIds).toContain('adult-kid-brunch');
+    expect(jaguarIds).toContain('doubt-jaguar-worlds-collide');
     expect(jaguarIds).toContain('jaguar-lat-living-apart');
 
-    // 62F Panther × 25M Cub (37-yr gap): gets black-tie gala, fierce friends, and "75 and 45" timeline!
+    // 62F Panther × 25M Cub (37-yr gap): gets black-tie gala, fierce friends, Stage 5 Doubt, and Stage 6 "75 and 45" timeline!
     const pantherIds = createRun(analyzePairing(celeste62, leo25, 'him')).episodeQueue.map(
       (e) => e.id,
     );
     expect(pantherIds).toContain('panther-black-tie-gala');
     expect(pantherIds).toContain('panther-protective-friends');
+    expect(pantherIds).toContain('doubt-panther-real-world-gravity');
     expect(pantherIds).toContain('panther-timeline-75-45');
+  });
+
+  it('renders the interactive 2 AM Doubt Breaker minigame on Stage 5 Doubt episodes and awards EQ + Maturity', () => {
+    window.history.replaceState({}, '', '/?dilemma=doubt-cougar-honeymoon-cliff');
+    render(<App />);
+
+    expect(screen.getByText(/5·Doubt/i)).toBeInTheDocument();
+    expect(screen.getByText(/Reframe All 4 Fears/i)).toBeInTheDocument();
+
+    const reframeBtns = screen.getAllByRole('button', { name: /REFRAME/i });
+    expect(reframeBtns).toHaveLength(4);
+    for (const btn of reframeBtns) {
+      fireEvent.click(btn);
+    }
+    expect(screen.getByText(/2 AM Spiral Cleared!/i)).toBeInTheDocument();
   });
 
   it('lets players earn Maturity & EQ via the interactive Sanctuary Prep minigame to unlock Linen-Apron Houseboy Sunday', () => {
