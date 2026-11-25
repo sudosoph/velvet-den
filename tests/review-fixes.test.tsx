@@ -31,7 +31,7 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
 
     // Click Smooth Rewind with 0 credits -> opens Boutique, does NOT clear outcome card!
     fireEvent.click(screen.getByRole('button', { name: /Smooth Rewind/i }));
-    expect(screen.getByRole('dialog', { name: /Cougar Den Concierge/i })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /Cougars & Cubs Club VIP/i })).toBeInTheDocument();
 
     // Close Boutique without buying credits -> outcome card is STILL visible!
     fireEvent.click(screen.getByRole('button', { name: /Close Boutique/i }));
@@ -98,9 +98,21 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
     const receiptButtons = screen.getAllByRole('button', { name: /Vibe.*Receipt/i });
     expect(receiptButtons).toHaveLength(1);
 
-    // Single click navigates straight to Official Cougar Den Verdict
+    // Single click navigates straight to Official Cougars & Cubs Club Verdict
     fireEvent.click(receiptButtons[0]);
-    expect(screen.getByText(/Official Cougar Den Verdict/i)).toBeInTheDocument();
+    expect(screen.getByText(/Official Cougars & Cubs Club Verdict/i)).toBeInTheDocument();
+  });
+
+  it('Fix #13: Pool & Sauna getaway renders bold rich text without raw ** asterisks and zero fake Reddit label', () => {
+    window.history.replaceState({}, '', '/?dilemma=spontaneous-18h-pool-sauna-getaway');
+    render(<App />);
+    expect(screen.getByText(/18-hour spontaneous escape/i)).toBeInTheDocument();
+    expect(document.body.textContent || '').not.toContain('**');
+    expect(document.body.textContent || '').not.toContain('r/CougarsAndCubs');
+    expect(
+      screen.getAllByText(/Heated Midnight Pool & Cedar Sauna/i).length,
+    ).toBeGreaterThanOrEqual(1);
+    expect(document.querySelector('img[src*="hotel-pool-sauna.jpg"]')).not.toBeNull();
   });
 
   it('Fix #5: analyzePairing handles zero/negative age gaps and Gen-Z Her cohort cleanly, and Mixer prevents Her age <= His age', () => {

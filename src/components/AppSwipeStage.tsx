@@ -160,7 +160,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           setPhotoIdx(0);
         }
       } else {
-        setSliderBanner(`🎚️ Minimum Cub Age set to ${nextVal}+ — Prime Cougar Den pool active.`);
+        setSliderBanner(`🎚️ Minimum Cub Age set to ${nextVal}+ — Prime Cougars & Cubs Club pool active.`);
       }
     } else {
       if (nextVal >= 60) {
@@ -207,7 +207,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
       <div className="flex items-center justify-between gap-2">
         <div>
           <span className="rounded bg-rose-500/25 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-rose-300">
-            Act I • The Cougar Den Swipe Deck ({index + 1} / {deck.length})
+            Act I • Cougars &amp; Cubs Club Swipe Deck ({index + 1} / {deck.length})
           </span>
           <h2 className="mt-1 font-display text-3xl text-white">
             {role === 'her'

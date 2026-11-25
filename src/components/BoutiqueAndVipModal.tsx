@@ -202,16 +202,16 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-6 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
-      aria-label="The Cougar Den Concierge & VIP Lounge"
+      aria-label="Cougars & Cubs Club VIP & Creator Lounge"
     >
       <div className="vice-panel relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-[#160c24] p-5 sm:p-7 space-y-6">
         <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
           <div>
             <span className="inline-block rounded bg-amber-400/20 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-300">
-              Den Credits • VIP Black Card • Date-Night Boutique
+              Club Credits • VIP Black Card • Date-Night Boutique
             </span>
             <h2 className="mt-1 font-display text-3xl sm:text-4xl text-white">
-              The Cougar Den VIP &amp; Creator Lounge
+              Cougars &amp; Cubs Club VIP Lounge
             </h2>
             <p className="text-xs sm:text-sm text-slate-300">
               Balance:{' '}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Check, Send } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { EPISODES } from '../data/episodes';
+import { renderRichText } from '../lib/richText';
 import {
   scorePartnerAudition,
   shareOrCopy,
@@ -71,8 +72,8 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
           ? `${window.location.origin}${window.location.pathname}`
           : BRAND_CONFIG.publicBaseUrl;
       await shareOrCopy({
-        title: `My Cougar Den Audition Score for ${challenge.senderName}`,
-        text: `🐆 I just took ${challenge.senderName}’s Cougar Den Vetting Audition: ${result.matchPercent}% Match (${result.verdictTitle})!`,
+        title: `My Cougars & Cubs Club Audition Score for ${challenge.senderName}`,
+        text: `🐆 I just took ${challenge.senderName}’s Cougars & Cubs Club Audition: ${result.matchPercent}% Match (${result.verdictTitle})!`,
         url,
       });
       setCopiedReply(true);
@@ -132,7 +133,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
       <h2 className="font-display text-3xl sm:text-4xl text-white">{ep.title}</h2>
       <p className="text-sm sm:text-base text-slate-200">
-        {receiverRole === 'her' ? ep.setupHer : ep.setupHim}
+        {renderRichText(receiverRole === 'her' ? ep.setupHer : ep.setupHim)}
       </p>
 
       <div className="space-y-3">
@@ -146,7 +147,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
             <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded bg-teal-400 text-xs font-extrabold text-slate-950">
               {String.fromCharCode(65 + idx)}
             </span>
-            {receiverRole === 'her' ? c.labelHer : c.labelHim}
+            {renderRichText(receiverRole === 'her' ? c.labelHer : c.labelHim)}
           </button>
         ))}
       </div>

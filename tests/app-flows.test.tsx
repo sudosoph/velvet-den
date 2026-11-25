@@ -4,7 +4,7 @@ import App from '../src/App';
 import { HER_ARCHETYPES, HIS_ARCHETYPES } from '../src/domain/taxonomy';
 import { encodeChallengeLink } from '../src/lib/viral';
 
-describe('Velvet Den end-to-end UI, viral entry links, and dating-intent SEO journal', () => {
+describe('Cougars & Cubs Club end-to-end UI, viral entry links, and dating-intent SEO journal', () => {
   beforeEach(() => {
     window.localStorage.clear();
     window.history.replaceState({}, '', '/');
@@ -12,7 +12,7 @@ describe('Velvet Den end-to-end UI, viral entry links, and dating-intent SEO jou
 
   it('renders Pairing Mixer, toggles Her/Him role, and opens the Age-Gap Field Guide', () => {
     render(<App />);
-    expect(screen.getAllByText(/The Cougar Den/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Cougars & Cubs Club/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole('button', { name: /Play as Him/i })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Play as Him/i }));

@@ -25,7 +25,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
     <div className="space-y-6">
       <div className="vice-panel rounded-3xl bg-[#180d28] p-5 sm:p-7">
         <span className="rounded bg-teal-400/20 px-2.5 py-0.5 text-xs font-extrabold uppercase text-teal-300">
-          The Cougar Den Journal • Age-Gap Dating &amp; Gift Guides
+          Cougars &amp; Cubs Club • Age-Gap Dating &amp; Gift Guides
         </span>
         <h1 className="mt-2 font-display text-3xl sm:text-5xl text-white">
           Real Etiquette, Hosting Checklists &amp; Date-Night Guides for Cougars &amp; Cubs

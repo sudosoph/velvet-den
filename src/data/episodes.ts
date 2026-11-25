@@ -2537,7 +2537,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'We don’t do secret pocket girlfriends in this club—blocked before you reach the corner!',
         outcomeHim:
-          'Flinching in public is the fastest one-way ticket out of The Cougar Den.',
+          'Flinching in public is the fastest one-way ticket out of Cougars & Cubs Club.',
         toastBanner: 'RED FLAG! • "SECRET POCKET" VIOLATION (-25)',
         deltas: { maturity: -25, chivalry: -25, eq: -25, chemistry: -20, redFlags: 1 },
       },
@@ -3048,7 +3048,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: 'The Spontaneous 18-Hour Getaway: App Video Chat → Rooftop → Hotel Pool & Sauna',
-    subredditThreadInspiration: 'r/CougarsAndCubs: "Matched on an app, video-chatted 2 hours, met in a coastal town for an 18-hour rooftop + hotel pool & sauna escape—pure magic"',
+    subredditThreadInspiration: 'Cougars & Cubs Club Original • "2-hour FaceTime vibe check → 18-hour coastal rooftop, heated midnight pool & cedar sauna escape"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
@@ -3096,7 +3096,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: 'Campus Stroll & Omakase Sushi: Dressing Younger & Playing "Professor & Student"',
-    subredditThreadInspiration: 'r/CougarsAndCubs: "Dated a fresh PhD grad—dressed down in sneakers for an autumn campus stroll, grabbed sushi, and leaned right into playful Professor/Student banter"',
+    subredditThreadInspiration: 'Cougars & Cubs Club Original • "Fresh PhD grad + sneakers on the autumn quad + omakase sushi & playful Professor/Student banter"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
@@ -3143,7 +3143,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: 'Spicy Foreign Cougar × Devoted Cub: Accents, Passion & Zero Lukewarm Energy',
-    subredditThreadInspiration: 'r/CougarsAndCubs: "Cubs who love fiery foreign women—when she switches into her native language mid-argument OR mid-kiss, hold your frame!"',
+    subredditThreadInspiration: 'Cougars & Cubs Club Original • "Worldly accented fire meets steady devotion—when she switches into her native language, hold your frame!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'princess_bouquet',
@@ -3190,7 +3190,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     title: 'Old-World Pride on a Modest Budget: Meadow Picnic & Retro Neon Bowling',
-    subredditThreadInspiration: 'r/CougarsAndCubs: "He grew up modest with an accent and couldn’t afford $300 steakhouses—so he planned a sunlit meadow picnic + retro bowling date and won my heart"',
+    subredditThreadInspiration: 'Cougars & Cubs Club Original • "Modest roots, gentleman pride: hand-packed golden-hour meadow picnic + retro neon bowling"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'princess_bouquet',
@@ -3238,7 +3238,7 @@ export const EPISODES: Episode[] = [
     stage: 6,
     minigame: 'big_carl_pour',
     title: '🥂 6-Month Anniversary Milestone: Spare Keys, "Big Carl" Wine & Beating the Odds',
-    subredditThreadInspiration: 'r/CougarsAndCubs: "Happy 6 months to us!! Everyone said a Cougar/Cub match was just a weekend novelty—now he has a house key and his own drawer"',
+    subredditThreadInspiration: '6-Month Milestone • "Six months strong: spare brass house key, peonies & giant Cougar Town Big Carl wine pours"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
@@ -3285,7 +3285,7 @@ export const EPISODES: Episode[] = [
     act: 3,
     stage: 6,
     title: '💍 1-Year Anniversary Finale: Four Seasons Strong & Defying Every Stereotype',
-    subredditThreadInspiration: 'r/CougarsAndCubs: "1-YEAR ANNIVERSARY POST!! To anyone lurking wondering if an older-woman / younger-man love story lasts—read this ❤️"',
+    subredditThreadInspiration: '1-Year Finale • "365 days strong: champagne under the stars by the heated midnight pool"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
@@ -3299,7 +3299,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Raise champagne under the stars poolside, thank him for loving every chapter of who you are, and step into Year Two hand-in-hand without a single apology.',
         labelHim: 'Toast 365 days poolside ("Best decision I ever made was ignoring the age slider"), slip a timeless keepsake onto her wrist, and claim Year Two with full devotion.',
         outcomeHer:
-          'One year in, zero masks, total peace, and butterflies that still hit like Night #1—you officially beat The Cougar Den at highest romance rank!',
+          'One year in, zero masks, total peace, and butterflies that still hit like Night #1—you officially beat Cougars & Cubs Club at highest romance rank!',
         outcomeHim:
           'She pulls you into the warm pool water laughing under the lights—365 days strong and just getting started.',
         toastBanner: '🏆 1-YEAR ANNIVERSARY CHAMPIONS! • +30 ROMANCE PAYOFF',
@@ -3336,14 +3336,14 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 1,
     title: 'Solo Business-Trip Hotel Bar: The Viral "Babygirl" Glass-of-Milk Dare!',
-    subredditThreadInspiration: 'r/CougarsAndCubs + TikTok "Babygirl" Trend: "Sitting solo at an upscale hotel bar on a work trip—and a bold 27yo sends a drink down the bar..."',
+    subredditThreadInspiration: 'Pop-Culture Cinema Dare • "Solo work-trip hotel bar: dirty martini + cheeky Babygirl oat-milk wink"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
     setupHer:
-      'Per `r/CougarsAndCubs` law, an upscale **hotel lobby bar** on a solo work trip is the #1 "in-the-wild" spot for lightning to strike. You’re unwinding in silk after a keynote when the bartender sets down TWO glasses from {hisName} ({hisAge}M) at the end of the bar: your exact dirty martini—AND, with a cheeky wink referencing Nicole Kidman’s viral ***Babygirl*** scene, a tiny shot glass of cold oat milk with a cocktail napkin reading: *"Pick your poison—zero pressure."* ',
+      'An upscale **hotel lobby bar** on a solo work trip is the #1 "in-the-wild" spot for lightning to strike. You’re unwinding in silk after a keynote when the bartender sets down TWO glasses from {hisName} ({hisAge}M) at the end of the bar: your exact dirty martini—AND, with a cheeky wink referencing Nicole Kidman’s viral ***Babygirl*** scene, a tiny shot glass of cold oat milk with a cocktail napkin reading: *"Pick your poison—zero pressure."* ',
     setupHim:
-      '{herName} ({herAge}F) is unwinding solo at the boutique hotel bar—radiating pure CEO poise. Everyone on TikTok knows the infamous ***Babygirl*** "send her a glass of milk across the bar" power move, while `r/CougarsAndCubs` warns never to interrupt a solo traveler rudely. How do you make your opening move?',
+      '{herName} ({herAge}F) is unwinding solo at the boutique hotel bar—radiating pure CEO poise. Everyone knows the infamous ***Babygirl*** "send her a glass of milk across the bar" movie moment, and rule #1 of hotel-bar etiquette is never interrupting a solo traveler rudely. How do you make your opening move?',
     choices: [
       {
         labelHer: 'Burst out laughing at the cheeky *Babygirl* visual gag, raise the dirty martini in a toast, wave him over for a 20-minute nightcap, and watch sparks fly.',
@@ -3526,7 +3526,7 @@ export const EPISODES: Episode[] = [
     stage: 1,
     minigame: 'check_reflex',
     title: '🚨 Broke College "Go-Dutch" Horror: Declined Campus Card & The $41.63 Venmo Calculator',
-    subredditThreadInspiration: 'r/CougarsAndCubs Cautionary Horror Thread: "Lowered my slider to 21 ONCE—he ordered 2 dragon rolls + sake, tried to swipe campus Dining Dollars, then itemized my 4 edamame pods on Venmo!"',
+    subredditThreadInspiration: 'Sub-23 Danger Zone • "Declined campus Dining Dollars + itemizing 4 edamame pods for $41.63 on Venmo!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
@@ -3539,7 +3539,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Pay the whole check once with icy grace so the waiter isn’t stiffed, politely tell him why inviting someone out and itemizing edamame on Venmo is a crime, and raise your age slider back to 25+ before reaching your car!',
         labelHim: 'NEVER invite her to a spot you can’t host or pull out a penny-splitting calculator—plan a charming date squarely inside your real budget (hand-packed park picnic, taco stand, or coffee + sunset walk) and cover it proudly with zero Venmo math!',
         outcomeHer:
-          'Lesson immortalized! You escape with your dignity, block the Venmo request mid-notification, and set your Cougar Den age slider firmly above campus meal-plan territory!',
+          'Lesson immortalized! You escape with your dignity, block the Venmo request mid-notification, and set your Cougars & Cubs Club age slider firmly above campus meal-plan territory!',
         outcomeHim:
           'Planning an imaginative $28 date you can genuinely treat her to beats a $90 sushi bill with a petty Venmo calculator 1,000 times out of 1,000!',
         toastBanner: 'DODGED THE VENMO CALCULATOR! • MATURITY +25 • CHIVALRY +25',
@@ -3621,7 +3621,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     title: '🥣 Obstacle Alert: The 7 AM Four-Roommate Mixing-Bowl Cheerios Ambush',
-    subredditThreadInspiration: 'r/CougarsAndCubs Real-Life Obstacle: "Stayed at his place ONCE—walked out at 7 AM in my silk blouse into three 23-year-old roommates in plaid boxers eating cereal out of a plastic mixing bowl"',
+    subredditThreadInspiration: '7 AM Sleepover Obstacle • "Walking out in silk to three 23yo roommates eating Cheerios out of a plastic mixing bowl"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
@@ -3668,14 +3668,14 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     title: '🎮 Red-Flag Obstacle: The "Hobosexual" PS5, Whey-Tub & Laundry-Bag Soft Move-In',
-    subredditThreadInspiration: 'r/CougarsAndCubs #1 Warning Thread: "Ladies, guard your sanctuary! How to spot a smooth-talking \'Hobosexual\' trying to move his PS5 into your air-conditioned house by Date #4"',
+    subredditThreadInspiration: 'Sanctuary Red-Flag Test • "Spotting a smooth-talking Hobosexual sneaking a PS5 & laundry bag into your AC sanctuary"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
       'Your peaceful, mortgage-paid home has 62°F central air, stocked Pellegrino, and a lush backyard—which makes it prime territory for the dreaded **"Hobosexual" Soft Move-In**. On Week 3, {hisName} ({hisAge}M) arrives for Friday night carrying not just an overnight dopp kit, but a **duffel of unwashed laundry, a 5-lb tub of vanilla whey protein, and an HDMI cable peeking out of his backpack**!',
     setupHim:
-      '{herName}’s ({herAge}F) house feels like a five-star resort compared to 20-something apartments—which is why `r/CougarsAndCubs` ruthlessly vets against "Hobosexuals" who try to colonize a woman’s sanctuary, laundry machine, and Wi-Fi by Week 3. How do you prove you’re a partner, NEVER a freeloader?',
+      '{herName}’s ({herAge}F) house feels like a five-star resort compared to 20-something apartments—which is why smart women ruthlessly vet against "Hobosexuals" who try to colonize a woman’s sanctuary, laundry machine, and Wi-Fi by Week 3. How do you prove you’re a partner, NEVER a freeloader?',
     choices: [
       {
         labelHer: 'Draw a loving, titanium-clear boundary on the spot—keep one small guest drawer for his toothbrush, send the laundry bag & console right back to his trunk, and confirm he loves his own independent lease!',
@@ -3694,7 +3694,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           '🚨 HOBOSEXUAL ALERT! His console, his whey tub, and his gym socks are on the front porch before the spin cycle even starts!',
         outcomeHim:
-          'Trying to colonize an independent woman’s home sanctuary for free AC and laundry is the fastest lifetime ban in The Cougar Den.',
+          'Trying to colonize an independent woman’s home sanctuary for free AC and laundry is the fastest lifetime ban in Cougars & Cubs Club.',
         toastBanner: 'RED FLAG! • PS5 HOBOSEXUAL INVASION (-30)',
         deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
       },
@@ -3716,7 +3716,7 @@ export const EPISODES: Episode[] = [
     stage: 1,
     minigame: 'black_cat_pace',
     title: '🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub: The Slow-Burn Pushback Test',
-    subredditThreadInspiration: 'r/CougarsAndCubs & BookTok Polarity Truth: "Why Golden-Retriever Cubs fold instantly for an older \'Black Cat\' woman who takes her time and pushes back at first!"',
+    subredditThreadInspiration: '🐈‍⬛×🐕 Polarity Chemistry • "Sunny Golden-Retriever Cub meets cool, unhurried Black Cat Cougar who takes her time at first"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
@@ -3770,7 +3770,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     title: '😻 When the Black Cat Finally Chooses Your Lap: The Rainy-Friday Thaw',
-    subredditThreadInspiration: 'r/CougarsAndCubs Favorite Trope: "She made me work for every inch for a month—the night she finally curled up in my lap and purred made me feel like a king"',
+    subredditThreadInspiration: '🐈‍⬛×🐕 Slow-Burn Payoff • "Four weeks of patient Golden-Retriever courtship—the rainy Friday night the Black Cat finally curls into your lap"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',

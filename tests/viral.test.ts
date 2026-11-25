@@ -67,7 +67,7 @@ describe('3-part viral engine: 2-player audition links, dilemma deep links & emo
     const summary = computeRunSummary(run);
 
     const receipt = buildEmojiReceipt(summary, 'https://sudosoph.github.io/velvet-den/');
-    expect(receipt).toContain('THE COUGAR DEN');
+    expect(receipt).toContain('COUGARS & CUBS CLUB');
     expect(receipt).toContain('https://sudosoph.github.io/velvet-den/');
     expect(receipt).toContain(summary.rankTitle);
   });

@@ -528,7 +528,7 @@ for (const g of STATIC_GUIDES) {
 </head>
 <body>
   <main>
-    <a class="badge" href="../../">← Play Cougars &amp; Cubs Club: The Cougar Den</a>
+    <a class="badge" href="../../">← Play Cougars &amp; Cubs Club</a>
     <h1>${escapeHtml(g.title)}</h1>
     <p class="disclosure">Editorial Guide for Adult Age-Gap Relationships • Reader disclosure: curated shopping links below may earn a small affiliate commission at no extra cost to you.</p>
     ${g.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('\n    ')}

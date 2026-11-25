@@ -599,7 +599,7 @@ export default function App() {
               onClick={() => setBoutiqueOpen(true)}
               className="hover:text-teal-300 underline cursor-pointer"
             >
-              The Cougar Den VIP Lounge
+              Cougars &amp; Cubs Club VIP Lounge
             </button>
           </div>
         </div>

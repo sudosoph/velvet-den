@@ -45,7 +45,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
   const handleCopyEmojiReceipt = async () => {
     const text = buildEmojiReceipt(summary, baseUrl);
     await shareOrCopy({
-      title: 'My Cougar Den Vetting Receipt',
+      title: 'My Cougars & Cubs Club Vibe Receipt',
       text,
       url: baseUrl,
     });
@@ -77,8 +77,8 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
     );
 
     await shareOrCopy({
-      title: 'Pass My 60-Second Cougar/Cub Vetting Audition',
-      text: `Think you’d survive dating me? Pass my 60-second Cougar Den Vetting Audition 👀`,
+      title: 'Pass My 60-Second Cougars & Cubs Club Audition',
+      text: `Think you’d survive dating me? Pass my 60-second Cougars & Cubs Club Vetting Audition 👀`,
       url: link,
     });
     setCopiedState('audition');
@@ -109,7 +109,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <span className="rounded-md bg-amber-400 px-2.5 py-1 text-xs font-extrabold uppercase text-slate-950">
-              Official Cougar Den Verdict
+              Official Cougars &amp; Cubs Club Verdict
             </span>
             <h2 className="mt-3 font-display text-4xl sm:text-6xl text-white leading-none">
               {summary.rankTitle}

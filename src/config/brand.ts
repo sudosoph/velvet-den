@@ -9,8 +9,8 @@ export interface BrandConfig {
 }
 
 export const BRAND_CONFIG: BrandConfig = {
-  name: 'Cougars & Cubs Club: The Cougar Den',
-  shortName: 'The Cougar Den',
+  name: 'Cougars & Cubs Club',
+  shortName: 'Cougars & Cubs Club',
   subtitle: 'Lower Your Age Slider. Vet the Red Flags. Win Real Romance.',
   repoSlug: 'sudosoph/velvet-den',
   publicBaseUrl: 'https://cougarsandcubs.club/',

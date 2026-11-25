@@ -182,7 +182,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         <div className="grid gap-6 md:grid-cols-[1.25fr_0.9fr] md:items-center">
           <div className="space-y-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/40 bg-pink-500/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-200">
-              <Flame className="h-3.5 w-3.5 text-amber-300" /> Cougars &amp; Cubs Club • The Cougar Den
+              <Flame className="h-3.5 w-3.5 text-amber-300" /> Cougars &amp; Cubs Club • Interactive Romance Game
             </span>
 
             <h1 className="font-display text-4xl sm:text-6xl leading-[0.95] text-white drop-shadow-[3px_3px_0px_#09050f]">
@@ -190,7 +190,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </h1>
 
             <p className="text-sm text-slate-200 max-w-xl">
-              Browse {HER_ARCHETYPES.length} women (every single year from 30 to 64!) and {HIS_ARCHETYPES.length} Cubs (every year from 21 to 33)—complete with heights, star signs, voice notes, tactile minigames, and live AI texting inside The Cougar Den.
+              Browse {HER_ARCHETYPES.length} women (every single year from 30 to 64!) and {HIS_ARCHETYPES.length} Cubs (every year from 21 to 33)—complete with heights, star signs, voice notes, tactile minigames, and live AI texting inside Cougars &amp; Cubs Club.
             </p>
 
             {/* Role Toggle Pills */}
@@ -1048,7 +1048,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   <div>
                     <div className="text-xs font-bold text-white">{ep.title}</div>
                     <div className="text-[11px] text-slate-300 mt-0.5">
-                      {ep.subredditThreadInspiration}
+                      {ep.subredditThreadInspiration.replace(/^r\/CougarsAndCubs[^:]*:\s*/i, '')}
                     </div>
                   </div>
                   <span

@@ -99,7 +99,7 @@ const product =
 const taggedProductUrl = decorateAffiliateLink(product.url, entry.id);
 
 const discordPayload = {
-  username: 'The Cougar Den • Daily Vetting Poll',
+  username: 'Cougars & Cubs Club • Daily Vetting Poll',
   embeds: [
     {
       title: `🐆 Daily Vet or Ghost: ${entry.headline}`,
@@ -109,7 +109,7 @@ const discordPayload = {
         `🧠 *Insider Fact:* ${entry.datingLoreFact}`,
         '',
         `🎮 **[Play This Exact Scenario Free →](${dilemmaUrl})**`,
-        `🛍️ **Today’s Cougar Den Pick:** [${product.name}](${taggedProductUrl}) *(affiliate disclosure: supports the game at zero extra cost)*`,
+        `🛍️ **Today’s Club Pick:** [${product.name}](${taggedProductUrl}) *(affiliate disclosure: supports the game at zero extra cost)*`,
       ].join('\n'),
       color: 16007006,
       footer: {
