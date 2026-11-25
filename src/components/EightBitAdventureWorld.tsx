@@ -1261,32 +1261,39 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         </div>
       </div>
 
-      {/* Equal-Height 3x2 Fast-Travel Venue Grid */}
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
-        {BUILDINGS.map((b) => (
-          <button
-            key={b.id}
-            type="button"
-            onClick={() => {
-              sfx.crystalClink();
-              onGainXp(15);
-              onEnterEpisode(b.episodeId);
-            }}
-            className="pop-btn h-20 rounded-2xl bg-white px-4 text-left hover:bg-[#FFFBEB] cursor-pointer flex items-center justify-between gap-3"
-          >
-            <div className="min-w-0">
-              <div className="text-xs font-bold text-[#D90452]">
-                {b.emoji} Fast-Travel Venue
+      {/* Equal-Height 3x2 Fast-Travel Hotspot Grid (Full Readable Titles — Zero Cutoff!) */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-[#64748B]">
+            🗺️ 6 Fast-Travel Story &amp; Minigame Hotspots (Click any venue or walk to its door)
+          </span>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+          {BUILDINGS.map((b) => (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => {
+                sfx.crystalClink();
+                onGainXp(15);
+                onEnterEpisode(b.episodeId);
+              }}
+              className="pop-btn min-h-[86px] rounded-2xl bg-white p-4 text-left hover:bg-[#FFFBEB] cursor-pointer flex items-center justify-between gap-3"
+            >
+              <div className="min-w-0 space-y-1">
+                <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#E11D48]">
+                  {b.emoji} Hotspot • {b.shortLabel}
+                </div>
+                <div className="font-display text-sm sm:text-[15px] text-[#18101E] leading-snug">
+                  {b.buttonName}
+                </div>
               </div>
-              <div className="font-display text-base text-[#1E1022] leading-snug line-clamp-2">
-                {b.buttonName}
-              </div>
-            </div>
-            <span className="shrink-0 inline-flex h-9 items-center rounded-xl border-2 border-[#1E1022] bg-[#FFBE0B] px-3 text-xs font-bold text-[#1E1022]">
-              Play →
-            </span>
-          </button>
-        ))}
+              <span className="shrink-0 inline-flex h-8.5 items-center rounded-full bg-[#FEF3C7] border border-[#F59E0B]/40 px-3 text-xs font-extrabold text-[#92400E] whitespace-nowrap">
+                Play →
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Featured New Red-Flag Spotlight Banner */}

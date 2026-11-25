@@ -845,4 +845,18 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     fireEvent.click(screen.getByRole('button', { name: /Swipe Cards/i }));
     expect(screen.getByTitle(/Super Like & Chat/i)).toBeInTheDocument();
   });
+
+  it('dynamically updates the center Matchup Age Gap & queued scenes when ages change, without repeating zodiac sun descriptions', () => {
+    render(<App />);
+
+    // Default Astrid (41F) x Leo (25M) = 16-Year Gap, zero redundant "Aquarius Sun × Cancer Sun" copy
+    expect(screen.getByText(/Live 16-Year Age Gap/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Aquarius Sun.*Cancer Sun/i)).not.toBeInTheDocument();
+
+    // Adjusting Her age (-1 twice -> 39F) dynamically updates to 14-Year Puma Matchup
+    fireEvent.click(screen.getByRole('button', { name: /Decrease Her Age/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Decrease Her Age/i }));
+    expect(screen.getByText(/Live 14-Year Age Gap/i)).toBeInTheDocument();
+    expect(screen.getByText(/14-Year Official Puma × Cub Matchup/i)).toBeInTheDocument();
+  });
 });

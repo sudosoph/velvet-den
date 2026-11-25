@@ -1297,7 +1297,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         <BadgeCheck className="h-5 w-5 fill-[#1786FF] text-white" />
                       </div>
                       <p className="text-xs font-semibold text-white/90">{selected.title}</p>
-                      <p className="text-xs text-white/85 leading-snug line-clamp-3">
+                      <p className="text-xs text-white/85 leading-snug">
                         {selected.tagline}
                       </p>
                     </div>

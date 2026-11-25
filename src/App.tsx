@@ -680,11 +680,7 @@ export default function App() {
         </div>
       )}
 
-      <main
-        className={`mx-auto w-full ${
-          activeTab === 'inbox' ? 'max-w-7xl' : 'max-w-6xl'
-        } flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-5`}
-      >
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-6">
         {noticeBanner && (
           <div className="vice-panel flex items-center justify-between gap-3 rounded-2xl bg-[#FFBE0B] px-4 py-3 text-sm font-extrabold text-[#1E1022]">
             <span>{noticeBanner}</span>
@@ -914,6 +910,7 @@ export default function App() {
             onOpenChecklist={() => setChecklistOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
+            onOpenWorldTab={() => setActiveTab('world')}
             adventureProgress={adventureProgress}
             onGainAdventureXp={handleGainAdventureXp}
             onJumpToMapScene={(episodeId) => {
@@ -925,56 +922,109 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-[#18101E]/10 bg-white/85 backdrop-blur-xs py-5 text-sm font-semibold text-[#64748B]">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
-          <span>
-            {BRAND_CONFIG.name} • Cheeky PG-13/R Satire for Adult Age-Gap Relationships (21+)
-          </span>
-          <div className="flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              onClick={() => setPopTriviaOpen(true)}
-              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
-            >
-              Pop-Culture Quiz
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('inbox')}
-              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
-            >
-              Live AI Texting
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('journal')}
-              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
-            >
-              Age-Gap Dating &amp; Gift Guides
-            </button>
-            <button
-              type="button"
-              onClick={() => setBoutiqueOpen(true)}
-              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
-            >
-              Cougars &amp; Cubs Club VIP Lounge
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (wallet.isFounderUnlimited) {
-                  handleLockFounderMode();
-                } else {
-                  setFounderAuthError(null);
-                  setFounderModalOpen(true);
-                }
-              }}
-              className="inline-flex items-center gap-1 font-bold text-[#5A4664] hover:text-[#FF2E63] transition cursor-pointer"
-              aria-label="Founder Vault"
-            >
-              <Lock className="h-3.5 w-3.5" />
-              <span>{wallet.isFounderUnlimited ? 'Lock Founder' : 'Founder'}</span>
-            </button>
+      <footer className="border-t border-[#18101E]/10 bg-white py-8 text-sm text-[#475569]">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 grid gap-6 md:grid-cols-[1.3fr_1fr_1fr] items-start">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-tr from-[#FD267A] to-[#FF6036] text-xs text-white">
+                🐆
+              </span>
+              <span className="font-display text-base text-[#18101E]">{BRAND_CONFIG.name}</span>
+            </div>
+            <p className="text-xs leading-relaxed text-[#64748B] max-w-sm">
+              Interactive romantic-comedy dating simulator, multi-platform AI chat studio, and age-gap relationship guide for consenting adults (21+).
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#94A3B8]">
+              Play Modes
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs font-semibold">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('game');
+                  setPhase('mixer');
+                }}
+                className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                The Roster
+              </button>
+              <button
+                type="button"
+                onClick={handleStartGame}
+                className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                Tinder Swipe
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('inbox')}
+                className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                Live AI Texting
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('world')}
+                className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                8-Bit Map (6 Hotspots)
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#94A3B8]">
+              Quizzes, Guides &amp; VIP
+            </div>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+              <button
+                type="button"
+                onClick={() => setPopTriviaOpen(true)}
+                className="rounded-full border border-slate-200 bg-white hover:bg-[#FFFBEB] px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                Pop-Culture Quiz
+              </button>
+              <button
+                type="button"
+                onClick={() => setChecklistOpen(true)}
+                className="rounded-full border border-slate-200 bg-white hover:bg-[#FFF1F2] px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                25-Pt Viral Test
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('journal')}
+                className="rounded-full border border-slate-200 bg-white hover:bg-slate-50 px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                Age-Gap Dating &amp; Gift Guides
+              </button>
+              <button
+                type="button"
+                onClick={() => setBoutiqueOpen(true)}
+                className="rounded-full bg-[#18101E] hover:bg-[#2E1F38] px-3 py-1 text-white cursor-pointer"
+              >
+                Cougars &amp; Cubs Club VIP Lounge
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (wallet.isFounderUnlimited) {
+                    handleLockFounderMode();
+                  } else {
+                    setFounderAuthError(null);
+                    setFounderModalOpen(true);
+                  }
+                }}
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold text-[#64748B] hover:text-[#E11D48] transition cursor-pointer"
+                aria-label="Founder Vault"
+              >
+                <Lock className="h-3 w-3" />
+                <span>{wallet.isFounderUnlimited ? 'Lock Founder' : 'Founder'}</span>
+              </button>
+            </div>
           </div>
         </div>
       </footer>
