@@ -42,14 +42,20 @@ describe('Age-gap taxonomy & generational pairing analyzer', () => {
     expect(genXMatch.ageGap).toBe(genXJaguar.age - genZCub.age);
   });
 
-  it('handles sub-10-year age gaps gracefully without throwing or mislabeling as 10+ Cougar (Review Focus #2)', () => {
+  it('labels sub-10-year age gaps (e.g., 6–7 years) as Junior Cougar without mislabeling as 10+ official Cougar', () => {
     const puma36 = { ...HER_ARCHETYPES[0], age: 36 };
     const cub29 = { ...HIS_ARCHETYPES[0], age: 29 };
 
     const result = analyzePairing(puma36, cub29, 'her');
     expect(result.ageGap).toBe(7);
     expect(result.isOfficialTenYearGap).toBe(false);
-    expect(result.badgeLabel).toBe('7-Year Puma-Lite Matchup');
+    expect(result.badgeLabel).toBe('7-Year Junior Cougar Matchup');
+
+    const sienna38 = { ...HER_ARCHETYPES[0], age: 38 };
+    const miles32 = { ...HIS_ARCHETYPES[3], age: 32 };
+    const sixYear = analyzePairing(sienna38, miles32, 'her');
+    expect(sixYear.ageGap).toBe(6);
+    expect(sixYear.badgeLabel).toBe('6-Year Junior Cougar Matchup');
   });
 
   it('includes insider Field Guide entries for Puma, Cougar, Princess Cougar, Jaguar, Panther, Cub subtypes, Kitten, and Mountain Lion', () => {

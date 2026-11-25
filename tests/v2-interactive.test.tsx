@@ -31,15 +31,31 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 35 subplots accurately by age bracket & profile—separating Single-Mom Puma vs. Child-Free Divorced Dog-Mom Puma (jaded by older/peer men) across 6 stages', () => {
-    expect(EPISODES.length).toBe(35);
+  it('routes 41 subplots accurately—including 6-year Junior Cougar (<10 yr gap), Child-Free Dog-Mom Puma, Single-Mom Puma, Cougar, Jaguar & Panther across 6 stages', () => {
+    expect(EPISODES.length).toBe(41);
 
+    const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
+    const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
     const maya36 = HER_ARCHETYPES.find((h) => h.id === 'maya-puma-mom')!;
     const chloe37 = HER_ARCHETYPES.find((h) => h.id === 'chloe-puma-dogmom')!;
     const claire45 = HER_ARCHETYPES.find((h) => h.id === 'claire-cougar-exec')!;
     const valerie53 = HER_ARCHETYPES.find((h) => h.id === 'valerie-jaguar-trail')!;
     const celeste62 = HER_ARCHETYPES.find((h) => h.id === 'celeste-panther-icon')!;
     const leo25 = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
+
+    // 6-Year "Junior Cougar" (38F × 32M = 6-yr gap): gets 2008 math, micro-gen overlap, condo vs lease, 7-wedding summer, 6-yr clock Doubt, and sweet-spot finale!
+    const juniorPairing = analyzePairing(sienna38, miles32, 'her');
+    expect(juniorPairing.ageGap).toBe(6);
+    expect(juniorPairing.badgeLabel).toBe('6-Year Junior Cougar Matchup');
+    const juniorIds = createRun(juniorPairing).episodeQueue.map((e) => e.id);
+    expect(juniorIds).toContain('junior-cougar-gatekeeper-tease');
+    expect(juniorIds).toContain('junior-cougar-micro-gen-overlap');
+    expect(juniorIds).toContain('junior-cougar-condo-vs-lease');
+    expect(juniorIds).toContain('junior-cougar-wedding-season-marathon');
+    expect(juniorIds).toContain('doubt-junior-cougar-timeline-sync');
+    expect(juniorIds).toContain('junior-cougar-sweet-spot-future');
+    expect(juniorIds).not.toContain('waiter-son-incident');
+    expect(juniorIds).not.toContain('babysitter-flake-test');
 
     // 37F Child-Free Divorced Dog-Mom Puma × 25M Cub: gets rescue-dog vetting, zero weaponized incompetence, jaded divorcee brunch, peer-cynicism Doubt stage, and DINK dog-pack future—ZERO kid/babysitter scenes!
     const dogMomIds = createRun(analyzePairing(chloe37, leo25, 'her')).episodeQueue.map(

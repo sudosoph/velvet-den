@@ -93,8 +93,45 @@ export function buildEpisodeQueue(
     if (ep) pushById(ep.id);
   }
 
-  // Cohesive 6-Stage Relationship Arc tailored to exact age bracket & profile!
-  if (tier === 'lynx' || tier === 'puma') {
+  // Cohesive 6-Stage Relationship Arc tailored to exact age bracket, gap size & profile!
+  const isJuniorCougarTrack =
+    ageGap > 0 &&
+    ageGap < 10 &&
+    (tags.has('junior_cougar_gap') ||
+      (!tags.has('single_mom_sitter') && !tags.has('dog_mom_divorced')));
+
+  if (isJuniorCougarTrack) {
+    // Sub-10-Year "Junior Cougar" (e.g. 6-Year Gap) 6-Stage Arc!
+    pushById('junior-cougar-gatekeeper-tease');
+    pushById('check-drop');
+    pushById('junior-cougar-micro-gen-overlap');
+    if (tags.has('princess_treatment')) {
+      pushById('princess-soft-life');
+    } else {
+      pushById('trail-run-short-leash');
+    }
+    pushById('junior-cougar-condo-vs-lease');
+    pushById('mirror-game-insecurities');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
+      if (ep) pushById(ep.id);
+    }
+
+    pushById('houseboy-sunday-sanctuary');
+    pushById('junior-cougar-wedding-season-marathon');
+    pushById('doubt-junior-cougar-timeline-sync');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
+      if (ep) pushById(ep.id);
+    }
+
+    pushById('junior-cougar-sweet-spot-future');
+  } else if (tier === 'lynx' || tier === 'puma') {
+    if (ageGap > 0 && ageGap < 10) {
+      pushById('junior-cougar-gatekeeper-tease');
+    }
     if (tags.has('dog_mom_divorced')) {
       // 30s Child-Free Divorced Dog-Mom Puma Arc (Jaded about 40yo peer men, ZERO kid/babysitter scenes!)
       pushById('puma-dog-park-vetting');

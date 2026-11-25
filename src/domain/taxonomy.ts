@@ -3,6 +3,7 @@ export type FelineTier = 'lynx' | 'puma' | 'cougar' | 'jaguar' | 'panther';
 export type GenerationCohort = 'gen_z' | 'millennial' | 'gen_x' | 'icon_60_plus';
 
 export type SubplotTag =
+  | 'junior_cougar_gap'
   | 'single_mom_sitter'
   | 'dog_mom_divorced'
   | 'jaded_peer_men'
@@ -162,6 +163,22 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     photoUrl: './images/cast/chloe-37f.jpg',
   },
   {
+    id: 'sienna-junior-cougar',
+    name: 'Sienna',
+    age: 38,
+    title: '6-Yr Gap "Junior Cougar"',
+    shortHook: '6 years older: 2008 high-school math teases & sweet-spot chemistry.',
+    tagline:
+      'Under the strict 10-year Cougar cutoff—rocking a 6-year "Junior Cougar" gap with shared playlists and homeowner poise.',
+    vibeSummary:
+      '38F boutique designer paired with a 32M match: zero "Is that your son?" stares from waiters, yet she still lovingly roasts him for taking 10th-grade geometry while she was ordering martinis in 2009.',
+    secretInsecurity:
+      'Wonders if a 6-year clock offset still stings when she’s ready for intentional milestones now and his peer group is still recovering from chaotic groomsmen summers.',
+    subplotTags: ['junior_cougar_gap', 'solo_sanctuary'],
+    portraitVariant: 'puma',
+    photoUrl: './images/cast/sienna-38f.jpg',
+  },
+  {
     id: 'valerie-jaguar-trail',
     name: 'Valerie',
     age: 53,
@@ -266,6 +283,16 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     insiderLore:
       'Too young for official subreddit Cougar status, though occasionally dates slightly younger guys while studying the ways of the den.',
     signatureTell: 'Still figuring out her own lease renewal.',
+  },
+  {
+    id: 'junior_cougar',
+    label: 'Junior Cougar',
+    ageRange: '5–9 Year Age Gap (e.g. 6 Yrs)',
+    category: 'feline_scale',
+    headline: 'The Sub-10-Year Sweet-Spot Contender',
+    insiderLore:
+      'Under strict 10-year Cougar law, a 5-to-9 year gap earns the cheeky "Junior Cougar" badge! Close enough to share Millennial pop-culture overlap, far enough apart that she was legally at cocktail bars while he was taking high-school geometry.',
+    signatureTell: 'Calculates where you both were in 2008 within twenty minutes of Date #1.',
   },
   {
     id: 'puma',
@@ -374,7 +401,7 @@ export function analyzePairing(
   if (ageGap <= 0) {
     badgeLabel = 'Same-Age / Reverse-Gap Matchup';
   } else if (ageGap < 10) {
-    badgeLabel = `${ageGap}-Year ${TIER_LABELS[felineTier]}-Lite Matchup`;
+    badgeLabel = `${ageGap}-Year Junior Cougar Matchup`;
   } else if (felineTier === 'puma' || felineTier === 'lynx') {
     badgeLabel = `${ageGap}-Year Official ${TIER_LABELS[felineTier]} × Cub Matchup`;
   } else {
@@ -387,6 +414,9 @@ export function analyzePairing(
   if (herGeneration === 'gen_z') {
     codeSwitchTip =
       'Lynx Peer Alert: Same generational slang fluency, so skip the excuses and stand out with real reservation effort and emotional follow-through.';
+  } else if (ageGap > 0 && ageGap < 10) {
+    codeSwitchTip =
+      'Junior Cougar Alert: You share 80% of the same cultural references—lean into playful 2008 age-math banter and match her homeowner-era intentionality!';
   } else if (herGeneration === 'millennial') {
     codeSwitchTip =
       'Elder Millennial Alert: Drop skull emojis (💀) & lowercase "u tryna link"—text before you call her phone, send a 7:30 calendar link, and ditch the crew socks.';
@@ -399,7 +429,9 @@ export function analyzePairing(
   }
 
   let trackTitle: string;
-  if (felineTier === 'puma' || felineTier === 'lynx') {
+  if (ageGap > 0 && (her.subplotTags.includes('junior_cougar_gap') || ageGap <= 8)) {
+    trackTitle = `${ageGap}-Year Junior Cougar Storyline: 2008 High-School Math, Micro-Gen Teasing, Pace-Sync Doubt & Sweet-Spot Love`;
+  } else if (felineTier === 'puma' || felineTier === 'lynx') {
     trackTitle = her.subplotTags.includes('dog_mom_divorced')
       ? '30s Child-Free Dog-Mom Puma Arc: Rescue-Dog Vetting, Peer Cynicism & Zero Man-Child Tolerance'
       : '30s Single-Mom Puma Storyline: Babysitter Clocks, Co-Parenting & Millennial/Gen-Z Rhythm';

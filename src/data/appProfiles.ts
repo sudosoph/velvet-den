@@ -421,6 +421,48 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       },
     ],
   },
+  {
+    id: 'her-sienna-38',
+    name: 'Sienna',
+    age: 38,
+    height: '5\'6"',
+    zodiac: 'Leo',
+    occupation: ' Boutique Hotel Designer • Junior Cougar',
+    distance: '2 miles away',
+    activeAgo: 'Active 3m ago',
+    spotifyAnthem: 'LCD Soundsystem — All My Friends',
+    tinderBio:
+      'Seeking my 6-year-gap match (31–33M): old enough to remember burning CDs, young enough that I still get to tease you about studying for 10th-grade geometry while I was legally ordering martinis.',
+    hingePromptQuestion: 'The sweet spot of a 6-year Junior Cougar gap',
+    hingePromptAnswer:
+      'Zero "Is that your son?" stares from waiters, 100% playful older-woman chemistry + Le Creuset dinner parties.',
+    ageShockZoom: false,
+    ageShockQuipHer: 'Junior Cougar sweet spot!',
+    ageShockQuipHim:
+      '6-year Junior Cougar sweet spot: shared references, zero 20s roommate chaos, and electric banter!',
+    lookingFor: 'Junior Cougar sweet-spot chemistry',
+    lookingForSubtext: 'Subreddit purists call under-10-years a Junior Cougar—she wears the badge proudly.',
+    interests: ['Vinyl & Wine Bars', 'Boutique Design', 'Weekend Getaways', 'Cooking'],
+    openingDm:
+      'Quick math check: you’re 6 years younger, which officially makes me a Junior Cougar. Where were you in 2008—and where are you taking me Friday?',
+    xrayLeak:
+      'INSIDER TIP: Lean into the playful 6-year high-school math banter and match her homeowner-era intentionality!',
+    isGreenFlagMatch: true,
+    photos: [
+      {
+        caption: 'Photo 1 of 2 • Golden-Hour Wine & Vinyl Lounge',
+        vibeNote: '💚 Peak 6-year Junior Cougar charm.',
+        variant: 'tailored_linen',
+        photoUrl: './images/cast/sienna-38f.jpg',
+      },
+      {
+        caption: 'Photo 2 of 2 • Sunset Terrace Cocktails',
+        vibeNote: '💚 All the older-woman confidence, synced on the same wavelength.',
+        variant: 'dog_park_coffee',
+        photoUrl: './images/cast/hero-couple.jpg',
+      },
+    ],
+  },
 ];
 
 export function getSwipeDeckForRole(role: PlayerRole): SwipeProfile[] {

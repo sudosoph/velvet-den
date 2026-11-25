@@ -186,11 +186,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             onClick={onOpenFieldGuide}
             className="text-xs font-bold underline text-amber-300 hover:text-amber-200 cursor-pointer"
           >
-            Puma (30s) vs Cougar (40s) vs Jaguar (50s) vs Panther (60+)?
+            Junior Cougar (6-Yr) vs Puma vs Cougar vs Jaguar?
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
           {HER_ARCHETYPES.map((item) => {
             const selected = item.id === her.id;
             const displayAge = selected ? her.age : item.age;

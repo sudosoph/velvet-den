@@ -32,7 +32,9 @@ const INBOX_CONTACTS: InboxContact[] = [
     role: 'her' as const,
     photoUrl: h.photoUrl,
     openingPrompt:
-      h.subplotTags.includes('dog_mom_divorced')
+      h.subplotTags.includes('junior_cougar_gap')
+        ? `Quick math check: I’m 38, so a 6-year gap officially makes me a "Junior Cougar." Tell me where you were in 2008—and your actual Friday dinner plan.`
+        : h.subplotTags.includes('dog_mom_divorced')
         ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
         : h.age < 40
           ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`

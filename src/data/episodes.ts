@@ -1643,6 +1643,305 @@ export const EPISODES: Episode[] = [
     ],
   },
 
+  // --- 6 SUB-10-YEAR "JUNIOR COUGAR" (e.g. 6-YEAR GAP) EPISODES ---
+  {
+    id: 'junior-cougar-gatekeeper-tease',
+    act: 2,
+    stage: 1,
+    maxAgeGap: 9,
+    title: 'The 6-Year "Junior Cougar" Permit & 2008 High-School Math',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Does a 6-year gap count?! Subreddit purists call me a Junior Cougar, yet I was in college while he was in 9th grade!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'At {herAge}F and {hisAge}M, strict subreddit gatekeepers say you’re shy of the 10-year cutoff—officially dubbing you a **Junior Cougar**. Halfway through Date #1 cocktails, you do the inevitable calendar math and gasp: *"Wait... when I graduated college, you were taking sophomore geometry?!"*',
+    setupHim:
+      '{herName} ({herAge}F) is {hisAge}-year-old you’s dream match—only a 6-to-8 year gap, so nobody stares in public, yet she suddenly squints across her cocktail doing 2008 age math: *"Hold on, did you have a bedtime while I was at rooftop bars?!"*',
+    choices: [
+      {
+        labelHer: 'He grins without missing a beat: "Hey, I studied extra hard just to catch up to your Junior Cougar standards—and tonight’s round is on the kid."',
+        labelHim: 'Lean right into the playful Junior Cougar banter: "Hey, I grew up fast just to make this reservation—let me earn your Junior Cougar learner’s permit properly."',
+        outcomeHer:
+          'Playful, confident, zero weirdness! All the flirty older-woman/younger-man spark without needing a 20-year gap.',
+        outcomeHim:
+          'She bursts out laughing, clinks your glass, and officially embraces her Junior Cougar era.',
+        toastBanner: 'JUNIOR COUGAR SPARK! • CHEMISTRY +25 • CHIVALRY +15',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Official Junior Cougar Certified',
+      },
+      {
+        labelHer: 'He gets weird and defensive: "Six years is basically the exact same age, except women age faster according to podcasts."',
+        labelHim: 'Say "Six years barely counts—though podcasts say women peak earlier anyway."',
+        outcomeHer:
+          'You nearly throw your orange peel twist at his forehead. Date over before appetizers!',
+        outcomeHim:
+          'Congratulations on speed-running getting blocked over a 6-year gap.',
+        toastBanner: 'RED FLAG! • NEGGING INSTANT FAIL (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Compare your exact 2009 playlists and laugh over how close—yet hilariously different—six years feels.',
+        labelHim: 'Swap stories of where you both were in 2009 over appetizers.',
+        outcomeHer:
+          'Peak micro-generational comedy and effortless first-date warmth.',
+        outcomeHim:
+          'Easy laughter builds instant comfort.',
+        toastBanner: '2009 MATH BANTER +15',
+        deltas: { maturity: 15, chivalry: 10, eq: 15, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'junior-cougar-micro-gen-overlap',
+    act: 2,
+    stage: 2,
+    maxAgeGap: 9,
+    title: 'AIM Away Messages vs. Vine: The 6-Year Micro-Gen Sweet Spot',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "6-year Junior Cougar perk: his friends call me a Cougar while my 48F friends say he’s practically my twin"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'Road-trip playlist battle: with a sub-10-year Junior Cougar gap, you share 80% of references—until you mention crafting passive-aggressive AIM Away Messages on dial-up while {hisName} ({hisAge}M) quotes 2014 Vines and admits his buddies still call you "his hot Cougar."',
+    setupHim:
+      'Driving up the coast with {herName} ({herAge}F): your buddies tease you for "bagging a Cougar," while her older friends laugh that a 6-year gap is "training wheels." Then she puts on LCD Soundsystem and tests your cultural literacy.',
+    choices: [
+      {
+        labelHer: 'Blend the best of both micro-generations—he queues a killer shared indie/R&B mix, owns calling you his dream woman (not a gimmick), and nails parallel parking.',
+        labelHim: 'Build a seamless shared road-trip queue, laugh at both friend groups’ teasing, and treat her like a total catch rather than an age-gap punchline.',
+        outcomeHer:
+          'Close enough to sing every chorus together, just enough gap to keep the banter razor-sharp.',
+        outcomeHim:
+          'Best road trip all year—shared nostalgia plus undeniable Junior Cougar electricity.',
+        toastBanner: 'MICRO-GEN HARMONY +20 • CHEMISTRY +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+      {
+        labelHer: 'He calls your 30s cultural references "ancient grandma lore" every ten minutes till the joke dies.',
+        labelHim: 'Run the "okay grandma" joke into the ground forty times before exit 12.',
+        outcomeHer:
+          'One playful tease is cute; forty "grandma" jokes when I’m literally six years older than you is obnoxious.',
+        outcomeHim:
+          'Beating one age joke to death kills the road-trip vibe.',
+        toastBanner: 'RED FLAG! • OVERCOOKED GRANDMA JOKE (-15)',
+        deltas: { maturity: -15, chivalry: -15, eq: -15, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Trade one formative album each so you unlock each other’s college years.',
+        labelHim: 'Swap your #1 college albums back-to-back on the highway.',
+        outcomeHer:
+          'Sweet, curious, and surprisingly romantic.',
+        outcomeHim:
+          'Great conversation and zero dead air.',
+        toastBanner: 'SHARED SOUNDTRACK +15',
+        deltas: { maturity: 15, chivalry: 10, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'junior-cougar-condo-vs-lease',
+    act: 2,
+    stage: 3,
+    maxAgeGap: 9,
+    title: 'Her Le Creuset Condo Era vs. His "Six Years Behind" Career Sprint',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "In a 6-year gap he isn’t in a frat dorm, just 6 years earlier on the homeowner/career curve"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'bathroom_audit',
+    setupHer:
+      'In a 6-year Junior Cougar matchup, {hisName} ({hisAge}M) isn’t sleeping on a bare dorm mattress—he has a real job and decent apartment, yet your 6-year head start shows: custom linen drapes, Dutch ovens, maxing retirement, and hosting dinner parties instead of pre-games.',
+    setupHim:
+      'You’re doing solid for {hisAge}—until you step into {herName}’s ({herAge}F) sunlit place with framed art, French cookware, and real equity. That subtle 6-year life-stage lead hits right in the pride.',
+    recommendedAffiliateId: 'hosting-lidded-bin-soap',
+    choices: [
+      {
+        labelHer: 'He admires what you built with zero insecurity, upgrades his own hosting game, and brings killer ingredients + knife skills to your Le Creuset.',
+        labelHim: 'Celebrate her taste with zero bruised pride, level up your own apartment touches, and show up Friday with farmer’s-market halibut to cook together.',
+        outcomeHer:
+          'A man six years younger who treats your success as inspiration—not competition—is Junior Cougar perfection.',
+        outcomeHim:
+          'Confidence + domestic teamwork turns a 6-year lifestyle head start into shared luxury.',
+        toastBanner: 'HOMEOWNER-ERA SYNERGY • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Le Creuset Co-Chef Approved',
+      },
+      {
+        labelHer: 'He nitpicks your decor out of subtle financial insecurity ("Must be nice having 6 extra years of compounding").',
+        labelHim: 'Make passive-aggressive digs about her having a 6-year career head start.',
+        outcomeHer:
+          'Resenting six calendar years of hard work drains all the warmth out of the room.',
+        outcomeHim:
+          'Passive-aggressive money math poisons a great night.',
+        toastBanner: 'RED FLAG! • 6-YEAR HEAD-START ENVY (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -20, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Alternate weekends between your cozy condo and exploring new spots in his neighborhood.',
+        labelHim: 'Alternate hosting: cozy dinner at hers Friday, neighborhood jazz spot near yours Tuesday.',
+        outcomeHer:
+          'Balanced rhythm that honors both spaces.',
+        outcomeHim:
+          'Equal initiative keeps the dynamic fresh.',
+        toastBanner: 'BALANCED RHYTHM +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'junior-cougar-wedding-season-marathon',
+    act: 3,
+    stage: 4,
+    maxAgeGap: 9,
+    title: 'Stage 4 Boss: Surviving His Cohort’s 7-Wedding Open-Bar Summer',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "6-year gap reality: I survived my friends’ wedding wave at 31—now at 38 I’m back in his friends’ chaotic groomsmen summer!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'thanksgiving_table',
+    setupHer:
+      'Nobody talks about this 6-year Junior Cougar hazard: you retired from 8-wedding summers five years ago, and suddenly {hisName} ({hisAge}M) is a groomsman in FOUR chaotic open-bar weddings this summer where his buddies are doing tequila shots at 11:30 PM.',
+    setupHim:
+      'Your entire {hisAge}M friend group is getting married this summer. {herName} ({herAge}F) looks stunning as your `+1`, though she already graduated from sloppy groomsmen open-bar marathons years ago—how do you navigate Wedding #3?',
+    choices: [
+      {
+        labelHer: 'He crushes groomsman duties early, skips sloppy shot-roulette, keeps water + espresso martinis in your hand, twirls you on the dance floor, and calls the car at 10:45 PM before chaos peaks.',
+        labelHim: 'Handle groomsman photos early, skip the messy tequila shots, tear up the dance floor with her for three great songs, and whisk her back to the hotel suite at 10:45 PM.',
+        outcomeHer:
+          'All the romance of wedding season, zero 1 AM shuttle-bus sloppiness—every bride’s older sister asks where you found him!',
+        outcomeHim:
+          'Leaving right at peak vibe makes the hotel suite afterparty ten times better than messy 1 AM sliders.',
+        toastBanner: 'WEDDING-SEASON MVP! • CHIVALRY +25 • EQ +20',
+        deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Groomsmen-Summer Gentleman',
+      },
+      {
+        labelHer: 'He abandons you at Table 9 for three hours to chug Jaegerbombs with the groomsmen.',
+        labelHim: 'Disappear with the groomsmen for three hours and stumble back slurring at midnight.',
+        outcomeHer:
+          'Watching a grown man revert to 22-year-old frat-formal chaos makes six years feel like twenty-six.',
+        outcomeHim:
+          'Stranding your date at Table 9 while doing shots is an instant relationship crisis.',
+        toastBanner: 'RED FLAG! • TABLE-9 ABANDONMENT (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Attend the two closest weddings together and let him fly solo to the rowdy out-of-state bachelor weekend.',
+        labelHim: 'Curate the calendar together: bring her to the two gorgeous weddings, spare her the rowdy college-roommate one.',
+        outcomeHer:
+          'Selective attendance saves your PTO and your heels!',
+        outcomeHim:
+          'Protecting her weekends earns huge gratitude.',
+        toastBanner: 'SELECTIVE RSVP GENIUS +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'doubt-junior-cougar-timeline-sync',
+    act: 3,
+    stage: 5,
+    minigame: 'doubt_spiral',
+    maxAgeGap: 9,
+    title: 'Stage 5 • The Doubt: The 6-Year Clock Offset ("Are We Six Years Out of Sync?")',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "In a 6-year Junior Cougar gap, timelines are close enough to collide—what if I’m ready now and he wants 4 more years?"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Here is the uniquely sharp **Junior Cougar Doubt**: in a 25-year gap, timelines are completely decoupled—in a 6-year gap ({herAge}F × {hisAge}M), you’re close enough to want the *same* big milestones, just offset by six crucial years. At 2 AM you wonder: *Can this actually work if I’m ready for real life-building now and his internal clock thinks he has till 37?*',
+    setupHim:
+      'Late-night kitchen talk with {herName} ({herAge}F): because you’re only six years apart, the future feels vivid and real—and suddenly terrifying. She admits her fear: *"Six years isn’t huge on paper, until my right-now collides with your someday. Can we actually sync up without resentment?"*',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 2 AM spiral: "I don’t want to pressure him six years ahead of his pace—and I can’t afford to drift for four years waiting for him to feel ready."',
+      hisDoubt:
+        'His 2 AM spiral: "Does she think being six years younger means I’m dragging my feet? What if I step up now and still feel like I’m playing catch-up?"',
+    },
+    recommendedAffiliateId: 'after-dark-couples-deck',
+    choices: [
+      {
+        labelHer: 'Put concrete numbers on the table together—discovering that meeting in the middle (12–18 months, zero vague drifting) excites both of you.',
+        labelHim: 'Replace vague "someday" talk with a real shared timeline: "I don’t need six extra years—when you find the right person, you sync watches together."',
+        outcomeHer:
+          'All the 2 AM math anxiety vanished the moment he put real dates on the calendar willingly. Synced watches beat identical birth years every time.',
+        outcomeHim:
+          'Stepping forward with concrete timeline clarity turned the 6-year offset into a shared countdown.',
+        toastBanner: 'WATCHES SYNCED! • MATURITY +30 • EQ +25',
+        deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Synced-Watches Junior Cougar',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'Silently resent the 6-year offset while dropping passive-aggressive hints at every wedding.',
+        labelHim: 'Stall vaguely ("Ask me again in three or four years, there’s no rush!").',
+        outcomeHer:
+          'Unspoken timeline resentment turns a sweet 6-year gap into a ticking clock.',
+        outcomeHim:
+          'Telling a woman in her late 30s "ask me in four years" shatters trust overnight.',
+        toastBanner: 'RED FLAG! • TIMELINE DRIFT SPIRAL (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Map out your next 12 months together—shared trip, meeting parents, and clear milestone check-ins.',
+        labelHim: 'Lay out three concrete next steps over the next 12 months so momentum is unmistakable.',
+        outcomeHer:
+          'Visible momentum quiets midnight doubts fast.',
+        outcomeHim:
+          'Clear action steps prove real commitment.',
+        toastBanner: '12-MONTH MOMENTUM +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'junior-cougar-sweet-spot-future',
+    act: 3,
+    stage: 6,
+    maxAgeGap: 9,
+    title: 'Stage 6 Finale: The "Junior Cougar Sweet Spot" Lifemate Pact',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Why my 6-year Junior Cougar marriage ended up being the ultimate relationship cheat code"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'Six stages cleared: you laughed through 2008 geometry math, survived his friends’ wedding marathon, and synced watches through the Doubt stage. Time to claim what couples with a 5-to-9 year **Junior Cougar** gap call the secret cheat code of modern dating.',
+    setupHim:
+      'Standing on the terrace with {herName} ({herAge}F): six years older, wiser, magnetic, and completely in lockstep with you ({hisAge}M). How do you seal Stage 6?',
+    choices: [
+      {
+        labelHer: 'Go all-in on the Junior Cougar Sweet Spot—combining her hard-won wisdom & standards with his fresh energy for decades of side-by-side adventures!',
+        labelHim: 'Seal the commitment proudly: "Purists can call it Junior Cougar all they want—six years with you is the best cheat code on earth."',
+        outcomeHer:
+          'Shared references, zero public static, electric teasing for the next forty years, and aligned longevity. Junior Cougar Hall of Fame!',
+        outcomeHim:
+          'She kisses you grinning: "Learner’s permit upgraded to lifetime pass."',
+        toastBanner: 'JUNIOR COUGAR LIFEMATES! • CHEMISTRY +30 • MATURITY +30',
+        deltas: { maturity: 30, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Junior Cougar Sweet-Spot Lifemate',
+      },
+      {
+        labelHer: 'Keep score over who hit which milestone at what age during every minor disagreement.',
+        labelHim: 'Pull rank or blame every disagreement on the 6-year difference.',
+        outcomeHer:
+          'Scorekeeping turns a 6-year spark into petty competition.',
+        outcomeHim:
+          'Blaming normal couple moments on age misses the point.',
+        toastBanner: 'RED FLAG! • PETTY SCOREKEEPING (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -20, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Move forward into shared home/future planning while keeping Friday date nights sacred.',
+        labelHim: 'Start planning your next chapter together while keeping playful Date #1 banter alive.',
+        outcomeHer:
+          'Intentional growth + lasting flirtation = winning formula.',
+        outcomeHim:
+          'Grounded future with nonstop spark.',
+        toastBanner: 'FOREVER COURTSHIP +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+
   // --- 4 EXISTING VIP SUBREDDIT DEEP-CUT EPISODES (isVip: true preserved!) ---
   {
     id: 'vip-apartment-soap-audit',

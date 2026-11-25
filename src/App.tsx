@@ -396,6 +396,13 @@ export default function App() {
             onChangeRole={setRole}
             onSelectHer={(nextHer) => {
               setHer(nextHer);
+              if (nextHer.id === 'sienna-junior-cougar') {
+                const miles = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub');
+                if (miles) {
+                  setHis(miles);
+                  return;
+                }
+              }
               if (his.age >= nextHer.age) {
                 setHis((prev) => ({ ...prev, age: Math.max(21, nextHer.age - 1) }));
               }
