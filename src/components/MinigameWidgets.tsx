@@ -384,6 +384,85 @@ const DoubtSpiralGame: React.FC<{
   );
 };
 
+/**
+ * 5. BenchPressCougarGame: Pump 5 clean bench-press reps at the gym so you have
+ * the upper-body & core strength to sweep your Cougar off her feet!
+ */
+const BenchPressCougarGame: React.FC<{
+  completed: boolean;
+  herName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, herName, onWin }) => {
+  const [reps, setReps] = useState(completed ? 5 : 0);
+  const [barLifted, setBarLifted] = useState(false);
+
+  const handleRep = () => {
+    if (completed || reps >= 5) return;
+    sfx.paceTap();
+    setBarLifted(true);
+    window.setTimeout(() => setBarLifted(false), 140);
+    const next = reps + 1;
+    setReps(next);
+    if (next >= 5) {
+      sfx.victoryFanfare();
+      onWin({ chemistry: 8, chivalry: 8 }, '225-Lb Stairway Carry Certified');
+    }
+  };
+
+  const done = completed || reps >= 5;
+
+  return (
+    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#290f2d] via-[#191330] to-[#0f262c] p-4 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-rose-300">
+          <Flame className="h-4 w-4 text-amber-300" /> Cub Gym Minigame • Bench Press for {herName} ({reps}/5 Reps)
+        </span>
+        <span className="text-[11px] font-bold text-amber-300">
+          +8 Chemistry &amp; +8 Chivalry (Unlock Stairway Carry!)
+        </span>
+      </div>
+
+      {/* Animated Barbell Rack */}
+      <div className="relative h-12 w-full overflow-hidden rounded-xl border-2 border-black bg-slate-950 px-3 flex items-center justify-between">
+        <div
+          className={`flex items-center gap-2 font-display text-xl text-amber-300 transition-transform duration-150 ${
+            barLifted ? '-translate-y-2 scale-105' : 'translate-y-0.5'
+          }`}
+        >
+          <span>🏋️‍♂️</span>
+          <span>═══╣ 225 LBS ╠═══</span>
+        </div>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((r) => (
+            <span
+              key={r}
+              className={`h-3 w-5 rounded-sm border border-black ${
+                r <= reps ? 'bg-emerald-400' : 'bg-slate-800'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        {!done ? (
+          <button
+            type="button"
+            onClick={handleRep}
+            className="vice-panel rounded-xl bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 text-xs font-extrabold uppercase text-slate-950 hover:brightness-110 active:scale-95 transition cursor-pointer"
+          >
+            💪 Press Rep ({reps}/5) — Train for {herName}!
+          </button>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-300">
+            <CheckCircle2 className="h-4 w-4" /> 🔥 5x225 Crushed! Stairway-Carry Strength Unlocked (+8 Chemistry, +8 Chivalry)
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -400,6 +479,11 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   }
   if (type === 'doubt_spiral') {
     return <DoubtSpiralGame completed={alreadyCompleted} onWin={onWinBonus} />;
+  }
+  if (type === 'bench_press') {
+    return (
+      <BenchPressCougarGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+    );
   }
   return <RoomAuditHotspotGame completed={alreadyCompleted} onWin={onWinBonus} />;
 };

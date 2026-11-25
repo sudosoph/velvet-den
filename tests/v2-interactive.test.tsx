@@ -31,8 +31,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 41 subplots accurately—including 6-year Junior Cougar (<10 yr gap), Child-Free Dog-Mom Puma, Single-Mom Puma, Cougar, Jaguar & Panther across 6 stages', () => {
-    expect(EPISODES.length).toBe(41);
+  it('routes 46 subplots accurately—including Hormonal/Low-Iron/Perimenopause/Menopause real talk, Cub Bench-Press training, and Post-Banging Sister-Age Shock across all tracks', () => {
+    expect(EPISODES.length).toBe(46);
 
     const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
     const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
@@ -43,13 +43,15 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     const celeste62 = HER_ARCHETYPES.find((h) => h.id === 'celeste-panther-icon')!;
     const leo25 = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
 
-    // 6-Year "Junior Cougar" (38F × 32M = 6-yr gap): gets 2008 math, micro-gen overlap, condo vs lease, 7-wedding summer, 6-yr clock Doubt, and sweet-spot finale!
+    // 6-Year "Junior Cougar" (38F × 32M = 6-yr gap): gets 2008 math, bench press, 30s low-iron ferritin, sister-age shock, 7-wedding summer, 6-yr clock Doubt, and sweet-spot finale!
     const juniorPairing = analyzePairing(sienna38, miles32, 'her');
     expect(juniorPairing.ageGap).toBe(6);
     expect(juniorPairing.badgeLabel).toBe('6-Year Junior Cougar Matchup');
     const juniorIds = createRun(juniorPairing).episodeQueue.map((e) => e.id);
     expect(juniorIds).toContain('junior-cougar-gatekeeper-tease');
-    expect(juniorIds).toContain('junior-cougar-micro-gen-overlap');
+    expect(juniorIds).toContain('cub-bench-press-cougar-training');
+    expect(juniorIds).toContain('puma-low-iron-ferritin-care');
+    expect(juniorIds).toContain('steamy-texts-sister-age-shock');
     expect(juniorIds).toContain('junior-cougar-condo-vs-lease');
     expect(juniorIds).toContain('junior-cougar-wedding-season-marathon');
     expect(juniorIds).toContain('doubt-junior-cougar-timeline-sync');
@@ -85,34 +87,51 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(pumaIds).not.toContain('waiter-son-incident');
     expect(pumaIds).not.toContain('adult-kid-brunch');
 
-    // 45F Cougar × 25M Cub: hits Stage 5 Doubt (doubt-cougar-honeymoon-cliff) before Stage 6 fertility/kids finale!
+    // 45F Cougar × 25M Cub: hits Perimenopause Surge/3 AM Sheets, Bench Press, Sister-Age Shock, Stage 5 Doubt, and Stage 6 fertility/kids finale!
     const cougarIds = createRun(analyzePairing(claire45, leo25, 'her')).episodeQueue.map(
       (e) => e.id,
     );
+    expect(cougarIds).toContain('cub-bench-press-cougar-training');
+    expect(cougarIds).toContain('cougar-perimenopause-surge-nightsweats');
+    expect(cougarIds).toContain('steamy-texts-sister-age-shock');
     expect(cougarIds).toContain('doubt-cougar-honeymoon-cliff');
     expect(cougarIds.indexOf('doubt-cougar-honeymoon-cliff')).toBeLessThan(
       cougarIds.indexOf('fertility-kids-crossroads'),
     );
 
-    // 53F Jaguar × 25M Cub (28-yr gap): gets 6 PM Gen-X call, Pilates shake, waiter-son-incident, adult-kid-brunch, Stage 5 Doubt, and Stage 6 LAT finale!
+    // 53F Jaguar × 25M Cub (28-yr gap): gets 6 PM Gen-X call, Pilates shake, Menopause Intimacy Masterclass, Sister-Age Shock, waiter-son-incident, adult-kid-brunch, Stage 5 Doubt, and Stage 6 LAT finale!
     const jaguarIds = createRun(analyzePairing(valerie53, leo25, 'her')).episodeQueue.map(
       (e) => e.id,
     );
     expect(jaguarIds).toContain('jaguar-genx-phone-call');
     expect(jaguarIds).toContain('jaguar-pilates-core-shake');
+    expect(jaguarIds).toContain('menopause-intimacy-masterclass');
+    expect(jaguarIds).toContain('steamy-texts-sister-age-shock');
     expect(jaguarIds).toContain('waiter-son-incident');
     expect(jaguarIds).toContain('adult-kid-brunch');
     expect(jaguarIds).toContain('doubt-jaguar-worlds-collide');
     expect(jaguarIds).toContain('jaguar-lat-living-apart');
 
-    // 62F Panther × 25M Cub (37-yr gap): gets black-tie gala, fierce friends, Stage 5 Doubt, and Stage 6 "75 and 45" timeline!
+    // 62F Panther × 25M Cub (37-yr gap): gets black-tie gala, Menopause Intimacy Masterclass, fierce friends, Stage 5 Doubt, and Stage 6 "75 and 45" timeline!
     const pantherIds = createRun(analyzePairing(celeste62, leo25, 'him')).episodeQueue.map(
       (e) => e.id,
     );
     expect(pantherIds).toContain('panther-black-tie-gala');
+    expect(pantherIds).toContain('menopause-intimacy-masterclass');
     expect(pantherIds).toContain('panther-protective-friends');
     expect(pantherIds).toContain('doubt-panther-real-world-gravity');
     expect(pantherIds).toContain('panther-timeline-75-45');
+  });
+
+  it('plays the Cub Bench-Press minigame (5x225 reps) and unlocks Stairway-Carry bonus stats', () => {
+    window.history.replaceState({}, '', '/?dilemma=cub-bench-press-cougar-training');
+    render(<App />);
+
+    expect(screen.getByText(/Cub Gym Minigame/i)).toBeInTheDocument();
+    for (let i = 0; i < 5; i++) {
+      fireEvent.click(screen.getByRole('button', { name: /Press Rep/i }));
+    }
+    expect(screen.getByText(/5x225 Crushed! Stairway-Carry Strength Unlocked/i)).toBeInTheDocument();
   });
 
   it('renders the interactive 2 AM Doubt Breaker minigame on Stage 5 Doubt episodes and awards EQ + Maturity', () => {

@@ -1,7 +1,12 @@
 import type { FelineTier, SubplotTag } from '../domain/taxonomy';
 
 export type RelationshipStage = 1 | 2 | 3 | 4 | 5 | 6;
-export type MinigameType = 'check_reflex' | 'trail_pace' | 'room_audit' | 'doubt_spiral';
+export type MinigameType =
+  | 'check_reflex'
+  | 'trail_pace'
+  | 'room_audit'
+  | 'doubt_spiral'
+  | 'bench_press';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -1938,6 +1943,268 @@ export const EPISODES: Episode[] = [
           'Grounded future with nonstop spark.',
         toastBanner: 'FOREVER COURTSHIP +25',
         deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+
+  // --- 5 HORMONAL REAL-TALK, BENCH-PRESS TRAINING, STEAMY TEXTS & "SISTER'S AGE!!" SHOCK EPISODES ---
+  {
+    id: 'cub-bench-press-cougar-training',
+    act: 2,
+    stage: 2,
+    minigame: 'bench_press',
+    title: 'Cubs at the Bench Press: Pumping 225 Just to Keep His Cougar',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Started hitting bench press, hip thrusts & core 5x/week solely because my Cougar is in her prime and deserves to be picked up"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'ridge_trail_leash',
+    setupHer:
+      'Thursday, 5:45 PM. You sent {hisName} ({hisAge}M) one dangerously steamy text during your afternoon coffee break (*"Wear that fitted henley tomorrow... and bring your A-game 🔥"*). Ten minutes later he sends a gym rack photo: he’s literally training chest, core, and legs like an Olympian just to keep up with you.',
+    setupHim:
+      'Your phone buzzes mid-workout with a wickedly flirty text from {herName} ({herAge}F) about tomorrow night. Your gym bro asks why you’re suddenly repping 225 on bench AND doing Bulgarian split squats on a Thursday. Simple: a woman in her prime requires peak upper-body & core strength!',
+    recommendedAffiliateId: 'adjustable-dumbbell-bench',
+    choices: [
+      {
+        labelHer: 'He crushes clean strength reps (zero ego injury), texts back slow-burn heat that makes you blush in traffic, and effortlessly scoops you off your feet Friday night.',
+        labelHim: 'Lock in clean bench + core reps, send back one devastatingly smooth slow-burn text ("Already training for tomorrow—keep 8 PM wide open"), and sweep her up at the door Friday.',
+        outcomeHer:
+          'When he picks you up effortlessly in the hallway Friday night without even breathing hard, every gym rep pays off with interest... [Fade to Fireworks].',
+        outcomeHim:
+          'Her gasp-laugh when you lift her effortlessly off her heels at the door makes every single split squat worth it.',
+        toastBanner: '225-LB COUGAR CARRY UNLOCKED! • CHEMISTRY +30',
+        deltas: { maturity: 15, chivalry: 20, eq: 15, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Bench-Pressed for His Cougar',
+      },
+      {
+        labelHer: 'He ego-loads 335 lbs filming a shirtless TikTok thirst trap, tweaks his lower back, and spends Friday groaning flat on your floor.',
+        labelHim: 'Ego-lift way too heavy for a gym mirror video and pull your lower back right before Friday date night.',
+        outcomeHer:
+          'Instead of sweeping you upstairs, he’s lying on a frozen bag of peas asking for Ibuprofen. Tragic!',
+        outcomeHim:
+          'Nothing kills steamy Thursday text buildup faster than hobbling in at 90 degrees clutching an ice pack.',
+        toastBanner: 'RED FLAG! • EGO-LIFT BACK SPASM (-20)',
+        deltas: { maturity: -20, chivalry: -10, eq: -10, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Pair gym days together—trading flirty glances across the weight room before protein smoothies.',
+        labelHim: 'Invite her for a joint lift + stretch session followed by post-workout dinner.',
+        outcomeHer:
+          'Shared endorphins + flirty gym tension = instant spark.',
+        outcomeHim:
+          'Training side by side keeps the chemistry sky-high.',
+        toastBanner: 'ENDORPHIN SPARK +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'puma-low-iron-ferritin-care',
+    act: 2,
+    stage: 3,
+    allowedTiers: ['lynx', 'puma'],
+    title: '30s Real Talk: Ferritin at 11, Freezing Toes & Luteal Ribeye Care',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "30s low-iron/luteal crash hit hard—my 26yo cub showed up with cast-iron ribeye, spinach, vitamin C & a heated throw"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'houseboy_apron',
+    setupHer:
+      'Real 30s biology check: your bloodwork just clocked your ferritin at 11 right as luteal-phase hormone fatigue hits. Your hands and toes are literal ice cubes under two blankets and your brain fog is thick—just as energetic {hisName} ({hisAge}M) texts about Friday plans.',
+    setupHim:
+      '{herName} ({herAge}F) admits her iron/ferritin levels tanked and luteal-week exhaustion hit—she’s freezing on the couch with zero social battery. Most clueless guys whine that plans changed; how do you show up?',
+    recommendedAffiliateId: 'cast-iron-steak-skillet',
+    choices: [
+      {
+        labelHer: 'He looks up ferritin absorption on the drive over, sears grass-fed ribeye + lemony spinach in cast iron, tucks a heated throw around your freezing toes, and expects zero hosting.',
+        labelHim: 'Bring grass-fed ribeye, spinach, citrus (for iron absorption!), and dark chocolate—cook in her cast iron, warm her ice-cold feet, and clean the whole kitchen.',
+        outcomeHer:
+          'Wait—a {hisAge}-year-old man who understands ferritin + vitamin C pairing AND warms your freezing feet without complaining? You almost propose on the sofa.',
+        outcomeHim:
+          'She looks at the seared ribeye and warm blanket like you hung the moon: "Where did you learn biology AND chivalry?!"',
+        toastBanner: 'FERRITIN & HORMONE IQ +30! • CHIVALRY +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 30, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Cast-Iron Ferritin Caretaker',
+      },
+      {
+        labelHer: 'He pouts: "Ugh why are girls always tired or cold? Just drink an energy drink and come to the bar!"',
+        labelHim: 'Tell her to chug a Red Bull and rally for a loud bar anyway.',
+        outcomeHer:
+          'Suggesting Red Bull for ferritin-11 exhaustion earns an immediate front-door lock.',
+        outcomeHim:
+          'Zero empathy + Red Bull medical advice = sleeping alone tonight.',
+        toastBanner: 'RED FLAG! • ZERO BIOLOGICAL EMPATHY (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Cozy iron-rich pho delivery, fuzzy socks, and a zero-pressure movie night in.',
+        labelHim: 'Drop off piping-hot beef pho, dark chocolate, and rub her shoulders through a quiet movie.',
+        outcomeHer:
+          'Warm broth, warm hands, zero pressure—exactly what your body needed.',
+        outcomeHim:
+          'Gentle care turns a low-energy night into deep closeness.',
+        toastBanner: 'COZY CARETAKING +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'cougar-perimenopause-surge-nightsweats',
+    act: 2,
+    stage: 3,
+    allowedTiers: ['cougar'],
+    title: 'Perimenopause Real Talk: The 10 PM Libido Surge vs. 3 AM Flash-Furnace Sheets',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "40s perimenopause truth: unstoppable bedroom drive at 10 PM, then radiating 1,000 degrees kicking off the duvet at 3 AM"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Welcome to the real 40s Cougar perimenopause rollercoaster nobody puts in rom-coms: at 10 PM, a hormone-charged desire surge leaves {hisName} ({hisAge}M) seeing stars—then at 3:14 AM, a sudden flash-furnace night sweat hits, you kick every sheet off the bed, and guard your estradiol patch.',
+    setupHim:
+      'At 10 PM, {herName} ({herAge}F) nearly melted your soul out of your body. At 3:14 AM, she wakes up radiating volcanic perimenopause heat, flinging the comforter across the room and sighing in frustration.',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 3 AM thought: "Perimenopause is wild—one hour I’m a siren, the next I’m sweating through percale at 3 AM. Is a {hisAge}-year-old guy going to be weirded out?"',
+      hisDoubt:
+        'His 3 AM thought: "First, 10 PM was legendary; second, time to be an elite 3 AM cooling pit-crew pro—grab ice water and hit the ceiling fan!"',
+    },
+    recommendedAffiliateId: 'cooling-bamboo-sheets',
+    choices: [
+      {
+        labelHer: 'He matches your 10 PM fire joyfully, then at 3 AM wordlessly clicks the fan on high, hands you ice water, flips your pillow to the cold side, and kisses your forehead with zero awkwardness.',
+        labelHim: 'Match her 10 PM passion wholeheartedly—and at 3 AM click on the fan, hand her ice water, flip her pillow to the cool side, and hold space with zero weirdness.',
+        outcomeHer:
+          'Zero shame, cold pillow, ice water, and a partner who adores *every* part of real 40s womanhood—both the 10 PM wildfire and the 3 AM heat wave.',
+        outcomeHim:
+          'She exhales against the cool pillow, squeezes your hand, and whispers: "How are you this good at 3 AM?"',
+        toastBanner: 'PERIMENOPAUSE PIT-CREW KING! • EQ +30 • CHEMISTRY +30',
+        deltas: { maturity: 25, chivalry: 25, eq: 30, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: '3 AM Cold-Pillow Pit Crew',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He blurts out at 3 AM: "Whoa are you having old-lady hot flashes?! Gross, why is it wet?!"',
+        labelHim: 'Make a juvenile "old-lady hot flash" crack at 3:15 AM.',
+        outcomeHer:
+          'You point silently to his shoes and the front door before 3:16 AM arrives.',
+        outcomeHim:
+          'Fastest Uber ride home in human history—deservedly so.',
+        toastBanner: 'RED FLAG! • JUVENILE 3 AM CRACK (-30)',
+        deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Order cooling bamboo sheets and adopt the Scandinavian two-duvet sleep method together.',
+        labelHim: 'Gift her cooling bamboo sheets so you can stay under a warm duvet while she stays arctic-cool.',
+        outcomeHer:
+          'Scandinavian separate duvets + bamboo sheets = perimenopause sleep nirvana!',
+        outcomeHim:
+          'Practical, thoughtful problem-solving wins huge romance points.',
+        toastBanner: 'COOLING SHEET UPGRADE +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'menopause-intimacy-masterclass',
+    act: 2,
+    stage: 3,
+    allowedTiers: ['jaguar', 'panther'],
+    title: 'Menopause & Intimacy Real Talk: Zero Pregnancy Scares & Unhurried Mastery',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "50s/60s menopause intimacy—zero pregnancy anxiety, why rushing is outlawed, and how an attentive cub became my best lover"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Real talk for Jaguars & Panthers ({herAge}F): post-menopause intimacy comes with one unbeatable superpower (*zero pregnancy scares ever!*) alongside real estrogen shifts—meaning impatient 22-year-old rushing is strictly banned, luxury bedside moisture is an unapologetic staple, and unhurried attentiveness rules all.',
+    setupHim:
+      'Behind closed doors with {herName} ({herAge}F), menopause brings two truths every great Cub learns fast: zero pregnancy stress, AND her body rewards slow, vocal, ego-free warmup + keeping luxury bedside essentials within reach without a shred of awkwardness.',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her silent thought: "Menopause changes timing and moisture—will a {hisAge}-year-old man take that personally or treat my body with grown-up reverence?"',
+      hisDoubt:
+        'His silent thought: "Don’t rush like an amateur—listen to her cues, take all night if she wants, and treat bedside essentials like champagne."',
+    },
+    recommendedAffiliateId: 'cooling-bamboo-sheets',
+    choices: [
+      {
+        labelHer: 'Total body honesty and zero rushing—he treats bedside essentials as seamlessly natural, asks "Show me your favorite pace," and turns patience into electric fireworks.',
+        labelHim: 'Zero ego, zero rushing—embrace unhurried warmup, keep luxury bedside essentials handy seamlessly, and let her vocal cues guide an unforgettable night.',
+        outcomeHer:
+          'Unhurried, attentive, ego-free, and enthusiastically devoted—proving why women in their 50s and 60s rave that their best intimacy ever started *after* menopause.',
+        outcomeHim:
+          'Listening instead of rushing unlocks a level of chemistry neither of you will ever forget... [Fade to Sunrise].',
+        toastBanner: 'MENOPAUSE INTIMACY MASTERCLASS! • EQ +30 • CHEMISTRY +30',
+        deltas: { maturity: 25, chivalry: 20, eq: 30, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Unhurried Intimacy Virtuoso',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He rushes impatiently like a frat hookup and gets defensive/sulky when you ask to slow down.',
+        labelHim: 'Rush straight ahead with zero warmup and take feedback personally.',
+        outcomeHer:
+          'At {herAge}, you have zero patience left for bad, rushed, ego-driven lovers.',
+        outcomeHim:
+          'Fragile bedroom ego and rushing are fatal mistakes.',
+        toastBanner: 'RED FLAG! • RUSHED AMATEUR HOUR (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -30, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Talk openly over wine first about what feels best now so expectations are crystal clear.',
+        labelHim: 'Ask warmly before things heat up what makes her feel most comfortable and desired.',
+        outcomeHer:
+          'Grown communication before clothes come off builds effortless trust.',
+        outcomeHim:
+          'Open curiosity makes everything ten times hotter.',
+        toastBanner: 'COMMUNICATION SPARK +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'steamy-texts-sister-age-shock',
+    act: 2,
+    stage: 3,
+    minAgeGap: 6,
+    title: 'Steamy Texts... Then Pure Post-Banging Shock ("YOU’RE MY LITTLE SISTER’S AGE?!")',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "After all-day steamy texts and mind-blowing intimacy, I saw his birth year and screamed OMG YOU ARE THE SAME AGE AS MY LITTLE SISTER"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'All afternoon your phones practically caught fire trading steamy slow-burn texts (*"Still thinking about your hands... clear your whole night 🔥"*). Two hours later, post-[Fade-to-Fireworks] in tangled sheets, you spot {hisName}’s birth year on his wallet ID, bolt upright clutching the percale sheet to your chin, and shriek in pure comedic horror: **"WAIT A SECOND. YOU ARE LITERALLY THE EXACT SAME AGE AS MY BABY SISTER—AND WE JUST BANGED?!"**',
+    setupHim:
+      'After trading scorching flirty texts all day and an Olympic-medal night together, {herName} ({herAge}F) glances at your birth year, freezes like she saw a ghost, grabs the bedsheet, and yells half-mortified, half-laughing: **"OH MY GOD. YOU WERE IN DIAPERS/GRADE SCHOOL WITH MY LITTLE SISTER AND WE JUST—?!"**',
+    recommendedAffiliateId: 'espresso-martini-barware',
+    choices: [
+      {
+        labelHer: 'Dissolve into hysterical laughter as he grins shamelessly, tugs the sheet gently, and says: "Way too late for refunds now—and I promise I’m a lot more fun than your little sister’s group chat."',
+        labelHim: 'Grin shamelessly without a second of awkwardness, pull her back into the pillows, and tease: "No refunds after five-star reviews—let’s ban birth-year math until brunch."',
+        outcomeHer:
+          'You laugh until tears roll down your cheeks. Owning the absurd comedy of the age-math jump-scare makes the chemistry even hotter!',
+        outcomeHim:
+          'Turning her existential age-math shriek into belly laughter seals legendary bedroom banter—and she immediately texts you a 🔥 emoji from two feet away.',
+        toastBanner: 'SISTER-AGE SHOCK SURVIVED! • CHEMISTRY +30 • EQ +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Survived "Same Age as My Baby Sister!"',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He winks cluelessly: "Wait really? Is your little sister cute too? 😂"',
+        labelHim: 'Joke "Oh word, is your little sister single?" while still in her bed.',
+        outcomeHer:
+          'His clothes hit the driveway before his socks even touch the floor.',
+        outcomeHim:
+          'You have been launched into low Earth orbit from her bedroom window.',
+        toastBanner: 'RED FLAG! • LAUNCHED INTO ORBIT (-30)',
+        deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Institute an official "IDs stay in wallets, no graduation-year math in bed" house rule.',
+        labelHim: 'Flip your wallet face-down on the nightstand and kiss her until she forgets calendar years exist.',
+        outcomeHer:
+          'Official house rule adopted unanimously!',
+        outcomeHim:
+          'Smartest house rule in age-gap history.',
+        toastBanner: 'NO BEDROOM MATH RULE +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
       },
     ],
   },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageCircle, Send, Sparkles, X } from 'lucide-react';
+import { Flame, MessageCircle, Send, Sparkles, X } from 'lucide-react';
 import type { WalletState } from '../domain/economy';
 import { HER_ARCHETYPES, HIS_ARCHETYPES } from '../domain/taxonomy';
 import { sfx } from '../lib/sound';
@@ -20,7 +20,9 @@ interface InboxContact {
   role: 'her' | 'him';
   photoUrl: string;
   openingPrompt: string;
+  steamyPrompt: string;
   quickChips: string[];
+  steamyChips: string[];
 }
 
 const INBOX_CONTACTS: InboxContact[] = [
@@ -35,18 +37,29 @@ const INBOX_CONTACTS: InboxContact[] = [
       h.subplotTags.includes('junior_cougar_gap')
         ? `Quick math check: I’m 38, so a 6-year gap officially makes me a "Junior Cougar." Tell me where you were in 2008—and your actual Friday dinner plan.`
         : h.subplotTags.includes('dog_mom_divorced')
-        ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
-        : h.age < 40
-          ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
-        : h.age >= 60
-          ? `We matched at the Palm Springs gallery opening. Most men half my age get nervous—tell me how you’d court me this weekend.`
-          : h.subplotTags.includes('princess_treatment')
-            ? `I’ve made 400 executive decisions this week and refuse to plan Friday night. How are you spoiling me?`
-            : `90% of cubs in my DMs open with "hey" or ask for Snapchat. You get one shot—what’s your actual Friday move?`,
+          ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
+          : h.age < 40
+            ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
+            : h.age >= 60
+              ? `We matched at the Palm Springs gallery opening. Most men half my age get nervous—tell me how you’d court me this weekend.`
+              : h.subplotTags.includes('princess_treatment')
+                ? `I’ve made 400 executive decisions this week and refuse to plan Friday night. How are you spoiling me?`
+                : `90% of cubs in my DMs open with "hey" or ask for Snapchat. You get one shot—what’s your actual Friday move?`,
+    steamyPrompt:
+      h.age >= 50
+        ? `Stuck in a meeting still smiling about how unhurried and attentive you were last night... keep the slow-burn tension going before tonight 🔥`
+        : h.age >= 40
+          ? `Can’t focus on this VP deck after last night—hope you hit bench press today because you’re carrying me straight upstairs at 8 🔥 What’s the plan?`
+          : `Still blushing at my desk thinking about last night (right until I panicked realizing you’re my baby sister’s age 😱😂). Keep the spark going—what are you doing to me Friday?`,
     quickChips: [
       'Booked a corner table at The Velvet Wine Bar Friday at 7:30—peonies & zero planning on your end.',
       'Quick 5-minute call at 6 PM today so I can lock in Friday tapas around your schedule?',
       'hey 😍 ngl u look crazy good for ur age whats ur snap??',
+    ],
+    steamyChips: [
+      'Just crushed 5 sets of 225 on bench specifically so I can carry you straight upstairs at 8—silk robe & dinner handled 🔥',
+      'Bringing cast-iron ribeye, cooling bamboo sheets, and my full unhurried attention all night—unlock the door at 7:30.',
+      'Wait is your little sister cute too?? 😂🔥',
     ],
   })),
   ...HIS_ARCHETYPES.slice(0, 2).map((c) => ({
@@ -57,10 +70,16 @@ const INBOX_CONTACTS: InboxContact[] = [
     role: 'him' as const,
     photoUrl: c.photoUrl,
     openingPrompt: `Hey ${c.name} here—saw your profile and couldn’t resist saying hi! Would love to take you for espresso martinis Thursday at 7:30 if you’re free?`,
+    steamyPrompt: `Just finished bench press & split squats at the gym thinking about last night... tell me what time I’m sweeping you off your feet tonight 🔥`,
     quickChips: [
       'Thursday at 7:30 sounds lovely—bonus points if you survive my 6 AM Saturday ridge hike after.',
       'Only if you confirm you own a real bedframe and never ask me for Snapchat.',
       'Aren’t cubs supposed to let me boss them around? Show up on time.',
+    ],
+    steamyChips: [
+      'Door’s unlocked at 8, silk robe is on, and wallets stay hidden so I don’t shriek at your birth year again 🔥',
+      'Save enough strength to flip my pillow to the cold side at 3 AM after round two tonight.',
+      'Bring cast-iron ribeye for my low iron first, then carry me upstairs.',
     ],
   })),
 ];
@@ -72,8 +91,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   onSpendCreditOrOpenBoutique,
 }) => {
   const [selected, setSelected] = useState<InboxContact>(INBOX_CONTACTS[0]);
-  const [turnsByContact, setTurnsByContact] = useState<Record<string, LiveInboxTurn[]>>({});
-  const [coachByContact, setCoachByContact] = useState<
+  const [steamyMode, setSteamyMode] = useState(false);
+  const [turnsByThread, setTurnsByThread] = useState<Record<string, LiveInboxTurn[]>>({});
+  const [coachByThread, setCoachByThread] = useState<
     Record<string, { note: string; deltas: string; passed: boolean; source: string }>
   >({});
   const [input, setInput] = useState('');
@@ -82,8 +102,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
   if (!open) return null;
 
-  const turns = turnsByContact[selected.id] ?? [];
-  const lastCoach = coachByContact[selected.id];
+  const threadKey = `${selected.id}:${steamyMode ? 'steamy' : 'vet'}`;
+  const turns = turnsByThread[threadKey] ?? [];
+  const lastCoach = coachByThread[threadKey];
+  const activePrompt = steamyMode ? selected.steamyPrompt : selected.openingPrompt;
+  const activeChips = steamyMode ? selected.steamyChips : selected.quickChips;
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +123,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
     sfx.messagePop();
     const nextTurns: LiveInboxTurn[] = [...turns, { sender: 'player', text: trimmed }];
-    setTurnsByContact((prev) => ({ ...prev, [selected.id]: nextTurns }));
+    setTurnsByThread((prev) => ({ ...prev, [threadKey]: nextTurns }));
     setInput('');
     setTyping(true);
 
@@ -108,10 +131,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       personaId: selected.id,
       personaName: selected.name,
       personaAge: selected.age,
-      personaTitle: selected.title,
+      personaTitle: steamyMode
+        ? `${selected.title} (Midday Slow-Burn Romance Flirt Mode)`
+        : selected.title,
       personaRole: selected.role,
       playerMessage: trimmed,
-      history: nextTurns,
+      history: [{ sender: 'match', text: activePrompt }, ...nextTurns],
     });
 
     setTyping(false);
@@ -121,15 +146,15 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       sfx.redFlag();
     }
 
-    setTurnsByContact((prev) => ({
+    setTurnsByThread((prev) => ({
       ...prev,
-      [selected.id]: [...nextTurns, { sender: 'match', text: verdict.herReply }],
+      [threadKey]: [...nextTurns, { sender: 'match', text: verdict.herReply }],
     }));
 
     const sign = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
-    setCoachByContact((prev) => ({
+    setCoachByThread((prev) => ({
       ...prev,
-      [selected.id]: {
+      [threadKey]: {
         note: verdict.coachNote,
         deltas: `Maturity ${sign(verdict.maturityDelta)} • Chivalry ${sign(verdict.chivalryDelta)} • Chemistry ${sign(verdict.chemistryDelta)}`,
         passed: verdict.passedVibeCheck,
@@ -147,7 +172,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     >
       <div className="vice-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl bg-[#130a20]">
         {/* Header */}
-        <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#1c0f2e] px-4 py-3 sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-[#1c0f2e] px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2.5">
             <MessageCircle className="h-5 w-5 text-teal-300" />
             <div>
@@ -163,14 +188,42 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               </p>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg border-2 border-black bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
-            aria-label="Close Live Inbox"
-          >
-            <X className="h-4 w-4" />
-          </button>
+
+          <div className="flex items-center gap-2">
+            {/* First-Date Vetting vs. Midday Steamy Slow-Burn Toggle */}
+            <div className="inline-flex rounded-xl border-2 border-black bg-black/60 p-0.5 text-xs font-extrabold">
+              <button
+                type="button"
+                onClick={() => setSteamyMode(false)}
+                className={`rounded-lg px-2.5 py-1 transition cursor-pointer ${
+                  !steamyMode ? 'bg-teal-400 text-slate-950' : 'text-slate-300'
+                }`}
+              >
+                🍸 Date #1 Vet
+              </button>
+              <button
+                type="button"
+                onClick={() => setSteamyMode(true)}
+                className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1 transition cursor-pointer ${
+                  steamyMode
+                    ? 'bg-gradient-to-r from-rose-500 to-amber-400 text-slate-950'
+                    : 'text-pink-300'
+                }`}
+              >
+                <Flame className="h-3 w-3" />
+                <span>Steamy Texts</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-lg border-2 border-black bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
+              aria-label="Close Live Inbox"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         {/* Contact Avatar Strip */}
@@ -221,7 +274,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 <span className="text-amber-300">{selected.title}</span>
               </div>
               <div className="text-xs text-slate-300">
-                Type your real response—or test a red-flag line to watch her roast it!
+                {steamyMode
+                  ? '🔥 Midday Slow-Burn Flirt Mode: keep the romance boiling without tripping over birth-year math!'
+                  : '🍸 First-DM Vetting Mode: send a real plan—or test a red-flag line to watch her roast it!'}
               </div>
             </div>
           </div>
@@ -234,7 +289,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               className="h-8 w-8 rounded-full object-cover object-top border border-white/20 shrink-0"
             />
             <div className="rounded-2xl rounded-bl-sm border border-white/10 bg-[#25153b] px-4 py-2.5 text-sm text-slate-100 shadow">
-              {selected.openingPrompt}
+              {activePrompt}
             </div>
           </div>
 
@@ -292,7 +347,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         {/* Quick Inspiration Chips + Composer */}
         <div className="border-t border-white/10 bg-[#190d29] p-3 sm:p-4 space-y-2.5">
           <div className="flex gap-1.5 overflow-x-auto pb-1">
-            {selected.quickChips.map((chip, idx) => (
+            {activeChips.map((chip, idx) => (
               <button
                 key={idx}
                 type="button"

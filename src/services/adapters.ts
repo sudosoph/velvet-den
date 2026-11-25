@@ -118,15 +118,28 @@ export function evaluateDmLocally(params: {
   const lower = msg.toLowerCase();
 
   const hasSnap = /\bsnap(chat)?\b/.test(lower);
+  const hasSisterFumble = /little\s+sister\s+cute|sister\s+single/.test(lower);
   const hasMommyOrSugar =
     /\b(mommy|sugar\s*mama|allowance|spoil\s*me|amex|cabo|cougar\s*bucket)\b/.test(lower);
   const hasForYourAge = /for\s+(your|ur)\s+age/.test(lower) || /\blook\s+good\s+for\b/.test(lower);
   const isLazyHey =
     msg.length < 12 || /^(hey+|yo+|sup|wyd|u\s*up\??|hi+)$/i.test(msg.replace(/[!?.🔥😍👀]/g, '').trim());
   const hasPlan =
-    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|reservation|table|trail|peonies|call)\b/.test(
+    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow)\b/.test(
       lower,
     );
+
+  if (hasSisterFumble) {
+    return {
+      maturityDelta: -25,
+      chivalryDelta: -25,
+      chemistryDelta: -25,
+      herReply: `Excuse me?! Ask about my little sister ONE more time and your gym duffel is going out the second-story window. 🚩`,
+      coachNote: 'Rule #0: When she has a post-hookup "OMG you’re my baby sister’s age!!" shock moment, make her laugh—NEVER ask if her sister is cute!',
+      passedVibeCheck: false,
+      source: 'local-heuristic',
+    };
+  }
 
   if (hasSnap || hasMommyOrSugar || hasForYourAge) {
     const reason = hasSnap

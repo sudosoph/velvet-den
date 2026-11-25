@@ -105,13 +105,10 @@ export function buildEpisodeQueue(
     pushById('junior-cougar-gatekeeper-tease');
     pushById('check-drop');
     pushById('junior-cougar-micro-gen-overlap');
-    if (tags.has('princess_treatment')) {
-      pushById('princess-soft-life');
-    } else {
-      pushById('trail-run-short-leash');
-    }
+    pushById('cub-bench-press-cougar-training');
     pushById('junior-cougar-condo-vs-lease');
-    pushById('mirror-game-insecurities');
+    pushById('puma-low-iron-ferritin-care');
+    pushById('steamy-texts-sister-age-shock');
 
     for (const vipId of includeVipEpisodeIds) {
       const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
@@ -137,9 +134,10 @@ export function buildEpisodeQueue(
       pushById('puma-dog-park-vetting');
       pushById('check-drop');
       pushById('code-switch-texting');
-      pushById('trail-run-short-leash');
+      pushById('cub-bench-press-cougar-training');
       pushById('puma-weaponized-incompetence-test');
-      pushById('mirror-game-insecurities');
+      pushById('puma-low-iron-ferritin-care');
+      pushById('steamy-texts-sister-age-shock');
 
       for (const vipId of includeVipEpisodeIds) {
         const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
@@ -157,19 +155,16 @@ export function buildEpisodeQueue(
 
       pushById('puma-dogmom-dink-future');
     } else {
-      // 30s Single-Mom Puma Arc: Babysitter Clocks, Co-Parenting Boundaries, Boys' Group Chat, Doubt & 30s Intentionality
+      // 30s Single-Mom Puma Arc: Babysitter Clocks, Co-Parenting Boundaries, Low-Iron Care, Sister-Shock, Doubt & 30s Intentionality
       pushById('check-drop');
       if (tags.has('single_mom_sitter')) {
         pushById('babysitter-flake-test');
       }
       pushById('code-switch-texting');
-      if (tags.has('princess_treatment')) {
-        pushById('princess-soft-life');
-      } else {
-        pushById('trail-run-short-leash');
-      }
+      pushById('cub-bench-press-cougar-training');
       pushById('puma-kid-intro-boundary');
-      pushById('mirror-game-insecurities');
+      pushById('puma-low-iron-ferritin-care');
+      pushById('steamy-texts-sister-age-shock');
 
       for (const vipId of includeVipEpisodeIds) {
         const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
@@ -192,7 +187,7 @@ export function buildEpisodeQueue(
       }
     }
   } else if (tier === 'cougar') {
-    // 40s Cougar / Princess Cougar Arc
+    // 40s Cougar / Princess Cougar Arc (with Bench Press, Perimenopause Surge/3 AM Sheets & Sister-Shock!)
     pushById('check-drop');
     pushById('code-switch-texting');
     if (tags.has('princess_treatment')) {
@@ -200,10 +195,10 @@ export function buildEpisodeQueue(
     } else {
       pushById('cougar-thermostat-retinol');
     }
-    if (tags.has('trail_leash_boss')) {
-      pushById('trail-run-short-leash');
-    }
+    pushById('cub-bench-press-cougar-training');
     pushById('cougar-salary-negotiation');
+    pushById('cougar-perimenopause-surge-nightsweats');
+    pushById('steamy-texts-sister-age-shock');
     pushById('mirror-game-insecurities');
 
     for (const vipId of includeVipEpisodeIds) {
@@ -229,12 +224,14 @@ export function buildEpisodeQueue(
       pushById('adult-kid-brunch');
     }
   } else if (tier === 'jaguar') {
-    // 50s Gen-X Jaguar Arc: 6 PM Phone Calls, 6 AM Short-Leash Ridge, Pilates Shake, Adult Daughter, The Doubt & LAT
+    // 50s Gen-X Jaguar Arc (with Bench Press, Menopause Intimacy Masterclass & Sister-Shock!)
     pushById('jaguar-genx-phone-call');
     pushById('check-drop');
     pushById('trail-run-short-leash');
     pushById('jaguar-pilates-core-shake');
-    pushById('mirror-game-insecurities');
+    pushById('cub-bench-press-cougar-training');
+    pushById('menopause-intimacy-masterclass');
+    pushById('steamy-texts-sister-age-shock');
 
     for (const vipId of includeVipEpisodeIds) {
       const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
@@ -256,13 +253,13 @@ export function buildEpisodeQueue(
     }
     pushById('jaguar-lat-living-apart');
   } else {
-    // 60+ Panther Icon Arc: Black-Tie Gala, Public Stigma Mastery, Fierce Friends, The Doubt & "75 and 45" Timeline
+    // 60+ Panther Icon Arc (with Bench Press, Menopause Intimacy Masterclass & Sister-Shock!)
     pushById('panther-black-tie-gala');
     pushById('check-drop');
     pushById('code-switch-texting');
-    if (tags.has('princess_treatment')) {
-      pushById('princess-soft-life');
-    }
+    pushById('cub-bench-press-cougar-training');
+    pushById('menopause-intimacy-masterclass');
+    pushById('steamy-texts-sister-age-shock');
     pushById('mirror-game-insecurities');
 
     for (const vipId of includeVipEpisodeIds) {

@@ -108,6 +108,39 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     whyItConverts: 'Impulse sub-$30 gift for real Cougar/Cub couples.',
     merchantUrl: 'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
   },
+  {
+    id: 'cooling-bamboo-sheets',
+    name: '100% Organic Bamboo Viscose Temperature-Regulating Sheet Set',
+    category: 'hosting_upgrade',
+    priceDisplay: '$89',
+    badge: '3 AM Perimenopause & Menopause Hero',
+    cheekyPitch:
+      'For 10 PM sparks followed by 3 AM flash-furnace heat waves—wicks heat instantly so nobody has to kick the duvet across the room.',
+    whyItConverts: 'Directly solves the #1 sleep/intimacy complaint in 40s–60s relationships.',
+    merchantUrl: 'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
+  },
+  {
+    id: 'cast-iron-steak-skillet',
+    name: '12-Inch Pre-Seasoned Cast-Iron Ribeye Skillet',
+    category: 'houseboy',
+    priceDisplay: '$44',
+    badge: '30s Low-Iron Caretaking MVP',
+    cheekyPitch:
+      'When her ferritin hits 11 and her toes are ice cubes: sear a grass-fed ribeye with lemony spinach in cast iron like an elite high-EQ Cub.',
+    whyItConverts: 'Tied directly to the 30s Hormonal & Low-Iron Caretaking subplot.',
+    merchantUrl: 'https://www.amazon.com/s?k=12+inch+pre+seasoned+cast+iron+skillet',
+  },
+  {
+    id: 'adjustable-dumbbell-bench',
+    name: 'Heavy-Duty Foldable Weight Bench ("Carry Her Upstairs" Kit)',
+    category: 'trail_wellness',
+    priceDisplay: '$129',
+    badge: 'Cub Bench-Press Essential',
+    cheekyPitch:
+      'Because keeping up with a Cougar in her prime—and sweeping her up the stairs after espresso martinis—requires real chest and core reps.',
+    whyItConverts: 'Direct tie-in to the Cub Bench-Press Training minigame.',
+    merchantUrl: 'https://www.amazon.com/s?k=foldable+adjustable+weight+bench+home+gym',
+  },
 ];
 
 export interface AffiliateTagOverrides {
