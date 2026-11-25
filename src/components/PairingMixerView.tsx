@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Award,
   ChevronLeft,
@@ -916,93 +917,95 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       </section>
 
       {/* FULL PROFILE DOSSIER MODAL (Read 100% of any Roster Member anywhere!) */}
-      {inspectedProfile && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/60 p-4 backdrop-blur-xs"
-          onClick={() => setInspectedProfile(null)}
-          role="dialog"
-          aria-modal="true"
-        >
+      {inspectedProfile &&
+        createPortal(
           <div
-            className="vice-panel max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl p-6 space-y-4 bg-white"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/60 p-4 backdrop-blur-xs"
+            onClick={() => setInspectedProfile(null)}
+            role="dialog"
+            aria-modal="true"
           >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <span className="inline-block rounded-full bg-[#FFF1F2] px-3 py-0.5 text-xs font-bold text-[#E11D48]">
-                  Official Club Roster Dossier
-                </span>
-                <h3 className="mt-1 font-display text-2xl text-[#18101E]">
-                  {inspectedProfile.name}, {inspectedProfile.age}
-                </h3>
-                <div className="text-sm font-bold text-[#BE123C]">{inspectedProfile.title}</div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setInspectedProfile(null)}
-                className="pop-btn h-9 w-9 inline-flex items-center justify-center rounded-full bg-[#F8FAFC] text-[#18101E] cursor-pointer"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            <img
-              src={inspectedProfile.photoUrl}
-              alt={inspectedProfile.name}
-              className="h-64 w-full rounded-2xl object-cover object-top"
-            />
-
-            {(() => {
-              const details = getProfileDetails(inspectedProfile);
-              return (
-                <div className="space-y-3 text-sm text-[#18101E]">
-                  <div className="flex flex-wrap gap-2 text-xs font-bold">
-                    <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/12 px-3 py-1">
-                      📏 {details.height}
-                    </span>
-                    <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/12 px-3 py-1">
-                      ✨ {details.zodiac}
-                    </span>
-                    <span className="rounded-full bg-[#FFF1F2] px-3 py-1 text-[#BE123C]">
-                      🍸 {details.signatureDrink}
-                    </span>
-                  </div>
-                  <p className="font-semibold leading-relaxed">{inspectedProfile.tagline}</p>
-                  <p className="text-[#475569] leading-relaxed">{inspectedProfile.vibeSummary}</p>
-                  <div className="rounded-xl bg-[#FFFBEB] border border-[#F59E0B]/30 p-3 text-xs font-semibold text-[#92400E]">
-                    💞 Love Language: {details.loveLanguage}
-                  </div>
+            <div
+              className="vice-panel max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl p-6 space-y-4 bg-white"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span className="inline-block rounded-full bg-[#FFF1F2] px-3 py-0.5 text-xs font-bold text-[#E11D48]">
+                    Official Club Roster Dossier
+                  </span>
+                  <h3 className="mt-1 font-display text-2xl text-[#18101E]">
+                    {inspectedProfile.name}, {inspectedProfile.age}
+                  </h3>
+                  <div className="text-sm font-bold text-[#BE123C]">{inspectedProfile.title}</div>
                 </div>
-              );
-            })()}
+                <button
+                  type="button"
+                  onClick={() => setInspectedProfile(null)}
+                  className="pop-btn h-9 w-9 inline-flex items-center justify-center rounded-full bg-[#F8FAFC] text-[#18101E] cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
 
-            <div className="flex gap-2.5 pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  if ('felineTierHint' in inspectedProfile || HER_ARCHETYPES.some((h) => h.id === inspectedProfile.id)) {
-                    onSelectHer(inspectedProfile as HerArchetype);
-                  } else {
-                    onSelectHis(inspectedProfile as HisArchetype);
-                  }
-                  setInspectedProfile(null);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="pop-btn flex-1 h-11 rounded-xl bg-[#E11D48] text-sm font-bold text-white border-transparent cursor-pointer"
-              >
-                Draft {inspectedProfile.name} &amp; View Matchup ↑
-              </button>
-              <button
-                type="button"
-                onClick={() => setInspectedProfile(null)}
-                className="pop-btn h-11 rounded-xl bg-white px-4 text-sm font-bold text-[#18101E] cursor-pointer"
-              >
-                Close
-              </button>
+              <img
+                src={inspectedProfile.photoUrl}
+                alt={inspectedProfile.name}
+                className="h-64 w-full rounded-2xl object-cover object-top"
+              />
+
+              {(() => {
+                const details = getProfileDetails(inspectedProfile);
+                return (
+                  <div className="space-y-3 text-sm text-[#18101E]">
+                    <div className="flex flex-wrap gap-2 text-xs font-bold">
+                      <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/12 px-3 py-1">
+                        📏 {details.height}
+                      </span>
+                      <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/12 px-3 py-1">
+                        ✨ {details.zodiac}
+                      </span>
+                      <span className="rounded-full bg-[#FFF1F2] px-3 py-1 text-[#BE123C]">
+                        🍸 {details.signatureDrink}
+                      </span>
+                    </div>
+                    <p className="font-semibold leading-relaxed">{inspectedProfile.tagline}</p>
+                    <p className="text-[#475569] leading-relaxed">{inspectedProfile.vibeSummary}</p>
+                    <div className="rounded-xl bg-[#FFFBEB] border border-[#F59E0B]/30 p-3 text-xs font-semibold text-[#92400E]">
+                      💞 Love Language: {details.loveLanguage}
+                    </div>
+                  </div>
+                );
+              })()}
+
+              <div className="flex gap-2.5 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if ('felineTierHint' in inspectedProfile || HER_ARCHETYPES.some((h) => h.id === inspectedProfile.id)) {
+                      onSelectHer(inspectedProfile as HerArchetype);
+                    } else {
+                      onSelectHis(inspectedProfile as HisArchetype);
+                    }
+                    setInspectedProfile(null);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="pop-btn flex-1 h-11 rounded-xl bg-[#E11D48] text-sm font-bold text-white border-transparent cursor-pointer"
+                >
+                  Draft {inspectedProfile.name} &amp; View Matchup ↑
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInspectedProfile(null)}
+                  className="pop-btn h-11 rounded-xl bg-white px-4 text-sm font-bold text-[#18101E] cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
 
       <div className="text-center">
         <button
@@ -1015,12 +1018,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       </div>
 
       {/* MODAL DRAWER: CUSTOMIZE NAMES, DRINKS & TWISTS / VIP SCENES */}
-      {activeDrawer && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-4 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-        >
+      {activeDrawer &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-4 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+          >
           <div className="vice-panel max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-3xl p-6 space-y-5">
             <div className="flex items-center justify-between border-b-2 border-[#1E1022]/12 pb-4">
               <div>
@@ -1256,8 +1260,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </button>
             </div>
           </div>
-        </div>
-      )}
+        </div>,
+          document.body,
+        )}
 
       {/* Sticky Mobile Launch Bar */}
       <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border-2 border-[#1E1022] bg-white p-3 shadow-[4px_4px_0px_#1E1022] flex items-center justify-between gap-3">
