@@ -53,7 +53,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
           <div className="px-2 pb-1 text-xs font-extrabold uppercase tracking-wide text-[#5A4664]">
             All {JOURNAL_ARTICLES.length} Club Guides
           </div>
-          <div className="space-y-2 max-h-[540px] overflow-y-auto pr-1">
+          <div className="space-y-2">
             {JOURNAL_ARTICLES.map((art, idx) => {
               const isSelected = art.slug === active.slug;
               return (

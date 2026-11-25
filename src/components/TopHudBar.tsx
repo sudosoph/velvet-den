@@ -66,30 +66,25 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
   return (
     <header className="sticky top-0 z-30 border-b-[2.5px] border-[#1E1022] bg-[#FFFDF9]/95 backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2.5 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
         <button
           type="button"
           onClick={handleLogoClick}
-          className="group flex items-center gap-3 text-left cursor-pointer"
+          className="group flex shrink-0 items-center gap-2.5 text-left cursor-pointer"
         >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border-2 border-[#1E1022] bg-[#FF2E63] text-xl text-white shadow-[3px_3px_0px_#1E1022] group-hover:-translate-y-0.5 transition">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-[#1E1022] bg-[#FF2E63] text-lg text-white shadow-[3px_3px_0px_#1E1022] group-hover:-translate-y-0.5 transition">
             🐆
           </span>
-          <div>
-            <div className="font-display text-xl sm:text-2xl text-[#1E1022] group-hover:text-[#FF2E63] transition-colors">
-              {BRAND_CONFIG.name}
-            </div>
-            <div className="hidden xl:block text-xs font-semibold text-[#5A4664]">
-              {BRAND_CONFIG.subtitle}
-            </div>
-          </div>
+          <span className="font-display text-xl sm:text-[22px] tracking-tight text-[#1E1022] group-hover:text-[#FF2E63] transition-colors">
+            {BRAND_CONFIG.name}
+          </span>
         </button>
 
-        <nav className="flex w-full lg:w-auto overflow-x-auto no-scrollbar items-center gap-2 pb-0.5 lg:pb-0">
+        <nav className="flex w-full lg:w-auto overflow-x-auto no-scrollbar items-center lg:justify-end gap-2 pb-0.5 lg:pb-0">
           <button
             type="button"
             onClick={onOpenLiveInbox}
-            className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-white px-3.5 text-sm font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
+            className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-white px-3 text-sm font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
           >
             <MessageCircle className="h-4 w-4 text-[#FF2E63]" />
             <span>AI Text</span>
@@ -99,7 +94,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             <button
               type="button"
               onClick={onOpenPopTrivia}
-              className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-white px-3.5 text-sm font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
+              className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-white px-3 text-sm font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
             >
               <Award className="h-4 w-4 text-[#FF2E63]" />
               <span>Quiz</span>
@@ -109,7 +104,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onOpenFieldGuide}
-            className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-white px-3.5 text-sm font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
+            className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-white px-3 text-sm font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
           >
             <BookOpen className="h-4 w-4 text-[#FF2E63]" />
             <span>Field Guide</span>
@@ -118,7 +113,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab(activeTab === 'journal' ? 'game' : 'journal')}
-            className={`pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl px-3.5 text-sm font-bold cursor-pointer ${
+            className={`pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl px-3 text-sm font-bold cursor-pointer ${
               activeTab === 'journal'
                 ? 'bg-[#FF2E63] text-white'
                 : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
@@ -131,7 +126,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onOpenBoutique}
-            className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#FFBE0B] hover:bg-[#FFD166] px-4 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+            className="pop-btn shrink-0 inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#FFBE0B] hover:bg-[#FFD166] px-3.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
           >
             {wallet.isFounderUnlimited ? (
               <Wrench className="h-4 w-4" />
