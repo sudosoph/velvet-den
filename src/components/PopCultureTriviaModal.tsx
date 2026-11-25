@@ -94,7 +94,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
             </p>
             {bonusClaimed && (
               <div className="rounded-xl bg-emerald-400/20 border border-emerald-400/50 px-4 py-2 text-xs font-extrabold text-emerald-300">
-                🎉 +3 Bonus Velvet Credits added to your wallet for completing the Pop-Culture Quiz!
+                🎉 +3 Bonus Den Credits added to your wallet for completing the Pop-Culture Quiz!
               </div>
             )}
             <div className="flex justify-center gap-3 pt-2">

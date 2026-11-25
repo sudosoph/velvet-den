@@ -52,7 +52,7 @@ const INBOX_CONTACTS: InboxContact[] = [
           ? `Can’t focus on this VP deck after last night—hope you hit bench press today because you’re carrying me straight upstairs at 8 🔥 What’s the plan?`
           : `Still blushing at my desk thinking about last night (right until I panicked realizing you’re my baby sister’s age 😱😂). Keep the spark going—what are you doing to me Friday?`,
     quickChips: [
-      'Booked a corner table at The Velvet Wine Bar Friday at 7:30—peonies & zero planning on your end.',
+      'Booked a corner table at The Cougar Lounge Friday at 7:30—peonies & zero planning on your end.',
       'Quick 5-minute call at 6 PM today so I can lock in Friday tapas around your schedule?',
       'hey 😍 ngl u look crazy good for ur age whats ur snap??',
     ],
@@ -62,18 +62,23 @@ const INBOX_CONTACTS: InboxContact[] = [
       'Wait is your little sister cute too?? 😂🔥',
     ],
   })),
-  ...HIS_ARCHETYPES.slice(0, 2).map((c) => ({
+  ...HIS_ARCHETYPES.slice(0, 6).map((c) => ({
     id: c.id,
     name: c.name,
     age: c.age,
     title: c.title,
     role: 'him' as const,
     photoUrl: c.photoUrl,
-    openingPrompt: `Hey ${c.name} here—saw your profile and couldn’t resist saying hi! Would love to take you for espresso martinis Thursday at 7:30 if you’re free?`,
+    openingPrompt:
+      c.id === 'kayden-broke-dutch-cub'
+        ? `yo ${c.name} here!! down to grab sushi tn if we go dutch lol my campus dining dollars dont work off campus 😅`
+        : c.id === 'colton-montana-cowboy-cub'
+          ? `Okay busted—I accidentally commented "I love you" from my boys’ shared @MontanaRanchBoyz TikTok before sliding in here 🤠 Let me fly out and take you to dinner Friday?`
+          : `Hey ${c.name} here—saw your profile and couldn’t resist saying hi! Would love to take you for espresso martinis Thursday at 7:30 if you’re free?`,
     steamyPrompt: `Just finished bench press & split squats at the gym thinking about last night... tell me what time I’m sweeping you off your feet tonight 🔥`,
     quickChips: [
       'Thursday at 7:30 sounds lovely—bonus points if you survive my 6 AM Saturday ridge hike after.',
-      'Only if you confirm you own a real bedframe and never ask me for Snapchat.',
+      'Only if you confirm you own a real bedframe, never split appetizers to $0.38, and never ask for Snapchat.',
       'Aren’t cubs supposed to let me boss them around? Show up on time.',
     ],
     steamyChips: [
@@ -90,7 +95,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   onClose,
   onSpendCreditOrOpenBoutique,
 }) => {
-  const [selected, setSelected] = useState<InboxContact>(INBOX_CONTACTS[0]);
+  const [selected, setSelected] = useState<InboxContact>(
+    () => INBOX_CONTACTS.find((c) => c.id === 'claire-cougar-exec') ?? INBOX_CONTACTS[0],
+  );
   const [steamyMode, setSteamyMode] = useState(false);
   const [turnsByThread, setTurnsByThread] = useState<Record<string, LiveInboxTurn[]>>({});
   const [coachByThread, setCoachByThread] = useState<

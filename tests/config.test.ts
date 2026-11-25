@@ -7,7 +7,7 @@ describe('Project configuration defaults', () => {
     expect(MONETIZATION_CONFIG.dailyFreeCredits).toBe(10);
     expect(MONETIZATION_CONFIG.shareRewardCredits).toBe(3);
     expect(MONETIZATION_CONFIG.newsletterRewardCredits).toBe(5);
-    expect(BRAND_CONFIG.name).toContain('Velvet Den');
+    expect(BRAND_CONFIG.name).toContain('Cougar Den');
     expect(MONETIZATION_CONFIG.vipUnlockCodes.length).toBeGreaterThan(0);
   });
 });

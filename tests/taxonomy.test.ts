@@ -25,7 +25,7 @@ describe('Age-gap taxonomy & generational pairing analyzer', () => {
     expect(classifyGeneration(48)).toBe('gen_x');
     expect(classifyGeneration(63)).toBe('icon_60_plus');
 
-    const puma = HER_ARCHETYPES.find((h) => h.age < 40)!;
+    const puma = HER_ARCHETYPES.find((h) => h.age >= 36 && h.age < 40)!;
     const princessCougar = HER_ARCHETYPES.find((h) => h.subplotTags.includes('princess_treatment'))!;
     const genXJaguar = HER_ARCHETYPES.find((h) => h.age >= 50)!;
     const genZCub = HIS_ARCHETYPES.find((c) => c.age <= 26)!;
@@ -76,8 +76,29 @@ describe('Age-gap taxonomy & generational pairing analyzer', () => {
         'pop_sienna_oli',
         'pop_ellie_beau',
         'pop_miley_maxx',
+        'pop_kristin_montana',
         'pop_cub_grooming_joke',
       ]),
     );
+  });
+
+  it('covers every single year of each decade (30–64 for Her, 21–33 for Cubs) with heights, star signs, and zero ethnic quota labels', () => {
+    const herAges = new Set(HER_ARCHETYPES.map((h) => h.age));
+    for (let yr = 30; yr <= 64; yr++) {
+      expect(herAges.has(yr)).toBe(true);
+    }
+
+    const hisAges = new Set(HIS_ARCHETYPES.map((c) => c.age));
+    for (let yr = 21; yr <= 33; yr++) {
+      expect(hisAges.has(yr)).toBe(true);
+    }
+
+    const forbiddenEthnicPattern = /\b(black|latina|latino|asian|korean|irish|scandinavian)\b/i;
+    for (const p of [...HER_ARCHETYPES, ...HIS_ARCHETYPES]) {
+      expect(p.height).toMatch(/^\d'\d{1,2}"$/);
+      expect(p.zodiac?.length).toBeGreaterThan(3);
+      expect(forbiddenEthnicPattern.test(p.lookBadge || '')).toBe(false);
+      expect(forbiddenEthnicPattern.test(p.shortHook)).toBe(false);
+    }
   });
 });

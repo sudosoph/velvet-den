@@ -7,7 +7,9 @@ export type MinigameType =
   | 'room_audit'
   | 'doubt_spiral'
   | 'bench_press'
-  | 'cub_grooming';
+  | 'cub_grooming'
+  | 'thermostat_dial'
+  | 'big_carl_pour';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -2052,6 +2054,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     allowedTiers: ['cougar'],
+    minigame: 'thermostat_dial',
     title: 'Perimenopause Real Talk: The 10 PM Libido Surge vs. 3 AM Flash-Furnace Sheets',
     subredditThreadInspiration: 'r/CougarsAndCubs: "40s perimenopause truth: unstoppable bedroom drive at 10 PM, then radiating 1,000 degrees kicking off the duvet at 3 AM"',
     isVip: false,
@@ -2092,10 +2095,10 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
       },
       {
-        labelHer: 'Order cooling bamboo sheets and adopt the Scandinavian two-duvet sleep method together.',
+        labelHer: 'Order cooling bamboo sheets and adopt the separate two-duvet sleep method together.',
         labelHim: 'Gift her cooling bamboo sheets so you can stay under a warm duvet while she stays arctic-cool.',
         outcomeHer:
-          'Scandinavian separate duvets + bamboo sheets = perimenopause sleep nirvana!',
+          'Separate duvets + bamboo cooling sheets = perimenopause sleep nirvana!',
         outcomeHim:
           'Practical, thoughtful problem-solving wins huge romance points.',
         toastBanner: 'COOLING SHEET UPGRADE +20',
@@ -2533,7 +2536,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'We don’t do secret pocket girlfriends in this club—blocked before you reach the corner!',
         outcomeHim:
-          'Flinching in public is the fastest one-way ticket out of The Velvet Den.',
+          'Flinching in public is the fastest one-way ticket out of The Cougar Den.',
         toastBanner: 'RED FLAG! • "SECRET POCKET" VIOLATION (-25)',
         deltas: { maturity: -25, chivalry: -25, eq: -25, chemistry: -20, redFlags: 1 },
       },
@@ -3160,7 +3163,7 @@ export const EPISODES: Episode[] = [
         badgeUnlocked: 'Fluent in Fiery Romance',
       },
       {
-        labelHer: 'He tells you to "calm down, spicy Latina/European!!" and butchers a cringey TikTok meme phrase.',
+        labelHer: 'He tells you to "calm down, spicy fiery woman!!" and butchers a cringey TikTok meme phrase.',
         labelHim: 'Tell her to "relax" and repeat a stereotyping movie accent joke.',
         outcomeHer:
           'Telling a passionate woman to "calm down" is how you end up wearing your sangria!',
@@ -3232,6 +3235,7 @@ export const EPISODES: Episode[] = [
     id: 'milestone-six-month-anniversary',
     act: 3,
     stage: 6,
+    minigame: 'big_carl_pour',
     title: '🥂 6-Month Anniversary Milestone: Spare Keys, "Big Carl" Wine & Beating the Odds',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Happy 6 months to us!! Everyone said a Cougar/Cub match was just a weekend novelty—now he has a house key and his own drawer"',
     isVip: false,
@@ -3294,7 +3298,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Raise champagne under the stars poolside, thank him for loving every chapter of who you are, and step into Year Two hand-in-hand without a single apology.',
         labelHim: 'Toast 365 days poolside ("Best decision I ever made was ignoring the age slider"), slip a timeless keepsake onto her wrist, and claim Year Two with full devotion.',
         outcomeHer:
-          'One year in, zero masks, total peace, and butterflies that still hit like Night #1—you officially beat The Velvet Den at highest romance rank!',
+          'One year in, zero masks, total peace, and butterflies that still hit like Night #1—you officially beat The Cougar Den at highest romance rank!',
         outcomeHim:
           'She pulls you into the warm pool water laughing under the lights—365 days strong and just getting started.',
         toastBanner: '🏆 1-YEAR ANNIVERSARY CHAMPIONS! • +30 ROMANCE PAYOFF',
@@ -3512,6 +3516,196 @@ export const EPISODES: Episode[] = [
           'Humor + zero ego turns every awkward stranger into an inside joke.',
         toastBanner: 'UNBOTHERED SUITE GOALS +20',
         deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'broke-college-dutch-calculator-horror',
+    act: 2,
+    stage: 1,
+    minigame: 'check_reflex',
+    title: '🚨 Broke College "Go-Dutch" Horror: Declined Campus Card & The $41.63 Venmo Calculator',
+    subredditThreadInspiration: 'r/CougarsAndCubs Cautionary Horror Thread: "Lowered my slider to 21 ONCE—he ordered 2 dragon rolls + sake, tried to swipe campus Dining Dollars, then itemized my 4 edamame pods on Venmo!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'You dared to drag your app age slider into the **Sub-23 Danger Zone**! {hisName} ({hisAge}M) begged to take you out for sushi, ordered two dragon rolls + hot sake for himself while you had one salmon roll, watched his university Meal-Plan card decline off-campus, and now has his iPhone calculator open at the table muttering: *"Okay if we go Dutch plus 8.75% tax and you ate four of the seven edamame pods… can you Venmo me $41.63 right now?"*',
+    setupHim:
+      'Budget Reality Test! You’re {hisAge} on a tight student/early-career budget taking {herName} ({herAge}F) out. Your roommate swore you should *"make her go 50/50 Dutch down to the penny with your phone calculator so you don’t get used"*—while every Cougar on earth is watching how you handle a modest wallet with class.',
+    choices: [
+      {
+        labelHer: 'Pay the whole check once with icy grace so the waiter isn’t stiffed, politely tell him why inviting someone out and itemizing edamame on Venmo is a crime, and raise your age slider back to 25+ before reaching your car!',
+        labelHim: 'NEVER invite her to a spot you can’t host or pull out a penny-splitting calculator—plan a charming date squarely inside your real budget (hand-packed park picnic, taco stand, or coffee + sunset walk) and cover it proudly with zero Venmo math!',
+        outcomeHer:
+          'Lesson immortalized! You escape with your dignity, block the Venmo request mid-notification, and set your Cougar Den age slider firmly above campus meal-plan territory!',
+        outcomeHim:
+          'Planning an imaginative $28 date you can genuinely treat her to beats a $90 sushi bill with a petty Venmo calculator 1,000 times out of 1,000!',
+        toastBanner: 'DODGED THE VENMO CALCULATOR! • MATURITY +25 • CHIVALRY +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Survived the Broke College Dutch-Splitter',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He sends you a public Venmo request for "$41.63 🍣 + 4 edamames" BEFORE the waiter even brings mints—and asks if you validate his parking.',
+        labelHim: 'Order double her food, whip out your iPhone calculator at the table, and send her a public Venmo request for $41.63 including 4/7ths of the edamame.',
+        outcomeHer:
+          'FOUR-SEVENTHS OF THE EDAMAME?! Every woman in the group chat is screenshotting this Venmo notification for the Smithsonian!',
+        outcomeHim:
+          'Nothing evaporates attraction across all five continents faster than inviting someone out and itemizing three dollars of soybeans on Venmo.',
+        toastBanner: 'RED FLAG! • ITEMIZED EDAMAME VENMO HORROR (-30)',
+        deltas: { maturity: -30, chivalry: -30, eq: -25, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'If a sweet younger Cub is upfront *before* ordering ("Let me treat you to coffee & gelato on my student budget!"), warmly accept—honest effort beats fake baller math.',
+        labelHim: 'Be charmingly transparent upfront ("I’m on a grad-school budget, so let me treat you to the best espresso and cannoli in town!"), keeping generosity 100% intact.',
+        outcomeHer:
+          'Upfront honesty + a $16 treat he proudly covers is genuinely endearing.',
+        outcomeHim:
+          'Cougars never demand Michelin money—they demand effort, honesty, and zero nickel-and-diming.',
+        toastBanner: 'HONEST BUDGET CHARM +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'montana-cowboy-age-slider-dare',
+    act: 2,
+    stage: 1,
+    title: '🤠 The Kristin Cavallari × Montana Boyz Dare: Dropping Your Age Slider to 25!',
+    subredditThreadInspiration: 'Pop-Culture Inspiration: "Kristin Cavallari & 24yo Montana cowboy Mark Estes—when he accidentally DMs \'I love you\' from the boys’ shared TikTok and inspires everyone to lower their age settings!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'After three bleak dates with grumpy 45-year-old divorcés who complained about property taxes for two hours, your bestie grabs your phone over martinis, yells *"Remember Kristin Cavallari and Mark from Montana Boyz?!"*, and drags your minimum age setting down to **25**. Ten minutes later, {hisName} ({hisAge}M)—a 6\'3" former college wide receiver raised on a ranch—accidentally replies *"I love you"* from his buddies’ shared account before DMing you from his real profile asking to fly in Friday!',
+    setupHim:
+      'Your buddies dared you on your shared ranch account, you accidentally hit send on *"I love you"* to {herName} ({herAge}F), and miracle of miracles—she lowered her age settings and matched you anyway! Now the whole internet (and her skeptical friends) think a {hisAge}-year-old cowboy is just a two-week Cabo phase. What’s your move?',
+    choices: [
+      {
+        labelHer: 'Own the plot twist with Kristin-level unbothered joy—say yes to Friday dinner, laugh over his accidental group-account confession, and judge him by how thoughtfully he treats you in real life rather than Instagram comments!',
+        labelHim: 'Own the accidental confession with a fearless grin, show up Friday in a crisp button-down with yes-ma’am ranch manners, hold her hand proudly in daylight, and never chase clout off her name.',
+        outcomeHer:
+          'Best slider adjustment of the decade! Zero bitterness, 6\'3" doorway-frame energy, and more enthusiasm in one weekend than your last four peer dates combined!',
+        outcomeHim:
+          'Old-school country chivalry + zero fear of public headlines turns a bold age-slider dare into undeniable chemistry!',
+        toastBanner: 'MONTANA COWBOY SPARK! • CHEMISTRY +30 • CHIVALRY +25',
+        deltas: { maturity: 20, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Lowered the Age Slider (Montana Cowboy Certified)',
+      },
+      {
+        labelHer: 'He shows up filming three staged TikTok dances in your kitchen before even asking how your week was.',
+        labelHim: 'Prop your phone against her fruit bowl five minutes into Date #1 to farm TikTok views.',
+        outcomeHer:
+          'You lowered your age slider for romance, NOT to co-star in a ring-light thirst trap! Out!',
+        outcomeHim:
+          'Turning private chemistry into clout content gets your return flight moved up to tonight.',
+        toastBanner: 'RED FLAG! • RING-LIGHT CLOUT FARMING (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Keep the first weekend phone-free at a tucked-away steakhouse to test real conversation first.',
+        labelHim: 'Leave your phone in your jacket pocket all weekend so she knows you’re there 100% for her.',
+        outcomeHer:
+          'Phone-free chemistry proves the spark is 100% real.',
+        outcomeHim:
+          'Keeping private moments private earns deep trust fast.',
+        toastBanner: 'PHONE-FREE RANCH CHARM +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'four-roommates-cereal-kitchen-horror',
+    act: 2,
+    stage: 3,
+    title: '🥣 Obstacle Alert: The 7 AM Four-Roommate Mixing-Bowl Cheerios Ambush',
+    subredditThreadInspiration: 'r/CougarsAndCubs Real-Life Obstacle: "Stayed at his place ONCE—walked out at 7 AM in my silk blouse into three 23-year-old roommates in plaid boxers eating cereal out of a plastic mixing bowl"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'houseboy_apron',
+    setupHer:
+      'Every veteran Cougar warns newcomers about **The Roommate Obstacle**. You stayed over at {hisName}’s ({hisAge}M) apartment once, step toward the kitchen at 7:10 AM for espresso, and freeze: three roommates named Kyle, Brody, and Zak are in plaid boxers playing *Call of Duty* at 80 decibels while eating dry Cheerios out of a stained plastic mixing bowl with a wooden ladle.',
+    setupHim:
+      'Code Red! {herName} ({herAge}F) stayed over, and your three roommates picked 7:10 AM to camp in the living room in boxers eating cereal out of a mixing bowl while the sink looks like a science experiment. How do you rescue the morning?',
+    choices: [
+      {
+        labelHer: 'Laugh at the sheer anthropology of the wooden-ladle Cheerios, accept the iced latte {hisName} already ran out at 6:45 AM to bring straight to your bedside, and decree **Rule #1: All future sleepovers happen at YOUR peaceful sanctuary!**',
+        labelHim: 'Slip out at 6:45 AM before she wakes to bring real espresso + warm croissants straight to your spotless bedroom, walk her cleanly past the roommate zoo, and happily host future Sundays at her peaceful sanctuary (bringing groceries + cleaning!).',
+        outcomeHer:
+          'Crisis averted! Having coffee delivered before witnessing Kyle’s mixing bowl—plus moving all future sleepovers to your quiet AC sanctuary—saves the romance!',
+        outcomeHim:
+          'Anticipating the roommate hazard with 6:45 AM coffee delivery + doing 100% of Sunday cooking at her place turns a disaster into a hilarious war story!',
+        toastBanner: 'SANCTUARY RULE ENFORCED! • EQ +25 • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Survived the Mixing-Bowl Roommates',
+      },
+      {
+        labelHer: 'He hands you a chipped mug of instant coffee and asks if you want to watch him and Kyle play four hours of split-screen Call of Duty on a beanbag.',
+        labelHim: 'Ask an accomplished woman to hang out on a sticky futon watching you and your roommates game till noon.',
+        outcomeHer:
+          'You call an Uber Black before your heels even finish clicking down his stairwell!',
+        outcomeHim:
+          'Subjecting her to a sticky frat futon guarantees you’ll never see her overnight bag again.',
+        toastBanner: 'RED FLAG! • FRAT FUTON HOSTAGE CRISIS (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Whisk him straight out to your favorite quiet neighborhood café for real eggs Benedict and linen napkins.',
+        labelHim: 'Have a sunny patio brunch table booked five minutes away so you leave the roommates in the dust immediately.',
+        outcomeHer:
+          'Linen napkins and hot espresso restore civilization in ten minutes flat.',
+        outcomeHim:
+          'Pivoting straight out the door to a great café saves the morning smoothly.',
+        toastBanner: 'SMOOTH CAFÉ EXTRACTION +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'hobosexual-ps5-suitcase-creep',
+    act: 2,
+    stage: 3,
+    title: '🎮 Red-Flag Obstacle: The "Hobosexual" PS5, Whey-Tub & Laundry-Bag Soft Move-In',
+    subredditThreadInspiration: 'r/CougarsAndCubs #1 Warning Thread: "Ladies, guard your sanctuary! How to spot a smooth-talking \'Hobosexual\' trying to move his PS5 into your air-conditioned house by Date #4"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Your peaceful, mortgage-paid home has 62°F central air, stocked Pellegrino, and a lush backyard—which makes it prime territory for the dreaded **"Hobosexual" Soft Move-In**. On Week 3, {hisName} ({hisAge}M) arrives for Friday night carrying not just an overnight dopp kit, but a **duffel of unwashed laundry, a 5-lb tub of vanilla whey protein, and an HDMI cable peeking out of his backpack**!',
+    setupHim:
+      '{herName}’s ({herAge}F) house feels like a five-star resort compared to 20-something apartments—which is why `r/CougarsAndCubs` ruthlessly vets against "Hobosexuals" who try to colonize a woman’s sanctuary, laundry machine, and Wi-Fi by Week 3. How do you prove you’re a partner, NEVER a freeloader?',
+    choices: [
+      {
+        labelHer: 'Draw a loving, titanium-clear boundary on the spot—keep one small guest drawer for his toothbrush, send the laundry bag & console right back to his trunk, and confirm he loves his own independent lease!',
+        labelHim: 'Keep ONLY a clean dopp kit at her place, maintain your own spotless apartment & bills with pride, bring fresh groceries/wine whenever she hosts, and leave Monday morning before she even has to hint!',
+        outcomeHer:
+          'Zero freeloading, total respect for your sanctuary, and a Cub who brings wine *into* your house instead of sneaking laundry bags in!',
+        outcomeHim:
+          'Respecting her solo space—and showing up as a self-sufficient giver—makes her actually *miss* you the second you leave Monday morning!',
+        toastBanner: 'ZERO HOBOSEXUAL DETECTED! • MATURITY +30 • EQ +25',
+        deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Certified Non-Hobosexual Sanctuary Guest',
+      },
+      {
+        labelHer: 'He plugs a PS5 into your living-room Frame TV uninvited, dumps two loads of gym socks into your washer, and hints his lease "conveniently ends Friday."',
+        labelHim: 'Try to plug your gaming console into her living room TV and soft-launch moving in after three dates.',
+        outcomeHer:
+          '🚨 HOBOSEXUAL ALERT! His console, his whey tub, and his gym socks are on the front porch before the spin cycle even starts!',
+        outcomeHim:
+          'Trying to colonize an independent woman’s home sanctuary for free AC and laundry is the fastest lifetime ban in The Cougar Den.',
+        toastBanner: 'RED FLAG! • PS5 HOBOSEXUAL INVASION (-30)',
+        deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Alternate weekends between boutique getaways and dinner out so your home stays sacred.',
+        labelHim: 'Host date nights out on the town regularly so she never feels like the default unpaid hotel.',
+        outcomeHer:
+          'Balanced hosting keeps romance electric and resentment at zero.',
+        outcomeHim:
+          'Taking her out instead of camping on her sofa shows real adult pride.',
+        toastBanner: 'SANCTUARY RESPECT +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
       },
     ],
   },

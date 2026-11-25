@@ -90,6 +90,12 @@ export function buildEpisodeQueue(
   };
 
   const pushCustomDateSpecials = () => {
+    if (tags.has('broke_dutch_obstacle') || pairing.his.age <= 23) {
+      pushById('broke-college-dutch-calculator-horror');
+    }
+    if (tags.has('montana_cowboy_slider')) {
+      pushById('montana-cowboy-age-slider-dare');
+    }
     if (tags.has('spontaneous_getaway')) {
       pushById('spontaneous-18h-pool-sauna-getaway');
     }
@@ -240,6 +246,10 @@ export function buildEpisodeQueue(
     pushById('candlelit-menu-font-seatwarmer');
     pushById('cougar-salary-negotiation');
     pushById('silk-pillowcase-clawclip-drawer');
+    if (tags.has('broke_dutch_obstacle') || pairing.his.age <= 24) {
+      pushById('four-roommates-cereal-kitchen-horror');
+    }
+    pushById('hobosexual-ps5-suitcase-creep');
     pushById('retinol-stubble-eye-cream-heist');
     pushById('midnight-pizza-vs-sodium-rings');
     pushById('cub-grooming-red-carpet-glowup');
@@ -401,6 +411,12 @@ export function recordAppSwipe(
     stats.eq = clampStat(stats.eq + 5);
     if (profile.id === 'connor-bottle-trap' && !badges.includes('Caught the Tito’s Bottle')) {
       badges.push('Caught the Tito’s Bottle');
+    }
+    if (
+      profile.id === 'kayden-dutch-venmo-trap' &&
+      !badges.includes('Dodged the Broke Venmo Calculator')
+    ) {
+      badges.push('Dodged the Broke Venmo Calculator');
     }
   } else if (!profile.isGreenFlagMatch && direction === 'right') {
     redFlags += 1;
@@ -574,7 +590,7 @@ export function computeRunSummary(run: GameRunState): RunSummary {
   } else if (overallScore >= 85) {
     rankTitle =
       run.pairing.role === 'her'
-        ? 'APEX VELVET DEN VETTER & LIFEMATE'
+        ? 'APEX COUGAR DEN VETTER & LIFEMATE'
         : 'CERTIFIED LINEN-APRON HOUSEBOY & LIFEMATE';
     verdictLine =
       'Five stages cleared! Elite emotional maturity, effortless chivalry, seamless generational code-switching, and real eyes-wide-open commitment.';

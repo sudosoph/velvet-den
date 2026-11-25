@@ -71,8 +71,8 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
           ? `${window.location.origin}${window.location.pathname}`
           : BRAND_CONFIG.publicBaseUrl;
       await shareOrCopy({
-        title: `My Velvet Den Audition Score for ${challenge.senderName}`,
-        text: `🐆 I just took ${challenge.senderName}’s Velvet Den Vetting Audition: ${result.matchPercent}% Match (${result.verdictTitle})!`,
+        title: `My Cougar Den Audition Score for ${challenge.senderName}`,
+        text: `🐆 I just took ${challenge.senderName}’s Cougar Den Vetting Audition: ${result.matchPercent}% Match (${result.verdictTitle})!`,
         url,
       });
       setCopiedReply(true);

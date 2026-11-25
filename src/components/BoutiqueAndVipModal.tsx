@@ -135,7 +135,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         }
       }
       if (newlyGranted > 0) {
-        setQuestMsg(`🔥 Verified ${status.uniqueReferrals} real friend click(s)! +${newlyGranted} Velvet Credits added!`);
+        setQuestMsg(`🔥 Verified ${status.uniqueReferrals} real friend click(s)! +${newlyGranted} Den Credits added!`);
       } else if (refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS) {
         setQuestMsg('🔒 Maximum 3/3 friend referral bonuses claimed—grab +15 Credits ($2.99) or Lifetime VIP ($6.99) above!');
       } else {
@@ -170,7 +170,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     const granted = onClaimNewsletterBonus(email);
     setNewsletterMsg(
       granted
-        ? '🎉 Welcome to The Velvet Dispatch! +5 Bonus Credits added.'
+        ? '🎉 Welcome to The Cougar Dispatch! +5 Bonus Credits added.'
         : 'You’re on the list! (Newsletter bonus already claimed.)',
     );
     setEmail('');
@@ -202,16 +202,16 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-6 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
-      aria-label="Velvet Concierge Boutique & VIP Upgrades"
+      aria-label="The Cougar Den Concierge & VIP Lounge"
     >
       <div className="vice-panel relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-[#160c24] p-5 sm:p-7 space-y-6">
         <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
           <div>
             <span className="inline-block rounded bg-amber-400/20 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-300">
-              Credits • VIP Black Card • Date-Night Boutique
+              Den Credits • VIP Black Card • Date-Night Boutique
             </span>
             <h2 className="mt-1 font-display text-3xl sm:text-4xl text-white">
-              The Velvet Concierge &amp; Creator Lounge
+              The Cougar Den VIP &amp; Creator Lounge
             </h2>
             <p className="text-xs sm:text-sm text-slate-300">
               Balance:{' '}
@@ -239,7 +239,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
           <div className="rounded-2xl border-2 border-black bg-[#211235] p-4 flex flex-col justify-between">
             <div>
               <span className="text-xs font-bold uppercase text-teal-300">Action Pack</span>
-              <div className="font-display text-3xl text-white mt-1">+15 Velvet Credits • $2.99</div>
+              <div className="font-display text-3xl text-white mt-1">+15 Den Credits • $2.99</div>
               <p className="text-xs text-slate-300 mt-1">
                 Smooth Rewinds on red-flag fumbles, Live AI Inbox replies, X-Ray Scans, and Deep-Cut episode unlocks.
               </p>
@@ -370,7 +370,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   type="button"
                   onClick={() =>
                     setTipStatusMsg(
-                      '🎬 Custom $29 Cougar/Cub Cameo checkout opens right after Stripe verification—join The Velvet Dispatch below for priority slots!',
+                      '🎬 Custom $29 Cougar/Cub Cameo checkout opens right after Stripe verification—join The Cougar Dispatch below for priority slots!',
                     )
                   }
                   className="w-full flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-slate-800 py-2 text-xs font-bold text-amber-300 hover:bg-slate-700 cursor-pointer"
@@ -513,7 +513,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
           >
             <div className="text-xs font-extrabold uppercase text-amber-300">
               <Mail className="inline h-3.5 w-3.5 mr-1" />
-              Velvet Dispatch (+5 Free Credits)
+              The Cougar Dispatch (+5 Free Credits)
             </div>
             <div className="flex gap-2">
               <input

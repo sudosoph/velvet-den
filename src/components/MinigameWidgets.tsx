@@ -552,6 +552,147 @@ const CubGroomingGlowUpGame: React.FC<{
   );
 };
 
+/**
+ * 7. ThermostatPitCrewGame: Tactile 3 AM Perimenopause Cooling Dial (74°F -> 62°F) + Cold-Pillow Flip!
+ */
+const ThermostatPitCrewGame: React.FC<{
+  completed: boolean;
+  herName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, herName, onWin }) => {
+  const [temp, setTemp] = useState(completed ? 62 : 74);
+  const [pillowFlipped, setPillowFlipped] = useState(completed);
+  const [awarded, setAwarded] = useState(completed);
+
+  const checkWin = (nextTemp: number, nextPillow: boolean) => {
+    if (!awarded && !completed && nextTemp <= 63 && nextPillow) {
+      setAwarded(true);
+      sfx.victoryFanfare();
+      onWin({ eq: 10, chemistry: 8 }, '62°F 3 AM Thermostat Pit-Crew Pro');
+    }
+  };
+
+  return (
+    <div className="rounded-2xl border-2 border-cyan-400/70 bg-gradient-to-r from-[#0e2235] via-[#161932] to-[#261134] p-4 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-cyan-300">
+          ❄️ 3 AM Cooling Pit-Crew Toy • Dial {herName}’s Room to 62°F &amp; Flip Pillow!
+        </span>
+        <span className="font-display text-2xl text-amber-300">{temp}°F</span>
+      </div>
+
+      <input
+        type="range"
+        aria-label="3 AM bedroom thermostat dial"
+        min={60}
+        max={76}
+        value={temp}
+        disabled={awarded || completed}
+        onChange={(e) => {
+          const val = Number(e.target.value);
+          setTemp(val);
+          sfx.sliderTick(90 - val);
+          checkWin(val, pillowFlipped);
+        }}
+        className="w-full accent-cyan-400 cursor-pointer h-2.5 rounded-lg bg-black/60"
+      />
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <button
+          type="button"
+          disabled={awarded || completed}
+          onClick={() => {
+            sfx.hotspotFix();
+            setPillowFlipped(true);
+            checkWin(temp, true);
+          }}
+          className={`rounded-xl border-2 border-black px-3.5 py-1.5 text-xs font-extrabold transition cursor-pointer ${
+            pillowFlipped
+              ? 'bg-cyan-400 text-slate-950'
+              : 'bg-slate-800 text-cyan-200 hover:bg-slate-700'
+          }`}
+        >
+          {pillowFlipped ? '✓ Pillow Flipped to Arctic Side' : '🧊 Tap to Flip Pillow to Cold Side'}
+        </button>
+
+        {awarded || completed ? (
+          <span className="text-xs font-extrabold text-emerald-300">
+            ❄️ 62°F Sanctuary Locked! (+10 EQ, +8 Chemistry)
+          </span>
+        ) : (
+          <span className="text-[11px] text-slate-300">
+            Slide dial down to 62°F + flip pillow!
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * 8. BigCarlWinePourGame: Cougar Town "Big Carl" Giant Goblet Pour!
+ * Tap to pour Cabernet into the 74%..92% sweet spot without overflowing onto her white linen!
+ */
+const BigCarlWinePourGame: React.FC<{
+  completed: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, onWin }) => {
+  const [fill, setFill] = useState(completed ? 84 : 16);
+  const [locked, setLocked] = useState(completed);
+
+  const handlePourSplash = () => {
+    if (locked || completed) return;
+    const next = Math.min(100, fill + 22);
+    sfx.winePourGlug(next);
+    setFill(next);
+    if (next >= 74 && next <= 94) {
+      setLocked(true);
+      sfx.victoryFanfare();
+      onWin({ chemistry: 8, chivalry: 8 }, '"Big Carl" Sommelier Pour Pro');
+    } else if (next > 94) {
+      sfx.redFlag();
+      setFill(16);
+    }
+  };
+
+  return (
+    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#2c0e28] via-[#1b112e] to-[#10242c] p-4 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
+          🍷 Cougar Town &ldquo;Big Carl&rdquo; Goblet • Pour to the 80% Gold Line!
+        </span>
+        <span className="text-xs font-extrabold text-amber-300">Goblet Level: {fill}%</span>
+      </div>
+
+      <div className="relative h-9 w-full overflow-hidden rounded-xl border-2 border-black bg-slate-950">
+        <div
+          className="h-full bg-gradient-to-r from-[#5c0a28] via-rose-700 to-rose-500 transition-all duration-150"
+          style={{ width: `${fill}%` }}
+        />
+        <div className="absolute inset-y-0 left-[74%] w-[20%] border-x-2 border-amber-300 bg-amber-400/20 flex items-center justify-center text-[10px] font-extrabold text-amber-200">
+          🥂 BIG CARL ZONE
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {!locked && !completed ? (
+          <button
+            type="button"
+            onClick={handlePourSplash}
+            className="vice-panel rounded-xl bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 text-xs font-extrabold uppercase text-slate-950 hover:brightness-110 cursor-pointer"
+          >
+            🍷 Pour Heavy Splash (+22%)
+          </button>
+        ) : (
+          <span className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-300">
+            <CheckCircle2 className="h-4 w-4" /> 🍷 Jules Cobb Approved &ldquo;Just One Glass&rdquo; Pour! (+8 Chemistry, +8 Chivalry)
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -579,6 +720,14 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
     return (
       <CubGroomingGlowUpGame completed={alreadyCompleted} hisName={hisName} onWin={onWinBonus} />
     );
+  }
+  if (type === 'thermostat_dial') {
+    return (
+      <ThermostatPitCrewGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+    );
+  }
+  if (type === 'big_carl_pour') {
+    return <BigCarlWinePourGame completed={alreadyCompleted} onWin={onWinBonus} />;
   }
   return <RoomAuditHotspotGame completed={alreadyCompleted} onWin={onWinBonus} />;
 };

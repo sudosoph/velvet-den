@@ -143,7 +143,7 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
 function rankForScore(score: number): { title: string; subtitle: string; recommendedEp: string } {
   if (score >= 76) {
     return {
-      title: '👑 HALL-OF-FAME VELVET APEX',
+      title: '👑 HALL-OF-FAME COUGAR DEN APEX',
       subtitle: 'You didn’t just read r/CougarsAndCubs—you practically wrote the sacred texts.',
       recommendedEp: 'babygirl-hotel-bar-milk-or-martini',
     };

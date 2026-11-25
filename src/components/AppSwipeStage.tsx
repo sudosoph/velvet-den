@@ -1,8 +1,20 @@
-import React, { useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Eye, Heart, Music2, Search, Share2, Sparkles, X } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Heart,
+  Music2,
+  Search,
+  Share2,
+  SlidersHorizontal,
+  Sparkles,
+  Volume2,
+  X,
+} from 'lucide-react';
 import { getSwipeDeckForRole } from '../data/appProfiles';
 import type { PlayerRole } from '../domain/taxonomy';
-import { sfx } from '../lib/sound';
+import { playVoiceNotePreview, sfx } from '../lib/sound';
 
 interface AppSwipeStageProps {
   role: PlayerRole;
@@ -34,7 +46,17 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const [xrayUnlockedIds, setXrayUnlockedIds] = useState<string[]>([]);
   const [dragX, setDragX] = useState(0);
   const [flyDir, setFlyDir] = useState<'left' | 'right' | null>(null);
+  const [agePref, setAgePref] = useState<number>(role === 'her' ? 26 : 52);
+  const [sliderBanner, setSliderBanner] = useState<string | null>(null);
+  const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
+  const stopVoiceRef = useRef<(() => void) | null>(null);
   const startXRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      stopVoiceRef.current?.();
+    };
+  }, []);
 
   const profile = deck[index];
 
@@ -106,6 +128,78 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     }
   };
 
+  const handleAgeSliderChange = (nextVal: number) => {
+    setAgePref(nextVal);
+    sfx.sliderTick(nextVal);
+    if (role === 'her') {
+      if (nextVal <= 22) {
+        setSliderBanner(
+          '🚨 SUB-23 DANGER ZONE UNLOCKED! Broke college "Go-Dutch" Venmo-calculator students (Kayden, 21) have entered your feed!',
+        );
+        const kaydenIdx = deck.findIndex((d) => d.id === 'kayden-dutch-venmo-trap');
+        if (kaydenIdx >= 0) {
+          setIndex(kaydenIdx);
+          setPhotoIdx(0);
+        }
+      } else if (nextVal <= 25) {
+        setSliderBanner(
+          '🤠 KRISTIN CAVALLARI × MONTANA BOYZ ZONE (25+)! Unlocked Colton, 25M—6\'3" Montana ranch cowboy!',
+        );
+        const coltonIdx = deck.findIndex((d) => d.id === 'colton-montana-ranch-cub');
+        if (coltonIdx >= 0) {
+          setIndex(coltonIdx);
+          setPhotoIdx(0);
+        }
+      } else if (nextVal >= 30) {
+        setSliderBanner(
+          '🥂 SAFE 30+ CUB FILTER: Showing sports-medicine fellows & established 30s Cubs first!',
+        );
+        const lucasIdx = deck.findIndex((d) => d.age >= 30);
+        if (lucasIdx >= 0) {
+          setIndex(lucasIdx);
+          setPhotoIdx(0);
+        }
+      } else {
+        setSliderBanner(`🎚️ Minimum Cub Age set to ${nextVal}+ — Prime Cougar Den pool active.`);
+      }
+    } else {
+      if (nextVal >= 60) {
+        setSliderBanner(
+          '👑 60+ PANTHER ICON TIER UNLOCKED! Silver-braided & desert-modernist legends active!',
+        );
+        const vivIdx = deck.findIndex((d) => d.age >= 60);
+        if (vivIdx >= 0) {
+          setIndex(vivIdx);
+          setPhotoIdx(0);
+        }
+      } else if (nextVal >= 50) {
+        setSliderBanner('🔥 50+ JAGUAR TIER UNLOCKED! Sommeliers & 6 AM canyon bosses active!');
+        const jagIdx = deck.findIndex((d) => d.age >= 50 && d.age < 60);
+        if (jagIdx >= 0) {
+          setIndex(jagIdx);
+          setPhotoIdx(0);
+        }
+      } else {
+        setSliderBanner(`🎚️ Max Discovery Age set up to ${nextVal} — Cougars & Pumas active.`);
+      }
+    }
+  };
+
+  const handleToggleVoiceNote = () => {
+    if (playingVoiceId === profile.id) {
+      stopVoiceRef.current?.();
+      setPlayingVoiceId(null);
+      return;
+    }
+    stopVoiceRef.current?.();
+    setPlayingVoiceId(profile.id);
+    const voiceStyle =
+      role === 'him' ? 'her' : profile.isGreenFlagMatch ? 'green_cub' : 'trap_cub';
+    stopVoiceRef.current = playVoiceNotePreview(profile.openingDm, voiceStyle, () => {
+      setPlayingVoiceId((curr) => (curr === profile.id ? null : curr));
+    });
+  };
+
   const rotationDeg = (dragX / 18).toFixed(1);
 
   return (
@@ -113,12 +207,12 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
       <div className="flex items-center justify-between gap-2">
         <div>
           <span className="rounded bg-rose-500/25 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-rose-300">
-            Act I • Browse &amp; Vet Profiles ({index + 1} / {deck.length})
+            Act I • The Cougar Den Swipe Deck ({index + 1} / {deck.length})
           </span>
           <h2 className="mt-1 font-display text-3xl text-white">
             {role === 'her'
-              ? 'Scroll Every Photo (Hiking, Dogs, Pool & Traps) Before Swiping!'
-              : 'Browse Diverse Cougars, Jaguars & Pumas — Tap Photos to Scroll!'}
+              ? 'Slide Your Age Filter & Vet Every Photo Before Swiping!'
+              : 'Raise Your Max Age Filter & Browse Cougars, Jaguars & Pumas!'}
           </h2>
         </div>
         <button
@@ -128,6 +222,71 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
         >
           Skip to Date #1 →
         </button>
+      </div>
+
+      {/* Playable Dating-App Age-Preference Slider (Kristin Cavallari × Montana Boyz + Sub-23 Danger Zone!) */}
+      <div className="vice-panel rounded-2xl bg-gradient-to-r from-[#241038] via-[#17112b] to-[#0e242c] p-3.5 space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+          <span className="inline-flex items-center gap-1.5 font-extrabold uppercase tracking-wider text-amber-300">
+            <SlidersHorizontal className="h-3.5 w-3.5 text-pink-300" />
+            {role === 'her'
+              ? `App Age Settings: Men ${agePref} – 45`
+              : `App Age Settings: Women 30 – ${agePref}`}
+          </span>
+          <div className="flex flex-wrap gap-1.5">
+            {role === 'her' ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => handleAgeSliderChange(25)}
+                  className="rounded-full border border-amber-300/50 bg-amber-400/20 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-200 hover:bg-amber-400/35 cursor-pointer"
+                >
+                  🤠 Drop to 25 (Montana Cowboy!)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAgeSliderChange(21)}
+                  className="rounded-full border border-rose-400/60 bg-rose-500/25 px-2.5 py-0.5 text-[10px] font-extrabold text-rose-200 hover:bg-rose-500/40 cursor-pointer"
+                >
+                  🚨 Dare: 21 (Broke Dutch Trap!)
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => handleAgeSliderChange(53)}
+                  className="rounded-full border border-amber-300/50 bg-amber-400/20 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-200 hover:bg-amber-400/35 cursor-pointer"
+                >
+                  🔥 Unlock 50s Jaguars
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAgeSliderChange(64)}
+                  className="rounded-full border border-teal-300/60 bg-teal-400/20 px-2.5 py-0.5 text-[10px] font-extrabold text-teal-200 hover:bg-teal-400/35 cursor-pointer"
+                >
+                  👑 Unlock 60+ Panthers
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        <input
+          type="range"
+          aria-label="Dating app age preference slider"
+          min={role === 'her' ? 21 : 38}
+          max={role === 'her' ? 34 : 65}
+          value={agePref}
+          onChange={(e) => handleAgeSliderChange(Number(e.target.value))}
+          className="w-full accent-amber-400 cursor-pointer h-2 rounded-lg bg-black/60"
+        />
+
+        {sliderBanner && (
+          <div className="rounded-xl bg-black/50 px-3 py-1.5 text-[11px] font-bold text-teal-200 border border-white/10">
+            {sliderBanner}
+          </div>
+        )}
       </div>
 
       {/* Quick Profile Jumper Strip so users can browse the whole diverse deck freely */}
@@ -423,12 +582,34 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             </div>
           </div>
 
-          {/* Opening DM Preview */}
-          <div className="rounded-xl border-2 border-black bg-[#231438] p-3.5">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
-              {role === 'her' ? 'Opening Message Sent to Your Inbox:' : 'Her Opening Challenge:'}
+          {/* Opening DM Preview + Interactive Voice-Note Waveform */}
+          <div className="rounded-xl border-2 border-black bg-[#231438] p-3.5 space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
+                {role === 'her' ? 'Opening Message & Voice Note:' : 'Her Opening Challenge:'}
+              </div>
+              <button
+                type="button"
+                onClick={handleToggleVoiceNote}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-extrabold transition cursor-pointer ${
+                  playingVoiceId === profile.id
+                    ? 'border-emerald-300 bg-emerald-400 text-slate-950 animate-pulse'
+                    : 'border-amber-300/40 bg-black/50 text-amber-200 hover:bg-black/80'
+                }`}
+              >
+                <Volume2 className="h-3.5 w-3.5" />
+                <span>
+                  {playingVoiceId === profile.id ? '🔊 Playing Voice Note…' : '▶️ Hear Voice Note'}
+                </span>
+                <span className="inline-flex items-end gap-0.5 h-3 ml-0.5" aria-hidden="true">
+                  <span className="w-0.5 h-1.5 bg-current rounded-full" />
+                  <span className="w-0.5 h-3 bg-current rounded-full" />
+                  <span className="w-0.5 h-2 bg-current rounded-full" />
+                  <span className="w-0.5 h-2.5 bg-current rounded-full" />
+                </span>
+              </button>
             </div>
-            <p className="mt-1 text-sm font-medium text-white">&ldquo;{profile.openingDm}&rdquo;</p>
+            <p className="text-sm font-medium text-white">&ldquo;{profile.openingDm}&rdquo;</p>
           </div>
 
           {/* Optional 1-Credit Red-Flag X-Ray */}

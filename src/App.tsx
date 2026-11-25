@@ -211,7 +211,7 @@ export default function App() {
         saveWallet(next);
         return next;
       });
-      setNoticeBanner('🎉 Stripe Checkout verified! Your VIP / Velvet Credits are live.');
+      setNoticeBanner('🎉 Stripe Checkout verified! Your VIP / Den Credits are live.');
     });
   }, [initialUrl.stripeSessionId, wallet.claimedRewards]);
 
@@ -567,7 +567,7 @@ export default function App() {
               onClick={() => setBoutiqueOpen(true)}
               className="hover:text-teal-300 underline cursor-pointer"
             >
-              Concierge Boutique &amp; VIP
+              The Cougar Den VIP Lounge
             </button>
           </div>
         </div>

@@ -33,10 +33,10 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 69 subplots accurately—including Babygirl Hotel-Bar Milk, Gym Headphones, Cubsplaining, Hotel 2-Queens, Star Signs, 18h Getaway, Campus PhD Sushi & Anniversaries across all tracks', () => {
-    expect(EPISODES.length).toBe(69);
-    expect(HER_ARCHETYPES.length).toBe(16);
-    expect(HIS_ARCHETYPES.length).toBe(10);
+  it('routes 73 subplots accurately—including Age-Slider Montana Cowboy, Broke College Dutch-Splitter, Hobosexual PS5, Babygirl Milk, Gym Headphones & Anniversaries across all tracks', () => {
+    expect(EPISODES.length).toBe(73);
+    expect(HER_ARCHETYPES.length).toBe(37);
+    expect(HIS_ARCHETYPES.length).toBe(17);
 
     const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
     const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
@@ -179,6 +179,35 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       (e) => e.id,
     );
     expect(modestIds).toContain('retro-bowling-and-meadow-picnic');
+
+    // Broke 21M College Dutch-Splitter (Kayden) triggers both the Venmo Calculator horror & 4-Roommate Cheerios kitchen ambush!
+    const kayden21 = HIS_ARCHETYPES.find((c) => c.id === 'kayden-broke-dutch-cub')!;
+    const colton25 = HIS_ARCHETYPES.find((c) => c.id === 'colton-montana-cowboy-cub')!;
+    const brokeIds = createRun(analyzePairing(claire45, kayden21, 'her')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(brokeIds).toContain('broke-college-dutch-calculator-horror');
+    expect(brokeIds).toContain('four-roommates-cereal-kitchen-horror');
+    expect(brokeIds).toContain('hobosexual-ps5-suitcase-creep');
+
+    const cowboyIds = createRun(analyzePairing(claire45, colton25, 'her')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(cowboyIds).toContain('montana-cowboy-age-slider-dare');
+  });
+
+  it('lets players drag the Dating-App Age-Preference Slider to unlock Montana Cowboy (25) and Broke Dutch Trap (21)', () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /Start Vetting/i }));
+
+    const slider = screen.getByLabelText(/Dating app age preference slider/i);
+    fireEvent.change(slider, { target: { value: '25' } });
+    expect(screen.getByText(/KRISTIN CAVALLARI × MONTANA BOYZ ZONE/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Colton/i).length).toBeGreaterThanOrEqual(2);
+
+    fireEvent.change(slider, { target: { value: '21' } });
+    expect(screen.getByText(/SUB-23 DANGER ZONE UNLOCKED/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Kayden/i).length).toBeGreaterThanOrEqual(2);
   });
 
   it('plays the Cub Bench-Press minigame (5x225 reps) and unlocks Stairway-Carry bonus stats', () => {

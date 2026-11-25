@@ -31,7 +31,7 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
 
     // Click Smooth Rewind with 0 credits -> opens Boutique, does NOT clear outcome card!
     fireEvent.click(screen.getByRole('button', { name: /Smooth Rewind/i }));
-    expect(screen.getByRole('dialog', { name: /Velvet Concierge/i })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /Cougar Den Concierge/i })).toBeInTheDocument();
 
     // Close Boutique without buying credits -> outcome card is STILL visible!
     fireEvent.click(screen.getByRole('button', { name: /Close Boutique/i }));
@@ -98,9 +98,9 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
     const receiptButtons = screen.getAllByRole('button', { name: /Vibe.*Receipt/i });
     expect(receiptButtons).toHaveLength(1);
 
-    // Single click navigates straight to Official Velvet Den Verdict
+    // Single click navigates straight to Official Cougar Den Verdict
     fireEvent.click(receiptButtons[0]);
-    expect(screen.getByText(/Official Velvet Den Verdict/i)).toBeInTheDocument();
+    expect(screen.getByText(/Official Cougar Den Verdict/i)).toBeInTheDocument();
   });
 
   it('Fix #5: analyzePairing handles zero/negative age gaps and Gen-Z Her cohort cleanly, and Mixer prevents Her age <= His age', () => {

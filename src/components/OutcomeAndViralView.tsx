@@ -45,7 +45,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
   const handleCopyEmojiReceipt = async () => {
     const text = buildEmojiReceipt(summary, baseUrl);
     await shareOrCopy({
-      title: 'My Velvet Den Vetting Receipt',
+      title: 'My Cougar Den Vetting Receipt',
       text,
       url: baseUrl,
     });
@@ -78,7 +78,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
 
     await shareOrCopy({
       title: 'Pass My 60-Second Cougar/Cub Vetting Audition',
-      text: `Think you’d survive dating me? Pass my 60-second Velvet Den Vetting Audition 👀`,
+      text: `Think you’d survive dating me? Pass my 60-second Cougar Den Vetting Audition 👀`,
       url: link,
     });
     setCopiedState('audition');
@@ -91,7 +91,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
     const dataUrl = canvasRef.current.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = dataUrl;
-    a.download = 'velvet-den-vibe-receipt.png';
+    a.download = 'cougar-den-vibe-receipt.png';
     a.click();
     if (onClaimShareBonus()) setBonusToast(true);
   };
@@ -100,7 +100,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
     <div className="mx-auto max-w-4xl space-y-6">
       {bonusToast && (
         <div className="vice-panel rounded-2xl bg-emerald-400 px-4 py-3 text-sm font-extrabold text-slate-950">
-          🎉 +3 Bonus Velvet Credits unlocked for sharing! Use them on any VIP Deep-Cut episode.
+          🎉 +3 Bonus Den Credits unlocked for sharing! Use them on any VIP Deep-Cut episode.
         </div>
       )}
 
@@ -109,7 +109,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <span className="rounded-md bg-amber-400 px-2.5 py-1 text-xs font-extrabold uppercase text-slate-950">
-              Official Velvet Den Verdict
+              Official Cougar Den Verdict
             </span>
             <h2 className="mt-3 font-display text-4xl sm:text-6xl text-white leading-none">
               {summary.rankTitle}

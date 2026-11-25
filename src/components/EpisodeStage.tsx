@@ -292,12 +292,12 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          {/* Contextual Velvet Concierge Affiliate Drop */}
+          {/* Contextual Cougar Den Affiliate Drop */}
           {affiliate && (
             <div className="rounded-2xl border-2 border-black bg-[#101e2b] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <span className="rounded bg-amber-400/20 px-2 py-0.5 text-[10px] font-extrabold uppercase text-amber-300">
-                  🛍️ Velvet Concierge Match • {affiliate.badge}
+                  🛍️ Cougar Den Pick • {affiliate.badge}
                 </span>
                 <div className="mt-1 text-sm font-bold text-white">
                   {affiliate.name} ({affiliate.priceDisplay})

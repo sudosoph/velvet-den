@@ -101,7 +101,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     age: 26,
     height: '6\'2"',
     zodiac: 'Scorpio',
-    lookBadge: 'Black • Clean Fade • Warm Brown Eyes',
+    lookBadge: '6\'2" • Clean Fade • Rescue-Dog Dad',
     occupation: 'Firefighter / Paramedic & Station Chef',
     distance: '2 miles away',
     activeAgo: 'Active 4m ago',
@@ -218,7 +218,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     activeAgo: 'Active 6m ago',
     spotifyAnthem: 'Hozier — Too Sweet',
     tinderBio:
-      'Irish-American woodworker with copper hair, green eyes, and an actual toolbelt 🛠️ I build walnut dining tables by day, hike pine ridges at sunrise, and delight in fixing every squeaky cabinet hinge in your house.',
+      'Custom woodworker with copper hair, green eyes, and an actual toolbelt 🛠️ I build walnut dining tables by day, hike pine ridges at sunrise, and delight in fixing every squeaky cabinet hinge in your house.',
     hingePromptQuestion: 'Weirdest gift I’ll bring you',
     hingePromptAnswer: 'A hand-carved olivewood charcuterie board and a ribeye seared in cast iron.',
     secondPromptQuestion: 'Dating me looks like',
@@ -335,7 +335,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     age: 25,
     height: '6\'0"',
     zodiac: 'Virgo',
-    lookBadge: 'Korean-American • Forearm Tattoo • Climber',
+    lookBadge: '6\'0" • Forearm Tattoo • Sous-Chef & Climber',
     occupation: 'Fine-Dining Sous Chef & Boulderer',
     distance: '2 miles away',
     activeAgo: 'Active 11m ago',
@@ -396,7 +396,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     age: 26,
     height: '6\'0"',
     zodiac: 'Virgo',
-    lookBadge: 'Latino • Dark Waves • Warm Brown Eyes',
+    lookBadge: '6\'0" • Dark Waves • Ridge Runner DPT',
     occupation: 'Doctor of Physical Therapy',
     distance: '2 miles away',
     activeAgo: 'Active 9m ago',
@@ -449,7 +449,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     age: 27,
     height: '6\'2"',
     zodiac: 'Taurus',
-    lookBadge: 'Mediterranean • Dark Hair • Deep Hazel Eyes',
+    lookBadge: '6\'2" • Deep Hazel Eyes • Structural Engineer',
     occupation: 'Structural Engineer',
     distance: '4 miles away',
     activeAgo: 'Active 14m ago',
@@ -467,7 +467,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     lookingForSubtext: 'Knows the difference between Pinot Noir and Vodka Red Bull.',
     interests: ['Architecture', 'Sade & Vinyl', 'Cooking', 'Coastal Drives', 'Wine Bars'],
     openingDm:
-      'You’ve probably made 400 decisions for everyone else this week—let me handle Friday at 8 at The Velvet Lounge? Peonies included.',
+      'You’ve probably made 400 decisions for everyone else this week—let me handle Friday at 8 at The Cougar Lounge? Peonies included.',
     xrayLeak:
       'X-RAY SCAN: Opens car doors automatically, never films entrées for TikTok, and smells like warm cedar & bergamot.',
     isGreenFlagMatch: true,
@@ -588,6 +588,111 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       },
     ],
   },
+  {
+    id: 'colton-montana-ranch-cub',
+    name: 'Colton',
+    age: 25,
+    height: '6\'3"',
+    zodiac: 'Sagittarius',
+    lookBadge: '6\'3" • Sunlit Blonde • Montana Ranch Cowboy',
+    occupation: 'Cattle Rancher & Former College WR',
+    distance: '4 miles away (Just landed from Bozeman)',
+    activeAgo: 'Active 1m ago',
+    spotifyAnthem: 'Zach Bryan — Something in the Orange',
+    tinderBio:
+      '6\'3" Montana ranch kid & ex-college wide receiver 🤠 Yes, I’m the guy who accidentally commented "I love you" from my boys’ shared ranch TikTok before sliding in properly. Glad you lowered your age slider—pack a carry-on for Cabo.',
+    hingePromptQuestion: 'Most impulsive green-flag move',
+    hingePromptAnswer:
+      'Booking a Friday flight from Bozeman just to open your car door, two-step in your kitchen, and carry your luggage.',
+    secondPromptQuestion: 'What happens if we get pulled over',
+    secondPromptAnswer: 'I smile politely and promise not to ask the cop "Are you gonna give me a ticket?!" 😂',
+    ageShockZoom: true,
+    ageShockQuipHer:
+      '25 AND 6\'3" FROM MONTANA?! Kristin Cavallari tried to warn us what happens when you drag that age slider down!',
+    ageShockQuipHim:
+      'The Kristin Cavallari × Mark Estes blueprint: fearless charm, country manners, and zero fear of public attention.',
+    lookingFor: 'Real whirlwind romance (zero hiding)',
+    lookingForSubtext: 'Holds your hand through airports and beams like he won the Super Bowl.',
+    interests: ['Montana Ranches', 'Country Two-Step', 'Cabo Sunsets', 'Pickup Trucks', 'Bonfires', 'Golden Retrievers'],
+    openingDm:
+      'Okay full confession—I almost DMed you from my buddies’ shared ranch account first 😅 Let me take you to steak and live guitar Friday at 7:30?',
+    xrayLeak:
+      'X-RAY SCAN: Genuine yes-ma’am ranch manners, 6\'3" stairway-carry strength, and proudly posts you on main.',
+    isGreenFlagMatch: true,
+    photos: [
+      {
+        caption: 'Photo 1 of 3 • Golden-Hour Ranch Portrait',
+        shortTab: '🤠 Ranch Glow',
+        vibeNote: '💚 GREEN FLAG: 6\'3", sunlit grin, zero frat-bathroom flexing—pure Montana Boyz energy.',
+        variant: 'golden_trail_stud',
+        photoUrl: './images/cast/colton-25m.jpg',
+      },
+      {
+        caption: 'Photo 2 of 3 • Cabo Poolside Weekend',
+        shortTab: '🏖️ Cabo Sun',
+        vibeNote: '💚 Ready to hop a flight whenever your calendar clears.',
+        variant: 'golden_trail_stud',
+        photoUrl: './images/cast/lucas-30m.jpg',
+      },
+      {
+        caption: 'Photo 3 of 3 • Sunday Park Picnic',
+        shortTab: '🐾 Picnic',
+        vibeNote: '💚 Brings his guitar, strawberries, and zero ego.',
+        variant: 'dog_park_coffee',
+        photoUrl: './images/cast/dog-park-picnic.jpg',
+      },
+    ],
+  },
+  {
+    id: 'kayden-dutch-venmo-trap',
+    name: 'Kayden',
+    age: 21,
+    height: '5\'9"',
+    zodiac: 'Gemini',
+    lookBadge: '5\'9" • Campus Hoodie • "Go-Dutch" Trap 🚩',
+    occupation: '5th-Year Undergrad • "Strict 50/50 King"',
+    distance: '1 mile away (Near Campus)',
+    activeAgo: 'Active now',
+    spotifyAnthem: 'Lil Dicky — $ave Dat Money',
+    tinderBio:
+      '21 & thrifty 💸 Big believer in going 50/50 Dutch on first dates down to the exact cent so nobody feels used!! Let’s hit sushi (only during 4:30 PM happy hour tho, my campus Dining Dollars don’t work off-campus lol).',
+    hingePromptQuestion: 'First date non-negotiable',
+    hingePromptAnswer:
+      'Separate checks + I’ll Venmo-request you $3.19 if you eat 4 of the 7 edamame pods 🧮',
+    secondPromptQuestion: 'My living situation',
+    secondPromptAnswer: '4 guys in a 2-bedroom—don’t mind Kyle eating Cheerios out of a mixing bowl!',
+    ageShockZoom: true,
+    ageShockQuipHer:
+      '21?! AND ITEMIZING EDAMAME PODS ON VENMO?! Drag that age slider right back up to 25 immediately!!',
+    ageShockQuipHim:
+      'HORRIFYING OBSTACLE #1: Never invite a grown woman out and pull out an iPhone calculator to Venmo-split $0.38 tax. Pick an affordable date you can proudly host!',
+    lookingFor: '50/50 Dutch casual vibes',
+    lookingForSubtext: 'Will order two dragon rolls + sake Bomb, then divide the total in half onto your Venmo.',
+    interests: ['Nightlife', 'Going Dutch', 'Coupons', 'Clubs', 'Campus Dining'],
+    openingDm:
+      'yo!! down to grab sushi at 4:45 PM happy hour tn if we go dutch?? bring ur Venmo ready lol 🍣🧮',
+    xrayLeak:
+      'X-RAY SCAN: 🚨 EXTREME RED FLAG! $11.40 checking balance, 3 roommates sharing one towel, and sends itemized Venmo requests before leaving the booth.',
+    isGreenFlagMatch: false,
+    photos: [
+      {
+        caption: 'Photo 1 of 2 • Campus Quad Hoodie Selfie',
+        shortTab: 'Photo 1 (21yo Bait)',
+        vibeNote: 'Harmless-looking college senior in glasses... until the dinner check touches the table!',
+        variant: 'dog_park_coffee',
+        photoUrl: './images/cast/kayden-21m.jpg',
+      },
+      {
+        caption: 'Photo 2 of 2 • 4-Roommate Floor Mattress & Venmo Calculator',
+        shortTab: 'Photo 2 (Dutch 🚩)',
+        vibeNote:
+          '🚨 HORRIFYING RED FLAG: Invites you out, orders double, and Venmo-requests $41.63 from a bare floor mattress!',
+        variant: 'crew_socks_mirror',
+        photoUrl: './images/cast/tyler-mattress-trap.jpg',
+        isRedFlagPhoto: true,
+      },
+    ],
+  },
 ];
 
 export const HER_SWIPE_PROFILES: SwipeProfile[] = [
@@ -663,7 +768,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     age: 44,
     height: '5\'8"',
     zodiac: 'Leo',
-    lookBadge: 'Black • Honey Goddess Braids • Deep Brown Eyes',
+    lookBadge: '5\'8" • Honey Goddess Braids • Cabana Bikini',
     occupation: 'Entertainment Attorney • "Rich Auntie Era"',
     distance: '3 miles away',
     activeAgo: 'Active 2m ago',
@@ -677,7 +782,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: true,
     ageShockQuipHer: 'Rich Auntie perfection.',
     ageShockQuipHim:
-      '44F Black entertainment attorney in her emerald cabana bikini—stunning, razor-sharp, and allergic to low effort!',
+      '44F entertainment attorney in her emerald cabana bikini—stunning, razor-sharp, and allergic to low effort!',
     lookingFor: 'Grown-man chivalry & slow-burn spark',
     lookingForSubtext: 'Financially set for three lifetimes; dates purely for chemistry and devotion.',
     interests: [
@@ -729,7 +834,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     activeAgo: 'Active 6m ago',
     spotifyAnthem: ' Maggie Rogers — Alaska',
     tinderBio:
-      'Scandinavian-born, Malibu-salted 🏄‍♀️ Sold my lab company at 39 so I could surf dawn patrol before 7 AM. Blonde, blue-eyed, competitive in a bikini, and looking for a Cub whose stamina survives ocean swells AND cedar saunas.',
+      'Malibu-salted biotech founder 🏄‍♀️ Sold my lab company at 39 so I could surf dawn patrol before 7 AM. Blonde, blue-eyed, competitive in a bikini, and looking for a Cub whose stamina survives ocean swells AND cedar saunas.',
     hingePromptQuestion: 'First date challenge',
     hingePromptAnswer: 'Dawn surf at First Point followed by burritos on the tailgate—loser buys coffee.',
     secondPromptQuestion: 'Secret soft spot',
@@ -843,7 +948,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     age: 35,
     height: '5\'5"',
     zodiac: 'Virgo',
-    lookBadge: 'South Asian • Hazel Eyes • Raven Ponytail',
+    lookBadge: '5\'5" • Hazel Eyes • Canyon Hiker & Dog Mom',
     occupation: 'ER Physician • Golden-Retriever Mom',
     distance: '2 miles away',
     activeAgo: 'Active 7m ago',
@@ -855,7 +960,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: false,
     ageShockQuipHer: 'Trail-boss Puma MD.',
     ageShockQuipHim:
-      '35F South Asian ER doctor hiking with her golden retriever—brilliant, radiant, and zero patience for flakes!',
+      '35F ER doctor hiking with her golden retriever—brilliant, radiant, and zero patience for flakes!',
     lookingFor: 'Intentional Puma × Cub spark',
     lookingForSubtext: 'Respect her hospital shift sleep and spoil her on days off.',
     interests: [
@@ -901,7 +1006,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     age: 48,
     height: '5\'7"',
     zodiac: 'Capricorn',
-    lookBadge: 'East Asian • Sleek Raven Waves • Dark Eyes',
+    lookBadge: '5\'7" • Sleek Dark Waves • Infinity Pool Architect',
     occupation: 'Principal Coastal Architect',
     distance: '4 miles away',
     activeAgo: 'Active 12m ago',
@@ -913,7 +1018,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: true,
     ageShockQuipHer: 'Quiet-luxury Cougar.',
     ageShockQuipHim:
-      '48F East Asian architect lounging beside an ocean infinity pool—timeless poise and razor-sharp wit!',
+      '48F coastal architect lounging beside an ocean infinity pool—timeless poise and razor-sharp wit!',
     lookingFor: 'Refined chemistry & companionship',
     lookingForSubtext: 'Notices every detail from your fingernails to your manners with waitstaff.',
     interests: [
@@ -959,7 +1064,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     age: 61,
     height: '5\'9"',
     zodiac: 'Sagittarius',
-    lookBadge: 'Black • Silver-and-Ebony Braids • 61F Icon',
+    lookBadge: '5\'9" • Silver-and-Ebony Braids • 61F Fashion Icon',
     occupation: 'Former NYC Fashion Director',
     distance: '5 miles away',
     activeAgo: 'Active 15m ago',

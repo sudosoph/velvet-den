@@ -9,11 +9,11 @@ export interface BrandConfig {
 }
 
 export const BRAND_CONFIG: BrandConfig = {
-  name: 'The Velvet Den: Cougars & Cubs',
-  shortName: 'Cougars & Cubs Club',
-  subtitle: 'Swipe. Vet His Maturity. Survive Her 6 AM Pace. Win Commitment.',
+  name: 'Cougars & Cubs Club: The Cougar Den',
+  shortName: 'The Cougar Den',
+  subtitle: 'Lower Your Age Slider. Vet the Red Flags. Win Real Romance.',
   repoSlug: 'sudosoph/velvet-den',
   publicBaseUrl: 'https://cougarsandcubs.club/',
-  discordInviteUrl: 'https://discord.gg/velvetden',
-  ownedSubredditUrl: 'https://www.reddit.com/r/TheVelvetDenClub/',
+  discordInviteUrl: 'https://discord.gg/cougarsandcubs',
+  ownedSubredditUrl: 'https://www.reddit.com/r/CougarsAndCubsClub/',
 };

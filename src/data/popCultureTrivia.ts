@@ -89,10 +89,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       'Born 10 years apart (1982 & 1992), Priyanka Chopra & Nick Jonas turned a DM slide into global Cougar-Cub marriage royalty.',
   },
   {
-    id: 'atj-velvet-den-rule',
+    id: 'atj-cougar-den-rule',
     badge: 'The "Cub Grooming" Double Entendre',
     question:
-      'Whenever TikTok debates Sam & Aaron Taylor-Johnson’s 23-year gap, what is The Velvet Den’s official "Cub Grooming" rule?',
+      'Whenever TikTok debates Sam & Aaron Taylor-Johnson’s 23-year gap, what is The Cougar Den’s official "Cub Grooming" rule?',
     options: [
       'Ask for his Snapchat streak score',
       '25+ baked prefrontal cortexes ONLY—and "groom" his beard oil, SPF 50 & linen collars!',
@@ -102,6 +102,16 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     correctIndex: 1,
     funFact:
       'Zero creepy teen power gaps—only consenting grown Cubs getting upgraded from 5-in-1 body wash to sandalwood beard oil and Santal cologne!',
+  },
+  {
+    id: 'kristin-cavallari-montana-boyz',
+    badge: '13-Yr Gap • Lowering the Age Slider',
+    question:
+      'Which "Laguna Beach" & Uncommon James mogul inspired thousands of women to lower their dating-app age filters after matching with 24-year-old Montana Boyz cowboy Mark Estes?',
+    options: ['Lauren Conrad', 'Kristin Cavallari', 'Audrina Patridge', 'Whitney Port'],
+    correctIndex: 1,
+    funFact:
+      'Mark Estes accidentally DMed Kristin Cavallari "I love you" from the shared Montana Boyz TikTok account before sliding in from his personal profile—sparking an iconic Cabo & Nashville Cougar-Cub whirlwind!',
   },
   {
     id: 'cougar-town-big-carl',

@@ -12,7 +12,7 @@ describe('Velvet Den end-to-end UI, viral entry links, and dating-intent SEO jou
 
   it('renders Pairing Mixer, toggles Her/Him role, and opens the Age-Gap Field Guide', () => {
     render(<App />);
-    expect(screen.getAllByText(/The Velvet Den/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/The Cougar Den/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByRole('button', { name: /Play as Him/i })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Play as Him/i }));

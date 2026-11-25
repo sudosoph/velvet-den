@@ -79,6 +79,8 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   const [showVipDrawer, setShowVipDrawer] = useState(false);
   const [showCustomizer, setShowCustomizer] = useState(false);
   const [herFilter, setHerFilter] = useState<HerDecadeFilter>('all');
+  const [sortHerByAge, setSortHerByAge] = useState(false);
+  const [sortHisByAge, setSortHisByAge] = useState(false);
   const [herPhotoIdx, setHerPhotoIdx] = useState(0);
   const [hisPhotoIdx, setHisPhotoIdx] = useState(0);
 
@@ -115,7 +117,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
     if (herFilter === '50s') return item.age >= 50 && item.age < 60;
     if (herFilter === '60s') return item.age >= 60;
     return true;
-  });
+  })
+    .slice()
+    .sort((a, b) => (sortHerByAge || herFilter !== 'all' ? a.age - b.age : 0));
+
+  const sortedHisList = sortHisByAge
+    ? [...HIS_ARCHETYPES].sort((a, b) => a.age - b.age)
+    : HIS_ARCHETYPES;
 
   const herGallery = her.galleryPhotos?.length
     ? her.galleryPhotos
@@ -148,15 +156,15 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         <div className="grid gap-6 md:grid-cols-[1.25fr_0.9fr] md:items-center">
           <div className="space-y-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/40 bg-pink-500/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-200">
-              <Flame className="h-3.5 w-3.5 text-amber-300" /> Cougars &amp; Cubs Club • Interactive Romance Game
+              <Flame className="h-3.5 w-3.5 text-amber-300" /> Cougars &amp; Cubs Club • The Cougar Den
             </span>
 
             <h1 className="font-display text-4xl sm:text-6xl leading-[0.95] text-white drop-shadow-[3px_3px_0px_#09050f]">
-              BROWSE YOUR TYPE. VET THE RED FLAGS. WIN REAL LOVE.
+              LOWER YOUR AGE SLIDER. VET THE RED FLAGS. WIN REAL LOVE.
             </h1>
 
             <p className="text-sm text-slate-200 max-w-xl">
-              Scroll multi-photo Tinder cards across every decade &amp; vibe—from 35F hiking Pumas and 44F Palm Springs bikini Cougars to 51F redhead Jaguars and 61F silver-braided Panthers—paired with arcade minigames, pop-culture trivia, and live AI texting.
+              Browse {HER_ARCHETYPES.length} women (every single year from 30 to 64!) and {HIS_ARCHETYPES.length} Cubs (every year from 21 to 33)—complete with heights, star signs, voice notes, tactile minigames, and live AI texting inside The Cougar Den.
             </p>
 
             {/* Role Toggle Pills */}
@@ -282,15 +290,15 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
       </section>
 
-      {/* Step 1: Diverse Her Cast Browser With Decade Filter Pills */}
+      {/* Step 1: Every-Year Her Cast Browser With Decade & Year-by-Year Filters */}
       <section className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h2 className="font-display text-3xl text-rose-400">
-              1. Pick Her Type ({her.name}, {her.age}F — {HER_ARCHETYPES.length} Profiles)
+              1. Pick Her Type ({her.name}, {her.age}F — Every Year 30–64)
             </h2>
             <p className="text-xs text-slate-300">
-              Filter by decade or browse across Black, Latina, South &amp; East Asian, Blonde, Copper-Redhead &amp; Silver icons
+              Heights, star signs, drink orders &amp; lifestyle vitals right on every card—browse our varied top mix or step through every single year of each decade!
             </p>
           </div>
           <button
@@ -302,15 +310,15 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </button>
         </div>
 
-        {/* Decade Filter Pills */}
-        <div className="flex flex-wrap gap-2">
+        {/* Decade Filter Pills + Year-by-Year Toggle */}
+        <div className="flex flex-wrap items-center gap-2">
           {(
             [
-              ['all', `All Women (${HER_ARCHETYPES.length})`],
-              ['30s', '30s Pumas & Junior Cougars'],
-              ['40s', '40s Cougars'],
-              ['50s', '50s Jaguars'],
-              ['60s', '60s+ Panthers'],
+              ['all', `Varied Mix (${HER_ARCHETYPES.length})`],
+              ['30s', '30–39 (Every Year)'],
+              ['40s', '40–49 (Every Year)'],
+              ['50s', '50–59 (Every Year)'],
+              ['60s', '60–64 Icons'],
             ] as const
           ).map(([id, label]) => (
             <button
@@ -326,12 +334,28 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               {label}
             </button>
           ))}
+
+          {herFilter === 'all' && (
+            <button
+              type="button"
+              onClick={() => setSortHerByAge((v) => !v)}
+              className={`rounded-full border-2 border-black px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
+                sortHerByAge
+                  ? 'bg-amber-400 text-slate-950'
+                  : 'bg-black/50 text-amber-300 hover:bg-black/80'
+              }`}
+            >
+              {sortHerByAge ? '✓ Sorted by Age (30→64)' : '📅 Sort Year-by-Year (30→64)'}
+            </button>
+          )}
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {filteredHerList.map((item) => {
             const selected = item.id === her.id;
             const displayAge = selected ? her.age : item.age;
+            const itemDetails = getProfileDetails(item);
+            const shortSign = itemDetails.zodiac.split('•')[0].replace(' Sun', '').trim();
             return (
               <div
                 key={item.id}
@@ -350,14 +374,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   <img
                     src={item.photoUrl}
                     alt={`${item.name}, ${displayAge}`}
+                    loading="lazy"
                     className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#12071d] via-black/25 to-transparent" />
-                  {item.lookBadge && (
-                    <span className="absolute top-2 left-2 rounded-full bg-black/75 px-2 py-0.5 text-[9px] font-bold text-amber-200 border border-amber-300/30">
-                      {item.lookBadge.split('•')[0].trim()}
-                    </span>
-                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#12071d] via-black/30 to-transparent" />
+                  <span className="absolute top-2 left-2 rounded-full bg-black/80 px-2 py-0.5 text-[9px] font-extrabold text-amber-200 border border-amber-300/35">
+                    📏 {itemDetails.height} • {shortSign}
+                  </span>
                   {selected && (
                     <span className="absolute top-2 right-2 rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-extrabold uppercase text-white shadow">
                       Selected
@@ -367,10 +390,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     <div className="font-display text-2xl text-white leading-none">
                       {item.name}, <span className="text-amber-300">{displayAge}</span>
                     </div>
-                    <div className="text-[10px] font-extrabold uppercase tracking-wide text-rose-300 mt-0.5">
+                    <div className="text-[10px] font-extrabold uppercase tracking-wide text-rose-300 mt-0.5 truncate">
                       {item.title}
                     </div>
-                    <p className="mt-1 text-[11px] leading-snug text-slate-200 line-clamp-2">
+                    <div className="mt-0.5 text-[9px] font-bold text-teal-200/95 truncate">
+                      {itemDetails.statusPill}
+                    </div>
+                    <p className="mt-0.5 text-[10px] leading-snug text-slate-200 line-clamp-2">
                       {item.shortHook}
                     </p>
                   </div>
@@ -381,47 +407,71 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
       </section>
 
-      {/* Step 2: Diverse Handsome Cubs Grid */}
+      {/* Step 2: Every-Year Cubs Grid (21–33) */}
       <section className="space-y-3">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-display text-3xl text-teal-300">
-            2. Pick Her Cub ({his.name}, {his.age}M — {HIS_ARCHETYPES.length} Cubs)
-          </h2>
-          <span className="text-xs text-slate-400">
-            From 6&apos;2&quot; firefighters &amp; sous-chefs to redhead hikers, blonde swimmers &amp; 30s architects
-          </span>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 className="font-display text-3xl text-teal-300">
+              2. Pick Her Cub ({his.name}, {his.age}M — Every Year 21–33)
+            </h2>
+            <span className="text-xs text-slate-300">
+              Includes 6&apos;3&quot; Montana Ranch Cowboy (25M), 6&apos;2&quot; Firefighter, PhD &amp; the horrifying 21M Broke College &ldquo;Go-Dutch&rdquo; Trap!
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSortHisByAge((v) => !v)}
+            className={`rounded-full border-2 border-black px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
+              sortHisByAge
+                ? 'bg-teal-400 text-slate-950'
+                : 'bg-black/50 text-teal-300 hover:bg-black/80'
+            }`}
+          >
+            {sortHisByAge ? '✓ Sorted by Age (21→33)' : '📅 Sort Year-by-Year (21→33)'}
+          </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {HIS_ARCHETYPES.map((item) => {
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+          {sortedHisList.map((item) => {
             const selected = item.id === his.id;
             const displayAge = selected ? his.age : item.age;
+            const itemDetails = getProfileDetails(item);
+            const shortSign = itemDetails.zodiac.split('•')[0].replace(' Sun', '').trim();
+            const isObstacle = item.subplotTags.includes('broke_dutch_obstacle');
             return (
               <div
                 key={item.id}
                 onClick={() => {
-                  sfx.messagePop();
+                  if (isObstacle) sfx.redFlag();
+                  else sfx.messagePop();
                   onSelectHis(item);
                   setHisPhotoIdx(0);
                 }}
                 className={`group relative overflow-hidden rounded-2xl border-2 border-black transition cursor-pointer ${
                   selected
                     ? 'ring-3 ring-teal-400 shadow-[5px_5px_0px_#2dd4bf] -translate-y-0.5'
-                    : 'opacity-90 hover:opacity-100 hover:-translate-y-0.5'
+                    : isObstacle
+                      ? 'ring-1 ring-rose-500/60 opacity-95 hover:opacity-100 hover:-translate-y-0.5'
+                      : 'opacity-90 hover:opacity-100 hover:-translate-y-0.5'
                 }`}
               >
                 <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900">
                   <img
                     src={item.photoUrl}
                     alt={`${item.name}, ${displayAge}`}
+                    loading="lazy"
                     className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1622] via-black/25 to-transparent" />
-                  {item.lookBadge && (
-                    <span className="absolute top-2 left-2 rounded-full bg-black/75 px-2 py-0.5 text-[9px] font-bold text-teal-200 border border-teal-300/30">
-                      {item.lookBadge.split('•')[0].trim()}
-                    </span>
-                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1622] via-black/30 to-transparent" />
+                  <span
+                    className={`absolute top-2 left-2 rounded-full bg-black/80 px-2 py-0.5 text-[9px] font-extrabold border ${
+                      isObstacle
+                        ? 'text-rose-300 border-rose-400/50'
+                        : 'text-teal-200 border-teal-300/35'
+                    }`}
+                  >
+                    📏 {itemDetails.height} • {shortSign}
+                  </span>
                   {selected && (
                     <span className="absolute top-2 right-2 rounded-full bg-teal-400 px-2 py-0.5 text-[10px] font-extrabold uppercase text-slate-950 shadow">
                       Selected
@@ -431,10 +481,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     <div className="font-display text-2xl text-white leading-none">
                       {item.name}, <span className="text-teal-300">{displayAge}</span>
                     </div>
-                    <div className="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 mt-0.5">
+                    <div className="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 mt-0.5 truncate">
                       {item.title}
                     </div>
-                    <p className="mt-1 text-[11px] leading-snug text-slate-200 line-clamp-2">
+                    <div className="mt-0.5 text-[9px] font-bold text-pink-200/95 truncate">
+                      {itemDetails.statusPill}
+                    </div>
+                    <p className="mt-0.5 text-[10px] leading-snug text-slate-200 line-clamp-2">
                       {item.shortHook}
                     </p>
                   </div>
@@ -773,9 +826,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <div className="flex flex-wrap gap-2">
               {(
                 [
+                  ['montana_cowboy_slider', 'her', '🤠 Kristin Cavallari × Montana Cowboy Age-Slider Dare'],
+                  ['broke_dutch_obstacle', 'his', '🚩 Broke College "Go-Dutch" Venmo Calculator Horror'],
                   ['spontaneous_getaway', 'her', '✈️ 18h Rooftop + Hotel Pool & Sauna Getaway'],
                   ['phd_campus_cub', 'his', '🎓 Campus Stroll & Sushi "Professor × Student"'],
-                  ['fiery_foreign', 'her', '🌶️ Spicy Foreign-Born Cougar Passion'],
+                  ['fiery_foreign', 'her', '🌶️ Spicy International Cougar Passion'],
                   ['modest_accent_gentleman', 'his', '🧺 Modest-Roots Meadow Picnic & Neon Bowling'],
                   ['dog_mom_divorced', 'her', '🐾 Child-Free Pet-Mom Vetting'],
                   ['princess_treatment', 'her', '👑 Spoil-Me Soft-Life Princess'],

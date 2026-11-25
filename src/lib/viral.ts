@@ -158,7 +158,7 @@ export function buildEmojiReceipt(summary: RunSummary, shareUrl: string): string
     .join('\n');
 
   return [
-    `🐆 THE VELVET DEN • ${summary.pairing.her.age}F ${summary.pairing.her.name} × ${summary.pairing.his.age}M ${summary.pairing.his.name}`,
+    `🐆 THE COUGAR DEN • ${summary.pairing.her.age}F ${summary.pairing.her.name} × ${summary.pairing.his.age}M ${summary.pairing.his.name}`,
     bottleLine,
     episodeLines,
     `🏆 Rank: ${summary.rankTitle} (${summary.overallScore}%)`,
@@ -221,7 +221,7 @@ export function drawStoryReceiptToCanvas(
   ctx.fillRect(90, 110, 900, 110);
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 62px "Bebas Neue", Impact, sans-serif';
-  ctx.fillText('THE VELVET DEN • OFFICIAL VIBE RECEIPT', 125, 185);
+  ctx.fillText('THE COUGAR DEN • OFFICIAL VIBE RECEIPT', 125, 185);
 
   ctx.fillStyle = '#fde68a';
   ctx.font = 'bold 46px "Plus Jakarta Sans", sans-serif';

@@ -98,9 +98,72 @@ export const sfx = {
   hotspotFix() {
     playTone(620, 0.09, 'triangle', 0.07, 0, 920);
   },
+  sliderTick(ageValue = 28) {
+    const mappedFreq = Math.max(240, Math.min(780, 220 + ageValue * 9));
+    playTone(mappedFreq, 0.045, 'triangle', 0.055);
+  },
+  winePourGlug(fillPct = 50) {
+    playTone(280 + fillPct * 3.2, 0.07, 'sine', 0.06, 0, 340 + fillPct * 3.5);
+  },
   victoryFanfare() {
     [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
       playTone(f, 0.22, 'triangle', 0.08, idx * 0.08);
     });
   },
 };
+
+export function playVoiceNotePreview(
+  text: string,
+  style: 'her' | 'green_cub' | 'trap_cub',
+  onEnd?: () => void,
+): () => void {
+  if (muted || typeof window === 'undefined') {
+    onEnd?.();
+    return () => {};
+  }
+
+  // Play warm voice-note intro chime
+  if (style === 'trap_cub') {
+    playTone(340, 0.08, 'sawtooth', 0.05, 0, 250);
+  } else {
+    playTone(520, 0.09, 'triangle', 0.06, 0, 740);
+  }
+
+  let fallbackTimer: number | null = null;
+  const synth = window.speechSynthesis;
+  if (synth && typeof window.SpeechSynthesisUtterance === 'function') {
+    try {
+      synth.cancel();
+      const cleaned = text.replace(/[^\w\s.,?!'’"-]/g, '').slice(0, 210);
+      const utter = new window.SpeechSynthesisUtterance(cleaned);
+      utter.pitch = style === 'her' ? 1.08 : style === 'trap_cub' ? 1.24 : 0.88;
+      utter.rate = style === 'trap_cub' ? 1.18 : 0.98;
+      utter.volume = 0.85;
+      utter.onend = () => onEnd?.();
+      utter.onerror = () => onEnd?.();
+      synth.speak(utter);
+      return () => {
+        try {
+          synth.cancel();
+        } catch {
+          // Ignore cancel errors
+        }
+      };
+    } catch {
+      // Fall through to melodic waveform cadence
+    }
+  }
+
+  const notes =
+    style === 'trap_cub'
+      ? [330, 310, 350, 260, 220]
+      : style === 'her'
+        ? [440, 523.25, 587.33, 659.25, 523.25]
+        : [293.66, 349.23, 440, 392, 440];
+  notes.forEach((n, i) => playTone(n, 0.14, 'triangle', 0.055, i * 0.16));
+  fallbackTimer = window.setTimeout(() => onEnd?.(), notes.length * 170 + 120);
+
+  return () => {
+    if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
+  };
+}
