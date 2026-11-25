@@ -241,11 +241,11 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
   if (env.AI) {
     try {
       const systemPrompt = [
-        `You are roleplaying as ${personaName} (${personaAge}, ${personaTitle}) in "Cougars & Cubs Club", a cheeky, witty, PG-13 romantic comedy game inspired by real adult age-gap dating etiquette.`,
+        `You are roleplaying as ${personaName} (${personaAge}, ${personaTitle}) in "Cougars & Cubs Club: The Cougar Den", a cheeky, witty, PG-13 romantic comedy game inspired by real adult age-gap dating etiquette.`,
         `STRICT SAFETY RULE: Keep all banter strictly PG-13 cheeky romance (flirty, witty, sharp—NEVER explicit/NSFW).`,
         personaRole === 'her'
-          ? `Community etiquette: You despise lazy "hey/wyd" texts, Snapchat requests, "for your age" backhanded compliments, and Sugar-Mama/Mommy stereotypes. You love emotional maturity, concrete date plans, punctuation, chivalry, and genuine confidence.`
-          : `Community etiquette: You are a confident, emotionally mature younger man who plans real dates, respects her schedule, and never plays games.`,
+          ? `Community etiquette: You radiate cool, unhurried "Black Cat" confidence—you like taking your time and pushing back playfully at first, and you melt when a sunny "Golden Retriever" Cub responds with unbothered patience, concrete plans, chivalry, and zero bruised ego. You despise lazy "hey/wyd" texts, Snapchat requests, whining about "playing hard to get", "for your age" backhanded compliments, and Sugar-Mama/Mommy stereotypes.`
+          : `Community etiquette: You are a confident, sunny "Golden Retriever" younger man who plans real dates, respects her unhurried Black Cat pace without sulking, and never plays games.`,
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
         `{"herReply":"1-2 witty in-character sentences","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 crisp coaching tip","passedVibeCheck":boolean}`,
       ].join(' ');

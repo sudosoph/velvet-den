@@ -206,4 +206,49 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     featuredEpisodeId: 'mirror-game-insecurities',
     featuredAffiliateIds: ['trail-hydration-vest', 'after-dark-couples-deck'],
   },
+  {
+    slug: 'black-cat-older-woman-golden-retriever-younger-man-dating-guide',
+    seoTitle:
+      'Black Cat Older Woman × Golden Retriever Younger Man: Why Slow-Burn Pushback Drives Cubs Wild',
+    headline:
+      'Why Sunny "Golden Retriever" Younger Men Fall Hardest for "Black Cat" Older Women Who Take Their Time',
+    targetKeywords: [
+      'black cat girlfriend golden retriever boyfriend',
+      'older woman younger man chemistry',
+      'slow burn cougar and cub dating',
+    ],
+    metaDescription:
+      'Why sunny Golden-Retriever younger men fall hardest for cool, unhurried "Black Cat" older women who take their time, set boundaries, and push back playfully at first.',
+    readTime: '5 min read',
+    intro:
+      'Across Romance TikTok and r/CougarsAndCubs, one dynamic outlasts every flash-in-the-pan fling: the selective, unhurried "Black Cat" older woman paired with the sunny, devoted "Golden Retriever" younger man. Where insecure peer men often bristle when a woman takes her time or pushes back on Date #1, a high-EQ Golden-Retriever Cub lights up at the challenge of earning her warmth.',
+    sections: [
+      {
+        heading: '1. Why Older Women Naturally Radiate "Black Cat" Energy',
+        body: 'By 38, 48, or 58, an independent woman has built a peaceful home, a full life, and zero appetite for performative fawning. Taking her time and pushing back playfully on rushed familiarity isn’t a mind game—it’s healthy self-possession that filters out fragile egos in five minutes flat.',
+      },
+      {
+        heading: '2. Why Golden-Retriever Cubs Find Her Pushback Intoxicating',
+        body: 'Earnest, warm-hearted younger men are often exhausted by chaotic situationships yet bored when nothing feels earned. When a poised older woman raises one eyebrow and says "Slow down, sunshine—convince me," his Golden-Retriever optimism kicks into gear without a trace of resentment.',
+      },
+      {
+        heading: '3. The Rainy-Friday Thaw: Earned Intimacy Hits Deeper',
+        body: 'Because she didn’t hand over her trust on Tuesday #1, the moment a Black Cat Cougar finally exhales, kicks off her heels, and curls into his arms feels genuinely electric—rewarding steady consistency over cheap love-bombing.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What does Black Cat girlfriend and Golden Retriever boyfriend mean in age-gap dating?',
+        answer:
+          'In age-gap romance, a Black Cat older woman is calm, selective, slow to warm up, and comfortable pushing back on rushed advances, while a Golden Retriever Cub brings sunny, affectionate, unbothered devotion—happily matching her pace until trust is earned.',
+      },
+      {
+        question: 'How should a younger man respond when an older woman slows the pace at first?',
+        answer:
+          'Respond with warm, unbothered confidence rather than defensiveness or double-texting. Respect her schedule, plan thoughtful low-pressure dates, and stay consistent.',
+      },
+    ],
+    featuredEpisodeId: 'black-cat-pushback-golden-retriever-test',
+    featuredAffiliateIds: ['silk-pillowcase-sleepover-duo', 'cub-grooming-beard-skincare-kit'],
+  },
 ];

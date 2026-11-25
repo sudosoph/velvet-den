@@ -688,6 +688,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <div className="text-[11px] font-semibold text-amber-200/95">
               ✨ {pairing.zodiacSpark}
             </div>
+            {pairing.energyPolarity && (
+              <div className="inline-flex items-center gap-1.5 rounded-xl border border-fuchsia-400/40 bg-fuchsia-950/50 px-2.5 py-1 text-[11px] font-extrabold text-pink-200">
+                {pairing.energyPolarity}
+              </div>
+            )}
 
             {/* Custom Age Fine-Tuning Controls */}
             <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
@@ -826,6 +831,8 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <div className="flex flex-wrap gap-2">
               {(
                 [
+                  ['black_cat_energy', 'her', '🐈‍⬛ Black Cat Energy (Takes Her Time & Pushes Back)'],
+                  ['golden_retriever_energy', 'his', '🐕 Golden Retriever Cub (Loves Earning Her Smile)'],
                   ['montana_cowboy_slider', 'her', '🤠 Kristin Cavallari × Montana Cowboy Age-Slider Dare'],
                   ['broke_dutch_obstacle', 'his', '🚩 Broke College "Go-Dutch" Venmo Calculator Horror'],
                   ['spontaneous_getaway', 'her', '✈️ 18h Rooftop + Hotel Pool & Sauna Getaway'],

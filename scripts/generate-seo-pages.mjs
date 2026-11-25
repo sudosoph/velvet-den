@@ -443,6 +443,39 @@ const STATIC_GUIDES = [
       },
     ],
   },
+  {
+    slug: 'black-cat-older-woman-golden-retriever-younger-man-dating-guide',
+    title:
+      'Black Cat Older Woman & Golden Retriever Younger Man: Why Slow-Burn Pushback Works',
+    description:
+      'Explore why sunny Golden-Retriever younger men are magnetically drawn to cool, unhurried Black Cat older women who take their time and push back a little at first.',
+    episodeId: 'black-cat-pushback-golden-retriever-test',
+    paragraphs: [
+      'One of the strongest chemistry pairings in modern age-gap dating is the selective, unhurried "Black Cat" older woman matched with an enthusiastic, sunny "Golden Retriever" younger man.',
+      'Unlike insecure dates who get defensive when a woman sets boundaries or refuses to rush on Date #1, a true Golden-Retriever Cub loves the slow burn—smiling warmly when she pushes back a little and proving his reliability week after week.',
+      'When an independent Cougar, Puma, or Jaguar finally lets down her guard after weeks of steady courtship, the earned intimacy outlasts fast love-bombing every time.',
+    ],
+    faqs: [
+      {
+        q: 'Why do Golden Retriever younger men love Black Cat older women?',
+        a: 'Because her calm, unhurried standards make every smile and invitation feel genuinely earned, while his sunny, zero-ego warmth lets her relax out of daily decision fatigue.',
+      },
+      {
+        q: 'Is pushing back early in age-gap dating a red flag or a green flag?',
+        a: 'Playful, honest pacing is a major green flag—it filters out impatient novelty-seekers and rewards partners who bring steady adult consistency.',
+      },
+    ],
+    picks: [
+      {
+        name: '22-Momme Mulberry Silk Pillowcase & Claw-Clip Set ($39)',
+        url: 'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
+      },
+      {
+        name: 'Warm Cedar, Bergamot & Amber Eau de Parfum ($68)',
+        url: 'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men',
+      },
+    ],
+  },
 ];
 
 function escapeHtml(str) {

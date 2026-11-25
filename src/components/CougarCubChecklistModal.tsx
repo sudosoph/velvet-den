@@ -114,9 +114,9 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
     episodeId: 'spontaneous-18h-pool-sauna-getaway',
   },
   {
-    id: 'birthtime',
-    text: 'Texted Mom at 9 PM asking for an exact birth minute to pull a rising-sign chart.',
-    episodeId: 'fiery-foreign-cougar-passion-test',
+    id: 'blackcatgolden',
+    text: 'Lived the 🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub dynamic: she took her time & pushed back at first, and his tail only wagged harder.',
+    episodeId: 'black-cat-pushback-golden-retriever-test',
   },
   {
     id: 'sameagemom',

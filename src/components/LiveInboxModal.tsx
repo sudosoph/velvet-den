@@ -34,17 +34,19 @@ const INBOX_CONTACTS: InboxContact[] = [
     role: 'her' as const,
     photoUrl: h.photoUrl,
     openingPrompt:
-      h.subplotTags.includes('junior_cougar_gap')
-        ? `Quick math check: I’m 38, so a 6-year gap officially makes me a "Junior Cougar." Tell me where you were in 2008—and your actual Friday dinner plan.`
-        : h.subplotTags.includes('dog_mom_divorced')
-          ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
-          : h.age < 40
-            ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
-            : h.age >= 60
-              ? `We matched at the Palm Springs gallery opening. Most men half my age get nervous—tell me how you’d court me this weekend.`
-              : h.subplotTags.includes('princess_treatment')
-                ? `I’ve made 400 executive decisions this week and refuse to plan Friday night. How are you spoiling me?`
-                : `90% of cubs in my DMs open with "hey" or ask for Snapchat. You get one shot—what’s your actual Friday move?`,
+      h.subplotTags.includes('black_cat_energy')
+        ? `🐈‍⬛ Slow down, eager puppy—every guy in my inbox promises the moon on Day 1. I take my time and I’m not easy to impress. Why shouldn’t I make you wait till next week?`
+        : h.subplotTags.includes('junior_cougar_gap')
+          ? `Quick math check: I’m 38, so a 6-year gap officially makes me a "Junior Cougar." Tell me where you were in 2008—and your actual Friday dinner plan.`
+          : h.subplotTags.includes('dog_mom_divorced')
+            ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
+            : h.age < 40
+              ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
+              : h.age >= 60
+                ? `We matched at the Palm Springs gallery opening. Most men half my age get nervous—tell me how you’d court me this weekend.`
+                : h.subplotTags.includes('princess_treatment')
+                  ? `I’ve made 400 executive decisions this week and refuse to plan Friday night. How are you spoiling me?`
+                  : `90% of cubs in my DMs open with "hey" or ask for Snapchat. You get one shot—what’s your actual Friday move?`,
     steamyPrompt:
       h.age >= 50
         ? `Stuck in a meeting still smiling about how unhurried and attentive you were last night... keep the slow-burn tension going before tonight 🔥`
@@ -52,9 +54,9 @@ const INBOX_CONTACTS: InboxContact[] = [
           ? `Can’t focus on this VP deck after last night—hope you hit bench press today because you’re carrying me straight upstairs at 8 🔥 What’s the plan?`
           : `Still blushing at my desk thinking about last night (right until I panicked realizing you’re my baby sister’s age 😱😂). Keep the spark going—what are you doing to me Friday?`,
     quickChips: [
+      'Take all the time you want—honestly a woman who doesn’t rush makes me 10x more excited. I’ll hold Friday at 7:30 at The Cougar Lounge whenever you’re ready.',
       'Booked a corner table at The Cougar Lounge Friday at 7:30—peonies & zero planning on your end.',
-      'Quick 5-minute call at 6 PM today so I can lock in Friday tapas around your schedule?',
-      'hey 😍 ngl u look crazy good for ur age whats ur snap??',
+      'hey 😍 why u playing hard to get whats ur snap??',
     ],
     steamyChips: [
       'Just crushed 5 sets of 225 on bench specifically so I can carry you straight upstairs at 8—silk robe & dinner handled 🔥',

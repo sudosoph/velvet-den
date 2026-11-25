@@ -693,6 +693,117 @@ const BigCarlWinePourGame: React.FC<{
   );
 };
 
+/**
+ * 9. BlackCatPaceGame: 🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub Slow-Burn Pacing Toy!
+ * She pushes back playfully at first; tap the 3 patient Golden-Retriever beats (avoiding Love-Bomb Rush!)
+ * to melt her cool Black Cat guard into an earned purr!
+ */
+const BLACK_CAT_BEATS = [
+  {
+    catPrompt: '🐈‍⬛ Beat 1: She raises one cool eyebrow—"Slow down, eager puppy. I don’t clear my Friday that easily."',
+    rightMove: '🐕 Grin Warmly & Match Her Unhurried Pace ("Zero rush—you’re worth waiting for")',
+    rushTrap: '🚩 Love-Bomb 9 Texts in a Row ("PLS GIVE ME A CHANCE TONIGHT!!")',
+  },
+  {
+    catPrompt: '😼 Beat 2: Half-smile unlocked! She tests your ego—"Most guys sulk when I push back on Date #1."',
+    rightMove: '🐕 Laugh Unbothered ("Honestly? A woman with standards makes me 10x more interested")',
+    rushTrap: '🚩 Get Defensive ("Why are you playing hard to get?!")',
+  },
+  {
+    catPrompt: '😻 Beat 3: Her shoulders soften—"Okay, Golden Boy… convince me softly."',
+    rightMove: '🐕 Hold Calm 7:30 Wine-Bar Plan & Let Her Choose Your Lap',
+    rushTrap: '🚩 Crowd Her Space Before She Signals Ready',
+  },
+];
+
+const BlackCatPaceGame: React.FC<{
+  completed: boolean;
+  herName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, herName, onWin }) => {
+  const [step, setStep] = useState(completed ? 3 : 0);
+  const [hissNote, setHissNote] = useState<string | null>(null);
+
+  const handlePatientBeat = () => {
+    if (completed || step >= 3) return;
+    setHissNote(null);
+    const next = step + 1;
+    setStep(next);
+    if (next >= 3) {
+      sfx.victoryFanfare();
+      onWin({ chemistry: 10, eq: 8 }, '🐈‍⬛×🐕 Black Cat Whisperer');
+    } else {
+      sfx.greenFlag();
+    }
+  };
+
+  const handleRushMistake = () => {
+    if (completed || step >= 3) return;
+    sfx.redFlag();
+    setHissNote('🐈‍⬛ HISS! Too pushy—her Black Cat guard went right back up! Try the unbothered Golden-Retriever beat.');
+  };
+
+  const done = completed || step >= 3;
+
+  return (
+    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-r from-[#1e0d2e] via-[#15122b] to-[#0e262b] p-4 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
+          🐈‍⬛ Black Cat × 🐕 Golden Retriever Pacing Meter ({Math.min(step, 3)}/3 Earned)
+        </span>
+        <span className="text-[11px] font-bold text-amber-300">
+          +10 Chemistry &amp; +8 EQ (Melt {herName}’s Guard!)
+        </span>
+      </div>
+
+      {/* Warmth Progress Bar */}
+      <div className="grid grid-cols-3 gap-1.5">
+        {['1 · Aloof Side-Eye', '2 · Intrigued Smirk', '3 · Earned Purr 🔥'].map((lbl, idx) => (
+          <div
+            key={lbl}
+            className={`rounded-lg py-1 px-2 text-center text-[10px] font-extrabold border ${
+              step > idx
+                ? 'border-emerald-400 bg-emerald-500/25 text-emerald-200'
+                : idx === step
+                  ? 'border-amber-300 bg-amber-400/20 text-amber-200'
+                  : 'border-white/10 bg-black/40 text-slate-400'
+            }`}
+          >
+            {lbl}
+          </div>
+        ))}
+      </div>
+
+      {!done ? (
+        <div className="space-y-2">
+          <p className="text-xs font-semibold text-slate-100">{BLACK_CAT_BEATS[step].catPrompt}</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={handlePatientBeat}
+              className="rounded-xl border-2 border-black bg-gradient-to-r from-amber-400 to-teal-400 px-3 py-2 text-left text-xs font-extrabold text-slate-950 hover:brightness-110 cursor-pointer"
+            >
+              {BLACK_CAT_BEATS[step].rightMove}
+            </button>
+            <button
+              type="button"
+              onClick={handleRushMistake}
+              className="rounded-xl border-2 border-rose-500/50 bg-rose-950/50 px-3 py-2 text-left text-xs font-bold text-rose-200 hover:bg-rose-900/60 cursor-pointer"
+            >
+              {BLACK_CAT_BEATS[step].rushTrap}
+            </button>
+          </div>
+          {hissNote && <p className="text-[11px] font-bold text-rose-300">{hissNote}</p>}
+        </div>
+      ) : (
+        <div className="text-xs font-extrabold text-emerald-300">
+          😻 Black Cat Melted! Your steady, unbothered Golden-Retriever warmth won {herName} over (+10 Chemistry, +8 EQ)!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -728,6 +839,11 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   }
   if (type === 'big_carl_pour') {
     return <BigCarlWinePourGame completed={alreadyCompleted} onWin={onWinBonus} />;
+  }
+  if (type === 'black_cat_pace') {
+    return (
+      <BlackCatPaceGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+    );
   }
   return <RoomAuditHotspotGame completed={alreadyCompleted} onWin={onWinBonus} />;
 };

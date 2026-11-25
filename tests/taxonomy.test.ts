@@ -78,8 +78,17 @@ describe('Age-gap taxonomy & generational pairing analyzer', () => {
         'pop_miley_maxx',
         'pop_kristin_montana',
         'pop_cub_grooming_joke',
+        'black_cat_golden_retriever',
       ]),
     );
+  });
+
+  it('detects 🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub polarity when paired', () => {
+    const claireBlackCat = HER_ARCHETYPES.find((h) => h.id === 'claire-cougar-exec')!;
+    const leoGolden = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
+    const polarityPairing = analyzePairing(claireBlackCat, leoGolden, 'him');
+    expect(polarityPairing.energyPolarity).toContain('Black Cat');
+    expect(polarityPairing.energyPolarity).toContain('Golden Retriever');
   });
 
   it('covers every single year of each decade (30–64 for Her, 21–33 for Cubs) with heights, star signs, and zero ethnic quota labels', () => {
@@ -93,7 +102,8 @@ describe('Age-gap taxonomy & generational pairing analyzer', () => {
       expect(hisAges.has(yr)).toBe(true);
     }
 
-    const forbiddenEthnicPattern = /\b(black|latina|latino|asian|korean|irish|scandinavian)\b/i;
+    const forbiddenEthnicPattern =
+      /\b(black(?!\s+cat)|latina|latino|asian|korean|irish|scandinavian)\b/i;
     for (const p of [...HER_ARCHETYPES, ...HIS_ARCHETYPES]) {
       expect(p.height).toMatch(/^\d'\d{1,2}"$/);
       expect(p.zodiac?.length).toBeGreaterThan(3);

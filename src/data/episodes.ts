@@ -9,7 +9,8 @@ export type MinigameType =
   | 'bench_press'
   | 'cub_grooming'
   | 'thermostat_dial'
-  | 'big_carl_pour';
+  | 'big_carl_pour'
+  | 'black_cat_pace';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -3706,6 +3707,109 @@ export const EPISODES: Episode[] = [
           'Taking her out instead of camping on her sofa shows real adult pride.',
         toastBanner: 'SANCTUARY RESPECT +20',
         deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'black-cat-pushback-golden-retriever-test',
+    act: 2,
+    stage: 1,
+    minigame: 'black_cat_pace',
+    title: '🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub: The Slow-Burn Pushback Test',
+    subredditThreadInspiration: 'r/CougarsAndCubs & BookTok Polarity Truth: "Why Golden-Retriever Cubs fold instantly for an older \'Black Cat\' woman who takes her time and pushes back at first!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'You radiate pure **🐈‍⬛ Black Cat** poise: self-contained, unhurried, and allergic to instant over-familiarity. When {hisName} ({hisAge}M) comes in beaming with tail-wagging **🐕 Golden-Retriever** enthusiasm trying to lock in both Thursday *and* Sunday on Date #1, you lean back over your glass and push back playfully: *"Easy there, sunshine—I take my time, and you haven’t even earned Date #2 yet."* Men your own age usually sulk or call you "guarded." Watch what {hisName} does instead.',
+    setupHim:
+      'Here’s your open secret: overly eager dates bore you, whereas {herName}’s ({herAge}F) cool, selective **🐈‍⬛ Black Cat** energy has your **🐕 Golden-Retriever** heart doing backflips. Halfway through drinks, she catches you getting ahead of yourself, raises one slow eyebrow, and pushes back: *"Slow down, eager puppy—I like taking my time, and I don’t hand out weekends that fast."* Every insecure guy folds right here. What’s your move?',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her silent Black Cat test: "Every 45-year-old man gets prickly ego the second I set a boundary or slow the pace. Let’s see if this sunny {hisAge}-year-old pouts—or proves he’s built for the slow burn."',
+      hisDoubt:
+        'His Golden-Retriever brain: "Oh man, the way she just told me to slow my roll with that tiny half-smirk?! Keep tail wagging calmly, zero neediness—earning her trust is the best part!"',
+    },
+    choices: [
+      {
+        labelHer: 'Instead of sulking or pushing harder, he grins ear-to-ear completely unbothered ("Fair enough—a woman who takes her time makes me 10x more excited to earn Date #2"), walks you to your car with zero pressure, and follows up right on schedule!',
+        labelHim: 'Flash a warm, completely unbothered Golden-Retriever grin ("Honestly? Knowing you take your time just makes me like you ten times more"), respect her pace 100% at the car door, and show up with steady, sunny consistency!',
+        outcomeHer:
+          'Not an ounce of bruised male ego—just radiant, unshakeable warmth that respects your boundary AND clearly adores your pushback! You catch yourself smiling in the rearview mirror all the way home.',
+        outcomeHim:
+          'Her cool Black Cat composure cracks into a genuine, lingering smile at the car door: *"Okay… maybe you can text me about next Friday, Golden Boy."*',
+        toastBanner: '🐈‍⬛×🐕 PEAK POLARITY SPARK! • CHEMISTRY +30 • EQ +30',
+        deltas: { maturity: 25, chivalry: 25, eq: 30, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: '🐈‍⬛×🐕 Black Cat & Golden Retriever Certified',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He gets defensive when you slow the pace ("Wow why are older women so cold / playing hard to get?!") or spam-texts 11 needy question marks before midnight.',
+        labelHim: 'Whine that she’s "playing hard to get" or bombard her phone trying to force instant closeness.',
+        outcomeHer:
+          'Nothing validates Black Cat boundaries faster than watching a guy throw a tantrum the first time you say "not so fast." Blocked with extreme peace!',
+        outcomeHim:
+          'Confusing a self-possessed woman’s natural pacing with "games"—or trying to crowd a Black Cat—guarantees she vanishes into the night.',
+        toastBanner: 'RED FLAG! • BRUISED EGO / RUSHED THE BLACK CAT (-30)',
+        deltas: { maturity: -30, chivalry: -20, eq: -30, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Give him one playful breadcrumb ("Pass a 6 PM phone call Wednesday first, then we’ll talk about Friday") to watch his eyes light up.',
+        labelHim: 'Ask what pace feels best for her ("One date a week while we get to know each other works great for me—I’m not going anywhere").',
+        outcomeHer:
+          'Setting a clear, unhurried cadence lets desire build deliciously.',
+        outcomeHim:
+          'Calm reassurance without pressure is pure catnip to an independent woman.',
+        toastBanner: 'EARNED SLOW-BURN CADENCE +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'black-cat-thaw-behind-closed-doors',
+    act: 2,
+    stage: 3,
+    title: '😻 When the Black Cat Finally Chooses Your Lap: The Rainy-Friday Thaw',
+    subredditThreadInspiration: 'r/CougarsAndCubs Favorite Trope: "She made me work for every inch for a month—the night she finally curled up in my lap and purred made me feel like a king"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    recommendedAffiliateId: 'silk-pillowcase-sleepover-duo',
+    setupHer:
+      'For four weeks you paced {hisName} ({hisAge}M) deliberately—teasing his Golden-Retriever eagerness, keeping public PDA subtle, and making sure he wasn’t just high on novelty. Tonight rain is drumming against your windows, he cooked risotto without asking where a single pan lived, and every guarded wall you normally carry after a 50-hour week suddenly melts.',
+    setupHim:
+      'Four weeks of patient **🐕 Golden-Retriever** courtship: you never rushed {herName} ({herAge}F), laughed warmly every time she pushed back, and showed up like clockwork. Tonight, after dinner at her quiet sanctuary, the cool **🐈‍⬛ Black Cat** who barely let you hold her waist on Date #1 kicks off her heels, steps straight into your arms, and curls up against your chest on the sofa.',
+    choices: [
+      {
+        labelHer: 'Curl right into his warm chest on the sofa, run your fingers through his hair, and whisper: "Thank you for not rushing me—and for not going anywhere when I pushed back."',
+        labelHim: 'Wrap both arms around her quietly without saying "I told you so"—just kiss her temple, hold her close in the rain-lit quiet, and savor the magic of a Black Cat choosing *you*.',
+        outcomeHer:
+          'Being held by a younger man whose warmth stayed steady until *you* were ready to melt? Pure, spine-tingling sanctuary bliss.',
+        outcomeHim:
+          'Anyone can get fast attention—earning the private, unguarded softness of a selective Black Cat Cougar feels like winning the entire universe!',
+        toastBanner: 'EARNED BLACK-CAT DEVOTION! • CHEMISTRY +30 • CHIVALRY +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'She Finally Chose Your Lap',
+      },
+      {
+        labelHer: 'The second you soften, he gets cocky and brags: "See?! Knew your ice-queen act would crack lol!"',
+        labelHim: 'Gloat loudly ("Haha knew you couldn’t resist me forever, ice queen!") and ruin the vulnerable moment.',
+        outcomeHer:
+          'And in 0.4 seconds the Black Cat teleports to the opposite end of the couch and orders your Uber!',
+        outcomeHim:
+          'Mocking a woman the moment she lets her guard down snaps her walls shut permanently.',
+        toastBanner: 'RED FLAG! • GLOATED DURING THE THAW (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -30, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Pour two small glasses of aged Barolo, put vinyl on low, and enjoy an unhurried, phone-off Friday night in.',
+        labelHim: 'Keep your phone on silent in your coat pocket and match her calm, affectionate wavelength all weekend.',
+        outcomeHer:
+          'Unhurried intimacy after weeks of slow-burn tension hits ten times deeper.',
+        outcomeHim:
+          'Quiet attentiveness seals the bond effortlessly.',
+        toastBanner: 'SLOW-BURN INTIMACY +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
       },
     ],
   },

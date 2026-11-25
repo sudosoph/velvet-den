@@ -693,6 +693,62 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       },
     ],
   },
+  {
+    id: 'sam-golden-retriever-cub',
+    name: 'Sam',
+    age: 26,
+    height: '6\'1"',
+    zodiac: 'Cancer',
+    lookBadge: '6\'1" • 🐕 Golden-Retriever Energy • Craves Black Cats',
+    occupation: 'Pediatric Nurse & Coastal Marathoner',
+    distance: '2 miles away',
+    activeAgo: 'Active 3m ago',
+    spotifyAnthem: 'Hozier — Work Song',
+    tinderBio:
+      'Unapologetic Golden Retriever energy 🐕 Zero interest in instant-gratification chaos—I go weak in the knees for a cool, unhurried "Black Cat" older woman who takes her time, raises one eyebrow at my jokes, and pushes back a little at first. Don’t rush for me; earning your real smile by Date #3 is my favorite sport.',
+    hingePromptQuestion: 'My ultimate romantic kryptonite',
+    hingePromptAnswer:
+      'When she says "Slow down, eager puppy—convince me" instead of folding on Day 1. Tail wagging immediately.',
+    secondPromptQuestion: 'How I handle slow-burn boundaries',
+    secondPromptAnswer:
+      'Zero sulking, zero double-text panic—just steady 7:30 reservations, warm patience, and fresh flowers when you’re ready.',
+    ageShockZoom: false,
+    ageShockQuipHer:
+      'Wait—a 26yo Golden Retriever who *likes* when I take my time and push back instead of whining that I’m "intimidating"?!',
+    ageShockQuipHim:
+      'Study the #1 polarity secret: Golden-Retriever warmth + unbothered patience melts a Black Cat Cougar every single time.',
+    lookingFor: 'Slow-burn Black Cat × Golden Retriever magic',
+    lookingForSubtext: 'Never rushes your pace; beams like sunshine every time you let him closer.',
+    interests: ['Coastal Marathons', 'Handmade Pasta', 'Rescue Dogs', 'Slow-Burn Romance', 'Farmers Markets'],
+    openingDm:
+      'Something tells me you don’t hand out Friday nights easily—and honestly that’s my favorite green flag on here. No rush at all: coffee on your lunch break next week, or make me pass a phone call test first?',
+    xrayLeak:
+      'X-RAY SCAN: 100% pure Golden-Retriever devotion—zero bruised ego when you push back, spotless apartment, and endless patience.',
+    isGreenFlagMatch: true,
+    photos: [
+      {
+        caption: 'Photo 1 of 3 • Linen-Apron Sunday Sauce Smile',
+        shortTab: '🐕 Golden Smile',
+        vibeNote: '💚 GREEN FLAG: Pure sunny Golden-Retriever warmth + spotless marble kitchen.',
+        variant: 'home_chef_linen',
+        photoUrl: './images/cast/leo-25m.jpg',
+      },
+      {
+        caption: 'Photo 2 of 3 • Sunrise Park Picnic & Pups',
+        shortTab: '🐾 Dog Park',
+        vibeNote: '💚 Patient, affectionate, and never crowds a shy cat or a selective Cougar.',
+        variant: 'dog_park_coffee',
+        photoUrl: './images/cast/dog-park-picnic.jpg',
+      },
+      {
+        caption: 'Photo 3 of 3 • Coastal Trail Run',
+        shortTab: '🏔️ Marathoner',
+        vibeNote: '💚 Built for the long run—literally and romantically.',
+        variant: 'golden_trail_stud',
+        photoUrl: './images/cast/mateo-26m.jpg',
+      },
+    ],
+  },
 ];
 
 export const HER_SWIPE_PROFILES: SwipeProfile[] = [
@@ -1006,13 +1062,13 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     age: 48,
     height: '5\'7"',
     zodiac: 'Capricorn',
-    lookBadge: '5\'7" • Sleek Dark Waves • Infinity Pool Architect',
+    lookBadge: '5\'7" • 🐈‍⬛ Black Cat Poise • Infinity Pool Architect',
     occupation: 'Principal Coastal Architect',
     distance: '4 miles away',
     activeAgo: 'Active 12m ago',
     spotifyAnthem: 'Khruangbin — Texas Sun',
     tinderBio:
-      '48F architect designing cliffside ocean homes. Swim 1,500m at sunrise, wear minimalist black bikinis till October, and appreciate a younger man with curiosity, skincare discipline, and quiet confidence.',
+      '48F architect designing cliffside ocean homes 🐈‍⬛ Certified Black Cat energy: I take my time, push back on smooth-talking rushers, and guard my peace fiercely—which somehow makes sunny Golden-Retriever Cubs try ten times harder.',
     hingePromptQuestion: 'Ideal weekend rhythm',
     hingePromptAnswer: 'Ocean infinity-pool swim, hand-pulled noodles or omakase, and zero loud small talk.',
     ageShockZoom: true,

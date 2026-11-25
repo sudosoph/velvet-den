@@ -118,6 +118,10 @@ export function evaluateDmLocally(params: {
   const lower = msg.toLowerCase();
 
   const hasSnap = /\bsnap(chat)?\b/.test(lower);
+  const hasPushyWhine = /hard\s+to\s+get|stuck\s+up|why\s+so\s+cold|hurry\s+up/.test(lower);
+  const hasGoldenPatience = /take\s+(all\s+)?(the\s+|your\s+)?time|no\s+rush|worth\s+the\s+wait|whenever\s+you.?re\s+ready/.test(
+    lower,
+  );
   const hasSisterFumble = /little\s+sister\s+cute|sister\s+single/.test(lower);
   const hasMommyOrSugar =
     /\b(mommy|sugar\s*mama|allowance|spoil\s*me|amex|cabo|cougar\s*bucket)\b/.test(lower);
@@ -137,6 +141,30 @@ export function evaluateDmLocally(params: {
       herReply: `Excuse me?! Ask about my little sister ONE more time and your gym duffel is going out the second-story window. 🚩`,
       coachNote: 'Rule #0: When she has a post-hookup "OMG you’re my baby sister’s age!!" shock moment, make her laugh—NEVER ask if her sister is cute!',
       passedVibeCheck: false,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasPushyWhine) {
+    return {
+      maturityDelta: -20,
+      chivalryDelta: -18,
+      chemistryDelta: -20,
+      herReply: `🐈‍⬛ Calling a woman "hard to get" because she takes her time? And just like that, the Black Cat walked right off the balcony. Bye!`,
+      coachNote: 'When a Black Cat Cougar pushes back at first, NEVER whine or get defensive—steady, unbothered Golden-Retriever patience is what melts her!',
+      passedVibeCheck: false,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasGoldenPatience) {
+    return {
+      maturityDelta: 22,
+      chivalryDelta: 20,
+      chemistryDelta: 25,
+      herReply: `😼 Okay, Golden Retriever—not even a tiny flinch when I pushed back? Keep that exact steady energy and Friday at 7:30 might actually be yours. 🍸`,
+      coachNote: '🐈‍⬛×🐕 Bullseye! Unbothered Golden-Retriever warmth + respecting her slow-burn pace is pure Black Cat kryptonite.',
+      passedVibeCheck: true,
       source: 'local-heuristic',
     };
   }

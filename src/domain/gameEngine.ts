@@ -90,6 +90,9 @@ export function buildEpisodeQueue(
   };
 
   const pushCustomDateSpecials = () => {
+    if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
+      pushById('black-cat-pushback-golden-retriever-test');
+    }
     if (tags.has('broke_dutch_obstacle') || pairing.his.age <= 23) {
       pushById('broke-college-dutch-calculator-horror');
     }
@@ -246,6 +249,9 @@ export function buildEpisodeQueue(
     pushById('candlelit-menu-font-seatwarmer');
     pushById('cougar-salary-negotiation');
     pushById('silk-pillowcase-clawclip-drawer');
+    if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
+      pushById('black-cat-thaw-behind-closed-doors');
+    }
     if (tags.has('broke_dutch_obstacle') || pairing.his.age <= 24) {
       pushById('four-roommates-cereal-kitchen-horror');
     }
@@ -299,6 +305,9 @@ export function buildEpisodeQueue(
     pushById('cub-bench-press-cougar-training');
     pushById('retinol-stubble-eye-cream-heist');
     pushById('cub-grooming-red-carpet-glowup');
+    if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
+      pushById('black-cat-thaw-behind-closed-doors');
+    }
     pushById('menopause-intimacy-masterclass');
     pushById('steamy-texts-sister-age-shock');
 
@@ -334,6 +343,9 @@ export function buildEpisodeQueue(
     pushById('code-switch-texting');
     pushById('cub-bench-press-cougar-training');
     pushById('cub-grooming-red-carpet-glowup');
+    if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
+      pushById('black-cat-thaw-behind-closed-doors');
+    }
     pushById('menopause-intimacy-masterclass');
     pushById('steamy-texts-sister-age-shock');
     pushById('mirror-game-insecurities');

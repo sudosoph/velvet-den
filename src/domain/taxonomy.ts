@@ -22,7 +22,9 @@ export type SubplotTag =
   | 'modest_accent_gentleman'
   | 'spontaneous_getaway'
   | 'broke_dutch_obstacle'
-  | 'montana_cowboy_slider';
+  | 'montana_cowboy_slider'
+  | 'black_cat_energy'
+  | 'golden_retriever_energy';
 
 export interface HerArchetype {
   id: string;
@@ -93,6 +95,7 @@ export interface PairingAnalysis {
   badgeLabel: string;
   generationalHeadline: string;
   zodiacSpark: string;
+  energyPolarity?: string;
   codeSwitchTip: string;
   trackTitle: string;
   activeSubplotTags: SubplotTag[];
@@ -340,11 +343,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'Raised two kids, divorced amicably, runs a 40-person team. Loves youthful energy, crisp 62°F bamboo sheets, and a Cub who handles the check without bruised pride.',
     secretInsecurity:
       'Catches harsh bathroom vanity lighting and wonders if softer skin or fine lines will bother him next to 24-year-olds.',
-    subplotTags: ['done_with_kids', 'solo_sanctuary', 'adult_children', 'income_gap'],
+    subplotTags: ['black_cat_energy', 'done_with_kids', 'solo_sanctuary', 'adult_children', 'income_gap'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/claire-45f.jpg',
     lookBadge: 'Espresso Waves • Hazel Eyes • VP Poise',
-    statusPill: 'Kids Grown • Paid-Off Home',
+    statusPill: '🐈‍⬛ Black Cat • Paid-Off Home',
     zodiac: '♑ Capricorn Sun • ♏ Scorpio Rising',
     height: '5\'8"',
     loveLanguage: 'Acts of Competence & Clean Sheets',
@@ -390,11 +393,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '31F composer with a French-girl blonde bob and emerald eyes who loves spontaneous overnight train/coastal trips after one great FaceTime.',
     secretInsecurity:
       'Lives in her head writing music for days—needs a grounded younger man who pulls her outside into the sun.',
-    subplotTags: ['spontaneous_getaway', 'junior_cougar_gap', 'solo_sanctuary'],
+    subplotTags: ['black_cat_energy', 'spontaneous_getaway', 'junior_cougar_gap', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/isla-31f.jpg',
     lookBadge: 'Blonde French Bob • Studio Loft',
-    statusPill: 'Child-Free • Night Owl',
+    statusPill: '🐈‍⬛ Black Cat • Night Owl',
     zodiac: '♓ Pisces Sun • ♏ Scorpio Moon',
     height: '5\'7"',
     loveLanguage: '18h Getaways & Playing Songs at 1 AM',
@@ -619,11 +622,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '41F witty homebody in off-shoulder knitwear with reading glasses. To enter her inner sanctum, you must pass Mochi’s unblinking headboard stare-down—and never mock her *ACOTAR* shelf.',
     secretInsecurity:
       'Wonders if a lively 26-year-old Cub will get bored of cozy rainy-Friday nights in—until he asks which chapter of her spicy book he should study.',
-    subplotTags: ['booktok_cat_mom', 'dog_mom_divorced', 'jaded_peer_men', 'done_with_kids', 'solo_sanctuary'],
+    subplotTags: ['black_cat_energy', 'booktok_cat_mom', 'dog_mom_divorced', 'jaded_peer_men', 'done_with_kids', 'solo_sanctuary'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/nadia-41f.jpg',
     lookBadge: 'Reading Glasses • Cashmere • Cat Mom',
-    statusPill: 'Child-Free • Orange Cat Mochi',
+    statusPill: '🐈‍⬛ Black Cat • Orange Cat Mochi',
     zodiac: '♋ Cancer Sun • ♍ Virgo Moon',
     height: '5\'6"',
     loveLanguage: 'Quality Time & Reading Chapters Aloud',
@@ -722,14 +725,14 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     tagline:
       'Designs cliffside glass homes from Big Sur to Kyoto—minimalist black swimwear, bone-dry humor, and immaculate taste.',
     vibeSummary:
-      '48F architectural principal who swims 1,500 meters every morning in her ocean-view lap pool. Allergic to loud braggarts; weak in the knees for rolled sleeves, skincare discipline, and curious conversation.',
+      '48F architectural principal with classic "Black Cat" slow-burn poise: takes her time, pushes back playfully when an eager Cub rushes, and makes every earned smile feel electric.',
     secretInsecurity:
-      'Navigating late-40s perimenopause shifts behind calm perfectionism—deeply touched when he notices small physical comforts without making it awkward.',
-    subplotTags: ['done_with_kids', 'solo_sanctuary', 'adult_children', 'income_gap'],
+      'Navigating late-40s perimenopause shifts behind calm perfectionism—deeply touched when his Golden-Retriever warmth stays steady without crowding her.',
+    subplotTags: ['black_cat_energy', 'done_with_kids', 'solo_sanctuary', 'adult_children', 'income_gap'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/meiling-48f.jpg',
     lookBadge: 'Sleek Dark Waves • Ocean Infinity Pool',
-    statusPill: '1 Grown Kid • Cliffside Home',
+    statusPill: '🐈‍⬛ Black Cat • Cliffside Home',
     zodiac: '♍ Virgo Sun • ♎ Libra Rising',
     height: '5\'7"',
     loveLanguage: 'Quiet Observation & Omakase',
@@ -851,11 +854,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '54F literary powerhouse in black blazer and statement frames. Turns dinner conversation into foreplay and adores smart younger men.',
     secretInsecurity:
       'Used to editing everyone else’s stories—loves being swept into an unscripted weekend adventure.',
-    subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
+    subplotTags: ['black_cat_energy', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/lauren-54f.jpg',
     lookBadge: 'Champagne Pixie • Statement Frames',
-    statusPill: 'LAT Believer • Townhouse',
+    statusPill: '🐈‍⬛ Black Cat • LAT Townhouse',
     zodiac: '♍ Virgo Sun • ♊ Gemini Rising',
     height: '5\'7"',
     loveLanguage: 'Sharp Banter & Bookstore Strolls',
@@ -899,11 +902,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '56F platinum-blonde producer who lives in tailored black suiting and heels. Respects boldness, discretion, and a younger man who never flinches.',
     secretInsecurity:
       'Everyone pitches her all day long—she craves the one person who wants nothing from her except her company.',
-    subplotTags: ['princess_treatment', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
+    subplotTags: ['black_cat_energy', 'princess_treatment', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/evelyn-56f.jpg',
     lookBadge: 'Platinum Blonde • Tailored Blazer & Gold',
-    statusPill: 'Empty Nester • Beverly Hills',
+    statusPill: '🐈‍⬛ Black Cat • Beverly Hills',
     zodiac: '♏ Scorpio Sun • ♌ Leo Rising',
     height: '5\'8"',
     loveLanguage: 'Hotel-Bar Nerve & Unhurried Nights',
@@ -971,11 +974,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '59F design museum curator with a luminous silver bob and sculptural eyeglasses. Commands quiet awe and adores warm, tactile affection behind closed doors.',
     secretInsecurity:
       'People find her poise intimidating until they hear her laugh over midnight kitchen toast.',
-    subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
+    subplotTags: ['black_cat_energy', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/sylvie-59f.jpg',
     lookBadge: 'Luminous Silver Bob • Sculptural Frames',
-    statusPill: 'Solo Brownstone • Museum Curator',
+    statusPill: '🐈‍⬛ Black Cat • Museum Curator',
     zodiac: '♑ Capricorn Sun • ♎ Libra Venus',
     height: '5\'8"',
     loveLanguage: 'Gallery Strolls & Hand-Holding',
@@ -1021,11 +1024,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '61F style icon who spent thirty years shooting covers in Paris and Milan. Commands every room she enters, swims in the sea till November, and adores an attentive younger man who holds her hand across crowded piazzas.',
     secretInsecurity:
       'Fiercely protective of her joy and peace—tests early whether he has the spine to smile past public double-takes without flinching.',
-    subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
+    subplotTags: ['black_cat_energy', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
     photoUrl: './images/cast/vivienne-61f.jpg',
     lookBadge: 'Silver Braids • Resort Swimwear • Style Icon',
-    statusPill: 'Coastal Villa • World Traveler',
+    statusPill: '🐈‍⬛ Black Cat • Coastal Villa',
     zodiac: '♌ Leo Sun • ♑ Capricorn Rising',
     height: '5\'9"',
     loveLanguage: 'Unapologetic Piazza Devotion',
@@ -1098,18 +1101,19 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     id: 'leo-golden-cub',
     name: 'Leo',
     age: 25,
-    title: 'Linen-Apron Houseboy Cub',
-    shortHook: 'Cooks homemade pasta, scrubs counters spotless & adores her.',
-    tagline: 'Clean loafers, post-Title IX EQ, eager to tie on a linen apron and scrub her kitchen spotless.',
+    title: 'Golden-Retriever Houseboy Cub',
+    shortHook: 'Pure Golden-Retriever energy—10x more obsessed when a cool Black Cat woman pushes back!',
+    tagline:
+      'Beaming Golden-Retriever devotion: the more she takes her time and pushes back at first, the wider he grins.',
     vibeSummary:
-      'Gen-Z emotional fluency meets earnest effort. Happy to carry groceries, fix leaky faucets, and master code-switching out of group-chat slang.',
+      'Gen-Z emotional fluency meets sunny Golden-Retriever warmth. Bored by instant-gratification chaos—he goes weak in the knees for a selective "Black Cat" older woman who paces him, teases his eagerness, and makes every smile feel earned.',
     secretInsecurity:
-      'Driving home wondering: "Do I actually have enough game for a woman like her—or was I just a fun Friday novelty?"',
-    subplotTags: ['houseboy_eager', 'trail_leash_boss'],
+      'Driving home wondering: "Did she push back tonight because she’s testing my patience—or am I moving too fast?" (Spoiler: she loved every second.)',
+    subplotTags: ['golden_retriever_energy', 'houseboy_eager', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/leo-25m.jpg',
     lookBadge: 'Sunlit Curls • Linen Apron • Chef',
-    statusPill: 'Solo Studio • Cooks From Scratch',
+    statusPill: '🐕 Golden Retriever • Craves Black Cats',
     zodiac: '♋ Cancer Sun • ♉ Taurus Moon',
     height: '6\'1"',
     loveLanguage: 'Cooking in a Linen Apron & Acts of Service',
@@ -1129,11 +1133,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       'The exact reason thousands of 37–48 women lowered their age slider! Accidentally commented "I love you" from his buddies’ shared ranch account before sliding in properly, flies out on 12 hours’ notice, and carries both suitcases in one hand.',
     secretInsecurity:
       'Every comment section yells "He’s 25 from Montana!!"—so he proves with steady actions, yes-ma’am chivalry, and ranch-hand grit that he isn’t chasing clout.',
-    subplotTags: ['montana_cowboy_slider', 'spontaneous_getaway', 'princess_treatment', 'trail_leash_boss'],
+    subplotTags: ['golden_retriever_energy', 'montana_cowboy_slider', 'spontaneous_getaway', 'princess_treatment', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/colton-25m.jpg',
     lookBadge: 'Sunlit Blonde • 6\'3" Ranch Cowboy',
-    statusPill: 'Ranch & Cabo Ready • 6\'3"',
+    statusPill: '🐕 Golden Cowboy • 6\'3"',
     zodiac: '♐ Sagittarius Sun • ♌ Leo Mars',
     height: '6\'3"',
     loveLanguage: 'Flying Out Friday & Two-Stepping',
@@ -1210,11 +1214,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       'Calm under pressure, megawatt smile, deep baritone, and immaculate manners. Cooks Cajun shrimp pasta for the whole firehouse and pre-heats your passenger seat warmer before opening your door.',
     secretInsecurity:
       'Works 24-hour fire shifts and hopes an accomplished executive woman sees how fiercely reliable a firefighter schedule makes him.',
-    subplotTags: ['houseboy_eager', 'princess_treatment', 'trail_leash_boss'],
+    subplotTags: ['golden_retriever_energy', 'houseboy_eager', 'princess_treatment', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/marcus-26m.jpg',
     lookBadge: 'Clean Fade • Athletic 6\'2" • Dog Dad',
-    statusPill: 'Rescue Dog Otis • Home Cook',
+    statusPill: '🐕 Golden Energy • Rescue Dog Otis',
     zodiac: '♌ Leo Sun • ♉ Taurus Mars',
     height: '6\'2"',
     loveLanguage: 'Protective Presence & Firehouse Pasta',
@@ -1268,7 +1272,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       '30M golden-boy charm without an ounce of frat-boy arrogance. Rubs SPF 50 onto your shoulders poolside, orders crisp Sancerre properly, and fixes sore Pilates shoulders.',
     secretInsecurity:
       'People assume a blonde swimmer in California is a casual beach boy—so he goes all-in proving his long-term loyalty.',
-    subplotTags: ['princess_treatment', 'wants_kids_someday'],
+    subplotTags: ['golden_retriever_energy', 'princess_treatment', 'wants_kids_someday'],
     portraitVariant: 'oldsoul',
     photoUrl: './images/cast/lucas-30m.jpg',
     lookBadge: 'Sunlit Blonde • Ocean-Blue Eyes • 6\'3"',
@@ -1328,11 +1332,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       '22M surfboard shaper and specialty-coffee roaster with bright eyes and zero cynicism. Still gets ID-grilled for 45 seconds by every speakeasy bouncer!',
     secretInsecurity:
       'Knows 22 makes her raise an eyebrow at first—so he shows up ten minutes early with flowers every single time.',
-    subplotTags: ['houseboy_eager', 'trail_leash_boss'],
+    subplotTags: ['golden_retriever_energy', 'houseboy_eager', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/noah-22m.jpg',
     lookBadge: 'Twilight Grin • Surf Shaper • 6\'0"',
-    statusPill: 'Own Studio • Early Riser',
+    statusPill: '🐕 Golden Energy • Early Riser',
     zodiac: '♓ Pisces Sun • ♋ Cancer Rising',
     height: '6\'0"',
     loveLanguage: 'Morning Pour-Overs & Carrying Everything',
@@ -1618,10 +1622,20 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     label: 'Golden Retriever Houseboy Cub',
     ageRange: '10+ Years Junior',
     category: 'cub_taxonomy',
-    headline: 'High-EQ, Chivalrous & Choreplay Certified',
+    headline: 'Sunny, Unbothered & Magnetically Drawn to "Black Cat" Cougars',
     insiderLore:
-      'Fluent in post-MeToo/Title IX boundaries yet still opens car doors, pays his own bills, and happily wears a linen apron on Sunday after passing the maturity test.',
-    signatureTell: 'Owns clean sheets, hand soap, AND a bathroom trash can with a lid.',
+      'High-EQ, tail-wagging warmth paired with grown-up chivalry. Secret tell: he is 10x MORE attracted when an older woman has cool "Black Cat" energy—taking her time, teasing him, and pushing back a little at first instead of fawning.',
+    signatureTell: 'When she says "Slow down, eager puppy," he grins ear-to-ear instead of sulking.',
+  },
+  {
+    id: 'black_cat_golden_retriever',
+    label: '🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub',
+    ageRange: 'The #1 Polarity in The Cougar Den',
+    category: 'crossover_lore',
+    headline: 'She Takes Her Time & Pushes Back; He Lives to Earn Every Smile',
+    insiderLore:
+      'Peer men often get defensive when a self-possessed older woman won’t rush or stroke their ego on Date #1. A true Golden Retriever Cub finds her cool, selective Black Cat pushback intoxicating—matching her unhurried boundaries with steady sunshine until she finally chooses his lap.',
+    signatureTell: 'Publicly she gives him cool side-eye; privately she curls up in his hoodie on Sunday.',
   },
   {
     id: 'dm_goblin',
@@ -1765,6 +1779,17 @@ export function analyzePairing(
   const hisSign = hisDetails.zodiac.split('•')[0].trim();
   const zodiacSpark = `${herSign} × ${hisSign} — High-voltage astrological magnetism (${herDetails.loveLanguage.split('&')[0].trim()} meets ${hisDetails.loveLanguage.split('&')[0].trim()})`;
 
+  const hasBlackCat = her.subplotTags.includes('black_cat_energy');
+  const hasGolden = his.subplotTags.includes('golden_retriever_energy');
+  const energyPolarity =
+    hasBlackCat && hasGolden
+      ? `🐈‍⬛ Black Cat ${TIER_LABELS[felineTier]} × 🐕 Golden Retriever Cub — She takes her time & pushes back at first; he beams brighter earning every inch of her warmth!`
+      : hasBlackCat
+        ? `🐈‍⬛ Black Cat Energy Active — Unhurried, selective & pushes back on rushed effort`
+        : hasGolden
+          ? `🐕 Golden Retriever Cub Active — Sunny, unbothered devotion & zero ego games`
+          : undefined;
+
   let codeSwitchTip: string;
   if (herGeneration === 'gen_z') {
     codeSwitchTip =
@@ -1816,6 +1841,7 @@ export function analyzePairing(
     badgeLabel,
     generationalHeadline,
     zodiacSpark,
+    energyPolarity,
     codeSwitchTip,
     trackTitle,
     activeSubplotTags: Array.from(tagSet),

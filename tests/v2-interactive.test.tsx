@@ -33,8 +33,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 73 subplots accurately—including Age-Slider Montana Cowboy, Broke College Dutch-Splitter, Hobosexual PS5, Babygirl Milk, Gym Headphones & Anniversaries across all tracks', () => {
-    expect(EPISODES.length).toBe(73);
+  it('routes 75 subplots accurately—including Black Cat × Golden Retriever Slow-Burn Pushback, Age-Slider Montana Cowboy, Broke College Dutch-Splitter & Anniversaries across all tracks', () => {
+    expect(EPISODES.length).toBe(75);
     expect(HER_ARCHETYPES.length).toBe(37);
     expect(HIS_ARCHETYPES.length).toBe(17);
 
@@ -194,6 +194,26 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       (e) => e.id,
     );
     expect(cowboyIds).toContain('montana-cowboy-age-slider-dare');
+    expect(cowboyIds).toContain('black-cat-pushback-golden-retriever-test');
+    expect(cowboyIds).toContain('black-cat-thaw-behind-closed-doors');
+  });
+
+  it('plays the 3-beat 🐈‍⬛ Black Cat × 🐕 Golden Retriever Slow-Burn Pacing minigame and melts her guard', () => {
+    window.history.replaceState({}, '', '/?dilemma=black-cat-pushback-golden-retriever-test');
+    render(<App />);
+
+    expect(screen.getByText(/Black Cat × 🐕 Golden Retriever Pacing Meter/i)).toBeInTheDocument();
+
+    // Hitting the rush trap triggers a playful Black Cat hiss without advancing
+    fireEvent.click(screen.getByRole('button', { name: /Love-Bomb 9 Texts/i }));
+    expect(screen.getByText(/HISS! Too pushy/i)).toBeInTheDocument();
+
+    // Completing all 3 patient Golden-Retriever beats melts her guard!
+    fireEvent.click(screen.getByRole('button', { name: /Grin Warmly & Match Her Unhurried Pace/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Laugh Unbothered/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Hold Calm 7:30 Wine-Bar Plan/i }));
+
+    expect(screen.getByText(/Black Cat Melted!/i)).toBeInTheDocument();
   });
 
   it('lets players drag the Dating-App Age-Preference Slider to unlock Montana Cowboy (25) and Broke Dutch Trap (21)', () => {

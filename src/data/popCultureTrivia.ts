@@ -153,4 +153,19 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     funFact:
       'Roxster rescues Bridget and her kids from a tree in Hampstead Heath—celebrating widowed & divorced women rediscovering playful romance with high-EQ younger men!',
   },
+  {
+    id: 'black-cat-golden-retriever-trope',
+    badge: '🐈‍⬛ Black Cat × 🐕 Golden Retriever Lore',
+    question:
+      'In modern romance & r/CougarsAndCubs slang, what happens when a sunny "Golden Retriever" Cub meets a cool, unhurried "Black Cat" older woman who pushes back a little at first?',
+    options: [
+      'He sulks and asks why she is playing hard to get',
+      'He becomes 10x more smitten—respecting her slow-burn pace until he earns her real smile!',
+      'He sends 14 consecutive question marks at 2 AM',
+      'He asks to split the edamame on Venmo',
+    ],
+    correctIndex: 1,
+    funFact:
+      'Black Cat Older Woman × Golden Retriever Younger Man is the #1 chemistry pairing in The Cougar Den: her unhurried boundaries filter out fragile egos, while his sunny, unbothered devotion melts her walls!',
+  },
 ];
