@@ -259,38 +259,56 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
             }))
         : [];
 
-      const rawResult = (await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+      const chatPayload = {
         messages: [
-          { role: 'system', content: systemPrompt },
+          { role: 'system' as const, content: systemPrompt },
           ...recentTurns,
-          { role: 'user', content: playerMessage },
+          { role: 'user' as const, content: playerMessage },
         ],
         max_tokens: 240,
         temperature: 0.7,
-      })) as { response?: string };
+      };
 
-      const text = typeof rawResult?.response === 'string' ? rawResult.response.trim() : '';
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]) as {
-          herReply?: string;
-          maturityDelta?: number;
-          chivalryDelta?: number;
-          chemistryDelta?: number;
-          coachNote?: string;
-          passedVibeCheck?: boolean;
+      let rawResult: { response?: unknown } | undefined;
+      try {
+        rawResult = (await env.AI.run(
+          '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+          chatPayload,
+        )) as { response?: unknown };
+      } catch {
+        rawResult = (await env.AI.run('@cf/meta/llama-3.1-8b-instruct', chatPayload)) as {
+          response?: unknown;
         };
-        if (parsed.herReply) {
-          return jsonResponse({
-            herReply: String(parsed.herReply).slice(0, 360),
-            maturityDelta: Math.max(-25, Math.min(25, Number(parsed.maturityDelta ?? 10))),
-            chivalryDelta: Math.max(-25, Math.min(25, Number(parsed.chivalryDelta ?? 10))),
-            chemistryDelta: Math.max(-25, Math.min(25, Number(parsed.chemistryDelta ?? 12))),
-            coachNote: String(parsed.coachNote || 'Live AI Vibe Check complete.').slice(0, 200),
-            passedVibeCheck: Boolean(parsed.passedVibeCheck),
-            source: 'workers-ai',
-          });
+      }
+
+      let parsed: {
+        herReply?: string;
+        maturityDelta?: number;
+        chivalryDelta?: number;
+        chemistryDelta?: number;
+        coachNote?: string;
+        passedVibeCheck?: boolean;
+      } | null = null;
+
+      if (rawResult?.response && typeof rawResult.response === 'object') {
+        parsed = rawResult.response as typeof parsed;
+      } else if (typeof rawResult?.response === 'string') {
+        const jsonMatch = rawResult.response.trim().match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          parsed = JSON.parse(jsonMatch[0]) as typeof parsed;
         }
+      }
+
+      if (parsed?.herReply) {
+        return jsonResponse({
+          herReply: String(parsed.herReply).slice(0, 360),
+          maturityDelta: Math.max(-25, Math.min(25, Number(parsed.maturityDelta ?? 10))),
+          chivalryDelta: Math.max(-25, Math.min(25, Number(parsed.chivalryDelta ?? 10))),
+          chemistryDelta: Math.max(-25, Math.min(25, Number(parsed.chemistryDelta ?? 12))),
+          coachNote: String(parsed.coachNote || 'Live AI Vibe Check complete.').slice(0, 200),
+          passedVibeCheck: Boolean(parsed.passedVibeCheck),
+          source: 'workers-ai',
+        });
       }
     } catch {
       // Fall through cleanly to deterministic local heuristic
