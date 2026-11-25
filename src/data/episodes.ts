@@ -3813,4 +3813,52 @@ export const EPISODES: Episode[] = [
       },
     ],
   },
+  {
+    id: 'zero-proof-mocktail-smoothie-date',
+    act: 2,
+    stage: 1,
+    title: '🥤 Zero-Proof Green Flag: Botanical Mocktails, Smoothies & Zero-Hangover Mornings',
+    subredditThreadInspiration: 'Modern Wellness Reality: "Half of Gen-Z Cubs barely drink AND perimenopause makes 2 glasses of wine wreck your sleep—zero-proof mocktail & smoothie dates are elite!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'zero-proof-botanical-mocktail-set',
+    setupHer:
+      'Real talk: between 6:30 AM Pilates, skin glow, and how ruthlessly alcohol wrecks sleep past 38, you ordered **{signatureDrink}** instead of booze tonight. Better yet, {hisName} ({hisAge}M) is part of the health-conscious Gen-Z wave who prefers adaptogen spritzes, ceremonial matcha, and post-gym smoothies over sloppy bar tabs!',
+    setupHim:
+      'You’re out with {herName} ({herAge}F), and neither of you cares about getting buzzed—you care about real chemistry, waking up clear-headed at 6:30 AM, and feeling amazing. When the bartender pushes a heavy cocktail list, she smiles and orders **{signatureDrink}**.',
+    choices: [
+      {
+        labelHer: 'Toast your zero-proof yuzu mocktails (or lock in a Saturday morning cold-pressed smoothie walk after), love that he never pressures a drink, and wake up glowing with 100% energy for each other!',
+        labelHim: 'Match her vibe effortlessly—order a crisp zero-proof botanical spritz or espresso tonic with zero awkwardness, and plan a sunny post-hike smoothie date for Saturday morning!',
+        outcomeHer:
+          'Zero peer pressure, crystal-clear eye contact, deep sleep, AND waking up fresh at 6:30 AM for morning rounds + smoothies?! Peak modern Cougar-Cub compatibility!',
+        outcomeHim:
+          'Skipping sloppy hangover culture for sharp conversation and sunrise smoothies puts your chemistry on rocket fuel!',
+        toastBanner: '🥤 ZERO-PROOF WELLNESS SPARK! • EQ +25 • CHEMISTRY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Zero-Proof & Sunrise Smoothie Certified',
+      },
+      {
+        labelHer: 'He whines "Wait you’re not drinking?! C’mon take one tequila shot with me, don’t be boring!!"',
+        labelHim: 'Try to peer-pressure a health-conscious woman into taking shots after she ordered non-alcoholic.',
+        outcomeHer:
+          'Pressuring a grown woman who protects her sleep and wellness to do tequila shots?! Enjoy your Uber solo!',
+        outcomeHim:
+          'Pushing alcohol on someone who chose a mocktail or smoothie is an instant maturity fail.',
+        toastBanner: 'RED FLAG! • SHOT PEER-PRESSURE ICK (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Stock tart-cherry spritz, iced matcha, and fresh berries at home so both cocktail and mocktail nights feel special.',
+        labelHim: 'Remember her exact non-alcoholic order ({signatureDrink}) and have it chilled in your fridge before Date #3.',
+        outcomeHer:
+          'Thoughtful attention to her wellness routine melts hearts fast.',
+        outcomeHim:
+          'Stocking her exact mocktail or smoothie ingredients proves top-1% attentiveness.',
+        toastBanner: 'THOUGHTFUL WELLNESS CARE +20',
+        deltas: { maturity: 20, chivalry: 25, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
 ];

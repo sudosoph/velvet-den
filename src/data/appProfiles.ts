@@ -719,9 +719,15 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Study the #1 polarity secret: Golden-Retriever warmth + unbothered patience melts a Black Cat Cougar every single time.',
     lookingFor: 'Slow-burn Black Cat × Golden Retriever magic',
     lookingForSubtext: 'Never rushes your pace; beams like sunshine every time you let him closer.',
-    interests: ['Coastal Marathons', 'Handmade Pasta', 'Rescue Dogs', 'Slow-Burn Romance', 'Farmers Markets'],
+    interests: [
+      'Coastal Marathons',
+      'Zero-Proof Mocktails',
+      'Post-Run Smoothies',
+      'Rescue Dogs',
+      'Slow-Burn Romance',
+    ],
     openingDm:
-      'Something tells me you don’t hand out Friday nights easily—and honestly that’s my favorite green flag on here. No rush at all: coffee on your lunch break next week, or make me pass a phone call test first?',
+      'Something tells me you don’t hand out Friday nights easily—and honestly that’s my favorite green flag on here. Zero rush: iced matcha, post-run smoothie, or a cozy mocktail bar next week?',
     xrayLeak:
       'X-RAY SCAN: 100% pure Golden-Retriever devotion—zero bruised ego when you push back, spotless apartment, and endless patience.',
     isGreenFlagMatch: true,

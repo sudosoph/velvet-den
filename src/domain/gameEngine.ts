@@ -26,6 +26,7 @@ export interface AppSwipeRecord {
 }
 
 export type RunStatus = 'playing' | 'busted' | 'completed';
+export type RunPacingMode = 'curated' | 'marathon';
 
 export interface GameRunState {
   pairing: PairingAnalysis;
@@ -92,6 +93,9 @@ export function buildEpisodeQueue(
   const pushCustomDateSpecials = () => {
     if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
       pushById('black-cat-pushback-golden-retriever-test');
+    }
+    if (tags.has('zero_proof_wellness')) {
+      pushById('zero-proof-mocktail-smoothie-date');
     }
     if (tags.has('broke_dutch_obstacle') || pairing.his.age <= 23) {
       pushById('broke-college-dutch-calculator-horror');
@@ -379,11 +383,89 @@ export function buildEpisodeQueue(
   return queue;
 }
 
+/**
+ * Approach A Curated Game Routing:
+ * Selects a tight, high-impact 8-scene arc across all 6 Relationship Stages so mobile & first-time
+ * players experience their custom subplots, minigames, and trivia interludes and reach the viral
+ * Vibe Receipt in ~3.5 minutes—without 28-scene fatigue!
+ */
+const PRIORITY_CUSTOM_EPISODE_IDS = new Set([
+  'black-cat-pushback-golden-retriever-test',
+  'black-cat-thaw-behind-closed-doors',
+  'zero-proof-mocktail-smoothie-date',
+  'broke-college-dutch-calculator-horror',
+  'four-roommates-cereal-kitchen-horror',
+  'montana-cowboy-age-slider-dare',
+  'spontaneous-18h-pool-sauna-getaway',
+  'campus-stroll-sushi-professor-student',
+  'fiery-foreign-cougar-passion-test',
+  'retro-bowling-and-meadow-picnic',
+  'houseboy-sunday-sanctuary',
+]);
+
+export function curateEpisodeQueue(
+  fullQueue: Episode[],
+  includeVipEpisodeIds: string[] = [],
+): Episode[] {
+  if (fullQueue.length <= 8) return fullQueue;
+
+  const vipSet = new Set(includeVipEpisodeIds);
+  const picked: Episode[] = [];
+  const addEp = (ep?: Episode) => {
+    if (ep && !picked.some((p) => p.id === ep.id)) {
+      picked.push(ep);
+    }
+  };
+
+  const byStage = (st: number) => fullQueue.filter((e) => e.stage === st);
+  const pickStageBest = (st: number, count: number) => {
+    const candidates = byStage(st);
+    const prioritized = [
+      ...candidates.filter((e) => vipSet.has(e.id)),
+      ...candidates.filter((e) => PRIORITY_CUSTOM_EPISODE_IDS.has(e.id)),
+      ...candidates.filter((e) => Boolean(e.minigame)),
+      ...candidates,
+    ];
+    let added = 0;
+    for (const c of prioritized) {
+      if (added >= count) break;
+      if (!picked.some((p) => p.id === c.id)) {
+        picked.push(c);
+        added += 1;
+      }
+    }
+  };
+
+  pickStageBest(1, 2);
+  pickStageBest(2, 1);
+  pickStageBest(3, 2);
+  pickStageBest(4, 1);
+  pickStageBest(5, 1);
+  // Always end with 6-month Big Carl or 1-year Anniversary finale!
+  const stage6 = byStage(6);
+  addEp(stage6.find((e) => !e.id.startsWith('milestone-')) ?? stage6[0]);
+  addEp(fullQueue.find((e) => e.id === 'milestone-six-month-anniversary'));
+
+  // Ensure any paid/unlocked VIP scene is always honored
+  for (const vipEp of fullQueue.filter((e) => vipSet.has(e.id))) {
+    addEp(vipEp);
+  }
+
+  return picked.sort((a, b) => a.stage - b.stage);
+}
+
 export function createRun(
   pairing: PairingAnalysis,
   includeVipEpisodeIds: string[] = [],
   singleDilemmaId?: string,
+  pacingMode: RunPacingMode = 'marathon',
 ): GameRunState {
+  const fullQueue = buildEpisodeQueue(pairing, includeVipEpisodeIds, singleDilemmaId);
+  const episodeQueue =
+    singleDilemmaId || pacingMode === 'marathon'
+      ? fullQueue
+      : curateEpisodeQueue(fullQueue, includeVipEpisodeIds);
+
   return {
     pairing,
     stats: {
@@ -395,7 +477,7 @@ export function createRun(
     redFlags: 0,
     status: 'playing',
     swipes: [],
-    episodeQueue: buildEpisodeQueue(pairing, includeVipEpisodeIds, singleDilemmaId),
+    episodeQueue,
     currentEpisodeIndex: 0,
     history: [],
     badges: [],

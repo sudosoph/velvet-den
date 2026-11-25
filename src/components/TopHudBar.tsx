@@ -76,7 +76,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           </div>
         </button>
 
-        <nav className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <nav className="flex w-full sm:w-auto overflow-x-auto no-scrollbar items-center gap-1.5 sm:gap-2 pb-0.5 sm:pb-0">
           <button
             type="button"
             onClick={onOpenLiveInbox}

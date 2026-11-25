@@ -33,8 +33,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 75 subplots accurately—including Black Cat × Golden Retriever Slow-Burn Pushback, Age-Slider Montana Cowboy, Broke College Dutch-Splitter & Anniversaries across all tracks', () => {
-    expect(EPISODES.length).toBe(75);
+  it('routes 76 subplots accurately—including Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy & Broke College Dutch-Splitter across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(76);
     expect(HER_ARCHETYPES.length).toBe(37);
     expect(HIS_ARCHETYPES.length).toBe(17);
 
@@ -196,6 +196,18 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(cowboyIds).toContain('montana-cowboy-age-slider-dare');
     expect(cowboyIds).toContain('black-cat-pushback-golden-retriever-test');
     expect(cowboyIds).toContain('black-cat-thaw-behind-closed-doors');
+
+    // Approach A ('curated') deals a tight 7-9 scene arc spanning Stages 1..6 while honoring Zero-Proof Wellness!
+    const astridZeroProof = HER_ARCHETYPES.find((h) => h.id === 'astrid-blonde-cougar')!;
+    const curatedQueue = createRun(
+      analyzePairing(astridZeroProof, leo25, 'her'),
+      [],
+      undefined,
+      'curated',
+    ).episodeQueue;
+    expect(curatedQueue.length).toBeGreaterThanOrEqual(7);
+    expect(curatedQueue.length).toBeLessThanOrEqual(10);
+    expect(curatedQueue.map((e) => e.id)).toContain('zero-proof-mocktail-smoothie-date');
   });
 
   it('plays the 3-beat 🐈‍⬛ Black Cat × 🐕 Golden Retriever Slow-Burn Pacing minigame and melts her guard', () => {

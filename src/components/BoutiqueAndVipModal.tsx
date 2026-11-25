@@ -280,7 +280,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 VIP Black Card • $6.99
               </div>
               <p className="text-xs text-slate-200 mt-1">
-                Unlocks ALL 4 Subreddit Deep-Cut episodes forever + Unlimited Live AI Inbox Texting + 10 bonus credits.
+                Unlocks Unlimited Custom Cougar/Cub Fantasy Builds + ALL 4 Deep-Cut VIP episodes forever + Unlimited Live AI Texting + 15 bonus credits.
               </p>
             </div>
             {wallet.isVip ? (

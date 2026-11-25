@@ -332,7 +332,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           transform:
             flyDir === null ? `translateX(${dragX}px) rotate(${rotationDeg}deg)` : undefined,
         }}
-        className={`vice-panel relative select-none overflow-hidden rounded-3xl bg-[#180d28] transition-transform duration-150 ${
+        className={`vice-panel relative select-none touch-pan-y overflow-hidden rounded-3xl bg-[#180d28] transition-transform duration-150 ${
           flyDir === 'left'
             ? 'animate-swipe-left'
             : flyDir === 'right'

@@ -163,6 +163,17 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     whyItConverts: 'Direct tie-in to the Silk Pillowcase & Secret "Her Drawer" lifestyle episode.',
     merchantUrl: 'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
   },
+  {
+    id: 'zero-proof-botanical-mocktail-set',
+    name: 'Zero-Proof Botanical Aperitif Elixir & Ribbed Mocktail Coupe Set',
+    category: 'date_night',
+    priceDisplay: '$44',
+    badge: 'Sober-Curious & Sleep-First MVP',
+    cheekyPitch:
+      'For wellness-minded Cougars protecting 8 hours of beauty sleep and Gen-Z Cubs who prefer 7 AM Pilates stamina over tequila hangovers.',
+    whyItConverts: 'Direct tie-in to the Zero-Proof Mocktail & Smoothie Date episode.',
+    merchantUrl: 'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
+  },
 ];
 
 export interface AffiliateTagOverrides {

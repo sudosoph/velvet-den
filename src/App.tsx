@@ -34,6 +34,7 @@ import {
   recordAppSwipe,
   rewindLastChoice,
   type GameRunState,
+  type RunPacingMode,
 } from './domain/gameEngine';
 import {
   analyzePairing,
@@ -123,6 +124,8 @@ export default function App() {
   const [role, setRole] = useState<PlayerRole>(initialHerDeckIdx >= 0 ? 'him' : 'her');
   const [her, setHer] = useState<HerArchetype>(HER_ARCHETYPES[0]);
   const [his, setHis] = useState<HisArchetype>(HIS_ARCHETYPES[0]);
+  const [pacingMode, setPacingMode] = useState<RunPacingMode>('curated');
+  const [customEditCount, setCustomEditCount] = useState<number>(0);
   const [selectedVipIds, setSelectedVipIds] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<'game' | 'journal'>(
     initialUrl.journalSlug ? 'journal' : 'game',
@@ -246,11 +249,22 @@ export default function App() {
   };
 
   const handleStartGame = () => {
-    const stamped = unlockStamp(wallet, pairing.felineTier);
+    // Monetized Custom Fantasy Builder: 1st custom tweak & zero-proof drink swaps are free;
+    // stacking 2+ custom plot twists/names uses 1 Den Credit (or is unlimited with VIP Black Card!)
+    let activeWallet = wallet;
+    if (customEditCount >= 2 && !wallet.isVip && !wallet.isFounderUnlimited) {
+      const spent = spendCredits(wallet, 1);
+      if (!spent.ok) {
+        setBoutiqueOpen(true);
+        return;
+      }
+      activeWallet = spent.wallet;
+    }
+    const stamped = unlockStamp(activeWallet, pairing.felineTier);
     updateWallet(stamped);
     setSwipeStartIdx(0);
     setNoticeBanner(null);
-    const freshRun = createRun(pairing, selectedVipIds);
+    const freshRun = createRun(pairing, selectedVipIds, undefined, pacingMode);
     setRun(freshRun);
     setPhase('swipes');
     setActiveTab('game');
@@ -489,10 +503,14 @@ export default function App() {
             pairing={pairing}
             wallet={wallet}
             selectedVipIds={selectedVipIds}
+            pacingMode={pacingMode}
+            customEditCount={customEditCount}
             noticeBanner={null}
             onChangeRole={setRole}
+            onChangePacingMode={setPacingMode}
             onSelectHer={(nextHer) => {
               setHer(nextHer);
+              setCustomEditCount(0);
               if (nextHer.id === 'sienna-junior-cougar') {
                 const miles = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub');
                 if (miles) {
@@ -506,12 +524,25 @@ export default function App() {
             }}
             onSelectHis={(nextHis) => {
               setHis(nextHis);
+              setCustomEditCount(0);
               if (her.age <= nextHis.age) {
                 setHer((prev) => ({ ...prev, age: Math.min(72, nextHis.age + 1) }));
               }
             }}
-            onUpdateHerCustom={setHer}
-            onUpdateHisCustom={setHis}
+            onUpdateHerCustom={(nextHer) => {
+              const onlyDrinkChange =
+                nextHer.signatureDrink !== her.signatureDrink &&
+                nextHer.name === her.name &&
+                nextHer.zodiac === her.zodiac;
+              setHer(nextHer);
+              if (!onlyDrinkChange) {
+                setCustomEditCount((c) => c + 1);
+              }
+            }}
+            onUpdateHisCustom={(nextHis) => {
+              setHis(nextHis);
+              setCustomEditCount((c) => c + 1);
+            }}
             onAdjustHerAge={(d) =>
               setHer((prev) => ({
                 ...prev,
@@ -526,6 +557,7 @@ export default function App() {
             }
             onToggleVipEpisode={handleToggleVipEpisode}
             onStartGame={handleStartGame}
+            onOpenBoutique={() => setBoutiqueOpen(true)}
             onOpenLiveInbox={() => setLiveInboxOpen(true)}
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}

@@ -24,7 +24,8 @@ export type SubplotTag =
   | 'broke_dutch_obstacle'
   | 'montana_cowboy_slider'
   | 'black_cat_energy'
-  | 'golden_retriever_energy';
+  | 'golden_retriever_energy'
+  | 'zero_proof_wellness';
 
 export interface HerArchetype {
   id: string;
@@ -152,16 +153,16 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'Sold her diagnostics startup at 39 and moved to the Malibu point break. Lives in ocean bikinis and linen button-downs—and loves watching a fit Cub try to pop up on a longboard.',
     secretInsecurity:
       'Spent a decade out-working everyone in lab coats; still learning how to let a devoted younger partner take care of *her* on Sunday.',
-    subplotTags: ['trail_leash_boss', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
+    subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/astrid-41f.jpg',
     lookBadge: 'Golden Blonde • Ice-Blue Eyes • Surfer',
-    statusPill: 'Child-Free • Surf & Sauna',
+    statusPill: 'Zero-Proof • Surf & Sauna',
     zodiac: '♒ Aquarius Sun • ♐ Sagittarius Rising',
     height: '5\'10"',
     loveLanguage: 'Dawn Surf Sessions & Sauna Steam',
     originOrAccent: 'Malibu Coastal Cool',
-    signatureDrink: 'Biodynamic Pet-Nat',
+    signatureDrink: 'Zero-Proof Yuzu Spritz & Green Smoothie',
     galleryPhotos: [
       { label: '🏄‍♀️ Surf Bikini', url: './images/cast/astrid-41f.jpg' },
       { label: '🏔️ Ridge Trail', url: './images/cast/valerie-53f.jpg' },
@@ -239,16 +240,16 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '42F luxury hospitality consultant with sunlit honey-blonde hair, killer backhand slice, and zero patience for grumpy 46-year-old divorcés complaining about their sciatica.',
     secretInsecurity:
       'Her tennis-club doubles partners gossip non-stop—she needs a Cub who walks onto the club patio beside her like he owns the zip code.',
-    subplotTags: ['montana_cowboy_slider', 'princess_treatment', 'done_with_kids', 'solo_sanctuary'],
+    subplotTags: ['zero_proof_wellness', 'montana_cowboy_slider', 'princess_treatment', 'done_with_kids', 'solo_sanctuary'],
     portraitVariant: 'princess',
     photoUrl: './images/cast/brooke-42f.jpg',
     lookBadge: 'Honey Blonde • Tennis Fit • Cashmere',
-    statusPill: 'Divorced • Slider Set to 25+',
+    statusPill: 'Matcha & Zero-Proof • Slider 25+',
     zodiac: '♎ Libra Sun • ♌ Leo Rising',
     height: '5\'7"',
     loveLanguage: 'Court-Side Iced Matcha & Bold Pursuit',
     originOrAccent: 'Sunlit Montecito Polish',
-    signatureDrink: 'Whispering Angel Rosé',
+    signatureDrink: 'Iced Ceremonial Matcha & Tart-Cherry Mocktail',
     galleryPhotos: [
       { label: '🧥 Camel Trench', url: './images/cast/brooke-42f.jpg' },
       { label: '🏖️ Poolside', url: './images/cast/astrid-41f.jpg' },
@@ -320,16 +321,16 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'Tall, sun-kissed blonde with bright blue eyes and competitive athleticism. Switched her app filter down to 25 after realizing guys her age never leave the couch.',
     secretInsecurity:
       'Everyone sees the sunny beach athlete first—she falls hard for a younger guy who remembers the small emotional details she mentions once.',
-    subplotTags: ['trail_leash_boss', 'junior_cougar_gap', 'solo_sanctuary'],
+    subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'junior_cougar_gap', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/summer-32f.jpg',
     lookBadge: 'Sunlit Blonde • Ocean-Blue Eyes • 5\'9"',
-    statusPill: 'Never Married • Beach Condo',
+    statusPill: 'Sober-Curious • Beach Condo',
     zodiac: '♌ Leo Sun • ♊ Gemini Mars',
     height: '5\'9"',
     loveLanguage: 'Playful Competition & Post-Beach Massages',
     originOrAccent: 'South Bay Beach Glow',
-    signatureDrink: 'Spicy Ranch Water',
+    signatureDrink: 'Mango-Collagen Smoothie & Lime Topo Chico',
     interests: ['2v2 Beach Volleyball', 'Ocean Cold Plunge', 'Fish Tacos', 'Sunset Bike Rides', 'Sauna'],
   },
   {
@@ -783,16 +784,16 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       '50F sunlit blonde Pilates and breathwork founder who celebrates entering her Jaguar decade with barefoot beach dinners and attentive late-20s Cubs.',
     secretInsecurity:
       'Friends warned her dating apps vanish at 50—instead her inbox exploded the day her 50 badge went live.',
-    subplotTags: ['trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary'],
+    subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/diana-50f.jpg',
     lookBadge: 'Sunlit Blonde • Newly-50 Jaguar',
-    statusPill: 'Kids Grown • Beach Bungalow',
+    statusPill: 'Zero-Proof Wellness • Bungalow',
     zodiac: '♌ Leo Sun • ♐ Sagittarius Rising',
     height: '5\'8"',
     loveLanguage: 'Morning Ocean Swims & Eye Contact',
     originOrAccent: 'Santa Barbara Sunlit Calm',
-    signatureDrink: 'Crisp Albariño',
+    signatureDrink: 'Zero-Proof Botanical Spritz & Green Smoothie',
     interests: ['Ocean Swims', 'Reformer Pilates', 'Farmers Markets', 'linen Sets'],
   },
   {
@@ -830,7 +831,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'Peak Gen-X confidence: hates all-day work-hour micro-texting, loves a bold 6 PM phone call, and redirects his 11 PM club stamina into steep Saturday switchbacks.',
     secretInsecurity:
       'Pretends meddling brunch friends don’t get under her skin when they whisper, "What happens when you’re 65 and he’s 40?"',
-    subplotTags: ['trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
+    subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/valerie-53f.jpg',
     lookBadge: 'Silver-Streaked • Blue-Grey Eyes • Trail Boss',
@@ -839,7 +840,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     height: '5\'9"',
     loveLanguage: '6 AM Trail Pace & 6 PM Phone Calls',
     originOrAccent: 'Marin County Gen-X Direct',
-    signatureDrink: 'Mezcal Paloma After 10 Miles',
+    signatureDrink: 'Tart-Cherry Electrolyte Mocktail & Berry Smoothie',
     interests: ['6 AM Canyon Runs', 'Reformer Pilates', 'Red Wine', 'National Parks'],
   },
   {
@@ -1332,16 +1333,16 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       '22M surfboard shaper and specialty-coffee roaster with bright eyes and zero cynicism. Still gets ID-grilled for 45 seconds by every speakeasy bouncer!',
     secretInsecurity:
       'Knows 22 makes her raise an eyebrow at first—so he shows up ten minutes early with flowers every single time.',
-    subplotTags: ['golden_retriever_energy', 'houseboy_eager', 'trail_leash_boss'],
+    subplotTags: ['zero_proof_wellness', 'golden_retriever_energy', 'houseboy_eager', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/noah-22m.jpg',
     lookBadge: 'Twilight Grin • Surf Shaper • 6\'0"',
-    statusPill: '🐕 Golden Energy • Early Riser',
+    statusPill: '🐕 Golden • Zero-Proof & Smoothies',
     zodiac: '♓ Pisces Sun • ♋ Cancer Rising',
     height: '6\'0"',
     loveLanguage: 'Morning Pour-Overs & Carrying Everything',
     originOrAccent: 'Encinitas Surf Warmth',
-    signatureDrink: 'Cold-Brew Tonic & Crisp Pilsner',
+    signatureDrink: 'Iced Espresso Tonic & Acai Protein Smoothie',
     interests: ['Board Shaping', 'Latte Art', 'Dawn Surf', 'Acoustic Vinyl'],
   },
   {
@@ -1408,16 +1409,16 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       'Doctor of Physical Therapy, magnetic smile, active mornings. Suppresses group-chat slang effortlessly when meeting her 45-year-old friends.',
     secretInsecurity:
       'Worries his early-career salary looks small next to her corner office—hoping effort and devotion count more than Four Seasons money.',
-    subplotTags: ['trail_leash_boss', 'houseboy_eager', 'income_gap'],
+    subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'houseboy_eager', 'income_gap'],
     portraitVariant: 'trail',
     photoUrl: './images/cast/mateo-26m.jpg',
     lookBadge: 'Dark Waves • Trail Runner • DPT',
-    statusPill: 'DPT Clinician • Sub-7 Mile',
+    statusPill: 'DPT Clinician • Zero-Proof Athlete',
     zodiac: '♈ Aries Sun • ♐ Sagittarius Mars',
     height: '5\'11"',
     loveLanguage: 'Physical Touch & Post-Hike Calf Recovery',
     originOrAccent: 'Bilingual Coastal Warmth',
-    signatureDrink: 'Cold Brew & Crisp Lager',
+    signatureDrink: 'Zero-Proof Ginger-Lime Mocktail & Berry Smoothie',
     interests: ['Trail Running', 'Physical Therapy', 'Home Cooking', 'Live Jazz'],
   },
   {

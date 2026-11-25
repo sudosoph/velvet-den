@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { EPISODES } from '../data/episodes';
 import type { WalletState } from '../domain/economy';
+import type { RunPacingMode } from '../domain/gameEngine';
 import {
   getProfileDetails,
   HER_ARCHETYPES,
@@ -34,8 +35,11 @@ interface PairingMixerViewProps {
   pairing: PairingAnalysis;
   wallet: WalletState;
   selectedVipIds: string[];
+  pacingMode?: RunPacingMode;
+  customEditCount?: number;
   noticeBanner: string | null;
   onChangeRole: (role: PlayerRole) => void;
+  onChangePacingMode?: (mode: RunPacingMode) => void;
   onSelectHer: (her: HerArchetype) => void;
   onSelectHis: (his: HisArchetype) => void;
   onUpdateHerCustom?: (her: HerArchetype) => void;
@@ -44,6 +48,7 @@ interface PairingMixerViewProps {
   onAdjustHisAge: (delta: number) => void;
   onToggleVipEpisode: (episodeId: string, creditCost: number) => void;
   onStartGame: () => void;
+  onOpenBoutique?: () => void;
   onOpenLiveInbox: () => void;
   onOpenPopTrivia: () => void;
   onOpenChecklist?: () => void;
@@ -60,8 +65,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   pairing,
   wallet,
   selectedVipIds,
+  pacingMode = 'curated',
+  customEditCount = 0,
   noticeBanner,
   onChangeRole,
+  onChangePacingMode,
   onSelectHer,
   onSelectHis,
   onUpdateHerCustom,
@@ -70,6 +78,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onAdjustHisAge,
   onToggleVipEpisode,
   onStartGame,
+  onOpenBoutique,
   onOpenLiveInbox,
   onOpenPopTrivia,
   onOpenChecklist,
@@ -81,6 +90,8 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   const [herFilter, setHerFilter] = useState<HerDecadeFilter>('all');
   const [sortHerByAge, setSortHerByAge] = useState(false);
   const [sortHisByAge, setSortHisByAge] = useState(false);
+  const [showAllHer, setShowAllHer] = useState(false);
+  const [showAllHis, setShowAllHis] = useState(false);
   const [herPhotoIdx, setHerPhotoIdx] = useState(0);
   const [hisPhotoIdx, setHisPhotoIdx] = useState(0);
 
@@ -124,6 +135,21 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   const sortedHisList = sortHisByAge
     ? [...HIS_ARCHETYPES].sort((a, b) => a.age - b.age)
     : HIS_ARCHETYPES;
+
+  const visibleHerList =
+    herFilter === 'all' && !sortHerByAge && !showAllHer
+      ? filteredHerList.slice(0, 10)
+      : filteredHerList;
+
+  const visibleHisList =
+    !sortHisByAge && !showAllHis ? sortedHisList.slice(0, 10) : sortedHisList;
+
+  const isZeroProofHer = /mocktail|smoothie|matcha|zero-proof|tonic|juice/i.test(
+    herDetails.signatureDrink,
+  );
+  const isZeroProofHis = /mocktail|smoothie|matcha|zero-proof|tonic|juice/i.test(
+    hisDetails.signatureDrink,
+  );
 
   const herGallery = her.galleryPhotos?.length
     ? her.galleryPhotos
@@ -351,7 +377,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-          {filteredHerList.map((item) => {
+          {visibleHerList.map((item) => {
             const selected = item.id === her.id;
             const displayAge = selected ? her.age : item.age;
             const itemDetails = getProfileDetails(item);
@@ -405,6 +431,20 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             );
           })}
         </div>
+
+        {herFilter === 'all' && !sortHerByAge && filteredHerList.length > 10 && (
+          <div className="flex justify-center pt-1">
+            <button
+              type="button"
+              onClick={() => setShowAllHer((v) => !v)}
+              className="rounded-full border-2 border-black bg-[#231238] px-5 py-2 text-xs font-extrabold text-amber-300 shadow-[3px_3px_0px_#09050f] hover:bg-[#2f184b] cursor-pointer"
+            >
+              {showAllHer
+                ? '▲ Collapse to Top 10 Showcase'
+                : `🐆 Browse All ${HER_ARCHETYPES.length} Women (Every Year 30–64) ▼`}
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Step 2: Every-Year Cubs Grid (21–33) */}
@@ -432,7 +472,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
-          {sortedHisList.map((item) => {
+          {visibleHisList.map((item) => {
             const selected = item.id === his.id;
             const displayAge = selected ? his.age : item.age;
             const itemDetails = getProfileDetails(item);
@@ -496,6 +536,20 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             );
           })}
         </div>
+
+        {!sortHisByAge && sortedHisList.length > 10 && (
+          <div className="flex justify-center pt-1">
+            <button
+              type="button"
+              onClick={() => setShowAllHis((v) => !v)}
+              className="rounded-full border-2 border-black bg-[#102532] px-5 py-2 text-xs font-extrabold text-teal-300 shadow-[3px_3px_0px_#09050f] hover:bg-[#163344] cursor-pointer"
+            >
+              {showAllHis
+                ? '▲ Collapse to Top 10 Cubs'
+                : `🔥 Browse All ${HIS_ARCHETYPES.length} Cubs (Every Year 21–33) ▼`}
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Side-by-Side Scrollable Tinder Profile Inspector for Selected Pair! */}
@@ -568,7 +622,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
             <div>
               <span className="text-slate-400">Signature Order:</span>{' '}
-              <strong className="text-pink-200">🍸 {herDetails.signatureDrink}</strong>
+              <strong className="text-pink-200">
+                {isZeroProofHer ? '🥤 ' : '🍸 '}
+                {herDetails.signatureDrink}
+              </strong>
             </div>
           </div>
 
@@ -654,8 +711,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               <strong className="text-white">{hisDetails.loveLanguage}</strong>
             </div>
             <div>
-              <span className="text-slate-400">Go-To Pour:</span>{' '}
-              <strong className="text-teal-200">🥂 {hisDetails.signatureDrink}</strong>
+              <span className="text-slate-400">Signature Order:</span>{' '}
+              <strong className="text-teal-200">
+                {isZeroProofHis ? '🥤 ' : '🥂 '}
+                {hisDetails.signatureDrink}
+              </strong>
             </div>
           </div>
 
@@ -741,6 +801,35 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            {onChangePacingMode && (
+              <div className="inline-flex rounded-xl border-2 border-black bg-black/60 p-0.5 text-xs font-extrabold">
+                <button
+                  type="button"
+                  onClick={() => onChangePacingMode('curated')}
+                  className={`rounded-lg px-2.5 py-1.5 transition cursor-pointer ${
+                    pacingMode === 'curated'
+                      ? 'bg-teal-400 text-slate-950'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                  title="Approach A: Tight 8-scene arc across all 6 stages (~3.5 mins)"
+                >
+                  ⚡ Quick 8-Scene Arc
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChangePacingMode('marathon')}
+                  className={`rounded-lg px-2.5 py-1.5 transition cursor-pointer ${
+                    pacingMode === 'marathon'
+                      ? 'bg-amber-400 text-slate-950'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                  title="Play every single unlocked scene in your tier back-to-back"
+                >
+                  🎬 Full Season
+                </button>
+              </div>
+            )}
+
             {onUpdateHerCustom && onUpdateHisCustom && (
               <button
                 type="button"
@@ -748,7 +837,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 className="inline-flex items-center gap-1.5 rounded-xl border-2 border-black bg-[#26143d] px-3.5 py-2.5 text-xs font-extrabold text-pink-200 hover:bg-[#331b52] cursor-pointer"
               >
                 <Sparkles className="h-4 w-4 text-amber-300" />
-                <span>🎛️ Customize Vibe &amp; Dates</span>
+                <span>🎛️ Customize Vibe &amp; Drinks</span>
                 <ChevronDown
                   className={`h-3.5 w-3.5 transition-transform ${showCustomizer ? 'rotate-180' : ''}`}
                 />
@@ -782,9 +871,19 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
 
         {showCustomizer && onUpdateHerCustom && onUpdateHisCustom && (
           <div className="pt-3 border-t border-white/10 space-y-3">
-            <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
-              🎛️ Mix &amp; Match Custom Names, Pet Gatekeeper &amp; Signature Date Specials (Applied to Any Look!)
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
+                🎛️ Custom Fantasy Studio • Names, Zero-Proof Orders &amp; Plot Twists
+              </div>
+              <span className="rounded-full border border-amber-400/40 bg-black/50 px-2.5 py-0.5 text-[10px] font-extrabold text-teal-200">
+                {wallet.isVip || wallet.isFounderUnlimited
+                  ? '👑 VIP Active: Unlimited Custom Builds!'
+                  : customEditCount >= 2
+                    ? '✨ Multi-Twist Custom Build Active (1 Credit on Launch • Unlimited w/ VIP)'
+                    : '🎁 1st Custom Twist & Zero-Proof Drink Presets FREE!'}
+              </span>
             </div>
+
             <div className="grid gap-2.5 sm:grid-cols-4">
               <label className="text-[11px] text-slate-300 space-y-1">
                 <span className="font-bold text-rose-300">Her Custom Name</span>
@@ -817,10 +916,12 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 />
               </label>
               <label className="text-[11px] text-slate-300 space-y-1">
-                <span className="font-bold text-pink-300">Signature Drink</span>
+                <span className="font-bold text-pink-300">
+                  Signature Order (Mocktail, Smoothie or Drink)
+                </span>
                 <input
                   type="text"
-                  maxLength={32}
+                  maxLength={44}
                   value={herDetails.signatureDrink}
                   onChange={(e) => onUpdateHerCustom({ ...her, signatureDrink: e.target.value })}
                   className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
@@ -828,9 +929,52 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </label>
             </div>
 
+            {/* 1-Tap Non-Alcoholic Mocktail, Smoothie, Matcha & Classic Order Pills */}
+            <div className="space-y-1">
+              <div className="text-[11px] font-bold text-emerald-300">
+                🥤 Quick Zero-Proof, Smoothie &amp; Lounge Order Presets (Always Free):
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  ['🥤 Berry-Collagen Smoothie', true],
+                  ['🍵 Iced Ceremonial Matcha', true],
+                  ['🍊 Zero-Proof Yuzu Ginger Spritz', true],
+                  ['🍒 Tart-Cherry Sleep Mocktail', true],
+                  ['☕ Iced Espresso Tonic (Zero-Proof)', true],
+                  ['🍸 Dirty Olive Martini', false],
+                ].map(([drinkLabel, zeroProof]) => {
+                  const selectedDrink = herDetails.signatureDrink === drinkLabel;
+                  return (
+                    <button
+                      key={String(drinkLabel)}
+                      type="button"
+                      onClick={() => {
+                        const nextTags: SubplotTag[] = zeroProof
+                          ? Array.from(new Set([...her.subplotTags, 'zero_proof_wellness']))
+                          : her.subplotTags;
+                        onUpdateHerCustom({
+                          ...her,
+                          signatureDrink: String(drinkLabel),
+                          subplotTags: nextTags,
+                        });
+                      }}
+                      className={`rounded-full border px-2.5 py-1 text-[11px] font-bold transition cursor-pointer ${
+                        selectedDrink
+                          ? 'border-emerald-300 bg-emerald-400 text-slate-950'
+                          : 'border-white/15 bg-black/45 text-slate-200 hover:bg-black/75'
+                      }`}
+                    >
+                      {String(drinkLabel)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-2">
               {(
                 [
+                  ['zero_proof_wellness', 'her', '🥤 Zero-Proof Mocktail & Sunrise Smoothie Date'],
                   ['black_cat_energy', 'her', '🐈‍⬛ Black Cat Energy (Takes Her Time & Pushes Back)'],
                   ['golden_retriever_energy', 'his', '🐕 Golden Retriever Cub (Loves Earning Her Smile)'],
                   ['montana_cowboy_slider', 'her', '🤠 Kristin Cavallari × Montana Cowboy Age-Slider Dare'],
@@ -864,6 +1008,21 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 );
               })}
             </div>
+
+            {onOpenBoutique && (
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-pink-400/30 bg-pink-950/35 px-3 py-2 text-xs">
+                <span className="text-pink-100">
+                  🌟 <strong>Love customizing?</strong> Unlock <strong>Unlimited Custom Builds</strong> with VIP ($6.99) or sponsor your own permanent public character/dilemma ($29)!
+                </span>
+                <button
+                  type="button"
+                  onClick={onOpenBoutique}
+                  className="rounded-lg border border-amber-300/60 bg-amber-400 px-3 py-1 text-[11px] font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
+                >
+                  Unlock Unlimited / $29 Cameo →
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -919,6 +1078,28 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </div>
         )}
       </section>
+
+      {/* Sticky Thumb-Friendly Mobile Launch Bar so phone players never have to hunt for Start */}
+      <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border-2 border-black bg-[#160b26]/95 p-2.5 shadow-[0_6px_20px_rgba(0,0,0,0.75)] backdrop-blur-md flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <div className="truncate font-display text-lg text-white leading-none">
+            {her.name} ({her.age}F) × {his.name} ({his.age}M)
+          </div>
+          <div className="truncate text-[10px] font-bold text-amber-300">
+            {pacingMode === 'curated' ? '⚡ Quick 8-Scene Arc' : '🎬 Full Season'} • {pairing.ageGap}yr Gap
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            sfx.swipeRight();
+            onStartGame();
+          }}
+          className="shrink-0 rounded-xl border-2 border-black bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 font-display text-xl text-slate-950 shadow-[2px_2px_0px_#09050f]"
+        >
+          Play Now →
+        </button>
+      </div>
     </div>
   );
 };
