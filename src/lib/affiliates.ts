@@ -58,9 +58,9 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     name: 'Matte-Black Lidded Bathroom Bin + Aesop-Style Botanical Hand Wash',
     category: 'hosting_upgrade',
     priceDisplay: '$42',
-    badge: 'Subreddit Rule #1 Hosting Fix',
+    badge: 'Rule #1 Hosting Fix',
     cheekyPitch:
-      'Every thread on r/CougarsAndCubs begs young men to own two things before she comes over: hand soap and a bathroom trash can WITH A LID.',
+      'Every experienced woman begs young men to own two things before she comes over: botanical hand soap and a bathroom trash can WITH A LID.',
     whyItConverts: 'Instant laugh-and-buy gift from the Apartment Audit episode & SEO checklist.',
     merchantUrl: 'https://www.amazon.com/s?k=matte+black+bathroom+trash+can+with+lid+and+hand+soap+set',
   },
@@ -148,7 +148,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: '$46',
     badge: '"Cougar-Groomed" Red-Carpet Kit',
     cheekyPitch:
-      'The ONLY kind of "grooming" endorsed by The Cougar Den: throw out his 5-in-1 neon-blue shower gel and polish a grown 26+ Cub to Danny Ramirez red-carpet sheen.',
+      'The ONLY kind of "grooming" endorsed by Cougars & Cubs Club: throw out his 5-in-1 neon-blue shower gel and polish a grown 26+ Cub to Danny Ramirez red-carpet sheen.',
     whyItConverts: 'Direct payoff to the Cub "Grooming" Salon minigame & pop-culture episode.',
     merchantUrl: 'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set',
   },
@@ -181,20 +181,49 @@ export interface AffiliateTagOverrides {
   partnerSubId?: string;
 }
 
+function validateSafeMerchantDomain(rawUrl: string): URL {
+  const parsed = new URL(rawUrl);
+  const host = parsed.hostname.toLowerCase();
+  for (const banned of PROHIBITED_ADULT_DOMAINS) {
+    if (host === banned || host.endsWith(`.${banned}`)) {
+      throw new Error(
+        `Blocked prohibited adult domain (${host}) to preserve Stripe & Amazon compliance.`,
+      );
+    }
+  }
+  return parsed;
+}
+
+function isLiveBrowserEdgeRuntime(): boolean {
+  if (typeof window === 'undefined') return false;
+  const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
+  if (ua.toLowerCase().includes('jsdom')) return false;
+  return window.location.protocol === 'https:' || window.location.protocol === 'http:';
+}
+
+/**
+ * Builds an affiliate URL with full domain allowlist validation and tag injection.
+ * - When `overrides` are provided (or in offline/unit-test environments), returns the
+ *   direct tagged Amazon URL (`?tag=...&linkCode=ll2`).
+ * - In live browser production, routes catalog items through `/api/go/:id` on the
+ *   Cloudflare Worker so every click (Linen Apron, Silk Robe, Cooling Sheets, etc.)
+ *   is protected by the edge Associate Tag (from Worker env or KV) + click-tracked!
+ */
 export function buildAffiliateUrl(
   product: AffiliateProduct,
   placement: string,
   overrides?: AffiliateTagOverrides,
 ): string {
-  const parsed = new URL(product.merchantUrl);
+  const parsed = validateSafeMerchantDomain(product.merchantUrl);
   const host = parsed.hostname.toLowerCase();
+  const safePlacement = placement.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 48) || 'boutique';
 
-  for (const banned of PROHIBITED_ADULT_DOMAINS) {
-    if (host === banned || host.endsWith(`.${banned}`)) {
-      throw new Error(
-        `Blocked prohibited adult domain (${host}) to preserve Stripe & Ko-fi compliance.`,
-      );
-    }
+  if (
+    !overrides &&
+    isLiveBrowserEdgeRuntime() &&
+    AFFILIATE_CATALOG.some((item) => item.id === product.id)
+  ) {
+    return `/api/go/${encodeURIComponent(product.id)}?src=${encodeURIComponent(safePlacement)}`;
   }
 
   const amazonTag = (
@@ -204,13 +233,13 @@ export function buildAffiliateUrl(
 
   if (amazonTag && host.includes('amazon.')) {
     parsed.searchParams.set('tag', amazonTag);
+    parsed.searchParams.set('linkCode', 'll2');
   }
   if (subId) {
     parsed.searchParams.set('subId', subId);
   }
 
-  const safePlacement = placement.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 48) || 'boutique';
-  parsed.searchParams.set('utm_source', 'velvetden');
+  parsed.searchParams.set('utm_source', 'cougarsandcubs');
   parsed.searchParams.set('utm_medium', 'affiliate');
   parsed.searchParams.set('utm_campaign', safePlacement);
 

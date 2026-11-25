@@ -2,10 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { MONETIZATION_CONFIG } from '../src/config/monetization';
 import {
   applyUnlockCodeOrQuery,
+  grantFounderAccess,
   grantRewardCredits,
   loadWallet,
+  revokeFounderAccess,
   saveWallet,
   spendCredits,
+  verifyFounderPassphrase,
 } from '../src/domain/economy';
 import { AFFILIATE_CATALOG, buildAffiliateUrl } from '../src/lib/affiliates';
 import { localCrowdStatsService } from '../src/services/adapters';
@@ -54,7 +57,7 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     expect(duplicate.wallet.credits).toBe(13);
   });
 
-  it('redeems Founder codes in live mode and preview VIP codes when sandboxPreviewMode is enabled', () => {
+  it('blocks ?founder=1 and plaintext founder codes while verifying salted SHA-256 Founder passphrase', async () => {
     const storage = makeMemoryStorage();
     const initial = loadWallet(storage, new Date('2026-11-24T12:00:00Z'));
 
@@ -65,11 +68,27 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     expect(MONETIZATION_CONFIG.sandboxPreviewMode).toBe(false);
     expect(initial.referralCode).toMatch(/^vd[a-z0-9]{4,8}$/);
 
-    // In live mode, public demo code VELVETVIP is blocked while Founder code works
+    // In live mode, public demo codes, ?founder=1 URL params, and old plaintext codes are ALL blocked
     expect(applyUnlockCodeOrQuery(initial, 'velvetvip').unlocked).toBeNull();
-    const founderRes = applyUnlockCodeOrQuery(initial, 'foundermode');
-    expect(founderRes.unlocked).toBe('founder');
-    expect(founderRes.wallet.isFounderUnlimited).toBe(true);
+    expect(applyUnlockCodeOrQuery(initial, 'foundermode').unlocked).toBeNull();
+    expect(applyUnlockCodeOrQuery(initial, '?founder=1').unlocked).toBeNull();
+
+    // Forged localStorage without valid session proof is rejected by loadWallet
+    const forged = makeMemoryStorage({
+      velvet_den_wallet_v1: JSON.stringify({ ...initial, isFounderUnlimited: true }),
+    });
+    expect(loadWallet(forged, new Date('2026-11-24T12:00:00Z')).isFounderUnlimited).toBe(false);
+
+    // Salted SHA-256 passphrase verification succeeds only with exact private passphrase
+    expect(await verifyFounderPassphrase('foundermode')).toBe(false);
+    expect(await verifyFounderPassphrase('wrong-passphrase-2026')).toBe(false);
+    expect(await verifyFounderPassphrase('ChampagneClub!2026#Sophia')).toBe(true);
+
+    const granted = grantFounderAccess(initial);
+    expect(granted.isFounderUnlimited).toBe(true);
+    saveWallet(granted, storage);
+    expect(loadWallet(storage, new Date('2026-11-24T12:00:00Z')).isFounderUnlimited).toBe(true);
+    expect(revokeFounderAccess(granted).isFounderUnlimited).toBe(false);
 
     const orig = MONETIZATION_CONFIG.sandboxPreviewMode;
     MONETIZATION_CONFIG.sandboxPreviewMode = true;

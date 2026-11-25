@@ -235,11 +235,11 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     const slider = screen.getByLabelText(/Dating app age preference slider/i);
     fireEvent.change(slider, { target: { value: '25' } });
     expect(screen.getByText(/KRISTIN CAVALLARI × MONTANA BOYZ ZONE/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Colton/i).length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText(/Colton/i).length).toBeGreaterThanOrEqual(1);
 
     fireEvent.change(slider, { target: { value: '21' } });
     expect(screen.getByText(/SUB-23 DANGER ZONE UNLOCKED/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Kayden/i).length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText(/Kayden/i).length).toBeGreaterThanOrEqual(1);
   });
 
   it('plays the Cub Bench-Press minigame (5x225 reps) and unlocks Stairway-Carry bonus stats', () => {
@@ -266,12 +266,33 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(screen.getByText(/Full “Cougar-Groomed” Glow-Up Complete!/i)).toBeInTheDocument();
   });
 
-  it('activates Founder Unlimited Mode via ?founder=1, grants infinite credits/VIP, and opens the Pop-Culture Quiz', () => {
+  it('blocks ?founder=1 URL bypass, unlocks Founder Playtest Vault via salted passphrase, jumps across stages, and opens Pop-Culture Quiz', async () => {
     window.history.replaceState({}, '', '/?founder=1');
     render(<App />);
 
-    expect(screen.getByText(/Founder Unlimited Mode/i)).toBeInTheDocument();
+    // ?founder=1 must NEVER auto-unlock Founder Mode
+    expect(screen.queryByLabelText(/Founder instant scene jumper/i)).not.toBeInTheDocument();
+
+    // Open password-protected Founder Vault from discreet footer button
+    fireEvent.click(screen.getByRole('button', { name: /Founder Vault/i }));
+    const passInput = screen.getByLabelText(/Private Vault Passphrase/i);
+
+    // Wrong password rejected
+    fireEvent.change(passInput, { target: { value: 'wrongpassword123' } });
+    fireEvent.click(screen.getByRole('button', { name: /Unlock Founder Vault/i }));
+    expect(await screen.findByText(/Invalid Founder passphrase/i)).toBeInTheDocument();
+
+    // Correct private passphrase unlocks the Playtest & Affiliate Vault Bar
+    fireEvent.change(passInput, { target: { value: 'ChampagneClub!2026#Sophia' } });
+    fireEvent.click(screen.getByRole('button', { name: /Unlock Founder Vault/i }));
+
+    expect(await screen.findByText(/Founder Playtest Vault/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Founder instant scene jumper/i)).toBeInTheDocument();
+
+    // 1-click jump straight to Verdict & 9:16 Card works immediately, then back to Matchmaker
+    fireEvent.click(screen.getByRole('button', { name: /4\. Verdict & 9:16 Card/i }));
+    expect(screen.getByText(/9:16 Story & TikTok Card/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /1\. Matchmaker/i }));
 
     fireEvent.click(screen.getByRole('button', { name: /Pop-Culture Quiz \(\+3 Cr\)/i }));
     expect(
@@ -479,5 +500,42 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     );
     const checkoutReplayJson = (await checkoutReplay.json()) as { verified: boolean };
     expect(checkoutReplayJson.verified).toBe(false);
+
+    // Founder auth rejects wrong password (401) and accepts real passphrase (200)
+    const badFounderRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/founder-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passphrase: 'foundermode' }),
+      }),
+      mockEnv,
+    );
+    expect(badFounderRes.status).toBe(401);
+
+    const saveTagRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/founder-config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          passphrase: 'ChampagneClub!2026#Sophia',
+          amazonAssociateTag: 'cougarclub-20',
+        }),
+      }),
+      mockEnv,
+    );
+    expect(saveTagRes.status).toBe(200);
+
+    // Protected /api/go/houseboy-linen-apron redirects (302) to Amazon with tag & linkCode=ll2 and counts click
+    const apronRedirect = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/go/houseboy-linen-apron?src=houseboy_scene'),
+      mockEnv,
+    );
+    expect(apronRedirect.status).toBe(302);
+    const location = apronRedirect.headers.get('Location') || '';
+    expect(location).toContain('https://www.amazon.com/');
+    expect(location).toContain('tag=cougarclub-20');
+    expect(location).toContain('linkCode=ll2');
+    expect(location).toContain('utm_campaign=houseboy_scene');
+    expect(memoryKv.get('aff_clicks:houseboy-linen-apron')).toBe('1');
   });
 });

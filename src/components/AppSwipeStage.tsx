@@ -12,7 +12,7 @@ import {
   Volume2,
   X,
 } from 'lucide-react';
-import { getSwipeDeckForRole } from '../data/appProfiles';
+import { getSwipeDeckForRole, type SwipeProfile } from '../data/appProfiles';
 import type { PlayerRole } from '../domain/taxonomy';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
 
@@ -21,9 +21,9 @@ interface AppSwipeStageProps {
   credits: number;
   isFounderUnlimited?: boolean;
   initialProfileIndex?: number;
-  onSpendXrayCredit: () => boolean;
   onSwipeProfile: (profileId: string, direction: 'left' | 'right') => void;
-  onShareDilemma: (id: string, title: string) => void;
+  onSpendXrayCredit: () => boolean;
+  onShareDilemma: (profileId: string, headline: string) => void;
   onCompleteSwipes: () => void;
 }
 
@@ -32,25 +32,47 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   credits,
   isFounderUnlimited = false,
   initialProfileIndex = 0,
-  onSpendXrayCredit,
   onSwipeProfile,
+  onSpendXrayCredit,
   onShareDilemma,
   onCompleteSwipes,
 }) => {
   const deck = getSwipeDeckForRole(role);
-  const [index, setIndex] = useState(
+  const [index, setIndex] = useState(() =>
     initialProfileIndex >= 0 && initialProfileIndex < deck.length ? initialProfileIndex : 0,
   );
-  const [photoIdx, setPhotoIdx] = useState<number>(0);
+  const [photoIdx, setPhotoIdx] = useState(0);
   const [ageZoomed, setAgeZoomed] = useState(false);
-  const [xrayUnlockedIds, setXrayUnlockedIds] = useState<string[]>([]);
+  const [xrayOpen, setXrayOpen] = useState(false);
   const [dragX, setDragX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const [flyDir, setFlyDir] = useState<'left' | 'right' | null>(null);
-  const [agePref, setAgePref] = useState<number>(role === 'her' ? 26 : 52);
+  const [mobileTab, setMobileTab] = useState<'photo' | 'dossier'>('photo');
+  const [ageSliderOpen, setAgeSliderOpen] = useState(false);
+  const [swipeFeedback, setSwipeFeedback] = useState<{ text: string; good: boolean } | null>(null);
+
+  const [agePref, setAgePref] = useState<number>(() => (role === 'her' ? 28 : 48));
   const [sliderBanner, setSliderBanner] = useState<string | null>(null);
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
-  const stopVoiceRef = useRef<(() => void) | null>(null);
+
   const startXRef = useRef<number | null>(null);
+  const lastMoveTimeRef = useRef<number>(0);
+  const velocityXRef = useRef<number>(0);
+  const stopVoiceRef = useRef<(() => void) | null>(null);
+
+  const profile: SwipeProfile | undefined = deck[index];
+  const nextProfile: SwipeProfile | undefined = deck[index + 1];
+
+  useEffect(() => {
+    setPhotoIdx(0);
+    setAgeZoomed(false);
+    setXrayOpen(false);
+    setDragX(0);
+    setFlyDir(null);
+    setMobileTab('photo');
+    stopVoiceRef.current?.();
+    setPlayingVoiceId(null);
+  }, [index, role]);
 
   useEffect(() => {
     return () => {
@@ -58,71 +80,91 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     };
   }, []);
 
-  const profile = deck[index];
-
   if (!profile) {
     return null;
   }
 
   const totalPhotos = profile.photos.length;
-  const safePhotoIdx = photoIdx < totalPhotos ? photoIdx : 0;
+  const safePhotoIdx = Math.min(photoIdx, totalPhotos - 1);
   const currentPhoto = profile.photos[safePhotoIdx];
-  const xrayOpen = xrayUnlockedIds.includes(profile.id);
 
   const selectPhoto = (nextIdx: number) => {
     const wrapped = (nextIdx + totalPhotos) % totalPhotos;
-    const target = profile.photos[wrapped];
-    if (target?.isRedFlagPhoto) sfx.redFlag();
-    else sfx.messagePop();
+    sfx.messagePop();
     setPhotoIdx(wrapped);
   };
 
-  const commitSwipe = (direction: 'left' | 'right') => {
-    if (direction === 'right') {
+  const commitSwipe = (dir: 'left' | 'right') => {
+    if (flyDir) return;
+    stopVoiceRef.current?.();
+    setPlayingVoiceId(null);
+
+    const isGreen = profile.isGreenFlagMatch;
+    if (dir === 'right' && isGreen) {
       sfx.swipeRight();
+      setSwipeFeedback({ text: `🔥 Spark Matched with ${profile.name}! +Chemistry`, good: true });
+    } else if (dir === 'left' && !isGreen) {
+      sfx.greenFlag();
+      setSwipeFeedback({ text: `🛡️ Red Flag Dodged (${profile.name})! +Maturity`, good: true });
+    } else if (dir === 'right' && !isGreen) {
+      sfx.redFlag();
+      setSwipeFeedback({ text: `🚩 Trap Missed! ${profile.name} had hidden red flags`, good: false });
     } else {
       sfx.swipeLeft();
+      setSwipeFeedback({ text: `Passed on ${profile.name}`, good: true });
     }
-    onSwipeProfile(profile.id, direction);
-    setDragX(0);
-    setFlyDir(null);
-    setPhotoIdx(0);
-    setAgeZoomed(false);
-    if (index + 1 >= deck.length) {
-      onCompleteSwipes();
-    } else {
-      setIndex(index + 1);
-    }
+
+    setFlyDir(dir);
+    onSwipeProfile(profile.id, dir);
+
+    window.setTimeout(() => {
+      setSwipeFeedback(null);
+      if (index + 1 >= deck.length) {
+        onCompleteSwipes();
+      } else {
+        setIndex((i) => i + 1);
+      }
+    }, 340);
   };
 
   const handleUnlockXray = () => {
     if (xrayOpen) return;
     if (onSpendXrayCredit()) {
-      sfx.hotspotFix();
-      setXrayUnlockedIds((prev) => [...prev, profile.id]);
+      sfx.greenFlag();
+      setXrayOpen(true);
+      setMobileTab('dossier');
     }
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).closest('button')) return;
+    if ((e.target as HTMLElement).closest('button, input, a')) return;
     startXRef.current = e.clientX;
+    lastMoveTimeRef.current = performance.now();
+    velocityXRef.current = 0;
+    setIsDragging(true);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
     if (startXRef.current === null) return;
-    const dx = e.clientX - startXRef.current;
-    setDragX(Math.max(-160, Math.min(160, dx)));
+    const now = performance.now();
+    const dt = Math.max(1, now - lastMoveTimeRef.current);
+    const nextDrag = e.clientX - startXRef.current;
+    velocityXRef.current = (nextDrag - dragX) / dt;
+    lastMoveTimeRef.current = now;
+    setDragX(Math.max(-220, Math.min(220, nextDrag)));
   };
 
   const handlePointerUp = () => {
     if (startXRef.current === null) return;
+    const finalX = dragX;
+    const vx = velocityXRef.current;
     startXRef.current = null;
-    if (dragX > 95) {
-      setFlyDir('right');
-      window.setTimeout(() => commitSwipe('right'), 180);
-    } else if (dragX < -95) {
-      setFlyDir('left');
-      window.setTimeout(() => commitSwipe('left'), 180);
+    setIsDragging(false);
+
+    if (finalX > 85 || vx > 0.6) {
+      commitSwipe('right');
+    } else if (finalX < -85 || vx < -0.6) {
+      commitSwipe('left');
     } else {
       setDragX(0);
     }
@@ -131,42 +173,32 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const handleAgeSliderChange = (nextVal: number) => {
     setAgePref(nextVal);
     sfx.sliderTick(nextVal);
+
     if (role === 'her') {
       if (nextVal <= 22) {
         setSliderBanner(
-          '🚨 SUB-23 DANGER ZONE UNLOCKED! Broke college "Go-Dutch" Venmo-calculator students (Kayden, 21) have entered your feed!',
+          '🚨 SUB-23 DANGER ZONE UNLOCKED! Brace for declined campus Dining Dollars & $41.63 Venmo calculators!',
         );
-        const kaydenIdx = deck.findIndex((d) => d.id === 'kayden-dutch-venmo-trap');
-        if (kaydenIdx >= 0) {
-          setIndex(kaydenIdx);
+        const brokeIdx = deck.findIndex((d) => d.id === 'kayden-dutch-venmo-trap');
+        if (brokeIdx >= 0) {
+          setIndex(brokeIdx);
           setPhotoIdx(0);
         }
       } else if (nextVal <= 25) {
         setSliderBanner(
-          '🤠 KRISTIN CAVALLARI × MONTANA BOYZ ZONE (25+)! Unlocked Colton, 25M—6\'3" Montana ranch cowboy!',
+          '🤠 KRISTIN CAVALLARI × MONTANA BOYZ ZONE (25+)! Unlocked Colton, 25M — 6\'3" Ranch Cowboy!',
         );
-        const coltonIdx = deck.findIndex((d) => d.id === 'colton-montana-ranch-cub');
-        if (coltonIdx >= 0) {
-          setIndex(coltonIdx);
-          setPhotoIdx(0);
-        }
-      } else if (nextVal >= 30) {
-        setSliderBanner(
-          '🥂 SAFE 30+ CUB FILTER: Showing sports-medicine fellows & established 30s Cubs first!',
-        );
-        const lucasIdx = deck.findIndex((d) => d.age >= 30);
-        if (lucasIdx >= 0) {
-          setIndex(lucasIdx);
+        const cowboyIdx = deck.findIndex((d) => d.id === 'colton-montana-ranch-cub');
+        if (cowboyIdx >= 0) {
+          setIndex(cowboyIdx);
           setPhotoIdx(0);
         }
       } else {
-        setSliderBanner(`🎚️ Minimum Cub Age set to ${nextVal}+ — Prime Cougars & Cubs Club pool active.`);
+        setSliderBanner(`Minimum Cub Age set to ${nextVal}+ — Prime Cougars & Cubs Club pool active.`);
       }
     } else {
       if (nextVal >= 60) {
-        setSliderBanner(
-          '👑 60+ PANTHER ICON TIER UNLOCKED! Silver-braided & desert-modernist legends active!',
-        );
+        setSliderBanner('👑 60+ ICON TIER UNLOCKED! Panthers & Silver-Braids Gallery Icons active!');
         const vivIdx = deck.findIndex((d) => d.age >= 60);
         if (vivIdx >= 0) {
           setIndex(vivIdx);
@@ -180,7 +212,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           setPhotoIdx(0);
         }
       } else {
-        setSliderBanner(`🎚️ Max Discovery Age set up to ${nextVal} — Cougars & Pumas active.`);
+        setSliderBanner(`Max Discovery Age set up to ${nextVal} — Cougars & Pumas active.`);
       }
     }
   };
@@ -200,55 +232,46 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     });
   };
 
-  const rotationDeg = (dragX / 18).toFixed(1);
+  const rotationDeg = (dragX / 15).toFixed(1);
+  const dragProgress = Math.min(1, Math.abs(dragX) / 90);
 
   return (
-    <div className="mx-auto max-w-xl space-y-4 animate-stage-in">
-      <div className="flex items-center justify-between gap-2">
-        <div>
-          <span className="rounded bg-rose-500/25 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-rose-300">
-            Act I • Cougars &amp; Cubs Club Swipe Deck ({index + 1} / {deck.length})
-          </span>
-          <h2 className="mt-1 font-display text-3xl text-white">
-            {role === 'her'
-              ? 'Slide Your Age Filter & Vet Every Photo Before Swiping!'
-              : 'Raise Your Max Age Filter & Browse Cougars, Jaguars & Pumas!'}
-          </h2>
-        </div>
-        <button
-          type="button"
-          onClick={onCompleteSwipes}
-          className="text-xs font-bold underline text-slate-400 hover:text-white cursor-pointer"
-        >
-          Skip to Date #1 →
-        </button>
-      </div>
+    <div className="mx-auto max-w-5xl space-y-3.5 animate-stage-in">
+      {/* Slim Top Bar + Inline Age-Preference Control */}
+      <div className="vice-panel rounded-2xl px-4 py-3 space-y-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+              Act I • Profile {index + 1} of {deck.length}
+            </span>
+            <button
+              type="button"
+              onClick={() => setAgeSliderOpen((v) => !v)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#E5C17B]/35 bg-[#1E1729] px-3 py-1 text-xs font-semibold text-[#FDE68A] hover:bg-white/10 transition cursor-pointer"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5 text-rose-400" />
+              <span>
+                {role === 'her' ? `Age Filter: ${agePref}–45` : `Age Filter: 30–${agePref}`}
+              </span>
+            </button>
+          </div>
 
-      {/* Playable Dating-App Age-Preference Slider (Kristin Cavallari × Montana Boyz + Sub-23 Danger Zone!) */}
-      <div className="vice-panel rounded-2xl bg-gradient-to-r from-[#241038] via-[#17112b] to-[#161026] p-3.5 space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-          <span className="inline-flex items-center gap-1.5 font-extrabold uppercase tracking-wider text-amber-300">
-            <SlidersHorizontal className="h-3.5 w-3.5 text-pink-300" />
-            {role === 'her'
-              ? `App Age Settings: Men ${agePref} – 45`
-              : `App Age Settings: Women 30 – ${agePref}`}
-          </span>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap items-center gap-2">
             {role === 'her' ? (
               <>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(25)}
-                  className="rounded-full border border-amber-300/50 bg-amber-400/20 px-2.5 py-0.5 text-xs font-extrabold text-amber-200 hover:bg-amber-400/35 cursor-pointer"
+                  className="rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/12 px-2.5 py-1 text-xs font-semibold text-[#FDE68A] hover:bg-[#E5C17B]/20 cursor-pointer"
                 >
-                  🤠 Drop to 25 (Montana Cowboy!)
+                  🤠 Drop to 25
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(21)}
-                  className="rounded-full border border-rose-400/60 bg-rose-500/25 px-2.5 py-0.5 text-xs font-extrabold text-rose-200 hover:bg-rose-500/40 cursor-pointer"
+                  className="rounded-full border border-rose-500/45 bg-rose-950/70 px-2.5 py-1 text-xs font-semibold text-rose-200 hover:bg-rose-900/75 cursor-pointer"
                 >
-                  🚨 Dare: 21 (Broke Dutch Trap!)
+                  🚨 Dare: 21
                 </button>
               </>
             ) : (
@@ -256,300 +279,415 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(53)}
-                  className="rounded-full border border-amber-300/50 bg-amber-400/20 px-2.5 py-0.5 text-xs font-extrabold text-amber-200 hover:bg-amber-400/35 cursor-pointer"
+                  className="rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/12 px-2.5 py-1 text-xs font-semibold text-[#FDE68A] cursor-pointer"
                 >
-                  🔥 Unlock 50s Jaguars
+                  🔥 50s Jaguars
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(64)}
-                  className="rounded-full border border-teal-300/60 bg-teal-400/20 px-2.5 py-0.5 text-xs font-extrabold text-teal-200 hover:bg-teal-400/35 cursor-pointer"
+                  className="rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/12 px-2.5 py-1 text-xs font-semibold text-[#FDE68A] cursor-pointer"
                 >
-                  👑 Unlock 60+ Panthers
+                  👑 60+ Icons
                 </button>
               </>
             )}
-          </div>
-        </div>
-
-        <input
-          type="range"
-          aria-label="Dating app age preference slider"
-          min={role === 'her' ? 21 : 38}
-          max={role === 'her' ? 34 : 65}
-          value={agePref}
-          onChange={(e) => handleAgeSliderChange(Number(e.target.value))}
-          className="w-full accent-amber-400 cursor-pointer h-2 rounded-lg bg-black/60"
-        />
-
-        {sliderBanner && (
-          <div className="rounded-xl bg-black/50 px-3 py-1.5 text-xs font-bold text-teal-200 border border-white/10">
-            {sliderBanner}
-          </div>
-        )}
-      </div>
-
-      {/* Quick Profile Jumper Strip so users can browse the whole diverse deck freely */}
-      <div className="flex gap-1.5 overflow-x-auto pb-1">
-        {deck.map((item, i) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => {
-              sfx.messagePop();
-              setIndex(i);
-              setPhotoIdx(0);
-              setAgeZoomed(false);
-            }}
-            className={`shrink-0 flex items-center gap-1.5 rounded-full border border-white/14 px-2.5 py-1 text-xs font-extrabold transition cursor-pointer ${
-              i === index
-                ? 'bg-amber-400 text-slate-950'
-                : 'bg-[#1a0f2b] text-slate-300 hover:bg-slate-800'
-            }`}
-          >
-            <img
-              src={item.photos[0].photoUrl}
-              alt={item.name}
-              className="h-5 w-5 rounded-full object-cover object-top"
-            />
-            <span>
-              {i === index ? `Now Viewing • ${item.age}` : `${item.name.split(' ')[0]}, ${item.age}`}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {/* Interactive Tinder / Hinge Card */}
-      <div
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={() => {
-          startXRef.current = null;
-          setDragX(0);
-        }}
-        style={{
-          transform:
-            flyDir === null ? `translateX(${dragX}px) rotate(${rotationDeg}deg)` : undefined,
-        }}
-        className={`vice-panel relative select-none touch-pan-y overflow-hidden rounded-3xl bg-[#150f24] transition-transform duration-150 ${
-          flyDir === 'left'
-            ? 'animate-swipe-left'
-            : flyDir === 'right'
-              ? 'animate-swipe-right'
-              : ''
-        }`}
-      >
-        {/* Drag Stamps */}
-        {dragX > 35 && (
-          <div className="pointer-events-none absolute top-14 left-5 z-20 -rotate-12 rounded-xl border-4 border-emerald-400 bg-black/70 px-4 py-1 font-display text-4xl text-emerald-300">
-            DATE 💚
-          </div>
-        )}
-        {dragX < -35 && (
-          <div className="pointer-events-none absolute top-14 right-5 z-20 rotate-12 rounded-xl border-4 border-rose-500 bg-black/70 px-4 py-1 font-display text-4xl text-rose-400">
-            PASS 🚩
-          </div>
-        )}
-
-        {/* Top Tinder Story Bars + Easy Photo Tab Scroller */}
-        <div className="p-3 sm:p-4 pb-0 space-y-2.5">
-          <div
-            className="grid gap-1.5"
-            style={{ gridTemplateColumns: `repeat(${totalPhotos}, minmax(0, 1fr))` }}
-          >
-            {profile.photos.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                aria-label={`Slide ${idx + 1}`}
-                onClick={() => selectPhoto(idx)}
-                className={`h-2 rounded-full transition-all cursor-pointer ${
-                  safePhotoIdx === idx ? 'bg-amber-300' : 'bg-white/25 hover:bg-white/50'
-                }`}
-              />
-            ))}
-          </div>
-
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex gap-1 overflow-x-auto rounded-xl border border-white/14 bg-black/60 p-1">
-              {profile.photos.map((ph, idx) => {
-                const defaultLabel =
-                  idx === 0
-                    ? 'Photo 1 (The Bait)'
-                    : idx === 1 && ph.isRedFlagPhoto
-                      ? 'Photo 2 (The Truth 👀)'
-                      : `Photo ${idx + 1}`;
-                return (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => selectPhoto(idx)}
-                    className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-extrabold cursor-pointer ${
-                      safePhotoIdx === idx
-                        ? ph.isRedFlagPhoto
-                          ? 'bg-rose-500 text-white'
-                          : 'bg-amber-400 text-slate-950'
-                        : 'text-slate-300 hover:text-white'
-                    }`}
-                  >
-                    {ph.shortTab || defaultLabel}
-                  </button>
-                );
-              })}
-            </div>
 
             <button
               type="button"
-              onClick={() =>
-                onShareDilemma(
-                  profile.id,
-                  `Would you swipe right on ${profile.name} (${profile.age})?!`,
-                )
-              }
-              className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-white/14 bg-slate-800 px-2.5 py-1.5 text-xs font-bold text-teal-300 hover:bg-slate-700 cursor-pointer"
+              onClick={onCompleteSwipes}
+              className="text-xs font-semibold text-stone-400 hover:text-[#FAF7F5] underline ml-1 cursor-pointer"
             >
-              <Share2 className="h-3.5 w-3.5" />
-              <span>Ask Bestie</span>
+              Skip to Date #1 →
             </button>
           </div>
         </div>
 
-        {/* Photorealistic Profile Image + Left/Right Tap Arrows + Gradient Overlay */}
-        <div className="p-3 sm:p-4 space-y-3.5">
-          <div className="relative aspect-[4/5] sm:aspect-[4/4.5] w-full overflow-hidden rounded-2xl border border-white/14 bg-slate-950">
-            <img
-              src={currentPhoto.photoUrl}
-              alt={`${profile.name} ${currentPhoto.caption}`}
-              draggable={false}
-              className="h-full w-full object-cover object-top transition-all duration-300"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/15 to-transparent" />
+        {/* Always keep range slider accessible in DOM for instant drag & test access */}
+        <div className={ageSliderOpen || sliderBanner ? 'block space-y-2' : 'block'}>
+          <input
+            type="range"
+            aria-label="Dating app age preference slider"
+            min={role === 'her' ? 21 : 38}
+            max={role === 'her' ? 34 : 65}
+            value={agePref}
+            onChange={(e) => handleAgeSliderChange(Number(e.target.value))}
+            className="w-full accent-[#E5C17B] cursor-pointer h-1.5 rounded-lg bg-[#1E1729]"
+          />
+          {sliderBanner && (
+            <div className="rounded-xl bg-[#1E1729] border border-[#E5C17B]/30 px-3 py-1.5 text-xs font-medium text-[#FDE68A]">
+              {sliderBanner}
+            </div>
+          )}
+        </div>
+      </div>
 
-            {/* Left / Right Easy Photo Carousel Chevrons */}
-            {totalPhotos > 1 && (
-              <>
-                <button
-                  type="button"
-                  aria-label="Previous photo"
-                  onClick={() => selectPhoto(safePhotoIdx - 1)}
-                  className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/65 p-2 text-white hover:bg-black/90 cursor-pointer"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Next photo"
-                  onClick={() => selectPhoto(safePhotoIdx + 1)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/65 p-2 text-white hover:bg-black/90 cursor-pointer"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </>
+      {/* Post-Swipe Consequence Toast */}
+      {swipeFeedback && (
+        <div
+          className={`vice-toast rounded-2xl px-4 py-2.5 text-center text-sm font-semibold shadow-xl ${
+            swipeFeedback.good
+              ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-200'
+              : 'bg-rose-950/90 border border-rose-500/50 text-rose-200'
+          }`}
+        >
+          {swipeFeedback.text}
+        </div>
+      )}
+
+      {/* Mobile View Switcher (Keeps Phone Card Zero-Scroll!) */}
+      <div className="flex lg:hidden rounded-2xl bg-[#15101C] border border-white/[0.08] p-1 text-sm font-semibold">
+        <button
+          type="button"
+          onClick={() => setMobileTab('photo')}
+          className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
+            mobileTab === 'photo' ? 'bg-rose-600 text-[#FAF7F5]' : 'text-stone-300'
+          }`}
+        >
+          📸 Photos ({safePhotoIdx + 1}/{totalPhotos})
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab('dossier')}
+          className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
+            mobileTab === 'dossier' ? 'bg-[#E5C17B] text-[#0C0910]' : 'text-stone-300'
+          }`}
+        >
+          💬 Bio, Prompts &amp; Voice
+        </button>
+      </div>
+
+      {/* ZERO-SCROLL TWO-COLUMN SPLIT: Left = 2-Card Draggable Stack + Swipe Dock | Right = Dossier */}
+      <div className="grid gap-5 lg:grid-cols-[390px_1fr] items-start">
+        {/* LEFT COLUMN: 2-Card Depth Stack + Docked Pass/Date Bar */}
+        <div className={`${mobileTab === 'dossier' ? 'hidden lg:block' : 'block'} space-y-3`}>
+          <div className="relative">
+            {/* Next Card Peeking Underneath */}
+            {nextProfile && (
+              <div
+                aria-hidden="true"
+                style={{
+                  transform: `scale(${0.94 + dragProgress * 0.05}) translateY(${10 - dragProgress * 10}px)`,
+                  opacity: 0.45 + dragProgress * 0.45,
+                }}
+                className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-3xl border border-white/10 bg-[#15101C]"
+              >
+                <img
+                  src={nextProfile.photos[0].photoUrl}
+                  alt=""
+                  className="h-full w-full object-cover object-top opacity-60"
+                />
+              </div>
             )}
 
-            {/* Active Pill + Look / Feature Diversity Badge */}
-            <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-1.5">
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-black/75 px-2.5 py-1 text-xs font-bold text-emerald-300 border border-emerald-400/40">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{profile.activeAgo}</span>
+            {/* Active Draggable Front Card */}
+            <div
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={() => {
+                startXRef.current = null;
+                setIsDragging(false);
+                setDragX(0);
+              }}
+              style={{
+                transform:
+                  flyDir === null ? `translate3d(${dragX}px, 0, 0) rotate(${rotationDeg}deg)` : undefined,
+                transition: isDragging
+                  ? 'none'
+                  : 'transform 0.34s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+              className={`vice-panel relative z-10 select-none touch-pan-y overflow-hidden rounded-3xl p-3 space-y-2.5 ${
+                flyDir === 'left'
+                  ? 'animate-swipe-left'
+                  : flyDir === 'right'
+                    ? 'animate-swipe-right'
+                    : ''
+              }`}
+            >
+              {/* Proportional Drag Stamps */}
+              {dragX > 24 && (
+                <div
+                  style={{ opacity: dragProgress, transform: `scale(${0.85 + dragProgress * 0.2}) rotate(-10deg)` }}
+                  className="pointer-events-none absolute top-16 left-5 z-30 rounded-xl border-2 border-emerald-400 bg-[#0C0910]/85 px-4 py-1 font-display text-2xl text-emerald-300"
+                >
+                  Date 💚
+                </div>
+              )}
+              {dragX < -24 && (
+                <div
+                  style={{ opacity: dragProgress, transform: `scale(${0.85 + dragProgress * 0.2}) rotate(10deg)` }}
+                  className="pointer-events-none absolute top-16 right-5 z-30 rounded-xl border-2 border-rose-500 bg-[#0C0910]/85 px-4 py-1 font-display text-2xl text-rose-300"
+                >
+                  Pass 🚩
+                </div>
+              )}
+
+              {/* Story Progress Bars + Photo Selector Pills */}
+              <div className="space-y-2">
+                <div
+                  className="grid gap-1.5"
+                  style={{ gridTemplateColumns: `repeat(${totalPhotos}, minmax(0, 1fr))` }}
+                >
+                  {profile.photos.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      aria-label={`Slide ${idx + 1}`}
+                      onClick={() => selectPhoto(idx)}
+                      className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                        safePhotoIdx === idx ? 'bg-[#E5C17B]' : 'bg-white/20 hover:bg-white/40'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex gap-1 overflow-x-auto no-scrollbar rounded-xl bg-[#1E1729] p-1">
+                    {profile.photos.map((ph, idx) => {
+                      const defaultLabel =
+                        idx === 0
+                          ? 'Photo 1'
+                          : idx === 1 && ph.isRedFlagPhoto
+                            ? 'Photo 2 👀'
+                            : `Photo ${idx + 1}`;
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => selectPhoto(idx)}
+                          className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-semibold transition cursor-pointer ${
+                            safePhotoIdx === idx
+                              ? ph.isRedFlagPhoto
+                                ? 'bg-rose-600 text-[#FAF7F5]'
+                                : 'bg-[#E5C17B] text-[#0C0910]'
+                              : 'text-stone-300 hover:text-[#FAF7F5]'
+                          }`}
+                        >
+                          {ph.shortTab || defaultLabel}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onShareDilemma(
+                        profile.id,
+                        `Would you swipe right on ${profile.name} (${profile.age})?!`,
+                      )
+                    }
+                    className="shrink-0 inline-flex items-center gap-1 rounded-xl border border-white/12 bg-white/[0.05] px-2.5 py-1 text-xs font-semibold text-stone-200 hover:bg-white/10 cursor-pointer"
+                  >
+                    <Share2 className="h-3.5 w-3.5 text-[#E5C17B]" />
+                    <span>Ask Bestie</span>
+                  </button>
+                </div>
               </div>
-              <span className="rounded-full bg-black/75 border border-amber-300/40 px-2.5 py-1 text-xs font-extrabold text-amber-200">
-                {profile.lookBadge}
-              </span>
+
+              {/* Portrait Frame (Compact Height So Buttons Always Stay Visible!) */}
+              <div className="relative h-[360px] sm:h-[390px] w-full overflow-hidden rounded-2xl bg-[#0C0910]">
+                <img
+                  src={currentPhoto.photoUrl}
+                  alt={`${profile.name} ${currentPhoto.caption}`}
+                  draggable={false}
+                  className="h-full w-full object-cover object-top transition-all duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0C0910]/95 via-[#0C0910]/15 to-transparent" />
+
+                {totalPhotos > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      aria-label="Previous photo"
+                      onClick={() => selectPhoto(safePhotoIdx - 1)}
+                      className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/65 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Next photo"
+                      onClick={() => selectPhoto(safePhotoIdx + 1)}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/65 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </>
+                )}
+
+                <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-1.5">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-[#0C0910]/80 px-2.5 py-1 text-xs font-medium text-emerald-300 border border-emerald-400/30">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>{profile.activeAgo}</span>
+                  </div>
+                  <span className="rounded-full bg-[#0C0910]/80 border border-[#E5C17B]/35 px-2.5 py-1 text-xs font-medium text-[#FDE68A]">
+                    {profile.lookBadge}
+                  </span>
+                </div>
+
+                <div className="absolute bottom-3 left-3.5 right-3.5 flex items-end justify-between gap-2">
+                  <div>
+                    <h3 className="font-display text-3xl text-[#FAF7F5] leading-none">
+                      {profile.name}, <span className="text-[#FDE68A]">{profile.age}</span>
+                    </h3>
+                    <p className="mt-1 text-xs text-stone-300">
+                      {profile.occupation} • {profile.height} • {profile.zodiac}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sfx.shockZoom();
+                      setAgeZoomed((v) => !v);
+                    }}
+                    className="inline-flex items-center gap-1 rounded-xl bg-[#E5C17B] hover:bg-[#F0CFA0] px-3 py-1.5 text-xs font-semibold text-[#0C0910] shadow cursor-pointer"
+                  >
+                    <Search className="h-3.5 w-3.5" />
+                    <span>Zoom Age: {profile.age}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Compact Photo Caption */}
+              <div
+                className={`rounded-xl px-3.5 py-2 text-xs ${
+                  currentPhoto.isRedFlagPhoto
+                    ? 'bg-rose-950/85 border border-rose-500/45 text-rose-200'
+                    : 'bg-[#1E1729] text-stone-200'
+                }`}
+              >
+                <span className="font-semibold text-[#FAF7F5]">{currentPhoto.caption}: </span>
+                <span>{currentPhoto.vibeNote}</span>
+              </div>
+
+              {ageZoomed && (
+                <div className="animate-shock-zoom rounded-2xl bg-[#E5C17B] p-3.5 text-[#0C0910]">
+                  <div className="text-xs font-semibold uppercase tracking-wider">
+                    🔍 Age Check: {profile.age}
+                  </div>
+                  <p className="mt-0.5 text-sm font-semibold">
+                    {role === 'her' ? profile.ageShockQuipHer : profile.ageShockQuipHim}
+                  </p>
+                </div>
+              )}
             </div>
+          </div>
 
-            {/* Name, Age, Height, Zodiac & Shock Zoom */}
-            <div className="absolute bottom-3 left-3.5 right-3.5 flex flex-wrap items-end justify-between gap-2">
-              <div>
-                <h3 className="font-display text-4xl sm:text-5xl text-white leading-none drop-shadow">
-                  {profile.name},{' '}
-                  <span className="text-amber-300 underline decoration-wavy">{profile.age}</span>
-                </h3>
-                <p className="mt-1 text-xs font-semibold text-slate-200">
-                  {profile.occupation} • {profile.height} • {profile.zodiac} • {profile.distance}
-                </p>
-              </div>
+          {/* Docked Swipe Action Bar (ALWAYS Visible Without Scrolling!) */}
+          <div className="grid grid-cols-[1fr_auto_1fr] gap-2.5">
+            <button
+              type="button"
+              onClick={() => commitSwipe('left')}
+              className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.06] text-[15px] font-semibold text-stone-200 hover:border-rose-500/45 hover:text-rose-300 transition cursor-pointer"
+            >
+              <X className="h-4 w-4" />
+              <span>Swipe Left (Pass)</span>
+            </button>
 
+            <button
+              type="button"
+              onClick={handleUnlockXray}
+              title="Run 1-Credit Maturity X-Ray"
+              className="flex h-12 items-center justify-center gap-1.5 rounded-2xl border border-[#E5C17B]/40 bg-[#1E1729] px-3.5 text-xs font-semibold text-[#FDE68A] hover:bg-[#E5C17B]/15 transition cursor-pointer"
+            >
+              <Eye className="h-4 w-4" />
+              <span>{xrayOpen ? 'X-Ray On' : isFounderUnlimited ? 'X-Ray' : `X-Ray (1 Cr)`}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => commitSwipe('right')}
+              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-rose-600 hover:bg-rose-500 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
+            >
+              <Heart className="h-4 w-4" />
+              <span>Swipe Right (Date)</span>
+            </button>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: Cohesive Profile Dossier (Voice Note, Bio, Prompts & Red/Green Vitals) */}
+        <div
+          className={`${
+            mobileTab === 'photo' ? 'hidden lg:block' : 'block'
+          } vice-panel rounded-3xl p-5 space-y-4`}
+        >
+          {/* Voice Note & Opening DM */}
+          <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-4 space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+                {role === 'her' ? 'Opening Message & Voice Note' : 'Her Opening Challenge'}
+              </span>
               <button
                 type="button"
-                onClick={() => {
-                  sfx.shockZoom();
-                  setAgeZoomed((v) => !v);
-                }}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-amber-400 px-3 py-2 text-xs font-extrabold text-slate-950 shadow-lg hover:bg-amber-300 cursor-pointer"
+                onClick={handleToggleVoiceNote}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                  playingVoiceId === profile.id
+                    ? 'bg-emerald-500/25 border border-emerald-400 text-emerald-200 animate-pulse'
+                    : 'bg-[#0C0910]/70 border border-[#E5C17B]/35 text-[#FDE68A] hover:bg-[#0C0910]'
+                }`}
               >
-                <Search className="h-3.5 w-3.5" />
-                <span>Zoom Age: {profile.age}</span>
+                <Volume2 className="h-3.5 w-3.5" />
+                <span>
+                  {playingVoiceId === profile.id ? 'Playing Voice Note…' : 'Hear Voice Note'}
+                </span>
               </button>
             </div>
+            <p className="text-[15px] leading-relaxed text-[#FAF7F5]">
+              &ldquo;{profile.openingDm}&rdquo;
+            </p>
           </div>
 
-          {/* Photo Caption Callout */}
-          <div
-            className={`rounded-xl border border-white/14 px-3.5 py-2.5 text-xs font-semibold ${
-              currentPhoto.isRedFlagPhoto
-                ? 'bg-rose-950/90 text-rose-200'
-                : 'bg-black/50 text-amber-200'
-            }`}
-          >
-            <div className="font-bold text-white">{currentPhoto.caption}</div>
-            <div className="mt-0.5">{currentPhoto.vibeNote}</div>
-          </div>
-
-          {ageZoomed && (
-            <div className="animate-shock-zoom vice-panel rounded-2xl bg-gradient-to-r from-rose-600 to-amber-500 p-4 text-slate-950">
-              <div className="font-display text-3xl leading-none">
-                🔍 SHOCK ZOOM: AGE {profile.age}!!
-              </div>
-              <p className="mt-1 text-xs sm:text-sm font-extrabold">
-                {role === 'her' ? profile.ageShockQuipHer : profile.ageShockQuipHim}
-              </p>
+          {xrayOpen && (
+            <div className="animate-stage-in rounded-2xl border border-emerald-400/45 bg-emerald-500/12 p-3.5 text-sm font-medium text-emerald-200">
+              <strong className="text-emerald-300">👁️ X-Ray Scan:</strong> {profile.xrayLeak}
             </div>
           )}
 
-          {/* Tinder Bio + Spotify Anthem */}
-          <div className="rounded-2xl border border-white/14 bg-black/50 p-3.5 space-y-2.5">
-            <p className="text-sm font-medium text-white leading-relaxed">
+          {/* Bio & Spotify */}
+          <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-2.5">
+            <p className="text-[15px] leading-relaxed text-stone-200">
               &ldquo;{profile.tinderBio}&rdquo;
             </p>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3 py-1 text-xs font-bold text-emerald-300">
-              <Music2 className="h-3.5 w-3.5" />
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1 text-xs font-medium text-[#FDE68A]">
+              <Music2 className="h-3.5 w-3.5 text-rose-400" />
               <span>Anthem: {profile.spotifyAnthem}</span>
             </div>
           </div>
 
-          {/* Hinge-Style Prompt Cards (1 or 2 fleshed-out prompts!) */}
-          <div className="grid gap-2.5 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/14 bg-[#211234] p-3.5">
-              <div className="text-xs font-extrabold uppercase tracking-wider text-pink-300">
-                <Sparkles className="inline h-3 w-3 mr-1" />
+          {/* Unified Hinge Prompts (Matching Velvet Wells!) */}
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-1">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-rose-300">
+                <Sparkles className="inline h-3 w-3 mr-1 text-[#E5C17B]" />
                 {profile.hingePromptQuestion}
               </div>
-              <div className="mt-1 font-semibold text-xs sm:text-sm text-amber-100">
+              <div className="text-sm leading-relaxed text-[#FAF7F5]">
                 {profile.hingePromptAnswer}
               </div>
             </div>
 
             {profile.secondPromptQuestion && profile.secondPromptAnswer && (
-              <div className="rounded-2xl border border-white/14 bg-[#191b34] p-3.5">
-                <div className="text-xs font-extrabold uppercase tracking-wider text-teal-300">
+              <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-1">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
                   <Sparkles className="inline h-3 w-3 mr-1" />
                   {profile.secondPromptQuestion}
                 </div>
-                <div className="mt-1 font-semibold text-xs sm:text-sm text-slate-100">
+                <div className="text-sm leading-relaxed text-[#FAF7F5]">
                   {profile.secondPromptAnswer}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Looking For & Expanded Lifestyle Interests */}
-          <div className="rounded-xl border border-white/14 bg-black/40 p-3.5 space-y-2">
-            <div className="text-xs">
-              <span className="font-bold text-slate-400">Looking for: </span>
-              <span className="font-extrabold text-pink-300">&ldquo;{profile.lookingFor}&rdquo;</span>
-              <span className="block text-xs italic text-slate-400 mt-0.5">
+          {/* Looking For & Lifestyle Tags */}
+          <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-2.5">
+            <div className="text-sm">
+              <span className="text-stone-400">Looking for: </span>
+              <span className="font-semibold text-[#FAF7F5]">&ldquo;{profile.lookingFor}&rdquo;</span>
+              <span className="block text-xs italic text-stone-400 mt-0.5">
                 {profile.lookingForSubtext}
               </span>
             </div>
@@ -568,10 +706,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 return (
                   <span
                     key={interest}
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
                       red
-                        ? 'bg-rose-500/25 text-rose-300 border border-rose-500/40'
-                        : 'bg-teal-500/20 text-teal-300 border border-teal-500/40'
+                        ? 'bg-rose-950/75 text-rose-300 border border-rose-500/40'
+                        : 'bg-white/[0.06] text-stone-200 border border-white/10'
                     }`}
                   >
                     {red ? '🚩 ' : '✨ '}
@@ -582,71 +720,16 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             </div>
           </div>
 
-          {/* Opening DM Preview + Interactive Voice-Note Waveform */}
-          <div className="rounded-xl border border-white/14 bg-[#231438] p-3.5 space-y-2">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-amber-300">
-                {role === 'her' ? 'Opening Message & Voice Note:' : 'Her Opening Challenge:'}
-              </div>
-              <button
-                type="button"
-                onClick={handleToggleVoiceNote}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
-                  playingVoiceId === profile.id
-                    ? 'border-emerald-300 bg-emerald-400 text-slate-950 animate-pulse'
-                    : 'border-amber-300/40 bg-black/50 text-amber-200 hover:bg-black/80'
-                }`}
-              >
-                <Volume2 className="h-3.5 w-3.5" />
-                <span>
-                  {playingVoiceId === profile.id ? '🔊 Playing Voice Note…' : '▶️ Hear Voice Note'}
-                </span>
-                <span className="inline-flex items-end gap-0.5 h-3 ml-0.5" aria-hidden="true">
-                  <span className="w-0.5 h-1.5 bg-current rounded-full" />
-                  <span className="w-0.5 h-3 bg-current rounded-full" />
-                  <span className="w-0.5 h-2 bg-current rounded-full" />
-                  <span className="w-0.5 h-2.5 bg-current rounded-full" />
-                </span>
-              </button>
-            </div>
-            <p className="text-sm font-medium text-white">&ldquo;{profile.openingDm}&rdquo;</p>
-          </div>
-
-          {/* Optional 1-Credit Red-Flag X-Ray */}
-          {xrayOpen ? (
-            <div className="rounded-xl border-2 border-teal-400 bg-teal-950/70 p-3 text-xs font-bold text-teal-200">
-              {profile.xrayLeak}
-            </div>
-          ) : (
+          {!xrayOpen && (
             <button
               type="button"
               onClick={handleUnlockXray}
-              className="w-full rounded-xl border-2 border-dashed border-amber-400/60 bg-black/30 py-2 text-xs font-bold text-amber-300 hover:bg-black/50 cursor-pointer"
+              className="w-full rounded-2xl border border-dashed border-[#E5C17B]/40 bg-white/[0.02] py-2.5 text-xs font-semibold text-[#FDE68A] hover:bg-white/[0.05] transition cursor-pointer"
             >
               <Eye className="inline h-3.5 w-3.5 mr-1" />
-              Run Maturity X-Ray Scan ({isFounderUnlimited ? 'FREE • ∞ Founder' : `1 Credit • You have ${credits}`})
+              Run Maturity X-Ray Scan ({isFounderUnlimited ? 'FREE • ∞ Founder' : `1 Credit • ${credits} left`})
             </button>
           )}
-
-          {/* Swipe Actions */}
-          <div className="grid grid-cols-2 gap-3 pt-1">
-            <button
-              type="button"
-              onClick={() => commitSwipe('left')}
-              className="vice-panel flex items-center justify-center gap-2 rounded-2xl bg-slate-800 py-3.5 font-display text-2xl text-rose-400 hover:bg-slate-700 cursor-pointer"
-            >
-              <X className="h-5 w-5" />
-              <span>Swipe Left (Pass)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => commitSwipe('right')}
-              className="vice-panel flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-teal-400 to-emerald-400 py-3.5 font-display text-2xl text-slate-950 hover:brightness-110 cursor-pointer"
-            >
-              <Heart className="h-5 w-5" />
-              <span>Swipe Right (Date)</span>
-            </button>
-          </div>
         </div>
       </div>
     </div>

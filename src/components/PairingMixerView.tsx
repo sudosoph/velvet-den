@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import {
   Award,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Crown,
+  Dices,
   Flame,
   Lock,
   MessageCircle,
   Minus,
   Plus,
   Send,
+  Sliders,
   Sparkles,
+  X,
 } from 'lucide-react';
 import { EPISODES } from '../data/episodes';
 import type { WalletState } from '../domain/economy';
@@ -85,1006 +87,855 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onQuickCreateAudition,
   onOpenFieldGuide,
 }) => {
-  const [showVipDrawer, setShowVipDrawer] = useState(false);
-  const [showCustomizer, setShowCustomizer] = useState(false);
+  const [castTab, setCastTab] = useState<'her' | 'him'>('her');
   const [herFilter, setHerFilter] = useState<HerDecadeFilter>('all');
-  const [sortHerByAge, setSortHerByAge] = useState(false);
-  const [sortHisByAge, setSortHisByAge] = useState(false);
-  const [showAllHer, setShowAllHer] = useState(false);
-  const [showAllHis, setShowAllHis] = useState(false);
-  const [herPhotoIdx, setHerPhotoIdx] = useState(0);
-  const [hisPhotoIdx, setHisPhotoIdx] = useState(0);
+  const [expandedGrid, setExpandedGrid] = useState(false);
+  const [activeDrawer, setActiveDrawer] = useState<'custom' | 'vip' | null>(null);
+  const [shuffling, setShuffling] = useState(false);
+  const [mobilePairSlot, setMobilePairSlot] = useState<'her' | 'him'>('her');
 
+  const vipEpisodes = EPISODES.filter((e) => e.isVip);
   const herDetails = getProfileDetails(her);
   const hisDetails = getProfileDetails(his);
 
+  const filteredHerList = HER_ARCHETYPES.filter((item) => {
+    if (herFilter === '30s') return item.age >= 30 && item.age <= 39;
+    if (herFilter === '40s') return item.age >= 40 && item.age <= 49;
+    if (herFilter === '50s') return item.age >= 50 && item.age <= 59;
+    if (herFilter === '60s') return item.age >= 60;
+    return true;
+  });
+
+  const herIdx = HER_ARCHETYPES.findIndex((h) => h.id === her.id);
+  const hisIdx = HIS_ARCHETYPES.findIndex((c) => c.id === his.id);
+
+  const cycleHer = (dir: 1 | -1) => {
+    sfx.messagePop();
+    const next = HER_ARCHETYPES[(herIdx + dir + HER_ARCHETYPES.length) % HER_ARCHETYPES.length];
+    onSelectHer(next);
+  };
+
+  const cycleHis = (dir: 1 | -1) => {
+    sfx.messagePop();
+    const next = HIS_ARCHETYPES[(hisIdx + dir + HIS_ARCHETYPES.length) % HIS_ARCHETYPES.length];
+    onSelectHis(next);
+  };
+
+  const handleSlotMachineShuffle = () => {
+    if (shuffling) return;
+    setShuffling(true);
+    let ticks = 0;
+    const interval = window.setInterval(() => {
+      ticks += 1;
+      sfx.sliderTick(25 + ticks * 4);
+      const randHer = HER_ARCHETYPES[Math.floor(Math.random() * HER_ARCHETYPES.length)];
+      const validCubs = HIS_ARCHETYPES.filter((c) => c.age < randHer.age - 3);
+      const randHis =
+        validCubs[Math.floor(Math.random() * validCubs.length)] ?? HIS_ARCHETYPES[0];
+      onSelectHer(randHer);
+      onSelectHis(randHis);
+      if (ticks >= 6) {
+        window.clearInterval(interval);
+        sfx.greenFlag();
+        setShuffling(false);
+      }
+    }, 65);
+  };
+
   const toggleHerTag = (tag: SubplotTag) => {
     if (!onUpdateHerCustom) return;
-    const has = her.subplotTags.includes(tag);
-    onUpdateHerCustom({
-      ...her,
-      subplotTags: has
-        ? her.subplotTags.filter((t) => t !== tag)
-        : [...her.subplotTags, tag],
-    });
+    const next = her.subplotTags.includes(tag)
+      ? her.subplotTags.filter((t) => t !== tag)
+      : [...her.subplotTags, tag];
+    onUpdateHerCustom({ ...her, subplotTags: next });
   };
 
   const toggleHisTag = (tag: SubplotTag) => {
     if (!onUpdateHisCustom) return;
-    const has = his.subplotTags.includes(tag);
-    onUpdateHisCustom({
-      ...his,
-      subplotTags: has
-        ? his.subplotTags.filter((t) => t !== tag)
-        : [...his.subplotTags, tag],
-    });
+    const next = his.subplotTags.includes(tag)
+      ? his.subplotTags.filter((t) => t !== tag)
+      : [...his.subplotTags, tag];
+    onUpdateHisCustom({ ...his, subplotTags: next });
   };
 
-  const vipEpisodes = EPISODES.filter((e) => e.isVip);
-
-  const filteredHerList = HER_ARCHETYPES.filter((item) => {
-    if (herFilter === '30s') return item.age < 40;
-    if (herFilter === '40s') return item.age >= 40 && item.age < 50;
-    if (herFilter === '50s') return item.age >= 50 && item.age < 60;
-    if (herFilter === '60s') return item.age >= 60;
-    return true;
-  })
-    .slice()
-    .sort((a, b) => (sortHerByAge || herFilter !== 'all' ? a.age - b.age : 0));
-
-  const sortedHisList = sortHisByAge
-    ? [...HIS_ARCHETYPES].sort((a, b) => a.age - b.age)
-    : HIS_ARCHETYPES;
-
-  const visibleHerList =
-    herFilter === 'all' && !sortHerByAge && !showAllHer
-      ? filteredHerList.slice(0, 10)
-      : filteredHerList;
-
-  const visibleHisList =
-    !sortHisByAge && !showAllHis ? sortedHisList.slice(0, 10) : sortedHisList;
-
-  const isZeroProofHer = /mocktail|smoothie|matcha|zero-proof|tonic|juice/i.test(
-    herDetails.signatureDrink,
-  );
-  const isZeroProofHis = /mocktail|smoothie|matcha|zero-proof|tonic|juice/i.test(
-    hisDetails.signatureDrink,
-  );
-
-  const herGallery = her.galleryPhotos?.length
-    ? her.galleryPhotos
-    : [
-        { label: '📸 Portrait', url: her.photoUrl },
-        { label: '🏖️ Lagoon Swim', url: './images/cast/camila-39f.jpg' },
-        { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
-      ];
-  const hisGallery = his.galleryPhotos?.length
-    ? his.galleryPhotos
-    : [
-        { label: '📸 Portrait', url: his.photoUrl },
-        { label: '🍝 Chef Mode', url: './images/cast/leo-25m.jpg' },
-        { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
-      ];
-
-  const activeHerSlide = herGallery[herPhotoIdx % herGallery.length];
-  const activeHisSlide = hisGallery[hisPhotoIdx % hisGallery.length];
-
   return (
-    <div className="space-y-6 animate-stage-in">
+    <div className="mx-auto max-w-6xl space-y-6 animate-stage-in">
       {noticeBanner && (
-        <div className="vice-panel rounded-xl bg-amber-400/20 border-amber-400 px-4 py-3 text-sm font-semibold text-amber-200">
+        <div className="vice-panel rounded-2xl border-[#E5C17B]/40 bg-[#1E1729] px-5 py-3 text-sm font-medium text-[#FDE68A]">
           {noticeBanner}
         </div>
       )}
 
-      {/* Breezy Visual Game Splash — Cinematic Portrait + Instant Play */}
-      <section className="vice-panel relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#221030] via-[#160e26] to-[#120b1e] p-4 sm:p-7">
-        <div className="grid gap-6 md:grid-cols-[1.25fr_0.9fr] md:items-center">
-          <div className="space-y-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/40 bg-pink-500/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-200">
-              <Flame className="h-3.5 w-3.5 text-amber-300" /> Cougars &amp; Cubs Club • Interactive Romance Game
-            </span>
-
-            <h1 className="font-display text-3xl sm:text-5xl text-white">
-              Lower Your Age Slider. Vet the Red Flags. Win Real Love.
-            </h1>
-
-            <p className="text-base text-slate-200 max-w-xl leading-relaxed">
-              Browse {HER_ARCHETYPES.length} women (every single year from 30 to 64!) and {HIS_ARCHETYPES.length} Cubs (every year from 21 to 33)—complete with heights, star signs, voice notes, tactile minigames, and live AI texting inside Cougars &amp; Cubs Club.
-            </p>
-
-            {/* Role Toggle Pills */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-              <button
-                type="button"
-                onClick={() => {
-                  sfx.messagePop();
-                  onChangeRole('her');
-                }}
-                className={`rounded-2xl border border-white/14 px-4 py-3 text-left transition cursor-pointer ${
-                  role === 'her'
-                    ? 'bg-rose-500 text-white shadow-lg'
-                    : 'bg-black/45 text-slate-300 hover:bg-black/65'
-                }`}
-              >
-                <div className="font-display text-2xl leading-none">🐆 Play as Her</div>
-                <div className="text-xs font-bold opacity-95 mt-1">
-                  Vet &amp; Train • Catch Red Flags
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  sfx.messagePop();
-                  onChangeRole('him');
-                }}
-                className={`rounded-2xl border border-white/14 px-4 py-3 text-left transition cursor-pointer ${
-                  role === 'him'
-                    ? 'bg-teal-400 text-slate-950 shadow-lg'
-                    : 'bg-black/45 text-slate-300 hover:bg-black/65'
-                }`}
-              >
-                <div className="font-display text-2xl leading-none">🔥 Play as Him</div>
-                <div className="text-xs font-bold opacity-95 mt-1">
-                  Impress &amp; Commit • Code-Switch
-                </div>
-              </button>
-            </div>
-
-            {/* Primary Play CTAs */}
-            <div className="flex flex-wrap items-center gap-2.5 pt-1">
-              <button
-                type="button"
-                onClick={() => {
-                  sfx.swipeRight();
-                  onStartGame();
-                }}
-                className="vice-panel rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 px-7 py-3.5 font-display text-3xl text-slate-950 hover:brightness-110 active:scale-98 transition cursor-pointer"
-              >
-                🍸 Start Vetting
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  sfx.messagePop();
-                  onOpenLiveInbox();
-                }}
-                className="inline-flex items-center gap-2 rounded-2xl border border-white/14 bg-[#1b132e] px-4 py-3 text-xs font-extrabold text-teal-300 shadow-lg hover:bg-[#24193d] cursor-pointer"
-              >
-                <MessageCircle className="h-4 w-4 text-amber-300" />
-                <span>💬 Live AI Texting Mode</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  sfx.messagePop();
-                  onOpenPopTrivia();
-                }}
-                className="inline-flex items-center gap-1.5 rounded-2xl border border-white/14 bg-[#2b1238] px-4 py-3 text-xs font-extrabold text-pink-200 shadow-lg hover:bg-[#381849] cursor-pointer"
-              >
-                <Award className="h-4 w-4 text-amber-300" />
-                <span>🎬 Pop-Culture Quiz (+3 Cr)</span>
-              </button>
-
-              {onOpenChecklist && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    sfx.messagePop();
-                    onOpenChecklist();
-                  }}
-                  className="inline-flex items-center gap-1.5 rounded-2xl border border-white/14 bg-[#331029] px-4 py-3 text-xs font-extrabold text-amber-200 shadow-lg hover:bg-[#451638] cursor-pointer"
-                >
-                  <Sparkles className="h-4 w-4 text-pink-300" />
-                  <span>📋 25-Pt Viral Score Test</span>
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Photorealistic Hero Couple Card */}
-          <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-white/14 shadow-lg">
-            <img
-              src="./images/cast/hero-couple.jpg"
-              alt="Sunlit rooftop Cougar and Cub couple"
-              className="h-64 sm:h-72 w-full object-cover object-top"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
-            <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
-              <div>
-                <span className="rounded bg-amber-400 px-2 py-0.5 text-xs font-extrabold uppercase text-slate-950">
-                  {pairing.badgeLabel}
-                </span>
-                <div className="mt-1 font-display text-2xl text-white leading-none">
-                  {her.name} ({her.age}F) × {his.name} ({his.age}M)
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={onQuickCreateAudition}
-                className="shrink-0 inline-flex items-center gap-1 rounded-xl border border-white/14 bg-teal-400 px-2.5 py-1.5 text-xs font-extrabold text-slate-950 hover:bg-teal-300 cursor-pointer"
-                title="Send a 60-second Vetting Audition link to your real Cougar or Cub"
-              >
-                <Send className="h-3 w-3" />
-                <span>2P Link (+3 Cr)</span>
-              </button>
-            </div>
-          </div>
+      {/* Editorial Header + Segmented Role Switch */}
+      <section className="text-center space-y-4 pt-1">
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#E5C17B]/30 bg-[#15101C] px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Flame className="h-3.5 w-3.5 text-rose-500" />
+          <span>Cougars &amp; Cubs Club • Interactive Romance Game</span>
         </div>
-      </section>
 
-      {/* Step 1: Every-Year Her Cast Browser With Decade & Year-by-Year Filters */}
-      <section className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h2 className="font-display text-3xl text-rose-400">
-              1. Pick Her Type ({her.name}, {her.age}F — Every Year 30–64)
-            </h2>
-            <p className="text-xs text-slate-300">
-              Heights, star signs, drink orders &amp; lifestyle vitals right on every card—browse our varied top mix or step through every single year of each decade!
-            </p>
-          </div>
+        <h1 className="font-display text-[2rem] sm:text-[2.75rem] text-[#FAF7F5] max-w-3xl mx-auto">
+          Lower Your Age Slider. Vet the Red Flags.{' '}
+          <span className="italic text-[#FDE68A]">Win Real Love.</span>
+        </h1>
+
+        {/* Clean 2-Segment Role Pill */}
+        <div className="mx-auto inline-grid grid-cols-1 sm:grid-cols-2 gap-2 rounded-2xl border border-white/[0.08] bg-[#15101C] p-1.5 max-w-xl w-full">
           <button
             type="button"
-            onClick={onOpenFieldGuide}
-            className="text-xs font-bold underline text-amber-300 hover:text-amber-200 cursor-pointer"
-          >
-            Junior Cougar (6-Yr) vs Puma vs Cougar vs Jaguar?
-          </button>
-        </div>
-
-        {/* Decade Filter Pills + Year-by-Year Toggle */}
-        <div className="flex flex-wrap items-center gap-2">
-          {(
-            [
-              ['all', `Varied Mix (${HER_ARCHETYPES.length})`],
-              ['30s', '30–39 (Every Year)'],
-              ['40s', '40–49 (Every Year)'],
-              ['50s', '50–59 (Every Year)'],
-              ['60s', '60–64 Icons'],
-            ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setHerFilter(id)}
-              className={`rounded-full border border-white/14 px-3.5 py-1 text-xs font-extrabold transition cursor-pointer ${
-                herFilter === id
-                  ? 'bg-rose-500 text-white shadow-lg'
-                  : 'bg-[#1b102d] text-slate-300 hover:bg-slate-800'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-
-          {herFilter === 'all' && (
-            <button
-              type="button"
-              onClick={() => setSortHerByAge((v) => !v)}
-              className={`rounded-full border border-white/14 px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
-                sortHerByAge
-                  ? 'bg-amber-400 text-slate-950'
-                  : 'bg-black/50 text-amber-300 hover:bg-black/80'
-              }`}
-            >
-              {sortHerByAge ? '✓ Sorted by Age (30→64)' : '📅 Sort Year-by-Year (30→64)'}
-            </button>
-          )}
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {visibleHerList.map((item) => {
-            const selected = item.id === her.id;
-            const displayAge = selected ? her.age : item.age;
-            const itemDetails = getProfileDetails(item);
-            const shortSign = itemDetails.zodiac.split('•')[0].replace(' Sun', '').trim();
-            return (
-              <div
-                key={item.id}
-                onClick={() => {
-                  sfx.messagePop();
-                  onSelectHer(item);
-                  setHerPhotoIdx(0);
-                }}
-                className={`group flex flex-col overflow-hidden rounded-3xl border transition cursor-pointer bg-[#150f24]/95 ${
-                  selected
-                    ? 'border-rose-400 ring-2 ring-rose-400/70 shadow-xl -translate-y-0.5'
-                    : 'border-white/12 hover:border-white/25 hover:-translate-y-0.5'
-                }`}
-              >
-                <div className="relative aspect-[4/4.4] w-full overflow-hidden bg-slate-900">
-                  <img
-                    src={item.photoUrl}
-                    alt={`${item.name}, ${displayAge}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#150f24] to-transparent" />
-                  <span className="absolute top-2.5 left-2.5 rounded-full bg-black/75 backdrop-blur-md px-2.5 py-1 text-xs font-semibold text-amber-200 border border-white/15">
-                    📏 {itemDetails.height} • {shortSign}
-                  </span>
-                  {selected && (
-                    <span className="absolute top-2.5 right-2.5 rounded-full bg-rose-500 px-2.5 py-1 text-xs font-bold uppercase text-white shadow">
-                      Selected
-                    </span>
-                  )}
-                </div>
-                <div className="p-3.5 space-y-1 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="font-display text-xl text-white">
-                      {item.name}, <span className="text-amber-300">{displayAge}</span>
-                    </div>
-                    <div className="text-xs font-semibold text-rose-300 truncate">
-                      {item.title}
-                    </div>
-                  </div>
-                  <p className="text-xs sm:text-sm leading-snug text-slate-300 line-clamp-2 pt-0.5">
-                    {item.shortHook}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {herFilter === 'all' && !sortHerByAge && filteredHerList.length > 10 && (
-          <div className="flex justify-center pt-1">
-            <button
-              type="button"
-              onClick={() => setShowAllHer((v) => !v)}
-              className="rounded-full border border-white/14 bg-[#231238] px-5 py-2 text-xs font-extrabold text-amber-300 shadow-lg hover:bg-[#2f184b] cursor-pointer"
-            >
-              {showAllHer
-                ? '▲ Collapse to Top 10 Showcase'
-                : `🐆 Browse All ${HER_ARCHETYPES.length} Women (Every Year 30–64) ▼`}
-            </button>
-          </div>
-        )}
-      </section>
-
-      {/* Step 2: Every-Year Cubs Grid (21–33) */}
-      <section className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h2 className="font-display text-3xl text-teal-300">
-              2. Pick Her Cub ({his.name}, {his.age}M — Every Year 21–33)
-            </h2>
-            <span className="text-xs text-slate-300">
-              Includes 6&apos;3&quot; Montana Ranch Cowboy (25M), 6&apos;2&quot; Firefighter, PhD &amp; the horrifying 21M Broke College &ldquo;Go-Dutch&rdquo; Trap!
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setSortHisByAge((v) => !v)}
-            className={`rounded-full border border-white/14 px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
-              sortHisByAge
-                ? 'bg-teal-400 text-slate-950'
-                : 'bg-black/50 text-teal-300 hover:bg-black/80'
+            onClick={() => {
+              sfx.messagePop();
+              onChangeRole('her');
+            }}
+            className={`rounded-xl px-4 py-2.5 text-left transition cursor-pointer ${
+              role === 'her'
+                ? 'bg-rose-600 text-[#FAF7F5] shadow-md'
+                : 'text-stone-300 hover:bg-white/[0.05]'
             }`}
           >
-            {sortHisByAge ? '✓ Sorted by Age (21→33)' : '📅 Sort Year-by-Year (21→33)'}
+            <div className="text-sm font-semibold">🐆 Play as Her</div>
+            <div className="text-xs opacity-85">Vet &amp; Train • Catch Red Flags</div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              sfx.messagePop();
+              onChangeRole('him');
+            }}
+            className={`rounded-xl px-4 py-2.5 text-left transition cursor-pointer ${
+              role === 'him'
+                ? 'bg-[#E5C17B] text-[#0C0910] shadow-md'
+                : 'text-stone-300 hover:bg-white/[0.05]'
+            }`}
+          >
+            <div className="text-sm font-semibold">🥂 Play as Him</div>
+            <div className="text-xs opacity-85">Impress &amp; Commit • Code-Switch</div>
           </button>
         </div>
+      </section>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {visibleHisList.map((item) => {
-            const selected = item.id === his.id;
-            const displayAge = selected ? his.age : item.age;
-            const itemDetails = getProfileDetails(item);
-            const shortSign = itemDetails.zodiac.split('•')[0].replace(' Sun', '').trim();
-            const isObstacle = item.subplotTags.includes('broke_dutch_obstacle');
-            return (
-              <div
-                key={item.id}
-                onClick={() => {
-                  if (isObstacle) sfx.redFlag();
-                  else sfx.messagePop();
-                  onSelectHis(item);
-                  setHisPhotoIdx(0);
-                }}
-                className={`group flex flex-col overflow-hidden rounded-3xl border transition cursor-pointer bg-[#150f24]/95 ${
-                  selected
-                    ? 'border-amber-300 ring-2 ring-amber-300/70 shadow-xl -translate-y-0.5'
-                    : isObstacle
-                      ? 'border-rose-500/45 hover:border-rose-400 hover:-translate-y-0.5'
-                      : 'border-white/12 hover:border-white/25 hover:-translate-y-0.5'
-                }`}
+      {/* Mobile Pair Switcher */}
+      <div className="flex lg:hidden rounded-2xl border border-white/[0.08] bg-[#15101C] p-1 text-sm font-semibold">
+        <button
+          type="button"
+          onClick={() => setMobilePairSlot('her')}
+          className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
+            mobilePairSlot === 'her' ? 'bg-rose-600 text-[#FAF7F5]' : 'text-stone-300'
+          }`}
+        >
+          Her: {her.name}, {her.age}F
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobilePairSlot('him')}
+          className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
+            mobilePairSlot === 'him' ? 'bg-[#E5C17B] text-[#0C0910]' : 'text-stone-300'
+          }`}
+        >
+          Cub: {his.name}, {his.age}M
+        </button>
+      </div>
+
+      {/* UNIFIED 3-COLUMN "MATCHMAKER'S STAGE" (Fits Above the Fold!) */}
+      <section className="grid gap-5 lg:grid-cols-[1fr_300px_1fr] items-stretch">
+        {/* LEFT SPOTLIGHT: HER */}
+        <div
+          className={`${
+            mobilePairSlot === 'him' ? 'hidden lg:flex' : 'flex'
+          } vice-panel rounded-3xl p-4 sm:p-5 flex-col justify-between gap-3.5`}
+        >
+          <div className="space-y-3">
+            <div className="relative h-56 sm:h-64 w-full overflow-hidden rounded-2xl bg-[#0C0910]">
+              <img
+                key={her.photoUrl}
+                src={her.photoUrl}
+                alt={`${her.name}, ${her.age}`}
+                className="h-full w-full object-cover object-top animate-stage-in"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#15101C] via-transparent to-transparent" />
+
+              <button
+                type="button"
+                aria-label="Previous Her character"
+                onClick={() => cycleHer(-1)}
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
               >
-                <div className="relative aspect-[4/4.4] w-full overflow-hidden bg-slate-900">
-                  <img
-                    src={item.photoUrl}
-                    alt={`${item.name}, ${displayAge}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#150f24] to-transparent" />
-                  <span
-                    className={`absolute top-2.5 left-2.5 rounded-full bg-black/75 backdrop-blur-md px-2.5 py-1 text-xs font-semibold border ${
-                      isObstacle
-                        ? 'text-rose-200 border-rose-400/50'
-                        : 'text-amber-200 border-white/15'
-                    }`}
-                  >
-                    📏 {itemDetails.height} • {shortSign}
-                  </span>
-                  {selected && (
-                    <span className="absolute top-2.5 right-2.5 rounded-full bg-amber-300 px-2.5 py-1 text-xs font-bold uppercase text-slate-950 shadow">
-                      Selected
-                    </span>
-                  )}
-                </div>
-                <div className="p-3.5 space-y-1 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="font-display text-xl text-white">
-                      {item.name}, <span className="text-amber-300">{displayAge}</span>
-                    </div>
-                    <div className="text-xs font-semibold text-amber-200/90 truncate">
-                      {item.title}
-                    </div>
-                  </div>
-                  <p className="text-xs sm:text-sm leading-snug text-slate-300 line-clamp-2 pt-0.5">
-                    {item.shortHook}
-                  </p>
-                </div>
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next Her character"
+                onClick={() => cycleHer(1)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+
+              <span className="absolute top-3 left-3 rounded-full bg-[#0C0910]/80 border border-white/15 px-3 py-1 text-xs font-medium text-[#FDE68A]">
+                📏 {herDetails.height} • {herDetails.zodiac.split('•')[0].replace(' Sun', '').trim()}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <h2 className="font-display text-2xl text-[#FAF7F5]">
+                  {her.name}, <span className="text-rose-400">{her.age}F</span>
+                </h2>
+                <div className="text-xs font-semibold text-rose-300">{her.title}</div>
               </div>
-            );
-          })}
-        </div>
 
-        {!sortHisByAge && sortedHisList.length > 10 && (
-          <div className="flex justify-center pt-1">
-            <button
-              type="button"
-              onClick={() => setShowAllHis((v) => !v)}
-              className="rounded-full border border-white/14 bg-[#1b132e] px-5 py-2 text-xs font-extrabold text-teal-300 shadow-lg hover:bg-[#24193d] cursor-pointer"
-            >
-              {showAllHis
-                ? '▲ Collapse to Top 10 Cubs'
-                : `🔥 Browse All ${HIS_ARCHETYPES.length} Cubs (Every Year 21–33) ▼`}
-            </button>
-          </div>
-        )}
-      </section>
-
-      {/* Side-by-Side Scrollable Tinder Profile Inspector for Selected Pair! */}
-      <section className="grid gap-4 md:grid-cols-2">
-        {/* Selected Her Full Multi-Photo Card */}
-        <div className="vice-panel rounded-3xl bg-[#161026] p-4 space-y-3">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-rose-300">
-              🐆 Selected Her Profile • Scroll Photos
-            </span>
-            {her.lookBadge && (
-              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-bold text-amber-300">
-                {her.lookBadge}
-              </span>
-            )}
-          </div>
-
-          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border border-white/14 bg-slate-950">
-            <img
-              src={activeHerSlide.url}
-              alt={`${her.name} ${activeHerSlide.label}`}
-              className="h-full w-full object-cover object-top"
-            />
-            <button
-              type="button"
-              aria-label="Previous Her photo"
-              onClick={() => setHerPhotoIdx((i) => (i - 1 + herGallery.length) % herGallery.length)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next Her photo"
-              onClick={() => setHerPhotoIdx((i) => (i + 1) % herGallery.length)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-            <div className="absolute bottom-2 left-2 flex gap-1">
-              {herGallery.map((g, idx) => (
-                <button
-                  key={g.label}
-                  type="button"
-                  onClick={() => setHerPhotoIdx(idx)}
-                  className={`rounded-full px-2.5 py-0.5 text-xs font-extrabold cursor-pointer ${
-                    idx === herPhotoIdx % herGallery.length
-                      ? 'bg-amber-400 text-slate-950'
-                      : 'bg-black/75 text-white'
-                  }`}
-                >
-                  {g.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-rose-400/20 bg-black/40 p-2.5 text-xs">
-            <div>
-              <span className="text-slate-400">Star Sign:</span>{' '}
-              <strong className="text-amber-300">{herDetails.zodiac}</strong>
-            </div>
-            <div>
-              <span className="text-slate-400">Height &amp; Vibe:</span>{' '}
-              <strong className="text-rose-200">{herDetails.height} • {herDetails.originOrAccent}</strong>
-            </div>
-            <div>
-              <span className="text-slate-400">Love Language:</span>{' '}
-              <strong className="text-white">{herDetails.loveLanguage}</strong>
-            </div>
-            <div>
-              <span className="text-slate-400">Signature Order:</span>{' '}
-              <strong className="text-pink-200">
-                {isZeroProofHer ? '🥤 ' : '🍸 '}
-                {herDetails.signatureDrink}
-              </strong>
-            </div>
-          </div>
-
-          <p className="text-sm leading-relaxed text-slate-200">{her.vibeSummary}</p>
-          {her.interests && (
-            <div className="flex flex-wrap gap-1.5">
-              {her.interests.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-rose-500/20 border border-rose-400/30 px-2.5 py-0.5 text-xs font-bold text-rose-200"
-                >
-                  ✨ {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Selected His Full Multi-Photo Card */}
-        <div className="vice-panel rounded-3xl bg-[#161026] p-4 space-y-3">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-300">
-              🔥 Selected Cub Profile • Scroll Photos
-            </span>
-            {his.lookBadge && (
-              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-bold text-teal-200">
-                {his.lookBadge}
-              </span>
-            )}
-          </div>
-
-          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border border-white/14 bg-slate-950">
-            <img
-              src={activeHisSlide.url}
-              alt={`${his.name} ${activeHisSlide.label}`}
-              className="h-full w-full object-cover object-top"
-            />
-            <button
-              type="button"
-              aria-label="Previous Cub photo"
-              onClick={() => setHisPhotoIdx((i) => (i - 1 + hisGallery.length) % hisGallery.length)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next Cub photo"
-              onClick={() => setHisPhotoIdx((i) => (i + 1) % hisGallery.length)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-            <div className="absolute bottom-2 left-2 flex gap-1">
-              {hisGallery.map((g, idx) => (
-                <button
-                  key={g.label}
-                  type="button"
-                  onClick={() => setHisPhotoIdx(idx)}
-                  className={`rounded-full px-2.5 py-0.5 text-xs font-extrabold cursor-pointer ${
-                    idx === hisPhotoIdx % hisGallery.length
-                      ? 'bg-teal-400 text-slate-950'
-                      : 'bg-black/75 text-white'
-                  }`}
-                >
-                  {g.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-teal-400/20 bg-black/40 p-2.5 text-xs">
-            <div>
-              <span className="text-slate-400">Star Sign:</span>{' '}
-              <strong className="text-teal-300">{hisDetails.zodiac}</strong>
-            </div>
-            <div>
-              <span className="text-slate-400">Height &amp; Roots:</span>{' '}
-              <strong className="text-amber-200">{hisDetails.height} • {hisDetails.originOrAccent}</strong>
-            </div>
-            <div>
-              <span className="text-slate-400">Love Language:</span>{' '}
-              <strong className="text-white">{hisDetails.loveLanguage}</strong>
-            </div>
-            <div>
-              <span className="text-slate-400">Signature Order:</span>{' '}
-              <strong className="text-teal-200">
-                {isZeroProofHis ? '🥤 ' : '🥂 '}
-                {hisDetails.signatureDrink}
-              </strong>
-            </div>
-          </div>
-
-          <p className="text-sm leading-relaxed text-slate-200">{his.vibeSummary}</p>
-          {his.interests && (
-            <div className="flex flex-wrap gap-1.5">
-              {his.interests.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-teal-500/20 border border-teal-400/30 px-2.5 py-0.5 text-xs font-bold text-teal-200"
-                >
-                  ✨ {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Compact Matchup Dock + Custom Age Dial + Expandable VIP Add-Ons */}
-      <section className="vice-panel rounded-3xl bg-[#161026] p-4 sm:p-5 space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-md bg-amber-400 px-2.5 py-0.5 text-xs font-extrabold uppercase text-slate-950">
-                {pairing.badgeLabel}
-              </span>
-              <span className="text-xs font-bold text-pink-300">{pairing.trackTitle}</span>
-            </div>
-            <div className="text-xs font-semibold text-amber-200/95">
-              ✨ {pairing.zodiacSpark}
-            </div>
-            {pairing.energyPolarity && (
-              <div className="inline-flex items-center gap-1.5 rounded-xl border border-fuchsia-400/40 bg-fuchsia-950/50 px-2.5 py-1 text-xs font-extrabold text-pink-200">
-                {pairing.energyPolarity}
-              </div>
-            )}
-
-            {/* Custom Age Fine-Tuning Controls */}
-            <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
-              <div className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/45 px-2.5 py-1">
-                <span className="text-rose-300 font-bold">{her.name}’s Age:</span>
+              {/* Age Fine-Tune Stepper */}
+              <div className="inline-flex items-center gap-1.5 rounded-xl bg-[#1E1729] border border-white/[0.08] px-2.5 py-1.5 text-xs">
                 <button
                   type="button"
                   onClick={() => onAdjustHerAge(-1)}
-                  className="rounded bg-slate-700 p-1 hover:bg-slate-600 cursor-pointer"
                   aria-label="Decrease Her Age"
+                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
                 >
                   <Minus className="h-3 w-3" />
                 </button>
-                <span className="font-extrabold text-amber-300 w-6 text-center">{her.age}</span>
+                <span className="font-semibold text-[#FAF7F5] w-6 text-center">{her.age}</span>
                 <button
                   type="button"
                   onClick={() => onAdjustHerAge(1)}
-                  className="rounded bg-slate-700 p-1 hover:bg-slate-600 cursor-pointer"
                   aria-label="Increase Her Age"
-                >
-                  <Plus className="h-3 w-3" />
-                </button>
-              </div>
-
-              <div className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/45 px-2.5 py-1">
-                <span className="text-teal-300 font-bold">{his.name}’s Age:</span>
-                <button
-                  type="button"
-                  onClick={() => onAdjustHisAge(-1)}
-                  className="rounded bg-slate-700 p-1 hover:bg-slate-600 cursor-pointer"
-                  aria-label="Decrease His Age"
-                >
-                  <Minus className="h-3 w-3" />
-                </button>
-                <span className="font-extrabold text-teal-300 w-6 text-center">{his.age}</span>
-                <button
-                  type="button"
-                  onClick={() => onAdjustHisAge(1)}
-                  className="rounded bg-slate-700 p-1 hover:bg-slate-600 cursor-pointer"
-                  aria-label="Increase His Age"
+                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
                 >
                   <Plus className="h-3 w-3" />
                 </button>
               </div>
             </div>
+
+            <p className="text-sm text-stone-300 leading-relaxed line-clamp-2">
+              {her.vibeSummary}
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#1E1729] px-3 py-2 text-xs text-stone-300">
+            <span className="truncate">🍸 {herDetails.signatureDrink}</span>
+            <span className="text-[#FDE68A] font-medium">{herDetails.loveLanguage}</span>
+          </div>
+        </div>
+
+        {/* CENTER PEDESTAL: CHEMISTRY MEDALLION + PLAY CTA + DICE SHUFFLER */}
+        <div className="vice-panel rounded-3xl p-5 flex flex-col justify-between gap-4 text-center border-[#E5C17B]/25">
+          <div className="space-y-2.5">
+            <span className="inline-block rounded-full bg-[#E5C17B]/15 border border-[#E5C17B]/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+              {pairing.badgeLabel}
+            </span>
+
+            <div className="font-display text-2xl text-[#FAF7F5]">
+              {her.name} × {his.name}
+            </div>
+
+            <p className="text-xs text-stone-300 leading-relaxed">{pairing.zodiacSpark}</p>
+
+            {pairing.energyPolarity && (
+              <div className="rounded-xl bg-[#1E1729] border border-rose-500/25 px-3 py-1.5 text-xs font-medium text-rose-200">
+                {pairing.energyPolarity}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-2.5">
             {onChangePacingMode && (
-              <div className="inline-flex rounded-xl border border-white/14 bg-black/60 p-0.5 text-xs font-extrabold">
+              <div className="grid grid-cols-2 rounded-xl bg-[#1E1729] p-1 text-xs font-semibold">
                 <button
                   type="button"
                   onClick={() => onChangePacingMode('curated')}
-                  className={`rounded-lg px-2.5 py-1.5 transition cursor-pointer ${
+                  className={`rounded-lg py-1.5 transition cursor-pointer ${
                     pacingMode === 'curated'
-                      ? 'bg-teal-400 text-slate-950'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-[#E5C17B] text-[#0C0910]'
+                      : 'text-stone-300 hover:text-white'
                   }`}
-                  title="Approach A: Tight 8-scene arc across all 6 stages (~3.5 mins)"
                 >
-                  ⚡ Quick 8-Scene Arc
+                  ⚡ 8-Scene Arc
                 </button>
                 <button
                   type="button"
                   onClick={() => onChangePacingMode('marathon')}
-                  className={`rounded-lg px-2.5 py-1.5 transition cursor-pointer ${
+                  className={`rounded-lg py-1.5 transition cursor-pointer ${
                     pacingMode === 'marathon'
-                      ? 'bg-amber-400 text-slate-950'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-[#E5C17B] text-[#0C0910]'
+                      : 'text-stone-300 hover:text-white'
                   }`}
-                  title="Play every single unlocked scene in your tier back-to-back"
                 >
                   🎬 Full Season
                 </button>
               </div>
             )}
 
-            {onUpdateHerCustom && onUpdateHisCustom && (
-              <button
-                type="button"
-                onClick={() => setShowCustomizer((v) => !v)}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-[#26143d] px-3.5 py-2.5 text-xs font-extrabold text-pink-200 hover:bg-[#331b52] cursor-pointer"
-              >
-                <Sparkles className="h-4 w-4 text-amber-300" />
-                <span>🎛️ Customize Vibe &amp; Drinks</span>
-                <ChevronDown
-                  className={`h-3.5 w-3.5 transition-transform ${showCustomizer ? 'rotate-180' : ''}`}
-                />
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={() => setShowVipDrawer((v) => !v)}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-black/50 px-3.5 py-2.5 text-xs font-extrabold text-amber-300 hover:bg-black/70 cursor-pointer"
-            >
-              <Crown className="h-4 w-4" />
-              <span>Bonus VIP Scenes ({selectedVipIds.length}/4)</span>
-              <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform ${showVipDrawer ? 'rotate-180' : ''}`}
-              />
-            </button>
-
+            {/* Primary Velvet Crimson Play CTA */}
             <button
               type="button"
               onClick={() => {
                 sfx.swipeRight();
                 onStartGame();
               }}
-              className="rounded-xl border border-white/14 bg-rose-500 px-6 py-2.5 font-display text-2xl text-white shadow-lg hover:bg-rose-400 cursor-pointer"
+              className="w-full h-12 rounded-2xl bg-rose-600 hover:bg-rose-500 text-[15px] font-semibold text-[#FAF7F5] shadow-lg active:scale-[0.98] transition cursor-pointer"
             >
-              Enter The Prowl →
+              Start Vetting →
+            </button>
+
+            <button
+              type="button"
+              onClick={handleSlotMachineShuffle}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5C17B]/35 bg-[#1E1729] py-2.5 text-sm font-semibold text-[#FDE68A] hover:bg-[#E5C17B]/15 transition cursor-pointer"
+            >
+              <Dices className={`h-4 w-4 ${shuffling ? 'animate-spin' : ''}`} />
+              <span>{shuffling ? 'Spinning Chemistry…' : 'Shuffle Spicy Matchup'}</span>
+            </button>
+          </div>
+
+          <div className="space-y-1.5 pt-2 border-t border-white/[0.08] text-xs">
+            <button
+              type="button"
+              onClick={() => setActiveDrawer('custom')}
+              className="w-full flex items-center justify-between rounded-xl px-3 py-2 text-stone-300 hover:bg-white/[0.05] hover:text-[#FAF7F5] transition cursor-pointer"
+            >
+              <span className="inline-flex items-center gap-1.5 font-medium">
+                <Sliders className="h-3.5 w-3.5 text-[#E5C17B]" />
+                Customize Names, Drinks &amp; Twists
+              </span>
+              <span className="text-[#FDE68A]">→</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveDrawer('vip')}
+              className="w-full flex items-center justify-between rounded-xl px-3 py-2 text-stone-300 hover:bg-white/[0.05] hover:text-[#FAF7F5] transition cursor-pointer"
+            >
+              <span className="inline-flex items-center gap-1.5 font-medium">
+                <Crown className="h-3.5 w-3.5 text-[#E5C17B]" />
+                VIP Bonus Scenes ({selectedVipIds.length}/4)
+              </span>
+              <span className="text-[#FDE68A]">→</span>
             </button>
           </div>
         </div>
 
-        {showCustomizer && onUpdateHerCustom && onUpdateHisCustom && (
-          <div className="pt-3 border-t border-white/10 space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
-                🎛️ Custom Fantasy Studio • Names, Zero-Proof Orders &amp; Plot Twists
-              </div>
-              <span className="rounded-full border border-amber-400/40 bg-black/50 px-2.5 py-0.5 text-xs font-extrabold text-teal-200">
-                {wallet.isVip || wallet.isFounderUnlimited
-                  ? '👑 VIP Active: Unlimited Custom Builds!'
-                  : customEditCount >= 2
-                    ? '✨ Multi-Twist Custom Build Active (1 Credit on Launch • Unlimited w/ VIP)'
-                    : '🎁 1st Custom Twist & Zero-Proof Drink Presets FREE!'}
+        {/* RIGHT SPOTLIGHT: HIM (CUB) */}
+        <div
+          className={`${
+            mobilePairSlot === 'her' ? 'hidden lg:flex' : 'flex'
+          } vice-panel rounded-3xl p-4 sm:p-5 flex-col justify-between gap-3.5`}
+        >
+          <div className="space-y-3">
+            <div className="relative h-56 sm:h-64 w-full overflow-hidden rounded-2xl bg-[#0C0910]">
+              <img
+                key={his.photoUrl}
+                src={his.photoUrl}
+                alt={`${his.name}, ${his.age}`}
+                className="h-full w-full object-cover object-top animate-stage-in"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#15101C] via-transparent to-transparent" />
+
+              <button
+                type="button"
+                aria-label="Previous Cub character"
+                onClick={() => cycleHis(-1)}
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next Cub character"
+                onClick={() => cycleHis(1)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+
+              <span className="absolute top-3 left-3 rounded-full bg-[#0C0910]/80 border border-white/15 px-3 py-1 text-xs font-medium text-[#FDE68A]">
+                📏 {hisDetails.height} • {hisDetails.zodiac.split('•')[0].replace(' Sun', '').trim()}
               </span>
             </div>
 
-            <div className="grid gap-2.5 sm:grid-cols-4">
-              <label className="text-xs text-slate-300 space-y-1">
-                <span className="font-bold text-rose-300">Her Custom Name</span>
-                <input
-                  type="text"
-                  maxLength={24}
-                  value={her.name}
-                  onChange={(e) => onUpdateHerCustom({ ...her, name: e.target.value || 'Claire' })}
-                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
-                />
-              </label>
-              <label className="text-xs text-slate-300 space-y-1">
-                <span className="font-bold text-teal-300">Cub Custom Name</span>
-                <input
-                  type="text"
-                  maxLength={24}
-                  value={his.name}
-                  onChange={(e) => onUpdateHisCustom({ ...his, name: e.target.value || 'Leo' })}
-                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
-                />
-              </label>
-              <label className="text-xs text-slate-300 space-y-1">
-                <span className="font-bold text-amber-300">Her Star Sign</span>
-                <input
-                  type="text"
-                  maxLength={36}
-                  value={herDetails.zodiac}
-                  onChange={(e) => onUpdateHerCustom({ ...her, zodiac: e.target.value })}
-                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
-                />
-              </label>
-              <label className="text-xs text-slate-300 space-y-1">
-                <span className="font-bold text-pink-300">
-                  Signature Order (Mocktail, Smoothie or Drink)
-                </span>
-                <input
-                  type="text"
-                  maxLength={44}
-                  value={herDetails.signatureDrink}
-                  onChange={(e) => onUpdateHerCustom({ ...her, signatureDrink: e.target.value })}
-                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
-                />
-              </label>
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <h2 className="font-display text-2xl text-[#FAF7F5]">
+                  {his.name}, <span className="text-[#FDE68A]">{his.age}M</span>
+                </h2>
+                <div className="text-xs font-semibold text-[#E5C17B]">{his.title}</div>
+              </div>
+
+              <div className="inline-flex items-center gap-1.5 rounded-xl bg-[#1E1729] border border-white/[0.08] px-2.5 py-1.5 text-xs">
+                <button
+                  type="button"
+                  onClick={() => onAdjustHisAge(-1)}
+                  aria-label="Decrease His Age"
+                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
+                >
+                  <Minus className="h-3 w-3" />
+                </button>
+                <span className="font-semibold text-[#FAF7F5] w-6 text-center">{his.age}</span>
+                <button
+                  type="button"
+                  onClick={() => onAdjustHisAge(1)}
+                  aria-label="Increase His Age"
+                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
+                >
+                  <Plus className="h-3 w-3" />
+                </button>
+              </div>
             </div>
 
-            {/* 1-Tap Non-Alcoholic Mocktail, Smoothie, Matcha & Classic Order Pills */}
-            <div className="space-y-1">
-              <div className="text-xs font-bold text-emerald-300">
-                🥤 Quick Zero-Proof, Smoothie &amp; Lounge Order Presets (Always Free):
+            <p className="text-sm text-stone-300 leading-relaxed line-clamp-2">
+              {his.vibeSummary}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#1E1729] px-3 py-2 text-xs text-stone-300">
+            <span className="truncate">🥂 {hisDetails.signatureDrink}</span>
+            <span className="text-[#FDE68A] font-medium">{hisDetails.loveLanguage}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* COMPACT TABBED CAST SELECTOR STRIP (Replaces Two Giant 1,000px Stacked Grids!) */}
+      <section className="vice-panel rounded-3xl p-5 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="inline-flex rounded-xl bg-[#1E1729] p-1 text-sm font-semibold">
+            <button
+              type="button"
+              onClick={() => setCastTab('her')}
+              className={`rounded-lg px-4 py-1.5 transition cursor-pointer ${
+                castTab === 'her'
+                  ? 'bg-rose-600 text-[#FAF7F5]'
+                  : 'text-stone-300 hover:text-white'
+              }`}
+            >
+              🐆 Her Roster ({HER_ARCHETYPES.length} • Ages 30–64)
+            </button>
+            <button
+              type="button"
+              onClick={() => setCastTab('him')}
+              className={`rounded-lg px-4 py-1.5 transition cursor-pointer ${
+                castTab === 'him'
+                  ? 'bg-[#E5C17B] text-[#0C0910]'
+                  : 'text-stone-300 hover:text-white'
+              }`}
+            >
+              🥂 Cub Roster ({HIS_ARCHETYPES.length} • Ages 21–33)
+            </button>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {castTab === 'her' &&
+              (['all', '30s', '40s', '50s', '60s'] as const).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setHerFilter(f)}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                    herFilter === f
+                      ? 'bg-[#E5C17B] text-[#0C0910]'
+                      : 'bg-[#1E1729] text-stone-300 hover:text-white'
+                  }`}
+                >
+                  {f === 'all' ? 'All Decades' : f === '60s' ? '60+' : f}
+                </button>
+              ))}
+
+            <button
+              type="button"
+              onClick={() => setExpandedGrid((v) => !v)}
+              className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-xs font-semibold text-[#FDE68A] hover:bg-white/10 cursor-pointer"
+            >
+              {expandedGrid ? 'Compact Strip' : 'Expand All Cards'}
+            </button>
+          </div>
+        </div>
+
+        <div
+          className={
+            expandedGrid
+              ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3'
+              : 'flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x'
+          }
+        >
+          {(castTab === 'her' ? filteredHerList : HIS_ARCHETYPES).map((item) => {
+            const isSelected = castTab === 'her' ? item.id === her.id : item.id === his.id;
+            const d = getProfileDetails(item);
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  sfx.messagePop();
+                  if (castTab === 'her') {
+                    onSelectHer(item as HerArchetype);
+                    setMobilePairSlot('her');
+                  } else {
+                    onSelectHis(item as HisArchetype);
+                    setMobilePairSlot('him');
+                  }
+                }}
+                className={`${
+                  expandedGrid ? 'w-full' : 'w-36 sm:w-40 shrink-0 snap-start'
+                } group overflow-hidden rounded-2xl border text-left transition bg-[#1E1729] cursor-pointer ${
+                  isSelected
+                    ? castTab === 'her'
+                      ? 'border-rose-500 ring-2 ring-rose-500/60 -translate-y-0.5'
+                      : 'border-[#E5C17B] ring-2 ring-[#E5C17B]/60 -translate-y-0.5'
+                    : 'border-white/[0.08] hover:border-white/25 hover:-translate-y-0.5'
+                }`}
+              >
+                <div className="relative aspect-[3/3.4] w-full overflow-hidden bg-[#0C0910]">
+                  <img
+                    src={item.photoUrl}
+                    alt={`${item.name}, ${item.age}`}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
+                  />
+                  <span className="absolute top-2 left-2 rounded-full bg-[#0C0910]/80 px-2 py-0.5 text-[11px] font-medium text-[#FDE68A]">
+                    {d.height}
+                  </span>
+                </div>
+                <div className="p-2.5">
+                  <div className="font-display text-base text-[#FAF7F5] truncate">
+                    {item.name}, <span className="text-[#FDE68A]">{item.age}</span>
+                  </div>
+                  <div className="text-xs text-stone-400 truncate">{item.title}</div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* CLEAN 4-TILE CLUB MODES DOCK */}
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <button
+          type="button"
+          onClick={() => {
+            sfx.messagePop();
+            onOpenLiveInbox();
+          }}
+          className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-600/15 text-rose-400">
+            <MessageCircle className="h-5 w-5" />
+          </span>
+          <div>
+            <div className="text-sm font-semibold text-[#FAF7F5]">Live AI Texting Mode</div>
+            <div className="text-xs text-stone-400">Survive Their Inbox live</div>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            sfx.messagePop();
+            onOpenPopTrivia();
+          }}
+          className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E5C17B]/15 text-[#E5C17B]">
+            <Award className="h-5 w-5" />
+          </span>
+          <div>
+            <div className="text-sm font-semibold text-[#FAF7F5]">Pop-Culture Quiz (+3 Cr)</div>
+            <div className="text-xs text-stone-400">Celebrity Cougar &amp; Cub blitz</div>
+          </div>
+        </button>
+
+        {onOpenChecklist && (
+          <button
+            type="button"
+            onClick={() => {
+              sfx.messagePop();
+              onOpenChecklist();
+            }}
+            className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+          >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-600/15 text-rose-300">
+              <Sparkles className="h-5 w-5" />
+            </span>
+            <div>
+              <div className="text-sm font-semibold text-[#FAF7F5]">25-Pt Viral Score Test</div>
+              <div className="text-xs text-stone-400">Check your lived score (+2 Cr)</div>
+            </div>
+          </button>
+        )}
+
+        <button
+          type="button"
+          onClick={onQuickCreateAudition}
+          className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E5C17B]/15 text-[#E5C17B]">
+            <Send className="h-5 w-5" />
+          </span>
+          <div>
+            <div className="text-sm font-semibold text-[#FAF7F5]">2-Player Audition Link</div>
+            <div className="text-xs text-stone-400">Text your match (+3 Cr)</div>
+          </div>
+        </button>
+      </section>
+
+      <div className="text-center">
+        <button
+          type="button"
+          onClick={onOpenFieldGuide}
+          className="text-xs font-semibold text-stone-400 hover:text-[#FDE68A] underline cursor-pointer"
+        >
+          What is a Junior Cougar (6-Yr Gap) vs. Puma vs. Cougar vs. Jaguar? Explore Tier Glossary →
+        </button>
+      </div>
+
+      {/* MODAL DRAWER: CUSTOMIZE NAMES, DRINKS & TWISTS / VIP SCENES */}
+      {activeDrawer && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0C0910]/85 p-4 backdrop-blur-md"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="vice-panel max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-3xl p-6 space-y-5">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+                  {activeDrawer === 'custom' ? 'Custom Fantasy Studio' : 'Deep-Cut Episodes'}
+                </span>
+                <h3 className="font-display text-2xl text-[#FAF7F5]">
+                  {activeDrawer === 'custom'
+                    ? 'Customize Names, Zero-Proof Orders & Plot Twists'
+                    : 'Select Bonus VIP Scenes'}
+                </h3>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  ['🥤 Berry-Collagen Smoothie', true],
-                  ['🍵 Iced Ceremonial Matcha', true],
-                  ['🍊 Zero-Proof Yuzu Ginger Spritz', true],
-                  ['🍒 Tart-Cherry Sleep Mocktail', true],
-                  ['☕ Iced Espresso Tonic (Zero-Proof)', true],
-                  ['🍸 Dirty Olive Martini', false],
-                ].map(([drinkLabel, zeroProof]) => {
-                  const selectedDrink = herDetails.signatureDrink === drinkLabel;
-                  return (
+              <button
+                type="button"
+                onClick={() => setActiveDrawer(null)}
+                className="rounded-xl border border-white/12 bg-white/[0.05] p-2 text-stone-300 hover:text-white cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {activeDrawer === 'custom' && onUpdateHerCustom && onUpdateHisCustom && (
+              <div className="space-y-4">
+                <div className="rounded-xl bg-[#1E1729] px-3.5 py-2 text-xs text-[#FDE68A]">
+                  {wallet.isVip || wallet.isFounderUnlimited
+                    ? '👑 VIP Active: Unlimited Custom Builds'
+                    : customEditCount >= 2
+                      ? '✨ Multi-Twist Build Active (1 Credit on Launch • Unlimited w/ VIP)'
+                      : '🎁 1st Custom Twist & All Zero-Proof Drink Presets are FREE'}
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="space-y-1 text-xs text-stone-300">
+                    <span className="font-semibold text-[#FAF7F5]">Her Custom Name</span>
+                    <input
+                      type="text"
+                      maxLength={24}
+                      value={her.name}
+                      onChange={(e) => onUpdateHerCustom({ ...her, name: e.target.value || 'Claire' })}
+                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                    />
+                  </label>
+                  <label className="space-y-1 text-xs text-stone-300">
+                    <span className="font-semibold text-[#FAF7F5]">Cub Custom Name</span>
+                    <input
+                      type="text"
+                      maxLength={24}
+                      value={his.name}
+                      onChange={(e) => onUpdateHisCustom({ ...his, name: e.target.value || 'Leo' })}
+                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                    />
+                  </label>
+                  <label className="space-y-1 text-xs text-stone-300">
+                    <span className="font-semibold text-[#FAF7F5]">Her Star Sign</span>
+                    <input
+                      type="text"
+                      maxLength={36}
+                      value={herDetails.zodiac}
+                      onChange={(e) => onUpdateHerCustom({ ...her, zodiac: e.target.value })}
+                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                    />
+                  </label>
+                  <label className="space-y-1 text-xs text-stone-300">
+                    <span className="font-semibold text-[#FAF7F5]">Signature Order</span>
+                    <input
+                      type="text"
+                      maxLength={44}
+                      value={herDetails.signatureDrink}
+                      onChange={(e) => onUpdateHerCustom({ ...her, signatureDrink: e.target.value })}
+                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                    />
+                  </label>
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="text-xs font-semibold text-[#FDE68A]">
+                    1-Tap Zero-Proof, Smoothie &amp; Lounge Presets (Free):
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      ['🥤 Berry-Collagen Smoothie', true],
+                      ['🍵 Iced Ceremonial Matcha', true],
+                      ['🍊 Zero-Proof Yuzu Ginger Spritz', true],
+                      ['🍒 Tart-Cherry Sleep Mocktail', true],
+                      ['☕ Iced Espresso Tonic (Zero-Proof)', true],
+                      ['🍸 Dirty Olive Martini', false],
+                    ].map(([drinkLabel, zeroProof]) => {
+                      const active = herDetails.signatureDrink === drinkLabel;
+                      return (
+                        <button
+                          key={String(drinkLabel)}
+                          type="button"
+                          onClick={() => {
+                            const nextTags: SubplotTag[] = zeroProof
+                              ? Array.from(new Set([...her.subplotTags, 'zero_proof_wellness']))
+                              : her.subplotTags;
+                            onUpdateHerCustom({
+                              ...her,
+                              signatureDrink: String(drinkLabel),
+                              subplotTags: nextTags,
+                            });
+                          }}
+                          className={`rounded-full border px-3 py-1 text-xs font-medium transition cursor-pointer ${
+                            active
+                              ? 'border-[#E5C17B] bg-[#E5C17B] text-[#0C0910] font-semibold'
+                              : 'border-white/12 bg-[#1E1729] text-stone-200 hover:bg-white/10'
+                          }`}
+                        >
+                          {String(drinkLabel)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="text-xs font-semibold text-[#FDE68A]">Plot-Twist Stickers:</div>
+                  <div className="flex flex-wrap gap-2">
+                    {(
+                      [
+                        ['zero_proof_wellness', 'her', '🥤 Zero-Proof Mocktail & Smoothie Date'],
+                        ['black_cat_energy', 'her', '🐈‍⬛ Black Cat Energy (Pushes Back First)'],
+                        ['golden_retriever_energy', 'his', '🐕 Golden Retriever Cub'],
+                        ['montana_cowboy_slider', 'her', '🤠 Montana Cowboy Age-Slider Dare'],
+                        ['broke_dutch_obstacle', 'his', '🚩 Broke College Go-Dutch Horror'],
+                        ['spontaneous_getaway', 'her', '✈️ 18h Pool & Cedar Sauna Getaway'],
+                        ['phd_campus_cub', 'his', '🎓 Campus Stroll & Omakase Sushi'],
+                        ['fiery_foreign', 'her', '🌶️ Fiery International Passion'],
+                        ['modest_accent_gentleman', 'his', '🧺 Meadow Picnic & Neon Bowling'],
+                      ] as const
+                    ).map(([tag, target, label]) => {
+                      const active =
+                        target === 'her'
+                          ? her.subplotTags.includes(tag)
+                          : his.subplotTags.includes(tag);
+                      return (
+                        <button
+                          key={tag}
+                          type="button"
+                          onClick={() => (target === 'her' ? toggleHerTag(tag) : toggleHisTag(tag))}
+                          className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
+                            active
+                              ? 'border-rose-500 bg-rose-600 text-[#FAF7F5]'
+                              : 'border-white/12 bg-[#1E1729] text-stone-300 hover:text-white'
+                          }`}
+                        >
+                          {active ? '✓ ' : '+ '}
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {onOpenBoutique && (
+                  <div className="flex items-center justify-between gap-2 rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-3.5 text-xs">
+                    <span className="text-stone-300">
+                      Unlock Unlimited Custom Builds ($6.99 VIP) or sponsor a custom public character ($29)
+                    </span>
                     <button
-                      key={String(drinkLabel)}
                       type="button"
                       onClick={() => {
-                        const nextTags: SubplotTag[] = zeroProof
-                          ? Array.from(new Set([...her.subplotTags, 'zero_proof_wellness']))
-                          : her.subplotTags;
-                        onUpdateHerCustom({
-                          ...her,
-                          signatureDrink: String(drinkLabel),
-                          subplotTags: nextTags,
-                        });
+                        setActiveDrawer(null);
+                        onOpenBoutique();
                       }}
-                      className={`rounded-full border px-2.5 py-1 text-xs font-bold transition cursor-pointer ${
-                        selectedDrink
-                          ? 'border-emerald-300 bg-emerald-400 text-slate-950'
-                          : 'border-white/15 bg-black/45 text-slate-200 hover:bg-black/75'
+                      className="shrink-0 rounded-xl bg-[#E5C17B] px-3 py-1.5 font-semibold text-[#0C0910] cursor-pointer"
+                    >
+                      VIP Lounge →
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeDrawer === 'vip' && (
+              <div className="grid gap-3">
+                {vipEpisodes.map((ep) => {
+                  const unlocked =
+                    wallet.isVip ||
+                    Boolean(wallet.isFounderUnlimited) ||
+                    wallet.unlockedEpisodeIds.includes(ep.id);
+                  const active = selectedVipIds.includes(ep.id);
+                  return (
+                    <button
+                      key={ep.id}
+                      type="button"
+                      onClick={() => onToggleVipEpisode(ep.id, ep.creditCost)}
+                      className={`flex items-center justify-between gap-3 rounded-2xl border p-4 text-left transition cursor-pointer ${
+                        active
+                          ? 'border-[#E5C17B] bg-[#E5C17B]/12'
+                          : 'border-white/10 bg-[#1E1729] hover:border-white/25'
                       }`}
                     >
-                      {String(drinkLabel)}
+                      <div>
+                        <div className="text-sm font-semibold text-[#FAF7F5]">{ep.title}</div>
+                        <div className="text-xs text-stone-400 mt-0.5">
+                          {ep.subredditThreadInspiration.replace(/^r\/CougarsAndCubs[^:]*:\s*/i, '')}
+                        </div>
+                      </div>
+                      <span
+                        className={`shrink-0 inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs font-semibold ${
+                          unlocked
+                            ? active
+                              ? 'bg-emerald-500/20 text-emerald-200'
+                              : 'bg-white/10 text-[#FDE68A]'
+                            : 'bg-[#E5C17B] text-[#0C0910]'
+                        }`}
+                      >
+                        {unlocked ? (
+                          <span>{active ? '✓ Added' : 'Include'}</span>
+                        ) : (
+                          <>
+                            <Lock className="h-3.5 w-3.5" />
+                            <span>{ep.creditCost} Cr</span>
+                          </>
+                        )}
+                      </span>
                     </button>
                   );
                 })}
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {(
-                [
-                  ['zero_proof_wellness', 'her', '🥤 Zero-Proof Mocktail & Sunrise Smoothie Date'],
-                  ['black_cat_energy', 'her', '🐈‍⬛ Black Cat Energy (Takes Her Time & Pushes Back)'],
-                  ['golden_retriever_energy', 'his', '🐕 Golden Retriever Cub (Loves Earning Her Smile)'],
-                  ['montana_cowboy_slider', 'her', '🤠 Kristin Cavallari × Montana Cowboy Age-Slider Dare'],
-                  ['broke_dutch_obstacle', 'his', '🚩 Broke College "Go-Dutch" Venmo Calculator Horror'],
-                  ['spontaneous_getaway', 'her', '✈️ 18h Rooftop + Hotel Pool & Sauna Getaway'],
-                  ['phd_campus_cub', 'his', '🎓 Campus Stroll & Sushi "Professor × Student"'],
-                  ['fiery_foreign', 'her', '🌶️ Spicy International Cougar Passion'],
-                  ['modest_accent_gentleman', 'his', '🧺 Modest-Roots Meadow Picnic & Neon Bowling'],
-                  ['dog_mom_divorced', 'her', '🐾 Child-Free Pet-Mom Vetting'],
-                  ['princess_treatment', 'her', '👑 Spoil-Me Soft-Life Princess'],
-                ] as const
-              ).map(([tag, target, label]) => {
-                const active =
-                  target === 'her'
-                    ? her.subplotTags.includes(tag)
-                    : his.subplotTags.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    type="button"
-                    onClick={() => (target === 'her' ? toggleHerTag(tag) : toggleHisTag(tag))}
-                    className={`rounded-full border border-white/14 px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
-                      active
-                        ? 'bg-amber-400 text-slate-950 shadow-lg'
-                        : 'bg-black/45 text-slate-200 hover:bg-black/70'
-                    }`}
-                  >
-                    {active ? '✓ ' : '+ '}
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {onOpenBoutique && (
-              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-pink-400/30 bg-pink-950/35 px-3 py-2 text-xs">
-                <span className="text-pink-100">
-                  🌟 <strong>Love customizing?</strong> Unlock <strong>Unlimited Custom Builds</strong> with VIP ($6.99) or sponsor your own permanent public character/dilemma ($29)!
-                </span>
-                <button
-                  type="button"
-                  onClick={onOpenBoutique}
-                  className="rounded-lg border border-amber-300/60 bg-amber-400 px-3 py-1 text-xs font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
-                >
-                  Unlock Unlimited / $29 Cameo →
-                </button>
-              </div>
             )}
-          </div>
-        )}
 
-        {showVipDrawer && (
-          <div className="pt-3 border-t border-white/10 grid gap-2.5 sm:grid-cols-2">
-            {vipEpisodes.map((ep) => {
-              const unlocked =
-                wallet.isVip ||
-                Boolean(wallet.isFounderUnlimited) ||
-                wallet.unlockedEpisodeIds.includes(ep.id);
-              const active = selectedVipIds.includes(ep.id);
-              return (
-                <button
-                  key={ep.id}
-                  type="button"
-                  onClick={() => onToggleVipEpisode(ep.id, ep.creditCost)}
-                  className={`flex items-center justify-between gap-3 rounded-xl border border-white/14 p-3 text-left transition cursor-pointer ${
-                    active
-                      ? 'bg-amber-400/20 ring-2 ring-amber-400'
-                      : 'bg-black/40 hover:bg-black/60'
-                  }`}
-                >
-                  <div>
-                    <div className="text-xs font-bold text-white">{ep.title}</div>
-                    <div className="text-xs text-slate-300 mt-0.5">
-                      {ep.subredditThreadInspiration.replace(/^r\/CougarsAndCubs[^:]*:\s*/i, '')}
-                    </div>
-                  </div>
-                  <span
-                    className={`shrink-0 inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-extrabold ${
-                      unlocked
-                        ? active
-                          ? 'bg-emerald-400 text-slate-950'
-                          : 'bg-slate-700 text-emerald-300'
-                        : 'bg-amber-400 text-slate-950'
-                    }`}
-                  >
-                    {unlocked ? (
-                      <>
-                        <Sparkles className="h-3 w-3" />
-                        <span>{active ? 'Added' : 'Include'}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Lock className="h-3 w-3" />
-                        <span>{ep.creditCost} Cr</span>
-                      </>
-                    )}
-                  </span>
-                </button>
-              );
-            })}
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveDrawer(null)}
+                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-2.5 text-sm font-semibold text-[#FAF7F5] cursor-pointer"
+              >
+                Done
+              </button>
+            </div>
           </div>
-        )}
-      </section>
+        </div>
+      )}
 
-      {/* Sticky Thumb-Friendly Mobile Launch Bar so phone players never have to hunt for Start */}
-      <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border border-white/14 bg-[#160b26]/95 p-2.5 shadow-[0_6px_20px_rgba(0,0,0,0.75)] backdrop-blur-md flex items-center justify-between gap-2">
+      {/* Sticky Mobile Launch Bar */}
+      <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border border-white/12 bg-[#15101C]/95 p-3 shadow-2xl backdrop-blur-md flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate font-display text-lg text-white leading-none">
+          <div className="truncate font-display text-base text-[#FAF7F5]">
             {her.name} ({her.age}F) × {his.name} ({his.age}M)
           </div>
-          <div className="truncate text-xs font-bold text-amber-300">
-            {pacingMode === 'curated' ? '⚡ Quick 8-Scene Arc' : '🎬 Full Season'} • {pairing.ageGap}yr Gap
+          <div className="truncate text-xs text-[#FDE68A]">
+            {pacingMode === 'curated' ? '⚡ 8-Scene Arc' : '🎬 Full Season'} • {pairing.ageGap}yr Gap
           </div>
         </div>
         <button
@@ -1093,9 +944,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             sfx.swipeRight();
             onStartGame();
           }}
-          className="shrink-0 rounded-xl border border-white/14 bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 font-display text-xl text-slate-950 shadow-lg"
+          className="shrink-0 rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-[#FAF7F5]"
         >
-          Play Now →
+          Play Run →
         </button>
       </div>
     </div>

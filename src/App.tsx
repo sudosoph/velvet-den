@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Wrench } from 'lucide-react';
+import { Check, Lock, ShieldCheck, Wrench, X } from 'lucide-react';
 import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AppSwipeStage } from './components/AppSwipeStage';
@@ -18,12 +18,15 @@ import { APP_SWIPE_PROFILES, HER_SWIPE_PROFILES } from './data/appProfiles';
 import { EPISODES } from './data/episodes';
 import {
   applyUnlockCodeOrQuery,
+  grantFounderAccess,
   grantRewardCredits,
   loadWallet,
+  revokeFounderAccess,
   saveWallet,
   spendCredits,
   unlockEpisodeWithCredits,
   unlockStamp,
+  verifyFounderPassphrase,
   type WalletState,
 } from './domain/economy';
 import {
@@ -77,8 +80,7 @@ function readInitialUrlState() {
   const corruptedChallenge = Boolean(rawChallenge && !decoded);
   const dilemmaId = params.get('dilemma');
   const journalSlug = params.get('journal');
-  const unlockQuery =
-    params.has('unlock') || params.has('founder') ? window.location.search : '';
+  const unlockQuery = params.has('unlock') ? window.location.search : '';
   const stripeSessionId = params.get('session_id');
   const refCode = params.get('ref');
   const openChecklist = params.get('checklist') === '1';
@@ -135,6 +137,18 @@ export default function App() {
   const [liveInboxOpen, setLiveInboxOpen] = useState(false);
   const [popTriviaOpen, setPopTriviaOpen] = useState(false);
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
+  const [founderModalOpen, setFounderModalOpen] = useState(false);
+  const [founderPassInput, setFounderPassInput] = useState('');
+  const [founderSessionPass, setFounderSessionPass] = useState('');
+  const [founderAuthError, setFounderAuthError] = useState<string | null>(null);
+  const [founderTagInput, setFounderTagInput] = useState(
+    MONETIZATION_CONFIG.amazonAssociateTag || '',
+  );
+  const [founderTagProtected, setFounderTagProtected] = useState(
+    Boolean(MONETIZATION_CONFIG.amazonAssociateTag),
+  );
+  const [founderTagStatus, setFounderTagStatus] = useState<string | null>(null);
+  const [founderApronClicks, setFounderApronClicks] = useState<number | null>(null);
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
       ? 'Heads up: that audition link looked truncated or expired—mix your own Cougar & Cub run below!'
@@ -218,20 +232,126 @@ export default function App() {
     });
   }, [initialUrl.stripeSessionId, wallet.claimedRewards]);
 
-  const handleToggleFounderMode = () => {
-    const enabling = !wallet.isFounderUnlimited;
-    const next: WalletState = {
-      ...wallet,
-      isFounderUnlimited: enabling,
-      isVip: enabling ? true : wallet.isVip,
-      credits: enabling ? Math.max(wallet.credits, 999) : 10,
-    };
-    updateWallet(next);
+  const handleFounderUnlockSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = founderPassInput.trim();
+    const localValid = await verifyFounderPassphrase(trimmed);
+    if (!localValid) {
+      setFounderAuthError('Invalid Founder passphrase. Access denied.');
+      return;
+    }
+
+    if (typeof fetch === 'function') {
+      try {
+        const res = await fetch('/api/founder-auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passphrase: trimmed }),
+        });
+        if (res.ok) {
+          const data = (await res.json()) as {
+            authorized?: boolean;
+            amazonAssociateTag?: string;
+            affiliateProtected?: boolean;
+            sampleClicks?: Record<string, number>;
+          };
+          if (data.amazonAssociateTag !== undefined) {
+            setFounderTagInput(data.amazonAssociateTag);
+            setFounderTagProtected(Boolean(data.affiliateProtected));
+          }
+          if (data.sampleClicks && typeof data.sampleClicks['houseboy-linen-apron'] === 'number') {
+            setFounderApronClicks(data.sampleClicks['houseboy-linen-apron']);
+          }
+        }
+      } catch {
+        // Offline or local unit test environment — local SHA-256 already verified
+      }
+    }
+
+    updateWallet(grantFounderAccess(wallet));
+    setFounderSessionPass(trimmed);
+    setFounderPassInput('');
+    setFounderAuthError(null);
+    setFounderModalOpen(false);
     setNoticeBanner(
-      enabling
-        ? '🛠️ Founder Unlimited Mode ACTIVE: ∞ Credits, all VIP scenes unlocked, and instant 52-scene jumper enabled!'
-        : 'Exited Founder Mode — viewing normal player credit & VIP state.',
+      '👑 Founder Playtest & Affiliate Vault ACTIVE: ∞ Credits, all VIP scenes, 1-click stage jumpers, and live Amazon tag vault unlocked.',
     );
+  };
+
+  const handleSaveFounderAmazonTag = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!founderSessionPass) {
+      setFounderModalOpen(true);
+      setFounderAuthError('Re-enter your Founder passphrase once to update KV config.');
+      return;
+    }
+    const cleanTag = founderTagInput.trim();
+    try {
+      const res = await fetch('/api/founder-config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          passphrase: founderSessionPass,
+          amazonAssociateTag: cleanTag,
+        }),
+      });
+      const data = (await res.json()) as {
+        ok?: boolean;
+        amazonAssociateTag?: string;
+        affiliateProtected?: boolean;
+        error?: string;
+      };
+      if (res.ok && data.ok) {
+        setFounderTagProtected(Boolean(data.affiliateProtected));
+        setFounderTagStatus(
+          cleanTag
+            ? `✓ Protected! /api/go/* now injects tag=${cleanTag}`
+            : 'Cleared tag (links still route safely via /api/go/*)',
+        );
+      } else {
+        setFounderTagStatus(data.error || 'Could not save tag.');
+      }
+    } catch {
+      setFounderTagStatus('Saved locally for session (deploy Worker for edge KV sync).');
+    }
+  };
+
+  const handleLockFounderMode = () => {
+    updateWallet(revokeFounderAccess(wallet));
+    setFounderSessionPass('');
+    setFounderTagStatus(null);
+    setNoticeBanner('🔒 Founder Mode locked — viewing normal player wallet & VIP state.');
+  };
+
+  const handleFounderPlaytestJump = (target: 'mixer' | 'swipes' | 'episodes' | 'outcome') => {
+    setActiveTab('game');
+    setActiveChallenge(null);
+    if (target === 'mixer') {
+      setPhase('mixer');
+      return;
+    }
+    if (target === 'swipes') {
+      if (!run) setRun(createRun(pairing, selectedVipIds, undefined, pacingMode));
+      setPhase('swipes');
+      return;
+    }
+    if (target === 'episodes') {
+      if (!run) setRun(createRun(pairing, selectedVipIds, undefined, pacingMode));
+      setPhase('episodes');
+      return;
+    }
+    if (target === 'outcome') {
+      if (run && run.history.length > 0) {
+        setPhase('outcome');
+        return;
+      }
+      let demoRun = createRun(pairing, selectedVipIds, undefined, 'curated');
+      for (let i = 0; i < Math.min(3, demoRun.episodeQueue.length); i++) {
+        demoRun = applyEpisodeChoice(demoRun, 0);
+      }
+      setRun(demoRun);
+      setPhase('outcome');
+    }
   };
 
   const handleToggleVipEpisode = (episodeId: string, creditCost: number) => {
@@ -346,7 +466,10 @@ export default function App() {
         onOpenBoutique={() => setBoutiqueOpen(true)}
         onOpenLiveInbox={() => setLiveInboxOpen(true)}
         onOpenPopTrivia={() => setPopTriviaOpen(true)}
-        onToggleFounderMode={handleToggleFounderMode}
+        onRequestFounderModal={() => {
+          setFounderAuthError(null);
+          setFounderModalOpen(true);
+        }}
         onGoHome={() => {
           setActiveTab('game');
           setPhase('mixer');
@@ -355,15 +478,52 @@ export default function App() {
         }}
       />
 
-      {/* Founder Unlimited Test Bar (Activated via ?founder=1, code FOUNDERMODE, or clicking 🐆 5x) */}
+      {/* Password-Protected Founder Playtest & Affiliate Vault Bar */}
       {wallet.isFounderUnlimited && (
-        <div className="border-b-2 border-white/12 bg-gradient-to-r from-emerald-950 via-[#1b1030] to-amber-950/80 px-3 py-2">
-          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 text-xs">
-            <span className="inline-flex items-center gap-1.5 font-extrabold text-emerald-300">
-              <Wrench className="h-3.5 w-3.5 text-amber-300" />
-              🛠️ Founder Unlimited Mode • ∞ Credits &amp; All VIP Scenes Active
-            </span>
-            <div className="flex flex-wrap items-center gap-2">
+        <div className="border-b border-[#E5C17B]/30 bg-gradient-to-r from-[#171122] via-[#1E152A] to-[#171122] px-3 py-2.5 shadow-lg">
+          <div className="mx-auto max-w-5xl space-y-2 text-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1.5 font-bold text-[#FDE68A]">
+                <Wrench className="h-3.5 w-3.5 text-emerald-400" />
+                👑 Founder Playtest Vault • ∞ Credits &amp; All VIP Unlocked
+              </span>
+
+              {/* 1-Click Whole-Game Screen Switchers */}
+              <div className="flex flex-wrap items-center gap-1.5">
+                {(
+                  [
+                    ['mixer', '1. Matchmaker'],
+                    ['swipes', '2. Swipe Deck'],
+                    ['episodes', '3. Scene Stage'],
+                    ['outcome', '4. Verdict & 9:16 Card'],
+                  ] as const
+                ).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => handleFounderPlaytestJump(key)}
+                    className={`rounded-lg border px-2.5 py-1 font-semibold transition cursor-pointer ${
+                      activeTab === 'game' && phase === key
+                        ? 'border-[#E5C17B] bg-[#E5C17B] text-[#0C0910]'
+                        : 'border-white/15 bg-black/45 text-stone-200 hover:border-[#E5C17B]/50 hover:text-white'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={handleLockFounderMode}
+                  className="inline-flex items-center gap-1 rounded-lg border border-rose-400/35 bg-rose-950/60 px-2.5 py-1 font-semibold text-rose-200 hover:bg-rose-900/70 cursor-pointer"
+                >
+                  <Lock className="h-3 w-3" />
+                  <span>Lock Founder Mode</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-2">
               <select
                 aria-label="Founder instant scene jumper"
                 defaultValue=""
@@ -374,25 +534,55 @@ export default function App() {
                   setActiveTab('game');
                   setPhase('episodes');
                 }}
-                className="rounded-lg border border-emerald-400/50 bg-black/70 px-2.5 py-1 text-xs font-bold text-white"
+                className="max-w-full sm:max-w-xs rounded-lg border border-[#E5C17B]/40 bg-[#0C0910] px-2.5 py-1.5 text-xs font-semibold text-[#FAF7F5]"
               >
                 <option value="">⚡ Jump to Any Scene / Minigame ({EPISODES.length})...</option>
                 {EPISODES.map((ep) => (
                   <option key={ep.id} value={ep.id}>
                     [Stage {ep.stage}
-                    {ep.minigame ? ` • 🎮 ${ep.minigame}` : ''}
+                    {ep.minigame ? ` • 🎮 ${ep.minigame}` : ' • ✨ tactile'}
                     {ep.isVip ? ' • 👑 VIP' : ''}] {ep.title}
                   </option>
                 ))}
               </select>
 
-              <button
-                type="button"
-                onClick={handleToggleFounderMode}
-                className="rounded-lg border border-white/20 bg-black/50 px-2.5 py-1 font-bold text-rose-300 hover:bg-black cursor-pointer"
+              {/* Protected Amazon Affiliate Tag Vault */}
+              <form
+                onSubmit={handleSaveFounderAmazonTag}
+                className="flex flex-wrap items-center gap-1.5"
               >
-                Exit Founder Mode
-              </button>
+                <span
+                  className={`inline-flex items-center gap-1 rounded-md px-2 py-1 font-semibold ${
+                    founderTagProtected
+                      ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-400/30'
+                      : 'bg-amber-500/15 text-[#FDE68A] border border-[#E5C17B]/30'
+                  }`}
+                >
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  {founderTagProtected
+                    ? 'Amazon /api/go/* Tag Active'
+                    : 'Amazon /api/go/* Gateway Ready'}
+                  {founderApronClicks !== null ? ` • Apron Clicks: ${founderApronClicks}` : ''}
+                </span>
+                <input
+                  type="text"
+                  aria-label="Amazon Associate Tag"
+                  placeholder="yourtag-20"
+                  value={founderTagInput}
+                  onChange={(e) => setFounderTagInput(e.target.value)}
+                  className="w-32 rounded-lg border border-white/15 bg-[#0C0910] px-2.5 py-1 text-xs text-white placeholder:text-stone-500"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-1 rounded-lg bg-[#E5C17B] px-2.5 py-1 font-bold text-[#0C0910] hover:bg-[#FDE68A] cursor-pointer"
+                >
+                  <Check className="h-3 w-3" />
+                  <span>Save Tag</span>
+                </button>
+                {founderTagStatus && (
+                  <span className="text-emerald-300 font-medium">{founderTagStatus}</span>
+                )}
+              </form>
             </div>
           </div>
         </div>
@@ -567,43 +757,133 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-white/10 bg-black/50 py-5 text-center text-xs text-slate-400">
+      <footer className="border-t border-white/10 bg-[#0C0910]/90 py-5 text-center text-xs text-stone-400">
         <div className="mx-auto max-w-5xl px-4 flex flex-wrap items-center justify-between gap-2">
           <span>
             {BRAND_CONFIG.name} • Cheeky PG-13/R Satire for Adult Age-Gap Relationships (21+)
           </span>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <button
               type="button"
               onClick={() => setPopTriviaOpen(true)}
-              className="hover:text-pink-300 underline cursor-pointer"
+              className="hover:text-rose-300 underline cursor-pointer"
             >
               Pop-Culture Quiz
             </button>
             <button
               type="button"
               onClick={() => setLiveInboxOpen(true)}
-              className="hover:text-pink-300 underline cursor-pointer"
+              className="hover:text-rose-300 underline cursor-pointer"
             >
               Live AI Texting
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('journal')}
-              className="hover:text-amber-300 underline cursor-pointer"
+              className="hover:text-[#FDE68A] underline cursor-pointer"
             >
               Age-Gap Dating &amp; Gift Guides
             </button>
             <button
               type="button"
               onClick={() => setBoutiqueOpen(true)}
-              className="hover:text-teal-300 underline cursor-pointer"
+              className="hover:text-[#FDE68A] underline cursor-pointer"
             >
               Cougars &amp; Cubs Club VIP Lounge
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (wallet.isFounderUnlimited) {
+                  handleLockFounderMode();
+                } else {
+                  setFounderAuthError(null);
+                  setFounderModalOpen(true);
+                }
+              }}
+              className="inline-flex items-center gap-1 text-stone-500 hover:text-[#E5C17B] transition cursor-pointer"
+              aria-label="Founder Vault"
+            >
+              <Lock className="h-3 w-3" />
+              <span>{wallet.isFounderUnlimited ? 'Lock Founder' : 'Founder'}</span>
             </button>
           </div>
         </div>
       </footer>
+
+      {founderModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Founder Passphrase Vault"
+        >
+          <form
+            onSubmit={handleFounderUnlockSubmit}
+            className="vice-panel w-full max-w-md rounded-3xl bg-[#15101C] p-6 space-y-4"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/10 px-3 py-0.5 text-xs font-bold uppercase tracking-wider text-[#FDE68A]">
+                  <Lock className="h-3 w-3" /> Salted SHA-256 Protected
+                </span>
+                <h2 className="mt-1.5 font-display text-2xl text-white">
+                  Founder Playtest &amp; Affiliate Vault
+                </h2>
+                <p className="mt-1 text-xs text-stone-300">
+                  Enter your private Founder passphrase to unlock unlimited credits, 1-click stage playtesting, and live Amazon Associate Tag configuration.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFounderModalOpen(false)}
+                aria-label="Close Founder Vault"
+                className="rounded-xl border border-white/12 bg-[#1E1729] p-2 text-stone-300 hover:bg-rose-600 hover:text-white cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="founder-passphrase-input" className="block text-xs font-bold uppercase tracking-wider text-stone-300">
+                Private Vault Passphrase
+              </label>
+              <input
+                id="founder-passphrase-input"
+                type="password"
+                autoFocus
+                required
+                placeholder="Enter private passphrase..."
+                value={founderPassInput}
+                onChange={(e) => {
+                  setFounderPassInput(e.target.value);
+                  if (founderAuthError) setFounderAuthError(null);
+                }}
+                className="w-full rounded-2xl border border-white/15 bg-[#0C0910] px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-[#E5C17B] focus:outline-none"
+              />
+              {founderAuthError && (
+                <p className="text-xs font-semibold text-rose-300">{founderAuthError}</p>
+              )}
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-1">
+              <button
+                type="button"
+                onClick={() => setFounderModalOpen(false)}
+                className="rounded-xl border border-white/12 bg-white/5 px-4 py-2.5 text-sm font-semibold text-stone-300 hover:bg-white/10 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg hover:from-rose-500 hover:to-rose-400 cursor-pointer"
+              >
+                Unlock Founder Vault
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       <FieldGuideModal
         open={fieldGuideOpen}

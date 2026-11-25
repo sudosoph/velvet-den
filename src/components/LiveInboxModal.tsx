@@ -179,16 +179,16 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       aria-modal="true"
       aria-label="Survive Their Inbox — Live AI Texting Mode"
     >
-      <div className="vice-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl bg-[#130a20]">
+      <div className="vice-panel flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl bg-[#15101C]">
         {/* Header */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-[#1c0f2e] px-4 py-3 sm:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 bg-[#1E1729] px-4 py-3 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <MessageCircle className="h-5 w-5 text-teal-300" />
+            <MessageCircle className="h-5 w-5 text-[#FDE68A]" />
             <div>
               <h2 className="font-display text-2xl sm:text-3xl text-white leading-none">
                 Survive Their Inbox • Live AI Texting
               </h2>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-stone-300 mt-0.5">
                 {!freeTrialUsed
                   ? '🎁 1st live text round FREE • Then 1 Credit/reply (Unlimited for VIP)'
                   : wallet.isVip
@@ -200,12 +200,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
           <div className="flex items-center gap-2">
             {/* First-Date Vetting vs. Midday Steamy Slow-Burn Toggle */}
-            <div className="inline-flex rounded-xl border border-white/14 bg-black/60 p-0.5 text-xs font-extrabold">
+            <div className="inline-flex rounded-xl border border-white/14 bg-black/60 p-0.5 text-xs font-bold">
               <button
                 type="button"
                 onClick={() => setSteamyMode(false)}
                 className={`rounded-lg px-2.5 py-1 transition cursor-pointer ${
-                  !steamyMode ? 'bg-teal-400 text-slate-950' : 'text-slate-300'
+                  !steamyMode ? 'bg-[#E5C17B] text-[#0C0910]' : 'text-stone-300'
                 }`}
               >
                 🍸 Date #1 Vet
@@ -215,8 +215,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 onClick={() => setSteamyMode(true)}
                 className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1 transition cursor-pointer ${
                   steamyMode
-                    ? 'bg-gradient-to-r from-rose-500 to-amber-400 text-slate-950'
-                    : 'text-pink-300'
+                    ? 'bg-gradient-to-r from-rose-600 to-rose-500 text-white'
+                    : 'text-rose-300'
                 }`}
               >
                 <Flame className="h-3 w-3" />
@@ -227,7 +227,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-white/14 bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
+              className="rounded-lg border border-white/14 bg-[#0C0910] p-2 text-stone-200 hover:bg-rose-600 cursor-pointer"
               aria-label="Close Live Inbox"
             >
               <X className="h-4 w-4" />
@@ -246,8 +246,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 onClick={() => setSelected(c)}
                 className={`flex shrink-0 items-center gap-2 rounded-full border-2 px-2.5 py-1 text-left transition cursor-pointer ${
                   active
-                    ? 'border-amber-400 bg-rose-950/80 text-white'
-                    : 'border-white/12 bg-slate-900/80 text-slate-300 hover:bg-slate-800'
+                    ? 'border-[#E5C17B] bg-rose-950/70 text-white'
+                    : 'border-white/12 bg-[#1E1729]/80 text-stone-300 hover:bg-[#1E1729]'
                 }`}
               >
                 <img
@@ -259,7 +259,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   <div className="text-xs font-extrabold leading-tight">
                     {c.name}, {c.age}
                   </div>
-                  <div className="text-xs text-amber-300 leading-tight">
+                  <div className="text-xs text-[#FDE68A] leading-tight">
                     {c.role === 'her' ? 'Her Inbox' : 'His DM'}
                   </div>
                 </div>
@@ -269,20 +269,20 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         </div>
 
         {/* Chat Thread */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-gradient-to-b from-[#130a20] to-[#100b1c]">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-gradient-to-b from-[#15101C] to-[#0C0910]">
           {/* Selected Persona Card */}
-          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/40 p-3">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#1E1729]/70 p-3">
             <img
               src={selected.photoUrl}
               alt={selected.name}
-              className="h-14 w-14 rounded-2xl object-cover object-top border-2 border-amber-400"
+              className="h-14 w-14 rounded-2xl object-cover object-top border-2 border-[#E5C17B]"
             />
             <div>
               <div className="text-sm font-extrabold text-white">
                 {selected.name}, {selected.age} •{' '}
-                <span className="text-amber-300">{selected.title}</span>
+                <span className="text-[#FDE68A]">{selected.title}</span>
               </div>
-              <div className="text-xs text-slate-300">
+              <div className="text-xs text-stone-300">
                 {steamyMode
                   ? '🔥 Midday Slow-Burn Flirt Mode: keep the romance boiling without tripping over birth-year math!'
                   : '🍸 First-DM Vetting Mode: send a real plan—or test a red-flag line to watch her roast it!'}
@@ -297,7 +297,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               alt={selected.name}
               className="h-8 w-8 rounded-full object-cover object-top border border-white/20 shrink-0"
             />
-            <div className="rounded-2xl rounded-bl-sm border border-white/10 bg-[#25153b] px-4 py-2.5 text-sm text-slate-100 shadow">
+            <div className="rounded-2xl rounded-bl-sm border border-white/12 bg-[#1E1729] px-4 py-2.5 text-sm text-stone-100 shadow">
               {activePrompt}
             </div>
           </div>
@@ -305,7 +305,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           {turns.map((turn, i) =>
             turn.sender === 'player' ? (
               <div key={i} className="flex justify-end">
-                <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-to-r from-teal-400 to-emerald-400 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow">
+                <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-to-r from-rose-600 to-rose-500 px-4 py-2.5 text-sm font-semibold text-white shadow">
                   {turn.text}
                 </div>
               </div>
@@ -316,7 +316,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   alt={selected.name}
                   className="h-8 w-8 rounded-full object-cover object-top border border-white/20 shrink-0"
                 />
-                <div className="rounded-2xl rounded-bl-sm border border-pink-400/30 bg-[#2a143d] px-4 py-2.5 text-sm text-white shadow">
+                <div className="rounded-2xl rounded-bl-sm border border-[#E5C17B]/30 bg-[#241934] px-4 py-2.5 text-sm text-white shadow">
                   {turn.text}
                 </div>
               </div>
@@ -324,7 +324,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           )}
 
           {typing && (
-            <div className="flex items-center gap-2 text-xs font-bold text-amber-300 animate-pulse">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#FDE68A] animate-pulse">
               <span>{selected.name} is typing</span>
               <span>•••</span>
             </div>
@@ -332,10 +332,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
           {lastCoach && (
             <div
-              className={`rounded-2xl border-2 p-3 text-xs ${
+              className={`rounded-2xl border p-3 text-xs ${
                 lastCoach.passed
-                  ? 'border-emerald-400/60 bg-emerald-950/40 text-emerald-100'
-                  : 'border-rose-500/60 bg-rose-950/50 text-rose-100'
+                  ? 'border-emerald-400/50 bg-emerald-950/40 text-emerald-100'
+                  : 'border-rose-500/50 bg-rose-950/50 text-rose-100'
               }`}
             >
               <div className="flex flex-wrap items-center justify-between gap-2 font-extrabold">
@@ -343,7 +343,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   {lastCoach.passed ? '💚 VIBE CHECK PASSED: ' : '🚩 VIBE CHECK ROASTED: '}
                   {lastCoach.deltas}
                 </span>
-                <span className="rounded bg-black/40 px-2 py-0.5 text-xs text-amber-300">
+                <span className="rounded bg-black/40 px-2 py-0.5 text-xs text-[#FDE68A]">
                   <Sparkles className="inline h-3 w-3 mr-0.5" />
                   {lastCoach.source}
                 </span>
@@ -354,14 +354,14 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         </div>
 
         {/* Quick Inspiration Chips + Composer */}
-        <div className="border-t border-white/10 bg-[#190d29] p-3 sm:p-4 space-y-2.5">
+        <div className="border-t border-white/10 bg-[#1E1729] p-3 sm:p-4 space-y-2.5">
           <div className="flex gap-1.5 overflow-x-auto pb-1">
             {activeChips.map((chip, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setInput(chip)}
-                className="shrink-0 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-amber-200 hover:bg-black/70 cursor-pointer"
+                className="shrink-0 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-[#FDE68A] hover:bg-black/70 cursor-pointer"
               >
                 💡 {chip.length > 52 ? `${chip.slice(0, 52)}…` : chip}
               </button>
@@ -375,12 +375,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               onChange={(e) => setInput(e.target.value)}
               placeholder={`Message ${selected.name}...`}
               maxLength={280}
-              className="flex-1 rounded-2xl border border-white/14 bg-slate-950 px-4 py-2.5 text-sm text-white focus:border-teal-400 focus:outline-none"
+              className="flex-1 rounded-2xl border border-white/14 bg-[#0C0910] px-4 py-2.5 text-sm text-white focus:border-[#E5C17B] focus:outline-none"
             />
             <button
               type="submit"
               disabled={!input.trim() || typing}
-              className="inline-flex items-center gap-1.5 rounded-2xl border border-white/14 bg-gradient-to-r from-rose-500 to-amber-400 px-5 py-2.5 text-xs font-extrabold uppercase text-slate-950 disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-2xl border border-white/14 bg-gradient-to-r from-rose-600 to-rose-500 px-5 py-2.5 text-sm font-bold text-white disabled:opacity-50 cursor-pointer"
             >
               <Send className="h-4 w-4" />
               <span>Send</span>

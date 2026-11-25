@@ -339,8 +339,8 @@ export function drawStoryReceiptToCanvas(
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  const displayFont = '"Outfit", "Plus Jakarta Sans", system-ui, sans-serif';
-  const bodyFont = '"Plus Jakarta Sans", system-ui, sans-serif';
+  const displayFont = '"Playfair Display", Georgia, serif';
+  const bodyFont = '"DM Sans", system-ui, sans-serif';
   const CX = W / 2;
 
   // 1. Midnight Champagne & Rose Luxury Backdrop

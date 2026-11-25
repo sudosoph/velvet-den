@@ -25,6 +25,21 @@ const PROHIBITED_ADULT_DOMAINS = [
   'lelo.com',
 ];
 
+const URL_TO_PRODUCT_ID = {
+  'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men': 'houseboy-linen-apron',
+  'https://www.amazon.com/s?k=ultralight+trail+running+hydration+vest+pack': 'trail-hydration-vest',
+  'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme': 'princess-mulberry-silk-robe',
+  'https://www.amazon.com/s?k=matte+black+bathroom+trash+can+with+lid+and+hand+soap+set': 'hosting-lidded-bin-soap',
+  'https://www.amazon.com/s?k=long+staple+cotton+percale+sheet+set+queen+white': 'percale-hosting-sheets',
+  'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men': 'date-night-oud-bergamot',
+  'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set': 'espresso-martini-barware',
+  'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game': 'after-dark-couples-deck',
+  'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen': 'cooling-bamboo-sheets',
+  'https://www.amazon.com/s?k=12+inch+pre+seasoned+cast+iron+skillet': 'cast-iron-steak-skillet',
+  'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set': 'cub-grooming-beard-skincare-kit',
+  'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip': 'silk-pillowcase-sleepover-duo',
+};
+
 function tagAmazon(rawUrl, slug) {
   const u = new URL(rawUrl);
   const host = u.hostname.toLowerCase();
@@ -33,13 +48,19 @@ function tagAmazon(rawUrl, slug) {
       throw new Error(`Blocked prohibited adult domain (${host})`);
     }
   }
+  const productId = URL_TO_PRODUCT_ID[rawUrl];
+  // Route static SEO guide picks through our protected /api/go/:id edge gateway unless an explicit tag override was passed
+  if (!AMAZON_TAG && productId) {
+    return `${PUBLIC_BASE}api/go/${encodeURIComponent(productId)}?src=${encodeURIComponent(`seo_${slug}`)}`;
+  }
   if (AMAZON_TAG && host.includes('amazon.')) {
     u.searchParams.set('tag', AMAZON_TAG);
+    u.searchParams.set('linkCode', 'll2');
   }
   if (PARTNER_SUB_ID) {
     u.searchParams.set('subId', PARTNER_SUB_ID);
   }
-  u.searchParams.set('utm_source', 'velvetden_seo');
+  u.searchParams.set('utm_source', 'cougarsandcubs_seo');
   u.searchParams.set('utm_medium', 'organic_guide');
   u.searchParams.set('utm_campaign', slug);
   return u.toString();

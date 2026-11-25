@@ -1,14 +1,14 @@
 /**
- * Cougars & Cubs Club — Unified Cloudflare Worker (Phases B + C + Static SPA Assets)
- * Served directly on https://cougarsandcubs.club (with *.sophiaraji.workers.dev disabled).
- *
- * Routes:
- * - GET  /api/health          -> Health + feature readiness status
- * - GET  /api/stats           -> Live Telltale-style global choice percentages from VELVET_KV
- * - POST /api/stats           -> Atomic-ish increment of episode choice counter in VELVET_KV
- * - POST /api/inbox-vet       -> Live in-character AI DM / Texting Vetting via Workers AI (@cf/meta/llama-3.3-70b-instruct-fp8-fast)
- * - GET  /api/verify-checkout -> Verifies Stripe Checkout session on Cougars & Cubs Club sub-account
- * - *                         -> Static SPA + pre-rendered /guides/* served via env.ASSETS
+ * Cloudflare Worker API + Static SPA Asset Router for Cougars & Cubs Club.
+ * Endpoints:
+ *   GET  /api/health
+ *   GET  /api/stats?episodeId=<id>&choices=3
+ *   POST /api/stats  { episodeId, choiceIndex, choiceCount? }
+ *   POST /api/inbox-vet { personaName, personaAge, personaTitle, personaRole, playerMessage, history? }
+ *   GET  /api/verify-checkout?session_id=<cs_...>
+ *   GET  /api/go/:affiliateId?src=<placement>  (Protected Amazon Affiliate Gateway + Click Counter)
+ *   POST /api/founder-auth   { passphrase }    (Salted SHA-256 Founder Password Verification)
+ *   POST /api/founder-config { passphrase, amazonAssociateTag } (Live KV Affiliate Tag Vault)
  */
 
 export interface KvNamespaceBinding {
@@ -24,7 +24,7 @@ export interface WorkersAiBinding {
       max_tokens?: number;
       temperature?: number;
     },
-  ): Promise<{ response?: string } | unknown>;
+  ): Promise<{ response?: string | Record<string, unknown> }>;
 }
 
 export interface AssetsBinding {
@@ -36,9 +36,46 @@ export interface WorkerEnv {
   AI?: WorkersAiBinding;
   ASSETS?: AssetsBinding;
   STRIPE_SECRET_KEY?: string;
+  AMAZON_ASSOCIATE_TAG?: string;
+  FOUNDER_PASSWORD_HASH?: string;
 }
 
-const JSON_HEADERS: Record<string, string> = {
+const FOUNDER_SALT = 'cc_founder_v1:';
+const DEFAULT_FOUNDER_SHA256 =
+  '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac';
+
+const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
+  'houseboy-linen-apron':
+    'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men',
+  'trail-hydration-vest':
+    'https://www.amazon.com/s?k=ultralight+trail+running+hydration+vest+pack',
+  'princess-mulberry-silk-robe':
+    'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
+  'hosting-lidded-bin-soap':
+    'https://www.amazon.com/s?k=matte+black+bathroom+trash+can+with+lid+and+hand+soap+set',
+  'percale-hosting-sheets':
+    'https://www.amazon.com/s?k=long+staple+cotton+percale+sheet+set+queen+white',
+  'date-night-oud-bergamot':
+    'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men',
+  'espresso-martini-barware':
+    'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
+  'after-dark-couples-deck':
+    'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
+  'cooling-bamboo-sheets':
+    'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
+  'cast-iron-steak-skillet':
+    'https://www.amazon.com/s?k=12+inch+pre+seasoned+cast+iron+skillet',
+  'adjustable-dumbbell-bench':
+    'https://www.amazon.com/s?k=foldable+adjustable+weight+bench+home+gym',
+  'cub-grooming-beard-skincare-kit':
+    'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set',
+  'silk-pillowcase-sleepover-duo':
+    'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
+  'zero-proof-botanical-mocktail-set':
+    'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
+};
+
+const JSON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Cache-Control': 'no-store',
 };
@@ -54,6 +91,150 @@ function hashSeed(input: string): number {
     h = Math.imul(h, 16777619);
   }
   return Math.abs(h);
+}
+
+async function sha256Hex(input: string): Promise<string> {
+  const bytes = new TextEncoder().encode(input);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function constantTimeEquals(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
+async function verifyFounderPassOnWorker(passphrase: string, env: WorkerEnv): Promise<boolean> {
+  const trimmed = passphrase.trim();
+  if (trimmed.length < 12) return false;
+  const expected = (env.FOUNDER_PASSWORD_HASH || DEFAULT_FOUNDER_SHA256).trim().toLowerCase();
+  const actual = await sha256Hex(`${FOUNDER_SALT}${trimmed}`);
+  return constantTimeEquals(actual, expected);
+}
+
+async function resolveActiveAmazonTag(env: WorkerEnv): Promise<string> {
+  const fromEnv = (env.AMAZON_ASSOCIATE_TAG || '').trim();
+  if (fromEnv) return fromEnv;
+  if (env.VELVET_KV) {
+    try {
+      const fromKv = await env.VELVET_KV.get('config:amazon_associate_tag');
+      if (fromKv && fromKv.trim()) return fromKv.trim();
+    } catch {
+      // Ignore KV read error
+    }
+  }
+  return '';
+}
+
+async function handleAffiliateRedirect(url: URL, productId: string, env: WorkerEnv): Promise<Response> {
+  const safeId = sanitizeId(productId, 64).toLowerCase();
+  const baseMerchantUrl = AFFILIATE_REDIRECT_URLS[safeId];
+  if (!baseMerchantUrl) {
+    return jsonResponse({ error: 'Unknown affiliate item' }, 404);
+  }
+
+  const dest = new URL(baseMerchantUrl);
+  const activeTag = await resolveActiveAmazonTag(env);
+  if (activeTag && dest.hostname.toLowerCase().includes('amazon.')) {
+    dest.searchParams.set('tag', activeTag);
+    dest.searchParams.set('linkCode', 'll2');
+    dest.searchParams.set('language', 'en_US');
+    dest.searchParams.set('ref_', 'as_li_ss_tl');
+  }
+
+  const src = sanitizeId(url.searchParams.get('src'), 48) || 'boutique';
+  dest.searchParams.set('utm_source', 'cougarsandcubs');
+  dest.searchParams.set('utm_medium', 'affiliate');
+  dest.searchParams.set('utm_campaign', src);
+
+  if (env.VELVET_KV) {
+    try {
+      const key = `aff_clicks:${safeId}`;
+      const raw = await env.VELVET_KV.get(key);
+      const count = (Number(raw) || 0) + 1;
+      await env.VELVET_KV.put(key, String(count));
+    } catch {
+      // Non-blocking click counter
+    }
+  }
+
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: dest.toString(),
+      'Cache-Control': 'no-store',
+      'Referrer-Policy': 'no-referrer-when-downgrade',
+    },
+  });
+}
+
+async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { passphrase?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ authorized: false }, 400);
+  }
+
+  const ok = await verifyFounderPassOnWorker(String(body.passphrase || ''), env);
+  if (!ok) {
+    return jsonResponse({ authorized: false, error: 'Invalid Founder passphrase' }, 401);
+  }
+
+  const amazonAssociateTag = await resolveActiveAmazonTag(env);
+  const clicks: Record<string, number> = {};
+  if (env.VELVET_KV) {
+    for (const id of ['houseboy-linen-apron', 'princess-mulberry-silk-robe', 'cooling-bamboo-sheets', 'zero-proof-botanical-mocktail-set']) {
+      try {
+        const val = await env.VELVET_KV.get(`aff_clicks:${id}`);
+        clicks[id] = Number(val) || 0;
+      } catch {
+        clicks[id] = 0;
+      }
+    }
+  }
+
+  return jsonResponse({
+    authorized: true,
+    amazonAssociateTag,
+    affiliateProtected: Boolean(amazonAssociateTag),
+    sampleClicks: clicks,
+  });
+}
+
+async function handleFounderConfig(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { passphrase?: string; amazonAssociateTag?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ ok: false, error: 'Invalid JSON' }, 400);
+  }
+
+  const ok = await verifyFounderPassOnWorker(String(body.passphrase || ''), env);
+  if (!ok) {
+    return jsonResponse({ ok: false, error: 'Unauthorized' }, 401);
+  }
+
+  const cleanTag = String(body.amazonAssociateTag || '').trim();
+  if (cleanTag && !/^[a-zA-Z0-9_-]{3,36}$/.test(cleanTag)) {
+    return jsonResponse({ ok: false, error: 'Invalid Amazon Associate Tag format (expected e.g. yourname-20)' }, 400);
+  }
+
+  if (env.VELVET_KV) {
+    await env.VELVET_KV.put('config:amazon_associate_tag', cleanTag);
+  }
+
+  return jsonResponse({
+    ok: true,
+    amazonAssociateTag: cleanTag,
+    affiliateProtected: Boolean(cleanTag),
+  });
 }
 
 function baselineCounts(episodeId: string, choiceCount: number): number[] {
@@ -78,17 +259,11 @@ function sanitizeId(raw: string | null, maxLen = 64): string {
   return raw.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, maxLen);
 }
 
-interface InboxVetRequest {
-  personaId?: string;
+function fallbackEvaluateDm(req: {
   personaName?: string;
   personaAge?: number;
-  personaTitle?: string;
-  personaRole?: 'her' | 'him';
   playerMessage?: string;
-  history?: { sender: 'player' | 'match'; text: string }[];
-}
-
-function fallbackEvaluateDm(req: InboxVetRequest) {
+}) {
   const name = (req.personaName || 'Claire').slice(0, 32);
   const age = Number(req.personaAge || 45);
   const msg = String(req.playerMessage || '').trim();
@@ -157,7 +332,7 @@ async function handleStatsGet(url: URL, env: WorkerEnv): Promise<Response> {
     try {
       const stored = await env.VELVET_KV.get(`stats:${episodeId}`);
       if (stored) {
-        const parsed = JSON.parse(stored) as number[];
+        const parsed = JSON.parse(stored) as unknown;
         if (Array.isArray(parsed) && parsed.length === choiceCount) {
           const combined = base.map((b, idx) => b + (Number(parsed[idx]) || 0));
           return jsonResponse({
@@ -168,7 +343,7 @@ async function handleStatsGet(url: URL, env: WorkerEnv): Promise<Response> {
         }
       }
     } catch {
-      // Fallback cleanly to baseline
+      // Fall back to baseline
     }
   }
 
@@ -190,6 +365,7 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
   const episodeId = sanitizeId(body.episodeId ?? null);
   const idx = Number(body.choiceIndex);
   const choiceCount = Math.min(6, Math.max(2, Number(body.choiceCount || 3)));
+
   if (!episodeId || !Number.isInteger(idx) || idx < 0 || idx >= choiceCount) {
     return jsonResponse({ error: 'Invalid episodeId or choiceIndex' }, 400);
   }
@@ -200,7 +376,7 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
       const key = `stats:${episodeId}`;
       const existing = await env.VELVET_KV.get(key);
       if (existing) {
-        const parsed = JSON.parse(existing) as number[];
+        const parsed = JSON.parse(existing) as unknown;
         if (Array.isArray(parsed) && parsed.length === choiceCount) {
           liveCounts = parsed.map((n) => Number(n) || 0);
         }
@@ -208,7 +384,7 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
       liveCounts[idx] += 1;
       await env.VELVET_KV.put(key, JSON.stringify(liveCounts));
     } catch {
-      // Ignore KV write errors
+      // Non-blocking KV error
     }
   }
 
@@ -221,9 +397,17 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
 }
 
 async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: InboxVetRequest = {};
+  let body: {
+    personaName?: string;
+    personaAge?: number;
+    personaTitle?: string;
+    personaRole?: 'her' | 'him';
+    playerMessage?: string;
+    history?: { sender: 'player' | 'match'; text: string }[];
+  } = {};
+
   try {
-    body = (await request.json()) as InboxVetRequest;
+    body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ error: 'Invalid JSON' }, 400);
   }
@@ -251,12 +435,10 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
       ].join(' ');
 
       const recentTurns = Array.isArray(body.history)
-        ? body.history
-            .slice(-4)
-            .map((t) => ({
-              role: (t.sender === 'player' ? 'user' : 'assistant') as 'user' | 'assistant',
-              content: String(t.text || '').slice(0, 280),
-            }))
+        ? body.history.slice(-4).map((t) => ({
+            role: (t.sender === 'player' ? 'user' : 'assistant') as 'user' | 'assistant',
+            content: String(t.text || '').slice(0, 280),
+          }))
         : [];
 
       const chatPayload = {
@@ -269,41 +451,29 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         temperature: 0.7,
       };
 
-      let rawResult: { response?: unknown } | undefined;
+      let rawResult: { response?: string | Record<string, unknown> };
       try {
-        rawResult = (await env.AI.run(
+        rawResult = await env.AI.run(
           '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           chatPayload,
-        )) as { response?: unknown };
+        );
       } catch {
-        rawResult = (await env.AI.run('@cf/meta/llama-3.1-8b-instruct', chatPayload)) as {
-          response?: unknown;
-        };
+        rawResult = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', chatPayload);
       }
 
-      interface ParsedAiReply {
-        herReply?: string;
-        maturityDelta?: number;
-        chivalryDelta?: number;
-        chemistryDelta?: number;
-        coachNote?: string;
-        passedVibeCheck?: boolean;
-      }
-
-      let parsed: ParsedAiReply | null = null;
-
+      let parsed: Record<string, unknown> | null = null;
       if (rawResult?.response && typeof rawResult.response === 'object') {
-        parsed = rawResult.response as ParsedAiReply;
+        parsed = rawResult.response;
       } else if (typeof rawResult?.response === 'string') {
         const jsonMatch = rawResult.response.trim().match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-          parsed = JSON.parse(jsonMatch[0]) as ParsedAiReply;
+          parsed = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
         }
       }
 
-      if (parsed?.herReply) {
+      if (parsed && typeof parsed.herReply === 'string' && parsed.herReply.trim()) {
         return jsonResponse({
-          herReply: String(parsed.herReply).slice(0, 360),
+          herReply: parsed.herReply.slice(0, 360),
           maturityDelta: Math.max(-25, Math.min(25, Number(parsed.maturityDelta ?? 10))),
           chivalryDelta: Math.max(-25, Math.min(25, Number(parsed.chivalryDelta ?? 10))),
           chemistryDelta: Math.max(-25, Math.min(25, Number(parsed.chemistryDelta ?? 12))),
@@ -313,7 +483,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         });
       }
     } catch {
-      // Fall through cleanly to deterministic local heuristic
+      // Fall back cleanly to local deterministic response
     }
   }
 
@@ -324,9 +494,9 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 }
 
 async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { email?: string; source?: string } = {};
+  let body: { email?: string } = {};
   try {
-    body = (await request.json()) as { email?: string; source?: string };
+    body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ error: 'Invalid JSON' }, 400);
   }
@@ -337,13 +507,13 @@ async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Respon
   if (env.VELVET_KV) {
     try {
       const raw = await env.VELVET_KV.get('subscribers:emails');
-      const list: string[] = raw ? (JSON.parse(raw) as string[]) : [];
+      const list: string[] = raw ? JSON.parse(raw) : [];
       if (!list.includes(email)) {
         list.push(email);
         await env.VELVET_KV.put('subscribers:emails', JSON.stringify(list));
       }
     } catch {
-      // Non-fatal KV write
+      // Ignore KV write error
     }
   }
   return jsonResponse({ ok: true });
@@ -352,7 +522,7 @@ async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Respon
 async function handleRestoreVip(request: Request, env: WorkerEnv): Promise<Response> {
   let body: { email?: string } = {};
   try {
-    body = (await request.json()) as { email?: string };
+    body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ restored: false }, 400);
   }
@@ -371,7 +541,7 @@ async function handleRestoreVip(request: Request, env: WorkerEnv): Promise<Respo
 async function handleReferralHit(request: Request, env: WorkerEnv): Promise<Response> {
   let body: { refCode?: string } = {};
   try {
-    body = (await request.json()) as { refCode?: string };
+    body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ ok: false }, 400);
   }
@@ -379,14 +549,13 @@ async function handleReferralHit(request: Request, env: WorkerEnv): Promise<Resp
   if (!refCode || !refCode.startsWith('vd') || !env.VELVET_KV) {
     return jsonResponse({ ok: false });
   }
-
   try {
     const ip = request.headers.get('CF-Connecting-IP') || 'anon';
     const ua = (request.headers.get('User-Agent') || '').slice(0, 64);
     const visitorHash = String(hashSeed(`${refCode}:${ip}:${ua}`));
     const listKey = `ref_visitors:${refCode}`;
     const raw = await env.VELVET_KV.get(listKey);
-    const visitors: string[] = raw ? (JSON.parse(raw) as string[]) : [];
+    const visitors: string[] = raw ? JSON.parse(raw) : [];
     if (!visitors.includes(visitorHash) && visitors.length < 25) {
       visitors.push(visitorHash);
       await env.VELVET_KV.put(listKey, JSON.stringify(visitors));
@@ -404,7 +573,7 @@ async function handleReferralStatus(url: URL, env: WorkerEnv): Promise<Response>
   }
   try {
     const raw = await env.VELVET_KV.get(`ref_visitors:${refCode}`);
-    const visitors: string[] = raw ? (JSON.parse(raw) as string[]) : [];
+    const visitors: string[] = raw ? JSON.parse(raw) : [];
     return jsonResponse({
       uniqueReferrals: visitors.length,
       claimableSlots: Math.min(3, visitors.length),
@@ -429,12 +598,10 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
   }
 
   if (!env.STRIPE_SECRET_KEY) {
-    // Graceful live-handoff guard: only accept full-entropy Stripe Checkout session IDs once in KV
     if (/^cs_(live|test)_[A-Za-z0-9]{20,}$/.test(sessionId) && env.VELVET_KV) {
       await env.VELVET_KV.put(`redeemed_session:${sessionId}`, new Date().toISOString());
       const isVipTier = tierHint === 'vip' || tierHint === 'cameo';
-      const credits =
-        tierHint === 'cameo' ? 50 : tierHint === 'tip' ? 10 : 15;
+      const credits = tierHint === 'cameo' ? 50 : tierHint === 'tip' ? 10 : 15;
       return jsonResponse({
         verified: true,
         grantType: isVipTier ? 'vip' : 'credits',
@@ -459,12 +626,13 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
     const session = (await stripeRes.json()) as {
       payment_status?: string;
       amount_total?: number;
-      metadata?: Record<string, string>;
+      metadata?: { tier?: string };
       customer_details?: { email?: string };
     };
     if (session.payment_status !== 'paid') {
       return jsonResponse({ verified: false });
     }
+
     const amt = typeof session.amount_total === 'number' ? session.amount_total : 0;
     const isCameo = amt >= 2500 || session.metadata?.tier === 'cameo';
     const isVip = isCameo || session.metadata?.tier === 'vip' || amt >= 600;
@@ -494,13 +662,34 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/api/health') {
+      const activeTag = await resolveActiveAmazonTag(env);
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
+        affiliateGatewayActive: true,
+        affiliateTagConfigured: Boolean(activeTag),
       });
+    }
+
+    if (url.pathname.startsWith('/api/go/')) {
+      if (request.method === 'GET') {
+        const productId = decodeURIComponent(url.pathname.slice('/api/go/'.length));
+        return handleAffiliateRedirect(url, productId, env);
+      }
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/founder-auth') {
+      if (request.method === 'POST') return handleFounderAuth(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/founder-config') {
+      if (request.method === 'POST') return handleFounderConfig(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 
     if (url.pathname === '/api/stats') {

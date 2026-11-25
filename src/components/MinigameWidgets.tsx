@@ -1,21 +1,403 @@
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2, CreditCard, Flame, Sparkles, Zap } from 'lucide-react';
-import type { MinigameType } from '../data/episodes';
+import { CheckCircle2, CreditCard, Eye, Flame, Radar, Sparkles, Wine, Zap } from 'lucide-react';
+import type { Episode, MinigameType } from '../data/episodes';
 import type { Stats } from '../domain/gameEngine';
 import { sfx } from '../lib/sound';
 
+export type UniversalMicrogameType =
+  | 'clink_toast'
+  | 'eye_contact_hold'
+  | 'flirt_pulse_rhythm'
+  | 'red_flag_radar';
+
+export type AnySceneGameType = MinigameType | UniversalMicrogameType;
+
+export function resolveSceneGameType(episode: Episode): AnySceneGameType {
+  if (episode.minigame) return episode.minigame;
+
+  switch (episode.sceneArt) {
+    case 'tapas_check':
+    case 'palm_springs_pool':
+    case 'princess_bouquet':
+    case 'thanksgiving_table':
+      return 'clink_toast';
+    case 'mirror_vanity':
+    case 'houseboy_apron':
+    case 'fertility_talk':
+    case 'ridge_trail_leash':
+      return 'eye_contact_hold';
+    case 'code_switch_phone':
+    case 'babysitter_clock':
+    case 'trader_joes_aisle':
+      return 'flirt_pulse_rhythm';
+    case 'waiter_shock':
+    case 'brunch_daughter':
+    case 'bathroom_audit':
+    default:
+      return episode.stage === 4 ? 'red_flag_radar' : 'clink_toast';
+  }
+}
+
 interface MinigameWidgetProps {
-  type: MinigameType;
+  type: AnySceneGameType;
   alreadyCompleted: boolean;
   herName: string;
   hisName: string;
+  zeroProof?: boolean;
   onWinBonus: (bonus: Partial<Stats>, badge: string) => void;
 }
 
+const FRAME_CLASS =
+  'rounded-2xl border border-[#E5C17B]/25 bg-[#1E1729] p-4 space-y-3 shadow-inner';
+
+/* ============================================================================
+ * UNIVERSAL SCENE MICRO-INTERACTIONS (Covers the 60 scenes without bespoke minigame!)
+ * ============================================================================ */
+
 /**
- * 1. CheckDropMinigame: Moving reflex meter where player slides their card into the check presenter
- * inside the emerald sweet-spot (35%..68%) — avoiding both "Split $0.37 Calculator" and "Awkward Pause".
+ * U1. VelvetToastGame: Two opposing cocktail/mocktail glasses glide on sine motion.
+ * Tap Clink in the center Gold Spark Zone (36..64%)!
  */
+const VelvetToastGame: React.FC<{
+  completed: boolean;
+  zeroProof?: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, zeroProof, onWin }) => {
+  const [phase, setPhase] = useState(15);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const [won, setWon] = useState(completed);
+  const [missNote, setMissNote] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (won || completed) return;
+    const id = window.setInterval(() => {
+      setPhase((p) => {
+        const next = p + dir * 4;
+        if (next >= 88) {
+          setDir(-1);
+          return 88;
+        }
+        if (next <= 12) {
+          setDir(1);
+          return 12;
+        }
+        return next;
+      });
+    }, 36);
+    return () => window.clearInterval(id);
+  }, [dir, won, completed]);
+
+  const handleClink = () => {
+    if (won || completed) return;
+    if (phase >= 34 && phase <= 66) {
+      setWon(true);
+      setMissNote(null);
+      sfx.crystalClink();
+      onWin({ chemistry: 5, chivalry: 4 }, 'Crystal Toast Spark');
+    } else {
+      sfx.redFlag();
+      setMissNote('Almost! Wait until the two glasses meet in the center gold glow.');
+    }
+  };
+
+  const leftGlass = zeroProof ? '🥤' : '🍸';
+  const rightGlass = zeroProof ? '🍵' : '🥂';
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Wine className="h-3.5 w-3.5 text-rose-400" /> Interactive Toast • Clink in the Gold Spark Zone
+        </span>
+        <span className="text-xs font-medium text-stone-300">+5 Chemistry · +4 Chivalry</span>
+      </div>
+
+      <div
+        onClick={handleClink}
+        className="relative h-11 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910] cursor-pointer select-none"
+      >
+        <div className="absolute inset-y-0 left-[34%] w-[32%] bg-[#E5C17B]/20 border-x border-[#E5C17B]/60 flex items-center justify-center text-[11px] font-semibold uppercase tracking-wider text-[#FDE68A]">
+          ✨ Spark Zone ✨
+        </div>
+        <span
+          className="absolute top-1/2 -translate-y-1/2 -ml-3 text-xl transition-none"
+          style={{ left: `${phase}%` }}
+        >
+          {leftGlass}
+        </span>
+        <span
+          className="absolute top-1/2 -translate-y-1/2 -ml-3 text-xl transition-none"
+          style={{ left: `${100 - phase}%` }}
+        >
+          {rightGlass}
+        </span>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {!won && !completed ? (
+          <button
+            type="button"
+            onClick={handleClink}
+            className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] transition cursor-pointer"
+          >
+            🥂 Tap to Clink Glasses!
+          </button>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+            <CheckCircle2 className="h-4 w-4" /> Perfect crystal clink! Chemistry charged (+9 stats)
+          </span>
+        )}
+        {missNote && <span className="text-xs text-rose-300">{missNote}</span>}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * U2. EyeContactHoldGame: Hold or pump the Magnetic Gaze Meter into 70..95% sweet spot!
+ */
+const EyeContactHoldGame: React.FC<{
+  completed: boolean;
+  herName: string;
+  hisName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, herName, hisName, onWin }) => {
+  const [tension, setTension] = useState(completed ? 85 : 18);
+  const [holding, setHolding] = useState(false);
+  const [won, setWon] = useState(completed);
+  const [blinkMsg, setBlinkMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!holding || won || completed) return;
+    const id = window.setInterval(() => {
+      setTension((prev) => {
+        const next = prev + 6;
+        sfx.sliderTick(Math.round(next * 0.6));
+        if (next > 97) {
+          setHolding(false);
+          sfx.redFlag();
+          setBlinkMsg('Blinked! Hold & release right inside the 70–95% Gold Tension Zone.');
+          return 18;
+        }
+        return next;
+      });
+    }, 65);
+    return () => window.clearInterval(id);
+  }, [holding, won, completed]);
+
+  const releaseHold = () => {
+    if (!holding || won || completed) return;
+    setHolding(false);
+    if (tension >= 68 && tension <= 96) {
+      setWon(true);
+      setBlinkMsg(null);
+      sfx.greenFlag();
+      onWin({ eq: 5, chemistry: 5 }, 'Unbroken Eye-Contact Magnet');
+    } else if (tension < 68) {
+      setBlinkMsg('Hold a beat longer (or tap Lock Gaze at 75%+) to seal the tension!');
+    }
+  };
+
+  const handleQuickStep = () => {
+    if (won || completed) return;
+    const next = Math.min(86, tension + 24);
+    sfx.sliderTick(Math.round(next * 0.6));
+    setTension(next);
+    if (next >= 70) {
+      setWon(true);
+      setBlinkMsg(null);
+      sfx.greenFlag();
+      onWin({ eq: 5, chemistry: 5 }, 'Unbroken Eye-Contact Magnet');
+    }
+  };
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Eye className="h-3.5 w-3.5 text-rose-400" /> Magnetic Gaze • Hold Eye Contact ({herName} × {hisName})
+        </span>
+        <span className="text-xs font-medium text-stone-300">Tension: {Math.round(tension)}%</span>
+      </div>
+
+      <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910]">
+        <div
+          className="h-full bg-gradient-to-r from-rose-700 via-rose-500 to-[#E5C17B] transition-all duration-75"
+          style={{ width: `${tension}%` }}
+        />
+        <div className="absolute inset-y-0 left-[68%] w-[28%] border-x border-[#E5C17B] bg-[#E5C17B]/20 flex items-center justify-center text-[11px] font-semibold text-[#FDE68A]">
+          🔥 Sweet Spot
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {!won && !completed ? (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onPointerDown={() => {
+                setBlinkMsg(null);
+                setHolding(true);
+              }}
+              onPointerUp={releaseHold}
+              onPointerLeave={releaseHold}
+              onClick={handleQuickStep}
+              className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] transition cursor-pointer select-none"
+            >
+              {holding ? '🔥 Release in Sweet Spot!' : '👁️ Hold (or Tap 3×) to Lock Gaze'}
+            </button>
+          </div>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+            <CheckCircle2 className="h-4 w-4" /> Unbroken eye contact locked! (+5 EQ, +5 Chemistry)
+          </span>
+        )}
+        {blinkMsg && <span className="text-xs text-stone-300">{blinkMsg}</span>}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * U3. FlirtPulseRhythmGame: 3-Beat Banter Sync (Catch Eye -> Half-Smirk -> Send Spark)
+ */
+const PULSE_LABELS = ['1 · Catch Their Eye', '2 · Slow Half-Smirk', '3 · Deliver the Line'];
+
+const FlirtPulseRhythmGame: React.FC<{
+  completed: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, onWin }) => {
+  const [beat, setBeat] = useState(completed ? 3 : 0);
+
+  const handleBeatTap = () => {
+    if (completed || beat >= 3) return;
+    sfx.rhythmBeat(beat);
+    const next = beat + 1;
+    setBeat(next);
+    if (next >= 3) {
+      sfx.victoryFanfare();
+      onWin({ maturity: 5, chemistry: 5 }, '3-Beat Banter Maestro');
+    }
+  };
+
+  const done = completed || beat >= 3;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Sparkles className="h-3.5 w-3.5 text-rose-400" /> Chemistry Cadence • Hit All 3 Banter Beats ({Math.min(beat, 3)}/3)
+        </span>
+        <span className="text-xs font-medium text-stone-300">+5 Maturity · +5 Chemistry</span>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        {PULSE_LABELS.map((lbl, idx) => (
+          <div
+            key={lbl}
+            className={`rounded-xl px-2.5 py-2 text-center text-xs font-semibold border transition-all ${
+              beat > idx
+                ? 'border-emerald-400/50 bg-emerald-500/15 text-emerald-200 scale-[1.02]'
+                : idx === beat
+                  ? 'border-[#E5C17B]/60 bg-[#E5C17B]/15 text-[#FDE68A] animate-pulse'
+                  : 'border-white/10 bg-[#0C0910]/60 text-stone-400'
+            }`}
+          >
+            {lbl}
+          </div>
+        ))}
+      </div>
+
+      {!done ? (
+        <button
+          type="button"
+          onClick={handleBeatTap}
+          className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] active:scale-95 transition cursor-pointer"
+        >
+          ⚡ Tap Beat {beat + 1}: {PULSE_LABELS[beat].split('·')[1].trim()}
+        </button>
+      ) : (
+        <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+          <CheckCircle2 className="h-4 w-4" /> Rhythm dialed! Room read unlocked (+5 Maturity, +5 Chemistry)
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * U4. RedFlagRadarGame: Pop all 3 floating social-friction bubbles in the room!
+ */
+const RADAR_BUBBLES = [
+  { id: 'stare', label: '👀 Table-9 Whisper', cleared: '✓ Unbothered Smile' },
+  { id: 'pause', label: '😬 Awkward Silence', cleared: '✓ Smooth Poise' },
+  { id: 'ego', label: '🚩 Fragile Ego Test', cleared: '✓ Calm Frame' },
+];
+
+const RedFlagRadarGame: React.FC<{
+  completed: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, onWin }) => {
+  const [popped, setPopped] = useState<string[]>(
+    completed ? RADAR_BUBBLES.map((b) => b.id) : [],
+  );
+
+  const handlePop = (id: string) => {
+    if (completed || popped.includes(id)) return;
+    sfx.rhythmBeat(popped.length);
+    const next = [...popped, id];
+    setPopped(next);
+    if (next.length === RADAR_BUBBLES.length) {
+      sfx.greenFlag();
+      onWin({ maturity: 5, eq: 5 }, 'Room-Radar Unbothered Pro');
+    }
+  };
+
+  const done = completed || popped.length === RADAR_BUBBLES.length;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Radar className="h-3.5 w-3.5 text-rose-400" /> Room Radar • Pop All 3 Tension Bubbles ({popped.length}/3)
+        </span>
+        <span className="text-xs font-medium text-stone-300">+5 Maturity · +5 EQ</span>
+      </div>
+
+      <div className="flex flex-wrap gap-2.5">
+        {RADAR_BUBBLES.map((b, idx) => {
+          const isPopped = completed || popped.includes(b.id);
+          return (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => handlePop(b.id)}
+              style={{ animationDelay: `${idx * 220}ms` }}
+              className={`rounded-full border px-4 py-2 text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                isPopped
+                  ? 'border-emerald-400/50 bg-emerald-500/15 text-emerald-200 scale-95'
+                  : 'animate-float-bubble border-rose-500/45 bg-rose-950/70 text-rose-200 hover:bg-rose-900/80 hover:scale-105'
+              }`}
+            >
+              {isPopped ? b.cleared : `${b.label} (Tap)`}
+            </button>
+          );
+        })}
+      </div>
+
+      {done && (
+        <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+          <CheckCircle2 className="h-4 w-4" /> Room cleared with effortless grace! (+5 Maturity, +5 EQ)
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ============================================================================
+ * 9 BESPOKE EPISODE MINIGAMES (Harmonized to Velvet & Champagne Palette)
+ * ============================================================================ */
+
 const CheckDropReflexGame: React.FC<{
   completed: boolean;
   onWin: (bonus: Partial<Stats>, badge: string) => void;
@@ -55,39 +437,35 @@ const CheckDropReflexGame: React.FC<{
       onWin({ chivalry: 8, chemistry: 6 }, 'Quick-Draw Check Master');
     } else if (cursor < 34) {
       sfx.redFlag();
-      setResultMsg('😅 Too early—almost pulled out the Venmo tax calculator! Tap Retry for the bonus.');
+      setResultMsg('😅 Too early—almost pulled out the Venmo tax calculator! Tap Retry.');
     } else {
       sfx.redFlag();
-      setResultMsg('😬 Hesitated too long—she almost reached for her Amex! Tap Retry for the bonus.');
+      setResultMsg('😬 Hesitated too long—she almost reached for her Amex! Tap Retry.');
     }
   };
 
   return (
-    <div className="rounded-2xl border-2 border-amber-400/70 bg-gradient-to-r from-[#231236] via-[#19142f] to-[#181129] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-300">
-          <CreditCard className="h-4 w-4" /> Interactive Reflex Minigame • Check-Drop Timing
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <CreditCard className="h-3.5 w-3.5 text-rose-400" /> Reflex Minigame • Check-Drop Timing
         </span>
-        <span className="text-xs font-bold text-teal-300">
-          Hit the Emerald Sweet Spot for +14 Stat Bonus!
-        </span>
+        <span className="text-xs font-medium text-stone-300">+8 Chivalry · +6 Chemistry</span>
       </div>
 
-      {/* Reflex Track */}
-      <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-900">
-        <div className="absolute inset-y-0 left-0 w-[34%] bg-rose-950/70 flex items-center justify-center text-xs font-bold text-rose-300">
+      <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910]">
+        <div className="absolute inset-y-0 left-0 w-[34%] bg-rose-950/75 flex items-center justify-center text-xs font-medium text-rose-300">
           Venmo Math
         </div>
-        <div className="absolute inset-y-0 left-[34%] w-[34%] bg-emerald-500/35 border-x-2 border-emerald-400 flex items-center justify-center text-xs font-extrabold uppercase text-emerald-200">
-          🎯 Smooth Grab Zone
+        <div className="absolute inset-y-0 left-[34%] w-[34%] bg-emerald-500/25 border-x border-emerald-400 flex items-center justify-center text-xs font-semibold text-emerald-200">
+          🎯 Smooth Grab
         </div>
-        <div className="absolute inset-y-0 right-0 w-[32%] bg-rose-950/70 flex items-center justify-center text-xs font-bold text-rose-300">
+        <div className="absolute inset-y-0 right-0 w-[32%] bg-rose-950/75 flex items-center justify-center text-xs font-medium text-rose-300">
           Awkward Pause
         </div>
 
-        {/* Moving Card Cursor */}
         <div
-          className="absolute top-0.5 bottom-0.5 w-3.5 -ml-1.5 rounded-md bg-amber-300 border border-white/14 shadow-[0_0_12px_#fbbf24] transition-none"
+          className="absolute top-0.5 bottom-0.5 w-3.5 -ml-1.5 rounded-md bg-[#E5C17B] shadow-[0_0_12px_#E5C17B] transition-none"
           style={{ left: `${cursor}%` }}
         />
       </div>
@@ -97,7 +475,7 @@ const CheckDropReflexGame: React.FC<{
           <button
             type="button"
             onClick={handleGrab}
-            className="vice-panel rounded-xl bg-gradient-to-r from-amber-400 to-teal-400 px-4 py-2 text-xs font-extrabold uppercase text-slate-950 hover:brightness-110 cursor-pointer"
+            className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] transition cursor-pointer"
           >
             💳 Slide Card Now!
           </button>
@@ -108,24 +486,21 @@ const CheckDropReflexGame: React.FC<{
               setStopped(false);
               setResultMsg(null);
             }}
-            className="rounded-xl border border-white/14 bg-slate-800 px-3.5 py-1.5 text-xs font-extrabold text-amber-300 hover:bg-slate-700 cursor-pointer"
+            className="rounded-xl border border-white/12 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-[#FDE68A] hover:bg-white/10 cursor-pointer"
           >
             🔄 Retry Reflex Shot
           </button>
         ) : (
-          <span className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-300">
-            <CheckCircle2 className="h-4 w-4" /> Bonus Active! Now lock in your move below:
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+            <CheckCircle2 className="h-4 w-4" /> Bonus Active! Lock in your move below:
           </span>
         )}
-        {resultMsg && <span className="text-xs font-bold text-amber-200">{resultMsg}</span>}
+        {resultMsg && <span className="text-xs font-medium text-[#FDE68A]">{resultMsg}</span>}
       </div>
     </div>
   );
 };
 
-/**
- * 2. TrailPaceMinigame: Pump your stride to match her 6 AM ridge pace and reach 100% Summit Meter!
- */
 const TrailPaceRunnerGame: React.FC<{
   completed: boolean;
   herName: string;
@@ -155,27 +530,22 @@ const TrailPaceRunnerGame: React.FC<{
   };
 
   return (
-    <div className="rounded-2xl border-2 border-teal-400/70 bg-gradient-to-r from-[#181129] via-[#171c30] to-[#281236] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-teal-300">
-          <Flame className="h-4 w-4 text-amber-300" /> Interactive Cardio Minigame • Keep {herName}’s Short-Leash Pace!
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Flame className="h-3.5 w-3.5 text-rose-400" /> Cardio Minigame • Keep {herName}’s Short-Leash Pace!
         </span>
-        <span className="text-xs font-bold text-amber-300">
-          Summit Progress: {Math.round(progress)}%
-        </span>
+        <span className="text-xs font-medium text-stone-300">Summit: {Math.round(progress)}%</span>
       </div>
 
-      {/* Canyon Ridge Track */}
-      <div className="relative h-10 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-950 px-2 flex items-center">
+      <div className="relative h-10 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910] px-2 flex items-center">
         <div
-          className="h-6 rounded-lg bg-gradient-to-r from-rose-500 via-amber-400 to-teal-400 transition-all duration-150 flex items-center justify-end pr-2 text-xs font-extrabold text-slate-950"
+          className="h-6 rounded-lg bg-gradient-to-r from-rose-600 to-[#E5C17B] transition-all duration-150 flex items-center justify-end pr-2 text-xs font-semibold text-[#0C0910]"
           style={{ width: `${progress}%` }}
         >
           🏃‍♂️💨
         </div>
-        <span className="absolute right-2.5 text-xs font-extrabold text-pink-200">
-          🐆⛰️ Summit
-        </span>
+        <span className="absolute right-3 text-xs font-semibold text-[#FDE68A]">🐆⛰️ Summit</span>
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -183,50 +553,25 @@ const TrailPaceRunnerGame: React.FC<{
           <button
             type="button"
             onClick={handlePumpStride}
-            className="vice-panel rounded-xl bg-gradient-to-r from-teal-400 to-emerald-400 px-4 py-2 text-xs font-extrabold uppercase text-slate-950 hover:brightness-110 active:scale-95 transition cursor-pointer"
+            className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] active:scale-95 transition cursor-pointer"
           >
             ⚡ Tap Fast: Pump Stride Up the Switchback!
           </button>
         ) : (
-          <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-300">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
             <CheckCircle2 className="h-4 w-4" /> ⛰️ Summit Reached on Her Short Leash! (+8 Chemistry, +6 Maturity)
           </span>
         )}
-        <span className="text-xs text-slate-300">
-          {won || completed
-            ? 'Cardio verified! Pick your summit move below.'
-            : 'Tap 4–5x before the incline pulls you back!'}
-        </span>
       </div>
     </div>
   );
 };
 
-/**
- * 3. RoomHotspotMinigame: Tap all 4 apartment/sanctuary hazards to upgrade them!
- * Grants +8 Maturity & +8 EQ — helping unlock the 60+ Houseboy Sunday gate!
- */
 const ROOM_ITEMS = [
-  {
-    id: 'soap',
-    bad: '🧴 5-in-1 Blue Shower Gel',
-    good: '🌿 Botanical Hand Soap',
-  },
-  {
-    id: 'bin',
-    bad: '🗑️ Open Wire Wastebasket',
-    good: '🖤 Matte-Black Lidded Bin',
-  },
-  {
-    id: 'sheets',
-    bad: '🛏️ Wrinkled Polyester Sheets',
-    good: '✨ 600TC Percale + Oak Frame',
-  },
-  {
-    id: 'apron',
-    bad: '🍕 Takeout Boxes on Counter',
-    good: '🥂 Washed Linen Apron & Basil',
-  },
+  { id: 'soap', bad: '🧴 5-in-1 Blue Shower Gel', good: '🌿 Botanical Hand Soap' },
+  { id: 'bin', bad: '🗑️ Open Wire Wastebasket', good: '🖤 Matte-Black Lidded Bin' },
+  { id: 'sheets', bad: '🛏️ Wrinkled Polyester Sheets', good: '✨ 600TC Percale + Oak Frame' },
+  { id: 'apron', bad: '🍕 Takeout Boxes on Counter', good: '🥂 Washed Linen Apron & Basil' },
 ];
 
 const RoomAuditHotspotGame: React.FC<{
@@ -251,32 +596,33 @@ const RoomAuditHotspotGame: React.FC<{
   const allFixed = completed || fixedIds.length === ROOM_ITEMS.length;
 
   return (
-    <div className="rounded-2xl border-2 border-pink-400/60 bg-gradient-to-br from-[#231134] to-[#181129] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-300">
-          <Sparkles className="h-4 w-4 text-amber-300" /> Interactive Sanctuary Prep • Tap All 4 Upgrades ({fixedIds.length}/4)
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Sparkles className="h-3.5 w-3.5 text-rose-400" /> Sanctuary Prep • Tap All 4 Upgrades ({fixedIds.length}/4)
         </span>
-        <span className="text-xs font-bold text-emerald-300">
+        <span className="text-xs font-medium text-emerald-300">
           <Zap className="inline h-3.5 w-3.5" /> +10 Maturity &amp; +10 EQ (Unlocks 60+ Gate!)
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {ROOM_ITEMS.map((item) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        {ROOM_ITEMS.map((item, idx) => {
           const isFixed = completed || fixedIds.includes(item.id);
           return (
             <button
               key={item.id}
               type="button"
               onClick={() => handleToggleFix(item.id)}
-              className={`flex items-center justify-between rounded-xl border border-white/14 px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
+              style={{ animationDelay: `${idx * 140}ms` }}
+              className={`flex items-center justify-between rounded-2xl border px-3.5 py-2.5 text-left text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 isFixed
-                  ? 'bg-emerald-500/25 text-emerald-200 border-emerald-400/60'
-                  : 'bg-rose-950/60 text-rose-200 hover:bg-rose-900/70'
+                  ? 'bg-emerald-500/15 text-emerald-200 border-emerald-400/50'
+                  : 'animate-float-bubble bg-rose-950/65 text-rose-200 border-rose-500/40 hover:bg-rose-900/75'
               }`}
             >
               <span>{isFixed ? item.good : item.bad}</span>
-              <span className="ml-2 rounded px-1.5 py-0.5 text-xs font-extrabold bg-black/40">
+              <span className="ml-2 rounded-full px-2 py-0.5 text-[11px] font-semibold bg-black/45">
                 {isFixed ? '✓ READY' : 'TAP TO FIX'}
               </span>
             </button>
@@ -285,7 +631,7 @@ const RoomAuditHotspotGame: React.FC<{
       </div>
 
       {allFixed && (
-        <div className="text-xs font-extrabold text-emerald-300">
+        <div className="text-xs font-semibold text-emerald-300">
           ✨ Spotless Sanctuary Certified! +10 Maturity &amp; +10 EQ applied—now choose your Sunday scene move!
         </div>
       )}
@@ -293,10 +639,6 @@ const RoomAuditHotspotGame: React.FC<{
   );
 };
 
-/**
- * 4. DoubtSpiralGame: Tap all 4 intrusive "2 AM Can This Actually Work?" fear bubbles
- * to ground them in honest adult reality before self-sabotage takes over!
- */
 const DOUBT_THOUGHTS = [
   {
     id: 'stares',
@@ -342,32 +684,31 @@ const DoubtSpiralGame: React.FC<{
   const allCleared = completed || clearedIds.length === DOUBT_THOUGHTS.length;
 
   return (
-    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-br from-[#240e35] via-[#18122e] to-[#181129] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-fuchsia-300">
-          <Sparkles className="h-4 w-4 text-amber-300" /> Interactive 2 AM Doubt Breaker • Reframe All 4 Fears ({clearedIds.length}/4)
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Sparkles className="h-3.5 w-3.5 text-rose-400" /> 2 AM Doubt Breaker • Reframe All 4 Fears ({clearedIds.length}/4)
         </span>
-        <span className="text-xs font-bold text-teal-300">
-          +8 EQ &amp; +8 Maturity (Stop Self-Sabotage!)
-        </span>
+        <span className="text-xs font-medium text-stone-300">+8 EQ · +8 Maturity</span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {DOUBT_THOUGHTS.map((item) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        {DOUBT_THOUGHTS.map((item, idx) => {
           const isCleared = completed || clearedIds.includes(item.id);
           return (
             <button
               key={item.id}
               type="button"
               onClick={() => handleClear(item.id)}
-              className={`flex items-center justify-between gap-2 rounded-xl border border-white/14 px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
+              style={{ animationDelay: `${idx * 160}ms` }}
+              className={`flex items-center justify-between gap-2 rounded-2xl border px-3.5 py-2.5 text-left text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 isCleared
-                  ? 'bg-teal-500/25 text-teal-100 border-teal-400/60'
-                  : 'bg-fuchsia-950/70 text-pink-200 hover:bg-fuchsia-900/70'
+                  ? 'bg-emerald-500/15 text-emerald-200 border-emerald-400/50'
+                  : 'animate-float-bubble bg-rose-950/65 text-rose-200 border-rose-500/40 hover:bg-rose-900/75'
               }`}
             >
               <span>{isCleared ? item.grounded : item.spiral}</span>
-              <span className="shrink-0 rounded px-1.5 py-0.5 text-xs font-extrabold bg-black/40">
+              <span className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold bg-black/45">
                 {isCleared ? '✓ GROUNDED' : 'REFRAME'}
               </span>
             </button>
@@ -376,7 +717,7 @@ const DoubtSpiralGame: React.FC<{
       </div>
 
       {allCleared && (
-        <div className="text-xs font-extrabold text-emerald-300">
+        <div className="text-xs font-semibold text-emerald-300">
           💞 2 AM Spiral Cleared! +8 EQ &amp; +8 Maturity unlocked—now handle the real conversation below!
         </div>
       )}
@@ -384,10 +725,6 @@ const DoubtSpiralGame: React.FC<{
   );
 };
 
-/**
- * 5. BenchPressCougarGame: Pump 5 clean bench-press reps at the gym so you have
- * the upper-body & core strength to sweep your Cougar off her feet!
- */
 const BenchPressCougarGame: React.FC<{
   completed: boolean;
   herName: string;
@@ -412,49 +749,46 @@ const BenchPressCougarGame: React.FC<{
   const done = completed || reps >= 5;
 
   return (
-    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#290f2d] via-[#191330] to-[#181129] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-rose-300">
-          <Flame className="h-4 w-4 text-amber-300" /> Cub Gym Minigame • Bench Press for {herName} ({reps}/5 Reps)
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Flame className="h-3.5 w-3.5 text-rose-400" /> Cub Gym Minigame • Bench Press for {herName} ({reps}/5 Reps)
         </span>
-        <span className="text-xs font-bold text-amber-300">
-          +8 Chemistry &amp; +8 Chivalry (Unlock Stairway Carry!)
-        </span>
+        <span className="text-xs font-medium text-stone-300">+8 Chemistry · +8 Chivalry</span>
       </div>
 
-      {/* Animated Barbell Rack */}
-      <div className="relative h-12 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-950 px-3 flex items-center justify-between">
+      <div className="relative h-12 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910] px-3 flex items-center justify-between">
         <div
-          className={`flex items-center gap-2 font-display text-xl text-amber-300 transition-transform duration-150 ${
+          className={`flex items-center gap-2 font-semibold text-base text-[#FDE68A] transition-transform duration-150 ${
             barLifted ? '-translate-y-2 scale-105' : 'translate-y-0.5'
           }`}
         >
           <span>🏋️‍♂️</span>
           <span>═══╣ 225 LBS ╠═══</span>
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           {[1, 2, 3, 4, 5].map((r) => (
             <span
               key={r}
-              className={`h-3 w-5 rounded-sm border border-white/12 ${
-                r <= reps ? 'bg-emerald-400' : 'bg-slate-800'
+              className={`h-3 w-5 rounded-sm ${
+                r <= reps ? 'bg-emerald-400' : 'bg-white/10'
               }`}
             />
           ))}
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div>
         {!done ? (
           <button
             type="button"
             onClick={handleRep}
-            className="vice-panel rounded-xl bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 text-xs font-extrabold uppercase text-slate-950 hover:brightness-110 active:scale-95 transition cursor-pointer"
+            className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] active:scale-95 transition cursor-pointer"
           >
             💪 Press Rep ({reps}/5) — Train for {herName}!
           </button>
         ) : (
-          <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-300">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
             <CheckCircle2 className="h-4 w-4" /> 🔥 5x225 Crushed! Stairway-Carry Strength Unlocked (+8 Chemistry, +8 Chivalry)
           </span>
         )}
@@ -463,31 +797,11 @@ const BenchPressCougarGame: React.FC<{
   );
 };
 
-/**
- * 6. CubGroomingGlowUpGame: Literal physical "grooming" glow-up!
- * Upgrade a consenting adult Cub from 5-in-1 blue body wash to Danny Ramirez / Oli Green red-carpet polish!
- */
 const GROOMING_UPGRADES = [
-  {
-    id: 'beard',
-    before: '🪒 Scruffy Neckbeard',
-    after: '✨ Sculpted Jawline + Beard Oil',
-  },
-  {
-    id: 'skincare',
-    before: '🧴 5-in-1 Neon-Blue Gel',
-    after: '🌿 Peptide Cleanser + SPF 50',
-  },
-  {
-    id: 'collar',
-    before: '👕 Faded Frat Graphic Tee',
-    after: '🥂 Tailored Rolled-Cuff Linen',
-  },
-  {
-    id: 'scent',
-    before: '💨 Locker-Room Body Spray',
-    after: '🔥 Santal & Bergamot Parfum',
-  },
+  { id: 'beard', before: '🪒 Scruffy Neckbeard', after: '✨ Sculpted Jawline + Beard Oil' },
+  { id: 'skincare', before: '🧴 5-in-1 Neon-Blue Gel', after: '🌿 Peptide Cleanser + SPF 50' },
+  { id: 'collar', before: '👕 Faded Frat Graphic Tee', after: '🥂 Tailored Rolled-Cuff Linen' },
+  { id: 'scent', before: '💨 Locker-Room Body Spray', after: '🔥 Santal & Bergamot Parfum' },
 ];
 
 const CubGroomingGlowUpGame: React.FC<{
@@ -513,28 +827,27 @@ const CubGroomingGlowUpGame: React.FC<{
   const allDone = completed || polishedIds.length === GROOMING_UPGRADES.length;
 
   return (
-    <div className="rounded-2xl border-2 border-pink-400/70 bg-gradient-to-r from-[#2b1038] via-[#1c1332] to-[#181129] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-300">
-          <Sparkles className="h-4 w-4 text-amber-300" /> Cougar &ldquo;Grooming&rdquo; Salon • Polish {hisName} ({polishedIds.length}/4)
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Sparkles className="h-3.5 w-3.5 text-rose-400" /> Cougar “Grooming” Salon • Polish {hisName} ({polishedIds.length}/4)
         </span>
-        <span className="text-xs font-bold text-amber-300">
-          +8 Chemistry &amp; +8 Chivalry (Red-Carpet Glow-Up!)
-        </span>
+        <span className="text-xs font-medium text-stone-300">+8 Chemistry · +8 Chivalry</span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {GROOMING_UPGRADES.map((item) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        {GROOMING_UPGRADES.map((item, idx) => {
           const isPolished = completed || polishedIds.includes(item.id);
           return (
             <button
               key={item.id}
               type="button"
               onClick={() => handlePolish(item.id)}
-              className={`rounded-xl border-2 px-3 py-2 text-left text-xs font-extrabold transition cursor-pointer ${
+              style={{ animationDelay: `${idx * 140}ms` }}
+              className={`rounded-2xl border px-3.5 py-2.5 text-left text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 isPolished
-                  ? 'border-emerald-400 bg-emerald-950/60 text-emerald-200'
-                  : 'border-rose-400/60 bg-rose-950/50 text-rose-200 hover:bg-rose-900/60'
+                  ? 'border-emerald-400/50 bg-emerald-500/15 text-emerald-200'
+                  : 'animate-float-bubble border-rose-500/40 bg-rose-950/65 text-rose-200 hover:bg-rose-900/75'
               }`}
             >
               {isPolished ? item.after : `${item.before} (Tap to Groom!)`}
@@ -544,17 +857,14 @@ const CubGroomingGlowUpGame: React.FC<{
       </div>
 
       {allDone && (
-        <div className="text-xs font-extrabold text-emerald-300">
-          ✂️ Full &ldquo;Cougar-Groomed&rdquo; Glow-Up Complete! {hisName} looks ready to walk out beside Jessica Alba—now pick your move below!
+        <div className="text-xs font-semibold text-emerald-300">
+          ✂️ Full “Cougar-Groomed” Glow-Up Complete! {hisName} looks ready to walk out beside Jessica Alba!
         </div>
       )}
     </div>
   );
 };
 
-/**
- * 7. ThermostatPitCrewGame: Tactile 3 AM Perimenopause Cooling Dial (74°F -> 62°F) + Cold-Pillow Flip!
- */
 const ThermostatPitCrewGame: React.FC<{
   completed: boolean;
   herName: string;
@@ -573,12 +883,12 @@ const ThermostatPitCrewGame: React.FC<{
   };
 
   return (
-    <div className="rounded-2xl border-2 border-cyan-400/70 bg-gradient-to-r from-[#0e2235] via-[#161932] to-[#261134] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-cyan-300">
-          ❄️ 3 AM Cooling Pit-Crew Toy • Dial {herName}’s Room to 62°F &amp; Flip Pillow!
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          ❄️ 3 AM Cooling Pit-Crew • Dial {herName}’s Room to 62°F &amp; Flip Pillow!
         </span>
-        <span className="font-display text-2xl text-amber-300">{temp}°F</span>
+        <span className="font-display text-xl text-[#FDE68A]">{temp}°F</span>
       </div>
 
       <input
@@ -594,7 +904,7 @@ const ThermostatPitCrewGame: React.FC<{
           sfx.sliderTick(90 - val);
           checkWin(val, pillowFlipped);
         }}
-        className="w-full accent-cyan-400 cursor-pointer h-2.5 rounded-lg bg-black/60"
+        className="w-full accent-[#E5C17B] cursor-pointer h-2.5 rounded-lg bg-[#0C0910]"
       />
 
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -606,33 +916,27 @@ const ThermostatPitCrewGame: React.FC<{
             setPillowFlipped(true);
             checkWin(temp, true);
           }}
-          className={`rounded-xl border border-white/14 px-3.5 py-1.5 text-xs font-extrabold transition cursor-pointer ${
+          className={`rounded-xl border px-4 py-2 text-sm font-semibold transition cursor-pointer ${
             pillowFlipped
-              ? 'bg-cyan-400 text-slate-950'
-              : 'bg-slate-800 text-cyan-200 hover:bg-slate-700'
+              ? 'border-emerald-400/50 bg-emerald-500/20 text-emerald-200'
+              : 'border-white/12 bg-white/[0.06] text-[#FAF7F5] hover:bg-white/10'
           }`}
         >
           {pillowFlipped ? '✓ Pillow Flipped to Arctic Side' : '🧊 Tap to Flip Pillow to Cold Side'}
         </button>
 
         {awarded || completed ? (
-          <span className="text-xs font-extrabold text-emerald-300">
+          <span className="text-xs font-semibold text-emerald-300">
             ❄️ 62°F Sanctuary Locked! (+10 EQ, +8 Chemistry)
           </span>
         ) : (
-          <span className="text-xs text-slate-300">
-            Slide dial down to 62°F + flip pillow!
-          </span>
+          <span className="text-xs text-stone-400">Slide dial down to 62°F + flip pillow!</span>
         )}
       </div>
     </div>
   );
 };
 
-/**
- * 8. BigCarlWinePourGame: Cougar Town "Big Carl" Giant Goblet Pour!
- * Tap to pour Cabernet into the 74%..92% sweet spot without overflowing onto her white linen!
- */
 const BigCarlWinePourGame: React.FC<{
   completed: boolean;
   onWin: (bonus: Partial<Stats>, badge: string) => void;
@@ -656,36 +960,36 @@ const BigCarlWinePourGame: React.FC<{
   };
 
   return (
-    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#2c0e28] via-[#1b112e] to-[#181129] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
-          🍷 Cougar Town &ldquo;Big Carl&rdquo; Goblet • Pour to the 80% Gold Line!
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          🍷 Cougar Town “Big Carl” Goblet • Pour to the 80% Gold Line!
         </span>
-        <span className="text-xs font-extrabold text-amber-300">Goblet Level: {fill}%</span>
+        <span className="text-xs font-semibold text-[#FDE68A]">Goblet Level: {fill}%</span>
       </div>
 
-      <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-950">
+      <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910]">
         <div
           className="h-full bg-gradient-to-r from-[#5c0a28] via-rose-700 to-rose-500 transition-all duration-150"
           style={{ width: `${fill}%` }}
         />
-        <div className="absolute inset-y-0 left-[74%] w-[20%] border-x-2 border-amber-300 bg-amber-400/20 flex items-center justify-center text-xs font-extrabold text-amber-200">
+        <div className="absolute inset-y-0 left-[74%] w-[20%] border-x border-[#E5C17B] bg-[#E5C17B]/20 flex items-center justify-center text-[11px] font-semibold text-[#FDE68A]">
           🥂 BIG CARL ZONE
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div>
         {!locked && !completed ? (
           <button
             type="button"
             onClick={handlePourSplash}
-            className="vice-panel rounded-xl bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 text-xs font-extrabold uppercase text-slate-950 hover:brightness-110 cursor-pointer"
+            className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] transition cursor-pointer"
           >
             🍷 Pour Heavy Splash (+22%)
           </button>
         ) : (
-          <span className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-300">
-            <CheckCircle2 className="h-4 w-4" /> 🍷 Jules Cobb Approved &ldquo;Just One Glass&rdquo; Pour! (+8 Chemistry, +8 Chivalry)
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+            <CheckCircle2 className="h-4 w-4" /> 🍷 Jules Cobb Approved “Just One Glass” Pour! (+8 Chemistry, +8 Chivalry)
           </span>
         )}
       </div>
@@ -693,11 +997,6 @@ const BigCarlWinePourGame: React.FC<{
   );
 };
 
-/**
- * 9. BlackCatPaceGame: 🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub Slow-Burn Pacing Toy!
- * She pushes back playfully at first; tap the 3 patient Golden-Retriever beats (avoiding Love-Bomb Rush!)
- * to melt her cool Black Cat guard into an earned purr!
- */
 const BLACK_CAT_BEATS = [
   {
     catPrompt: '🐈‍⬛ Beat 1: She raises one cool eyebrow—"Slow down, eager puppy. I don’t clear my Friday that easily."',
@@ -746,27 +1045,24 @@ const BlackCatPaceGame: React.FC<{
   const done = completed || step >= 3;
 
   return (
-    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-r from-[#1e0d2e] via-[#15122b] to-[#181129] p-4 space-y-3">
+    <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
           🐈‍⬛ Black Cat × 🐕 Golden Retriever Pacing Meter ({Math.min(step, 3)}/3 Earned)
         </span>
-        <span className="text-xs font-bold text-amber-300">
-          +10 Chemistry &amp; +8 EQ (Melt {herName}’s Guard!)
-        </span>
+        <span className="text-xs font-medium text-stone-300">+10 Chemistry · +8 EQ</span>
       </div>
 
-      {/* Warmth Progress Bar */}
-      <div className="grid grid-cols-3 gap-1.5">
+      <div className="grid grid-cols-3 gap-2">
         {['1 · Aloof Side-Eye', '2 · Intrigued Smirk', '3 · Earned Purr 🔥'].map((lbl, idx) => (
           <div
             key={lbl}
-            className={`rounded-lg py-1 px-2 text-center text-xs font-extrabold border ${
+            className={`rounded-xl py-1.5 px-2 text-center text-xs font-semibold border ${
               step > idx
-                ? 'border-emerald-400 bg-emerald-500/25 text-emerald-200'
+                ? 'border-emerald-400/50 bg-emerald-500/15 text-emerald-200'
                 : idx === step
-                  ? 'border-amber-300 bg-amber-400/20 text-amber-200'
-                  : 'border-white/10 bg-black/40 text-slate-400'
+                  ? 'border-[#E5C17B]/60 bg-[#E5C17B]/15 text-[#FDE68A]'
+                  : 'border-white/10 bg-[#0C0910]/60 text-stone-400'
             }`}
           >
             {lbl}
@@ -775,28 +1071,28 @@ const BlackCatPaceGame: React.FC<{
       </div>
 
       {!done ? (
-        <div className="space-y-2">
-          <p className="text-xs font-semibold text-slate-100">{BLACK_CAT_BEATS[step].catPrompt}</p>
-          <div className="grid gap-2 sm:grid-cols-2">
+        <div className="space-y-2.5">
+          <p className="text-sm font-medium text-stone-200">{BLACK_CAT_BEATS[step].catPrompt}</p>
+          <div className="grid gap-2.5 sm:grid-cols-2">
             <button
               type="button"
               onClick={handlePatientBeat}
-              className="rounded-xl border border-white/14 bg-gradient-to-r from-amber-400 to-teal-400 px-3 py-2 text-left text-xs font-extrabold text-slate-950 hover:brightness-110 cursor-pointer"
+              className="rounded-xl bg-[#E5C17B] hover:bg-[#F0CFA0] px-3.5 py-2.5 text-left text-xs sm:text-sm font-semibold text-[#0C0910] transition cursor-pointer"
             >
               {BLACK_CAT_BEATS[step].rightMove}
             </button>
             <button
               type="button"
               onClick={handleRushMistake}
-              className="rounded-xl border-2 border-rose-500/50 bg-rose-950/50 px-3 py-2 text-left text-xs font-bold text-rose-200 hover:bg-rose-900/60 cursor-pointer"
+              className="rounded-xl border border-rose-500/45 bg-rose-950/65 px-3.5 py-2.5 text-left text-xs sm:text-sm font-medium text-rose-200 hover:bg-rose-900/75 transition cursor-pointer"
             >
               {BLACK_CAT_BEATS[step].rushTrap}
             </button>
           </div>
-          {hissNote && <p className="text-xs font-bold text-rose-300">{hissNote}</p>}
+          {hissNote && <p className="text-xs font-semibold text-rose-300">{hissNote}</p>}
         </div>
       ) : (
-        <div className="text-xs font-extrabold text-emerald-300">
+        <div className="text-xs font-semibold text-emerald-300">
           😻 Black Cat Melted! Your steady, unbothered Golden-Retriever warmth won {herName} over (+10 Chemistry, +8 EQ)!
         </div>
       )}
@@ -809,41 +1105,54 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   alreadyCompleted,
   herName,
   hisName,
+  zeroProof,
   onWinBonus,
 }) => {
-  if (type === 'check_reflex') {
-    return <CheckDropReflexGame completed={alreadyCompleted} onWin={onWinBonus} />;
+  switch (type) {
+    case 'check_reflex':
+      return <CheckDropReflexGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'trail_pace':
+      return (
+        <TrailPaceRunnerGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+      );
+    case 'room_audit':
+      return <RoomAuditHotspotGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'doubt_spiral':
+      return <DoubtSpiralGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'bench_press':
+      return (
+        <BenchPressCougarGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+      );
+    case 'cub_grooming':
+      return (
+        <CubGroomingGlowUpGame completed={alreadyCompleted} hisName={hisName} onWin={onWinBonus} />
+      );
+    case 'thermostat_dial':
+      return (
+        <ThermostatPitCrewGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+      );
+    case 'big_carl_pour':
+      return <BigCarlWinePourGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'black_cat_pace':
+      return (
+        <BlackCatPaceGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
+      );
+    case 'clink_toast':
+      return <VelvetToastGame completed={alreadyCompleted} zeroProof={zeroProof} onWin={onWinBonus} />;
+    case 'eye_contact_hold':
+      return (
+        <EyeContactHoldGame
+          completed={alreadyCompleted}
+          herName={herName}
+          hisName={hisName}
+          onWin={onWinBonus}
+        />
+      );
+    case 'flirt_pulse_rhythm':
+      return <FlirtPulseRhythmGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'red_flag_radar':
+      return <RedFlagRadarGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    default:
+      return null;
   }
-  if (type === 'trail_pace') {
-    return (
-      <TrailPaceRunnerGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
-    );
-  }
-  if (type === 'doubt_spiral') {
-    return <DoubtSpiralGame completed={alreadyCompleted} onWin={onWinBonus} />;
-  }
-  if (type === 'bench_press') {
-    return (
-      <BenchPressCougarGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
-    );
-  }
-  if (type === 'cub_grooming') {
-    return (
-      <CubGroomingGlowUpGame completed={alreadyCompleted} hisName={hisName} onWin={onWinBonus} />
-    );
-  }
-  if (type === 'thermostat_dial') {
-    return (
-      <ThermostatPitCrewGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
-    );
-  }
-  if (type === 'big_carl_pour') {
-    return <BigCarlWinePourGame completed={alreadyCompleted} onWin={onWinBonus} />;
-  }
-  if (type === 'black_cat_pace') {
-    return (
-      <BlackCatPaceGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
-    );
-  }
-  return <RoomAuditHotspotGame completed={alreadyCompleted} onWin={onWinBonus} />;
 };

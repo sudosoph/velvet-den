@@ -213,16 +213,16 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
       aria-modal="true"
       aria-label="25-Point Cougars & Cubs Viral Experience Checklist"
     >
-      <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#140e22] p-4 sm:p-6 space-y-4">
+      <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#15101C] p-4 sm:p-6 space-y-4">
         <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
           <div>
-            <span className="inline-flex items-center gap-1 rounded bg-pink-500/25 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
-              <Sparkles className="h-3 w-3 text-amber-300" /> TikTok Green-Screen Ready • 0–100 Score Test
+            <span className="inline-flex items-center gap-1 rounded-full bg-rose-500/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-rose-200">
+              <Sparkles className="h-3 w-3 text-[#FDE68A]" /> TikTok Green-Screen Ready • 0–100 Score Test
             </span>
-            <h2 className="mt-1 font-display text-3xl sm:text-4xl text-white leading-none">
-              THE 25-POINT COUGARS &amp; CUBS EXPERIENCE TEST
+            <h2 className="mt-1.5 font-display text-2xl sm:text-4xl text-white leading-tight">
+              The 25-Point Cougars &amp; Cubs Experience Test
             </h2>
-            <p className="mt-1 text-xs text-slate-300">
+            <p className="mt-1 text-xs text-stone-300">
               Check every moment you’ve lived (or would survive)—share your 0–100 score for +2 Free Credits!
             </p>
           </div>
@@ -230,29 +230,29 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
             type="button"
             onClick={onClose}
             aria-label="Close Checklist"
-            className="rounded-xl border border-white/14 bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
+            className="rounded-xl border border-white/14 bg-[#1E1729] p-2 text-stone-200 hover:bg-rose-600 cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Live Score Banner */}
-        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/14 bg-gradient-to-r from-[#2c103d] via-[#1b1130] to-[#1a112b] px-4 py-3 shadow-lg">
+        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#E5C17B]/30 bg-gradient-to-r from-[#24132E] via-[#1C1329] to-[#171122] px-4 py-3 shadow-lg">
           <div>
-            <div className="text-xs font-extrabold uppercase text-amber-300">{rank.title}</div>
-            <div className="text-xs text-slate-200">{rank.subtitle}</div>
+            <div className="text-xs font-bold uppercase text-[#FDE68A]">{rank.title}</div>
+            <div className="text-xs text-stone-200">{rank.subtitle}</div>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <div className="font-display text-4xl leading-none text-teal-300">{score}/100</div>
-              <div className="text-xs font-bold text-slate-300">{checkedIds.length}/25 Checked</div>
+              <div className="font-display text-4xl leading-none text-[#FDE68A]">{score}/100</div>
+              <div className="text-xs font-bold text-stone-300">{checkedIds.length}/25 Checked</div>
             </div>
             {checkedIds.length > 0 && (
               <button
                 type="button"
                 onClick={() => setCheckedIds([])}
                 title="Reset checkboxes"
-                className="rounded-lg bg-black/50 p-2 text-slate-300 hover:text-white cursor-pointer"
+                className="rounded-lg bg-black/50 p-2 text-stone-300 hover:text-white cursor-pointer"
               >
                 <RotateCcw className="h-4 w-4" />
               </button>
@@ -271,17 +271,17 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
                 onClick={() => toggleItem(item.id)}
                 className={`flex items-start gap-2.5 rounded-xl border px-3 py-2 text-left text-xs transition cursor-pointer ${
                   checked
-                    ? 'border-amber-400/70 bg-amber-400/15 text-white font-semibold'
-                    : 'border-white/10 bg-black/35 text-slate-200 hover:bg-black/55'
+                    ? 'border-[#E5C17B]/70 bg-[#E5C17B]/15 text-white font-semibold'
+                    : 'border-white/10 bg-[#1E1729]/65 text-stone-200 hover:bg-[#1E1729]'
                 }`}
               >
                 {checked ? (
-                  <CheckSquare className="h-4 w-4 shrink-0 text-amber-300 mt-0.5" />
+                  <CheckSquare className="h-4 w-4 shrink-0 text-[#FDE68A] mt-0.5" />
                 ) : (
-                  <Square className="h-4 w-4 shrink-0 text-slate-400 mt-0.5" />
+                  <Square className="h-4 w-4 shrink-0 text-stone-400 mt-0.5" />
                 )}
                 <span>
-                  <strong className="text-pink-300 mr-1">#{idx + 1}.</strong>
+                  <strong className="text-rose-300 mr-1">#{idx + 1}.</strong>
                   {item.text}
                 </span>
               </button>

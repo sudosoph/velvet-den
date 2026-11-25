@@ -210,72 +210,72 @@ export const SceneMosaicBanner: React.FC<{
     tapas_check: {
       emoji: '🍸💳',
       label: 'TAPAS LOUNGE • THE CHECK DROP',
-      gradient: 'from-rose-600 via-fuchsia-700 to-amber-500',
+      gradient: 'from-rose-700 via-[#2A142D] to-amber-700',
     },
     waiter_shock: {
       emoji: '🍷😳',
       label: 'HOST STAND • "TABLE FOR YOU & YOUR SON?"',
-      gradient: 'from-pink-600 via-purple-800 to-teal-500',
+      gradient: 'from-rose-800 via-[#221330] to-amber-800',
     },
     code_switch_phone: {
       emoji: '📱🧠',
       label: 'GENERATIONAL TRANSLATOR • TEXT & CALL PROTOCOL',
-      gradient: 'from-teal-600 via-indigo-800 to-pink-600',
+      gradient: 'from-[#28163A] via-[#1B1228] to-rose-700',
     },
     babysitter_clock: {
       emoji: '☔⏱️',
       label: '$20/HR SITTER CLOCK • PRECIOUS FRIDAY NIGHT',
-      gradient: 'from-amber-500 via-rose-700 to-slate-900',
+      gradient: 'from-amber-700 via-rose-800 to-[#15101C]',
     },
     princess_bouquet: {
       emoji: '👑💐',
       label: 'SOFT-LIFE ROYALTY • ZERO MENTAL LOAD',
-      gradient: 'from-pink-500 via-rose-500 to-amber-400',
+      gradient: 'from-rose-600 via-rose-800 to-amber-600',
     },
     ridge_trail_leash: {
       emoji: '🏃‍♀️⛰️',
       label: '6:10 AM CANYON SWITCHBACKS • SHORT LEASH PACE',
-      gradient: 'from-emerald-600 via-teal-700 to-amber-500',
+      gradient: 'from-emerald-800 via-[#1E1729] to-amber-700',
     },
     mirror_vanity: {
       emoji: '☀️🪞',
       label: 'MORNING SUNLIGHT • SECRET MIRROR & GAME DOUBTS',
-      gradient: 'from-amber-400 via-rose-500 to-indigo-800',
+      gradient: 'from-amber-600 via-rose-800 to-[#1B1228]',
     },
     houseboy_apron: {
       emoji: '🧹🥂',
       label: 'SOLO SANCTUARY • EARNED LINEN-APRON SUNDAY',
-      gradient: 'from-fuchsia-600 via-rose-600 to-amber-500',
+      gradient: 'from-rose-700 via-[#28152B] to-amber-600',
     },
     fertility_talk: {
       emoji: '🌙🍷',
       label: 'ACT III BOSS • THE KIDS & TIMELINE CROSSROADS',
-      gradient: 'from-indigo-700 via-purple-800 to-rose-600',
+      gradient: 'from-[#241538] via-[#1B1228] to-rose-700',
     },
     brunch_daughter: {
       emoji: '🥂🥑',
       label: 'ACT III FINALE • BRUNCH WITH HER 22YO DAUGHTER',
-      gradient: 'from-amber-500 via-pink-600 to-purple-800',
+      gradient: 'from-amber-700 via-rose-800 to-[#221332]',
     },
     bathroom_audit: {
       emoji: '🧼🗑️',
       label: 'VIP DEEP-CUT • HIS APARTMENT LIDDED-BIN AUDIT',
-      gradient: 'from-teal-500 via-cyan-700 to-slate-900',
+      gradient: 'from-[#241734] via-[#181124] to-amber-800',
     },
     palm_springs_pool: {
       emoji: '🌴🕶️',
       label: 'VIP DEEP-CUT • 5-STAR PALM SPRINGS INCOME GAP',
-      gradient: 'from-orange-500 via-pink-600 to-teal-500',
+      gradient: 'from-amber-700 via-rose-700 to-[#1E1729]',
     },
     thanksgiving_table: {
       emoji: '🥧🍂',
       label: 'VIP DEEP-CUT • THANKSGIVING CLASS-OF-’97 CROSSOVER',
-      gradient: 'from-amber-600 via-red-700 to-purple-900',
+      gradient: 'from-amber-800 via-rose-900 to-[#1A1126]',
     },
     trader_joes_aisle: {
       emoji: '🫒🛒',
       label: 'VIP DEEP-CUT • IN-THE-WILD OLIVE OIL AISLE SHOT',
-      gradient: 'from-emerald-600 via-amber-500 to-rose-600',
+      gradient: 'from-emerald-800 via-amber-700 to-rose-800',
     },
   };
 
@@ -288,9 +288,9 @@ export const SceneMosaicBanner: React.FC<{
       <div className="absolute -right-6 -top-6 h-28 w-28 rotate-12 rounded-full bg-black/25 border-2 border-white/20" />
       <div className="relative flex items-center justify-between gap-3">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-md bg-black/75 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-300">
+          <div className="inline-flex items-center gap-2 rounded-md bg-black/75 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-[#FDE68A]">
             <span>ACT {act === 2 ? 'II' : 'III'}</span>
-            {isVip && <span className="text-pink-400">• VIP DEEP-CUT</span>}
+            {isVip && <span className="text-rose-300">• VIP DEEP-CUT</span>}
           </div>
           <p className="mt-2 font-display text-2xl sm:text-3xl text-white drop-shadow-[2px_2px_0px_#09050f]">
             {info.label}

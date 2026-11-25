@@ -105,6 +105,19 @@ export const sfx = {
   winePourGlug(fillPct = 50) {
     playTone(280 + fillPct * 3.2, 0.07, 'sine', 0.06, 0, 340 + fillPct * 3.5);
   },
+  crystalClink() {
+    playTone(1318.5, 0.22, 'sine', 0.075, 0);
+    playTone(1760, 0.28, 'sine', 0.065, 0.035);
+    playTone(2637, 0.18, 'triangle', 0.04, 0.06);
+  },
+  rhythmBeat(step = 0) {
+    const scale = [523.25, 659.25, 783.99, 987.77];
+    const f = scale[step % scale.length];
+    playTone(f, 0.14, 'triangle', 0.075, 0, f * 1.06);
+  },
+  cardHoverTick() {
+    playTone(480, 0.03, 'sine', 0.025);
+  },
   victoryFanfare() {
     [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
       playTone(f, 0.22, 'triangle', 0.08, idx * 0.08);

@@ -1,14 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Award,
-  CheckCircle2,
+  ChevronDown,
   Coffee,
   ExternalLink,
   Flame,
   Heart,
   RotateCcw,
   Share2,
-  Sparkles,
   Volume2,
   VolumeX,
 } from 'lucide-react';
@@ -19,13 +18,13 @@ import {
   type Episode,
   type RelationshipStage,
 } from '../data/episodes';
-import { POP_CULTURE_TRIVIA } from '../data/popCultureTrivia';
 import { personalizeText, type GameRunState, type Stats } from '../domain/gameEngine';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
+import { parseChoiceCardSpec } from '../lib/choiceParser';
 import { renderRichText } from '../lib/richText';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { getLocalChoicePercentagesSync, localCrowdStatsService } from '../services/adapters';
-import { MinigameWidget } from './MinigameWidgets';
+import { MinigameWidget, resolveSceneGameType } from './MinigameWidgets';
 
 interface EpisodeStageProps {
   run: GameRunState;
@@ -50,7 +49,6 @@ const STAGE_PILLS: { stage: RelationshipStage; short: string }[] = [
 interface SceneVisualSpec {
   imageUrl: string;
   locationBadge: string;
-  ambientTint: string;
   vibeReadHer: string;
   vibeReadHim: string;
 }
@@ -62,7 +60,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/hotel-pool-sauna.jpg',
       locationBadge: '🏨 Heated Midnight Pool & Cedar Sauna • 11:40 PM',
-      ambientTint: 'from-slate-950/30 via-slate-950/40 to-[#0e091a]/92',
       vibeReadHer: 'Steam curls off the water—his shoulders relax, holding warm eye contact without rushing.',
       vibeReadHim: 'Candlelight catches her smile through the pool mist—zero small-talk nerves, pure magnetism.',
     };
@@ -71,7 +68,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/campus-autumn-sushi.jpg',
       locationBadge: '🍣 Lantern Quad & Omakase Sushi Counter • 7:45 PM',
-      ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Warm sake steam & cedar counter glow—one playful raised eyebrow sets the entire pace.',
       vibeReadHim: 'Sneakers on brick quadstones, sharp wit across the sushi bar—every cue is live.',
     };
@@ -80,8 +76,7 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/neon-bowling-lounge.jpg',
       locationBadge: '🎳 Retro Neon Bowling & Jukebox Lounge • 9:30 PM',
-      ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
-      vibeReadHer: 'Magenta neon gleams off the hardwood lane—he’s hyping your spare like the NBA Finals.',
+      vibeReadHer: 'Warm neon gleams off the hardwood lane—he’s hyping your spare like the NBA Finals.',
       vibeReadHim: 'She laces up retro bowling shoes laughing—playful trash talk beats stiff steakhouses.',
     };
   }
@@ -89,20 +84,14 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/cast/dog-park-picnic.jpg',
       locationBadge: '🧺 Golden-Hour Meadow & Park Stroll • 5:15 PM',
-      ambientTint: 'from-slate-950/25 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Fresh linen blanket, real strawberries, zero pretentiousness—effort shows in every detail.',
       vibeReadHim: 'Golden sunlight hits her sunglasses as she leans back on the blanket grinning.',
     };
   }
-  if (
-    ep.sceneArt === 'palm_springs_pool' ||
-    id.includes('palm-springs') ||
-    id.includes('montana')
-  ) {
+  if (ep.sceneArt === 'palm_springs_pool' || id.includes('palm-springs') || id.includes('montana')) {
     return {
       imageUrl: './images/scenes/palm-springs-resort.jpg',
       locationBadge: '🌴 Boutique Cabana & Sunset Terrace • 6:50 PM',
-      ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Warm resort breeze & clinking glasses—everyone else fades into background static.',
       vibeReadHim: 'Poolside twilight & effortless confidence—hold your frame and enjoy the moment.',
     };
@@ -116,7 +105,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/canyon-sunrise-trail.jpg',
       locationBadge: '🏔️ Sunrise Ridge & Sculpt Club • 6:15 AM',
-      ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Endorphins high, posture locked—actions speak louder than brag texts out here.',
       vibeReadHim: 'Crisp morning air and steady cadence—match her pace without showing off.',
     };
@@ -132,7 +120,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/sunday-kitchen-sanctuary.jpg',
       locationBadge: '🍝 Candlelit Marble Kitchen Sanctuary • Sunday 7:30 PM',
-      ambientTint: 'from-slate-950/25 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Rosemary hitting cast iron, peonies on marble—domestic competence is pure catnip.',
       vibeReadHim: 'Warm pendant lights and two poured glasses—leave her kitchen cleaner than you found it.',
     };
@@ -151,7 +138,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/luxury-bedroom-sanctuary.jpg',
       locationBadge: '🕯️ Rain-Lit Private Sanctuary • 11:15 PM',
-      ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Rain on glass and amber lamplight—unguarded honesty matters ten times more than lines.',
       vibeReadHim: 'Quiet sanctuary hours—listen deeply, keep ego at zero, and let closeness breathe.',
     };
@@ -160,7 +146,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/coastal-convertible.jpg',
       locationBadge: '🌅 Coastal Sunset Overlook & Wine Lounge • 6:40 PM',
-      ambientTint: 'from-slate-950/25 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Peonies on the passenger seat and ocean breeze—let someone else drive for once.',
       vibeReadHim: 'Passenger door opened, playlist dialed—lead with warmth and zero hesitation.',
     };
@@ -169,7 +154,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/wedding-gala-cheers.jpg',
       locationBadge: '🥂 Skyline Lounge & Velvet Rope • 9:10 PM',
-      ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Every head turns as you step inside—calm, amused pride makes a couple untouchable.',
       vibeReadHim: 'Hand steady at her waist—turn every double-take into your favorite shared joke.',
     };
@@ -178,7 +162,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/neon-bowling-lounge.jpg',
       locationBadge: '📱 Late-Night Velvet Booth & Glow • 10:05 PM',
-      ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
       vibeReadHer: 'Phone face-down on the table—direct adult communication beats streak games every time.',
       vibeReadHim: 'Drop the slang, hold steady eye contact, and lock in real plans like a grown man.',
     };
@@ -187,7 +170,6 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
   return {
     imageUrl: './images/scenes/wine-bar-booth.jpg',
     locationBadge: '🍷 Candlelit Corner Booth • Friday 8:20 PM',
-    ambientTint: 'from-slate-950/30 via-slate-950/45 to-[#0e091a]/92',
     vibeReadHer: 'Candlelight flickers across two glasses—you can tell in 30 seconds if he owns his frame.',
     vibeReadHim: 'Warm booth glow and lingering eye contact—lead with generosity and zero games.',
   };
@@ -250,21 +232,14 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     [],
   );
   const [stageReaction, setStageReaction] = useState<'idle' | 'green' | 'red'>('idle');
-  const [vibeCheckedEpIds, setVibeCheckedEpIds] = useState<Record<string, boolean>>({});
-  const [answeredTriviaEpIds, setAnsweredTriviaEpIds] = useState<Record<string, number>>({});
+  const [curtainTitle, setCurtainTitle] = useState<string | null>(null);
+  const [tiltState, setTiltState] = useState<{ idx: number; rx: number; ry: number } | null>(null);
+  const [whispersOpen, setWhispersOpen] = useState(true);
   const [speakingEpId, setSpeakingEpId] = useState<string | null>(null);
   const stopVoiceRef = useRef<(() => void) | null>(null);
 
   const currentEpisode: Episode | undefined = run.episodeQueue[run.currentEpisodeIndex];
   const role = run.pairing.role;
-
-  const showInterludeTrivia =
-    run.episodeQueue.length >= 4 &&
-    (run.currentEpisodeIndex === 2 ||
-      run.currentEpisodeIndex === 5 ||
-      run.currentEpisodeIndex === 8);
-  const interludeQuestion =
-    POP_CULTURE_TRIVIA[run.currentEpisodeIndex % POP_CULTURE_TRIVIA.length];
 
   const lastEntry =
     showingOutcomeForEpId && run.history.length > 0
@@ -319,6 +294,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     if (!currentEpisode) return;
     stopVoiceRef.current?.();
     setSpeakingEpId(null);
+    setTiltState(null);
 
     const picked = currentEpisode.choices[idx];
     const flyups: { id: string; text: string; positive: boolean }[] = [];
@@ -328,26 +304,26 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
       if (chemistry !== 0) {
         flyups.push({
           id: 'chem',
-          text: `${chemistry > 0 ? '+' : ''}${chemistry} Chemistry 🔥`,
+          text: `${chemistry > 0 ? '+' : ''}${chemistry} Chemistry`,
           positive: chemistry > 0,
         });
       }
       if (chivalry !== 0) {
         flyups.push({
           id: 'chiv',
-          text: `${chivalry > 0 ? '+' : ''}${chivalry} Chivalry 🥂`,
+          text: `${chivalry > 0 ? '+' : ''}${chivalry} Chivalry`,
           positive: chivalry > 0,
         });
       } else if (eq !== 0) {
         flyups.push({
           id: 'eq',
-          text: `${eq > 0 ? '+' : ''}${eq} EQ 💬`,
+          text: `${eq > 0 ? '+' : ''}${eq} EQ`,
           positive: eq > 0,
         });
       } else if (maturity !== 0) {
         flyups.push({
           id: 'mat',
-          text: `${maturity > 0 ? '+' : ''}${maturity} Maturity ✨`,
+          text: `${maturity > 0 ? '+' : ''}${maturity} Maturity`,
           positive: maturity > 0,
         });
       }
@@ -382,6 +358,18 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     }
   };
 
+  const handleAdvanceNextScene = () => {
+    sfx.messagePop();
+    const nextEp = run.episodeQueue[run.currentEpisodeIndex];
+    if (nextEp) {
+      const nextSpec = getSceneVisualSpec(nextEp);
+      setCurtainTitle(nextSpec.locationBadge);
+      window.setTimeout(() => setCurtainTitle(null), 550);
+    }
+    setStageReaction('idle');
+    setShowingOutcomeForEpId(null);
+  };
+
   const handleToggleSceneVoice = () => {
     if (!displayedEpisode) return;
     if (speakingEpId === displayedEpisode.id) {
@@ -404,22 +392,14 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     );
   };
 
-  const handleTapChemistrySpark = () => {
-    if (!currentEpisode) return;
-    sfx.hotspotFix();
-    setParticleBurst('✨💓🔥');
-    window.setTimeout(() => setParticleBurst(null), 900);
-    setVibeCheckedEpIds((prev) => ({ ...prev, [currentEpisode.id]: true }));
-  };
-
   const affinity = getAffinityLevel(run.stats);
   const streak = getGreenFlagStreak(run.history);
 
-  const statItems: [string, number, number | undefined, string][] = [
-    ['Maturity', run.stats.maturity, resolvedChoice?.deltas.maturity, 'from-rose-400 to-rose-500'],
-    ['Chivalry', run.stats.chivalry, resolvedChoice?.deltas.chivalry, 'from-amber-300 to-amber-500'],
-    ['EQ / Consent', run.stats.eq, resolvedChoice?.deltas.eq, 'from-emerald-300 to-emerald-500'],
-    ['Chemistry', run.stats.chemistry, resolvedChoice?.deltas.chemistry, 'from-pink-400 to-rose-500'],
+  const statItems: [string, number, number | undefined][] = [
+    ['Maturity', run.stats.maturity, resolvedChoice?.deltas.maturity],
+    ['Chivalry', run.stats.chivalry, resolvedChoice?.deltas.chivalry],
+    ['EQ', run.stats.eq, resolvedChoice?.deltas.eq],
+    ['Chemistry', run.stats.chemistry, resolvedChoice?.deltas.chemistry],
   ];
 
   const affiliate = getAffiliateById(resolvedEpisode?.recommendedAffiliateId);
@@ -432,78 +412,96 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
 
   const cleanStoryTag = currentEpisode
     ? currentEpisode.subredditThreadInspiration.startsWith('r/CougarsAndCubs')
-      ? `💬 Real Age-Gap Lore • ${currentEpisode.subredditThreadInspiration.replace(
+      ? `Real Age-Gap Lore • ${currentEpisode.subredditThreadInspiration.replace(
           /^r\/CougarsAndCubs[^:]*:\s*/i,
           '',
         )}`
-      : `🎬 ${currentEpisode.subredditThreadInspiration}`
+      : currentEpisode.subredditThreadInspiration
     : '';
 
+  const sceneGameType = currentEpisode ? resolveSceneGameType(currentEpisode) : null;
+  const sceneGameCompleted = currentEpisode
+    ? run.completedMinigameEpisodeIds.includes(currentEpisode.id)
+    : false;
+  const isZeroProof =
+    run.pairing.her.subplotTags.includes('zero_proof_wellness') ||
+    run.pairing.his.subplotTags.includes('zero_proof_wellness');
+
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
-      {/* Gamified Relationship HUD */}
-      <div className="vice-panel rounded-3xl bg-[#150f24]/90 p-5 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/10">
-          <div className="space-y-1">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-300">
-                {run.pairing.badgeLabel} • Scene{' '}
-                {Math.min(run.currentEpisodeIndex + 1, run.episodeQueue.length)} of{' '}
-                {run.episodeQueue.length}
+    <div className="mx-auto max-w-5xl space-y-4 relative">
+      {/* Velvet Curtain Scene Wipe Overlay */}
+      {curtainTitle && (
+        <div className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center bg-[#0C0910]/85 backdrop-blur-md animate-curtain-wipe">
+          <div className="rounded-full border border-[#E5C17B]/40 bg-[#15101C] px-6 py-3 font-display text-xl sm:text-2xl text-[#FDE68A] shadow-2xl">
+            {curtainTitle}
+          </div>
+        </div>
+      )}
+
+      {/* Compact Glass Telemetry Bar (Replaces 230px Multi-Row Dashboard) */}
+      <div className="vice-panel rounded-2xl px-4 py-3 space-y-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+              Scene {Math.min(run.currentEpisodeIndex + 1, run.episodeQueue.length)}/
+              {run.episodeQueue.length} • {RELATIONSHIP_STAGE_LABELS[activeStage]}
+            </span>
+            {streak >= 2 && (
+              <span className="animate-combo-pulse inline-flex items-center gap-1 rounded-full bg-rose-600 px-2.5 py-0.5 text-[11px] font-semibold text-[#FAF7F5]">
+                <Flame className="h-3 w-3" /> {streak}x Streak
               </span>
-              {streak >= 2 && (
-                <span className="animate-combo-pulse inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-300 to-rose-400 px-3 py-0.5 text-xs font-extrabold text-slate-950 shadow">
-                  <Flame className="h-3.5 w-3.5" /> {streak}x Streak
-                </span>
-              )}
-            </div>
-            <div className="text-sm font-medium text-rose-200">
-              {RELATIONSHIP_STAGE_LABELS[activeStage]}
-            </div>
+            )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Affinity XP Meter */}
-            <div className="flex items-center gap-2.5 rounded-2xl border border-rose-400/25 bg-white/5 px-3.5 py-2">
-              <Heart className="h-4 w-4 text-rose-400 fill-rose-400 shrink-0" />
-              <div>
-                <div className="text-xs font-bold text-amber-200 leading-none">
-                  Lv.{affinity.level} • {affinity.title}
-                </div>
-                <div className="mt-1.5 h-2 w-28 overflow-hidden rounded-full bg-black/50">
-                  <div
-                    className="h-full bg-gradient-to-r from-rose-500 to-amber-300 transition-all duration-500"
-                    style={{ width: `${affinity.pct}%` }}
-                  />
-                </div>
+          {/* Inline 4-Stat Chips With Live Outcome Deltas */}
+          <div className="flex flex-wrap items-center gap-2">
+            {statItems.map(([label, val, delta]) => (
+              <div
+                key={label}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#1E1729] border border-white/[0.07] px-2.5 py-1 text-xs"
+              >
+                <span className="text-stone-400">{label}</span>
+                <strong className="text-[#FAF7F5]">{val}</strong>
+                {Boolean(lastEntry) && typeof delta === 'number' && delta !== 0 && (
+                  <span
+                    className={`font-semibold ${
+                      delta > 0 ? 'text-emerald-300' : 'text-rose-300'
+                    }`}
+                  >
+                    {delta > 0 ? `+${delta}` : delta}
+                  </span>
+                )}
               </div>
-            </div>
+            ))}
+          </div>
 
-            <div className="flex items-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm font-bold">
-              <span className="text-slate-300">Strikes:</span>
+          <div className="flex items-center gap-3 text-xs">
+            <span className="inline-flex items-center gap-1 text-[#FDE68A] font-semibold">
+              <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500" />
+              Lv.{affinity.level} {affinity.title}
+            </span>
+            <span className="inline-flex items-center gap-1 font-semibold text-stone-300">
               {[0, 1, 2].map((strike) => (
-                <span key={strike} className="text-base leading-none">
-                  {strike < run.redFlags ? '🚩' : '⚪'}
-                </span>
+                <span key={strike}>{strike < run.redFlags ? '🚩' : '⚪'}</span>
               ))}
-            </div>
+            </span>
           </div>
         </div>
 
-        {/* 6-Stage Arc Stepper */}
-        <div className="grid grid-cols-2 sm:grid-cols-6 gap-2">
+        {/* Slim 6-Stage Arc Strip */}
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
           {STAGE_PILLS.map(({ stage: st, short }) => {
             const reached = st <= activeStage;
             const current = st === activeStage;
             return (
               <div
                 key={st}
-                className={`rounded-xl px-2.5 py-1.5 text-center text-xs font-bold transition ${
+                className={`rounded-lg px-2 py-1 text-center text-[11px] font-semibold tracking-wide transition ${
                   current
-                    ? 'bg-gradient-to-r from-rose-500 to-amber-400 text-slate-950 shadow-sm'
+                    ? 'bg-[#E5C17B] text-[#0C0910]'
                     : reached
-                      ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-400/25'
-                      : 'bg-white/5 text-slate-400'
+                      ? 'bg-emerald-500/12 text-emerald-300 border border-emerald-400/20'
+                      : 'bg-[#1E1729] text-stone-400'
                 }`}
               >
                 {short}
@@ -511,45 +509,14 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             );
           })}
         </div>
-
-        {/* 4 Live Stat Meters With Outcome Delta Badges */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-1">
-          {statItems.map(([label, val, delta, gradClass]) => (
-            <div key={label} className="space-y-1.5">
-              <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200">
-                <span>{label}</span>
-                <span className="inline-flex items-center gap-1.5">
-                  <strong className="text-white">{val}</strong>
-                  {Boolean(lastEntry) && typeof delta === 'number' && delta !== 0 && (
-                    <span
-                      className={`rounded-full px-1.5 py-0.5 text-xs font-bold ${
-                        delta > 0
-                          ? 'bg-emerald-500/20 text-emerald-300'
-                          : 'bg-rose-500/25 text-rose-300'
-                      }`}
-                    >
-                      {delta > 0 ? `+${delta}` : delta}
-                    </span>
-                  )}
-                </span>
-              </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-white/10">
-                <div
-                  className={`h-full rounded-full bg-gradient-to-r ${gradClass} transition-all duration-500`}
-                  style={{ width: `${val}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* CINEMATIC WIDESCREEN VISUAL STAGE */}
       {sceneSpec && (
         <div
-          className={`vice-panel relative h-68 sm:h-84 w-full overflow-hidden rounded-3xl bg-[#0d0718] ${
+          className={`vice-panel relative h-60 sm:h-76 w-full overflow-hidden rounded-3xl bg-[#0C0910] ${
             stageReaction === 'red' && lastEntry ? 'animate-screen-shake ring-2 ring-rose-500' : ''
-          } ${stageReaction === 'green' && lastEntry ? 'ring-2 ring-amber-300/80' : ''}`}
+          } ${stageReaction === 'green' && lastEntry ? 'ring-2 ring-[#E5C17B]/70' : ''}`}
         >
           <img
             key={sceneSpec.imageUrl}
@@ -557,28 +524,27 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             alt={sceneSpec.locationBadge}
             className="absolute inset-0 h-full w-full object-cover animate-ken-burns"
           />
-          <div className={`absolute inset-0 bg-gradient-to-b ${sceneSpec.ambientTint}`} />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0b0813] via-[#0b0813]/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0C0910]/35 via-[#0C0910]/30 to-[#0C0910]/92" />
 
           {/* Top Bar: Location Stamp + Hear Scene */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 p-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/65 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-amber-200 backdrop-blur-md">
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 p-3.5 sm:p-4">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0C0910]/75 px-3.5 py-1 text-xs font-medium text-[#FDE68A] backdrop-blur-md">
               {sceneSpec.locationBadge}
             </span>
 
             <button
               type="button"
               onClick={handleToggleSceneVoice}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/65 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-white hover:bg-black/85 backdrop-blur-md transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0C0910]/75 px-3.5 py-1 text-xs font-semibold text-[#FAF7F5] hover:bg-[#0C0910] backdrop-blur-md transition cursor-pointer"
             >
               {speakingEpId === displayedEpisode?.id ? (
                 <>
-                  <VolumeX className="h-4 w-4 text-rose-300" />
+                  <VolumeX className="h-3.5 w-3.5 text-rose-400" />
                   <span>Stop Voice</span>
                 </>
               ) : (
                 <>
-                  <Volume2 className="h-4 w-4 text-amber-300" />
+                  <Volume2 className="h-3.5 w-3.5 text-[#E5C17B]" />
                   <span>Hear Scene</span>
                 </>
               )}
@@ -586,20 +552,20 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
           </div>
 
           {particleBurst && (
-            <div className="pointer-events-none absolute inset-x-0 top-14 z-30 text-center text-4xl sm:text-5xl animate-float-particle">
+            <div className="pointer-events-none absolute inset-x-0 top-12 z-30 text-center text-4xl sm:text-5xl animate-float-particle">
               {particleBurst}
             </div>
           )}
 
           {statFlyups.length > 0 && (
-            <div className="pointer-events-none absolute inset-x-0 top-16 z-30 flex flex-col items-center gap-2">
+            <div className="pointer-events-none absolute inset-x-0 top-14 z-30 flex flex-col items-center gap-1.5">
               {statFlyups.map((f) => (
                 <span
                   key={f.id}
-                  className={`animate-stat-flyup rounded-full px-4 py-1 text-xs sm:text-sm font-bold shadow-lg ${
+                  className={`animate-stat-flyup rounded-full px-4 py-1 text-xs sm:text-sm font-semibold shadow-xl ${
                     f.positive
-                      ? 'bg-gradient-to-r from-amber-300 to-rose-300 text-slate-950'
-                      : 'bg-rose-600 text-white'
+                      ? 'bg-[#E5C17B] text-[#0C0910]'
+                      : 'bg-rose-600 text-[#FAF7F5]'
                   }`}
                 >
                   {f.text}
@@ -608,51 +574,42 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          {/* Center-Stage Interactive Body-Language Cue OR Outcome Stamp */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-24 sm:bottom-28 z-20 flex justify-center px-4">
-            {lastEntry ? (
+          {/* Outcome Center Stamp */}
+          {lastEntry && (
+            <div className="pointer-events-none absolute inset-x-0 bottom-24 z-20 flex justify-center px-4">
               <div
-                className={`rounded-2xl px-4 py-1.5 font-display text-lg sm:text-xl shadow-xl transition-transform duration-300 ${
+                className={`rounded-full px-4 py-1 text-xs sm:text-sm font-semibold uppercase tracking-wider shadow-xl ${
                   isRedOutcome
-                    ? '-rotate-2 bg-rose-600 text-white'
-                    : 'rotate-1 bg-gradient-to-r from-amber-300 to-rose-300 text-slate-950'
+                    ? 'bg-rose-600 text-[#FAF7F5]'
+                    : 'bg-[#E5C17B] text-[#0C0910]'
                 }`}
               >
-                {isRedOutcome ? '🚩 Ick Alert!' : '💖 Sparks Flying!'}
+                {isRedOutcome ? '🚩 Red Flag Triggered' : '✨ Chemistry Earned'}
               </div>
-            ) : currentEpisode && !vibeCheckedEpIds[currentEpisode.id] ? (
-              <button
-                type="button"
-                onClick={handleTapChemistrySpark}
-                className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-amber-300/60 bg-black/75 px-4 py-2 text-xs sm:text-sm font-semibold text-amber-200 shadow-lg hover:scale-105 hover:bg-black/90 transition cursor-pointer"
-              >
-                <Sparkles className="h-4 w-4 text-amber-300" />
-                <span>Tap to Read Body Language</span>
-              </button>
-            ) : null}
-          </div>
+            </div>
+          )}
 
-          {/* Foreground Character Portraits */}
+          {/* Foreground Expressive Character Portraits */}
           <div className="absolute inset-x-4 sm:inset-x-6 bottom-3 z-20 flex items-end justify-between gap-3">
             {/* HER */}
             <div
               className={`flex items-end gap-3 transition-all duration-500 ${
                 lastEntry
                   ? isRedOutcome
-                    ? '-translate-x-2 -rotate-1 opacity-90'
+                    ? '-translate-x-2 opacity-90'
                     : 'translate-x-3 sm:translate-x-8 scale-105'
-                  : ''
+                  : 'animate-portrait-breathe'
               }`}
             >
               <div className="relative">
                 <img
                   src={run.pairing.her.photoUrl}
                   alt={run.pairing.her.name}
-                  className={`h-24 w-20 sm:h-32 sm:w-26 rounded-2xl object-cover object-top border-2 shadow-xl ${
-                    role === 'her' ? 'border-amber-300' : 'border-rose-400/80'
+                  className={`h-22 w-18 sm:h-28 sm:w-23 rounded-2xl object-cover object-top border-2 shadow-xl ${
+                    role === 'her' ? 'border-rose-500' : 'border-white/30'
                   }`}
                 />
-                <span className="absolute -top-2.5 -right-2 rounded-full bg-rose-500 px-2.5 py-0.5 text-xs font-bold text-white shadow">
+                <span className="absolute -top-2 -right-2 rounded-full bg-rose-600 px-2 py-0.5 text-[11px] font-semibold text-[#FAF7F5] shadow">
                   {lastEntry
                     ? isRedOutcome
                       ? '😒 Unimpressed'
@@ -663,12 +620,10 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 </span>
               </div>
               <div className="pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                <div className="font-display text-lg sm:text-2xl text-white">
-                  {run.pairing.her.name}, {run.pairing.her.age}F
+                <div className="font-display text-lg sm:text-[22px] text-[#FAF7F5]">
+                  {run.pairing.her.name}, {run.pairing.her.age}
                 </div>
-                <div className="text-xs sm:text-sm font-medium text-rose-200">
-                  {run.pairing.her.title}
-                </div>
+                <div className="text-xs text-rose-200">{run.pairing.her.title}</div>
               </div>
             </div>
 
@@ -677,34 +632,32 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
               className={`flex items-end gap-3 text-right transition-all duration-500 ${
                 lastEntry
                   ? isRedOutcome
-                    ? 'translate-x-2 rotate-1 opacity-85'
+                    ? 'translate-x-2 opacity-85'
                     : '-translate-x-3 sm:-translate-x-8 scale-105'
-                  : ''
+                  : 'animate-portrait-breathe'
               }`}
             >
               <div className="pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                <div className="font-display text-lg sm:text-2xl text-white">
-                  {run.pairing.his.name}, {run.pairing.his.age}M
+                <div className="font-display text-lg sm:text-[22px] text-[#FAF7F5]">
+                  {run.pairing.his.name}, {run.pairing.his.age}
                 </div>
-                <div className="text-xs sm:text-sm font-medium text-amber-200">
-                  {run.pairing.his.title}
-                </div>
+                <div className="text-xs text-[#FDE68A]">{run.pairing.his.title}</div>
               </div>
               <div className="relative">
                 <img
                   src={run.pairing.his.photoUrl}
                   alt={run.pairing.his.name}
-                  className={`h-24 w-20 sm:h-32 sm:w-26 rounded-2xl object-cover object-top border-2 shadow-xl ${
-                    role === 'him' ? 'border-amber-300' : 'border-amber-200/70'
+                  className={`h-22 w-18 sm:h-28 sm:w-23 rounded-2xl object-cover object-top border-2 shadow-xl ${
+                    role === 'him' ? 'border-[#E5C17B]' : 'border-white/30'
                   }`}
                 />
-                <span className="absolute -top-2.5 -left-2 rounded-full bg-amber-300 px-2.5 py-0.5 text-xs font-bold text-slate-950 shadow">
+                <span className="absolute -top-2 -left-2 rounded-full bg-[#E5C17B] px-2 py-0.5 text-[11px] font-semibold text-[#0C0910] shadow">
                   {lastEntry
                     ? isRedOutcome
                       ? '😬 Busted'
                       : '🔥 Locked In'
                     : role === 'him'
-                      ? '🔥 You'
+                      ? '🥂 You'
                       : '✨ Courting'}
                 </span>
               </div>
@@ -713,60 +666,67 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
         </div>
       )}
 
-      {/* Body-Language Cue Drawer */}
-      {!lastEntry && currentEpisode && sceneSpec && vibeCheckedEpIds[currentEpisode.id] && (
-        <div className="animate-stage-in rounded-2xl border border-amber-300/35 bg-amber-400/10 px-4 py-3.5 text-sm text-amber-100 flex items-center justify-between gap-3">
+      {/* Earned Body-Language Insight (Unlocks automatically when the scene's tactile game completes!) */}
+      {!lastEntry && currentEpisode && sceneSpec && sceneGameCompleted && (
+        <div className="animate-stage-in rounded-2xl border border-[#E5C17B]/30 bg-[#1E1729] px-4 py-3 text-sm text-stone-200 flex items-center justify-between gap-3">
           <span>
-            <strong className="text-amber-300">👀 Live Room Read:</strong>{' '}
+            <strong className="text-[#FDE68A]">👀 Room Read Unlocked:</strong>{' '}
             {role === 'her' ? sceneSpec.vibeReadHer : sceneSpec.vibeReadHim}
           </span>
-          <span className="shrink-0 rounded-full bg-amber-300/20 px-3 py-1 text-xs font-bold text-amber-200">
-            Chemistry Ready
+          <span className="shrink-0 rounded-full bg-emerald-500/15 px-3 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-300">
+            Bonus Active
           </span>
         </div>
       )}
 
-      {/* Outcome Transition Card */}
+      {/* Outcome Verdict Card */}
       {lastEntry && resolvedEpisode ? (
-        <div className="vice-panel animate-stage-in rounded-3xl bg-[#161026]/95 p-6 sm:p-8 space-y-5">
+        <div className="vice-panel animate-stage-in rounded-3xl p-6 sm:p-8 space-y-5">
           <div className="flex flex-wrap items-center gap-2.5">
             <div
-              className={`vice-toast inline-flex items-center gap-1.5 rounded-2xl px-4 py-2 font-display text-lg sm:text-xl shadow ${
-                isRedOutcome ? 'bg-rose-600 text-white' : 'bg-amber-300 text-slate-950'
+              className={`vice-toast inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wider shadow ${
+                isRedOutcome
+                  ? 'bg-rose-950 border border-rose-500/50 text-rose-200'
+                  : 'bg-[#E5C17B] text-[#0C0910]'
               }`}
             >
               ⚡ {lastEntry.toastBanner}
             </div>
 
             {lastEntry.badgeUnlocked && (
-              <div className="inline-flex items-center gap-2 rounded-2xl border border-emerald-400/40 bg-emerald-500/15 px-3.5 py-2 text-xs sm:text-sm font-semibold text-emerald-200">
-                <Award className="h-4 w-4 text-amber-300" />
-                <span>Badge Unlocked: {lastEntry.badgeUnlocked}</span>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-500/15 px-3.5 py-1.5 text-xs font-semibold text-emerald-200">
+                <Award className="h-3.5 w-3.5 text-[#E5C17B]" />
+                <span>{lastEntry.badgeUnlocked}</span>
               </div>
             )}
           </div>
 
-          <h3 className="font-display text-2xl sm:text-3xl text-white">{resolvedEpisode.title}</h3>
-          <p className="text-base sm:text-lg leading-relaxed text-slate-100">
+          <h3 className="font-display text-2xl sm:text-3xl text-[#FAF7F5]">
+            {resolvedEpisode.title}
+          </h3>
+          <p className="text-[15px] sm:text-base leading-relaxed text-stone-200 max-w-[65ch]">
             {renderRichText(lastEntry.outcomeText)}
           </p>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 font-medium">
-            📊 Global Club Pulse: <strong className="text-amber-300">{crowdPcts[lastEntry.choiceIndex] ?? 48}%</strong> of players chose this move.
+          <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] px-4 py-3 text-sm text-stone-300">
+            Global Club Pulse:{' '}
+            <strong className="text-[#FDE68A]">
+              {crowdPcts[lastEntry.choiceIndex] ?? 48}%
+            </strong>{' '}
+            of players made this exact move.
           </div>
 
-          {/* Peak-Laugh Tip Prompt */}
           {resolvedChoice?.triggerTipPrompt && Boolean(lastEntry.badgeUnlocked) && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-400/35 bg-rose-500/10 p-4">
-              <div className="text-sm text-rose-100">
-                <strong>🍸 Lived this exact moment in real life?</strong> Toss an Espresso Martini in the Creator Lounge!
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4">
+              <div className="text-sm text-stone-200">
+                <strong className="text-[#FAF7F5]">Lived this moment in real life?</strong> Toss an Espresso Martini in the Creator Lounge.
               </div>
               {liveTipUrl ? (
                 <a
                   href={liveTipUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-500 px-4 py-2 text-sm font-bold text-white hover:bg-rose-400 transition"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2.5 text-sm font-semibold text-[#FAF7F5] transition"
                 >
                   <Coffee className="h-4 w-4" />
                   <span>Send a Martini Tip</span>
@@ -775,7 +735,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 <button
                   type="button"
                   onClick={onOpenBoutique}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-500 px-4 py-2 text-sm font-bold text-white hover:bg-rose-400 transition cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2.5 text-sm font-semibold text-[#FAF7F5] transition cursor-pointer"
                 >
                   <Coffee className="h-4 w-4" />
                   <span>Open Creator Lounge</span>
@@ -784,23 +744,23 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          {/* Contextual Boutique Pick */}
+          {/* Protected Affiliate Boutique Drop */}
           {affiliate && (
-            <div className="rounded-2xl border border-white/12 bg-white/5 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
-                <span className="inline-block rounded-full bg-amber-300/20 px-3 py-0.5 text-xs font-bold uppercase text-amber-200">
-                  🛍️ Cougars &amp; Cubs Club Pick • {affiliate.badge}
+                <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+                  Curated Club Pick • {affiliate.badge}
                 </span>
-                <div className="text-base font-bold text-white">
+                <div className="text-base font-semibold text-[#FAF7F5]">
                   {affiliate.name} ({affiliate.priceDisplay})
                 </div>
-                <p className="text-sm text-slate-300">{affiliate.cheekyPitch}</p>
+                <p className="text-sm text-stone-300">{affiliate.cheekyPitch}</p>
               </div>
               <a
                 href={buildAffiliateUrl(affiliate, `scene_${resolvedEpisode.id}`)}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="shrink-0 inline-flex items-center gap-1.5 rounded-2xl bg-amber-300 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-amber-200 transition"
+                className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-[#E5C17B] hover:bg-[#F0CFA0] px-4 py-2.5 text-sm font-semibold text-[#0C0910] transition"
               >
                 <span>Shop Pick</span>
                 <ExternalLink className="h-4 w-4" />
@@ -808,11 +768,11 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
             <button
               type="button"
               onClick={handleRewindClick}
-              className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-amber-200 hover:bg-white/10 transition cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/[0.05] px-4 py-2.5 text-sm font-semibold text-[#FDE68A] hover:bg-white/10 transition cursor-pointer"
             >
               <RotateCcw className="h-4 w-4" />
               <span>Smooth Rewind (1 Credit • {credits} left)</span>
@@ -825,7 +785,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                   sfx.redFlag();
                   onFinishRun();
                 }}
-                className="rounded-2xl bg-rose-600 px-6 py-3.5 font-display text-xl text-white shadow-lg hover:bg-rose-500 transition cursor-pointer"
+                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-3 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
               >
                 3 Strikes! See Vibe Receipt →
               </button>
@@ -836,19 +796,15 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                   sfx.victoryFanfare();
                   onFinishRun();
                 }}
-                className="rounded-2xl bg-gradient-to-r from-rose-500 to-amber-400 px-6 py-3.5 font-display text-xl text-slate-950 shadow-lg hover:brightness-105 transition cursor-pointer"
+                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-3 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
               >
                 See Official Vibe Receipt →
               </button>
             ) : (
               <button
                 type="button"
-                onClick={() => {
-                  sfx.messagePop();
-                  setStageReaction('idle');
-                  setShowingOutcomeForEpId(null);
-                }}
-                className="rounded-2xl bg-gradient-to-r from-rose-500 to-amber-400 px-6 py-3.5 font-display text-xl text-slate-950 shadow-lg hover:brightness-105 transition cursor-pointer"
+                onClick={handleAdvanceNextScene}
+                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-3 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
               >
                 Next Stage Scene →
               </button>
@@ -856,194 +812,178 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
           </div>
         </div>
       ) : currentEpisode ? (
-        <div key={currentEpisode.id} className="space-y-5 animate-stage-in">
-          {/* Pop-Culture Bonus Round */}
-          {showInterludeTrivia && interludeQuestion && (
-            <div className="vice-panel rounded-3xl border-rose-400/35 bg-[#1b112c]/95 p-5 space-y-3.5">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-300">
-                  <Award className="h-4 w-4 text-rose-300" /> Pop-Culture Bonus Round •{' '}
-                  {interludeQuestion.badge}
+        <div key={currentEpisode.id} className="vice-panel rounded-3xl p-5 sm:p-7 space-y-5 animate-stage-in">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+              {cleanStoryTag}
+            </span>
+            <button
+              type="button"
+              onClick={() => onShareDilemma(currentEpisode.id, currentEpisode.title)}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/12 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-stone-200 hover:bg-white/10 transition cursor-pointer"
+            >
+              <Share2 className="h-3.5 w-3.5 text-[#E5C17B]" />
+              <span>Ask Bestie: Ghost or Train?</span>
+            </button>
+          </div>
+
+          <h2 className="font-display text-2xl sm:text-3xl text-[#FAF7F5]">
+            {currentEpisode.title}
+          </h2>
+
+          <p className="text-[15px] sm:text-base leading-relaxed text-stone-200 max-w-[66ch]">
+            {renderRichText(
+              personalizeText(
+                role === 'her' ? currentEpisode.setupHer : currentEpisode.setupHim,
+                run.pairing,
+              ),
+            )}
+          </p>
+
+          {/* 100% Tactile Scene Coverage: Bespoke Minigame OR Auto-Matched Universal Microgame! */}
+          {sceneGameType && (
+            <MinigameWidget
+              type={sceneGameType}
+              alreadyCompleted={sceneGameCompleted}
+              herName={run.pairing.her.name}
+              hisName={run.pairing.his.name}
+              zeroProof={isZeroProof}
+              onWinBonus={(bonus, badge) => onCompleteMinigame(currentEpisode.id, bonus, badge)}
+            />
+          )}
+
+          {/* Compact Collapsible Inner Whispers (Code-Switch / Mirror Doubts) */}
+          {(currentEpisode.codeSwitchRawImpulse || currentEpisode.innerInsecurityBubble) && (
+            <div className="space-y-2.5">
+              <button
+                type="button"
+                onClick={() => setWhispersOpen((v) => !v)}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#FDE68A] hover:text-white cursor-pointer"
+              >
+                <span>
+                  {currentEpisode.codeSwitchRawImpulse
+                    ? '🧠 Inner Cub Impulse Filter'
+                    : '💭 Subtext & Inner Doubts'}
                 </span>
-                <span className="text-xs sm:text-sm font-semibold text-emerald-300">
-                  Bonus +6 Chemistry for Correct Hit!
-                </span>
-              </div>
-              <p className="text-base font-bold text-white">
-                {renderRichText(interludeQuestion.question)}
-              </p>
-              <div className="grid gap-2.5 sm:grid-cols-2">
-                {interludeQuestion.options.map((opt, oIdx) => {
-                  const picked = answeredTriviaEpIds[currentEpisode.id];
-                  const hasPicked = typeof picked === 'number';
-                  const isCorrect = oIdx === interludeQuestion.correctIndex;
-                  return (
-                    <button
-                      key={opt}
-                      type="button"
-                      disabled={hasPicked}
-                      onClick={() => {
-                        setAnsweredTriviaEpIds((prev) => ({ ...prev, [currentEpisode.id]: oIdx }));
-                        if (isCorrect) {
-                          sfx.greenFlag();
-                          onCompleteMinigame(
-                            `trivia_${currentEpisode.id}`,
-                            { chemistry: 6 },
-                            'Pop-Culture Cougar Scholar',
-                          );
-                        } else {
-                          sfx.redFlag();
-                        }
-                      }}
-                      className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition cursor-pointer ${
-                        !hasPicked
-                          ? 'border-white/12 bg-white/5 text-slate-100 hover:bg-white/10'
-                          : isCorrect
-                            ? 'border-emerald-400/70 bg-emerald-950/60 text-emerald-200'
-                            : picked === oIdx
-                              ? 'border-rose-500/70 bg-rose-950/60 text-rose-200'
-                              : 'border-white/5 bg-black/25 text-slate-500'
-                      }`}
-                    >
-                      <span>{opt}</span>
-                      {hasPicked && isCorrect && (
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-300" />
+                <ChevronDown
+                  className={`h-3.5 w-3.5 transition-transform ${whispersOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              {whispersOpen && currentEpisode.codeSwitchRawImpulse && (
+                <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-4 space-y-1.5">
+                  <p className="text-sm text-[#FAF7F5]">
+                    <span className="text-stone-400">Unfiltered impulse:</span> &ldquo;
+                    {renderRichText(currentEpisode.codeSwitchRawImpulse.rawThought)}&rdquo;
+                  </p>
+                  <p className="text-xs text-[#FDE68A]">
+                    ⚠️ {renderRichText(currentEpisode.codeSwitchRawImpulse.warningNote)}
+                  </p>
+                </div>
+              )}
+
+              {whispersOpen && currentEpisode.innerInsecurityBubble && (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl bg-[#1E1729] border border-rose-500/25 p-3.5">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-rose-300">
+                      {run.pairing.her.name}’s Silent Doubt
+                    </div>
+                    <p className="mt-1 text-sm italic text-stone-200 leading-relaxed">
+                      {renderRichText(
+                        personalizeText(currentEpisode.innerInsecurityBubble.herDoubt, run.pairing),
                       )}
-                    </button>
-                  );
-                })}
-              </div>
-              {typeof answeredTriviaEpIds[currentEpisode.id] === 'number' && (
-                <p className="text-sm text-amber-200 leading-relaxed">
-                  {renderRichText(interludeQuestion.funFact)}
-                </p>
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-3.5">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+                      {run.pairing.his.name}’s Silent Doubt
+                    </div>
+                    <p className="mt-1 text-sm italic text-stone-200 leading-relaxed">
+                      {renderRichText(
+                        personalizeText(currentEpisode.innerInsecurityBubble.hisDoubt, run.pairing),
+                      )}
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
           )}
 
-          <div className="vice-panel rounded-3xl bg-[#150f24]/95 p-6 sm:p-8 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <span className="text-sm font-medium text-rose-200">
-                {renderRichText(cleanStoryTag)}
+          {/* 3-Column Tactile Play Card Hand (3D Hover Tilt + 2-Tier Headline/Subtext) */}
+          <div className="space-y-3 pt-1">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+                Choose Your Play
               </span>
-              <button
-                type="button"
-                onClick={() => onShareDilemma(currentEpisode.id, currentEpisode.title)}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/12 bg-white/5 px-3.5 py-2 text-xs sm:text-sm font-semibold text-amber-200 hover:bg-white/10 transition cursor-pointer"
-              >
-                <Share2 className="h-4 w-4" />
-                <span>Ask Bestie: Ghost or Train?</span>
-              </button>
+              <span className="text-xs text-stone-400">
+                {role === 'her' ? 'Vet his instincts & set the tone' : 'Make your move'}
+              </span>
             </div>
 
-            <h2 className="font-display text-2xl sm:text-4xl text-white">
-              {currentEpisode.title}
-            </h2>
-
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-base sm:text-[17px] leading-relaxed text-slate-100">
-              {renderRichText(
-                personalizeText(
-                  role === 'her' ? currentEpisode.setupHer : currentEpisode.setupHim,
-                  run.pairing,
-                ),
-              )}
-            </div>
-
-            {/* Interactive Playable Arcade Minigame Widget */}
-            {currentEpisode.minigame && (
-              <MinigameWidget
-                type={currentEpisode.minigame}
-                alreadyCompleted={run.completedMinigameEpisodeIds.includes(currentEpisode.id)}
-                herName={run.pairing.her.name}
-                hisName={run.pairing.his.name}
-                onWinBonus={(bonus, badge) => onCompleteMinigame(currentEpisode.id, bonus, badge)}
-              />
-            )}
-
-            {/* Brain-to-Mouth Generational Code-Switch Box */}
-            {currentEpisode.codeSwitchRawImpulse && (
-              <div className="rounded-2xl border border-amber-300/35 bg-amber-400/10 p-4 sm:p-5 space-y-2">
-                <div className="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-300">
-                  🧠 Cub Brain-to-Mouth Code-Switch Filter
-                </div>
-                <p className="text-sm sm:text-base font-medium text-white bg-black/40 rounded-xl px-4 py-3">
-                  Raw Unfiltered Impulse: &ldquo;
-                  {renderRichText(currentEpisode.codeSwitchRawImpulse.rawThought)}&rdquo;
-                </p>
-                <p className="text-sm text-amber-200">
-                  ⚠️ {renderRichText(currentEpisode.codeSwitchRawImpulse.warningNote)}
-                </p>
-              </div>
-            )}
-
-            {/* Symmetric Inner-Insecurity Split Thought Bubbles */}
-            {currentEpisode.innerInsecurityBubble && (
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-rose-400/30 bg-rose-500/10 p-4">
-                  <div className="text-xs sm:text-sm font-bold uppercase tracking-wide text-rose-300">
-                    💭 {run.pairing.her.name}’s Silent Mirror Doubt
-                  </div>
-                  <p className="mt-1.5 text-sm italic text-slate-100 leading-relaxed">
-                    {renderRichText(
-                      personalizeText(currentEpisode.innerInsecurityBubble.herDoubt, run.pairing),
-                    )}
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4">
-                  <div className="text-xs sm:text-sm font-bold uppercase tracking-wide text-amber-200">
-                    💭 {run.pairing.his.name}’s Simultaneous Game Doubt
-                  </div>
-                  <p className="mt-1.5 text-sm italic text-slate-100 leading-relaxed">
-                    {renderRichText(
-                      personalizeText(currentEpisode.innerInsecurityBubble.hisDoubt, run.pairing),
-                    )}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Deterministically Shuffled Action Move Cards */}
-            <div className="space-y-3 pt-1">
-              <div className="flex items-center justify-between text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-300">
-                <span>🎯 Choose Your Play</span>
-                <span className="text-slate-400 font-medium normal-case">
-                  {role === 'her' ? 'Vet His Instincts & Set the Standard' : 'Make Your Move'}
-                </span>
-              </div>
-
+            <div className="grid gap-3 lg:grid-cols-3">
               {shuffledIndices.map((originalIdx, displayPosition) => {
                 const choice = currentEpisode.choices[originalIdx];
                 if (!choice) return null;
+                const fullPersonalized = personalizeText(
+                  role === 'her' ? choice.labelHer : choice.labelHim,
+                  run.pairing,
+                );
+                const parsed = parseChoiceCardSpec(fullPersonalized, role);
                 const houseboyGateWarning =
                   currentEpisode.id === 'houseboy-sunday-sanctuary' &&
                   originalIdx === 0 &&
                   (run.stats.maturity < 60 || run.stats.eq < 60);
 
+                const isTilted = tiltState?.idx === displayPosition;
+
                 return (
                   <button
                     key={originalIdx}
                     type="button"
+                    style={{
+                      animationDelay: `${displayPosition * 65}ms`,
+                      transform: isTilted
+                        ? `perspective(700px) rotateX(${tiltState.rx}deg) rotateY(${tiltState.ry}deg) translateY(-3px)`
+                        : undefined,
+                    }}
+                    onPointerEnter={() => sfx.cardHoverTick()}
+                    onPointerMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const nx = (e.clientX - rect.left) / rect.width - 0.5;
+                      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+                      setTiltState({ idx: displayPosition, rx: -ny * 5, ry: nx * 5 });
+                    }}
+                    onPointerLeave={() => setTiltState(null)}
                     onClick={() => handlePick(originalIdx)}
-                    className="group w-full rounded-2xl border border-white/14 bg-white/[0.05] p-4 sm:p-5 text-left text-base font-medium text-white shadow-sm hover:-translate-y-0.5 hover:bg-white/[0.09] hover:border-amber-300/60 active:translate-y-0 transition-all duration-150 cursor-pointer"
+                    className="animate-card-deal group flex flex-col justify-between rounded-2xl border border-white/12 bg-[#1E1729] p-4 text-left hover:border-[#E5C17B]/60 hover:bg-[#251d33] active:scale-[0.98] transition-colors cursor-pointer"
                   >
-                    <div className="flex items-start gap-3.5">
-                      <span className="mt-0.5 shrink-0 inline-flex h-7 px-3 items-center justify-center rounded-xl bg-amber-300 text-xs font-extrabold uppercase text-slate-950 group-hover:bg-rose-400 group-hover:text-white transition">
-                        Play {displayPosition + 1}
-                      </span>
-                      <span className="leading-relaxed">
-                        {renderRichText(
-                          personalizeText(
-                            role === 'her' ? choice.labelHer : choice.labelHim,
-                            run.pairing,
-                          ),
-                        )}
-                        {houseboyGateWarning && (
-                          <span className="ml-2 inline-block rounded-lg bg-rose-500/25 px-2.5 py-0.5 text-xs font-semibold text-rose-200">
-                            🔒 Tip: Fix all 4 Sanctuary Upgrades above to clear 60+ Maturity &amp; EQ!
-                          </span>
-                        )}
-                      </span>
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-white/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-[#FDE68A]">
+                          <span>{parsed.toneIcon}</span>
+                          <span>{parsed.toneLabel}</span>
+                        </span>
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full border border-[#E5C17B]/40 text-xs font-semibold text-[#FDE68A] group-hover:bg-[#E5C17B] group-hover:text-[#0C0910] transition">
+                          {String.fromCharCode(65 + displayPosition)}
+                        </span>
+                      </div>
+
+                      <div className="text-[15px] font-semibold leading-snug text-[#FAF7F5]">
+                        {renderRichText(parsed.headline)}
+                      </div>
+
+                      {parsed.restText && (
+                        <div className="text-sm leading-relaxed text-stone-300">
+                          {renderRichText(parsed.restText)}
+                        </div>
+                      )}
                     </div>
+
+                    {houseboyGateWarning && (
+                      <div className="mt-3 rounded-lg bg-rose-950/80 border border-rose-500/40 px-2.5 py-1 text-xs font-semibold text-rose-200">
+                        🔒 Clear 60+ Maturity &amp; EQ above first
+                      </div>
+                    )}
                   </button>
                 );
               })}

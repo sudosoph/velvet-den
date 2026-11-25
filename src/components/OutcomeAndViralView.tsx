@@ -121,9 +121,9 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
 
   const statPills: [string, number, string][] = [
     ['Maturity', summary.stats.maturity, 'text-rose-300'],
-    ['Chivalry', summary.stats.chivalry, 'text-amber-300'],
+    ['Chivalry', summary.stats.chivalry, 'text-[#FDE68A]'],
     ['EQ', summary.stats.eq, 'text-emerald-300'],
-    ['Chemistry', summary.stats.chemistry, 'text-pink-300'],
+    ['Chemistry', summary.stats.chemistry, 'text-rose-200'],
   ];
 
   return (

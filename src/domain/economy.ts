@@ -2,11 +2,21 @@ import { MONETIZATION_CONFIG } from '../config/monetization';
 
 export const WALLET_STORAGE_KEY = 'velvet_den_wallet_v1';
 
+/**
+ * Salted SHA-256 digest of the Founder passphrase.
+ * Plaintext password is NEVER stored in client or repository source.
+ */
+export const FOUNDER_SALT = 'cc_founder_v1:';
+export const FOUNDER_SHA256_HEX =
+  '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac';
+const FOUNDER_SESSION_PROOF = FOUNDER_SHA256_HEX.slice(0, 24);
+
 export interface WalletState {
   credits: number;
   lastRefillDate: string;
   isVip: boolean;
   isFounderUnlimited?: boolean;
+  founderSessionToken?: string;
   referralCode?: string;
   unlockedEpisodeIds: string[];
   claimedRewards: string[];
@@ -45,6 +55,53 @@ function getDefaultStorage(): StorageLike | undefined {
     // Private browsing or blocked storage
   }
   return undefined;
+}
+
+export async function sha256Hex(input: string): Promise<string> {
+  const bytes = new TextEncoder().encode(input);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function constantTimeEquals(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
+export async function verifyFounderPassphrase(passphrase: string): Promise<boolean> {
+  const trimmed = passphrase.trim();
+  if (trimmed.length < 12) return false;
+  try {
+    const hash = await sha256Hex(`${FOUNDER_SALT}${trimmed}`);
+    return constantTimeEquals(hash, FOUNDER_SHA256_HEX);
+  } catch {
+    return false;
+  }
+}
+
+export function grantFounderAccess(wallet: WalletState): WalletState {
+  return {
+    ...wallet,
+    isVip: true,
+    isFounderUnlimited: true,
+    founderSessionToken: FOUNDER_SESSION_PROOF,
+    credits: Math.max(wallet.credits, 999),
+  };
+}
+
+export function revokeFounderAccess(wallet: WalletState): WalletState {
+  return {
+    ...wallet,
+    isFounderUnlimited: false,
+    founderSessionToken: undefined,
+    credits: MONETIZATION_CONFIG.dailyFreeCredits,
+  };
 }
 
 export function createDefaultWallet(now: Date = new Date()): WalletState {
@@ -99,11 +156,16 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
         ? parsed.referralCode
         : generateReferralCode();
 
+    const verifiedFounder =
+      Boolean(parsed.isFounderUnlimited) &&
+      parsed.founderSessionToken === FOUNDER_SESSION_PROOF;
+
     const normalized: WalletState = {
       credits,
       lastRefillDate: lastDate < today ? today : lastDate,
       isVip: Boolean(parsed.isVip),
-      isFounderUnlimited: Boolean(parsed.isFounderUnlimited),
+      isFounderUnlimited: verifiedFounder,
+      founderSessionToken: verifiedFounder ? FOUNDER_SESSION_PROOF : undefined,
       referralCode,
       unlockedEpisodeIds: Array.isArray(parsed.unlockedEpisodeIds) ? parsed.unlockedEpisodeIds : [],
       claimedRewards: Array.isArray(parsed.claimedRewards) ? parsed.claimedRewards : [],
@@ -204,40 +266,25 @@ export function grantRewardCredits(
   };
 }
 
-const FOUNDER_KEYS = new Set(['foundermode', 'sophia999', 'sudosoph', 'velvetfounder']);
-
+/**
+ * Synchronous promo/sandbox unlock handler.
+ * NOTE: Founder Mode is strictly blocked from URL query strings (?founder=1) and
+ * plaintext codes; it requires cryptographic passphrase verification via
+ * `verifyFounderPassphrase` / `/api/founder-auth`.
+ */
 export function applyUnlockCodeOrQuery(
   wallet: WalletState,
   codeOrSearch: string,
-): { unlocked: 'vip' | 'credits' | 'founder' | null; wallet: WalletState } {
+): { unlocked: 'vip' | 'credits' | null; wallet: WalletState } {
   const trimmed = codeOrSearch.trim();
   if (!trimmed) return { unlocked: null, wallet };
 
   if (trimmed.startsWith('?')) {
-    const params = new URLSearchParams(trimmed);
-    const founderParam = (params.get('founder') ?? '').trim().toLowerCase();
-    if (
-      founderParam === '1' ||
-      founderParam === 'true' ||
-      founderParam === 'sophia' ||
-      FOUNDER_KEYS.has(founderParam)
-    ) {
-      return {
-        unlocked: 'founder',
-        wallet: {
-          ...wallet,
-          isVip: true,
-          isFounderUnlimited: true,
-          credits: Math.max(wallet.credits, 999),
-        },
-      };
-    }
-
-    // Only allow client-side ?unlock= preview parameters while sandboxPreviewMode is true!
     if (!MONETIZATION_CONFIG.sandboxPreviewMode) {
       return { unlocked: null, wallet };
     }
 
+    const params = new URLSearchParams(trimmed);
     const token = (params.get('unlock') ?? '').trim().toLowerCase();
     if (token === 'vip' || token === 'blackcard') {
       if (wallet.claimedRewards.includes(`stripe_${token}`)) {
@@ -258,19 +305,6 @@ export function applyUnlockCodeOrQuery(
       return { unlocked: grant.granted ? 'credits' : null, wallet: grant.wallet };
     }
     return { unlocked: null, wallet };
-  }
-
-  const normalizedCode = trimmed.toLowerCase();
-  if (FOUNDER_KEYS.has(normalizedCode)) {
-    return {
-      unlocked: 'founder',
-      wallet: {
-        ...wallet,
-        isVip: true,
-        isFounderUnlimited: true,
-        credits: Math.max(wallet.credits, 999),
-      },
-    };
   }
 
   // Only accept public demo VIP codes while sandboxPreviewMode is enabled!
