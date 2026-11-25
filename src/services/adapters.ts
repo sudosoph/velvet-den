@@ -235,10 +235,13 @@ export const liveAiInboxService: AiDmVettingService = {
 
 export async function verifyStripeCheckoutSession(
   sessionId: string,
+  tierHint = '',
 ): Promise<{ verified: boolean; grantType?: 'vip' | 'credits'; credits?: number }> {
   if (!sessionId || !isLiveBrowserRuntime()) return { verified: false };
   try {
-    const res = await fetch(`/api/verify-checkout?session_id=${encodeURIComponent(sessionId)}`);
+    const q = new URLSearchParams({ session_id: sessionId });
+    if (tierHint) q.set('tier', tierHint);
+    const res = await fetch(`/api/verify-checkout?${q.toString()}`);
     if (!res.ok) return { verified: false };
     return (await res.json()) as {
       verified: boolean;
@@ -247,5 +250,33 @@ export async function verifyStripeCheckoutSession(
     };
   } catch {
     return { verified: false };
+  }
+}
+
+export async function recordIncomingReferralHit(refCode: string): Promise<void> {
+  if (!refCode || !isLiveBrowserRuntime()) return;
+  try {
+    await fetch('/api/referral-hit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refCode }),
+    });
+  } catch {
+    // Non-blocking referral ping
+  }
+}
+
+export async function fetchVerifiedReferralSlots(
+  refCode: string,
+): Promise<{ uniqueReferrals: number; claimableSlots: number }> {
+  if (!refCode || !isLiveBrowserRuntime()) {
+    return { uniqueReferrals: 0, claimableSlots: 0 };
+  }
+  try {
+    const res = await fetch(`/api/referral-status?code=${encodeURIComponent(refCode)}`);
+    if (!res.ok) return { uniqueReferrals: 0, claimableSlots: 0 };
+    return (await res.json()) as { uniqueReferrals: number; claimableSlots: number };
+  } catch {
+    return { uniqueReferrals: 0, claimableSlots: 0 };
   }
 }

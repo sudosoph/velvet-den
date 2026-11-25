@@ -16,12 +16,14 @@ import {
 import { EPISODES } from '../data/episodes';
 import type { WalletState } from '../domain/economy';
 import {
+  getProfileDetails,
   HER_ARCHETYPES,
   HIS_ARCHETYPES,
   type HerArchetype,
   type HisArchetype,
   type PairingAnalysis,
   type PlayerRole,
+  type SubplotTag,
 } from '../domain/taxonomy';
 import { sfx } from '../lib/sound';
 
@@ -36,6 +38,8 @@ interface PairingMixerViewProps {
   onChangeRole: (role: PlayerRole) => void;
   onSelectHer: (her: HerArchetype) => void;
   onSelectHis: (his: HisArchetype) => void;
+  onUpdateHerCustom?: (her: HerArchetype) => void;
+  onUpdateHisCustom?: (his: HisArchetype) => void;
   onAdjustHerAge: (delta: number) => void;
   onAdjustHisAge: (delta: number) => void;
   onToggleVipEpisode: (episodeId: string, creditCost: number) => void;
@@ -59,6 +63,8 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onChangeRole,
   onSelectHer,
   onSelectHis,
+  onUpdateHerCustom,
+  onUpdateHisCustom,
   onAdjustHerAge,
   onAdjustHisAge,
   onToggleVipEpisode,
@@ -69,9 +75,35 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onOpenFieldGuide,
 }) => {
   const [showVipDrawer, setShowVipDrawer] = useState(false);
+  const [showCustomizer, setShowCustomizer] = useState(false);
   const [herFilter, setHerFilter] = useState<HerDecadeFilter>('all');
   const [herPhotoIdx, setHerPhotoIdx] = useState(0);
   const [hisPhotoIdx, setHisPhotoIdx] = useState(0);
+
+  const herDetails = getProfileDetails(her);
+  const hisDetails = getProfileDetails(his);
+
+  const toggleHerTag = (tag: SubplotTag) => {
+    if (!onUpdateHerCustom) return;
+    const has = her.subplotTags.includes(tag);
+    onUpdateHerCustom({
+      ...her,
+      subplotTags: has
+        ? her.subplotTags.filter((t) => t !== tag)
+        : [...her.subplotTags, tag],
+    });
+  };
+
+  const toggleHisTag = (tag: SubplotTag) => {
+    if (!onUpdateHisCustom) return;
+    const has = his.subplotTags.includes(tag);
+    onUpdateHisCustom({
+      ...his,
+      subplotTags: has
+        ? his.subplotTags.filter((t) => t !== tag)
+        : [...his.subplotTags, tag],
+    });
+  };
 
   const vipEpisodes = EPISODES.filter((e) => e.isVip);
 
@@ -452,6 +484,25 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
           </div>
 
+          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-rose-400/20 bg-black/40 p-2.5 text-[11px]">
+            <div>
+              <span className="text-slate-400">Star Sign:</span>{' '}
+              <strong className="text-amber-300">{herDetails.zodiac}</strong>
+            </div>
+            <div>
+              <span className="text-slate-400">Height &amp; Vibe:</span>{' '}
+              <strong className="text-rose-200">{herDetails.height} • {herDetails.originOrAccent}</strong>
+            </div>
+            <div>
+              <span className="text-slate-400">Love Language:</span>{' '}
+              <strong className="text-white">{herDetails.loveLanguage}</strong>
+            </div>
+            <div>
+              <span className="text-slate-400">Signature Order:</span>{' '}
+              <strong className="text-pink-200">🍸 {herDetails.signatureDrink}</strong>
+            </div>
+          </div>
+
           <p className="text-xs leading-relaxed text-slate-200">{her.vibeSummary}</p>
           {her.interests && (
             <div className="flex flex-wrap gap-1.5">
@@ -520,6 +571,25 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
           </div>
 
+          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-teal-400/20 bg-black/40 p-2.5 text-[11px]">
+            <div>
+              <span className="text-slate-400">Star Sign:</span>{' '}
+              <strong className="text-teal-300">{hisDetails.zodiac}</strong>
+            </div>
+            <div>
+              <span className="text-slate-400">Height &amp; Roots:</span>{' '}
+              <strong className="text-amber-200">{hisDetails.height} • {hisDetails.originOrAccent}</strong>
+            </div>
+            <div>
+              <span className="text-slate-400">Love Language:</span>{' '}
+              <strong className="text-white">{hisDetails.loveLanguage}</strong>
+            </div>
+            <div>
+              <span className="text-slate-400">Go-To Pour:</span>{' '}
+              <strong className="text-teal-200">🥂 {hisDetails.signatureDrink}</strong>
+            </div>
+          </div>
+
           <p className="text-xs leading-relaxed text-slate-200">{his.vibeSummary}</p>
           {his.interests && (
             <div className="flex flex-wrap gap-1.5">
@@ -545,6 +615,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 {pairing.badgeLabel}
               </span>
               <span className="text-xs font-bold text-pink-300">{pairing.trackTitle}</span>
+            </div>
+            <div className="text-[11px] font-semibold text-amber-200/95">
+              ✨ {pairing.zodiacSpark}
             </div>
 
             {/* Custom Age Fine-Tuning Controls */}
@@ -594,6 +667,20 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            {onUpdateHerCustom && onUpdateHisCustom && (
+              <button
+                type="button"
+                onClick={() => setShowCustomizer((v) => !v)}
+                className="inline-flex items-center gap-1.5 rounded-xl border-2 border-black bg-[#26143d] px-3.5 py-2.5 text-xs font-extrabold text-pink-200 hover:bg-[#331b52] cursor-pointer"
+              >
+                <Sparkles className="h-4 w-4 text-amber-300" />
+                <span>🎛️ Customize Vibe &amp; Dates</span>
+                <ChevronDown
+                  className={`h-3.5 w-3.5 transition-transform ${showCustomizer ? 'rotate-180' : ''}`}
+                />
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => setShowVipDrawer((v) => !v)}
@@ -618,6 +705,89 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </button>
           </div>
         </div>
+
+        {showCustomizer && onUpdateHerCustom && onUpdateHisCustom && (
+          <div className="pt-3 border-t border-white/10 space-y-3">
+            <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
+              🎛️ Mix &amp; Match Custom Names, Pet Gatekeeper &amp; Signature Date Specials (Applied to Any Look!)
+            </div>
+            <div className="grid gap-2.5 sm:grid-cols-4">
+              <label className="text-[11px] text-slate-300 space-y-1">
+                <span className="font-bold text-rose-300">Her Custom Name</span>
+                <input
+                  type="text"
+                  maxLength={24}
+                  value={her.name}
+                  onChange={(e) => onUpdateHerCustom({ ...her, name: e.target.value || 'Claire' })}
+                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
+                />
+              </label>
+              <label className="text-[11px] text-slate-300 space-y-1">
+                <span className="font-bold text-teal-300">Cub Custom Name</span>
+                <input
+                  type="text"
+                  maxLength={24}
+                  value={his.name}
+                  onChange={(e) => onUpdateHisCustom({ ...his, name: e.target.value || 'Leo' })}
+                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
+                />
+              </label>
+              <label className="text-[11px] text-slate-300 space-y-1">
+                <span className="font-bold text-amber-300">Her Star Sign</span>
+                <input
+                  type="text"
+                  maxLength={36}
+                  value={herDetails.zodiac}
+                  onChange={(e) => onUpdateHerCustom({ ...her, zodiac: e.target.value })}
+                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
+                />
+              </label>
+              <label className="text-[11px] text-slate-300 space-y-1">
+                <span className="font-bold text-pink-300">Signature Drink</span>
+                <input
+                  type="text"
+                  maxLength={32}
+                  value={herDetails.signatureDrink}
+                  onChange={(e) => onUpdateHerCustom({ ...her, signatureDrink: e.target.value })}
+                  className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
+                />
+              </label>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {(
+                [
+                  ['spontaneous_getaway', 'her', '✈️ 18h Rooftop + Hotel Pool & Sauna Getaway'],
+                  ['phd_campus_cub', 'his', '🎓 Campus Stroll & Sushi "Professor × Student"'],
+                  ['fiery_foreign', 'her', '🌶️ Spicy Foreign-Born Cougar Passion'],
+                  ['modest_accent_gentleman', 'his', '🧺 Modest-Roots Meadow Picnic & Neon Bowling'],
+                  ['dog_mom_divorced', 'her', '🐾 Child-Free Pet-Mom Vetting'],
+                  ['princess_treatment', 'her', '👑 Spoil-Me Soft-Life Princess'],
+                ] as const
+              ).map(([tag, target, label]) => {
+                const active =
+                  target === 'her'
+                    ? her.subplotTags.includes(tag)
+                    : his.subplotTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => (target === 'her' ? toggleHerTag(tag) : toggleHisTag(tag))}
+                    className={`rounded-full border-2 border-black px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
+                      active
+                        ? 'bg-amber-400 text-slate-950 shadow-[2px_2px_0px_#09050f]'
+                        : 'bg-black/45 text-slate-200 hover:bg-black/70'
+                    }`}
+                  >
+                    {active ? '✓ ' : '+ '}
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {showVipDrawer && (
           <div className="pt-3 border-t border-white/10 grid gap-2.5 sm:grid-cols-2">

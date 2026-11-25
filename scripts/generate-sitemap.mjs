@@ -18,6 +18,10 @@ const GUIDE_SLUGS = [
   'best-gifts-for-older-woman-girlfriend-dating-guide',
   'millennial-vs-gen-z-age-gap-dating-code-switching',
   'older-woman-younger-man-relationship-problems-kids-stigma',
+  'older-woman-grown-son-same-age-meeting-parents-guide',
+  'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man',
+  'cougar-town-pop-culture-age-gap-dating-history',
+  'astrology-zodiac-compatibility-older-woman-younger-man',
 ];
 
 const today = new Date().toISOString().slice(0, 10);

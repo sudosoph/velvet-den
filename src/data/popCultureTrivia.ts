@@ -103,4 +103,14 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     funFact:
       'Zero creepy teen power gaps—only consenting grown Cubs getting upgraded from 5-in-1 body wash to sandalwood beard oil and Santal cologne!',
   },
+  {
+    id: 'cougar-town-big-carl',
+    badge: 'Cougar Town Sitcom Lore',
+    question:
+      'In Courteney Cox’s hit sitcom "Cougar Town," what affectionate name did 40-something divorcée Jules Cobb give her comically gigantic oversized red-wine glass?',
+    options: ['Old Faithful', 'Big Carl', 'The Chalice', 'Sir Merlot'],
+    correctIndex: 1,
+    funFact:
+      'Jules Cobb’s legendary giant wine glass "Big Carl" (succeeded by "Big Joe" and "Big Lou") + Cul-de-Sac Crew Penny Can turned "Cougar Town" into comfort-watch royalty!',
+  },
 ];

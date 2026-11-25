@@ -3037,4 +3037,291 @@ export const EPISODES: Episode[] = [
       },
     ],
   },
+
+  // --- 6 ROMANTIC GETAWAY, CAMPUS PHD SUSHI, FIERY FOREIGN, BOWLING/PICNIC & ANNIVERSARY MILESTONE EPISODES ---
+  {
+    id: 'spontaneous-18h-pool-sauna-getaway',
+    act: 2,
+    stage: 2,
+    title: 'The Spontaneous 18-Hour Getaway: App Video Chat → Rooftop → Hotel Pool & Sauna',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Matched on an app, video-chatted 2 hours, met in a coastal town for an 18-hour rooftop + hotel pool & sauna escape—pure magic"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'Instead of three weeks of pen-pal texting, your FaceTime vibe check with {hisName} ({hisAge}M) goes two electric hours past midnight. Next thing you know, you both carve out an **18-hour spontaneous escape** in a boutique hotel town an hour away—starting with golden-hour rooftop cocktails where nobody knows either of you, followed by the heated outdoor hotel pool and cedar sauna after dark.',
+    setupHim:
+      'Your video call with {herName} ({herAge}F) had off-the-charts chemistry—so you boldly proposed meeting halfway in a boutique getaway town for **18 unforgettable hours**: sunset rooftop drinks, late-night heated hotel pool laps, and cedar sauna steam before checking out at 11 AM.',
+    recommendedAffiliateId: 'princess-mulberry-silk-robe',
+    choices: [
+      {
+        labelHer: 'He arrives 15 minutes early with carry-on polish, claims a sunset rooftop corner booth, transitions seamlessly to midnight pool & cedar-sauna conversation, and orders room-service espresso before checkout.',
+        labelHim: 'Arrive early in crisp linen, own the rooftop sunset toast, keep the midnight hotel pool & cedar sauna effortlessly sensual and attentive, and have hot coffee waiting at 9 AM.',
+        outcomeHer:
+          'Eighteen hours in another zip code feels like a three-week European romance—riding the elevator down at checkout, neither of you wants to get into separate cars!',
+        outcomeHim:
+          'Steam rising off the midnight hotel pool + cedar sauna glow + zero awkwardness = the legendary 18-hour first-date story you’ll tell for years.',
+        toastBanner: '18-HOUR GETAWAY MAGIC! • CHEMISTRY +30 • CHIVALRY +25',
+        deltas: { maturity: 20, chivalry: 25, eq: 20, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: '18-Hour Pool & Sauna Getaway Legend',
+      },
+      {
+        labelHer: 'He shows up two hours late with a trash bag for luggage, gets sloppy on rooftop shots, and cannonballs next to strangers in the hotel pool.',
+        labelHim: 'Show up late, overdo the rooftop tequila, and cannonball into the quiet boutique pool.',
+        outcomeHer:
+          'Thankfully an 18-hour trip has an 11 AM checkout—and a locked connecting door!',
+        outcomeHim:
+          'Spring-break frat behavior in a boutique sauna ends the getaway before midnight.',
+        toastBanner: 'RED FLAG! • SPRING-BREAK CANNONBALL (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -20, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Do a quick video-call safety check first, share live location with your bestie, and savor every rooftop + sauna minute stress-free.',
+        labelHim: 'Send her the boutique hotel itinerary & reservation confirmation upfront so she feels 100% safe and pampered.',
+        outcomeHer:
+          'Smart safety habits + spontaneous chemistry = peak adult adventure.',
+        outcomeHim:
+          'Proactive transparency lets her relax completely into the rooftop & sauna romance.',
+        toastBanner: 'SAFE SPONTANEITY PRO +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'campus-stroll-sushi-professor-student',
+    act: 2,
+    stage: 2,
+    title: 'Campus Stroll & Omakase Sushi: Dressing Younger & Playing "Professor & Student"',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Dated a fresh PhD grad—dressed down in sneakers for an autumn campus stroll, grabbed sushi, and leaned right into playful Professor/Student banter"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      '{hisName} ({hisAge}M) just defended his PhD and finally has free evenings to date! For tonight’s date on his leafy university quad, you swap your corner-office heels for crisp white sneakers, fitted denim, and a sleek bomber jacket—blending right in on the brick walkway before slipping into a candlelit campus sushi bar and leaning into cheeky **"Visiting Professor & Star Grad Student After Office Hours"** banter.',
+    setupHim:
+      'Now that your dissertation is finally signed, you invite {herName} ({herAge}F) for a golden-hour walk across your old campus quad followed by omakase sushi. She shows up looking effortlessly radiant in sneakers and a fitted jacket—and raises one eyebrow across the warm sake: *"Careful, Mr. Doctoral Candidate… your oral exam isn’t over yet."*',
+    choices: [
+      {
+        labelHer: 'Own the playful "strict Visiting Professor" bit over spicy tuna & warm sake while he plays the eager top-of-the-class scholar—holding hands back across the lantern-lit quad!',
+        labelHim: 'Match her wit ("Yes, Professor—happy to stay late for extra credit"), pour her warm sake properly, and kiss her under the quad archways after sushi.',
+        outcomeHer:
+          'Dressing down in sneakers + intellectual sparks + cheeky office-hours roleplay makes you both laugh so hard you almost miss last call on nigiri!',
+        outcomeHim:
+          'Brains + playful banter + sleeper-build forearms = an A+ oral defense with immediate "extra credit" back at her place.',
+        toastBanner: 'EXTRA CREDIT UNLOCKED! • CHEMISTRY +30 • EQ +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Summa Cum Laude Sushi Roleplay',
+      },
+      {
+        labelHer: 'He spends 90 minutes lecturing you about p-values and forgets to ask a single question about your life.',
+        labelHim: 'Monologue nonstop about footnote citations and mansplain sushi etiquette.',
+        outcomeHer:
+          'You survived a real career—you didn’t dress cute on a Friday for an unpaid statistics seminar!',
+        outcomeHim:
+          'Turning a hot sushi date into a dry dissertation defense fails the vibe check instantly.',
+        toastBanner: 'RED FLAG! • 90-MINUTE LECTURE SNOOZE (-20)',
+        deltas: { maturity: -15, chivalry: -15, eq: -20, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Toast his PhD milestone with celebratory toro nigiri and ask what non-academic adventure he’s been dying to try first.',
+        labelHim: 'Thank her for celebrating your graduation milestone and plan a zero-screens weekend adventure next.',
+        outcomeHer:
+          'Catching a brilliant, newly freed PhD right as he re-enters the dating world is pure insider alpha.',
+        outcomeHim:
+          'Celebrating milestones together builds genuine emotional momentum.',
+        toastBanner: 'POST-PHD SPARK +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'fiery-foreign-cougar-passion-test',
+    act: 2,
+    stage: 2,
+    title: 'Spicy Foreign Cougar × Devoted Cub: Accents, Passion & Zero Lukewarm Energy',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Cubs who love fiery foreign women—when she switches into her native language mid-argument OR mid-kiss, hold your frame!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'princess_bouquet',
+    setupHer:
+      'Lukewarm American small-talk bores you to tears: when you love, cook, dance, or call out nonsense, your accent sharpens and the temperature in the room jumps ten degrees. Tonight at a bustling wine bar, {hisName} ({hisAge}M)—who openly adores worldly, fiery international women—gets his first taste of your rapid-fire native-tongue passion.',
+    setupHim:
+      'You’ve always been magnetic toward worldly, accented, fiery women over bland dating-app small talk. Tonight {herName} ({herAge}F) switches into rapid-fire native phrases—half teasing your boldness, half testing whether a {hisAge}-year-old man can handle real fire without shrinking!',
+    choices: [
+      {
+        labelHer: 'He holds steady eye contact smiling, replies smoothly with two genuinely well-pronounced romantic phrases in your language, pulls out your chair, and matches your fire beat for beat.',
+        labelHim: 'Hold calm, confident eye contact with a warm grin, drop one effortlessly practiced compliment in her native language, and step right into her salsa/wine-bar rhythm.',
+        outcomeHer:
+          'Finally—a younger man who isn’t intimidated by passion, volume, or culture! Within ten minutes you’re whispering *"mi cielo"* against his collar.',
+        outcomeHim:
+          'Her eyes flash with pure delight: when a fiery woman realizes she doesn’t have to dim her spark around you, the passion is unmatched.',
+        toastBanner: 'INTERNATIONAL FIRE MATCHED! • CHEMISTRY +30 • CHIVALRY +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Fluent in Fiery Romance',
+      },
+      {
+        labelHer: 'He tells you to "calm down, spicy Latina/European!!" and butchers a cringey TikTok meme phrase.',
+        labelHim: 'Tell her to "relax" and repeat a stereotyping movie accent joke.',
+        outcomeHer:
+          'Telling a passionate woman to "calm down" is how you end up wearing your sangria!',
+        outcomeHim:
+          'Fetishizing clichés or telling her to tone down her personality ends the night on the spot.',
+        toastBanner: 'RED FLAG! • "CALM DOWN" FATALITY (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Cook a late-night dish from your hometown together while trading music from where you each grew up.',
+        labelHim: 'Ask her to teach you her favorite dish and song from home over a bottle of bold red.',
+        outcomeHer:
+          'Sharing real heritage and kitchen music hits straight to the heart.',
+        outcomeHim:
+          'Genuine curiosity about her culture and story beats surface flattery every time.',
+        toastBanner: 'WORLDLY CONNECTION +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'retro-bowling-and-meadow-picnic',
+    act: 2,
+    stage: 3,
+    title: 'Old-World Pride on a Modest Budget: Meadow Picnic & Retro Neon Bowling',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "He grew up modest with an accent and couldn’t afford $300 steakhouses—so he planned a sunlit meadow picnic + retro bowling date and won my heart"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'princess_bouquet',
+    setupHer:
+      '{hisName} ({hisAge}M) comes from a modest, hardworking background—warm accent, immaculate ironed shirt, zero trust-fund flash, and fierce gentleman pride about impressing you with *effort* rather than credit-card flexing. For Saturday, he packs a handmade meadow picnic (fresh baguette, strawberries, cheeses from home, wildflowers) followed by trash-talking **retro neon bowling**!',
+    setupHim:
+      'You didn’t grow up with country-club money, and {herName} ({herAge}F) can afford any five-star restaurant in town on her own. Instead of faking wealth or splitting chains, you lean into old-school romance: a hand-packed golden-hour **park picnic** followed by playful **retro neon bowling**.',
+    choices: [
+      {
+        labelHer: 'Melt over his homemade picnic spread, lace up the retro bowling shoes laughing, let him spin you around after a spare, and kiss him by the jukebox.',
+        labelHim: 'Lay out the linen picnic blanket with pride, open every door, hype up every bowling frame she throws, and spin her into a kiss when she hits a strike.',
+        outcomeHer:
+          'Watching an earnest, accented younger man pour 100% heart and creativity into a $35 Saturday makes every lazy $300 finance-bro dinner you’ve ever had look pathetic!',
+        outcomeHim:
+          'She links her arm through yours walking out of the bowling alley: "That was the most fun Saturday date I’ve had in ten years—and wait till you taste my *Big Carl* Cougar Town wine pour at home."',
+        toastBanner: 'OLD-WORLD CHARM VICTORY! • CHIVALRY +30 • CHEMISTRY +25',
+        deltas: { maturity: 25, chivalry: 30, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Picnic & Neon-Bowling Heartthrob',
+      },
+      {
+        labelHer: 'He apologizes forty times for not being rich, sulks about the bowling shoes, and makes his budget awkward.',
+        labelHim: 'Spend all afternoon apologizing insecurely about money instead of owning the date.',
+        outcomeHer:
+          'Self-pity kills romance—effort and confidence were already winning!',
+        outcomeHim:
+          'Never apologize for an honest budget when your planning and effort are 10/10.',
+        toastBanner: 'RED FLAG! • SELF-PITY SPIRAL (-15)',
+        deltas: { maturity: -15, chivalry: -10, eq: -15, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Turn bowling into a cheeky wager: winner picks tonight’s movie (loser pours the "Cougar Town" Big Carl wine glasses!).',
+        labelHim: 'Make a playful bowling bet—winner chooses midnight dessert, loser gives a 20-minute shoulder massage.',
+        outcomeHer:
+          'Flirty competition + zero pretentiousness = pure rom-com gold.',
+        outcomeHim:
+          'Playful stakes turn a simple bowling lane into electric foreplay.',
+        toastBanner: 'NEON LANE SPARKS +20',
+        deltas: { maturity: 15, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'milestone-six-month-anniversary',
+    act: 3,
+    stage: 6,
+    title: '🥂 6-Month Anniversary Milestone: Spare Keys, "Big Carl" Wine & Beating the Odds',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Happy 6 months to us!! Everyone said a Cougar/Cub match was just a weekend novelty—now he has a house key and his own drawer"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'houseboy_apron',
+    setupHer:
+      '**Six-Month Milestone Unlocked!** Half a year ago it was one electric check-drop and an age-slider experiment. Tonight, {hisName} ({hisAge}M) has his own skincare spot on your vanity, knows your exact coffee & star-sign quirks, and shows up for your **6-Month Anniversary** with peonies, a handwritten card, and two comically giant *Cougar Town* **"Big Carl"** wine pours.',
+    setupHim:
+      '**Six-Month Milestone Unlocked!** Every skeptic gave you and {herName} ({herAge}F) three weekends max. Six months later, you’ve survived generational slang, family age math, and 2 AM doubts—how do you mark half a year together tonight?',
+    choices: [
+      {
+        labelHer: 'Slide a brass spare house key across the table beside your "Big Carl" wine glass, read his handwritten letter aloud, and plan your autumn trip together.',
+        labelHim: 'Give her a deeply personal handwritten 6-month letter (referencing the tiny detail you noticed on Date #1), toast "Big Carl"-style, and map out your next trip.',
+        outcomeHer:
+          'Seeing his eyes light up over the brass spare key—six months of consistency, laughter, and electric chemistry officially sealed!',
+        outcomeHim:
+          'She presses the spare key into your palm grinning: "Six months down—and you still open every car door like it’s Friday #1."',
+        toastBanner: '6-MONTH MILESTONE SEALED! • ALL STATS +20',
+        deltas: { maturity: 20, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: '6-Month Brass Key & "Big Carl" Certified',
+      },
+      {
+        labelHer: 'He hits month six and suddenly panics asking "Wait… what are we?" like a situationship bro.',
+        labelHim: 'Hit six months and pull a vague "let’s not put labels on it" situationship dodge.',
+        outcomeHer:
+          'Six months in and allergic to labels?! Hand back the drawer space immediately!',
+        outcomeHim:
+          'Pulling situationship games at six months vaporizes half a year of goodwill.',
+        toastBanner: 'RED FLAG! • 6-MONTH SITUATIONSHIP DODGE (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Recreate your exact first date—same booth, same order, zero first-night nerves.',
+        labelHim: 'Book the exact corner booth from Date #1 and surprise her with her signature drink waiting.',
+        outcomeHer:
+          'Nostalgic, romantic, and effortless.',
+        outcomeHim:
+          'Remembering the exact booth and drink from six months ago is elite boyfriend craft.',
+        toastBanner: 'DATE #1 CALLBACK +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'milestone-one-year-anniversary',
+    act: 3,
+    stage: 6,
+    title: '💍 1-Year Anniversary Finale: Four Seasons Strong & Defying Every Stereotype',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "1-YEAR ANNIVERSARY POST!! To anyone lurking wondering if an older-woman / younger-man love story lasts—read this ❤️"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      '**One-Year Anniversary Finale!** Four full seasons with {hisName} ({hisAge}M): his friends adore you, your inner circle stopped asking "Is it just a phase?" months ago, and you’ve checked into a candlelit coastal suite with a heated midnight pool to toast **365 days** of choosing each other out loud.',
+    setupHim:
+      '**One-Year Anniversary Finale!** One full year with {herName} ({herAge}F)—from catching dating-app red flags to holidays, inside jokes, and building a real partnership that outshines every same-age couple you know. Time for the 365-day toast!',
+    recommendedAffiliateId: 'couples-intimacy-deck',
+    choices: [
+      {
+        labelHer: 'Raise champagne under the stars poolside, thank him for loving every chapter of who you are, and step into Year Two hand-in-hand without a single apology.',
+        labelHim: 'Toast 365 days poolside ("Best decision I ever made was ignoring the age slider"), slip a timeless keepsake onto her wrist, and claim Year Two with full devotion.',
+        outcomeHer:
+          'One year in, zero masks, total peace, and butterflies that still hit like Night #1—you officially beat The Velvet Den at highest romance rank!',
+        outcomeHim:
+          'She pulls you into the warm pool water laughing under the lights—365 days strong and just getting started.',
+        toastBanner: '🏆 1-YEAR ANNIVERSARY CHAMPIONS! • +30 ROMANCE PAYOFF',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: '365-Day Cougar & Cub Anniversary Crown',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He forgets your 1-year anniversary completely and schedules a boys’ gaming tournament.',
+        labelHim: 'Forget your one-year anniversary date completely.',
+        outcomeHer:
+          'Forgetting the 1-year anniversary at the 1-yard line?! Tragic fumble!',
+        outcomeHim:
+          'Never fumble the 365-day finish line—set three calendar reminders!',
+        toastBanner: 'RED FLAG! • FORGOT THE 1-YEAR ANNIVERSARY (-30)',
+        deltas: { maturity: -30, chivalry: -30, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Post an anonymous 1-Year Success Story together to inspire the next Cougar & Cub couple.',
+        labelHim: 'Celebrate quietly with a weekend phone-off retreat and write down your Year-Two bucket list together.',
+        outcomeHer:
+          'Grounded, joyful, and inspiring.',
+        outcomeHim:
+          'Intentional Year-Two planning keeps the spark compounding.',
+        toastBanner: 'YEAR-TWO BUCKET LIST +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
 ];

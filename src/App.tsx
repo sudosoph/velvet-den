@@ -49,7 +49,10 @@ import {
   shareOrCopy,
   type ChallengePayload,
 } from './lib/viral';
-import { verifyStripeCheckoutSession } from './services/adapters';
+import {
+  recordIncomingReferralHit,
+  verifyStripeCheckoutSession,
+} from './services/adapters';
 
 type ScreenPhase = 'mixer' | 'swipes' | 'episodes' | 'outcome' | 'audition';
 
@@ -62,6 +65,7 @@ function readInitialUrlState() {
       journalSlug: null as string | null,
       unlockQuery: '',
       stripeSessionId: null as string | null,
+      refCode: null as string | null,
     };
   }
   const params = new URLSearchParams(window.location.search);
@@ -73,6 +77,7 @@ function readInitialUrlState() {
   const unlockQuery =
     params.has('unlock') || params.has('founder') ? window.location.search : '';
   const stripeSessionId = params.get('session_id');
+  const refCode = params.get('ref');
 
   return {
     challenge: decoded,
@@ -81,6 +86,7 @@ function readInitialUrlState() {
     journalSlug,
     unlockQuery,
     stripeSessionId,
+    refCode,
   };
 }
 
@@ -162,18 +168,39 @@ export default function App() {
   };
 
   useEffect(() => {
+    if (
+      initialUrl.refCode &&
+      initialUrl.refCode.toLowerCase() !== (wallet.referralCode || '').toLowerCase()
+    ) {
+      recordIncomingReferralHit(initialUrl.refCode);
+    }
+  }, [initialUrl.refCode, wallet.referralCode]);
+
+  useEffect(() => {
     if (!initialUrl.stripeSessionId) return;
     const sessionKey = `stripe_session_${initialUrl.stripeSessionId}`;
     if (wallet.claimedRewards.includes(sessionKey)) return;
 
-    verifyStripeCheckoutSession(initialUrl.stripeSessionId).then((result) => {
+    let tierHint = '';
+    try {
+      tierHint = window.localStorage.getItem('velvet_pending_stripe_tier') || '';
+    } catch {
+      // Ignore storage block
+    }
+
+    verifyStripeCheckoutSession(initialUrl.stripeSessionId, tierHint).then((result) => {
       if (!result.verified) return;
+      try {
+        window.localStorage.removeItem('velvet_pending_stripe_tier');
+      } catch {
+        // Ignore storage block
+      }
       setWallet((prev) => {
         if (prev.claimedRewards.includes(sessionKey)) return prev;
         const next: WalletState = {
           ...prev,
           isVip: result.grantType === 'vip' ? true : prev.isVip,
-          credits: prev.credits + (result.credits ?? (result.grantType === 'vip' ? 10 : 15)),
+          credits: prev.credits + (result.credits ?? (result.grantType === 'vip' ? 15 : 15)),
           claimedRewards: [...prev.claimedRewards, sessionKey],
         };
         saveWallet(next);
@@ -478,6 +505,8 @@ export default function App() {
                 setHer((prev) => ({ ...prev, age: Math.min(72, nextHis.age + 1) }));
               }
             }}
+            onUpdateHerCustom={setHer}
+            onUpdateHisCustom={setHis}
             onAdjustHerAge={(d) =>
               setHer((prev) => ({
                 ...prev,
@@ -584,6 +613,11 @@ export default function App() {
         }}
         onRestoreVipSuccess={() => {
           updateWallet({ ...wallet, isVip: true });
+        }}
+        onClaimQuestReward={(rewardId, amount) => {
+          const res = grantRewardCredits(wallet, rewardId, amount);
+          if (res.granted) updateWallet(res.wallet);
+          return res.granted;
         }}
         onSandboxGrantCredits={() => {
           updateWallet({ ...wallet, credits: wallet.credits + 15 });

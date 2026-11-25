@@ -269,6 +269,118 @@ const STATIC_GUIDES = [
       },
     ],
   },
+  {
+    slug: 'older-woman-grown-son-same-age-meeting-parents-guide',
+    title: 'Dating an Older Woman With a Grown Son Your Age (Plus Meeting Parents & First Wedding +1)',
+    description:
+      'Real advice from Cougar and Cub couples on navigating grown children the same age as her partner, meeting his same-age parents, and attending your first wedding as a +1.',
+    episodeId: 'grown-son-same-age-collision',
+    paragraphs: [
+      'One of the most talked-about milestones in 18+ year older-woman / younger-man relationships happens when her adult son or daughter is within a year or two of her partner’s age—or when her partner’s mother graduated high school the exact same year she did.',
+      'Successful couples follow three golden rules: brief family warmly ahead of time instead of springing doorway ambushes, never try to play "stepdad" to a peer-aged adult child, and carry calm, unbothered pride onto the dance floor at your first wedding together as a +1.',
+    ],
+    faqs: [
+      {
+        q: 'How should a younger man act when meeting an older girlfriend’s grown children?',
+        a: 'Treat them with warm peer-level respect, zero step-parent posturing, and steady consistency—letting them see firsthand how happy and respected their mother is.',
+      },
+      {
+        q: 'How do you prepare parents when your girlfriend is your mom’s age?',
+        a: 'Tell your parents warmly a week before the visit rather than surprising them at the door, and anchor the conversation around shared values and how well you treat each other.',
+      },
+    ],
+    picks: [
+      {
+        name: 'Weighted Copper Espresso Martini Barware Set ($54)',
+        url: 'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
+      },
+      {
+        name: 'After-Dark Couples Conversation Card Deck ($26)',
+        url: 'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
+      },
+    ],
+  },
+  {
+    slug: 'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man',
+    title: 'Best Cougar & Cub Date Ideas: 18-Hour Getaways, Campus Sushi, Meadow Picnics & Bowling',
+    description:
+      'Skip boring dinner interviews: why spontaneous 18-hour boutique hotel pool & sauna getaways, campus sushi strolls, sunlit picnics, and retro bowling spark unforgettable chemistry.',
+    episodeId: 'spontaneous-18h-pool-sauna-getaway',
+    paragraphs: [
+      'Accomplished women in their late 30s, 40s, 50s, and 60s have already sat through a lifetime of stiff corporate steakhouse dinners—what actually wins their hearts is playful energy, planning effort, and romance.',
+      'Top fan-favorite dates include a spontaneous 18-hour boutique getaway (after a chemistry-tested video call) featuring sunset rooftop cocktails plus a heated hotel pool and cedar sauna, an autumn university quad stroll with omakase sushi, or a hand-packed meadow picnic paired with retro neon bowling.',
+    ],
+    faqs: [
+      {
+        q: 'How can a younger man on a modest budget plan an amazing date for an older woman?',
+        a: 'Thoughtful preparation beats expensive flash every time: pack a linen-blanket meadow picnic with fresh baguette and strawberries, followed by playful retro bowling.',
+      },
+    ],
+    picks: [
+      {
+        name: '22-Momme Mulberry Silk Kimono Lounge Robe ($118)',
+        url: 'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
+      },
+      {
+        name: 'Japanese Cross-Back Heavyweight Linen Apron ($34)',
+        url: 'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men',
+      },
+    ],
+  },
+  {
+    slug: 'cougar-town-pop-culture-age-gap-dating-history',
+    title: 'From Cougar Town’s "Big Carl" to 2026 Icons: How Pop Culture Rewrote Age-Gap Romance',
+    description:
+      'How Courteney Cox’s Cougar Town ("Big Carl" wine glasses & post-divorce joy) paved the way for modern Cougar and Cub romances in film, TV, and celebrity culture.',
+    episodeId: 'milestone-six-month-anniversary',
+    paragraphs: [
+      'When Courteney Cox launched Cougar Town as newly divorced 40-something Jules Cobb armed with her legendary oversized wine glass "Big Carl," television began shifting older-woman / younger-man stories from punchlines to joyful self-reclamation.',
+      'Today, from romantic films and BookTok bestsellers to real-life couples celebrating 6-month and 1-year anniversaries, modern Cougars and Cubs embrace humor, emotional intelligence, and unapologetic partnership.',
+    ],
+    faqs: [
+      {
+        q: 'What was Jules Cobb’s giant wine glass called on Cougar Town?',
+        a: 'Courteney Cox’s character Jules Cobb famously named her comically oversized red wine glass "Big Carl" (later followed by Big Joe and Big Lou).',
+      },
+    ],
+    picks: [
+      {
+        name: 'Weighted Copper Cocktail & Wine Barware Set ($54)',
+        url: 'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
+      },
+      {
+        name: 'After-Dark Couples Conversation Card Deck ($26)',
+        url: 'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
+      },
+    ],
+  },
+  {
+    slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
+    title: 'Zodiac & Star-Sign Compatibility in Older-Woman / Younger-Man Relationships',
+    description:
+      'Explore astrology chemistry for Cougars and Cubs: why Scorpio, Aries, Leo, Taurus, and Virgo pairings create magnetic cross-generational romance.',
+    episodeId: 'fiery-foreign-cougar-passion-test',
+    paragraphs: [
+      'Astrology-loving Cougars and Cubs swear by cross-element magnetism: fiery Aries and Leo women thrive with grounded, devoted Taurus or Cancer Cubs who worship their boldness without competing for the spotlight.',
+      'Meanwhile, perceptive Scorpio and Virgo archetypes gravitate toward emotionally fluent partners who remember tiny comfort details, from passenger-seat warmers to 62°F bamboo-sheet sleep setups.',
+    ],
+    faqs: [
+      {
+        q: 'Which zodiac signs match best in Cougar and Cub dating?',
+        a: 'Fire-and-Earth pairings (Aries or Leo with Taurus or Virgo) and Water-and-Earth pairings (Scorpio or Cancer with Taurus or Capricorn) rank highest for lasting passion and domestic harmony.',
+      },
+    ],
+    picks: [
+      {
+        name: 'Warm Cedar, Bergamot & Amber Eau de Parfum ($68)',
+        url: 'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men',
+      },
+      {
+        name: '100% Organic Bamboo Viscose Cooling Sheet Set ($89)',
+        url: 'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
+      },
+    ],
+  },
 ];
 
 function escapeHtml(str) {

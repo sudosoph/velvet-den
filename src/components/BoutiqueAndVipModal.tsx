@@ -1,8 +1,29 @@
 import React, { useState } from 'react';
-import { Coffee, Crown, ExternalLink, Gift, Mail, ShieldCheck, Sparkles, X } from 'lucide-react';
+import {
+  Check,
+  Coffee,
+  Copy,
+  Crown,
+  ExternalLink,
+  Gift,
+  Mail,
+  RefreshCw,
+  Share2,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  X,
+} from 'lucide-react';
+import { BRAND_CONFIG } from '../config/brand';
 import { MONETIZATION_CONFIG } from '../config/monetization';
-import type { WalletState } from '../domain/economy';
+import {
+  MAX_VERIFIED_REFERRAL_CLAIMS,
+  SOCIAL_SHARE_QUEST_IDS,
+  type WalletState,
+} from '../domain/economy';
 import { AFFILIATE_CATALOG, buildAffiliateUrl } from '../lib/affiliates';
+import { shareOrCopy } from '../lib/viral';
+import { fetchVerifiedReferralSlots } from '../services/adapters';
 
 interface BoutiqueAndVipModalProps {
   open: boolean;
@@ -10,9 +31,20 @@ interface BoutiqueAndVipModalProps {
   onClose: () => void;
   onRedeemCode: (code: string) => boolean;
   onRestoreVipSuccess?: () => void;
+  onClaimQuestReward?: (rewardId: string, amount: number) => boolean;
   onSandboxGrantCredits: () => void;
   onSandboxUnlockVip: () => void;
   onClaimNewsletterBonus: (email: string) => boolean;
+}
+
+function rememberPendingStripeTier(tier: 'credits' | 'vip' | 'tip' | 'cameo') {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem('velvet_pending_stripe_tier', tier);
+    }
+  } catch {
+    // Ignore storage block
+  }
 }
 
 export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
@@ -21,6 +53,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   onClose,
   onRedeemCode,
   onRestoreVipSuccess,
+  onClaimQuestReward,
   onSandboxGrantCredits,
   onSandboxUnlockVip,
   onClaimNewsletterBonus,
@@ -32,12 +65,88 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   const [restoreEmail, setRestoreEmail] = useState('');
   const [restoreMsg, setRestoreMsg] = useState<string | null>(null);
   const [tipStatusMsg, setTipStatusMsg] = useState<string | null>(null);
+  const [questMsg, setQuestMsg] = useState<string | null>(null);
+  const [verifyingRef, setVerifyingRef] = useState(false);
 
   if (!open) return null;
 
   const isSandbox = MONETIZATION_CONFIG.sandboxPreviewMode;
   const liveTipUrl = MONETIZATION_CONFIG.tipJarUrl || MONETIZATION_CONFIG.kofiUrl;
   const liveCameoUrl = MONETIZATION_CONFIG.cameoCommissionUrl;
+
+  const refCode = wallet.referralCode || 'vdclub1';
+  const refUrl = `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}?ref=${encodeURIComponent(refCode)}`;
+  const socialClaimedCount = SOCIAL_SHARE_QUEST_IDS.filter((id) =>
+    wallet.claimedRewards.includes(id),
+  ).length;
+  const refClaimedCount = [1, 2, 3].filter((n) =>
+    wallet.claimedRewards.includes(`ref_verified_${n}`),
+  ).length;
+  const totalFreeQuestCreditsEarned = socialClaimedCount * 2 + refClaimedCount * 5;
+  const maxFreeQuestCredits = SOCIAL_SHARE_QUEST_IDS.length * 2 + MAX_VERIFIED_REFERRAL_CLAIMS * 5;
+  const allFreeQuestsMaxed = totalFreeQuestCreditsEarned >= maxFreeQuestCredits;
+
+  const handleSocialQuest = async (
+    questId: (typeof SOCIAL_SHARE_QUEST_IDS)[number],
+    mode: 'groupchat' | 'x' | 'community',
+  ) => {
+    if (wallet.claimedRewards.includes(questId)) {
+      setQuestMsg('Already claimed that channel—verify a friend referral or top up above!');
+      return;
+    }
+    const dilemmaUrl = `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}?dilemma=grown-son-same-age-collision&ref=${encodeURIComponent(refCode)}`;
+    if (mode === 'x' && typeof window !== 'undefined') {
+      const tweetText = encodeURIComponent(
+        `Just got called "born in the late 1900s" in Cougars & Cubs Club and survived the Tito’s mirror-selfie test 💀 Bet you can’t beat 88%: ${refUrl}`,
+      );
+      window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank', 'noopener,noreferrer');
+    } else if (mode === 'groupchat') {
+      await shareOrCopy({
+        title: 'Group-Chat Debate — Cougars & Cubs Club',
+        text: `Wait how would y’all handle finding out your date’s grown son graduated the exact same year as you 💀 Pass the test:`,
+        url: dilemmaUrl,
+      });
+    } else {
+      await shareOrCopy({
+        title: 'Cougars & Cubs Club Vetting Challenge',
+        text: `🐆 65 real Cougar & Cub scenarios (from 18h hotel-sauna getaways & campus PhD sushi to 3 AM Roblox shock)—see your rank:`,
+        url: refUrl,
+      });
+    }
+    const granted = onClaimQuestReward ? onClaimQuestReward(questId, 2) : false;
+    setQuestMsg(
+      granted
+        ? '🎉 +2 Bonus Credits unlocked! When real friends click your link, tap "Verify Friend Clicks" for +5 Cr each!'
+        : 'Link copied! Share it with friends to unlock +5 Cr referral bonuses.',
+    );
+  };
+
+  const handleVerifyReferrals = async () => {
+    setVerifyingRef(true);
+    try {
+      const status = await fetchVerifiedReferralSlots(refCode);
+      let newlyGranted = 0;
+      for (let slot = 1; slot <= Math.min(MAX_VERIFIED_REFERRAL_CLAIMS, status.claimableSlots); slot++) {
+        const key = `ref_verified_${slot}`;
+        if (!wallet.claimedRewards.includes(key) && onClaimQuestReward) {
+          if (onClaimQuestReward(key, 5)) {
+            newlyGranted += 5;
+          }
+        }
+      }
+      if (newlyGranted > 0) {
+        setQuestMsg(`🔥 Verified ${status.uniqueReferrals} real friend click(s)! +${newlyGranted} Velvet Credits added!`);
+      } else if (refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS) {
+        setQuestMsg('🔒 Maximum 3/3 friend referral bonuses claimed—grab +15 Credits ($2.99) or Lifetime VIP ($6.99) above!');
+      } else {
+        setQuestMsg(
+          `Verified clicks so far: ${status.uniqueReferrals}/3. Drop your referral link in a group chat or Hinge bio and check again!`,
+        );
+      }
+    } finally {
+      setVerifyingRef(false);
+    }
+  };
 
   const handlePromoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,9 +247,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             {MONETIZATION_CONFIG.stripeCreditPackUrl ? (
               <a
                 href={MONETIZATION_CONFIG.stripeCreditPackUrl}
+                onClick={() => rememberPendingStripeTier('credits')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 block rounded-xl border-2 border-black bg-teal-400 py-2.5 text-center text-xs font-extrabold text-slate-950"
+                className="mt-4 block rounded-xl border-2 border-black bg-teal-400 py-2.5 text-center text-xs font-extrabold text-slate-950 hover:bg-teal-300"
               >
                 Get +15 Credits ($2.99)
               </a>
@@ -180,9 +290,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             ) : MONETIZATION_CONFIG.stripeVipPassUrl ? (
               <a
                 href={MONETIZATION_CONFIG.stripeVipPassUrl}
+                onClick={() => rememberPendingStripeTier('vip')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 block rounded-xl border-2 border-black bg-amber-400 py-2.5 text-center text-xs font-extrabold text-slate-950"
+                className="mt-4 block rounded-xl border-2 border-black bg-amber-400 py-2.5 text-center text-xs font-extrabold text-slate-950 hover:bg-amber-300"
               >
                 <Crown className="inline h-3.5 w-3.5 mr-1" />
                 Unlock VIP Black Card ($6.99)
@@ -220,6 +331,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               {liveTipUrl ? (
                 <a
                   href={liveTipUrl}
+                  onClick={() => rememberPendingStripeTier('tip')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-pink-600 py-2 text-xs font-extrabold text-white hover:bg-pink-500"
@@ -245,6 +357,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               {liveCameoUrl ? (
                 <a
                   href={liveCameoUrl}
+                  onClick={() => rememberPendingStripeTier('cameo')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-slate-800 py-2 text-xs font-bold text-amber-300 hover:bg-slate-700"
@@ -270,6 +383,102 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Capped Viral Social-Share & Verified Friend Referral Credit Ladder */}
+        {onClaimQuestReward && (
+          <div className="rounded-2xl border-2 border-pink-500/40 bg-gradient-to-r from-[#261036] via-[#19112e] to-[#0f242c] p-4 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span className="inline-flex items-center gap-1 rounded bg-pink-500/25 px-2 py-0.5 text-[10px] font-extrabold uppercase text-pink-200">
+                  <Users className="h-3 w-3 text-amber-300" /> Share &amp; Refer Before Paywall Cap
+                </span>
+                <h3 className="mt-1 font-display text-2xl text-white">
+                  Earn Up to +{maxFreeQuestCredits} Free Credits Sharing Across Socials &amp; Group Chats
+                </h3>
+              </div>
+              <span className="rounded-full border border-amber-400/40 bg-black/50 px-3 py-1 text-xs font-extrabold text-amber-300">
+                {allFreeQuestsMaxed
+                  ? '🔒 Max Free Cap Reached (Paid Refills Only)'
+                  : `${totalFreeQuestCreditsEarned} / ${maxFreeQuestCredits} Free Quest Credits Claimed`}
+              </span>
+            </div>
+
+            <div className="grid gap-2 sm:grid-cols-3">
+              {[
+                {
+                  id: 'quest_groupchat_roast' as const,
+                  mode: 'groupchat' as const,
+                  label: '💬 Text Group-Chat Dilemma (+2 Cr)',
+                },
+                {
+                  id: 'quest_x_threads_post' as const,
+                  mode: 'x' as const,
+                  label: '🐦 Post "1900s" Roast on X (+2 Cr)',
+                },
+                {
+                  id: 'quest_reddit_discord_drop' as const,
+                  mode: 'community' as const,
+                  label: '🔥 Share to Discord / Reddit (+2 Cr)',
+                },
+              ].map((q) => {
+                const done = wallet.claimedRewards.includes(q.id);
+                return (
+                  <button
+                    key={q.id}
+                    type="button"
+                    disabled={done}
+                    onClick={() => handleSocialQuest(q.id, q.mode)}
+                    className={`flex items-center justify-center gap-1.5 rounded-xl border-2 border-black px-3 py-2 text-xs font-extrabold transition ${
+                      done
+                        ? 'bg-emerald-950/60 text-emerald-300 opacity-80 cursor-default'
+                        : 'bg-pink-600 text-white hover:bg-pink-500 cursor-pointer'
+                    }`}
+                  >
+                    {done ? <Check className="h-3.5 w-3.5" /> : <Share2 className="h-3.5 w-3.5" />}
+                    <span>{done ? '✓ Claimed (+2 Cr)' : q.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 rounded-xl border border-white/10 bg-black/45 p-2.5 text-xs">
+              <div className="truncate text-slate-200">
+                <strong className="text-teal-300">Verified Friend Link (+5 Cr/click, max 3):</strong>{' '}
+                <code className="text-amber-200">{refUrl}</code>
+              </div>
+              <div className="flex shrink-0 gap-2">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await shareOrCopy({
+                      title: 'Cougars & Cubs Club',
+                      text: 'Pass my 60-second Cougars & Cubs Vetting Test 🍸',
+                      url: refUrl,
+                    });
+                    setQuestMsg('🔗 Personal referral link copied! Each real friend who opens it unlocks +5 Cr (up to 3 friends).');
+                  }}
+                  className="inline-flex items-center gap-1 rounded-lg bg-slate-700 px-2.5 py-1.5 font-bold text-white hover:bg-slate-600 cursor-pointer"
+                >
+                  <Copy className="h-3 w-3" /> Copy Link
+                </button>
+                <button
+                  type="button"
+                  disabled={verifyingRef || refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS}
+                  onClick={handleVerifyReferrals}
+                  className="inline-flex items-center gap-1 rounded-lg bg-teal-400 px-3 py-1.5 font-extrabold text-slate-950 hover:bg-teal-300 disabled:opacity-60 cursor-pointer"
+                >
+                  <RefreshCw className={`h-3 w-3 ${verifyingRef ? 'animate-spin' : ''}`} />
+                  <span>
+                    {refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS
+                      ? '✓ 3/3 Referrals Maxed'
+                      : `Verify Clicks (${refClaimedCount}/3)`}
+                  </span>
+                </button>
+              </div>
+            </div>
+            {questMsg && <p className="text-xs font-semibold text-amber-200">{questMsg}</p>}
+          </div>
+        )}
 
         {/* Promo / Founder Code + Newsletter Lead Magnet + Cross-Browser VIP Restore */}
         <div className="grid gap-4 md:grid-cols-3">

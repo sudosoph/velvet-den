@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { MONETIZATION_CONFIG } from '../src/config/monetization';
 import {
   applyUnlockCodeOrQuery,
   grantRewardCredits,
@@ -53,17 +54,36 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     expect(duplicate.wallet.credits).toBe(13);
   });
 
-  it('redeems VIP unlock codes and Stripe redirect query params', () => {
+  it('redeems Founder codes in live mode and preview VIP codes when sandboxPreviewMode is enabled', () => {
     const storage = makeMemoryStorage();
     const initial = loadWallet(storage, new Date('2026-11-24T12:00:00Z'));
 
-    const codeResult = applyUnlockCodeOrQuery(initial, 'velvetvip');
-    expect(codeResult.unlocked).toBe('vip');
-    expect(codeResult.wallet.isVip).toBe(true);
+    expect(MONETIZATION_CONFIG.stripeCreditPackUrl).toContain('https://buy.stripe.com/');
+    expect(MONETIZATION_CONFIG.stripeVipPassUrl).toContain('https://buy.stripe.com/');
+    expect(MONETIZATION_CONFIG.tipJarUrl).toContain('https://buy.stripe.com/');
+    expect(MONETIZATION_CONFIG.cameoCommissionUrl).toContain('https://buy.stripe.com/');
+    expect(MONETIZATION_CONFIG.sandboxPreviewMode).toBe(false);
+    expect(initial.referralCode).toMatch(/^vd[a-z0-9]{4,8}$/);
 
-    const queryCredits = applyUnlockCodeOrQuery(initial, '?unlock=credits15');
-    expect(queryCredits.unlocked).toBe('credits');
-    expect(queryCredits.wallet.credits).toBe(25);
+    // In live mode, public demo code VELVETVIP is blocked while Founder code works
+    expect(applyUnlockCodeOrQuery(initial, 'velvetvip').unlocked).toBeNull();
+    const founderRes = applyUnlockCodeOrQuery(initial, 'foundermode');
+    expect(founderRes.unlocked).toBe('founder');
+    expect(founderRes.wallet.isFounderUnlimited).toBe(true);
+
+    const orig = MONETIZATION_CONFIG.sandboxPreviewMode;
+    MONETIZATION_CONFIG.sandboxPreviewMode = true;
+    try {
+      const codeResult = applyUnlockCodeOrQuery(initial, 'velvetvip');
+      expect(codeResult.unlocked).toBe('vip');
+      expect(codeResult.wallet.isVip).toBe(true);
+
+      const queryCredits = applyUnlockCodeOrQuery(initial, '?unlock=credits15');
+      expect(queryCredits.unlocked).toBe('credits');
+      expect(queryCredits.wallet.credits).toBe(25);
+    } finally {
+      MONETIZATION_CONFIG.sandboxPreviewMode = orig;
+    }
   });
 
   it('builds valid affiliate URLs with existing query strings, unset/set tags, and blocks explicit adult domains (Review Focus #4)', () => {

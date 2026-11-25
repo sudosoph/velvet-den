@@ -7,9 +7,27 @@ export interface WalletState {
   lastRefillDate: string;
   isVip: boolean;
   isFounderUnlimited?: boolean;
+  referralCode?: string;
   unlockedEpisodeIds: string[];
   claimedRewards: string[];
   unlockedStamps: string[];
+}
+
+export const SOCIAL_SHARE_QUEST_IDS = [
+  'quest_groupchat_roast',
+  'quest_x_threads_post',
+  'quest_reddit_discord_drop',
+] as const;
+
+export const MAX_VERIFIED_REFERRAL_CLAIMS = 3;
+
+function generateReferralCode(): string {
+  const alphabet = 'abcdefghjkmnpqrstuvwxyz23456789';
+  let out = 'vd';
+  for (let i = 0; i < 5; i++) {
+    out += alphabet[Math.floor(Math.random() * alphabet.length)];
+  }
+  return out;
 }
 
 export type StorageLike = Pick<Storage, 'getItem' | 'setItem'>;
@@ -35,6 +53,7 @@ export function createDefaultWallet(now: Date = new Date()): WalletState {
     lastRefillDate: toUtcDateKey(now),
     isVip: false,
     isFounderUnlimited: false,
+    referralCode: generateReferralCode(),
     unlockedEpisodeIds: [],
     claimedRewards: [],
     unlockedStamps: ['puma', 'cougar'],
@@ -75,11 +94,17 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
         ? Math.max(parsed.credits, MONETIZATION_CONFIG.dailyFreeCredits)
         : Math.max(0, Math.floor(parsed.credits));
 
+    const referralCode =
+      typeof parsed.referralCode === 'string' && /^vd[a-z0-9]{4,8}$/.test(parsed.referralCode)
+        ? parsed.referralCode
+        : generateReferralCode();
+
     const normalized: WalletState = {
       credits,
       lastRefillDate: lastDate < today ? today : lastDate,
       isVip: Boolean(parsed.isVip),
       isFounderUnlimited: Boolean(parsed.isFounderUnlimited),
+      referralCode,
       unlockedEpisodeIds: Array.isArray(parsed.unlockedEpisodeIds) ? parsed.unlockedEpisodeIds : [],
       claimedRewards: Array.isArray(parsed.claimedRewards) ? parsed.claimedRewards : [],
       unlockedStamps: Array.isArray(parsed.unlockedStamps)
@@ -87,7 +112,7 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
         : ['puma', 'cougar'],
     };
 
-    if (lastDate < today) {
+    if (lastDate < today || !parsed.referralCode) {
       saveWallet(normalized, store);
     }
     return normalized;

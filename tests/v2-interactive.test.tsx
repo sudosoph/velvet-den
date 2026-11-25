@@ -33,10 +33,10 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 59 subplots accurately—including Forum Red Flags, Grown-Son Same-Age, Sibling Birth-Year, Parents, Wedding +1, 1900s & Roblox across all tracks', () => {
-    expect(EPISODES.length).toBe(59);
-    expect(HER_ARCHETYPES.length).toBe(14);
-    expect(HIS_ARCHETYPES.length).toBe(8);
+  it('routes 65 subplots accurately—including Star Signs, 18h Getaway, Campus PhD Sushi, Fiery Foreign, Picnic/Bowling, Anniversaries & Forum Red Flags across all tracks', () => {
+    expect(EPISODES.length).toBe(65);
+    expect(HER_ARCHETYPES.length).toBe(16);
+    expect(HIS_ARCHETYPES.length).toBe(10);
 
     const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
     const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
@@ -156,6 +156,25 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(pantherIds).toContain('panther-protective-friends');
     expect(pantherIds).toContain('doubt-panther-real-world-gravity');
     expect(pantherIds).toContain('panther-timeline-75-45');
+    expect(pantherIds).toContain('milestone-six-month-anniversary');
+    expect(pantherIds).toContain('milestone-one-year-anniversary');
+
+    // Fiery Foreign Cougar (Valentina 44F) × Fresh PhD Cub (Dr. Theo 27M) & Modest-Roots Cub (Rafael 26M)
+    const valentina44 = HER_ARCHETYPES.find((h) => h.id === 'valentina-fiery-cougar')!;
+    const theo27 = HIS_ARCHETYPES.find((c) => c.id === 'theo-phd-campus-cub')!;
+    const rafael26 = HIS_ARCHETYPES.find((c) => c.id === 'rafael-accented-gentleman-cub')!;
+    const fieryPhdPairing = analyzePairing(valentina44, theo27, 'her');
+    expect(fieryPhdPairing.zodiacSpark).toContain('Aries');
+    const fieryPhdIds = createRun(fieryPhdPairing).episodeQueue.map((e) => e.id);
+    expect(fieryPhdIds).toContain('spontaneous-18h-pool-sauna-getaway');
+    expect(fieryPhdIds).toContain('campus-stroll-sushi-professor-student');
+    expect(fieryPhdIds).toContain('fiery-foreign-cougar-passion-test');
+    expect(fieryPhdIds).toContain('milestone-one-year-anniversary');
+
+    const modestIds = createRun(analyzePairing(claire45, rafael26, 'him')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(modestIds).toContain('retro-bowling-and-meadow-picnic');
   });
 
   it('plays the Cub Bench-Press minigame (5x225 reps) and unlocks Stairway-Carry bonus stats', () => {
@@ -341,5 +360,47 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     const aiJson = (await aiRes.json()) as { passedVibeCheck: boolean; source: string };
     expect(aiJson.passedVibeCheck).toBe(true);
     expect(aiJson.source).toBe('workers-ai');
+
+    // Verify anti-fake referral tracking (/api/referral-hit + /api/referral-status) & one-time checkout guard
+    const refHitRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/referral-hit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': '203.0.113.42' },
+        body: JSON.stringify({ refCode: 'vd8k2p9' }),
+      }),
+      mockEnv,
+    );
+    expect(refHitRes.status).toBe(200);
+
+    const refStatusRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/referral-status?code=vd8k2p9'),
+      mockEnv,
+    );
+    const refStatusJson = (await refStatusRes.json()) as {
+      uniqueReferrals: number;
+      claimableSlots: number;
+    };
+    expect(refStatusJson.uniqueReferrals).toBe(1);
+    expect(refStatusJson.claimableSlots).toBe(1);
+
+    const checkoutOnce = await workerApp.fetch(
+      new Request(
+        'https://cougarsandcubs.club/api/verify-checkout?session_id=cs_live_a1B2c3D4e5F6g7H8i9J0k1L2m3N4&tier=vip',
+      ),
+      mockEnv,
+    );
+    const checkoutOnceJson = (await checkoutOnce.json()) as { verified: boolean; grantType: string };
+    expect(checkoutOnceJson.verified).toBe(true);
+    expect(checkoutOnceJson.grantType).toBe('vip');
+
+    // Second replay of exact same session_id is rejected!
+    const checkoutReplay = await workerApp.fetch(
+      new Request(
+        'https://cougarsandcubs.club/api/verify-checkout?session_id=cs_live_a1B2c3D4e5F6g7H8i9J0k1L2m3N4&tier=vip',
+      ),
+      mockEnv,
+    );
+    const checkoutReplayJson = (await checkoutReplay.json()) as { verified: boolean };
+    expect(checkoutReplayJson.verified).toBe(false);
   });
 });

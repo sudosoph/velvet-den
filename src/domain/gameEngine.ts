@@ -61,7 +61,9 @@ export function personalizeText(text: string, pairing: PairingAnalysis): string 
     .replace(/\{herName\}/g, pairing.her.name)
     .replace(/\{hisName\}/g, pairing.his.name)
     .replace(/\{herAge\}/g, String(pairing.her.age))
-    .replace(/\{hisAge\}/g, String(pairing.his.age));
+    .replace(/\{hisAge\}/g, String(pairing.his.age))
+    .replace(/\{petName\}/g, pairing.her.petName || 'Barnaby')
+    .replace(/\{signatureDrink\}/g, pairing.her.signatureDrink || 'Espresso Martini');
 }
 
 export function buildEpisodeQueue(
@@ -87,6 +89,21 @@ export function buildEpisodeQueue(
     queue.push(found);
   };
 
+  const pushCustomDateSpecials = () => {
+    if (tags.has('spontaneous_getaway')) {
+      pushById('spontaneous-18h-pool-sauna-getaway');
+    }
+    if (tags.has('phd_campus_cub')) {
+      pushById('campus-stroll-sushi-professor-student');
+    }
+    if (tags.has('fiery_foreign') || tags.has('loves_foreign_women')) {
+      pushById('fiery-foreign-cougar-passion-test');
+    }
+    if (tags.has('modest_accent_gentleman')) {
+      pushById('retro-bowling-and-meadow-picnic');
+    }
+  };
+
   // Inject Stage 1 VIP if selected (e.g. Trader Joe's Wild Approach)
   for (const vipId of includeVipEpisodeIds) {
     const ep = EPISODES.find((e) => e.id === vipId && e.stage === 1);
@@ -104,6 +121,7 @@ export function buildEpisodeQueue(
     // Sub-10-Year "Junior Cougar" (e.g. 6-Year Gap) 6-Stage Arc!
     pushById('junior-cougar-gatekeeper-tease');
     pushById('check-drop');
+    pushCustomDateSpecials();
     pushById('candlelit-menu-font-seatwarmer');
     pushById('junior-cougar-micro-gen-overlap');
     pushById('cub-bench-press-cougar-training');
@@ -138,6 +156,7 @@ export function buildEpisodeQueue(
       // 30s Child-Free Divorced Dog-Mom Puma Arc (Jaded about 40yo peer men, ZERO kid/babysitter scenes!)
       pushById('puma-dog-park-vetting');
       pushById('check-drop');
+      pushCustomDateSpecials();
       pushById('code-switch-texting');
       pushById('cub-bench-press-cougar-training');
       pushById('puma-weaponized-incompetence-test');
@@ -168,6 +187,7 @@ export function buildEpisodeQueue(
     } else {
       // 30s Single-Mom Puma Arc: Babysitter Clocks, Co-Parenting Boundaries, Low-Iron Care, Sister-Shock, Doubt & 30s Intentionality
       pushById('check-drop');
+      pushCustomDateSpecials();
       if (tags.has('single_mom_sitter')) {
         pushById('babysitter-flake-test');
       }
@@ -204,6 +224,7 @@ export function buildEpisodeQueue(
   } else if (tier === 'cougar') {
     // 40s Cougar / Princess Cougar Arc (with Bench Press, Cub Grooming, Perimenopause, Pop-Culture & Sister-Shock!)
     pushById('check-drop');
+    pushCustomDateSpecials();
     pushById('forum-redflag-pocket-secret-test');
     pushById('code-switch-texting');
     pushById('generational-1900s-venmo-whiplash');
@@ -257,6 +278,7 @@ export function buildEpisodeQueue(
     // 50s Gen-X Jaguar Arc (with Bench Press, Cub Grooming, Menopause Intimacy, Pop-Culture & Sister-Shock!)
     pushById('jaguar-genx-phone-call');
     pushById('check-drop');
+    pushCustomDateSpecials();
     pushById('trail-run-short-leash');
     pushById('jaguar-pilates-core-shake');
     pushById('candlelit-menu-font-seatwarmer');
@@ -294,6 +316,7 @@ export function buildEpisodeQueue(
     // 60+ Panther Icon Arc (with Bench Press, Cub Grooming, Menopause Intimacy, Pop-Culture & Sister-Shock!)
     pushById('panther-black-tie-gala');
     pushById('check-drop');
+    pushCustomDateSpecials();
     pushById('code-switch-texting');
     pushById('cub-bench-press-cougar-training');
     pushById('cub-grooming-red-carpet-glowup');
@@ -322,6 +345,10 @@ export function buildEpisodeQueue(
 
     pushById('panther-timeline-75-45');
   }
+
+  // Grand Milestone Finale: 6-Month Brass Key & 1-Year Anniversary!
+  pushById('milestone-six-month-anniversary');
+  pushById('milestone-one-year-anniversary');
 
   return queue;
 }

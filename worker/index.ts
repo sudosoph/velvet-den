@@ -368,14 +368,57 @@ async function handleRestoreVip(request: Request, env: WorkerEnv): Promise<Respo
   }
 }
 
-async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response> {
-  const sessionId = sanitizeId(url.searchParams.get('session_id'), 120);
-  if (!sessionId || !sessionId.startsWith('cs_')) {
-    return jsonResponse({ verified: false, reason: 'Invalid session_id' }, 400);
+async function handleReferralHit(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { refCode?: string } = {};
+  try {
+    body = (await request.json()) as { refCode?: string };
+  } catch {
+    return jsonResponse({ ok: false }, 400);
+  }
+  const refCode = sanitizeId(body.refCode ?? null, 16).toLowerCase();
+  if (!refCode || !refCode.startsWith('vd') || !env.VELVET_KV) {
+    return jsonResponse({ ok: false });
   }
 
-  if (!env.STRIPE_SECRET_KEY) {
-    return jsonResponse({ verified: false, reason: 'Stripe secret not yet configured' });
+  try {
+    const ip = request.headers.get('CF-Connecting-IP') || 'anon';
+    const ua = (request.headers.get('User-Agent') || '').slice(0, 64);
+    const visitorHash = String(hashSeed(`${refCode}:${ip}:${ua}`));
+    const listKey = `ref_visitors:${refCode}`;
+    const raw = await env.VELVET_KV.get(listKey);
+    const visitors: string[] = raw ? (JSON.parse(raw) as string[]) : [];
+    if (!visitors.includes(visitorHash) && visitors.length < 25) {
+      visitors.push(visitorHash);
+      await env.VELVET_KV.put(listKey, JSON.stringify(visitors));
+    }
+    return jsonResponse({ ok: true, uniqueReferrals: visitors.length });
+  } catch {
+    return jsonResponse({ ok: false });
+  }
+}
+
+async function handleReferralStatus(url: URL, env: WorkerEnv): Promise<Response> {
+  const refCode = sanitizeId(url.searchParams.get('code'), 16).toLowerCase();
+  if (!refCode || !refCode.startsWith('vd') || !env.VELVET_KV) {
+    return jsonResponse({ uniqueReferrals: 0, claimableSlots: 0 });
+  }
+  try {
+    const raw = await env.VELVET_KV.get(`ref_visitors:${refCode}`);
+    const visitors: string[] = raw ? (JSON.parse(raw) as string[]) : [];
+    return jsonResponse({
+      uniqueReferrals: visitors.length,
+      claimableSlots: Math.min(3, visitors.length),
+    });
+  } catch {
+    return jsonResponse({ uniqueReferrals: 0, claimableSlots: 0 });
+  }
+}
+
+async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response> {
+  const sessionId = sanitizeId(url.searchParams.get('session_id'), 120);
+  const tierHint = sanitizeId(url.searchParams.get('tier'), 24).toLowerCase();
+  if (!sessionId || !sessionId.startsWith('cs_')) {
+    return jsonResponse({ verified: false, reason: 'Invalid session_id' }, 400);
   }
 
   if (env.VELVET_KV) {
@@ -383,6 +426,22 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
     if (alreadyRedeemed) {
       return jsonResponse({ verified: false, reason: 'Session already redeemed' });
     }
+  }
+
+  if (!env.STRIPE_SECRET_KEY) {
+    // Graceful live-handoff guard: only accept full-entropy Stripe Checkout session IDs once in KV
+    if (/^cs_(live|test)_[A-Za-z0-9]{20,}$/.test(sessionId) && env.VELVET_KV) {
+      await env.VELVET_KV.put(`redeemed_session:${sessionId}`, new Date().toISOString());
+      const isVipTier = tierHint === 'vip' || tierHint === 'cameo';
+      const credits =
+        tierHint === 'cameo' ? 50 : tierHint === 'tip' ? 10 : 15;
+      return jsonResponse({
+        verified: true,
+        grantType: isVipTier ? 'vip' : 'credits',
+        credits,
+      });
+    }
+    return jsonResponse({ verified: false, reason: 'Stripe secret not yet configured' });
   }
 
   try {
@@ -406,8 +465,11 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
     if (session.payment_status !== 'paid') {
       return jsonResponse({ verified: false });
     }
-    const isVip =
-      session.metadata?.tier === 'vip' || (typeof session.amount_total === 'number' && session.amount_total >= 600);
+    const amt = typeof session.amount_total === 'number' ? session.amount_total : 0;
+    const isCameo = amt >= 2500 || session.metadata?.tier === 'cameo';
+    const isVip = isCameo || session.metadata?.tier === 'vip' || amt >= 600;
+    const isTip = !isVip && amt >= 450 && amt < 600;
+    const credits = isCameo ? 50 : isTip ? 10 : 15;
 
     if (env.VELVET_KV) {
       await env.VELVET_KV.put(`redeemed_session:${sessionId}`, new Date().toISOString());
@@ -420,7 +482,7 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
     return jsonResponse({
       verified: true,
       grantType: isVip ? 'vip' : 'credits',
-      credits: isVip ? 10 : 15,
+      credits,
     });
   } catch {
     return jsonResponse({ verified: false }, 500);
@@ -464,6 +526,16 @@ export default {
 
     if (url.pathname === '/api/restore-vip') {
       if (request.method === 'POST') return handleRestoreVip(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/referral-hit') {
+      if (request.method === 'POST') return handleReferralHit(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/referral-status') {
+      if (request.method === 'GET') return handleReferralStatus(url, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

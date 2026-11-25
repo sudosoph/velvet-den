@@ -14,7 +14,13 @@ export type SubplotTag =
   | 'adult_children'
   | 'solo_sanctuary'
   | 'houseboy_eager'
-  | 'income_gap';
+  | 'income_gap'
+  | 'fiery_foreign'
+  | 'booktok_cat_mom'
+  | 'phd_campus_cub'
+  | 'loves_foreign_women'
+  | 'modest_accent_gentleman'
+  | 'spontaneous_getaway';
 
 export interface HerArchetype {
   id: string;
@@ -29,6 +35,12 @@ export interface HerArchetype {
   portraitVariant: 'puma' | 'princess' | 'cougar' | 'jaguar' | 'panther';
   photoUrl: string;
   lookBadge?: string;
+  zodiac?: string;
+  height?: string;
+  loveLanguage?: string;
+  originOrAccent?: string;
+  signatureDrink?: string;
+  petName?: string;
   galleryPhotos?: { label: string; url: string }[];
   interests?: string[];
 }
@@ -46,6 +58,11 @@ export interface HisArchetype {
   portraitVariant: 'golden' | 'oldsoul' | 'trail' | 'architect';
   photoUrl: string;
   lookBadge?: string;
+  zodiac?: string;
+  height?: string;
+  loveLanguage?: string;
+  originOrAccent?: string;
+  signatureDrink?: string;
   galleryPhotos?: { label: string; url: string }[];
   interests?: string[];
 }
@@ -71,6 +88,7 @@ export interface PairingAnalysis {
   isOfficialTenYearGap: boolean;
   badgeLabel: string;
   generationalHeadline: string;
+  zodiacSpark: string;
   codeSwitchTip: string;
   trackTitle: string;
   activeSubplotTags: SubplotTag[];
@@ -382,6 +400,63 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     ],
     interests: ['Amalfi Summers', 'Runway Archives', 'Sea Swimming', 'Negronis', ' Jazz Vinyl'],
   },
+  {
+    id: 'valentina-fiery-cougar',
+    name: 'Valentina',
+    age: 44,
+    title: 'Fiery Foreign-Born Wine Importer • Cougar',
+    shortHook: 'Velvet Spanish accent, Scorpio rising fire & zero lukewarm romance.',
+    tagline:
+      'Madrid-born, Bogotá-raised wine importer: hypnotic accent, rapid-fire passion, and volcanic side-eye for timid men.',
+    vibeSummary:
+      '44F international powerhouse whose accent drops an octave over Rioja. Switches into breathless native-tongue endearments when you step up boldly—and will roast lukewarm effort in two languages.',
+    secretInsecurity:
+      'American men her age kept calling her "intimidating" or "too passionate"—she melts for a devoted younger Cub who worships her fire without flinching.',
+    subplotTags: ['fiery_foreign', 'spontaneous_getaway', 'princess_treatment', 'done_with_kids', 'solo_sanctuary'],
+    portraitVariant: 'princess',
+    photoUrl: './images/cast/camila-39f.jpg',
+    lookBadge: 'Mediterranean-Latina • Velvet Accent • Fiery',
+    zodiac: '♈ Aries Sun • ♏ Scorpio Rising',
+    height: '5\'7"',
+    loveLanguage: 'Physical Touch & Bold Pursuit',
+    originOrAccent: 'Madrid / Bogotá Velvet Accent',
+    signatureDrink: 'Reserva Rioja & Spicy Mezcal',
+    galleryPhotos: [
+      { label: '🍷 Sunlit Escape', url: './images/cast/camila-39f.jpg' },
+      { label: '🥂 Rooftop Spark', url: './images/cast/hero-couple.jpg' },
+      { label: '🏖️ Pool & Sauna', url: './images/cast/scarlett-51f.jpg' },
+    ],
+    interests: ['International Wine', 'Spontaneous 18h Trips', 'Salsa Kitchen Nights', 'Hotel Saunas', 'Bold Romance'],
+  },
+  {
+    id: 'nadia-booktok-cat-cougar',
+    name: 'Nadia',
+    age: 41,
+    title: 'Cozy BookTok & Stare-Down Cat Cougar',
+    shortHook: 'Cashmere introvert, spicy romantasy shelf & orange tabby Mochi.',
+    tagline:
+      'Publishing director who gleefully cancels club plans for Pinot Noir, 600-page spicy fantasy novels, and her judgmental orange cat Mochi.',
+    vibeSummary:
+      '41F witty homebody in off-shoulder cashmere with tortoiseshell reading glasses. To enter her inner sanctum, you must pass Mochi’s unblinking headboard stare-down—and never mock her *ACOTAR* shelf.',
+    secretInsecurity:
+      'Wonders if a lively 26-year-old Cub will get bored of cozy rainy-Friday nights in—until he asks which chapter of her spicy book he should study.',
+    subplotTags: ['booktok_cat_mom', 'dog_mom_divorced', 'jaded_peer_men', 'done_with_kids', 'solo_sanctuary'],
+    portraitVariant: 'cougar',
+    photoUrl: './images/cast/sienna-38f.jpg',
+    lookBadge: 'Brunette • Reading Glasses • Cozy Cat Mom',
+    zodiac: '♋ Cancer Sun • ♍ Virgo Moon',
+    height: '5\'6"',
+    loveLanguage: 'Quality Time & Reading Chapters Aloud',
+    originOrAccent: 'Pacific Northwest Cozy Wit',
+    signatureDrink: 'Willamette Pinot Noir',
+    petName: 'Mochi',
+    galleryPhotos: [
+      { label: '📚 Cozy Glow', url: './images/cast/sienna-38f.jpg' },
+      { label: '☕ Sanctuary Night', url: './images/cast/claire-45f.jpg' },
+      { label: '🐾 Park Picnic', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Spicy BookTok', 'Orange Cat Mochi', 'Rainy Wine Nights', 'Co-Op Couch Games', 'Cashmere'],
+  },
 ];
 
 export const HIS_ARCHETYPES: HisArchetype[] = [
@@ -543,6 +618,62 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
     ],
     interests: ['Ocean Swimming', 'Palm Springs Pools', 'Sports Medicine', 'Tennis', 'Crisp Sancerre'],
+  },
+  {
+    id: 'theo-phd-campus-cub',
+    name: 'Dr. Theo',
+    age: 27,
+    title: 'Freshly Minted PhD & Foreign-Muse Cub',
+    shortHook: 'Just defended his PhD, sleeper gym build,campus sushi & loves accented women.',
+    tagline:
+      'Spent 5 years in a neuroscience lab while his peers partied—just got his PhD hooded, packed on a sleeper gym build, and is ready to court an extraordinary woman.',
+    vibeSummary:
+      '27M newly minted PhD with wire-rim glasses, broad swimmer/lifter shoulders under tweed jackets, and a huge soft spot for worldly, foreign-accented older women. Plans autumn campus strolls + omakase sushi while leaning into cheeky "Professor & Grad Student" banter.',
+    secretInsecurity:
+      'Spent his whole 20s buried in research papers—secretly thrilled (and slightly pinching himself) when a radiant Cougar dresses down in sneakers to meet him on the quad.',
+    subplotTags: ['phd_campus_cub', 'loves_foreign_women', 'spontaneous_getaway', 'houseboy_eager'],
+    portraitVariant: 'architect',
+    photoUrl: './images/cast/julian-27m.jpg',
+    lookBadge: '27M • Wire-Rim Glasses • Sleeper Gym Build',
+    zodiac: '♍ Virgo Sun • ♏ Scorpio Mars',
+    height: '6\'1"',
+    loveLanguage: 'Deep Conversation & Attentive Study',
+    originOrAccent: 'Bilingual East-Coast / Café French',
+    signatureDrink: 'Warm Junmai Sake & Cortado',
+    galleryPhotos: [
+      { label: '🎓 Campus Quad', url: './images/cast/julian-27m.jpg' },
+      { label: '🧗‍♂️ Sleeper Build', url: './images/cast/jin-25m.jpg' },
+      { label: '🍝 Chef Mode', url: './images/cast/leo-25m.jpg' },
+    ],
+    interests: ['Omakase Sushi', 'Foreign Cinema & Languages', 'Campus Strolls', '5x225 Gym Sessions', '18h Getaways'],
+  },
+  {
+    id: 'rafael-accented-gentleman-cub',
+    name: 'Rafael',
+    age: 26,
+    title: 'Modest-Roots Accented Gentleman Cub',
+    shortHook: 'Warm accent, humble roots, ironed white shirts, meadow picnics & bowling.',
+    tagline:
+      'Raised working-class with old-world manners and a warm melodic accent—zero trust-fund money, 100% pride in sweeping a refined woman off her feet.',
+    vibeSummary:
+      '26M master electrician / craftsman from a tight-knit coastal immigrant family. Owns two immaculately ironed linen button-downs, opens every door automatically, and proves a hand-packed meadow picnic + retro neon bowling night beats lazy luxury flash.',
+    secretInsecurity:
+      'Knows her handbag costs more than his first car—so he pours unmatched effort, chivalry, and handmade cooking into every single date.',
+    subplotTags: ['modest_accent_gentleman', 'loves_foreign_women', 'princess_treatment', 'houseboy_eager', 'income_gap'],
+    portraitVariant: 'golden',
+    photoUrl: './images/cast/mateo-26m.jpg',
+    lookBadge: 'Mediterranean-Latino • Warm Accent • Old-School Chivalry',
+    zodiac: '♉ Taurus Sun • ♌ Leo Moon',
+    height: '6\'0"',
+    loveLanguage: 'Acts of Devotion & Handmade Dates',
+    originOrAccent: 'Warm Coastal Romance Accent',
+    signatureDrink: 'Espresso & Chilled Picnic Rosé',
+    galleryPhotos: [
+      { label: '🧺 Park Picnic', url: './images/cast/dog-park-picnic.jpg' },
+      { label: '☀️ Golden Hour', url: './images/cast/mateo-26m.jpg' },
+      { label: '🍝 Family Recipe', url: './images/cast/leo-25m.jpg' },
+    ],
+    interests: ['Meadow Picnics', 'Retro Neon Bowling', 'Grandma’s Pasta Recipes', 'Fixing Anything', 'Slow Dancing'],
   },
 ];
 
@@ -707,7 +838,194 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
       'Whenever an adult Cub dates a Cougar, TikTok brings up Sam & Aaron Taylor-Johnson. Velvet Den Law: prefrontal cortexes must be 25+ baked—the ONLY "grooming" here is upgrading his beard oil, SPF 50, and linen shirts!',
     signatureTell: 'His 5-in-1 neon-blue shower gel mysteriously vanishes after Weekend #2.',
   },
+  {
+    id: 'pop_cougar_town',
+    label: '"Cougar Town" & Jules Cobb’s Big Carl',
+    ageRange: '2009–2015 Sitcom Royalty',
+    category: 'pop_culture',
+    headline: 'Giant Wine Glasses, Florida Sunshine & Post-Divorce Joy',
+    insiderLore:
+      'Courteney Cox’s beloved sitcom started as a 40s post-divorce dating comedy before evolving into the ultimate Cul-de-Sac hangout—immortalizing "Big Carl" (her bathtub-sized red wine glass), Penny Can, and shameless 40s fun.',
+    signatureTell: 'Pours half a bottle of Cabernet into one glass and calls it "just one glass."',
+  },
 ];
+
+const PROFILE_TRAIT_DEFAULTS: Record<
+  string,
+  {
+    zodiac: string;
+    height: string;
+    loveLanguage: string;
+    originOrAccent: string;
+    signatureDrink: string;
+  }
+> = {
+  'claire-cougar-exec': {
+    zodiac: '♑ Capricorn Sun • ♏ Scorpio Rising',
+    height: '5\'8"',
+    loveLanguage: 'Acts of Competence & Clean Sheets',
+    originOrAccent: 'Manhattan / West-Coast Polish',
+    signatureDrink: 'Dirty Hendricks Martini (3 Olives)',
+  },
+  'serena-princess-cougar': {
+    zodiac: '♌ Leo Sun • ♎ Libra Rising',
+    height: '5\'6"',
+    loveLanguage: 'Planned Reservations & Fresh Peonies',
+    originOrAccent: 'Beverly Hills Velvet Drawl',
+    signatureDrink: 'Chilled Rosé Champagne',
+  },
+  'maya-puma-mom': {
+    zodiac: '♊ Gemini Sun • ♐ Sagittarius Moon',
+    height: '5\'5"',
+    loveLanguage: 'Punctuality & Calendar Invites',
+    originOrAccent: 'Chicago Quick-Wit Energy',
+    signatureDrink: 'Spicy Margarita (Salt Rim)',
+  },
+  'chloe-puma-dogmom': {
+    zodiac: '♉ Taurus Sun • ♒ Aquarius Rising',
+    height: '5\'7"',
+    loveLanguage: 'Winning Over Rescue Dog Barnaby',
+    originOrAccent: 'Austin / Denver Outdoorsy Snark',
+    signatureDrink: 'Crisp Sauvignon Blanc',
+  },
+  'sienna-junior-cougar': {
+    zodiac: '♎ Libra Sun • ♌ Leo Moon',
+    height: '5\'7"',
+    loveLanguage: 'Playful Banter & Shared Playlists',
+    originOrAccent: 'Silver Lake Design Studio Chic',
+    signatureDrink: 'Espresso Martini',
+  },
+  'valerie-jaguar-trail': {
+    zodiac: '♐ Sagittarius Sun • ♈ Aries Mars',
+    height: '5\'9"',
+    loveLanguage: '6 AM Trail Pace & 6 PM Phone Calls',
+    originOrAccent: 'Marin County Gen-X Direct',
+    signatureDrink: 'Mezcal Paloma After 10 Miles',
+  },
+  'celeste-panther-icon': {
+    zodiac: '♒ Aquarius Sun • ♌ Leo Rising',
+    height: '5\'8"',
+    loveLanguage: 'Public Hand-Holding & Vinyl Nights',
+    originOrAccent: 'Transatlantic Silver-Screen Poise',
+    signatureDrink: 'Gibson Martini Up',
+  },
+  'priya-surgeon-puma': {
+    zodiac: '♏ Scorpio Sun • ♑ Capricorn Moon',
+    height: '5\'6"',
+    loveLanguage: 'Home-Cooked Steak After Shift',
+    originOrAccent: 'Bay Area / London Med-School Polish',
+    signatureDrink: 'Cardamom Old Fashioned',
+  },
+  'camila-lagoon-puma': {
+    zodiac: '♌ Leo Sun • ♓ Pisces Venus',
+    height: '5\'5"',
+    loveLanguage: 'Kitchen Salsa Spins & Island Flights',
+    originOrAccent: 'Caribbean-Latina Honey Lilt',
+    signatureDrink: 'Artisanal Tobalá Mezcal',
+  },
+  'astrid-blonde-cougar': {
+    zodiac: '♒ Aquarius Sun • ♐ Sagittarius Rising',
+    height: '5\'10"',
+    loveLanguage: 'Dawn Surf Sessions & Sauna Steam',
+    originOrAccent: 'Stockholm-Malibu Nordic Cool',
+    signatureDrink: 'Biodynamic Pet-Nat',
+  },
+  'simone-auntie-cougar': {
+    zodiac: '♏ Scorpio Sun • ♉ Taurus Moon',
+    height: '5\'8"',
+    loveLanguage: 'Shoulder Massages & Zero Ego',
+    originOrAccent: 'Atlanta / LA Music-Row Smooth',
+    signatureDrink: 'French 75 Cabana-Side',
+  },
+  'meiling-architect-cougar': {
+    zodiac: '♍ Virgo Sun • ♎ Libra Rising',
+    height: '5\'7"',
+    loveLanguage: 'Quiet Observation & Omakase',
+    originOrAccent: 'Taipei / Big Sur Minimalist Grace',
+    signatureDrink: 'Ceremonial Matcha & Sancerre',
+  },
+  'scarlett-redhead-jaguar': {
+    zodiac: '♉ Taurus Sun • ♏ Scorpio Venus',
+    height: '5\'6"',
+    loveLanguage: 'Midnight Handmade Pasta & Curve Worship',
+    originOrAccent: 'Tuscan-Trained Culinary Warmth',
+    signatureDrink: 'Aged Barolo in a "Big Carl" Glass',
+  },
+  'vivienne-silver-panther': {
+    zodiac: '♌ Leo Sun • ♑ Capricorn Rising',
+    height: '5\'9"',
+    loveLanguage: 'Unapologetic Piazza Devotion',
+    originOrAccent: 'NYC / Paris Runway Cadence',
+    signatureDrink: 'Negroni Sbagliato',
+  },
+  'leo-golden-cub': {
+    zodiac: '♋ Cancer Sun • ♉ Taurus Moon',
+    height: '6\'1"',
+    loveLanguage: 'Cooking in a Linen Apron & Acts of Service',
+    originOrAccent: 'Warm Golden-Retriever Charm',
+    signatureDrink: 'Negroni & Sparkling Pellegrino',
+  },
+  'julian-oldsoul-cub': {
+    zodiac: '♎ Libra Sun • ♋ Cancer Venus',
+    height: '6\'0"',
+    loveLanguage: 'Car Doors, Peonies & Old-School Romance',
+    originOrAccent: 'Velvet Baritone Old-Soul',
+    signatureDrink: ' Manhattan on a Big Rock',
+  },
+  'dante-trail-cub': {
+    zodiac: '♈ Aries Sun • ♐ Sagittarius Mars',
+    height: '5\'11"',
+    loveLanguage: 'Physical Touch & Post-Hike Recovery',
+    originOrAccent: 'SoCal Bilingual Warmth',
+    signatureDrink: 'Cold Brew & Crisp Lager',
+  },
+  'miles-millennial-cub': {
+    zodiac: '♑ Capricorn Sun • ♎ Libra Rising',
+    height: '6\'2"',
+    loveLanguage: 'Curated Weekend Itineraries',
+    originOrAccent: 'Architectural Lounging Smooth',
+    signatureDrink: 'Pinot Noir & Cortado',
+  },
+  'marcus-firefighter-cub': {
+    zodiac: '♌ Leo Sun • ♉ Taurus Mars',
+    height: '6\'2"',
+    loveLanguage: 'Protective Presence & Firehouse Pasta',
+    originOrAccent: 'Deep Southern-Gentleman Baritone',
+    signatureDrink: 'Bourbon Smash',
+  },
+  'jin-souschef-cub': {
+    zodiac: '♏ Scorpio Sun • ♍ Virgo Rising',
+    height: '5\'11"',
+    loveLanguage: 'Midnight Handmade Dumplings & Skincare',
+    originOrAccent: 'Seoul-LA Culinary Cool',
+    signatureDrink: 'Yuzu Highball',
+  },
+  'liam-redhead-carpenter-cub': {
+    zodiac: '♉ Taurus Sun • ♓ Pisces Moon',
+    height: '6\'1"',
+    loveLanguage: 'Fixing Everything & Cabin Fires',
+    originOrAccent: 'Subtle Irish-Coastal Lilt',
+    signatureDrink: 'Single-Malt Neat',
+  },
+  'lucas-blonde-swimmer-cub': {
+    zodiac: '♊ Gemini Sun • ♌ Leo Venus',
+    height: '6\'3"',
+    loveLanguage: 'Poolside SPF Rubs & Full Loyalty',
+    originOrAccent: 'Sunlit California Coast',
+    signatureDrink: 'Chilled Sancerre',
+  },
+};
+
+export function getProfileDetails(profile: HerArchetype | HisArchetype) {
+  const fallback = PROFILE_TRAIT_DEFAULTS[profile.id];
+  return {
+    zodiac: profile.zodiac ?? fallback?.zodiac ?? '♏ Scorpio Sun • ♌ Leo Rising',
+    height: profile.height ?? fallback?.height ?? '5\'8"',
+    loveLanguage: profile.loveLanguage ?? fallback?.loveLanguage ?? 'Intentional Effort & Touch',
+    originOrAccent: profile.originOrAccent ?? fallback?.originOrAccent ?? 'Cosmopolitan Charm',
+    signatureDrink: profile.signatureDrink ?? fallback?.signatureDrink ?? 'Espresso Martini',
+  };
+}
 
 export function analyzePairing(
   her: HerArchetype,
@@ -732,6 +1050,11 @@ export function analyzePairing(
   }
 
   const generationalHeadline = `${GEN_LABELS[herGeneration]} (${her.age}F) × ${GEN_LABELS[hisGeneration]} (${his.age}M)`;
+  const herDetails = getProfileDetails(her);
+  const hisDetails = getProfileDetails(his);
+  const herSign = herDetails.zodiac.split('•')[0].trim();
+  const hisSign = hisDetails.zodiac.split('•')[0].trim();
+  const zodiacSpark = `${herSign} × ${hisSign} — High-voltage astrological magnetism (${herDetails.loveLanguage.split('&')[0].trim()} meets ${hisDetails.loveLanguage.split('&')[0].trim()})`;
 
   let codeSwitchTip: string;
   if (herGeneration === 'gen_z') {
@@ -781,6 +1104,7 @@ export function analyzePairing(
     isOfficialTenYearGap,
     badgeLabel,
     generationalHeadline,
+    zodiacSpark,
     codeSwitchTip,
     trackTitle,
     activeSubplotTags: Array.from(tagSet),
