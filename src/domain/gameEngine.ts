@@ -192,13 +192,34 @@ export function applyEpisodeChoice(run: GameRunState, choiceIndex: number): Game
   if (!episode) return { ...run, status: 'completed' };
 
   const choice = episode.choices[choiceIndex] ?? episode.choices[0];
-  const nextStats = addDeltas(run.stats, choice.deltas);
-  const nextRedFlags = Math.max(0, run.redFlags + choice.deltas.redFlags);
-  const outcomeText = run.pairing.role === 'her' ? choice.outcomeHer : choice.outcomeHim;
+
+  // Spec §2.5.4 & Task 4: Houseboy Sunday fade-to-black payoff requires Maturity >= 60 && EQ >= 60
+  const failsHouseboyGate =
+    episode.id === 'houseboy-sunday-sanctuary' &&
+    choiceIndex === 0 &&
+    (run.stats.maturity < 60 || run.stats.eq < 60);
+
+  const effectiveDeltas: StatDeltas = failsHouseboyGate
+    ? { maturity: 5, chivalry: 5, eq: 5, chemistry: 0, redFlags: 0 }
+    : choice.deltas;
+
+  const nextStats = addDeltas(run.stats, effectiveDeltas);
+  const nextRedFlags = Math.max(0, run.redFlags + effectiveDeltas.redFlags);
+  const outcomeText = failsHouseboyGate
+    ? 'Hold up—her peaceful solo sanctuary has standards! Because Maturity & EQ haven’t both cleared 60 yet, she keeps Sunday to patio coffee and friendly boundaries instead of unlocking Linen-Apron Houseboy privileges.'
+    : run.pairing.role === 'her'
+      ? choice.outcomeHer
+      : choice.outcomeHim;
+
+  const toastBanner = failsHouseboyGate
+    ? 'SOLO-SANCTUARY VETTING GATE (NEEDS 60+ MATURITY & EQ)'
+    : choice.toastBanner;
+
+  const badgeUnlocked = failsHouseboyGate ? undefined : choice.badgeUnlocked;
 
   const nextBadges =
-    choice.badgeUnlocked && !run.badges.includes(choice.badgeUnlocked)
-      ? [...run.badges, choice.badgeUnlocked]
+    badgeUnlocked && !run.badges.includes(badgeUnlocked)
+      ? [...run.badges, badgeUnlocked]
       : run.badges;
 
   const entry: ChoiceHistoryEntry = {
@@ -207,8 +228,8 @@ export function applyEpisodeChoice(run: GameRunState, choiceIndex: number): Game
     previousStats: { ...run.stats },
     previousRedFlags: run.redFlags,
     outcomeText,
-    toastBanner: choice.toastBanner,
-    badgeUnlocked: choice.badgeUnlocked,
+    toastBanner,
+    badgeUnlocked,
   };
 
   const nextHistory = [...run.history, entry];

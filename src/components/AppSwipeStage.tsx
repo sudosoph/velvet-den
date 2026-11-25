@@ -7,6 +7,7 @@ import { AppPhotoIllustration } from './ArtPanels';
 interface AppSwipeStageProps {
   role: PlayerRole;
   credits: number;
+  initialProfileIndex?: number;
   onSpendXrayCredit: () => boolean;
   onSwipeProfile: (profileId: string, direction: 'left' | 'right') => void;
   onShareDilemma: (id: string, title: string) => void;
@@ -16,12 +17,17 @@ interface AppSwipeStageProps {
 export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   role,
   credits,
+  initialProfileIndex = 0,
   onSpendXrayCredit,
   onSwipeProfile,
   onShareDilemma,
   onCompleteSwipes,
 }) => {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(
+    initialProfileIndex >= 0 && initialProfileIndex < APP_SWIPE_PROFILES.length
+      ? initialProfileIndex
+      : 0,
+  );
   const [photoIdx, setPhotoIdx] = useState<0 | 1>(0);
   const [ageZoomed, setAgeZoomed] = useState(false);
   const [xrayUnlockedIds, setXrayUnlockedIds] = useState<string[]>([]);
@@ -102,7 +108,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             type="button"
             onClick={() =>
               onShareDilemma(
-                'check-drop',
+                profile.id,
                 `Would you swipe right on ${profile.name} (${profile.age}) after Photo #2?!`,
               )
             }

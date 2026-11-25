@@ -330,10 +330,12 @@ export function analyzePairing(
   const isOfficialTenYearGap = ageGap >= 10 && her.age >= 40;
 
   let badgeLabel: string;
-  if (ageGap < 10) {
+  if (ageGap <= 0) {
+    badgeLabel = 'Same-Age / Reverse-Gap Matchup';
+  } else if (ageGap < 10) {
     badgeLabel = `${ageGap}-Year ${TIER_LABELS[felineTier]}-Lite Matchup`;
-  } else if (felineTier === 'puma') {
-    badgeLabel = `${ageGap}-Year Official Puma × Cub Matchup`;
+  } else if (felineTier === 'puma' || felineTier === 'lynx') {
+    badgeLabel = `${ageGap}-Year Official ${TIER_LABELS[felineTier]} × Cub Matchup`;
   } else {
     badgeLabel = `${ageGap}-Year Official ${TIER_LABELS[felineTier]} × Cub Dynamic`;
   }
@@ -341,7 +343,10 @@ export function analyzePairing(
   const generationalHeadline = `${GEN_LABELS[herGeneration]} (${her.age}F) × ${GEN_LABELS[hisGeneration]} (${his.age}M)`;
 
   let codeSwitchTip: string;
-  if (herGeneration === 'millennial') {
+  if (herGeneration === 'gen_z') {
+    codeSwitchTip =
+      'Lynx Peer Alert: Same generational slang fluency, so skip the excuses and stand out with real reservation effort and emotional follow-through.';
+  } else if (herGeneration === 'millennial') {
     codeSwitchTip =
       'Elder Millennial Alert: Drop skull emojis (💀) & lowercase "u tryna link"—text before you call her phone, send a 7:30 calendar link, and ditch the crew socks.';
   } else if (herGeneration === 'gen_x') {

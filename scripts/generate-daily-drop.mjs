@@ -6,11 +6,26 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const PUBLIC_BASE_URL =
-  process.env.PUBLIC_BASE_URL || 'https://sudosoph.github.io/velvet-den/';
-const AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG || '').trim();
-const PARTNER_SUB_ID = (process.env.PARTNER_SUB_ID || '').trim();
+const PUBLIC_BASE_URL = (
+  process.env.PUBLIC_BASE_URL || 'https://sudosoph.github.io/velvet-den/'
+).replace(/\/?$/, '/');
+
+const monetizationSource = readFileSync(join(ROOT, 'src/config/monetization.ts'), 'utf8');
+const configAmazonTag =
+  monetizationSource.match(/amazonAssociateTag:\s*'([^']*)'/)?.[1] || '';
+const configSubId = monetizationSource.match(/partnerSubId:\s*'([^']*)'/)?.[1] || '';
+
+const AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG ?? configAmazonTag).trim();
+const PARTNER_SUB_ID = (process.env.PARTNER_SUB_ID ?? configSubId).trim();
 const DISCORD_WEBHOOK_URL = (process.env.DISCORD_WEBHOOK_URL || '').trim();
+
+const PROHIBITED_ADULT_DOMAINS = [
+  'lovehoney.com',
+  'adamandeve.com',
+  'pinkcherry.com',
+  'bad-dragon.com',
+  'lelo.com',
+];
 
 const AFFILIATE_URLS = {
   'houseboy-linen-apron': {
@@ -49,7 +64,13 @@ const AFFILIATE_URLS = {
 
 function decorateAffiliateLink(rawUrl, campaign) {
   const parsed = new URL(rawUrl);
-  if (AMAZON_TAG && parsed.hostname.includes('amazon.')) {
+  const host = parsed.hostname.toLowerCase();
+  for (const banned of PROHIBITED_ADULT_DOMAINS) {
+    if (host === banned || host.endsWith(`.${banned}`)) {
+      throw new Error(`Blocked prohibited adult domain (${host})`);
+    }
+  }
+  if (AMAZON_TAG && host.includes('amazon.')) {
     parsed.searchParams.set('tag', AMAZON_TAG);
   }
   if (PARTNER_SUB_ID) {
@@ -70,7 +91,9 @@ const bank = JSON.parse(readFileSync(join(ROOT, 'src/data/dailyDilemmas.json'), 
 const dayIndex = Math.floor(targetDate.getTime() / 86_400_000) % bank.length;
 const entry = bank[Math.abs(dayIndex)];
 
-const dilemmaUrl = `${PUBLIC_BASE_URL}?dilemma=${encodeURIComponent(entry.dilemmaEpisodeId)}`;
+const dilemmaUrlObj = new URL(PUBLIC_BASE_URL);
+dilemmaUrlObj.searchParams.set('dilemma', entry.dilemmaEpisodeId);
+const dilemmaUrl = dilemmaUrlObj.toString();
 const product =
   AFFILIATE_URLS[entry.affiliateId] || AFFILIATE_URLS['after-dark-couples-deck'];
 const taggedProductUrl = decorateAffiliateLink(product.url, entry.id);

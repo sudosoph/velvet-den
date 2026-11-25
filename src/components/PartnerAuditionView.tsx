@@ -21,10 +21,17 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
   const [answers, setAnswers] = useState<number[]>([]);
   const [copiedReply, setCopiedReply] = useState(false);
 
-  const episodes = challenge.episodeIds
-    .map((id) => EPISODES.find((e) => e.id === id))
-    .filter((e): e is NonNullable<typeof e> => Boolean(e));
+  const alignedPairs = challenge.episodeIds
+    .map((id, idx) => ({
+      episode: EPISODES.find((e) => e.id === id),
+      preferredChoiceIndex: challenge.preferredChoiceIndices[idx] ?? 0,
+    }))
+    .filter(
+      (item): item is { episode: NonNullable<typeof item.episode>; preferredChoiceIndex: number } =>
+        Boolean(item.episode),
+    );
 
+  const episodes = alignedPairs.map((p) => p.episode);
   const receiverRole = challenge.senderRole === 'her' ? 'him' : 'her';
 
   if (episodes.length === 0) {
@@ -50,7 +57,11 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
   if (step >= episodes.length) {
     const result = scorePartnerAudition(
-      { ...challenge, episodeIds: episodes.map((e) => e.id) },
+      {
+        ...challenge,
+        episodeIds: alignedPairs.map((p) => p.episode.id),
+        preferredChoiceIndices: alignedPairs.map((p) => p.preferredChoiceIndex),
+      },
       answers,
     );
 

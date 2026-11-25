@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Coffee, ExternalLink, RotateCcw, Share2 } from 'lucide-react';
 import { MONETIZATION_CONFIG } from '../config/monetization';
-import type { Episode } from '../data/episodes';
+import { EPISODES, type Episode } from '../data/episodes';
 import type { GameRunState } from '../domain/gameEngine';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
-import { localCrowdStatsService } from '../services/adapters';
+import { getLocalChoicePercentagesSync, localCrowdStatsService } from '../services/adapters';
 import { SceneMosaicBanner } from './ArtPanels';
 
 interface EpisodeStageProps {
   run: GameRunState;
   credits: number;
   onSelectChoice: (choiceIndex: number) => void;
-  onRewindLast: () => void;
+  onRewindLast: () => boolean;
   onShareDilemma: (episodeId: string, title: string) => void;
-  onFinishBustedRun: () => void;
+  onFinishRun: () => void;
 }
 
 export const EpisodeStage: React.FC<EpisodeStageProps> = ({
@@ -22,47 +22,37 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
   onSelectChoice,
   onRewindLast,
   onShareDilemma,
-  onFinishBustedRun,
+  onFinishRun,
 }) => {
-  const [pendingResult, setPendingResult] = useState<{
-    choiceIndex: number;
-    outcomeText: string;
-    toastBanner: string;
-    triggerTip?: boolean;
-    affiliateId?: string;
-    episodeTitle: string;
-    episodeId: string;
-  } | null>(null);
-  const [crowdPcts, setCrowdPcts] = useState<number[]>([52, 24, 24]);
+  const [showingOutcomeForEpId, setShowingOutcomeForEpId] = useState<string | null>(null);
 
   const currentEpisode: Episode | undefined = run.episodeQueue[run.currentEpisodeIndex];
   const role = run.pairing.role;
 
-  useEffect(() => {
-    const epId = pendingResult?.episodeId ?? currentEpisode?.id;
-    if (!epId) return;
-    localCrowdStatsService.getChoicePercentages(epId, 3).then(setCrowdPcts);
-  }, [currentEpisode?.id, pendingResult?.episodeId]);
+  const lastEntry =
+    showingOutcomeForEpId && run.history.length > 0
+      ? run.history[run.history.length - 1]
+      : null;
+  const resolvedEpisode = lastEntry
+    ? EPISODES.find((e) => e.id === lastEntry.episodeId)
+    : undefined;
+  const resolvedChoice =
+    resolvedEpisode && lastEntry ? resolvedEpisode.choices[lastEntry.choiceIndex] : undefined;
+
+  const activeEpIdForStats = resolvedEpisode?.id ?? currentEpisode?.id ?? 'check-drop';
+  const crowdPcts = getLocalChoicePercentagesSync(activeEpIdForStats, 3);
 
   const handlePick = (idx: number) => {
     if (!currentEpisode) return;
-    const choice = currentEpisode.choices[idx];
-    setPendingResult({
-      choiceIndex: idx,
-      outcomeText: role === 'her' ? choice.outcomeHer : choice.outcomeHim,
-      toastBanner: choice.toastBanner,
-      triggerTip: choice.triggerTipPrompt,
-      affiliateId: currentEpisode.recommendedAffiliateId,
-      episodeTitle: currentEpisode.title,
-      episodeId: currentEpisode.id,
-    });
+    setShowingOutcomeForEpId(currentEpisode.id);
     onSelectChoice(idx);
     localCrowdStatsService.recordChoice(currentEpisode.id, idx);
   };
 
   const handleRewindClick = () => {
-    setPendingResult(null);
-    onRewindLast();
+    if (onRewindLast()) {
+      setShowingOutcomeForEpId(null);
+    }
   };
 
   const statItems: [string, number, string][] = [
@@ -72,7 +62,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     ['Chemistry', run.stats.chemistry, 'bg-pink-500'],
   ];
 
-  const affiliate = getAffiliateById(pendingResult?.affiliateId);
+  const affiliate = getAffiliateById(resolvedEpisode?.recommendedAffiliateId);
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
@@ -113,29 +103,30 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
       </div>
 
       {/* Outcome / Toast Transition Card */}
-      {pendingResult ? (
+      {lastEntry && resolvedEpisode ? (
         <div className="vice-panel rounded-3xl bg-[#1b0f2e] p-5 sm:p-7 space-y-4">
           <div
             className={`vice-toast inline-block rounded-xl border-2 border-black px-4 py-2 font-display text-2xl ${
-              pendingResult.toastBanner.includes('RED FLAG')
+              lastEntry.toastBanner.includes('RED FLAG') ||
+              lastEntry.toastBanner.includes('VETTING GATE')
                 ? 'bg-rose-600 text-white'
                 : 'bg-amber-400 text-slate-950'
             }`}
           >
-            ⚡ {pendingResult.toastBanner}
+            ⚡ {lastEntry.toastBanner}
           </div>
 
-          <h3 className="font-display text-3xl text-white">{pendingResult.episodeTitle}</h3>
+          <h3 className="font-display text-3xl text-white">{resolvedEpisode.title}</h3>
           <p className="text-sm sm:text-base leading-relaxed text-slate-100">
-            {pendingResult.outcomeText}
+            {lastEntry.outcomeText}
           </p>
 
           <div className="rounded-xl bg-black/40 px-3.5 py-2 text-xs text-teal-300 font-semibold">
-            📊 Community Pulse: {crowdPcts[pendingResult.choiceIndex] ?? 48}% of players chose this exact move.
+            📊 Community Pulse: {crowdPcts[lastEntry.choiceIndex] ?? 48}% of players chose this exact move.
           </div>
 
           {/* Peak-Laugh Tip Prompt */}
-          {pendingResult.triggerTip && (
+          {resolvedChoice?.triggerTipPrompt && Boolean(lastEntry.badgeUnlocked) && (
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-pink-400/50 bg-pink-950/50 p-3.5">
               <div className="text-xs text-pink-100">
                 <strong>🍸 Lived this exact subreddit thread in real life?</strong> Toss an Espresso Martini in the creator tip jar (0% platform fee).
@@ -165,7 +156,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 <p className="text-xs text-slate-300 mt-0.5">{affiliate.cheekyPitch}</p>
               </div>
               <a
-                href={buildAffiliateUrl(affiliate, `scene_${pendingResult.episodeId}`)}
+                href={buildAffiliateUrl(affiliate, `scene_${resolvedEpisode.id}`)}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
                 className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border-2 border-black bg-teal-400 px-4 py-2 text-xs font-extrabold text-slate-950 shadow-[3px_3px_0px_#09050f] hover:bg-teal-300"
@@ -189,18 +180,26 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             {run.status === 'busted' ? (
               <button
                 type="button"
-                onClick={onFinishBustedRun}
+                onClick={onFinishRun}
                 className="vice-panel rounded-2xl bg-rose-600 px-6 py-3 font-display text-2xl text-white hover:bg-rose-500 cursor-pointer"
               >
-                3 Strikes! See Verdict Receipt →
+                3 Strikes! See Vibe Receipt →
+              </button>
+            ) : run.status === 'completed' ? (
+              <button
+                type="button"
+                onClick={onFinishRun}
+                className="vice-panel rounded-2xl bg-gradient-to-r from-amber-400 to-rose-400 px-6 py-3 font-display text-2xl text-slate-950 hover:brightness-110 cursor-pointer"
+              >
+                See Official Vibe Receipt →
               </button>
             ) : (
               <button
                 type="button"
-                onClick={() => setPendingResult(null)}
+                onClick={() => setShowingOutcomeForEpId(null)}
                 className="vice-panel rounded-2xl bg-gradient-to-r from-teal-400 to-emerald-400 px-6 py-3 font-display text-2xl text-slate-950 hover:brightness-110 cursor-pointer"
               >
-                {run.status === 'completed' ? 'See Official Vibe Receipt →' : 'Next Episode →'}
+                Next Episode →
               </button>
             )}
           </div>
@@ -275,19 +274,30 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
 
             {/* Choices */}
             <div className="space-y-3 pt-2">
-              {currentEpisode.choices.map((choice, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => handlePick(idx)}
-                  className="w-full rounded-2xl border-2 border-black bg-[#24143c] p-4 text-left text-sm font-semibold text-white shadow-[4px_4px_0px_#09050f] hover:bg-[#2f1a4e] hover:border-amber-400 transition cursor-pointer"
-                >
-                  <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-md bg-amber-400 text-xs font-extrabold text-slate-950">
-                    {String.fromCharCode(65 + idx)}
-                  </span>
-                  {role === 'her' ? choice.labelHer : choice.labelHim}
-                </button>
-              ))}
+              {currentEpisode.choices.map((choice, idx) => {
+                const houseboyGateWarning =
+                  currentEpisode.id === 'houseboy-sunday-sanctuary' &&
+                  idx === 0 &&
+                  (run.stats.maturity < 60 || run.stats.eq < 60);
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handlePick(idx)}
+                    className="w-full rounded-2xl border-2 border-black bg-[#24143c] p-4 text-left text-sm font-semibold text-white shadow-[4px_4px_0px_#09050f] hover:bg-[#2f1a4e] hover:border-amber-400 transition cursor-pointer"
+                  >
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-md bg-amber-400 text-xs font-extrabold text-slate-950">
+                      {String.fromCharCode(65 + idx)}
+                    </span>
+                    {role === 'her' ? choice.labelHer : choice.labelHim}
+                    {houseboyGateWarning && (
+                      <span className="ml-2 inline-block rounded bg-rose-500/30 px-2 py-0.5 text-[11px] font-bold text-rose-200">
+                        🔒 Requires 60+ Maturity &amp; EQ
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -181,8 +181,15 @@ export async function shareOrCopy(params: {
       // User dismissed or unsupported desktop share sheet; fall through to clipboard
     }
   }
+  const payload = params.text.includes(params.url)
+    ? params.text
+    : `${params.text}\n${params.url}`;
   if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(`${params.text}\n${params.url}`);
+    try {
+      await navigator.clipboard.writeText(payload);
+    } catch {
+      // Ignore denied clipboard permissions in restricted contexts
+    }
   }
   return 'copied';
 }

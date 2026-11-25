@@ -34,24 +34,30 @@ function hashSeed(input: string): number {
   return Math.abs(h);
 }
 
+export function getLocalChoicePercentagesSync(
+  episodeId: string,
+  choiceCount: number,
+): number[] {
+  if (choiceCount <= 0) return [];
+  if (choiceCount === 1) return [100];
+
+  const weights: number[] = [];
+  let total = 0;
+  for (let i = 0; i < choiceCount; i++) {
+    const w = 18 + (hashSeed(`${episodeId}:${i}`) % 39);
+    weights.push(w);
+    total += w;
+  }
+
+  const rounded = weights.map((w) => Math.round((w / total) * 100));
+  const drift = 100 - rounded.reduce((a, b) => a + b, 0);
+  rounded[0] += drift;
+  return rounded;
+}
+
 export const localCrowdStatsService: CrowdStatsService = {
   async getChoicePercentages(episodeId: string, choiceCount: number): Promise<number[]> {
-    if (choiceCount <= 0) return [];
-    if (choiceCount === 1) return [100];
-
-    const weights: number[] = [];
-    let total = 0;
-    for (let i = 0; i < choiceCount; i++) {
-      // Bias slightly toward middle/smooth options while staying realistic (18%..56%)
-      const w = 18 + (hashSeed(`${episodeId}:${i}`) % 39);
-      weights.push(w);
-      total += w;
-    }
-
-    const rounded = weights.map((w) => Math.round((w / total) * 100));
-    const drift = 100 - rounded.reduce((a, b) => a + b, 0);
-    rounded[0] += drift;
-    return rounded;
+    return getLocalChoicePercentagesSync(episodeId, choiceCount);
   },
 
   async recordChoice(): Promise<void> {

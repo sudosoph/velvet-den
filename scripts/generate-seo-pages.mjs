@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,12 +8,36 @@ const ROOT = join(__dirname, '..');
 const PUBLIC_BASE = (
   process.env.PUBLIC_BASE_URL || 'https://sudosoph.github.io/velvet-den/'
 ).replace(/\/?$/, '/');
-const AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG || '').trim();
+
+const monetizationSource = readFileSync(join(ROOT, 'src/config/monetization.ts'), 'utf8');
+const configAmazonTag =
+  monetizationSource.match(/amazonAssociateTag:\s*'([^']*)'/)?.[1] || '';
+const configSubId = monetizationSource.match(/partnerSubId:\s*'([^']*)'/)?.[1] || '';
+
+const AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG ?? configAmazonTag).trim();
+const PARTNER_SUB_ID = (process.env.PARTNER_SUB_ID ?? configSubId).trim();
+
+const PROHIBITED_ADULT_DOMAINS = [
+  'lovehoney.com',
+  'adamandeve.com',
+  'pinkcherry.com',
+  'bad-dragon.com',
+  'lelo.com',
+];
 
 function tagAmazon(rawUrl, slug) {
   const u = new URL(rawUrl);
-  if (AMAZON_TAG && u.hostname.includes('amazon.')) {
+  const host = u.hostname.toLowerCase();
+  for (const banned of PROHIBITED_ADULT_DOMAINS) {
+    if (host === banned || host.endsWith(`.${banned}`)) {
+      throw new Error(`Blocked prohibited adult domain (${host})`);
+    }
+  }
+  if (AMAZON_TAG && host.includes('amazon.')) {
     u.searchParams.set('tag', AMAZON_TAG);
+  }
+  if (PARTNER_SUB_ID) {
+    u.searchParams.set('subId', PARTNER_SUB_ID);
   }
   u.searchParams.set('utm_source', 'velvetden_seo');
   u.searchParams.set('utm_medium', 'organic_guide');

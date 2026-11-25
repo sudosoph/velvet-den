@@ -31,13 +31,17 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
 
   if (!open) return null;
 
+  const isSandbox = MONETIZATION_CONFIG.sandboxPreviewMode;
+
   const handlePromoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const ok = onRedeemCode(promoCode);
     setCodeMessage(
       ok
         ? '✨ Unlocked! VIP / Bonus Credits applied to your wallet.'
-        : 'Code not recognized (try VELVETVIP in preview mode).',
+        : isSandbox
+          ? 'Code not recognized (try VELVETVIP in preview mode).'
+          : 'Code not recognized. Check your confirmation email and try again.',
     );
     if (ok) setPromoCode('');
   };
@@ -108,7 +112,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               >
                 Get +15 Credits ($2.99)
               </a>
-            ) : (
+            ) : isSandbox ? (
               <button
                 type="button"
                 onClick={onSandboxGrantCredits}
@@ -117,6 +121,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 <Sparkles className="inline h-3.5 w-3.5 mr-1" />
                 Preview Unlock +15 Credits (Free Demo)
               </button>
+            ) : (
+              <div className="mt-4 rounded-xl bg-slate-800 py-2.5 text-center text-xs font-bold text-slate-400">
+                Checkout Opening Soon
+              </div>
             )}
           </div>
 
@@ -147,7 +155,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 <Crown className="inline h-3.5 w-3.5 mr-1" />
                 Unlock VIP Black Card ($6.99)
               </a>
-            ) : (
+            ) : isSandbox ? (
               <button
                 type="button"
                 onClick={onSandboxUnlockVip}
@@ -156,6 +164,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 <Crown className="inline h-3.5 w-3.5 mr-1" />
                 Preview VIP Black Card (Free Demo)
               </button>
+            ) : (
+              <div className="mt-4 rounded-xl bg-slate-800 py-2.5 text-center text-xs font-bold text-slate-400">
+                VIP Checkout Opening Soon
+              </div>
             )}
           </div>
 
@@ -207,7 +219,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             <div className="flex gap-2">
               <input
                 type="text"
-                placeholder="Enter code (e.g. VELVETVIP)"
+                placeholder={isSandbox ? 'Enter code (e.g. VELVETVIP)' : 'Enter VIP or promo code'}
                 value={promoCode}
                 onChange={(e) => setPromoCode(e.target.value)}
                 className="flex-1 rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-xs text-white"

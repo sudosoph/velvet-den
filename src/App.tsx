@@ -10,6 +10,7 @@ import { PairingMixerView } from './components/PairingMixerView';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
 import { TopHudBar } from './components/TopHudBar';
 import { VelvetJournalView } from './components/VelvetJournalView';
+import { APP_SWIPE_PROFILES } from './data/appProfiles';
 import { EPISODES } from './data/episodes';
 import {
   applyUnlockCodeOrQuery,
@@ -71,6 +72,11 @@ function readInitialUrlState() {
 export default function App() {
   const initialUrl = useMemo(() => readInitialUrlState(), []);
 
+  const initialSwipeProfileIdx = useMemo(() => {
+    if (!initialUrl.dilemmaId) return -1;
+    return APP_SWIPE_PROFILES.findIndex((p) => p.id === initialUrl.dilemmaId);
+  }, [initialUrl.dilemmaId]);
+
   const [wallet, setWallet] = useState<WalletState>(() => {
     const base = loadWallet();
     if (initialUrl.unlockQuery) {
@@ -98,22 +104,26 @@ export default function App() {
   const [activeChallenge, setActiveChallenge] = useState<ChallengePayload | null>(
     initialUrl.challenge,
   );
+  const [swipeStartIdx, setSwipeStartIdx] = useState<number>(
+    initialSwipeProfileIdx >= 0 ? initialSwipeProfileIdx : 0,
+  );
 
   const pairing = useMemo(() => analyzePairing(her, his, role), [her, his, role]);
 
   const [run, setRun] = useState<GameRunState | null>(() => {
+    const defaultPairing = analyzePairing(HER_ARCHETYPES[0], HIS_ARCHETYPES[0], 'her');
+    if (initialSwipeProfileIdx >= 0) {
+      return createRun(defaultPairing);
+    }
     if (initialUrl.dilemmaId && EPISODES.some((e) => e.id === initialUrl.dilemmaId)) {
-      return createRun(
-        analyzePairing(HER_ARCHETYPES[0], HIS_ARCHETYPES[0], 'her'),
-        [],
-        initialUrl.dilemmaId,
-      );
+      return createRun(defaultPairing, [], initialUrl.dilemmaId);
     }
     return null;
   });
 
   const [phase, setPhase] = useState<ScreenPhase>(() => {
     if (initialUrl.challenge) return 'audition';
+    if (initialSwipeProfileIdx >= 0) return 'swipes';
     if (initialUrl.dilemmaId && EPISODES.some((e) => e.id === initialUrl.dilemmaId)) {
       return 'episodes';
     }
@@ -142,6 +152,8 @@ export default function App() {
   const handleStartGame = () => {
     const stamped = unlockStamp(wallet, pairing.felineTier);
     updateWallet(stamped);
+    setSwipeStartIdx(0);
+    setNoticeBanner(null);
     const freshRun = createRun(pairing, selectedVipIds);
     setRun(freshRun);
     setPhase('swipes');
@@ -220,23 +232,30 @@ export default function App() {
           setActiveTab('game');
           setPhase('mixer');
           setActiveChallenge(null);
+          setNoticeBanner(null);
         }}
       />
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-3 py-6 sm:px-6 sm:py-8">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-3 py-6 sm:px-6 sm:py-8 space-y-4">
+        {noticeBanner && (
+          <div className="vice-panel flex items-center justify-between gap-3 rounded-xl bg-amber-400/20 border-amber-400 px-4 py-3 text-sm font-semibold text-amber-200">
+            <span>{noticeBanner}</span>
+            <button
+              type="button"
+              onClick={() => setNoticeBanner(null)}
+              className="rounded px-2 py-0.5 text-xs font-extrabold text-amber-100 hover:bg-black/30 cursor-pointer"
+              aria-label="Dismiss notice"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
         {activeTab === 'journal' ? (
           <VelvetJournalView
             initialSlug={initialUrl.journalSlug}
             onPlayScenario={(episodeId) => {
-              const targetEp = EPISODES.find((e) => e.id === episodeId);
-              if (targetEp?.isVip && !wallet.isVip && !wallet.unlockedEpisodeIds.includes(episodeId)) {
-                const unlock = unlockEpisodeWithCredits(wallet, episodeId, targetEp.creditCost);
-                if (!unlock.ok) {
-                  setBoutiqueOpen(true);
-                  return;
-                }
-                updateWallet(unlock.wallet);
-              }
+              // Free single-scene editorial funnel preview (matches static HTML ?dilemma= behavior)
               setRun(createRun(pairing, selectedVipIds, episodeId));
               setActiveTab('game');
               setPhase('episodes');
@@ -252,8 +271,10 @@ export default function App() {
           />
         ) : phase === 'swipes' && run ? (
           <AppSwipeStage
+            key={swipeStartIdx}
             role={role}
             credits={wallet.credits}
+            initialProfileIndex={swipeStartIdx}
             onSpendXrayCredit={() => {
               const res = spendCredits(wallet, 1);
               if (!res.ok) {
@@ -283,13 +304,14 @@ export default function App() {
               const res = spendCredits(wallet, 1);
               if (!res.ok) {
                 setBoutiqueOpen(true);
-                return;
+                return false;
               }
               updateWallet(res.wallet);
               setRun((prev) => (prev ? rewindLastChoice(prev) : prev));
+              return true;
             }}
             onShareDilemma={handleShareDilemma}
-            onFinishBustedRun={() => setPhase('outcome')}
+            onFinishRun={() => setPhase('outcome')}
           />
         ) : phase === 'outcome' && run ? (
           <OutcomeAndViralView
@@ -315,34 +337,37 @@ export default function App() {
             pairing={pairing}
             wallet={wallet}
             selectedVipIds={selectedVipIds}
-            noticeBanner={noticeBanner}
+            noticeBanner={null}
             onChangeRole={setRole}
-            onSelectHer={(nextHer) => setHer(nextHer)}
-            onSelectHis={(nextHis) => setHis(nextHis)}
+            onSelectHer={(nextHer) => {
+              setHer(nextHer);
+              if (his.age >= nextHer.age) {
+                setHis((prev) => ({ ...prev, age: Math.max(21, nextHer.age - 1) }));
+              }
+            }}
+            onSelectHis={(nextHis) => {
+              setHis(nextHis);
+              if (her.age <= nextHis.age) {
+                setHer((prev) => ({ ...prev, age: Math.min(72, nextHis.age + 1) }));
+              }
+            }}
             onAdjustHerAge={(d) =>
-              setHer((prev) => ({ ...prev, age: Math.max(30, Math.min(72, prev.age + d)) }))
+              setHer((prev) => ({
+                ...prev,
+                age: Math.max(his.age + 1, Math.min(72, prev.age + d)),
+              }))
             }
             onAdjustHisAge={(d) =>
-              setHis((prev) => ({ ...prev, age: Math.max(21, Math.min(45, prev.age + d)) }))
+              setHis((prev) => ({
+                ...prev,
+                age: Math.max(21, Math.min(her.age - 1, prev.age + d)),
+              }))
             }
             onToggleVipEpisode={handleToggleVipEpisode}
             onStartGame={handleStartGame}
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
           />
-        )}
-
-        {/* Auto-advance when episodes finish and pending outcome card dismissed */}
-        {activeTab === 'game' && phase === 'episodes' && run?.status === 'completed' && (
-          <div className="mt-4 text-center">
-            <button
-              type="button"
-              onClick={() => setPhase('outcome')}
-              className="vice-panel rounded-2xl bg-amber-400 px-6 py-3 font-display text-2xl text-slate-950 cursor-pointer"
-            >
-              Generate Official Vibe Check &amp; Receipt →
-            </button>
-          </div>
         )}
       </main>
 
