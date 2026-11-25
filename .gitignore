@@ -1,7 +1,9 @@
 node_modules/
 dist/
 dist-social/
+.wrangler/
 .superpowers/
 .tavily/
 coverage/
 *.local
+*.tsbuildinfo

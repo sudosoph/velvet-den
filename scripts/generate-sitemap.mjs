@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const PUBLIC_BASE = (
-  process.env.PUBLIC_BASE_URL || 'https://sudosoph.github.io/velvet-den/'
+  process.env.PUBLIC_BASE_URL || 'https://cougarsandcubs.club/'
 ).replace(/\/?$/, '/');
 
 const GUIDE_SLUGS = [

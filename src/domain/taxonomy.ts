@@ -18,11 +18,13 @@ export interface HerArchetype {
   name: string;
   age: number;
   title: string;
+  shortHook: string;
   tagline: string;
   vibeSummary: string;
   secretInsecurity: string;
   subplotTags: SubplotTag[];
   portraitVariant: 'puma' | 'princess' | 'cougar' | 'jaguar' | 'panther';
+  photoUrl: string;
 }
 
 export interface HisArchetype {
@@ -30,11 +32,13 @@ export interface HisArchetype {
   name: string;
   age: number;
   title: string;
+  shortHook: string;
   tagline: string;
   vibeSummary: string;
   secretInsecurity: string;
   subplotTags: SubplotTag[];
   portraitVariant: 'golden' | 'oldsoul' | 'trail' | 'architect';
+  photoUrl: string;
 }
 
 export interface FieldGuideEntry {
@@ -59,6 +63,7 @@ export interface PairingAnalysis {
   badgeLabel: string;
   generationalHeadline: string;
   codeSwitchTip: string;
+  trackTitle: string;
   activeSubplotTags: SubplotTag[];
 }
 
@@ -97,7 +102,8 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     id: 'claire-cougar-exec',
     name: 'Claire',
     age: 45,
-    title: 'Done-With-Kids C-Suite Cougar',
+    title: 'VP of Product • Cougar',
+    shortHook: 'Mortgage paid, kids grown, zero sugar-mama tolerance.',
     tagline: 'Mortgage paid, tubes tied, peaceful West Elm sanctuary—zero need for a sugar baby.',
     vibeSummary:
       'Raised two kids, divorced amicably, runs a 40-person team. Loves youthful energy, clean sheets, and a cub who handles the check without bruised pride.',
@@ -105,12 +111,14 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'Catches harsh bathroom vanity lighting and wonders if softer skin or fine lines will bother him next to 24-year-olds.',
     subplotTags: ['done_with_kids', 'solo_sanctuary', 'adult_children', 'income_gap'],
     portraitVariant: 'cougar',
+    photoUrl: './images/cast/claire-45f.jpg',
   },
   {
     id: 'serena-princess-cougar',
     name: 'Serena',
     age: 43,
-    title: '"Spoil-Me Princess" Soft-Life Cougar',
+    title: '"Spoil-Me Princess" Cougar',
+    shortHook: 'Runs teams all week—wants peonies & car doors on Friday.',
     tagline: 'Spent 18 years carrying everyone else’s mental load—now wants doors opened, flowers, and zero planning.',
     vibeSummary:
       'Everyone assumes an older woman wants to boss a guy around. Not Serena: she craves a chivalrous younger man who plans the reservation, pulls out her chair, and treats her like royalty.',
@@ -118,45 +126,52 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'Wonders if asking to be pampered makes her "too high-maintenance" or if he only swiped right expecting a dominant mommy stereotype.',
     subplotTags: ['princess_treatment', 'done_with_kids', 'solo_sanctuary'],
     portraitVariant: 'princess',
+    photoUrl: './images/cast/serena-43f.jpg',
   },
   {
     id: 'maya-puma-mom',
     name: 'Maya',
     age: 36,
     title: 'Cool-Aunt Divorced Puma',
+    shortHook: '$20/hr sitter on the clock—never flake or ask for Snap.',
     tagline: 'One free Friday night a month ($20/hr babysitter on the clock)—do NOT send "might rain, raincheck?"',
     vibeSummary:
-      'Under 40 so officially a Puma per subreddit law. Uses 😂 unironically, loves a Google Calendar invite, and spots a liquor-bottle mirror selfie from space.',
+      'Under 40 so officially a Puma per subreddit law. Uses 😂 unironically, loves a Google Calendar invite, and guards her kid’s world fiercely.',
     secretInsecurity:
       'Worries one flaky cub wastes the only kid-free evening she gets all month—and whether her post-kids belly still turns heads.',
     subplotTags: ['single_mom_sitter', 'princess_treatment'],
     portraitVariant: 'puma',
+    photoUrl: './images/cast/maya-36f.jpg',
   },
   {
     id: 'valerie-jaguar-trail',
     name: 'Valerie',
     age: 53,
     title: '6 AM Ridge-Runner Jaguar',
+    shortHook: 'Out-climbs 25-year-olds & keeps him on a short leash.',
     tagline: 'Empty-nester Pilates & trail boss. Will out-climb a 25-year-old and keep him on a playful short leash.',
     vibeSummary:
-      'Peak Gen-X confidence: hates all-day work-hour micro-texting, loves a bold 6 PM phone call, and redirects his 11 PM club stamina into steep Saturday switchbacks and Sunday houseboy chores.',
+      'Peak Gen-X confidence: hates all-day work-hour micro-texting, loves a bold 6 PM phone call, and redirects his 11 PM club stamina into steep Saturday switchbacks.',
     secretInsecurity:
       'Pretends meddling brunch friends don’t get under her skin when they whisper, "What happens when you’re 65 and he’s 40?"',
     subplotTags: ['trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
+    photoUrl: './images/cast/valerie-53f.jpg',
   },
   {
     id: 'celeste-panther-icon',
     name: 'Celeste',
     age: 62,
-    title: 'Palm Springs Panther / Sabertooth',
+    title: 'Palm Springs Panther Icon',
+    shortHook: 'Silver-screen poise, desert pool & unapologetic romance.',
     tagline: 'Unapologetic silver-screen magnet. Zero tolerance for Snapchat, 100% appreciation for eager devotion.',
     vibeSummary:
       'Owns an architectural desert home, collects vinyl, and delights in mentoring an emotionally literate younger man who holds her hand in public with pride.',
     secretInsecurity:
-      'Wonders in quiet moments if neck lines or silver strands break the illusion—right while he can barely breathe looking at her.',
+      'Wonders in quiet moments if silver strands or aging timelines scare him—right while he can barely breathe looking at her.',
     subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
+    photoUrl: './images/cast/celeste-62f.jpg',
   },
 ];
 
@@ -165,7 +180,8 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     id: 'leo-golden-cub',
     name: 'Leo',
     age: 25,
-    title: 'Golden Retriever Houseboy Cub',
+    title: 'Linen-Apron Houseboy Cub',
+    shortHook: 'Cooks homemade pasta, scrubs counters & adores her.',
     tagline: 'Clean loafers, post-Title IX EQ, eager to tie on a linen apron and scrub her kitchen spotless.',
     vibeSummary:
       'Gen-Z emotional fluency meets earnest effort. Happy to carry groceries, fix leaky faucets, and master the art of code-switching out of group-chat slang.',
@@ -173,12 +189,14 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       'Driving home wondering: "Do I actually have enough game for a woman like her—or was I just a fun Friday novelty she won’t text again?"',
     subplotTags: ['houseboy_eager', 'trail_leash_boss'],
     portraitVariant: 'golden',
+    photoUrl: './images/cast/leo-25m.jpg',
   },
   {
     id: 'julian-oldsoul-cub',
     name: 'Julian',
-    age: 26,
-    title: 'Wants-Kids Old-Soul Gentleman',
+    age: 27,
+    title: 'Old-Soul Gentleman Cub',
+    shortHook: 'Brings peonies, opens car doors & books 7:30 reservations.',
     tagline: 'Opens every car door and refuses to split tapas—but still pictures being a dad someday.',
     vibeSummary:
       'Listens to 90s R&B, owns a real oak bedframe and lidded bathroom trash can, and falls hard and fast—setting up the classic fertility/timeline crossroads.',
@@ -186,32 +204,37 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       'Terrified she’ll dismiss him as "too young to know what he wants" before he proves he’s serious about committing.',
     subplotTags: ['wants_kids_someday', 'princess_treatment'],
     portraitVariant: 'oldsoul',
+    photoUrl: './images/cast/julian-27m.jpg',
   },
   {
     id: 'dante-trail-cub',
-    name: 'Dante',
-    age: 24,
-    title: 'High-Cardio Trail-Runner Cub',
-    tagline: 'Bragged about his sub-7 mile pace—about to get humbled on her 6 AM ridge loop.',
+    name: 'Mateo',
+    age: 26,
+    title: 'Ridge-Trail PT Cub',
+    shortHook: '6 AM summit runner with an oak bedframe & lidded bin.',
+    tagline: 'Bragged about his sub-7 mile pace—ready to test it on her 6 AM ridge loop.',
     vibeSummary:
-      'Fit, cheeky, magnetic smile. Has to suppress crew-sock TikTok brainrot ("lowkey cooked 💀") when meeting her 44-year-old architect friends.',
+      'Doctor of Physical Therapy, magnetic smile, active mornings. Has to suppress Gen-Z group-chat slang when meeting her 45-year-old friends.',
     secretInsecurity:
-      'Worries his entry-level salary looks tiny next to her career—and hopes effort and devotion count more than Four Seasons money.',
+      'Worries his early-career salary looks small next to her corner office—hoping effort and devotion count more than Four Seasons money.',
     subplotTags: ['trail_leash_boss', 'houseboy_eager', 'income_gap'],
     portraitVariant: 'trail',
+    photoUrl: './images/cast/mateo-26m.jpg',
   },
   {
     id: 'miles-millennial-cub',
     name: 'Miles',
     age: 32,
-    title: 'Established Millennial Cub',
+    title: 'Rooftop Architect Cub',
+    shortHook: '32yo architect who exclusively dates Cougars & Jaguars 45+.',
     tagline: '30s architect who solely dates Jaguars & Cougars 45+—fluent in wine lists and emotional availability.',
     vibeSummary:
-      'Proof that 30+ men are still top-tier Cubs when paired with a 45–62 Cougar/Jaguar/Panther. Zero roommate drama, maximum princess-treatment game.',
+      'Proof that 30+ men are top-tier Cubs when paired with a 45–62 Cougar/Jaguar/Panther. Zero roommate drama, maximum princess-treatment game.',
     secretInsecurity:
-      'Wonders if her adult kids (who are nearly his age) will treat brunch like a hostile deposition.',
+      'Wonders if her adult kids (who are nearly his age) will treat Sunday brunch like a hostile deposition.',
     subplotTags: ['princess_treatment', 'adult_children'],
     portraitVariant: 'architect',
+    photoUrl: './images/cast/miles-32m.jpg',
   },
 ];
 
@@ -357,6 +380,19 @@ export function analyzePairing(
       'Icon Alert: Put your phone face-down all dinner, order with poise, call instead of DMing, and own every public glance with pride.';
   }
 
+  let trackTitle: string;
+  if (felineTier === 'puma' || felineTier === 'lynx') {
+    trackTitle = '30s Puma Storyline: Babysitter Clocks, Co-Parenting & Millennial/Gen-Z Rhythm';
+  } else if (felineTier === 'cougar') {
+    trackTitle = her.subplotTags.includes('princess_treatment')
+      ? '40s Princess Cougar Storyline: Soft-Life Royalty, Career Coaching & Baby Crossroads'
+      : '40s Executive Cougar Storyline: Check-Drops, 62°F Thermostats & Sanctuary Rules';
+  } else if (felineTier === 'jaguar') {
+    trackTitle = '50s Jaguar Storyline: 6 AM Short-Leash Trails, Adult Kids & LAT Commitment';
+  } else {
+    trackTitle = '60+ Panther Icon Storyline: Palm Springs Glamour, Public Pride & Real Timelines';
+  }
+
   const tagSet = new Set<SubplotTag>([...her.subplotTags, ...his.subplotTags]);
 
   return {
@@ -371,6 +407,7 @@ export function analyzePairing(
     badgeLabel,
     generationalHeadline,
     codeSwitchTip,
+    trackTitle,
     activeSubplotTags: Array.from(tagSet),
   };
 }

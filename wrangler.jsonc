@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cougars-and-cubs-club",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-04-29",
+  "workers_dev": false,
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
+  },
+  "routes": [
+    {
+      "pattern": "cougarsandcubs.club",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.cougarsandcubs.club",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "VELVET_KV",
+      "id": "a4126551143b4409a62358478f9b658a"
+    }
+  ],
+  "ai": {
+    "binding": "AI"
+  }
+}

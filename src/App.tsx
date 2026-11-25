@@ -1,16 +1,17 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AppSwipeStage } from './components/AppSwipeStage';
 import { BoutiqueAndVipModal } from './components/BoutiqueAndVipModal';
 import { EpisodeStage } from './components/EpisodeStage';
 import { FieldGuideModal } from './components/FieldGuideModal';
+import { LiveInboxModal } from './components/LiveInboxModal';
 import { OutcomeAndViralView } from './components/OutcomeAndViralView';
 import { PairingMixerView } from './components/PairingMixerView';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
 import { TopHudBar } from './components/TopHudBar';
 import { VelvetJournalView } from './components/VelvetJournalView';
-import { APP_SWIPE_PROFILES } from './data/appProfiles';
+import { APP_SWIPE_PROFILES, HER_SWIPE_PROFILES } from './data/appProfiles';
 import { EPISODES } from './data/episodes';
 import {
   applyUnlockCodeOrQuery,
@@ -24,6 +25,7 @@ import {
 } from './domain/economy';
 import {
   applyEpisodeChoice,
+  applyMinigameBonus,
   computeRunSummary,
   createRun,
   recordAppSwipe,
@@ -45,6 +47,7 @@ import {
   shareOrCopy,
   type ChallengePayload,
 } from './lib/viral';
+import { verifyStripeCheckoutSession } from './services/adapters';
 
 type ScreenPhase = 'mixer' | 'swipes' | 'episodes' | 'outcome' | 'audition';
 
@@ -56,6 +59,7 @@ function readInitialUrlState() {
       dilemmaId: null as string | null,
       journalSlug: null as string | null,
       unlockQuery: '',
+      stripeSessionId: null as string | null,
     };
   }
   const params = new URLSearchParams(window.location.search);
@@ -65,17 +69,33 @@ function readInitialUrlState() {
   const dilemmaId = params.get('dilemma');
   const journalSlug = params.get('journal');
   const unlockQuery = params.has('unlock') ? window.location.search : '';
+  const stripeSessionId = params.get('session_id');
 
-  return { challenge: decoded, corruptedChallenge, dilemmaId, journalSlug, unlockQuery };
+  return {
+    challenge: decoded,
+    corruptedChallenge,
+    dilemmaId,
+    journalSlug,
+    unlockQuery,
+    stripeSessionId,
+  };
 }
 
 export default function App() {
   const initialUrl = useMemo(() => readInitialUrlState(), []);
 
-  const initialSwipeProfileIdx = useMemo(() => {
+  const initialHerDeckIdx = useMemo(() => {
+    if (!initialUrl.dilemmaId) return -1;
+    return HER_SWIPE_PROFILES.findIndex((p) => p.id === initialUrl.dilemmaId);
+  }, [initialUrl.dilemmaId]);
+
+  const initialCubDeckIdx = useMemo(() => {
     if (!initialUrl.dilemmaId) return -1;
     return APP_SWIPE_PROFILES.findIndex((p) => p.id === initialUrl.dilemmaId);
   }, [initialUrl.dilemmaId]);
+
+  const initialSwipeProfileIdx =
+    initialCubDeckIdx >= 0 ? initialCubDeckIdx : initialHerDeckIdx;
 
   const [wallet, setWallet] = useState<WalletState>(() => {
     const base = loadWallet();
@@ -87,7 +107,7 @@ export default function App() {
     return base;
   });
 
-  const [role, setRole] = useState<PlayerRole>('her');
+  const [role, setRole] = useState<PlayerRole>(initialHerDeckIdx >= 0 ? 'him' : 'her');
   const [her, setHer] = useState<HerArchetype>(HER_ARCHETYPES[0]);
   const [his, setHis] = useState<HisArchetype>(HIS_ARCHETYPES[0]);
   const [selectedVipIds, setSelectedVipIds] = useState<string[]>([]);
@@ -96,6 +116,7 @@ export default function App() {
   );
   const [fieldGuideOpen, setFieldGuideOpen] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
+  const [liveInboxOpen, setLiveInboxOpen] = useState(false);
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
       ? 'Heads up: that audition link looked truncated or expired—mix your own Cougar & Cub run below!'
@@ -111,7 +132,8 @@ export default function App() {
   const pairing = useMemo(() => analyzePairing(her, his, role), [her, his, role]);
 
   const [run, setRun] = useState<GameRunState | null>(() => {
-    const defaultPairing = analyzePairing(HER_ARCHETYPES[0], HIS_ARCHETYPES[0], 'her');
+    const defaultRole: PlayerRole = initialHerDeckIdx >= 0 ? 'him' : 'her';
+    const defaultPairing = analyzePairing(HER_ARCHETYPES[0], HIS_ARCHETYPES[0], defaultRole);
     if (initialSwipeProfileIdx >= 0) {
       return createRun(defaultPairing);
     }
@@ -134,6 +156,29 @@ export default function App() {
     setWallet(next);
     saveWallet(next);
   };
+
+  // Phase B: Server-verified Stripe Checkout session unlock when returning with ?session_id=
+  useEffect(() => {
+    if (!initialUrl.stripeSessionId) return;
+    const sessionKey = `stripe_session_${initialUrl.stripeSessionId}`;
+    if (wallet.claimedRewards.includes(sessionKey)) return;
+
+    verifyStripeCheckoutSession(initialUrl.stripeSessionId).then((result) => {
+      if (!result.verified) return;
+      setWallet((prev) => {
+        if (prev.claimedRewards.includes(sessionKey)) return prev;
+        const next: WalletState = {
+          ...prev,
+          isVip: result.grantType === 'vip' ? true : prev.isVip,
+          credits: prev.credits + (result.credits ?? (result.grantType === 'vip' ? 10 : 15)),
+          claimedRewards: [...prev.claimedRewards, sessionKey],
+        };
+        saveWallet(next);
+        return next;
+      });
+      setNoticeBanner('🎉 Stripe Checkout verified! Your VIP / Velvet Credits are live.');
+    });
+  }, [initialUrl.stripeSessionId, wallet.claimedRewards]);
 
   const handleToggleVipEpisode = (episodeId: string, creditCost: number) => {
     if (selectedVipIds.includes(episodeId)) {
@@ -166,6 +211,18 @@ export default function App() {
         ? `${window.location.origin}${window.location.pathname}`
         : BRAND_CONFIG.publicBaseUrl;
 
+    const previewQueue = createRun(pairing, selectedVipIds).episodeQueue.slice(0, 5);
+    const episodeIds =
+      previewQueue.length > 0
+        ? previewQueue.map((e) => e.id)
+        : [
+            'check-drop',
+            'code-switch-texting',
+            'trail-run-short-leash',
+            'mirror-game-insecurities',
+            'houseboy-sunday-sanctuary',
+          ];
+
     const link = encodeChallengeLink(
       {
         v: 1,
@@ -173,21 +230,15 @@ export default function App() {
         senderRole: role,
         herId: her.id,
         hisId: his.id,
-        episodeIds: [
-          'check-drop',
-          'waiter-son-incident',
-          'code-switch-texting',
-          'trail-run-short-leash',
-          'mirror-game-insecurities',
-        ],
-        preferredChoiceIndices: [0, 0, 0, 0, 0],
+        episodeIds,
+        preferredChoiceIndices: episodeIds.map(() => 0),
       },
       baseUrl,
     );
 
     await shareOrCopy({
-      title: 'Pass My 60-Second Velvet Den Vetting Audition',
-      text: 'Think you’d survive dating me? Take my 60-second Velvet Den Vetting Audition 👀',
+      title: 'Pass My 60-Second Cougars & Cubs Vetting Audition',
+      text: 'Think you’d survive dating me? Take my 60-second Cougars & Cubs Vetting Audition 👀',
       url: link,
     });
 
@@ -213,7 +264,7 @@ export default function App() {
         : BRAND_CONFIG.publicBaseUrl;
     const link = buildDilemmaShareLink(id, baseUrl);
     await shareOrCopy({
-      title: 'Ghost or Train? — The Velvet Den',
+      title: 'Ghost or Train? — Cougars & Cubs Club',
       text: `👀 Brunch group-chat verdict needed: "${title}" — Ghost or Train?`,
       url: link,
     });
@@ -228,6 +279,7 @@ export default function App() {
         onSelectTab={setActiveTab}
         onOpenFieldGuide={() => setFieldGuideOpen(true)}
         onOpenBoutique={() => setBoutiqueOpen(true)}
+        onOpenLiveInbox={() => setLiveInboxOpen(true)}
         onGoHome={() => {
           setActiveTab('game');
           setPhase('mixer');
@@ -255,7 +307,6 @@ export default function App() {
           <VelvetJournalView
             initialSlug={initialUrl.journalSlug}
             onPlayScenario={(episodeId) => {
-              // Free single-scene editorial funnel preview (matches static HTML ?dilemma= behavior)
               setRun(createRun(pairing, selectedVipIds, episodeId));
               setActiveTab('game');
               setPhase('episodes');
@@ -271,7 +322,7 @@ export default function App() {
           />
         ) : phase === 'swipes' && run ? (
           <AppSwipeStage
-            key={swipeStartIdx}
+            key={`${role}-${swipeStartIdx}`}
             role={role}
             credits={wallet.credits}
             initialProfileIndex={swipeStartIdx}
@@ -300,6 +351,9 @@ export default function App() {
                 return applyEpisodeChoice(prev, choiceIdx);
               });
             }}
+            onCompleteMinigame={(episodeId, bonus, badge) => {
+              setRun((prev) => (prev ? applyMinigameBonus(prev, episodeId, bonus, badge) : prev));
+            }}
             onRewindLast={() => {
               const res = spendCredits(wallet, 1);
               if (!res.ok) {
@@ -311,6 +365,7 @@ export default function App() {
               return true;
             }}
             onShareDilemma={handleShareDilemma}
+            onOpenBoutique={() => setBoutiqueOpen(true)}
             onFinishRun={() => setPhase('outcome')}
           />
         ) : phase === 'outcome' && run ? (
@@ -365,6 +420,7 @@ export default function App() {
             }
             onToggleVipEpisode={handleToggleVipEpisode}
             onStartGame={handleStartGame}
+            onOpenLiveInbox={() => setLiveInboxOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
           />
@@ -377,6 +433,13 @@ export default function App() {
             {BRAND_CONFIG.name} • Cheeky PG-13/R Satire for Adult Age-Gap Relationships (21+)
           </span>
           <div className="flex gap-4">
+            <button
+              type="button"
+              onClick={() => setLiveInboxOpen(true)}
+              className="hover:text-pink-300 underline cursor-pointer"
+            >
+              Live AI Texting
+            </button>
             <button
               type="button"
               onClick={() => setActiveTab('journal')}
@@ -399,6 +462,22 @@ export default function App() {
         open={fieldGuideOpen}
         unlockedStamps={wallet.unlockedStamps}
         onClose={() => setFieldGuideOpen(false)}
+      />
+
+      <LiveInboxModal
+        open={liveInboxOpen}
+        wallet={wallet}
+        onClose={() => setLiveInboxOpen(false)}
+        onSpendCreditOrOpenBoutique={() => {
+          const res = spendCredits(wallet, 1);
+          if (!res.ok) {
+            setLiveInboxOpen(false);
+            setBoutiqueOpen(true);
+            return false;
+          }
+          updateWallet(res.wallet);
+          return true;
+        }}
       />
 
       <BoutiqueAndVipModal

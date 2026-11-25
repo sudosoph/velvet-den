@@ -1,5 +1,5 @@
 import type { PairingAnalysis } from './taxonomy';
-import { APP_SWIPE_PROFILES } from '../data/appProfiles';
+import { APP_SWIPE_PROFILES, HER_SWIPE_PROFILES } from '../data/appProfiles';
 import { EPISODES, type Episode, type StatDeltas } from '../data/episodes';
 
 export interface Stats {
@@ -37,6 +37,7 @@ export interface GameRunState {
   currentEpisodeIndex: number;
   history: ChoiceHistoryEntry[];
   badges: string[];
+  completedMinigameEpisodeIds: string[];
 }
 
 export interface RunSummary {
@@ -55,6 +56,14 @@ function clampStat(value: number): number {
   return Math.max(0, Math.min(100, value));
 }
 
+export function personalizeText(text: string, pairing: PairingAnalysis): string {
+  return text
+    .replace(/\{herName\}/g, pairing.her.name)
+    .replace(/\{hisName\}/g, pairing.his.name)
+    .replace(/\{herAge\}/g, String(pairing.her.age))
+    .replace(/\{hisAge\}/g, String(pairing.his.age));
+}
+
 export function buildEpisodeQueue(
   pairing: PairingAnalysis,
   includeVipEpisodeIds: string[] = [],
@@ -66,49 +75,145 @@ export function buildEpisodeQueue(
   }
 
   const tags = new Set(pairing.activeSubplotTags);
+  const tier = pairing.felineTier;
+  const ageGap = pairing.ageGap;
   const queue: Episode[] = [];
 
   const pushById = (id: string) => {
     const found = EPISODES.find((e) => e.id === id);
-    if (found && !queue.some((q) => q.id === found.id)) {
-      queue.push(found);
-    }
+    if (!found || queue.some((q) => q.id === found.id)) return;
+    if (typeof found.minAgeGap === 'number' && ageGap < found.minAgeGap) return;
+    if (typeof found.maxAgeGap === 'number' && ageGap > found.maxAgeGap) return;
+    queue.push(found);
   };
 
-  // Core Act II arc tailored to pairing tags
-  pushById('check-drop');
-  pushById('waiter-son-incident');
-  pushById('code-switch-texting');
-
-  if (tags.has('single_mom_sitter')) {
-    pushById('babysitter-flake-test');
-  }
-  if (tags.has('princess_treatment')) {
-    pushById('princess-soft-life');
-  }
-
-  pushById('trail-run-short-leash');
-  pushById('mirror-game-insecurities');
-
-  // Inject unlocked VIP Act II episodes before Act II payoff
+  // Inject Stage 1 VIP if selected (e.g. Trader Joe's Wild Approach)
   for (const vipId of includeVipEpisodeIds) {
-    const ep = EPISODES.find((e) => e.id === vipId && e.act === 2);
+    const ep = EPISODES.find((e) => e.id === vipId && e.stage === 1);
     if (ep) pushById(ep.id);
   }
 
-  pushById('houseboy-sunday-sanctuary');
+  // Cohesive 5-Stage Relationship Arc tailored to exact age bracket & profile!
+  if (tier === 'lynx' || tier === 'puma') {
+    // 30s Puma Arc: Babysitter Clocks, Co-Parenting Boundaries, Boys' Group Chat & 30s Intentionality (NEVER "Is that your son?")
+    pushById('check-drop');
+    if (tags.has('single_mom_sitter')) {
+      pushById('babysitter-flake-test');
+    }
+    pushById('code-switch-texting');
+    if (tags.has('princess_treatment')) {
+      pushById('princess-soft-life');
+    } else {
+      pushById('trail-run-short-leash');
+    }
+    pushById('puma-kid-intro-boundary');
+    pushById('mirror-game-insecurities');
 
-  // Inject unlocked VIP Act III episodes
-  for (const vipId of includeVipEpisodeIds) {
-    const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
-    if (ep) pushById(ep.id);
-  }
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
+      if (ep) pushById(ep.id);
+    }
 
-  // Core Act III Boss Fight routed from life-situation tags
-  if (tags.has('done_with_kids') || tags.has('wants_kids_someday')) {
-    pushById('fertility-kids-crossroads');
-  } else {
+    pushById('houseboy-sunday-sanctuary');
+    pushById('puma-boys-groupchat-kid');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
+      if (ep) pushById(ep.id);
+    }
+
+    if (tags.has('done_with_kids')) {
+      pushById('fertility-kids-crossroads');
+    } else {
+      pushById('puma-one-and-done-clock');
+    }
+  } else if (tier === 'cougar') {
+    // 40s Cougar / Princess Cougar Arc
+    pushById('check-drop');
+    pushById('code-switch-texting');
+    if (tags.has('princess_treatment')) {
+      pushById('princess-soft-life');
+    } else {
+      pushById('cougar-thermostat-retinol');
+    }
+    if (tags.has('trail_leash_boss')) {
+      pushById('trail-run-short-leash');
+    }
+    pushById('cougar-salary-negotiation');
+    pushById('mirror-game-insecurities');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
+      if (ep) pushById(ep.id);
+    }
+
+    pushById('houseboy-sunday-sanctuary');
+    if (ageGap >= 18) {
+      pushById('waiter-son-incident');
+    }
+    pushById('cougar-boys-groupchat-ceo');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
+      if (ep) pushById(ep.id);
+    }
+
+    if (tags.has('done_with_kids') || tags.has('wants_kids_someday')) {
+      pushById('fertility-kids-crossroads');
+    } else {
+      pushById('adult-kid-brunch');
+    }
+  } else if (tier === 'jaguar') {
+    // 50s Gen-X Jaguar Arc: 6 PM Phone Calls, 6 AM Short-Leash Ridge, Pilates Shake, Adult Daughter & LAT
+    pushById('jaguar-genx-phone-call');
+    pushById('check-drop');
+    pushById('trail-run-short-leash');
+    pushById('jaguar-pilates-core-shake');
+    pushById('mirror-game-insecurities');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
+      if (ep) pushById(ep.id);
+    }
+
+    pushById('houseboy-sunday-sanctuary');
+    pushById('waiter-son-incident');
     pushById('adult-kid-brunch');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
+      if (ep) pushById(ep.id);
+    }
+
+    if (tags.has('wants_kids_someday')) {
+      pushById('fertility-kids-crossroads');
+    }
+    pushById('jaguar-lat-living-apart');
+  } else {
+    // 60+ Panther Icon Arc: Black-Tie Gala, Public Stigma Mastery, Fierce Friends & "75 and 45" Timeline
+    pushById('panther-black-tie-gala');
+    pushById('check-drop');
+    pushById('code-switch-texting');
+    if (tags.has('princess_treatment')) {
+      pushById('princess-soft-life');
+    }
+    pushById('mirror-game-insecurities');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
+      if (ep) pushById(ep.id);
+    }
+
+    pushById('houseboy-sunday-sanctuary');
+    pushById('waiter-son-incident');
+    pushById('panther-protective-friends');
+
+    for (const vipId of includeVipEpisodeIds) {
+      const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
+      if (ep) pushById(ep.id);
+    }
+
+    pushById('panther-timeline-75-45');
   }
 
   return queue;
@@ -134,6 +239,7 @@ export function createRun(
     currentEpisodeIndex: 0,
     history: [],
     badges: [],
+    completedMinigameEpisodeIds: [],
   };
 }
 
@@ -142,10 +248,11 @@ export function recordAppSwipe(
   profileId: string,
   direction: 'left' | 'right',
 ): GameRunState {
-  const profile = APP_SWIPE_PROFILES.find((p) => p.id === profileId);
+  const allProfiles = [...APP_SWIPE_PROFILES, ...HER_SWIPE_PROFILES];
+  const profile = allProfiles.find((p) => p.id === profileId);
   if (!profile || run.status !== 'playing') return run;
 
-  let stats = { ...run.stats };
+  const stats = { ...run.stats };
   let redFlags = run.redFlags;
   let caughtTrap = false;
   const badges = [...run.badges];
@@ -177,6 +284,34 @@ export function recordAppSwipe(
   };
 }
 
+export function applyMinigameBonus(
+  run: GameRunState,
+  episodeId: string,
+  bonus: Partial<Stats>,
+  badgeUnlocked?: string,
+): GameRunState {
+  if (run.completedMinigameEpisodeIds.includes(episodeId)) return run;
+
+  const nextStats: Stats = {
+    maturity: clampStat(run.stats.maturity + (bonus.maturity ?? 0)),
+    chivalry: clampStat(run.stats.chivalry + (bonus.chivalry ?? 0)),
+    eq: clampStat(run.stats.eq + (bonus.eq ?? 0)),
+    chemistry: clampStat(run.stats.chemistry + (bonus.chemistry ?? 0)),
+  };
+
+  const nextBadges =
+    badgeUnlocked && !run.badges.includes(badgeUnlocked)
+      ? [...run.badges, badgeUnlocked]
+      : run.badges;
+
+  return {
+    ...run,
+    stats: nextStats,
+    badges: nextBadges,
+    completedMinigameEpisodeIds: [...run.completedMinigameEpisodeIds, episodeId],
+  };
+}
+
 function addDeltas(stats: Stats, deltas: StatDeltas): Stats {
   return {
     maturity: clampStat(stats.maturity + deltas.maturity),
@@ -193,7 +328,7 @@ export function applyEpisodeChoice(run: GameRunState, choiceIndex: number): Game
 
   const choice = episode.choices[choiceIndex] ?? episode.choices[0];
 
-  // Spec §2.5.4 & Task 4: Houseboy Sunday fade-to-black payoff requires Maturity >= 60 && EQ >= 60
+  // Houseboy Sunday fade-to-black payoff requires Maturity >= 60 && EQ >= 60
   const failsHouseboyGate =
     episode.id === 'houseboy-sunday-sanctuary' &&
     choiceIndex === 0 &&
@@ -205,11 +340,13 @@ export function applyEpisodeChoice(run: GameRunState, choiceIndex: number): Game
 
   const nextStats = addDeltas(run.stats, effectiveDeltas);
   const nextRedFlags = Math.max(0, run.redFlags + effectiveDeltas.redFlags);
-  const outcomeText = failsHouseboyGate
+  const rawOutcomeText = failsHouseboyGate
     ? 'Hold up—her peaceful solo sanctuary has standards! Because Maturity & EQ haven’t both cleared 60 yet, she keeps Sunday to patio coffee and friendly boundaries instead of unlocking Linen-Apron Houseboy privileges.'
     : run.pairing.role === 'her'
       ? choice.outcomeHer
       : choice.outcomeHim;
+
+  const outcomeText = personalizeText(rawOutcomeText, run.pairing);
 
   const toastBanner = failsHouseboyGate
     ? 'SOLO-SANCTUARY VETTING GATE (NEEDS 60+ MATURITY & EQ)'
@@ -299,17 +436,17 @@ export function computeRunSummary(run: GameRunState): RunSummary {
   } else if (overallScore >= 85) {
     rankTitle =
       run.pairing.role === 'her'
-        ? 'APEX VELVET DEN VETTER & TRAINER'
+        ? 'APEX VELVET DEN VETTER & LIFEMATE'
         : 'CERTIFIED LINEN-APRON HOUSEBOY & LIFEMATE';
     verdictLine =
-      'Elite emotional maturity, effortless chivalry, seamless generational code-switching, and sunrise-to-sunset chemistry.';
+      'Five stages cleared! Elite emotional maturity, effortless chivalry, seamless generational code-switching, and real eyes-wide-open commitment.';
   } else if (overallScore >= 68) {
     rankTitle =
       run.pairing.role === 'her'
         ? 'OFF-LEASH TRAIL BOSS COUGAR'
         : 'SHORT-LEASH APPROVED GOLDEN CUB';
     verdictLine =
-      'Passed the check-drop, laughed off the waiter, and proved real relationship potential beyond the age gap.';
+      'Passed the check-drop, handled her inner circle, and proved real relationship potential beyond the age gap.';
   } else {
     rankTitle = 'CUB IN TRAINING (PROBATIONARY LEASH)';
     verdictLine =

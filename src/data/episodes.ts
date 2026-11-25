@@ -1,4 +1,15 @@
-import type { SubplotTag } from '../domain/taxonomy';
+import type { FelineTier, SubplotTag } from '../domain/taxonomy';
+
+export type RelationshipStage = 1 | 2 | 3 | 4 | 5;
+export type MinigameType = 'check_reflex' | 'trail_pace' | 'room_audit';
+
+export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
+  1: 'Stage 1 • First Spark',
+  2: 'Stage 2 • Courting Rhythm',
+  3: 'Stage 3 • Behind Closed Doors',
+  4: 'Stage 4 • Friends, Family & Public',
+  5: 'Stage 5 • The Real Future',
+};
 
 export interface StatDeltas {
   maturity: number;
@@ -22,11 +33,16 @@ export interface EpisodeChoice {
 export interface Episode {
   id: string;
   act: 2 | 3;
+  stage: RelationshipStage;
   title: string;
   subredditThreadInspiration: string;
   isVip: boolean;
   creditCost: number;
   requiredAnyTags?: SubplotTag[];
+  allowedTiers?: FelineTier[];
+  minAgeGap?: number;
+  maxAgeGap?: number;
+  minigame?: MinigameType;
   sceneArt:
     | 'tapas_check'
     | 'waiter_shock'
@@ -60,15 +76,17 @@ export const EPISODES: Episode[] = [
   {
     id: 'check-drop',
     act: 2,
+    stage: 1,
+    minigame: 'check_reflex',
     title: 'The Tapas Check-Drop ("Cougar ≠ Sugar Mama")',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Who pays on dates? Reminder: Cougar ≠ Sugar Mama!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
     setupHer:
-      'Two espresso martinis and blistered shishito peppers later, the leather checkbook lands between you. You make triple his salary—but you’re vetting his pride, effort, and reciprocity.',
+      'Two espresso martinis and blistered shishito peppers later, the leather checkbook lands between you and {hisName}. You make triple his salary—but you’re vetting his pride, effort, and reciprocity.',
     setupHim:
-      'The leather check presenter hits the marble table. You know she runs an entire department, and your budget isn’t infinite—how do you play the check drop?',
+      'The leather check presenter hits the marble table in front of {herName}. You know she runs an entire department, and your budget isn’t infinite—how do you play the check drop?',
     recommendedAffiliateId: 'espresso-martini-barware',
     choices: [
       {
@@ -107,15 +125,17 @@ export const EPISODES: Episode[] = [
   {
     id: 'waiter-son-incident',
     act: 2,
+    stage: 4,
+    minAgeGap: 18,
     title: '"Table for You and Your Son?"',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Waitress thought I was my cub’s mom—how he handled it sealed the deal"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'waiter_shock',
     setupHer:
-      'At the wine bar host stand, a 19-year-old host beams brightly: "Right this way! Just a table for you and your son tonight?" You feel your soul briefly leave your body.',
+      'At the wine bar host stand, a 19-year-old host beams brightly at you ({herAge}F) and {hisName} ({hisAge}M): "Right this way! Just a table for you and your son tonight?" You feel your soul briefly leave your body.',
     setupHim:
-      'The teenage host just asked if you’re her SON. You catch a flicker of mortification cross her face—all eyes on your next 2 seconds.',
+      'The teenage host just asked if you ({hisAge}M) are {herName}’s SON. You catch a flicker of mortification cross her face—all eyes on your next 2 seconds.',
     recommendedAffiliateId: 'espresso-martini-barware',
     choices: [
       {
@@ -155,15 +175,16 @@ export const EPISODES: Episode[] = [
   {
     id: 'code-switch-texting',
     act: 2,
+    stage: 2,
     title: 'Generational Code-Switch & The "Retro 2000s" Slip',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Millennial vs Gen-Z texting, crew socks, and calling my college playlist retro"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     setupHer:
-      'On the drive back, OutKast comes on your speakers—right after he called 2003 "classic retro childhood throwbacks." Now it’s next afternoon and your phone buzzes.',
+      'On the drive back, OutKast comes on your speakers—right after {hisName} called 2003 "classic retro childhood throwbacks." Now it’s next afternoon and your phone buzzes.',
     setupHim:
-      'You nearly called her 2003 college OutKast playlist "vintage childhood music" last night. Now you want to lock in Date #2—translate your raw impulse for her generation!',
+      'You nearly called {herName}’s 2003 college OutKast playlist "vintage childhood music" last night. Now you want to lock in Date #2—translate your raw impulse for her generation!',
     codeSwitchRawImpulse: {
       rawThought: 'yo ngl last night was fire fr 💀 u tryna link Friday or nah?? whats ur snap',
       warningNote:
@@ -177,7 +198,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'He left the TikTok group-chat slang with his boys and courted you in fluent grown-up. Even better: ankle socks and loafers, zero filming the food.',
         outcomeHim:
-          'Seamless code-switch! You kept your playful Gen-Z warmth while matching her exact communication wavelength.',
+          'Seamless code-switch! You kept your playful warmth while matching her exact communication wavelength.',
         toastBanner: 'CODE-SWITCH MASTERED! • MATURITY +20',
         deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 15, redFlags: 0 },
         badgeUnlocked: 'Bilingual Generational Code-Switcher',
@@ -209,6 +230,8 @@ export const EPISODES: Episode[] = [
   {
     id: 'babysitter-flake-test',
     act: 2,
+    stage: 1,
+    allowedTiers: ['lynx', 'puma'],
     title: 'The $80 Babysitter & Precious Free-Time Test',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Paid $20/hr for my first night off in months and the cub canceled because of rain"',
     isVip: false,
@@ -216,9 +239,9 @@ export const EPISODES: Episode[] = [
     requiredAnyTags: ['single_mom_sitter'],
     sceneArt: 'babysitter_clock',
     setupHer:
-      'It’s your ONE kid-free Friday this month, and your $20/hr sitter arrives in 90 minutes ($80 on the clock). Rain clouds roll in and your phone lights up.',
+      'It’s your ONE kid-free Friday this month, and your $20/hr sitter arrives in 90 minutes ($80 on the clock). Rain clouds roll in and your phone lights up from {hisName}.',
     setupHim:
-      'It starts pouring outside two hours before your Friday date, and your buddies just texted about watching the game. You know she hired a $20/hr babysitter for tonight.',
+      'It starts pouring outside two hours before your Friday date, and your buddies just texted about watching the game. You know {herName} hired a $20/hr babysitter for tonight.',
     choices: [
       {
         labelHer: 'He texts: "Brought a big golf umbrella and moved my car right near the awning so your hair stays dry—picking you up at 7 sharp."',
@@ -256,6 +279,7 @@ export const EPISODES: Episode[] = [
   {
     id: 'princess-soft-life',
     act: 2,
+    stage: 2,
     title: 'Princess Treatment: Dropping the 20-Year Mental Load',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Just because I’m 43 doesn’t mean I want to boss him around—treat me like a princess!"',
     isVip: false,
@@ -263,9 +287,9 @@ export const EPISODES: Episode[] = [
     requiredAnyTags: ['princess_treatment'],
     sceneArt: 'princess_bouquet',
     setupHer:
-      'You spent 50 hours this week directing adults who act like toddlers. You do NOT want to plan tonight, pick the restaurant, or play dominant boss—you want soft-life princess treatment.',
+      'You spent 50 hours this week directing adults who act like toddlers. You do NOT want to plan tonight, pick the restaurant, or play dominant boss—you want soft-life princess treatment from {hisName}.',
     setupHim:
-      'Internet memes claim every Cougar wants to dominate—but you can tell she’s exhausted from running everything at work all week. How do you set the tone tonight?',
+      'Internet memes claim every Cougar wants to dominate—but you can tell {herName} is exhausted from running everything at work all week. How do you set the tone tonight?',
     recommendedAffiliateId: 'princess-mulberry-silk-robe',
     choices: [
       {
@@ -304,22 +328,24 @@ export const EPISODES: Episode[] = [
   {
     id: 'trail-run-short-leash',
     act: 2,
+    stage: 2,
+    minigame: 'trail_pace',
     title: '6 AM Ridge Trail Run ("Short Leash & Cardio Check")',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Trail runs with cubs—testing if his 25yo stamina matches his talk"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'ridge_trail_leash',
     setupHer:
-      'Saturday, 6:10 AM. He bragged all week about his "youthful stamina," so you brought him to your steep 5-mile canyon switchbacks. Mile 3 hits and she hasn’t even broken breath.',
+      'Saturday, 6:10 AM. {hisName} bragged all week about his "youthful stamina," so you brought him to your steep 5-mile canyon switchbacks. Mile 3 hits and you haven’t even broken breath.',
     setupHim:
-      'You talked a big game about 20-something cardio—and now she’s floating up a 14% canyon incline in sculpted leggings, glancing back with a wicked grin: "Keep up, Cub. Short leash."',
+      'You talked a big game about 20-something cardio—and now {herName} ({herAge}F) is floating up a 14% canyon incline in sculpted leggings, glancing back with a wicked grin: "Keep up, Cub. Short leash."',
     recommendedAffiliateId: 'trail-hydration-vest',
     choices: [
       {
         labelHer: 'He digs deep, matches your stride to the overlook, hands you cold electrolytes, and grins: "Short leash looks good on me—coffee’s on me down the hill."',
         labelHim: 'Push through the burn without whining, hand her electrolytes at the summit, and grin: "Eyes forward, keeping pace—where are we refueling?"',
         outcomeHer:
-          ' flushed cheeks, endorphins sky-high, playful tease met with playful grit. Redirecting club energy into sunrise trail stamina is peak Cougar/Cub magic.',
+          'Flushed cheeks, endorphins sky-high, playful tease met with playful grit. Redirecting club energy into sunrise trail stamina is peak Cougar/Cub magic.',
         outcomeHim:
           'She laughs breathlessly at the summit view, tugs the collar of your running zip playfully, and says you passed phase one.',
         toastBanner: 'SHORT LEASH EARNED! • CHEMISTRY +25',
@@ -351,15 +377,16 @@ export const EPISODES: Episode[] = [
   {
     id: 'mirror-game-insecurities',
     act: 2,
+    stage: 3,
     title: 'Morning Sunlight: Harsh Mirrors vs. "Do I Have Enough Game?"',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Worried about softer skin/aging next to girls his age" × "Cubs wondering if we have enough game for her to see us again"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'Morning espresso in bright kitchen light—no dim cocktail lounge filter now. Both of you pause for half a heartbeat, each hiding the exact vulnerability this subreddit knows by heart.',
+      'Morning espresso in bright kitchen light—no dim cocktail lounge filter now. Both you and {hisName} pause for half a heartbeat, each hiding the exact vulnerability this community knows by heart.',
     setupHim:
-      'Morning sunlight pours across the kitchen counter. Behind the playful banter, both of your inner monologues are louder than the espresso machine.',
+      'Morning sunlight pours across {herName}’s kitchen counter. Behind the playful banter, both of your inner monologues are louder than the espresso machine.',
     innerInsecurityBubble: {
       herDoubt:
         'Her secret thought: "Harsh morning light... is he noticing softer skin or laugh lines compared to 23-year-old girls? Am I just a bucket-list novelty?"',
@@ -405,15 +432,17 @@ export const EPISODES: Episode[] = [
   {
     id: 'houseboy-sunday-sanctuary',
     act: 2,
+    stage: 3,
+    minigame: 'room_audit',
     title: 'Houseboy Sunday & Her Peaceful Solo Sanctuary',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Happy living alone in my sanctuary—plus the joy of an energetic vetted cub doing chores"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     setupHer:
-      'Sunday afternoon at your immaculate solo home. You love living alone (no premature move-in squatters!)—yet seeing a vetted Cub put his 20-something vigor into your chore list is undeniably thrilling.',
+      'Sunday afternoon at your immaculate solo home. You love living alone (no premature move-in squatters!)—yet seeing {hisName} put his {hisAge}-year-old vigor into your chore list is undeniably thrilling.',
     setupHim:
-      'Sunday at her serene home sanctuary. You passed her emotional vetting—now how do you channel that youthful stamina without overstepping her solo space?',
+      'Sunday at {herName}’s serene home sanctuary. You passed her emotional vetting—now how do you channel that youthful stamina without overstepping her solo space?',
     recommendedAffiliateId: 'houseboy-linen-apron',
     choices: [
       {
@@ -435,7 +464,7 @@ export const EPISODES: Episode[] = [
           'WHOA, Hobo-sexual Alert! She worked 20 years for her peaceful sanctuary—never colonize a Cougar’s closet uninvited.',
         outcomeHim:
           'She hands your whey protein tub right back to you at the front door. Respect the solo sanctuary!',
-        toastBanner: 'RED FLAG! • PREMATURE SANCTUARY INVASION',
+        toastBanner: 'RED FLAG! • PREMATUARY SANCTUARY INVASION',
         deltas: { maturity: -20, chivalry: -10, eq: -20, chemistry: -15, redFlags: 1 },
       },
       {
@@ -453,16 +482,17 @@ export const EPISODES: Episode[] = [
   {
     id: 'fertility-kids-crossroads',
     act: 3,
-    title: 'Act III Boss Fight: The Kids & Timeline Crossroads',
+    stage: 5,
+    title: 'Stage 5 Finale: The Kids & Timeline Crossroads',
     subredditThreadInspiration: 'r/CougarsAndCubs: "She’s done having kids / can’t have more, and we fell deeply in love"',
     isVip: false,
     creditCost: 0,
     requiredAnyTags: ['done_with_kids', 'wants_kids_someday'],
     sceneArt: 'fertility_talk',
     setupHer:
-      'Three months in, the chemistry is electric—and real feelings have arrived. Over late-night wine, the biggest real-world subplot on the subreddit surfaces: you’re 100% done having kids, and he once pictured being a dad.',
+      'Six months in, the chemistry with {hisName} ({hisAge}M) is electric—and real love has arrived. Over late-night wine, the #1 real-world subplot surfaces: at {herAge}, you’re 100% done having kids, and he once pictured being a dad.',
     setupHim:
-      'You’re falling for her for real. She’s honest and gentle: her kid-raising chapter is closed forever, and she refuses to rob you of fatherhood if that’s truly non-negotiable for you.',
+      'You’re falling for {herName} ({herAge}F) for real. She’s honest and gentle: her kid-raising chapter is closed forever, and she refuses to rob you of fatherhood if that’s truly non-negotiable for you.',
     choices: [
       {
         labelHer: 'Have the brave, transparent conversation—he reflects deeply and chooses a full, travel-filled partnership with *you* over a hypothetical script.',
@@ -501,15 +531,17 @@ export const EPISODES: Episode[] = [
   {
     id: 'adult-kid-brunch',
     act: 3,
-    title: 'Act III Finale: Brunch With Her 22yo Daughter & Brunch Crew',
+    stage: 4,
+    minAgeGap: 15,
+    title: 'Stage 4 Boss: Brunch With Her 22yo Daughter & Brunch Crew',
     subredditThreadInspiration: 'r/CougarsAndCubs: "How did her adult children & meddling friends react to you?"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
     setupHer:
-      'Sunday mimosas: your 22-year-old college-senior daughter (three years younger than him!) AND your most skeptical friend ("What when you’re 60?!") are across the table.',
+      'Sunday mimosas: your 22-year-old college-senior daughter (nearly {hisName}’s age!) AND your most skeptical friend ("What when you’re 65?!") are across the table.',
     setupHim:
-      'Boss level: her 22-year-old daughter is eyeing you over avocado toast while her protective best friend tests whether you’re a passing phase.',
+      'Boss level: {herName}’s 22-year-old daughter is eyeing you over avocado toast while her protective best friend tests whether you’re a passing phase.',
     choices: [
       {
         labelHer: 'He treats your daughter with warm zero-try-hard respect (never playing stepdad!), charms your friend, and lets his devotion to you speak for itself.',
@@ -544,18 +576,604 @@ export const EPISODES: Episode[] = [
       },
     ],
   },
+
+  // --- 12 NEW AGE-BRACKET & PROFILE-SPECIFIC SUBPLOTS ---
+  {
+    id: 'puma-kid-intro-boundary',
+    act: 2,
+    stage: 3,
+    allowedTiers: ['lynx', 'puma'],
+    title: 'The 6-Month Kid Boundary & Co-Parenting Ex Driveway Run-In',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "36F single mom dating 25M—strict 6-month rule before meeting my kid + handling the ex"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'babysitter_clock',
+    setupHer:
+      'You’re 36 with an ironclad rule: nobody meets your 7-year-old before six months of consistency. Sunday morning while {hisName} is grabbing his jacket at your porch, your co-parenting ex pulls into the driveway 25 minutes early for custody drop-off.',
+    setupHim:
+      '{herName} guards her child’s world fiercely with a 6-month intro boundary. Suddenly her ex-husband’s SUV pulls into the driveway 25 minutes early while you’re still on the porch.',
+    choices: [
+      {
+        labelHer: 'He stays totally composed, gives a polite low-drama wave from his car without intruding on your child’s handoff, and texts later checking how you feel.',
+        labelHim: 'Stay calm and drama-free—head smoothly to your car so her child’s handoff stays peaceful, then send a supportive check-in text.',
+        outcomeHer:
+          'Zero territorial chest-puffing, zero awkwardness in front of your kid. Seeing a younger man prioritize your child’s peace makes you fall ten times harder.',
+        outcomeHim:
+          'She texts twenty minutes later: "Thank you for handling that like an absolute pro. You have no idea how rare that is."',
+        toastBanner: 'CO-PARENTING EQ +25 • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 15, eq: 25, chemistry: 15, redFlags: 0 },
+        badgeUnlocked: 'Sacred Kid-Boundary Protector',
+      },
+      {
+        labelHer: 'He pouts that you won’t introduce him as "the new stepdad" after three weeks and sizes up your ex.',
+        labelHim: 'Complain "Why am I a secret?" and puff your chest out at her ex-husband on the lawn.',
+        outcomeHer:
+          'Pushing a mom’s kid-introduction boundary AND sparking driveway drama? Instant disqualification.',
+        outcomeHim:
+          'Making custody handoff about your ego violates every single-mom rule in the book.',
+        toastBanner: 'RED FLAG! • DRIVEWAY EGO DRAMA (-25)',
+        deltas: { maturity: -25, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Coordinate custody buffer windows together on shared calendar blocks going forward.',
+        labelHim: 'Suggest building a clean 1-hour buffer before custody drop-offs so mornings stay stress-free.',
+        outcomeHer:
+          'Proactive logistics without drama—Elder Millennial heaven.',
+        outcomeHim:
+          'Practical calendar awareness earns serious partner points.',
+        toastBanner: 'CALENDAR HARMONY +15',
+        deltas: { maturity: 15, chivalry: 10, eq: 15, chemistry: 10, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'puma-boys-groupchat-kid',
+    act: 3,
+    stage: 4,
+    allowedTiers: ['lynx', 'puma'],
+    title: 'His Boys’ Group Chat: "Wait Bro, She’s 36 With a Kid?!"',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "How did your mid-20s guy friends react when you started seriously dating a 30s mom?"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'Friday happy hour: {hisName} brings you to meet his 25-year-old friend group for the first time. Two beers in, his loudest roommate jokes: "Bro skipped Vegas Dayclub for PTA snacks?!"',
+    setupHim:
+      'You bring {herName} ({herAge}F) to meet your mid-20s crew. Your loud roommate grins across the booth: "Wait, my guy traded bottle service for minivan duty?!" Everyone looks at you.',
+    choices: [
+      {
+        labelHer: 'He laughs easily with an arm around your chair: "Have you looked at her? Easiest upgrade of my life, boys—next round’s on you."',
+        labelHim: 'Smile smoothly without getting rattled: "Look across the table, man—easiest upgrade of my life. Grab us two Palomas."',
+        outcomeHer:
+          'Confident, warm, zero defensiveness—even his loudest roommate raises his glass in respect within five minutes.',
+        outcomeHim:
+          'Your buddies immediately respect the poise, and {herName} slips her hand onto your knee under the table.',
+        toastBanner: 'GROUP-CHAT ROAST DEFLECTED • CHEMISTRY +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 15, chemistry: 20, redFlags: 0 },
+      },
+      {
+        labelHer: 'He laughs nervously along with his boys: "Haha chill bro, we’re just keeping it casual anyway!"',
+        labelHim: 'Downplay her to look cool in front of the boys: "Haha relax, it’s nothing serious."',
+        outcomeHer:
+          'Calling you "nothing serious" to impress guys who share a Costco membership? Uber ordered.',
+        outcomeHim:
+          'Throwing her under the bus for roommate clout ends the relationship on the spot.',
+        toastBanner: 'RED FLAG! • LOCKER-ROOM BETRAYAL (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -20, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Introduce him to your two closest girlfriends first in a double-date wine lounge setting.',
+        labelHim: 'Start with a smaller double date with your most mature couple friends instead of the rowdy bar crew.',
+        outcomeHer:
+          'Curating the right crowd beats surviving frat energy every time.',
+        outcomeHim:
+          'Smart social curation makes the night effortless.',
+        toastBanner: 'SOCIAL CURATION +15',
+        deltas: { maturity: 15, chivalry: 10, eq: 15, chemistry: 10, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'puma-one-and-done-clock',
+    act: 3,
+    stage: 5,
+    allowedTiers: ['lynx', 'puma'],
+    title: 'Stage 5 Finale: The 36F "One-and-Done" vs. Baby #2 Timeline',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Pumas in late 30s—everyone assumes we’re rushing for another baby, or he assumes we have 10 years to decide"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'fertility_talk',
+    setupHer:
+      'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: unlike 50+, biology isn’t closed yet—so people assume you’re hunting a baby daddy, when you actually love your life as-is and refuse vague 8-year "maybe" timelines.',
+    setupHim:
+      '{herName} is {herAge}—radiant, thriving, and crystal clear: she isn’t auditioning you to rush into a baby tomorrow, AND she won’t spend ages 36–41 in "let’s see where things go" situationship limbo.',
+    choices: [
+      {
+        labelHer: 'Align on an intentional 1-to-2 year partnership roadmap—exclusive, proud, and crystal clear on family goals.',
+        labelHim: 'Lay out real intentionality: exclusive commitment now, honest alignment on whether kids are a shared yes or happy one-and-done.',
+        outcomeHer:
+          'Zero situationship fog, zero biological assumptions—just real Millennial × Gen-Z partnership clarity.',
+        outcomeHim:
+          'Meeting her 30s clarity with real intentionality unlocks a powerhouse relationship.',
+        toastBanner: 'PUMA STAGE 5 COMMITMENT • MATURITY +30',
+        deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Intentional Puma Lifemate',
+      },
+      {
+        labelHer: 'He assumes because he’s {hisAge} you two can "stay casual and revisit labels in 6 years."',
+        labelHim: 'Say "I’m only {hisAge}, let’s avoid labels for four or five years and see what happens."',
+        outcomeHer:
+          'He has 20s time blindness; you value your prime 30s way too much for a multi-year situationship.',
+        outcomeHim:
+          'Asking an intentional 36-year-old woman for a 5-year situationship is an instant goodbye.',
+        toastBanner: 'RED FLAG! • SITUATIONSHIP TIME-WASTER (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -20, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Plan your first long weekend trip together and check in cleanly at the six-month mark.',
+        labelHim: 'Make it official boyfriend/girlfriend tonight and book a coastal getaway together.',
+        outcomeHer:
+          'Clear title, clear excitement, zero games.',
+        outcomeHim:
+          'Claiming the relationship proudly wins her smile.',
+        toastBanner: 'OFFICIAL LABEL LOCKED +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'cougar-thermostat-retinol',
+    act: 2,
+    stage: 2,
+    allowedTiers: ['cougar', 'jaguar'],
+    title: '62°F Bedroom Thermostat, Retinol & His Midnight Taco Energy',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "9:45 PM retinol, silk pillowcase, and freezing 62°F bedroom vs his midnight taco run"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'It’s 9:45 PM on a Tuesday sleepover. Your ideal night: tretinoin serum, mulberry silk pillowcase, reading glasses, and the bedroom AC arctic at 62°F—right as {hisName} ({hisAge}M) perks up asking to DoorDash birria tacos and start a 3-hour Christopher Nolan movie.',
+    setupHim:
+      'It’s 9:45 PM. Your {hisAge}-year-old stomach wants birria tacos and *Interstellar*, while {herName} ({herAge}F) just finished her 6-step skincare routine and set the bedroom thermostat to polar-bear 62°F.',
+    recommendedAffiliateId: 'princess-mulberry-silk-robe',
+    choices: [
+      {
+        labelHer: 'He refills your bedside ice water, respects the 62°F arctic sleep sanctuary, saves taco runs for Friday, and brings extra morning heat instead.',
+        labelHim: 'Refill her bedside water carafe, embrace the 62°F arctic duvet cuddle, let her sleep by 10:15, and channel all that extra energy at 6:30 AM.',
+        outcomeHer:
+          '8 hours of uninterrupted REM sleep at 62°F PLUS morning chemistry before work? You almost offer him a drawer on the spot.',
+        outcomeHim:
+          'Respecting her sleep hygiene AND bringing sunrise energy makes you practically irreplaceable.',
+        toastBanner: '62°F SANCTUARY MASTERED • CHEMISTRY +25',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: '62°F Sleep-Sanctuary Guardian',
+      },
+      {
+        labelHer: 'He cranks the heat to 76°F, crunches tortilla chips in your white percale sheets at midnight, and scrolls TikTok on full volume.',
+        labelHim: 'Turn her thermostat up to 75°F, eat crunchy tacos in bed, and play reels out loud at 12:30 AM.',
+        outcomeHer:
+          'Salsa near 600-thread-count white percale AND touching the thermostat?! War crime.',
+        outcomeHim:
+          'Touching a Cougar’s thermostat AND getting taco crumbs in her percale sheets is banishment-level treason.',
+        toastBanner: 'RED FLAG! • TACO CRUMBS & 75°F HEAT (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Eat midnight snacks quietly in the kitchen with headphones while you sleep peacefully.',
+        labelHim: 'Sneak tacos quietly at the kitchen island with AirPods in, brush your teeth, and slip into bed silently.',
+        outcomeHer:
+          'Self-sufficient, considerate night-owl compromise!',
+        outcomeHim:
+          'Zero sleep disruption, spotless kitchen counter—everyone wins.',
+        toastBanner: 'CONSIDERATE NIGHT OWL +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 10, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'cougar-salary-negotiation',
+    act: 2,
+    stage: 3,
+    allowedTiers: ['cougar'],
+    title: 'Executive Roleplay (The Career Kind): Coaching His +25% Promotion',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Helped my 26yo cub negotiate a $22k raise using my VP hiring playbook—hottest night ever"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      '{hisName} just got offered a promotion at work—with a lowball 6% bump. You negotiate seven-figure departmental budgets in your sleep, yet you never want to act like his boss or mom.',
+    setupHim:
+      'Your company offered you a promotion with a tiny 6% raise. {herName} literally approves VP compensation bands for a living—how do you handle career advice across the experience gap?',
+    choices: [
+      {
+        labelHer: 'Ask first if he wants your VP lens—then run a sharp 15-minute mock negotiation together before celebrating his +24% win over steak.',
+        labelHim: 'Ask for her executive perspective openly, take notes with zero ego, crush the counteroffer Monday, and take her to steak dinner to celebrate!',
+        outcomeHer:
+          'He had zero fragile male ego about learning from your experience—then used his new raise to book your favorite steakhouse. Unbeatable power-couple dynamic.',
+        outcomeHim:
+          'You landed a +24% raise, thanked your secret weapon properly, and watched her beam with pride across the candlelit booth.',
+        toastBanner: 'POWER-COUPLE MENTORSHIP • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: '+24% Raise Power Couple',
+      },
+      {
+        labelHer: 'He snaps defensively: "Stop trying to manage my career just because you’re older!"',
+        labelHim: 'Get prickly and defensive: "I don’t need corporate lectures from my girlfriend."',
+        outcomeHer:
+          'Insecurity disguised as pride—turning down gold-tier executive wisdom out of ego is exhausting.',
+        outcomeHim:
+          'Snapping at someone rooting for your success kills the spark fast.',
+        toastBanner: 'RED FLAG! • FRAGILE CAREER EGO (-20)',
+        deltas: { maturity: -20, chivalry: -10, eq: -20, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Keep work and romance mostly separate—cheer him on warmly without reading his spreadsheets.',
+        labelHim: 'Handle the negotiation solo first, then share the good news over cocktails Friday.',
+        outcomeHer:
+          'Clean boundary between office brain and date night.',
+        outcomeHim:
+          'Independent execution with celebratory Friday energy.',
+        toastBanner: 'INDEPENDENT DRIVE +15',
+        deltas: { maturity: 15, chivalry: 10, eq: 10, chemistry: 10, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'cougar-boys-groupchat-ceo',
+    act: 3,
+    stage: 4,
+    allowedTiers: ['cougar'],
+    title: 'Drinks With His Friends ("Bro Is Dating a Whole VP")',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Introducing my 45F girlfriend to my 26M friends—setting the tone immediately"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'Cocktail lounge night meeting {hisName}’s mid-20s friend circle. Everyone is charming until one tipsy college buddy grins: "Yo {hisName}, blink twice if she’s buying you a PS5 Pro!"',
+    setupHim:
+      'You’re proud as hell introducing {herName} ({herAge}F) at a rooftop bar—until your dumbest college buddy blurts out a "Stifler’s Mom / PS5 Sugar Mama" joke.',
+    choices: [
+      {
+        labelHer: 'He doesn’t flinch—locks eyes with his buddy calmly: "Try a grown-up joke, man. She’s brilliant, and I buy my own gear"—then pivots smoothly.',
+        labelHim: 'Check your buddy cleanly with a calm smile—"Retire the 2004 movie jokes, bro; she’s out of all our leagues"—and pivot the table conversation effortlessly.',
+        outcomeHer:
+          'Zero shouting, total backbone. His friend apologizes immediately, and the rest of the table treats you like royalty all night.',
+        outcomeHim:
+          'Clean boundary, zero awkward explosion. {herName} whispers in the elevator: "The way you handled that? Ten out of ten."',
+        toastBanner: 'BACKBONE & POISE +25 • CHIVALRY +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Group-Chat Backbone Certified',
+      },
+      {
+        labelHer: 'He chuckles awkwardly and winks at his buddy: "Hey, hoping for a Porsche by Christmas!"',
+        labelHim: 'Play into the sugar-mama joke for laughs: "Manifesting that Porsche lease, boys!"',
+        outcomeHer:
+          'Reducing you to a wallet punchline in front of 25-year-olds? Check, please.',
+        outcomeHim:
+          'Trading her dignity for a cheap laugh from the boys costs you the relationship.',
+        toastBanner: 'RED FLAG! • SUGAR-MAMA JOKE FAIL (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -20, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'You roast his buddy effortlessly yourself in one razor-sharp sentence while {hisName} grins proudly.',
+        labelHim: 'Back her play with a proud grin as she effortlessly roasts your buddy in five words.',
+        outcomeHer:
+          'His whole friend group howls laughing and instantly worships you.',
+        outcomeHim:
+          'Your buddies spend the next three weeks asking if she has single friends.',
+        toastBanner: 'WITTY TAG-TEAM +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'jaguar-genx-phone-call',
+    act: 2,
+    stage: 1,
+    allowedTiers: ['jaguar'],
+    title: 'The Bold 6 PM Gen-X Phone Call Test',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "53F Gen-X Jaguar—please stop texting \'wyd\' at 11 AM and call me like an adult at 6 PM"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'At {herAge}, you are peak Gen-X: allergic to 47 work-hour meme texts, voice-note monologues, and "wyd" bubbles. It’s 6:05 PM Wednesday—how does {hisName} ({hisAge}M) bridge the communication gap?',
+    setupHim:
+      '{herName} ({herAge}F) told you straight up she hates all-day texting during work hours. Most guys your age panic at live phone calls—it’s 6:05 PM Wednesday.',
+    choices: [
+      {
+        labelHer: 'He sends zero midday clutter, then rings you at 6:05 PM with a warm voice and locks in Friday dinner in four effortless minutes.',
+        labelHim: 'Leave her workday undisturbed, dial her directly at 6:05 PM with a warm confident voice, hear about her day, and lock in Friday at 8.',
+        outcomeHer:
+          'A {hisAge}-year-old man whose phone actually makes voice calls?! Gen-X swoon unlocked in four minutes flat.',
+        outcomeHim:
+          'You hear the smile in her voice immediately: "You actually called—and without forty warmup texts. Friday at 8 is yours."',
+        toastBanner: 'GEN-X VOICE CALL MASTERED • CHEMISTRY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 15, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: '6 PM Voice-Call Natural',
+      },
+      {
+        labelHer: 'He sends 14 TikTok links and three "u busy?? 👀" texts between 10 AM and 2 PM.',
+        labelHim: 'Double-text memes at 10:30 AM, 12:15 PM, and 2:40 PM asking "wyd today??"',
+        outcomeHer:
+          'Nothing screams "unemployed nephew" louder than spamming a founder’s phone at 11:15 AM.',
+        outcomeHim:
+          'She puts your thread on Do Not Disturb until 2028.',
+        toastBanner: 'RED FLAG! • WORK-HOUR MEME SPAM (-20)',
+        deltas: { maturity: -20, chivalry: -10, eq: -15, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'He sends one crisp 5:30 PM text: "Free for a quick 5-minute call at 6 to plan Friday?"',
+        labelHim: 'Send one clean 5:30 PM heads-up text, then call right at 6:00 PM.',
+        outcomeHer:
+          'Polite Gen-Z/Gen-X bridge—courteous and punctual.',
+        outcomeHim:
+          'Clean etiquette across generations; she picks up on the second ring.',
+        toastBanner: 'CLEAN CALL ETIQUETTE +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'jaguar-pilates-core-shake',
+    act: 2,
+    stage: 2,
+    allowedTiers: ['jaguar'],
+    title: 'Reformer Pilates Humbling (His Abs Shake at Minute 4)',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Brought my 26yo gym-bro cub to Reformer Pilates and watched his soul leave his abs"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'ridge_trail_leash',
+    setupHer:
+      '{hisName} bench-presses plenty, so he grinned when you invited him to your 53F Jaguar Reformer Pilates session. Four minutes into slow-count hundredths on light springs, his entire core is vibrating like a tuning fork while you float effortlessly.',
+    setupHim:
+      'You thought Pilates was "active recovery stretching." Four minutes next to {herName} ({herAge}F), your hip flexors and abs are trembling uncontrollably while she holds a flawless plank without blinking.',
+    recommendedAffiliateId: 'trail-hydration-vest',
+    choices: [
+      {
+        labelHer: 'He laughs at himself mid-shake, stays in every slow count without quitting, and bows to your core supremacy over green smoothies after.',
+        labelHim: 'Laugh through the core shake with zero gym-bro ego, finish every rep honestly, and buy post-class smoothies admitting she smoked you.',
+        outcomeHer:
+          'Playful humility + genuine effort + watching him admire your strength up close = electric chemistry.',
+        outcomeHim:
+          'Laughing at your trembling abs while admiring her form earns a very rewarding post-Pilates stretch invite.',
+        toastBanner: 'PILATES HUMILITY +20 • CHEMISTRY +25',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Reformer Core Survivor',
+      },
+      {
+        labelHer: 'He yanks heavy springs wildly with terrible form to show off, sulks when the instructor corrects him, and blames "weird girl machines."',
+        labelHim: 'Sulkingly blame "weird stretching machines" and brag about your bench press in the lobby.',
+        outcomeHer:
+          'Fragile gym-bro ego defeated by two yellow springs? Tragic.',
+        outcomeHim:
+          'Insulting the machine that just humbled you in 240 seconds fools nobody.',
+        toastBanner: 'RED FLAG! • FRAGILE GYM-BRO EGO (-20)',
+        deltas: { maturity: -20, chivalry: -10, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Trade domains fairly: Pilates on Saturday, he spots your deadlift PR on Tuesday.',
+        labelHim: 'Embrace being her student in Pilates Saturday, then trade spots in the weight room Tuesday.',
+        outcomeHer:
+          'Athletic reciprocity keeps both of you at peak game.',
+        outcomeHim:
+          'Mutual coaching creates unstoppable active chemistry.',
+        toastBanner: 'ATHLETIC PARTNER PLAY +15',
+        deltas: { maturity: 15, chivalry: 10, eq: 15, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'jaguar-lat-living-apart',
+    act: 3,
+    stage: 5,
+    allowedTiers: ['jaguar'],
+    title: 'Stage 5 Finale: "Living Apart Together" (LAT) Commitment',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "50s Jaguars in multi-year relationships—why Living Apart Together (LAT) is the ultimate cheat code"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'houseboy_apron',
+    setupHer:
+      'One year together: {hisName} has passed every test, your daughter likes him, and the love is real. Traditional scripts say "move in together"—yet at {herAge}, you spent decades earning your peaceful solo home and love keeping romance intentional.',
+    setupHim:
+      'A year in with {herName} ({herAge}F), you’re deeply committed. Instead of merging leases and cluttering her sanctuary, she proposes the gold-standard 50s Jaguar model: committed *Living Apart Together (LAT)*—keys exchanged, weekends & trips shared, two thriving homes 10 minutes apart.',
+    choices: [
+      {
+        labelHer: 'Exchange keys and commit fully as exclusive LAT partners—forever date-night spark, shared adventures, and zero roommate resentment.',
+        labelHim: 'Embrace committed Living Apart Together wholeheartedly—keep building your own career & apartment nearby while sharing keys, travel, and deep devotion.',
+        outcomeHer:
+          'All the intimacy and loyalty of a life partner, plus your pristine closets and Sunday quiet intact. Peak Jaguar bliss!',
+        outcomeHim:
+          'Perpetual courtship chemistry, total commitment, and both of you thriving independently and together.',
+        toastBanner: 'LAT LIFEMATE UNLOCKED! • MATURITY +30',
+        deltas: { maturity: 30, chivalry: 20, eq: 30, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Living Apart Together (LAT) Icon',
+      },
+      {
+        labelHer: 'He takes LAT as a rejection and demands to break his lease and move his gaming desk into your dining room next month.',
+        labelHim: 'Insist that "real couples HAVE to share one lease immediately" and push to move in next month.',
+        outcomeHer:
+          'Forcing a traditional escalator onto a woman who cherishes her sanctuary misses why you two worked so well.',
+        outcomeHim:
+          'Confusing personal space with lack of love creates unnecessary friction.',
+        toastBanner: 'RED FLAG! • SANCTUARY ESCALATOR PUSH (-15)',
+        deltas: { maturity: -15, chivalry: -10, eq: -20, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Do LAT for two years while planning a shared vacation cottage down the road.',
+        labelHim: 'Celebrate LAT for the next two years with dedicated drawers at each place and revisit co-living only if both want it.',
+        outcomeHer:
+          'Flexible, pressure-free long-term horizon.',
+        outcomeHim:
+          'Grounded commitment with room to grow organically.',
+        toastBanner: 'HARMONIOUS HORIZON +25',
+        deltas: { maturity: 25, chivalry: 15, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'panther-black-tie-gala',
+    act: 2,
+    stage: 1,
+    allowedTiers: ['panther'],
+    title: 'Black-Tie Museum Gala & Owning Every Whisper',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "62F Panther walking into a formal event with my 30yo cub—watching every head turn"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'You’re 62 in custom emerald velvet walking into the Palm Springs Art Museum gala with {hisName} ({hisAge}M) in a sharp tuxedo. Half the room pauses mid-champagne sip to stare.',
+    setupHim:
+      'Black-tie gala night beside {herName} ({herAge}F), who looks like cinema royalty. Society donors twice your age are craning their necks to figure out who the young man on her arm is.',
+    recommendedAffiliateId: 'date-night-oud-bergamot',
+    choices: [
+      {
+        labelHer: 'He keeps his phone in his tux pocket all night, holds your hand proudly through introductions, and charms the museum board with effortless poise.',
+        labelHim: 'Phone stays invisible all night—offer your arm with unmistakable pride, hold eye contact with board members, and fetch her champagne before she asks.',
+        outcomeHer:
+          'Within twenty minutes, three women on the board pull you aside in the powder room: "Where on earth did you find him—and does he have an older brother?!"',
+        outcomeHim:
+          'By the auction paddle raise, every skeptic in the ballroom is charmed—and {herName} looks at you like you hung the desert moon.',
+        toastBanner: 'GALA ROYALTY • CHIVALRY +25 • CHEMISTRY +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Black-Tie Panther Escort',
+      },
+      {
+        labelHer: 'He hovers three steps behind you looking like your hired valet and scrolls sports scores under the tablecloth.',
+        labelHim: 'Walk two paces behind her nervously and check your phone under the gala table.',
+        outcomeHer:
+          'If you look apologetic to be in the room, the room treats it like a scandal. Own it or stay home!',
+        outcomeHim:
+          'Shrinking at a gala turns glamour into awkwardness instantly.',
+        toastBanner: 'RED FLAG! • BALLROOM SHRINKING (-20)',
+        deltas: { maturity: -20, chivalry: -20, eq: -15, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Prep two key names on the car ride over so he can spark easy conversation at the table.',
+        labelHim: 'Ask for a quick 2-minute briefing in the car so you remember her colleagues’ names effortlessly.',
+        outcomeHer:
+          'Diplomatic teamwork makes the evening seamless.',
+        outcomeHim:
+          'Remembering names makes a killer impression.',
+        toastBanner: 'GALA DIPLOMACY +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'panther-protective-friends',
+    act: 3,
+    stage: 4,
+    allowedTiers: ['panther'],
+    title: 'Stage 4 Boss: Martini Interrogation With Her Fierce Lifelong Friends',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "60+ women—winning over protective friends who worry a younger man wants her estate"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'brunch_daughter',
+    setupHer:
+      'Your three fiercest lifelong girlfriends invite you and {hisName} ({hisAge}M) for martinis. Their unspoken mission: verify he isn’t chasing your desert house or breaking your heart.',
+    setupHim:
+      'Dinner with {herName}’s three ride-or-die friends of 30 years. Between dry martinis, her lawyer best friend asks pointedly: "So {hisName}—what exactly draws a {hisAge}-year-old man to a woman in her sixties?"',
+    choices: [
+      {
+        labelHer: 'He answers without flinching—speaking specifically about *your* wit, warmth, and shared rhythm (never generic fetish clichés), and quietly picks up the first round of martinis.',
+        labelHim: 'Answer with calm, specific sincerity about *her*—her mind, humor, and how grounded you feel together—pay your own tab cleanly, and ask thoughtful questions about their 30-year friendship.',
+        outcomeHer:
+          'Your lawyer best friend texts under the table before entrées arrive: "Case dismissed. He’s genuinely crazy about you."',
+        outcomeHim:
+          'Speaking about *her as an individual*—not "older women" as a category—wins the toughest jury in Palm Springs.',
+        toastBanner: 'FIERCE FRIENDS WON OVER! • EQ +30',
+        deltas: { maturity: 25, chivalry: 20, eq: 30, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Panther Inner-Circle Certified',
+      },
+      {
+        labelHer: 'He makes a sleazy wink about "loving rich experienced cougars" while eyeing the architectural patio.',
+        labelHim: 'Wink and say "Once you go silver fox/cougar you never go back, ladies!"',
+        outcomeHer:
+          'Your lawyer friend nearly drafts a restraining order on a cocktail napkin.',
+        outcomeHim:
+          'Fetishizing clichés in front of her protective best friends is instant social incineration.',
+        toastBanner: 'RED FLAG! • CLICHÉ CRINGE AT THE TABLE (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Host cocktails on your own terrace where everyone relaxes over vinyl records.',
+        labelHim: 'Help prep hors d’oeuvres and pour drinks graciously so actions speak louder than speeches.',
+        outcomeHer:
+          'Seeing how naturally you two move in the kitchen convinces everyone.',
+        outcomeHim:
+          'Quiet competence and warmth win steady trust.',
+        toastBanner: 'GRACIOUS HOSTING +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'panther-timeline-75-45',
+    act: 3,
+    stage: 5,
+    allowedTiers: ['panther'],
+    title: 'Stage 5 Finale: "When I’m 75 and You’re 45..."',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "25–35 year gaps—talking honestly about aging timelines and choosing real love today"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'fertility_talk',
+    setupHer:
+      'Desert stars over Palm Springs. At {herAge}, with {hisName} at {hisAge}, you voice the quietest fear in your heart: "What happens in fifteen years when I’m slowing down and you’re in your prime forties?"',
+    setupHim:
+      'Under the desert stars, {herName} ({herAge}F) lets down every guard and asks softly what happens twelve or fifteen years from now when the age gap meets real time.',
+    recommendedAffiliateId: 'after-dark-couples-deck',
+    choices: [
+      {
+        labelHer: 'Meet the truth without fairy-tale denial—cherishing every vibrant year together with independent finances, total devotion, and zero fear.',
+        labelHim: 'Hold both her hands honestly: "Nobody gets a 50-year guarantee at any age—and I wouldn’t trade ten extraordinary years loving you for fifty ordinary ones with anyone else."',
+        outcomeHer:
+          'Tears, laughter, and fearless clarity. Neither of you pretends time doesn’t exist—you choose an extraordinary love story right now with open hearts.',
+        outcomeHim:
+          'Honest, grounded, and deeply romantic—she pulls you close under the desert sky, every shadow gone.',
+        toastBanner: 'LEGENDARY PANTHER DEVOTION • EQ +30 • MATURITY +30',
+        deltas: { maturity: 30, chivalry: 25, eq: 30, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Timeless Desert Devotion',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He panics, changes the subject to sports, and ghosts for three days.',
+        labelHim: 'Freeze up, change the subject awkwardly, and pull away out of fear.',
+        outcomeHer:
+          'Real Panther romance takes courage—shrinking from honest talk proves he wasn’t ready for the deep end.',
+        outcomeHim:
+          'Running from vulnerability breaks trust right at the summit.',
+        toastBanner: 'RED FLAG! • EMOTIONAL FLIGHT (-25)',
+        deltas: { maturity: -25, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Keep finances cleanly independent so everyone knows the bond is 100% heart and choice.',
+        labelHim: 'Pair emotional devotion with clean financial independence so her family & friends know your heart is pure.',
+        outcomeHer:
+          'Total clarity + total romance = zero family static.',
+        outcomeHim:
+          'Integrity and transparency build unshakeable trust.',
+        toastBanner: 'PURE-HEART INTEGRITY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+
+  // --- 4 EXISTING VIP SUBREDDIT DEEP-CUT EPISODES (isVip: true preserved!) ---
   {
     id: 'vip-apartment-soap-audit',
     act: 2,
+    stage: 3,
+    minigame: 'room_audit',
     title: 'VIP Deep-Cut: First Time Hosting at His Place (The Soap & Bedframe Audit)',
     subredditThreadInspiration: 'r/CougarsAndCubs: "How to prepare for first time hosting? Clean linens, soap, and a lidded bin!"',
     isVip: true,
     creditCost: 2,
     sceneArt: 'bathroom_audit',
     setupHer:
-      'For the first time, you come over to *his* apartment. Every woman on r/CougarsAndCubs knows the silent 10-second checklist the moment she steps into a 25-year-old’s place.',
+      'For the first time, you come over to *{hisName}’s* apartment. Every woman on r/CougarsAndCubs knows the silent 10-second checklist the moment she steps into a {hisAge}-year-old’s place.',
     setupHim:
-      'She’s coming to YOUR place tonight for the first time. Time for the ultimate r/CougarsAndCubs apartment inspection!',
+      '{herName} is coming to YOUR place tonight for the first time. Time for the ultimate r/CougarsAndCubs apartment inspection!',
     recommendedAffiliateId: 'hosting-lidded-bin-soap',
     choices: [
       {
@@ -595,15 +1213,16 @@ export const EPISODES: Episode[] = [
   {
     id: 'vip-palm-springs-income-gap',
     act: 2,
+    stage: 3,
     title: 'VIP Deep-Cut: 5-Star Palm Springs Weekend & The 3x Income Gap',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Navigating luxury vacations when she earns 3x more without bruising pride"',
     isVip: true,
     creditCost: 3,
     sceneArt: 'palm_springs_pool',
     setupHer:
-      'You booked a sunlit boutique resort in Palm Springs with credit-card points because you refuse to downgrade your vacations—how does he handle the luxury gap poolside?',
+      'You booked a sunlit boutique resort in Palm Springs with credit-card points because you refuse to downgrade your vacations—how does {hisName} handle the luxury gap poolside?',
     setupHim:
-      'She booked a gorgeous boutique Palm Springs suite way above your entry-level bracket. How do you show up as an equal partner all weekend?',
+      '{herName} booked a gorgeous boutique Palm Springs suite way above your entry-level bracket. How do you show up as an equal partner all weekend?',
     recommendedAffiliateId: 'princess-mulberry-silk-robe',
     choices: [
       {
@@ -642,15 +1261,16 @@ export const EPISODES: Episode[] = [
   {
     id: 'vip-thanksgiving-double-boss',
     act: 3,
+    stage: 4,
     title: 'VIP Deep-Cut: Thanksgiving With Her 23yo Son & His Class-of-’97 Mom',
     subredditThreadInspiration: 'r/CougarsAndCubs: "Met my cub’s parents—his mom and I graduated high school the same year"',
     isVip: true,
     creditCost: 3,
     sceneArt: 'thanksgiving_table',
     setupHer:
-      'Holiday crossover episode: you’re meeting his mother—who is literally 14 months older than you and loved the exact same 1997 Alanis Morissette tour.',
+      'Holiday crossover episode: you’re meeting {hisName}’s mother—who is right around your age and loved the exact same 1997 Alanis Morissette tour.',
     setupHim:
-      'Your mom is 48. Your girlfriend is 45. Both are standing in the kitchen reaching for the wine opener while your dad blinks rapidly.',
+      'Your mom and {herName} ({herAge}F) are standing side by side in the kitchen reaching for the wine opener while your dad blinks rapidly.',
     choices: [
       {
         labelHer: 'Anchor the room with calm warmth—he introduces you proudly as his partner, helps clear every dish, and lets his mom see how happy and grounded he is.',
@@ -688,15 +1308,16 @@ export const EPISODES: Episode[] = [
   {
     id: 'vip-trader-joes-wild-approach',
     act: 2,
+    stage: 1,
     title: 'VIP Deep-Cut: "In the Wild" Trader Joe’s Olive-Oil Aisle Approach',
     subredditThreadInspiration: 'r/CougarsAndCubs: "How did you meet in the wild without dating apps—and without breaking Not Dating 101?"',
     isVip: true,
     creditCost: 2,
     sceneArt: 'trader_joes_aisle',
     setupHer:
-      'Dating app age sliders filter out half the Cubs in town—so here he is in real life beside the imported Tuscan olive oil and peonies at Trader Joe’s.',
+      'Dating app age sliders filter out half the Cubs in town—so here {hisName} is in real life beside the imported Tuscan olive oil and peonies at Trader Joe’s.',
     setupHim:
-      'Forget app age filters—she’s right beside you choosing olive oil in sunlit athleisure. Shoot your shot cleanly without sounding like a pickup TikTok!',
+      'Forget app age filters—{herName} is right beside you choosing olive oil in sunlit athleisure. Shoot your shot cleanly without sounding like a pickup TikTok!',
     recommendedAffiliateId: 'date-night-oud-bergamot',
     choices: [
       {

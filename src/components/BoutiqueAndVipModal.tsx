@@ -28,10 +28,13 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   const [codeMessage, setCodeMessage] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [newsletterMsg, setNewsletterMsg] = useState<string | null>(null);
+  const [tipStatusMsg, setTipStatusMsg] = useState<string | null>(null);
 
   if (!open) return null;
 
   const isSandbox = MONETIZATION_CONFIG.sandboxPreviewMode;
+  const liveTipUrl = MONETIZATION_CONFIG.tipJarUrl || MONETIZATION_CONFIG.kofiUrl;
+  const liveCameoUrl = MONETIZATION_CONFIG.cameoCommissionUrl;
 
   const handlePromoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +103,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               <span className="text-xs font-bold uppercase text-teal-300">Action Pack</span>
               <div className="font-display text-3xl text-white mt-1">+15 Velvet Credits • $2.99</div>
               <p className="text-xs text-slate-300 mt-1">
-                Smooth Rewinds on red-flag fumbles, Dating App X-Ray Scans, and individual Deep-Cut episode unlocks.
+                Smooth Rewinds on red-flag fumbles, Live AI Inbox replies, X-Ray Scans, and Deep-Cut episode unlocks.
               </p>
             </div>
             {MONETIZATION_CONFIG.stripeCreditPackUrl ? (
@@ -138,7 +141,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 VIP Black Card • $6.99
               </div>
               <p className="text-xs text-slate-200 mt-1">
-                Unlocks ALL 4 Subreddit Deep-Cut episodes forever (His Bathroom Audit, 5-Star Palm Springs, Thanksgiving Boss, Trader Joe&rsquo;s) + 10 bonus credits.
+                Unlocks ALL 4 Subreddit Deep-Cut episodes forever + Unlimited Live AI Inbox Texting + 10 bonus credits.
               </p>
             </div>
             {wallet.isVip ? (
@@ -175,7 +178,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
           <div className="rounded-2xl border-2 border-black bg-[#211235] p-4 flex flex-col justify-between gap-3">
             <div>
               <span className="text-xs font-bold uppercase text-pink-300">
-                0%-Fee Tip &amp; Custom Cameos
+                Espresso Martini Tip &amp; Cameos
               </span>
               <div className="font-display text-3xl text-white mt-1">
                 Immortalize Your Inside Joke
@@ -185,24 +188,56 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               </p>
             </div>
             <div className="space-y-2">
-              <a
-                href={MONETIZATION_CONFIG.kofiUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-pink-600 py-2 text-xs font-extrabold text-white hover:bg-pink-500"
-              >
-                <Coffee className="h-3.5 w-3.5" />
-                <span>Tip an Espresso Martini ($5)</span>
-              </a>
-              <a
-                href={MONETIZATION_CONFIG.cameoCommissionUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-slate-800 py-2 text-xs font-bold text-amber-300 hover:bg-slate-700"
-              >
-                <Gift className="h-3.5 w-3.5" />
-                <span>Sponsor Custom Scenario ($29)</span>
-              </a>
+              {liveTipUrl ? (
+                <a
+                  href={liveTipUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-pink-600 py-2 text-xs font-extrabold text-white hover:bg-pink-500"
+                >
+                  <Coffee className="h-3.5 w-3.5" />
+                  <span>Tip an Espresso Martini ($5)</span>
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setTipStatusMsg(
+                      '🍸 Dedicated Cougars & Cubs Club Stripe Tip Jar activating shortly—grab +5 Free Dispatch Credits below in the meantime!',
+                    )
+                  }
+                  className="w-full flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-pink-600 py-2 text-xs font-extrabold text-white hover:bg-pink-500 cursor-pointer"
+                >
+                  <Coffee className="h-3.5 w-3.5" />
+                  <span>Tip an Espresso Martini ($5)</span>
+                </button>
+              )}
+
+              {liveCameoUrl ? (
+                <a
+                  href={liveCameoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-slate-800 py-2 text-xs font-bold text-amber-300 hover:bg-slate-700"
+                >
+                  <Gift className="h-3.5 w-3.5" />
+                  <span>Sponsor Custom Scenario ($29)</span>
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setTipStatusMsg(
+                      '🎬 Custom $29 Cougar/Cub Cameo checkout opens right after Stripe verification—join The Velvet Dispatch below for priority slots!',
+                    )
+                  }
+                  className="w-full flex items-center justify-center gap-1.5 rounded-xl border-2 border-black bg-slate-800 py-2 text-xs font-bold text-amber-300 hover:bg-slate-700 cursor-pointer"
+                >
+                  <Gift className="h-3.5 w-3.5" />
+                  <span>Sponsor Custom Scenario ($29)</span>
+                </button>
+              )}
+              {tipStatusMsg && <p className="text-[11px] text-amber-200">{tipStatusMsg}</p>}
             </div>
           </div>
         </div>

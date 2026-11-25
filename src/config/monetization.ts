@@ -2,6 +2,7 @@ export interface MonetizationConfig {
   dailyFreeCredits: 10;
   shareRewardCredits: 3;
   newsletterRewardCredits: 5;
+  tipJarUrl: string;
   kofiUrl: string;
   stripeCreditPackUrl: string;
   stripeVipPassUrl: string;
@@ -14,20 +15,21 @@ export interface MonetizationConfig {
 }
 
 /**
- * Single source of truth for zero-backend monetization.
- * Paste live Ko-fi, Stripe Payment Links, Beehiiv/Substack action URL,
- * and Amazon Associates / Levanta / Impact IDs here whenever approved.
- * While `amazonAssociateTag` / `partnerSubId` are empty, outbound product cards
- * route cleanly to merchant pages with UTM attribution and zero broken params.
+ * Single source of truth for Cougar & Cub Club monetization.
+ * Strictly isolated from natalwealth.app—only populate URLs belonging to
+ * the dedicated Cougars & Cubs Club Stripe sub-account / Ko-fi / Amazon tag.
+ * Notice `tipJarUrl` and `cameoCommissionUrl` default to '' (no dead 404 external links!)
+ * so clicking Tip Martini opens the in-app Creator Lounge cleanly until live Stripe links are set.
  */
 export const MONETIZATION_CONFIG: MonetizationConfig = {
   dailyFreeCredits: 10,
   shareRewardCredits: 3,
   newsletterRewardCredits: 5,
-  kofiUrl: 'https://ko-fi.com/sudosoph',
+  tipJarUrl: '',
+  kofiUrl: '',
   stripeCreditPackUrl: '',
   stripeVipPassUrl: '',
-  cameoCommissionUrl: 'https://ko-fi.com/sudosoph/commissions',
+  cameoCommissionUrl: '',
   newsletterActionUrl: '',
   amazonAssociateTag: '',
   partnerSubId: '',

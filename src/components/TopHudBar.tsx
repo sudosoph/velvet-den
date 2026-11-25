@@ -1,8 +1,19 @@
-import React from 'react';
-import { BookOpen, Coffee, Crown, Newspaper, ShoppingBag, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  BookOpen,
+  Coffee,
+  Crown,
+  MessageCircle,
+  Newspaper,
+  ShoppingBag,
+  Sparkles,
+  Volume2,
+  VolumeX,
+} from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import type { WalletState } from '../domain/economy';
+import { isSoundMuted, toggleSoundMute } from '../lib/sound';
 
 interface TopHudBarProps {
   wallet: WalletState;
@@ -10,6 +21,7 @@ interface TopHudBarProps {
   onSelectTab: (tab: 'game' | 'journal') => void;
   onOpenFieldGuide: () => void;
   onOpenBoutique: () => void;
+  onOpenLiveInbox: () => void;
   onGoHome: () => void;
 }
 
@@ -19,8 +31,12 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
   onSelectTab,
   onOpenFieldGuide,
   onOpenBoutique,
+  onOpenLiveInbox,
   onGoHome,
 }) => {
+  const [muted, setMuted] = useState(() => isSoundMuted());
+  const liveTipUrl = MONETIZATION_CONFIG.tipJarUrl || MONETIZATION_CONFIG.kofiUrl;
+
   return (
     <header className="sticky top-0 z-30 border-b-3 border-black bg-[#12091c]/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-3 py-2.5 sm:px-6">
@@ -43,6 +59,15 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
         </button>
 
         <nav className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            onClick={onOpenLiveInbox}
+            className="inline-flex items-center gap-1.5 rounded-lg border-2 border-black bg-[#1c2b3a] px-2.5 py-1.5 text-xs font-extrabold text-amber-300 hover:bg-[#25394d] cursor-pointer"
+          >
+            <MessageCircle className="h-3.5 w-3.5 text-teal-300" />
+            <span>AI Text</span>
+          </button>
+
           <button
             type="button"
             onClick={onOpenFieldGuide}
@@ -75,16 +100,38 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             <ShoppingBag className="h-3.5 w-3.5 ml-0.5" />
           </button>
 
-          <a
-            href={MONETIZATION_CONFIG.kofiUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 rounded-lg border-2 border-black bg-pink-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-[2px_2px_0px_#09050f] hover:bg-pink-500"
-            title="Buy the creator an Espresso Martini (0% platform fee)"
+          {liveTipUrl ? (
+            <a
+              href={liveTipUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-lg border-2 border-black bg-pink-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-[2px_2px_0px_#09050f] hover:bg-pink-500"
+              title="Buy the creator an Espresso Martini"
+            >
+              <Coffee className="h-3.5 w-3.5" />
+              <span className="hidden md:inline">Tip Martini</span>
+            </a>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenBoutique}
+              className="inline-flex items-center gap-1 rounded-lg border-2 border-black bg-pink-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-[2px_2px_0px_#09050f] hover:bg-pink-500 cursor-pointer"
+              title="Open Creator Tip Jar & VIP Lounge"
+            >
+              <Coffee className="h-3.5 w-3.5" />
+              <span className="hidden md:inline">Tip Martini</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setMuted(toggleSoundMute())}
+            className="inline-flex items-center justify-center rounded-lg border-2 border-black bg-slate-800 p-1.5 text-slate-200 hover:bg-slate-700 cursor-pointer"
+            aria-label={muted ? 'Unmute game audio' : 'Mute game audio'}
+            title={muted ? 'Unmute game sound effects' : 'Mute game sound effects'}
           >
-            <Coffee className="h-3.5 w-3.5" />
-            <span className="hidden md:inline">Tip Martini</span>
-          </a>
+            {muted ? <VolumeX className="h-4 w-4 text-rose-400" /> : <Volume2 className="h-4 w-4 text-teal-300" />}
+          </button>
         </nav>
       </div>
     </header>
