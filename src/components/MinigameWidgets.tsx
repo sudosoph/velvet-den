@@ -1616,6 +1616,109 @@ const SeedOilBernedoodleAuditGame: React.FC<{
   );
 };
 
+const PINE_POLLEN_MISHAPS = [
+  {
+    id: 'tincture',
+    raw: '🌲 Incoherent Bubble #1: "took 2 droppers of pine pollen for T and im all up in my feels rn idk wyd"',
+    decoded: '✓ Decoded: Biohacker tincture jitters ≠ relationship crisis. Cap the dropper & use punctuation!',
+  },
+  {
+    id: 'silence',
+    raw: '⏰ Mishap #2: Panicking after 2 hours of quiet ("u havent replied since 9 r u ghosting me??")',
+    decoded: '✓ Expectations Reset: She unplugs at 9:30 PM on work nights—adult silence ≠ rejection!',
+  },
+  {
+    id: 'cadence',
+    raw: '📱 Mishap #3: Expecting 24/7 group-chat texting vs. her unhurried courtship rhythm',
+    decoded: '✓ Cadence Aligned: One clear, punctuated plan for Thursday at 7:30 beats 6 midnight walls of text!',
+  },
+] as const;
+
+const PinePollenFeelsDecoderGame: React.FC<{
+  completed: boolean;
+  herName: string;
+  hisName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, herName, hisName, onWin }) => {
+  const [decodedIds, setDecodedIds] = useState<string[]>(
+    completed ? PINE_POLLEN_MISHAPS.map((m) => m.id) : [],
+  );
+  const [dropperTrapWarning, setDropperTrapWarning] = useState(false);
+
+  const handleDecode = (id: string) => {
+    if (completed || decodedIds.includes(id)) return;
+    setDropperTrapWarning(false);
+    sfx.hotspotFix();
+    const next = [...decodedIds, id];
+    setDecodedIds(next);
+    if (next.length === PINE_POLLEN_MISHAPS.length) {
+      sfx.greenFlag();
+      onWin({ maturity: 10, eq: 10 }, 'Pine-Pollen Expectations Whisperer');
+    }
+  };
+
+  const done = completed || decodedIds.length === PINE_POLLEN_MISHAPS.length;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#FFBE0B]">
+          <Radar className="h-4 w-4 text-[#FF2E63]" /> Decode {hisName}’s Pine-Pollen "All Up in My Feels" Spiral &amp; Align {herName}’s Pace ({decodedIds.length}/3)
+        </span>
+        <span className="text-xs font-bold text-stone-200">+10 Maturity · +10 EQ</span>
+      </div>
+
+      <div className="grid gap-2">
+        {PINE_POLLEN_MISHAPS.map((m) => {
+          const isDecoded = done || decodedIds.includes(m.id);
+          return (
+            <button
+              key={m.id}
+              type="button"
+              onClick={() => handleDecode(m.id)}
+              className={`flex items-center justify-between gap-3 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm font-bold transition cursor-pointer ${
+                isDecoded
+                  ? 'border-emerald-400 bg-emerald-950/70 text-emerald-100'
+                  : 'border-[#FFBE0B]/60 bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <span>{isDecoded ? m.decoded : m.raw}</span>
+              <span className="shrink-0 rounded-full bg-[#FF2E63] px-2.5 py-0.5 text-xs font-extrabold text-white">
+                {isDecoded ? 'RESET ✓' : 'DECODE →'}
+              </span>
+            </button>
+          );
+        })}
+
+        {!done && (
+          <button
+            type="button"
+            onClick={() => {
+              sfx.redFlag();
+              setDropperTrapWarning(true);
+            }}
+            className="rounded-xl border border-rose-400/50 bg-rose-950/40 px-3.5 py-2 text-left text-xs font-bold text-rose-200 hover:bg-rose-900/50 cursor-pointer"
+          >
+            🌲 Temptation Trap: Take 3rd dropper of Pine Pollen &amp; double-text "guess ur too busy for me lol"
+          </button>
+        )}
+      </div>
+
+      {dropperTrapWarning && !done && (
+        <div className="text-xs font-bold text-amber-300">
+          🚨 Step away from the pine-pollen tincture! Mismatched texting speed isn’t ghosting—tap all 3 DECODE buttons to reset expectations cleanly!
+        </div>
+      )}
+
+      {done && (
+        <div className="text-sm font-bold text-emerald-300">
+          🌲✓ Pine-pollen spiral neutralized &amp; communication expectations aligned (+10 Maturity, +10 EQ)!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -1625,6 +1728,15 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   onWinBonus,
 }) => {
   switch (type) {
+    case 'pine_pollen_decoder':
+      return (
+        <PinePollenFeelsDecoderGame
+          completed={alreadyCompleted}
+          herName={herName}
+          hisName={hisName}
+          onWin={onWinBonus}
+        />
+      );
     case 'seed_oil_audit':
       return (
         <SeedOilBernedoodleAuditGame

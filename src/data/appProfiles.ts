@@ -806,6 +806,58 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       },
     ],
   },
+  {
+    id: 'jaxon-pine-pollen-feels-trap',
+    name: 'Jaxon',
+    age: 24,
+    height: '6\'0"',
+    zodiac: 'Aries',
+    lookBadge: '6\'0" • Pine-Pollen Biohacker • "All Up in His Feels" 🚩',
+    occupation: '"Ancestral Wellness Podcaster & Gym Bro"',
+    distance: '3 miles away',
+    activeAgo: 'Active now (Typing…)',
+    spotifyAnthem: 'Drake — Marvin’s Room',
+    tinderBio:
+      '24M optimizing my ancestral testosterone naturally w/ raw wildcrafted Pine Pollen tincture, cold plunges & sunning 🌲💪 Big communicator (if you take more than 45 mins to text back at night I WILL get all up in my feels and send 6 paragraphs asking what we are lol).',
+    hingePromptQuestion: 'Communication style & expectations',
+    hingePromptAnswer:
+      'Need 24/7 texting reassurance—if you put Do Not Disturb on at 9:30 PM my pine-pollen T-spike turns into midnight poetry 😭🌲',
+    secondPromptQuestion: 'Currently in my gym bag',
+    secondPromptAnswer:
+      '3 amber droppers of raw pine pollen, mouth tape, and a 9-screen Notes-app text draft.',
+    ageShockZoom: true,
+    ageShockQuipHer:
+      'TAKES PINE POLLEN FOR TESTOSTERONE AND SENDS INCOHERENT MIDNIGHT TEXTS THAT HE’S "ALL UP IN HIS FEELS"?! Communication mishap Category 5!',
+    ageShockQuipHim:
+      'BIOHACKER RED FLAG: Mega-dosing pine pollen + panicking when an accomplished woman unplugs at 9:30 PM = instant green-bubble exile.',
+    lookingFor: 'Constant 24/7 text reassurance + someone to decode my 11:47 PM spirals',
+    lookingForSubtext:
+      'Expects nonstop group-chat reply speed from a woman with a career, then blames tree pollen.',
+    interests: ['Pine Pollen', 'Cold Plunge', 'Biohacking', 'Voice Notes', 'Late-Night Feels'],
+    openingDm:
+      'brooo took 2 droppers of raw pine pollen for testosterone before legs and ngl im already all up in my feels rn bc u matched 20 mins ago and didnt say hi yet what are we doing here 😭🌲',
+    xrayLeak:
+      'X-RAY SCAN: 🚨 COMMUNICATION MISHAP HAZARD! Takes pine pollen for "alpha T," ignores her stated unplugged evening boundary, and fires incoherent run-on emotional texts at 11:47 PM.',
+    isGreenFlagMatch: false,
+    photos: [
+      {
+        caption: 'Photo 1 of 2 • Post-Cold-Plunge Biohacker Smirk',
+        shortTab: '🌲 Biohacker Bait',
+        vibeNote: 'Looks fit in Photo 1… until 9:30 PM hits and the pine-pollen dropper comes out!',
+        variant: 'golden_trail_stud',
+        photoUrl: './images/cast/gavin-29m.jpg',
+      },
+      {
+        caption: 'Photo 2 of 2 • 11:47 PM Pine-Pollen Bottle & 6-Bubble "In My Feels" Wall',
+        shortTab: '😭 In My Feels 🚩',
+        vibeNote:
+          '🚨 MISMATCHED EXPECTATIONS: Blasts incoherent unpunctuated midnight texts blaming pine pollen whenever you put your phone down for two hours!',
+        variant: 'crew_socks_mirror',
+        photoUrl: './images/cast/tyler-mattress-trap.jpg',
+        isRedFlagPhoto: true,
+      },
+    ],
+  },
 ];
 
 export const HER_SWIPE_PROFILES: SwipeProfile[] = [

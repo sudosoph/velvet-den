@@ -311,6 +311,18 @@ function fallbackEvaluateDm(req: {
     };
   }
 
+  if (/pine\s*pollen|all\s+up\s+in\s+(my|his)\s+feels|up\s+in\s+my\s+feels\s+rn/.test(lower)) {
+    return {
+      herReply: `🌲 Sweetheart, put the pine-pollen tincture down. Quiet weeknight evenings aren’t rejection—sending incoherent "all up in my feels" run-on texts because our communication rhythms differ gets your bubble turned green.`,
+      maturityDelta: -24,
+      chivalryDelta: -16,
+      chemistryDelta: -24,
+      coachNote:
+        'Align communication expectations calmly—never blame pine pollen for an 11:47 PM unpunctuated text spiral!',
+      passedVibeCheck: false,
+    };
+  }
+
   if (/\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(lower)) {
     return {
       herReply: `🤓 Hold right there, sweet boy—did you just start a sentence with "well actually" to Cubsplain something I mastered 15 years ago? Drop your shoulders and try again without the lecture.`,
@@ -470,7 +482,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         `You are roleplaying as ${personaName} (${personaAge}, ${personaTitle}) in "Cougars & Cubs Club", a cheeky, witty, PG-13 romantic comedy game inspired by real adult age-gap dating etiquette.`,
         `STRICT SAFETY RULE: Keep all banter strictly PG-13 cheeky romance (flirty, witty, sharp—NEVER explicit/NSFW).`,
         personaRole === 'her'
-          ? `Community etiquette: You radiate cool, unhurried "Black Cat" or serene Qigong "Wellness Mommy-Domme" confidence—you enjoy playful, consensual "Yes, Mommy / good boy" banter when paired with genuine adult respect and concrete plans, and you melt when a sunny "Golden Retriever" Cub responds with unbothered patience and chivalry. You roast "Cubsplaining" ("well actually..."), lazy "hey/wyd" texts, Snapchat requests, whining about "playing hard to get", "for your age" backhanded compliments, and Sugar-Mama/allowance freeloaders.`
+          ? `Community etiquette: You radiate cool, unhurried "Black Cat" or serene Qigong "Wellness Mommy-Domme" confidence—you enjoy playful, consensual "Yes, Mommy / good boy" banter when paired with genuine adult respect and concrete plans, and you melt when a sunny "Golden Retriever" Cub responds with unbothered patience and chivalry. You roast "Cubsplaining" ("well actually..."), biohacker Cubs taking "pine pollen for testosterone" who send incoherent midnight "all up in my feels" texts over mismatched texting expectations, lazy "hey/wyd" texts, Snapchat requests, whining about "playing hard to get", "for your age" backhanded compliments, and Sugar-Mama/allowance freeloaders.`
           : `Community etiquette: You are a confident, sunny "Golden Retriever" younger man who plans real dates, respects her unhurried Black Cat or playful Mommy-Domme pace without sulking, never Cubsplains, and never plays games.`,
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
         `{"herReply":"1-2 witty in-character sentences","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 crisp coaching tip","passedVibeCheck":boolean}`,
@@ -722,7 +734,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v19-organic-affiliates',
+        version: 'v20-pine-pollen-feels',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),

@@ -1282,6 +1282,29 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
           </button>
         ))}
       </div>
+
+      {/* Featured New Red-Flag Spotlight Banner */}
+      <button
+        type="button"
+        onClick={() => {
+          sfx.shockZoom();
+          onGainXp(20);
+          onEnterEpisode('pine-pollen-feels-incoherent-text-spiral');
+        }}
+        className="pop-btn w-full rounded-2xl bg-gradient-to-r from-[#FFF4F7] via-[#FFFBEB] to-[#ECFDF5] px-4 py-3 text-left hover:brightness-98 cursor-pointer flex flex-wrap sm:flex-nowrap items-center justify-between gap-3"
+      >
+        <div className="min-w-0">
+          <div className="text-xs font-bold uppercase tracking-wide text-[#D90452]">
+            🌲 New Cub Red-Flag Scene • Communication Mishaps &amp; Differing Expectations
+          </div>
+          <div className="font-display text-base text-[#1E1022] leading-snug">
+            Pine-Pollen Testosterone &amp; The 11:47 PM &ldquo;All Up in My Feels&rdquo; Text Spiral
+          </div>
+        </div>
+        <span className="shrink-0 inline-flex h-10 items-center rounded-xl border-2 border-[#1E1022] bg-[#FF2E63] px-3.5 text-xs font-bold text-white">
+          Decode Texts →
+        </span>
+      </button>
     </section>
   );
 };

@@ -33,8 +33,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 81 subplots accurately—including Seed-Oil-Free & Bernedoodle Mommy, Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
-    expect(EPISODES.length).toBe(81);
+  it('routes 82 subplots accurately—including Pine-Pollen Feels Spiral, Seed-Oil-Free & Bernedoodle Mommy, Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(82);
     expect(HER_ARCHETYPES.length).toBe(39);
     expect(HIS_ARCHETYPES.length).toBe(17);
 
@@ -768,5 +768,48 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
 
     expect(await screen.findByText(/W RIZZ IN #BOYS-ROBLOX-VC/i)).toBeInTheDocument();
     expect(screen.getByText(/Club Vibe Referee/i)).toBeInTheDocument();
+  });
+
+  it('vets the Pine-Pollen "All Up in His Feels" red-flag trap across swipe profiles, AI DM evaluation, iOS iMessage scene feed, and Expectations Decoder minigame', () => {
+    const jaxon = APP_SWIPE_PROFILES.find((p) => p.id === 'jaxon-pine-pollen-feels-trap');
+    expect(jaxon).toBeDefined();
+    expect(jaxon!.isGreenFlagMatch).toBe(false);
+    expect(jaxon!.openingDm).toMatch(/pine pollen/i);
+    expect(jaxon!.openingDm).toMatch(/all up in my feels/i);
+
+    const dmVerdict = evaluateDmLocally({
+      personaName: 'Claire',
+      personaAge: 45,
+      personaRole: 'her',
+      playerMessage:
+        'brooo took 2 droppers of pine pollen for testosterone and im all up in my feels rn bc u didnt text back',
+    });
+    expect(dmVerdict.passedVibeCheck).toBe(false);
+    expect(dmVerdict.herReply).toMatch(/pine-pollen/i);
+
+    window.history.replaceState({}, '', '/?dilemma=pine-pollen-feels-incoherent-text-spiral');
+    render(<App />);
+
+    // Authentic iOS iMessage thread renders his unpunctuated 11:47 PM pine-pollen spiral
+    expect(screen.getByText(/11:47 PM Expectations Collision/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/took 2 droppers of wild pine pollen under my tongue/i),
+    ).toBeInTheDocument();
+
+    // Play all 3 Expectations Decoder minigame beats
+    const decodeBtns = screen.getAllByRole('button', { name: /DECODE →/i });
+    expect(decodeBtns).toHaveLength(3);
+    for (const btn of decodeBtns) {
+      fireEvent.click(btn);
+    }
+    expect(
+      screen.getByText(/Pine-pollen spiral neutralized & communication expectations aligned/i),
+    ).toBeInTheDocument();
+
+    // Pick the calm adult expectation reset choice
+    fireEvent.click(
+      screen.getByRole('button', { name: /Refuse to decode midnight hieroglyphics/i }),
+    );
+    expect(screen.getByText(/PINE-POLLEN EXPECTATIONS RESET!/i)).toBeInTheDocument();
   });
 });

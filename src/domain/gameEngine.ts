@@ -178,6 +178,7 @@ export function buildEpisodeQueue(
       pushById('check-drop');
       pushCustomDateSpecials();
       pushById('code-switch-texting');
+      pushById('pine-pollen-feels-incoherent-text-spiral');
       pushById('cub-bench-press-cougar-training');
       pushById('puma-weaponized-incompetence-test');
       pushById('silk-pillowcase-clawclip-drawer');
@@ -247,9 +248,10 @@ export function buildEpisodeQueue(
     pushById('gym-headphones-vs-three-week-nod');
     pushById('check-drop');
     pushCustomDateSpecials();
-    pushById('forum-redflag-pocket-secret-test');
+      pushById('forum-redflag-pocket-secret-test');
     pushById('cubsplaining-and-bouncer-id-check');
     pushById('code-switch-texting');
+    pushById('pine-pollen-feels-incoherent-text-spiral');
     pushById('generational-1900s-venmo-whiplash');
     if (tags.has('princess_treatment')) {
       pushById('princess-soft-life');

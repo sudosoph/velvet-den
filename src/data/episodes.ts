@@ -16,7 +16,8 @@ export type MinigameType =
   | 'hobosexual_bag_intercept'
   | 'timeshare_interrogation'
   | 'qigong_breath_sync'
-  | 'seed_oil_audit';
+  | 'seed_oil_audit'
+  | 'pine_pollen_decoder';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -4164,6 +4165,76 @@ export const EPISODES: Episode[] = [
           'Handling restaurant ingredient logistics ahead of time is top-1% chivalry.',
         toastBanner: 'PROACTIVE CHEF CALL +25',
         deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'pine-pollen-feels-incoherent-text-spiral',
+    act: 2,
+    stage: 2,
+    minigame: 'pine_pollen_decoder',
+    recommendedAffiliateId: 'zero-proof-botanical-mocktail-set',
+    title:
+      '🌲 Cub Red Flag: Pine-Pollen Testosterone & The 11:47 PM "All Up in My Feels" Text Spiral',
+    loreQuote:
+      'Communication Mishaps & Differing Expectations • "Takes raw Pine Pollen for testosterone → blasts 6 incoherent midnight texts that he’s \'all up in his feels\' after 2 hours of silence!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'You stated your communication rhythm clearly on Date #1: *"I run full workdays, put my phone on Do Not Disturb at 9:30 PM, and love an unhurried, steady pace—not 24/7 texting."* Unfortunately, {hisName} ({hisAge}M) just started mega-dosing wildcrafted **Pine Pollen tincture** under his tongue for *"ancestral testosterone optimization,"* mistook two quiet evening hours for abandonment, and at 11:47 PM blasted six unpunctuated run-on bubbles confessing he’s **"all up in his feels rn idk what were even doing tbh."**',
+    setupHim:
+      'Expectations & Communication Collision! {herName} ({herAge}F) told you upfront she unplugs in the evenings and prefers calm, intentional courtship over all-day texting. Meanwhile, your gym bro talked you into taking two droppers of raw **Pine Pollen** for testosterone before leg day—and now at 11:47 PM your pulse is humming, she hasn’t replied since 9 PM, and your thumbs are hovering over a six-bubble *"all up in my feels"* meltdown!',
+    codeSwitchRawImpulse: {
+      rawThought:
+        'brooo took 2 droppers of raw pine pollen for testosterone pre lift and ngl im all up in my feels rn bc u havent texted since 9 what are we even doing here r u losing interest or...',
+      warningNote:
+        '🚨 COMMUNICATION MISHAP ALERT: She told you upfront she unplugs at 9:30 PM! Put down the pine-pollen dropper and send one punctuated sentence tomorrow morning.',
+    },
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 8:15 AM coffee thought: "I literally told him Tuesday I turn my phone off at 9:30 PM. How does taking tree pollen for \'alpha testosterone\' immediately turn a 24-year-old man into an incoherent midnight Victorian poet?!"',
+      hisDoubt:
+        'His racing 11:47 PM brain: "Wait—she already told me her evening pace is quiet! Are our expectations actually mismatched, or is double-dosing pine pollen inventing a fake crisis?!"',
+    },
+    choices: [
+      {
+        labelHer:
+          'Refuse to decode midnight hieroglyphics at 11:47 PM—reply calmly at 8:30 AM with one crystal-clear expectation reset: "I enjoy seeing you, {hisName}, AND quiet evenings aren’t rejection. Step away from the pine-pollen dropper and call me at 6 PM in full sentences."',
+        labelHim:
+          'Delete the incoherent "all up in my feels" draft immediately, cap the pine-pollen bottle, respect the quiet evening pace she already communicated, and send ONE grounded, punctuated morning text locking in Thursday dinner at 7:30!',
+        outcomeHer:
+          'Boundary perfection! Either he laughs at himself, puts down the tincture, and steps up to grown-up communication—or he weeds himself out before Friday!',
+        outcomeHim:
+          'Catching your own anxious texting spiral before hitting send—and honoring her stated communication rhythm—saves the spark and proves real emotional regulation!',
+        toastBanner: 'PINE-POLLEN EXPECTATIONS RESET! • MATURITY +30 • EQ +30',
+        deltas: { maturity: 30, chivalry: 20, eq: 30, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Decoded the Pine-Pollen Feels Spiral',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer:
+          'He triples down at 12:19 AM with four more unpunctuated voice-to-text paragraphs blaming "raw pine-pollen T-spikes" while accusing you of "playing games" because you went to sleep at 10 PM!',
+        labelHim:
+          'Take a third dropper of pine pollen at midnight and fire off six incoherent run-on texts saying you’re "all up in your feels rn" because she doesn’t text like a 22-year-old on Snap.',
+        outcomeHer:
+          'BLAMING TREE POLLEN FOR AN INCOHERENT MIDNIGHT MELTDOWN?! Blocked before your morning espresso finishes brewing!',
+        outcomeHim:
+          'Nothing tanks age-gap attraction faster than biohacker supplement jitters colliding with needy 24/7 texting expectations.',
+        toastBanner: 'RED FLAG! • PINE-POLLEN FEELS SPIRAL (-30)',
+        deltas: { maturity: -30, chivalry: -20, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer:
+          'Have a warm, direct 5-minute check-in on Date #2 to align expectations on texting frequency vs. in-person quality time so silence never gets misread.',
+        labelHim:
+          'Ask openly over drinks what communication cadence works best during her busy week ("I’m great with a quick mid-week check-in and saving real catch-ups for dinner!").',
+        outcomeHer:
+          'Naming differing texting expectations out loud prevents 99% of unnecessary communication mishaps.',
+        outcomeHim:
+          'Proactively aligning communication expectations shows top-tier maturity.',
+        toastBanner: 'EXPECTATIONS ALIGNED +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
       },
     ],
   },

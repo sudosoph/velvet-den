@@ -123,6 +123,8 @@ export function evaluateDmLocally(params: {
     lower,
   );
   const hasSisterFumble = /little\s+sister\s+cute|sister\s+single/.test(lower);
+  const hasPinePollenFeelsSpiral =
+    /pine\s*pollen|all\s+up\s+in\s+(my|his)\s+feels|up\s+in\s+my\s+feels\s+rn/.test(lower);
   const hasCubsplaining =
     /\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(
       lower,
@@ -151,6 +153,19 @@ export function evaluateDmLocally(params: {
       chemistryDelta: -25,
       herReply: `Excuse me?! Ask about my little sister ONE more time and your gym duffel is going out the second-story window. 🚩`,
       coachNote: 'Rule #0: When she has a post-hookup "OMG you’re my baby sister’s age!!" shock moment, make her laugh—NEVER ask if her sister is cute!',
+      passedVibeCheck: false,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasPinePollenFeelsSpiral) {
+    return {
+      maturityDelta: -24,
+      chivalryDelta: -16,
+      chemistryDelta: -24,
+      herReply: `🌲 Sweetheart, step away from the pine-pollen dropper. I put my phone down at 9:30 PM like a grown adult—blasting incoherent "all up in my feels" run-on texts because our texting rhythms differ is an instant red flag.`,
+      coachNote:
+        'Communication Mishap #1: Never mix biohacker pine-pollen jitters with anxious 24/7 texting expectations—respect her unplugged evenings and send one punctuated sentence!',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };

@@ -97,7 +97,7 @@ const INBOX_CONTACTS: InboxContact[] = [
         : [
             'Take all the time you want—honestly a woman who doesn’t rush makes me 10x more excited. I’ll hold Friday at 7:30 at The Cougar Lounge whenever you’re ready.',
             'Booked a corner table at The Cougar Lounge Friday at 7:30—peonies & zero planning on your end.',
-            'Well actually let me explain mortgages to you—also whats ur snap??',
+            'brooo took 2 droppers of pine pollen for testosterone and im all up in my feels rn bc u took an hour to reply what are we doing 😭🌲',
           ],
     steamyChips: h.subplotTags.includes('qigong_mommy_domme')
       ? [

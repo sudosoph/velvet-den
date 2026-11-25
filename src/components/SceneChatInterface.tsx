@@ -374,6 +374,44 @@ export function buildEpisodeChatSpec(
     };
   }
 
+  if (id === 'pine-pollen-feels-incoherent-text-spiral') {
+    return {
+      defaultSkin: 'imessage',
+      channelTitle: `${herName} & ${hisName}`,
+      channelTopic: 'iMessage • 11:47 PM Expectations Collision',
+      messages: [
+        {
+          id: 'pp1',
+          sender: 'him',
+          authorLabel: hisName,
+          text: `brooo took 2 droppers of wild pine pollen under my tongue for testosterone pre legs and ngl my mind is racing rn`,
+          timestamp: '11:44 PM',
+        },
+        {
+          id: 'pp2',
+          sender: 'him',
+          authorLabel: hisName,
+          text: `like im just really all up in my feels rn idk what were even doing here tbh u havent texted since 9pm are we on different pages or am i cooked 😭🌲`,
+          timestamp: '11:46 PM',
+        },
+        {
+          id: 'pp3',
+          sender: 'him',
+          authorLabel: hisName,
+          text: `sorry ignore that pine pollen got my T crazy lol unless u wanna talk rn??`,
+          timestamp: '11:47 PM',
+        },
+        {
+          id: 'pp4',
+          sender: 'her',
+          authorLabel: herName,
+          text: `Good morning, ${hisName}. Two quick things: 1) I sleep at 10 PM on weeknights—quiet evenings aren’t rejection. 2) Put the pine-pollen dropper down and use punctuation.`,
+          timestamp: '8:15 AM',
+        },
+      ],
+    };
+  }
+
   if (
     id === 'code-switch-texting' ||
     episode.sceneArt === 'code_switch_phone' ||
@@ -560,7 +598,7 @@ export const EpisodeChatFeed: React.FC<{
 
           <div className="p-4 space-y-3 bg-white">
             <div className="text-center text-[11px] font-medium text-[#8E8E93]">
-              iMessage • Today
+              {spec.channelTopic}
             </div>
 
             {spec.messages.map((m) => {
