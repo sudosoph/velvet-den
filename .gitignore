@@ -1,0 +1,7 @@
+node_modules/
+dist/
+dist-social/
+.superpowers/
+.tavily/
+coverage/
+*.local
