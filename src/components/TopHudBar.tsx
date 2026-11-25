@@ -23,9 +23,9 @@ import {
 
 interface TopHudBarProps {
   wallet: WalletState;
-  activeTab: 'game' | 'world' | 'journal';
+  activeTab: 'game' | 'world' | 'journal' | 'inbox';
   levelBadge?: string;
-  onSelectTab: (tab: 'game' | 'world' | 'journal') => void;
+  onSelectTab: (tab: 'game' | 'world' | 'journal' | 'inbox') => void;
   onOpenFieldGuide: () => void;
   onOpenBoutique: () => void;
   onOpenLiveInbox: () => void;
@@ -105,11 +105,19 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
           <button
             type="button"
-            onClick={onOpenLiveInbox}
-            className="pop-btn shrink-0 inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-white px-3 text-sm text-[#1E1022] hover:bg-[#EEF6FF] cursor-pointer"
+            onClick={() =>
+              activeTab === 'inbox' ? onSelectTab('game') : onOpenLiveInbox()
+            }
+            className={`pop-btn shrink-0 inline-flex h-10 items-center justify-center gap-1.5 rounded-xl px-3 text-sm cursor-pointer ${
+              activeTab === 'inbox'
+                ? 'bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white'
+                : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
+            }`}
           >
-            <MessageCircle className="h-4 w-4 text-[#007AFF]" />
-            <span>iMessage · Discord</span>
+            <MessageCircle
+              className={`h-4 w-4 ${activeTab === 'inbox' ? 'text-white' : 'text-[#FD267A]'}`}
+            />
+            <span>Tinder · iMessage · Discord</span>
           </button>
 
           <button

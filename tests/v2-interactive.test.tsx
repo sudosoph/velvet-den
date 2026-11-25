@@ -392,16 +392,18 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     });
     expect(snapVerdict.passedVibeCheck).toBe(false);
     expect(snapVerdict.maturityDelta).toBeLessThan(0);
+    expect(snapVerdict.herReply).not.toContain('—');
 
     const planVerdict = evaluateDmLocally({
       personaName: 'Claire',
       personaAge: 45,
       personaRole: 'her',
       playerMessage:
-        'Booked a quiet corner table for tapas Friday at 7:30 PM—zero planning needed on your end.',
+        'Booked a quiet corner table for tapas Friday at 7:30 PM, zero planning needed on your end.',
     });
     expect(planVerdict.passedVibeCheck).toBe(true);
     expect(planVerdict.chemistryDelta).toBeGreaterThan(15);
+    expect(planVerdict.herReply).not.toContain('—');
 
     const qigongMommyVerdict = evaluateDmLocally({
       personaName: 'Sedona',
@@ -428,13 +430,13 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       screen.getByRole('dialog', { name: /Survive Their Inbox/i }),
     ).toBeInTheDocument();
 
-    const input = screen.getByPlaceholderText(/Message Claire/i);
+    const input = screen.getByPlaceholderText(/Message Claire on Tinder/i);
     fireEvent.change(input, {
       target: {
-        value: 'Booked us a 7:30 wine-bar table Friday evening—peonies included.',
+        value: 'Booked us a 7:30 wine-bar table Friday evening, peonies included 🍸',
       },
     });
-    fireEvent.click(screen.getByRole('button', { name: /^Send$/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /^Send$/i })[0]);
 
     expect(await screen.findByText(/VIBE CHECK PASSED/i)).toBeInTheDocument();
   });
@@ -755,19 +757,25 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: /Live AI Texting Mode/i }));
 
-    // Defaults to authentic iOS iMessage skin; switch to Discord #boys-roblox-vc and send a reply
+    // Defaults to full-web Tinder layout; switch across iMessage and Discord #boys-roblox-vc, then exit cleanly back to Lobby
+    expect(screen.getByPlaceholderText(/Message Claire on Tinder/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /^iMessage$/i }));
     expect(screen.getByPlaceholderText(/Message Claire on iMessage/i)).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /^Discord$/i }));
     fireEvent.click(screen.getByRole('button', { name: /boys-roblox-vc/i }));
 
     const discordInput = screen.getByPlaceholderText(/Message Claire in #boys-roblox-vc/i);
     fireEvent.change(discordInput, {
-      target: { value: 'Booked a quiet corner table Friday at 7:30—peonies included.' },
+      target: { value: 'Booked a quiet corner table Friday at 7:30, peonies included 🍸' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /^Send$/i }));
+    fireEvent.click(screen.getAllByRole('button', { name: /^Send$/i })[0]);
 
     expect(await screen.findByText(/W RIZZ IN #BOYS-ROBLOX-VC/i)).toBeInTheDocument();
     expect(screen.getByText(/Club Vibe Referee/i)).toBeInTheDocument();
+
+    // Unmistakable Back to Lobby exit button returns directly to Matchmaker Lobby
+    fireEvent.click(screen.getByRole('button', { name: /Close Live Inbox and return to Matchmaker Lobby/i }));
+    expect(screen.getByText(/Live Pop-Culture Blitz/i)).toBeInTheDocument();
   });
 
   it('vets the Pine-Pollen "All Up in His Feels" red-flag trap across swipe profiles, AI DM evaluation, iOS iMessage scene feed, and Expectations Decoder minigame', () => {

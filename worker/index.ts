@@ -209,6 +209,7 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
 
   const amazonAssociateTag = await resolveActiveAmazonTag(env);
   const clicks: Record<string, number> = {};
+  let recentAiLogs: unknown[] = [];
   if (env.VELVET_KV) {
     for (const id of ['houseboy-linen-apron', 'princess-mulberry-silk-robe', 'cooling-bamboo-sheets', 'zero-proof-botanical-mocktail-set']) {
       try {
@@ -218,6 +219,17 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
         clicks[id] = 0;
       }
     }
+    try {
+      const rawLogs = await env.VELVET_KV.get('ai_logs:recent');
+      if (rawLogs) {
+        const parsedLogs = JSON.parse(rawLogs);
+        if (Array.isArray(parsedLogs)) {
+          recentAiLogs = parsedLogs.slice(-15).reverse();
+        }
+      }
+    } catch {
+      recentAiLogs = [];
+    }
   }
 
   return jsonResponse({
@@ -225,6 +237,7 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
     amazonAssociateTag,
     affiliateProtected: Boolean(amazonAssociateTag),
     sampleClicks: clicks,
+    recentAiLogs,
   });
 }
 
@@ -279,6 +292,54 @@ function sanitizeId(raw: string | null, maxLen = 64): string {
   return raw.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, maxLen);
 }
 
+function humanizeChatText(raw: string): string {
+  return raw
+    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/\s*;\s*/g, '. ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function scrubPiiForLog(raw: string): string {
+  return raw
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[email]')
+    .replace(/\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g, '[phone]')
+    .slice(0, 220);
+}
+
+async function appendAnonymizedAiLog(
+  env: WorkerEnv,
+  entry: {
+    persona: string;
+    platform: string;
+    playerMsg: string;
+    aiReply: string;
+    passed: boolean;
+    source: string;
+  },
+): Promise<void> {
+  if (!env.VELVET_KV) return;
+  try {
+    const raw = await env.VELVET_KV.get('ai_logs:recent');
+    const list: unknown[] = raw ? JSON.parse(raw) : [];
+    const safeList = Array.isArray(list) ? list : [];
+    safeList.push({
+      ts: new Date().toISOString(),
+      persona: entry.persona.slice(0, 32),
+      platform: entry.platform.slice(0, 16),
+      playerMsg: scrubPiiForLog(entry.playerMsg),
+      aiReply: scrubPiiForLog(entry.aiReply),
+      passed: entry.passed,
+      source: entry.source,
+    });
+    await env.VELVET_KV.put('ai_logs:recent', JSON.stringify(safeList.slice(-250)), {
+      expirationTtl: 60 * 60 * 24 * 60,
+    });
+  } catch {
+    // Non-blocking telemetry log
+  }
+}
+
 function fallbackEvaluateDm(req: {
   personaName?: string;
   personaAge?: number;
@@ -291,41 +352,41 @@ function fallbackEvaluateDm(req: {
 
   if (/\bsnap(chat)?\b/.test(lower)) {
     return {
-      herReply: `I run a department and own a wine fridge, sweetie—I haven’t opened Snapchat since Obama’s second term. Try again with a real plan. 👋`,
+      herReply: `i run a department and own a wine fridge babe 😭💀 i haven’t opened snapchat since 2016 lol. try again with a real friday plan 👋`,
       maturityDelta: -18,
       chivalryDelta: -15,
       chemistryDelta: -15,
-      coachNote: `Never ask ${name} (${age}) for Snapchat—offer your real number and a concrete reservation.`,
+      coachNote: `Skip asking ${name} (${age}) for Snapchat. Offer your real number and an actual spot!`,
       passedVibeCheck: false,
     };
   }
 
   if (/for\s+(your|ur)\s+age/.test(lower)) {
     return {
-      herReply: `"For my age"?! You were doing so well until those three words left your thumbs.`,
+      herReply: `"for my age"?! 😭 you were doing so well until those three words left your thumbs lol 🚩`,
       maturityDelta: -15,
       chivalryDelta: -10,
       chemistryDelta: -15,
-      coachNote: '"For your age" is an automatic red flag—compliment her directly without age qualifiers!',
+      coachNote: '"For your age" is an instant unmatch. Compliment her directly!',
       passedVibeCheck: false,
     };
   }
 
   if (/pine\s*pollen|all\s+up\s+in\s+(my|his)\s+feels|up\s+in\s+my\s+feels\s+rn/.test(lower)) {
     return {
-      herReply: `🌲 Sweetheart, put the pine-pollen tincture down. Quiet weeknight evenings aren’t rejection—sending incoherent "all up in my feels" run-on texts because our communication rhythms differ gets your bubble turned green.`,
+      herReply: `babe put the pine-pollen dropper down 💀🌲 quiet weeknight evenings aren’t ghosting, sending 6 "all up in my feels" texts gets your bubble turned green 🚩`,
       maturityDelta: -24,
       chivalryDelta: -16,
       chemistryDelta: -24,
       coachNote:
-        'Align communication expectations calmly—never blame pine pollen for an 11:47 PM unpunctuated text spiral!',
+        'Align texting expectations calmly and never blame pine pollen for an 11:47 PM meltdown!',
       passedVibeCheck: false,
     };
   }
 
   if (/\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(lower)) {
     return {
-      herReply: `🤓 Hold right there, sweet boy—did you just start a sentence with "well actually" to Cubsplain something I mastered 15 years ago? Drop your shoulders and try again without the lecture.`,
+      herReply: `hold up sweet boy 🤓💀 did you really just start a text with "well actually" to cubsplain something i mastered 15 years ago?? mute the podcast brain 😂`,
       maturityDelta: -22,
       chivalryDelta: -15,
       chemistryDelta: -20,
@@ -336,7 +397,7 @@ function fallbackEvaluateDm(req: {
 
   if (/\b(sugar\s*mama|amex|allowance|spoil\s*me|pay\s*my)\b/.test(lower) || /^(hey+|yo+|sup)\s+mommy[!?.🔥😍👀]*$/i.test(msg)) {
     return {
-      herReply: `Rule #1 of Cougars & Cubs Club: Mommy-Domme is playful romantic polarity—Cougar NEVER means Sugar Mama. Better luck out there.`,
+      herReply: `wrong inbox babe 💅 playful mommy banter is for grown partners, cougar never means sugar mama lol 👋`,
       maturityDelta: -20,
       chivalryDelta: -20,
       chemistryDelta: -18,
@@ -347,7 +408,7 @@ function fallbackEvaluateDm(req: {
 
   if (/\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(lower)) {
     return {
-      herReply: `🧘‍♀️🥑 Good boy—100% gluten & seed-oil free, zero Cubsplaining, and excited for my tricolor Mini Bernedoodle? Meet Mommy in the courtyard at 6:30 AM. 🍵`,
+      herReply: `good boy 😌🧘‍♀️ 100% gluten + seed oil free, zero cubsplaining, AND excited for my tricolor mini bernedoodle?? meet mommy in the courtyard at 6:30am 🍵✨`,
       maturityDelta: 22,
       chivalryDelta: 20,
       chemistryDelta: 25,
@@ -358,21 +419,21 @@ function fallbackEvaluateDm(req: {
 
   if (msg.length < 10) {
     return {
-      herReply: `One-word openers get lost in my inbox before noon. Give me two full sentences and an actual Friday plan.`,
+      herReply: `"hey / wyd" gets lost under 99 other guys in my dms lol 😴 give me an actual friday spot or a real question 👀`,
       maturityDelta: -10,
       chivalryDelta: -10,
       chemistryDelta: -8,
-      coachNote: 'Skip "hey / wyd"—lead with full sentences and an intentional plan.',
+      coachNote: 'Skip "hey / wyd" and lead with a fun observation + a real Friday plan.',
       passedVibeCheck: false,
     };
   }
 
   return {
-    herReply: `Now that’s how you get my attention—clear energy, real punctuation, zero games. Text me the spot and I’ll meet you there at 7:30. 🍸`,
+    herReply: `okay wait 😍 clear energy, actual effort, zero games?? send me the pin and i’ll meet you there at 7:30 🍸✨`,
     maturityDelta: 18,
     chivalryDelta: 18,
     chemistryDelta: 22,
-    coachNote: 'Confident, grown-up courtship unlocked!',
+    coachNote: 'Confident, natural courtship unlocked!',
     passedVibeCheck: true,
   };
 }
@@ -456,6 +517,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
     personaAge?: number;
     personaTitle?: string;
     personaRole?: 'her' | 'him';
+    platform?: string;
     playerMessage?: string;
     history?: { sender: 'player' | 'match'; text: string }[];
   } = {};
@@ -473,19 +535,21 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
   const personaName = String(body.personaName || 'Claire').slice(0, 32);
   const personaAge = Math.min(75, Math.max(21, Number(body.personaAge || 45)));
-  const personaTitle = String(body.personaTitle || 'VP of Product • Cougar').slice(0, 64);
+  const personaTitle = String(body.personaTitle || 'VP of Product').slice(0, 64);
   const personaRole = body.personaRole === 'him' ? 'him' : 'her';
+  const platform = String(body.platform || 'tinder').slice(0, 16);
 
   if (env.AI) {
     try {
       const systemPrompt = [
-        `You are roleplaying as ${personaName} (${personaAge}, ${personaTitle}) in "Cougars & Cubs Club", a cheeky, witty, PG-13 romantic comedy game inspired by real adult age-gap dating etiquette.`,
-        `STRICT SAFETY RULE: Keep all banter strictly PG-13 cheeky romance (flirty, witty, sharp—NEVER explicit/NSFW).`,
+        `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic comedy dating game.`,
+        `STRICT SAFETY RULE: Keep banter PG-13 cheeky & flirty, NEVER explicit/NSFW.`,
+        `CRITICAL HUMAN TEXTING STYLE: Text like a REAL attractive human on Tinder / iMessage, NEVER like an AI chatbot or novelist! NEVER use em-dashes (—), en-dashes (–), or semicolons (;). NEVER use stiff phrases like "how quaint", "meanwhile", or "ah,". Write 1-2 short, natural, punchy text sentences with casual rhythm (contractions, occasional "lol", "wait", "tbh", "babe", or "...") and 1 to 3 natural emojis (😏, 🍸, 😭, 💀, 👀, ✨, 😍, 🚩).`,
         personaRole === 'her'
-          ? `Community etiquette: You radiate cool, unhurried "Black Cat" or serene Qigong "Wellness Mommy-Domme" confidence—you enjoy playful, consensual "Yes, Mommy / good boy" banter when paired with genuine adult respect and concrete plans, and you melt when a sunny "Golden Retriever" Cub responds with unbothered patience and chivalry. You roast "Cubsplaining" ("well actually..."), biohacker Cubs taking "pine pollen for testosterone" who send incoherent midnight "all up in my feels" texts over mismatched texting expectations, lazy "hey/wyd" texts, Snapchat requests, whining about "playing hard to get", "for your age" backhanded compliments, and Sugar-Mama/allowance freeloaders.`
-          : `Community etiquette: You are a confident, sunny "Golden Retriever" younger man who plans real dates, respects her unhurried Black Cat or playful Mommy-Domme pace without sulking, never Cubsplains, and never plays games.`,
+          ? `Vibe: You have cool "Black Cat" or warm "Wellness Mommy-Domme" confidence. You love playful "Yes, Mommy / good boy" banter when paired with real effort and concrete date plans, and you melt for unbothered "Golden Retriever" warmth. Roast "Cubsplaining" ("well actually..."), pine-pollen biohackers sending "all up in my feels" midnight walls of text, lazy "hey/wyd" texts, Snapchat requests, "for your age", and Sugar-Mama freeloaders.`
+          : `Vibe: You are a charming, sunny "Golden Retriever" younger man who plans real dates, uses natural emojis, respects her pace without sulking, and never Cubsplains.`,
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
-        `{"herReply":"1-2 witty in-character sentences","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 crisp coaching tip","passedVibeCheck":boolean}`,
+        `{"herReply":"1-2 natural text-message sentences with emojis and ZERO em-dashes","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy tip without em-dashes","passedVibeCheck":boolean}`,
       ].join(' ');
 
       const recentTurns = Array.isArray(body.history)
@@ -526,13 +590,26 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
       }
 
       if (parsed && typeof parsed.herReply === 'string' && parsed.herReply.trim()) {
+        const cleanReply = humanizeChatText(parsed.herReply).slice(0, 360);
+        const cleanCoach = humanizeChatText(
+          String(parsed.coachNote || 'Live Vibe Check complete!'),
+        ).slice(0, 200);
+        const passed = Boolean(parsed.passedVibeCheck);
+        await appendAnonymizedAiLog(env, {
+          persona: `${personaName} (${personaAge})`,
+          platform,
+          playerMsg: playerMessage,
+          aiReply: cleanReply,
+          passed,
+          source: 'workers-ai',
+        });
         return jsonResponse({
-          herReply: parsed.herReply.slice(0, 360),
+          herReply: cleanReply,
           maturityDelta: Math.max(-25, Math.min(25, Number(parsed.maturityDelta ?? 10))),
           chivalryDelta: Math.max(-25, Math.min(25, Number(parsed.chivalryDelta ?? 10))),
           chemistryDelta: Math.max(-25, Math.min(25, Number(parsed.chemistryDelta ?? 12))),
-          coachNote: String(parsed.coachNote || 'Live AI Vibe Check complete.').slice(0, 200),
-          passedVibeCheck: Boolean(parsed.passedVibeCheck),
+          coachNote: cleanCoach,
+          passedVibeCheck: passed,
           source: 'workers-ai',
         });
       }
@@ -541,10 +618,48 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
     }
   }
 
-  return jsonResponse({
-    ...fallbackEvaluateDm(body),
+  const fb = fallbackEvaluateDm(body);
+  await appendAnonymizedAiLog(env, {
+    persona: `${personaName} (${personaAge})`,
+    platform,
+    playerMsg: playerMessage,
+    aiReply: fb.herReply,
+    passed: fb.passedVibeCheck,
     source: 'local-heuristic',
   });
+  return jsonResponse({
+    ...fb,
+    source: 'local-heuristic',
+  });
+}
+
+async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { persona?: string; reaction?: string; aiReply?: string; note?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ ok: false }, 400);
+  }
+  if (env.VELVET_KV) {
+    try {
+      const raw = await env.VELVET_KV.get('ai_feedback:recent');
+      const list: unknown[] = raw ? JSON.parse(raw) : [];
+      const safe = Array.isArray(list) ? list : [];
+      safe.push({
+        ts: new Date().toISOString(),
+        persona: String(body.persona || '').slice(0, 32),
+        reaction: String(body.reaction || '').slice(0, 12),
+        aiReply: scrubPiiForLog(String(body.aiReply || '')),
+        note: scrubPiiForLog(String(body.note || '')),
+      });
+      await env.VELVET_KV.put('ai_feedback:recent', JSON.stringify(safe.slice(-200)), {
+        expirationTtl: 60 * 60 * 24 * 60,
+      });
+    } catch {
+      // Ignore KV write error
+    }
+  }
+  return jsonResponse({ ok: true });
 }
 
 async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Response> {
@@ -734,7 +849,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v20-pine-pollen-feels',
+        version: 'v21-tinder-web-chat',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
@@ -769,6 +884,11 @@ export default {
 
     if (url.pathname === '/api/inbox-vet') {
       if (request.method === 'POST') return handleInboxVet(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/ai-feedback') {
+      if (request.method === 'POST') return handleAiFeedback(request, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

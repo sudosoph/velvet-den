@@ -318,7 +318,7 @@ export function buildEpisodeChatSpec(
           authorLabel: 'BrodyLifts225',
           roleColor: '#FEE75C',
           badge: 'DTI JUDGE',
-          text: `hold up let her judge my Dress to Impress Cyber-Y2K runway fit first—is this 5 stars or am I cooked??`,
+          text: `hold up let her judge my Dress to Impress Cyber-Y2K runway fit first 😭 is this 5 stars or am I cooked??`,
           timestamp: 'Today at 9:59 PM',
         },
         {
@@ -327,7 +327,7 @@ export function buildEpisodeChatSpec(
           authorLabel: hisName,
           roleColor: '#F0B232',
           badge: `${hisAge}M CUB`,
-          text: `boys behave for 5 minutes I swear 💀 ${herName}, I brought real Pinot Noir in my jacket—say the word and we’re out.`,
+          text: `boys behave for 5 mins i swear 💀 ${herName} i brought real pinot noir in my jacket, say the word and we’re out 🍷`,
           timestamp: 'Today at 10:00 PM',
         },
       ],
@@ -405,7 +405,7 @@ export function buildEpisodeChatSpec(
           id: 'pp4',
           sender: 'her',
           authorLabel: herName,
-          text: `Good morning, ${hisName}. Two quick things: 1) I sleep at 10 PM on weeknights—quiet evenings aren’t rejection. 2) Put the pine-pollen dropper down and use punctuation.`,
+          text: `morning ${hisName} ☕ two quick rules lol: 1) i sleep at 10pm on weeknights, quiet evenings aren't ghosting. 2) step away from the pine pollen dropper and text me in normal sentences 😭🌲`,
           timestamp: '8:15 AM',
         },
       ],
@@ -434,7 +434,7 @@ export function buildEpisodeChatSpec(
               id: 's2',
               sender: 'her',
               authorLabel: herName,
-              text: `Wait hold on—my baby sister just texted me her ${hisAge}th birthday invite. WERE YOU BOTH BORN IN ${2026 - hisAge}?! 😱`,
+              text: `wait hold on 😭 my baby sister just texted me her ${hisAge}th bday invite... WERE YOU BOTH BORN IN ${2026 - hisAge}?! 😱💀`,
               timestamp: '2:15 PM',
             },
           ]
@@ -451,7 +451,7 @@ export function buildEpisodeChatSpec(
                 id: 'j2',
                 sender: 'her',
                 authorLabel: herName,
-                text: `Sweetheart, I’m ${herAge} and running a company—save the all-day texting and call me like a grown man at 6:00 PM sharp.`,
+                text: `babe i’m ${herAge} and running a company 🥂 skip the all-day texting and call me at 6pm sharp 📞`,
                 timestamp: '12:04 PM',
               },
             ]
@@ -469,7 +469,7 @@ export function buildEpisodeChatSpec(
                   id: 'v2',
                   sender: 'her',
                   authorLabel: herName,
-                  text: `…Did you just itemize FOUR-SEVENTHS of an edamame bowl in my iMessage?!`,
+                  text: `…did you seriously just itemize FOUR-SEVENTHS of an edamame bowl in my iMessage?! 💀🚩`,
                   timestamp: '10:43 PM',
                 },
               ]
@@ -485,7 +485,7 @@ export function buildEpisodeChatSpec(
                   id: 'c2',
                   sender: 'her',
                   authorLabel: herName,
-                  text: `I own real estate and drink Barolo, ${hisName}. If you ask me for Snapchat one more time, you’re blocked.`,
+                  text: `i own real estate and drink barolo ${hisName} 😭🍷 ask me for snapchat one more time and you’re blocked lol 👋`,
                   timestamp: '11:50 AM',
                 },
               ];

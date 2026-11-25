@@ -142,12 +142,11 @@ export default function App() {
   const [adventureProgress, setAdventureProgress] = useState<AdventureProgressState>(() =>
     loadAdventureProgress(),
   );
-  const [activeTab, setActiveTab] = useState<'game' | 'world' | 'journal'>(
+  const [activeTab, setActiveTab] = useState<'game' | 'world' | 'journal' | 'inbox'>(
     initialUrl.journalSlug ? 'journal' : initialUrl.openWorld ? 'world' : 'game',
   );
   const [fieldGuideOpen, setFieldGuideOpen] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
-  const [liveInboxOpen, setLiveInboxOpen] = useState(false);
   const [popTriviaOpen, setPopTriviaOpen] = useState(false);
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
   const [founderModalOpen, setFounderModalOpen] = useState(false);
@@ -162,6 +161,9 @@ export default function App() {
   );
   const [founderTagStatus, setFounderTagStatus] = useState<string | null>(null);
   const [founderApronClicks, setFounderApronClicks] = useState<number | null>(null);
+  const [founderAiLogs, setFounderAiLogs] = useState<
+    { persona?: string; platform?: string; playerMsg?: string; aiReply?: string; passed?: boolean }[]
+  >([]);
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
       ? 'Heads up: that audition link looked truncated or expired—mix your own Cougar & Cub run below!'
@@ -289,6 +291,13 @@ export default function App() {
             amazonAssociateTag?: string;
             affiliateProtected?: boolean;
             sampleClicks?: Record<string, number>;
+            recentAiLogs?: {
+              persona?: string;
+              platform?: string;
+              playerMsg?: string;
+              aiReply?: string;
+              passed?: boolean;
+            }[];
           };
           if (data.authorized === true) {
             authorized = true;
@@ -301,6 +310,9 @@ export default function App() {
               typeof data.sampleClicks['houseboy-linen-apron'] === 'number'
             ) {
               setFounderApronClicks(data.sampleClicks['houseboy-linen-apron']);
+            }
+            if (Array.isArray(data.recentAiLogs)) {
+              setFounderAiLogs(data.recentAiLogs);
             }
           }
         } else if (res.status === 401 || res.status === 400) {
@@ -519,7 +531,7 @@ export default function App() {
         onSelectTab={setActiveTab}
         onOpenFieldGuide={() => setFieldGuideOpen(true)}
         onOpenBoutique={() => setBoutiqueOpen(true)}
-        onOpenLiveInbox={() => setLiveInboxOpen(true)}
+        onOpenLiveInbox={() => setActiveTab('inbox')}
         onOpenPopTrivia={() => setPopTriviaOpen(true)}
         onRequestFounderModal={() => {
           setFounderAuthError(null);
@@ -639,11 +651,37 @@ export default function App() {
                 )}
               </form>
             </div>
+
+            {founderAiLogs.length > 0 && (
+              <div className="border-t border-[#1E1022]/15 pt-2 space-y-1">
+                <div className="font-extrabold text-[#1E1022]">
+                  📊 Recent Anonymized Live AI Chats ({founderAiLogs.length})
+                </div>
+                <div className="max-h-28 overflow-y-auto space-y-1">
+                  {founderAiLogs.slice(0, 5).map((log, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E1022]"
+                    >
+                      <strong>
+                        [{log.platform || 'chat'} • {log.persona}]
+                      </strong>{' '}
+                      “{log.playerMsg}” → <em>“{log.aiReply}”</em>{' '}
+                      {log.passed ? '💚' : '🚩'}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-5">
+      <main
+        className={`mx-auto w-full ${
+          activeTab === 'inbox' ? 'max-w-7xl' : 'max-w-6xl'
+        } flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-5`}
+      >
         {noticeBanner && (
           <div className="vice-panel flex items-center justify-between gap-3 rounded-2xl bg-[#FFBE0B] px-4 py-3 text-sm font-extrabold text-[#1E1022]">
             <span>{noticeBanner}</span>
@@ -658,7 +696,45 @@ export default function App() {
           </div>
         )}
 
-        {activeTab === 'journal' ? (
+        {activeTab === 'inbox' ? (
+          <LiveInboxModal
+            open={true}
+            wallet={wallet}
+            onClose={() => setActiveTab('game')}
+            onJumpToWorld={() => setActiveTab('world')}
+            onStartDateWithContact={(contactId, contactRole) => {
+              if (contactRole === 'her') {
+                const pickedHer = HER_ARCHETYPES.find((h) => h.id === contactId) ?? her;
+                setHer(pickedHer);
+                setRole('him');
+                const freshPairing = analyzePairing(pickedHer, his, 'him');
+                setRun(createRun(freshPairing, selectedVipIds, undefined, pacingMode));
+              } else {
+                const pickedHis = HIS_ARCHETYPES.find((c) => c.id === contactId) ?? his;
+                setHis(pickedHis);
+                setRole('her');
+                const freshPairing = analyzePairing(her, pickedHis, 'her');
+                setRun(createRun(freshPairing, selectedVipIds, undefined, pacingMode));
+              }
+              setActiveTab('game');
+              setPhase('episodes');
+            }}
+            onGrantBonusCredits={(key, amt) => {
+              const res = grantRewardCredits(wallet, key, amt);
+              if (res.granted) updateWallet(res.wallet);
+              return res.granted;
+            }}
+            onSpendCreditOrOpenBoutique={() => {
+              const res = spendCredits(wallet, 1);
+              if (!res.ok) {
+                setBoutiqueOpen(true);
+                return false;
+              }
+              updateWallet(res.wallet);
+              return true;
+            }}
+          />
+        ) : activeTab === 'journal' ? (
           <VelvetJournalView
             initialSlug={initialUrl.journalSlug}
             onPlayScenario={(episodeId) => {
@@ -825,7 +901,7 @@ export default function App() {
             onToggleVipEpisode={handleToggleVipEpisode}
             onStartGame={handleStartGame}
             onOpenBoutique={() => setBoutiqueOpen(true)}
-            onOpenLiveInbox={() => setLiveInboxOpen(true)}
+            onOpenLiveInbox={() => setActiveTab('inbox')}
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
@@ -856,7 +932,7 @@ export default function App() {
             </button>
             <button
               type="button"
-              onClick={() => setLiveInboxOpen(true)}
+              onClick={() => setActiveTab('inbox')}
               className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
             >
               Live AI Texting
@@ -998,22 +1074,6 @@ export default function App() {
           setRun(createRun(pairing, selectedVipIds, episodeId));
           setActiveTab('game');
           setPhase('episodes');
-        }}
-      />
-
-      <LiveInboxModal
-        open={liveInboxOpen}
-        wallet={wallet}
-        onClose={() => setLiveInboxOpen(false)}
-        onSpendCreditOrOpenBoutique={() => {
-          const res = spendCredits(wallet, 1);
-          if (!res.ok) {
-            setLiveInboxOpen(false);
-            setBoutiqueOpen(true);
-            return false;
-          }
-          updateWallet(res.wallet);
-          return true;
         }}
       />
 

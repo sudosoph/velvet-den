@@ -32,6 +32,7 @@ export interface AiDmVettingService {
     personaAge: number;
     personaTitle: string;
     personaRole: 'her' | 'him';
+    platform?: string;
     playerMessage: string;
     history?: LiveInboxTurn[];
   }): Promise<AiDmVettingResponse>;
@@ -151,8 +152,8 @@ export function evaluateDmLocally(params: {
       maturityDelta: -25,
       chivalryDelta: -25,
       chemistryDelta: -25,
-      herReply: `Excuse me?! Ask about my little sister ONE more time and your gym duffel is going out the second-story window. 🚩`,
-      coachNote: 'Rule #0: When she has a post-hookup "OMG you’re my baby sister’s age!!" shock moment, make her laugh—NEVER ask if her sister is cute!',
+      herReply: `excuse me?? 😭 ask about my little sister ONE more time and your gym bag is going out the window lol 🚩👋`,
+      coachNote: 'Rule #0: When she jokes that you are her baby sister’s age, make her laugh, NEVER ask if her sister is cute!',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -163,9 +164,9 @@ export function evaluateDmLocally(params: {
       maturityDelta: -24,
       chivalryDelta: -16,
       chemistryDelta: -24,
-      herReply: `🌲 Sweetheart, step away from the pine-pollen dropper. I put my phone down at 9:30 PM like a grown adult—blasting incoherent "all up in my feels" run-on texts because our texting rhythms differ is an instant red flag.`,
+      herReply: `babe step away from the pine-pollen dropper 💀🌲 i put my phone down at 9:30pm like a normal adult, sending 6 "all up in my feels" texts is wild 🚩`,
       coachNote:
-        'Communication Mishap #1: Never mix biohacker pine-pollen jitters with anxious 24/7 texting expectations—respect her unplugged evenings and send one punctuated sentence!',
+        'Communication Mishap #1: Skip the pine-pollen jitters and 24/7 texting panic. Respect her quiet evenings and send one normal sentence!',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -176,8 +177,8 @@ export function evaluateDmLocally(params: {
       maturityDelta: -22,
       chivalryDelta: -15,
       chemistryDelta: -22,
-      herReply: `🤓 Hold right there, sweet boy—did you just start a sentence with "well actually" to Cubsplain something I mastered in 2006? Unclench your jaw, mute the podcast brain, and try again.`,
-      coachNote: 'Zero Cubsplaining! Accomplished Cougars & Wellness Mommies love curiosity and confidence—never a 10-minute Wikipedia lecture.',
+      herReply: `hold right there sweet boy 🤓💀 did you really just start a text with "well actually" to cubsplain something i mastered in 2008?? mute the podcast brain and try again 😂`,
+      coachNote: 'Zero Cubsplaining! Accomplished women love curiosity and confidence, not a Wikipedia lecture.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -188,8 +189,8 @@ export function evaluateDmLocally(params: {
       maturityDelta: -20,
       chivalryDelta: -18,
       chemistryDelta: -20,
-      herReply: `🐈‍⬛ Calling a woman "hard to get" because she takes her time? And just like that, the Black Cat walked right off the balcony. Bye!`,
-      coachNote: 'When a Black Cat Cougar pushes back at first, NEVER whine or get defensive—steady, unbothered Golden-Retriever patience is what melts her!',
+      herReply: `calling a woman "hard to get" bc she takes her time?? 🐈‍⬛💀 yeah the black cat just walked right off the balcony lol bye 👋`,
+      coachNote: 'When a Black Cat Cougar slows the pace, never whine! Unbothered Golden-Retriever patience melts her.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -200,8 +201,8 @@ export function evaluateDmLocally(params: {
       maturityDelta: 22,
       chivalryDelta: 20,
       chemistryDelta: 26,
-      herReply: `🧘‍♀️ Good boy—shoulders dropped, zero Cubsplaining, and actual follow-through. Meet Mommy in the bamboo courtyard at 6:30 AM for Tai Chi Cloud Hands and warm jasmine oolong. 🍵`,
-      coachNote: '🧘‍♀️ Wellness Mommy-Domme bullseye! Playful, consensual "Yes, Mommy" polarity + real effort (zero freeloading) melts her instantly.',
+      herReply: `good boy 😌🧘‍♀️ shoulders dropped, zero cubsplaining, actual effort... meet mommy in the courtyard at 6:30am for tai chi and warm jasmine oolong 🍵✨`,
+      coachNote: 'Wellness Mommy-Domme bullseye! Playful "Yes, Mommy" polarity + real effort melts her fast.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -212,8 +213,8 @@ export function evaluateDmLocally(params: {
       maturityDelta: 22,
       chivalryDelta: 20,
       chemistryDelta: 25,
-      herReply: `😼 Okay, Golden Retriever—not even a tiny flinch when I pushed back? Keep that exact steady energy and Friday at 7:30 might actually be yours. 🍸`,
-      coachNote: '🐈‍⬛×🐕 Bullseye! Unbothered Golden-Retriever warmth + respecting her slow-burn pace is pure Black Cat kryptonite.',
+      herReply: `okay golden retriever 😼✨ not even a tiny flinch when i pushed back?? keep that exact energy and friday at 7:30 might actually be yours 🍸`,
+      coachNote: '🐈‍⬛×🐕 Bullseye! Unbothered warmth + respecting her slow-burn pace is pure Black Cat kryptonite.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -221,19 +222,19 @@ export function evaluateDmLocally(params: {
 
   if (hasSnap || hasSugarFreeloader || hasForYourAge) {
     const reason = hasSnap
-      ? `Did you seriously just ask ${params.personaName} (${params.personaAge}) for Snapchat? Instant block.`
+      ? `Asking ${params.personaName} (${params.personaAge}) for Snapchat is an instant unmatch.`
       : hasForYourAge
-        ? '"For your age" is banned in all 50 states. Try complimenting her without a birth-certificate footnote!'
-        : 'Rule #1 of the Club: Mommy-Domme is playful romantic polarity—Cougar NEVER means Sugar Mama or allowance ATM!';
+        ? '"For your age" is banned in all 50 states. Compliment her without a birth-year footnote!'
+        : 'Rule #1: Mommy-Domme is playful romance, Cougar NEVER means Sugar Mama ATM!';
     return {
       maturityDelta: -18,
       chivalryDelta: -15,
       chemistryDelta: -15,
       herReply: hasSnap
-        ? `I have a mortgage and a wine cellar, sweetie—I haven’t opened Snapchat since 2016. Good luck out there. 👋`
+        ? `i have a mortgage and a wine fridge babe 😭💀 i haven't opened snapchat since 2016. good luck out there 👋`
         : hasForYourAge
-          ? `"For my age"?! I was about to say yes to drinks until that sentence happened.`
-          : `Wrong inbox—playful Mommy-Domme banter is earned by grown partners, never freeloaders looking for an allowance.`,
+          ? `"for my age"?! 😭 you were doing so well until those three words left your thumbs lol 🚩`
+          : `wrong inbox babe 💅 playful mommy banter is for grown partners, not freeloaders looking for an allowance 👋`,
       coachNote: reason,
       passedVibeCheck: false,
       source: 'local-heuristic',
@@ -245,8 +246,8 @@ export function evaluateDmLocally(params: {
       maturityDelta: -10,
       chivalryDelta: -10,
       chemistryDelta: -8,
-      herReply: `One-word openers get buried under 99 other guys in my inbox. Give me a real plan or a real sentence.`,
-      coachNote: 'Low-effort "hey / wyd" openers fail 95% of the time—lead with a concrete plan and full punctuation!',
+      herReply: `"hey / wyd" gets buried under 99 other guys in my dms lol 😴 give me an actual friday plan or a real question 👀`,
+      coachNote: 'Low-effort "hey / wyd" openers fail 95% of the time. Lead with a fun observation and a real date spot!',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -257,8 +258,8 @@ export function evaluateDmLocally(params: {
       maturityDelta: 18,
       chivalryDelta: 20,
       chemistryDelta: 22,
-      herReply: `Now *that* is how you send a message—clear plan, zero games, actual punctuation. Send me the address and I’ll see you there at 7:30. 🍸`,
-      coachNote: 'Elite move: specific date plan + confident grown-up tone + zero slang clutter.',
+      herReply: `wait okay 😍 an actual plan, zero games, and real effort?? send me the pin and i'll see you there at 7:30 🍸✨`,
+      coachNote: 'Elite move: concrete date plan + confident energy + zero needy clutter.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -268,8 +269,8 @@ export function evaluateDmLocally(params: {
     maturityDelta: 8,
     chivalryDelta: 6,
     chemistryDelta: 10,
-    herReply: `Cute energy—you’ve got my attention. Now tell me where you’re actually taking me this Friday so I know you don’t flake.`,
-    coachNote: 'Warm start! Lock in a concrete time & neighborhood spot next to seal the date.',
+    herReply: `cute energy, you definitely have my attention 😏✨ now tell me where you're actually taking me friday so i know you're not all talk 🍸`,
+    coachNote: 'Warm start! Lock in a specific neighborhood spot and time next to seal the date.',
     passedVibeCheck: true,
     source: 'local-heuristic',
   };
