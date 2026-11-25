@@ -534,56 +534,63 @@ for (const g of STATIC_GUIDES) {
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${PUBLIC_BASE}images/cast/hero-couple.jpg" />
   <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #0d0814; color: #f1f5f9; line-height: 1.7; }
-    main { max-width: 760px; margin: 0 auto; padding: 40px 20px 72px; }
-    .badge { display: inline-block; background: #f43f5e; color: #fff; font-weight: 800; font-size: 12px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; text-decoration: none; }
-    h1 { font-size: 2.1rem; line-height: 1.18; margin: 16px 0; color: #fff; }
-    h2 { color: #2dd4bf; margin-top: 32px; }
-    .cta { margin: 28px 0; padding: 22px; border: 3px solid #000; border-radius: 16px; background: linear-gradient(135deg, #2b0f3a, #0b2a30); }
-    .btn { display: inline-block; margin-top: 10px; background: #f59e0b; color: #09050f; font-weight: 800; padding: 12px 20px; border-radius: 10px; text-decoration: none; }
-    .picks { background: #160c24; border: 2px solid #000; border-radius: 16px; padding: 20px; margin-top: 28px; }
-    .pick-link { display: block; margin: 10px 0; color: #fde68a; font-weight: 700; }
-    .disclosure { font-size: 12px; color: #94a3b8; }
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background: #FFF7F0; color: #1E1022; line-height: 1.7; }
+    main { max-width: 820px; margin: 0 auto; padding: 40px 20px 72px; }
+    .card { background: #FFFFFF; border: 2.5px solid #1E1022; box-shadow: 5px 5px 0px #1E1022; border-radius: 24px; padding: 32px; }
+    .badge { display: inline-block; background: #FF2E63; color: #fff; font-weight: 800; font-size: 13px; padding: 6px 14px; border-radius: 999px; border: 2px solid #1E1022; box-shadow: 3px 3px 0px #1E1022; text-decoration: none; }
+    h1, h2, h3 { font-family: 'Outfit', system-ui, sans-serif; color: #1E1022; }
+    h1 { font-size: 2rem; line-height: 1.18; margin: 18px 0 12px; }
+    h2 { font-size: 1.35rem; color: #D90452; margin-top: 32px; }
+    .cta { margin: 28px 0; padding: 24px; border: 2.5px solid #1E1022; box-shadow: 4px 4px 0px #1E1022; border-radius: 20px; background: #FFF4F7; }
+    .btn { display: inline-block; margin-top: 12px; background: #FFBE0B; color: #1E1022; border: 2px solid #1E1022; box-shadow: 3px 3px 0px #1E1022; font-weight: 800; padding: 12px 22px; border-radius: 14px; text-decoration: none; }
+    .picks { background: #FFFBEB; border: 2.5px solid #1E1022; border-radius: 20px; padding: 22px; margin-top: 28px; }
+    .pick-link { display: block; margin: 10px 0; color: #1E1022; font-weight: 800; text-decoration: underline; }
+    .disclosure { font-size: 13px; color: #5A4664; font-weight: 600; }
   </style>
 </head>
 <body>
   <main>
-    <a class="badge" href="../../">← Play Cougars &amp; Cubs Club</a>
-    <h1>${escapeHtml(g.title)}</h1>
-    <p class="disclosure">Editorial Guide for Adult Age-Gap Relationships • Reader disclosure: curated shopping links below may earn a small affiliate commission at no extra cost to you.</p>
-    ${g.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('\n    ')}
-    <div class="cta">
-      <strong>🎮 Ready to test your instincts in this exact scenario?</strong>
-      <p style="margin:6px 0 0;font-size:14px;">Play as Her (Vet &amp; Train) or Play as Him (Impress &amp; Commit)—then text a 60-second Vetting Audition link to your real-life Cougar or Cub.</p>
-      <a class="btn" href="../../?dilemma=${encodeURIComponent(g.episodeId)}">Play Interactive Scenario Free →</a>
-    </div>
-    <section class="picks">
-      <h2>Curated Date-Night &amp; Hosting Picks</h2>
-      ${g.picks
-        .map(
-          (p) =>
-            `<a class="pick-link" href="${escapeHtml(tagAmazon(p.url, g.slug))}" rel="noopener noreferrer sponsored" target="_blank">🛍️ ${escapeHtml(p.name)} →</a>`,
-        )
-        .join('\n      ')}
-    </section>
-    <section>
-      <h2>Frequently Asked Questions</h2>
-      ${g.faqs
-        .map((f) => `<h3>${escapeHtml(f.q)}</h3><p>${escapeHtml(f.a)}</p>`)
-        .join('\n      ')}
-    </section>
-    <nav style="margin-top:36px;padding-top:20px;border-top:1px solid #334155">
-      <h2>More Cougars &amp; Cubs Club Guides</h2>
-      <ul>
-        ${STATIC_GUIDES.filter((other) => other.slug !== g.slug)
+    <div class="card">
+      <a class="badge" href="../../">← Play Cougars &amp; Cubs Club</a>
+      <h1>${escapeHtml(g.title)}</h1>
+      <p class="disclosure">Editorial Guide for Adult Age-Gap Relationships • Reader disclosure: curated shopping links below may earn a small affiliate commission at no extra cost to you.</p>
+      ${g.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('\n      ')}
+      <div class="cta">
+        <strong>🎮 Ready to test your instincts in this exact scenario?</strong>
+        <p style="margin:6px 0 0;font-size:15px;">Play as Her (Vet &amp; Train) or Play as Him (Impress &amp; Commit)—then text a 60-second Vetting Audition link to your real-life Cougar or Cub.</p>
+        <a class="btn" href="../../?dilemma=${encodeURIComponent(g.episodeId)}">Play Interactive Scenario Free →</a>
+      </div>
+      <section class="picks">
+        <h2>Curated Date-Night &amp; Hosting Picks</h2>
+        ${g.picks
           .map(
-            (other) =>
-              `<li><a style="color:#5eead4" href="../${other.slug}/">${escapeHtml(other.title)}</a></li>`,
+            (p) =>
+              `<a class="pick-link" href="${escapeHtml(tagAmazon(p.url, g.slug))}" rel="noopener noreferrer sponsored" target="_blank">🛍️ ${escapeHtml(p.name)} →</a>`,
           )
           .join('\n        ')}
-      </ul>
-    </nav>
+      </section>
+      <section>
+        <h2>Frequently Asked Questions</h2>
+        ${g.faqs
+          .map((f) => `<h3>${escapeHtml(f.q)}</h3><p>${escapeHtml(f.a)}</p>`)
+          .join('\n        ')}
+      </section>
+      <nav style="margin-top:36px;padding-top:20px;border-top:2px solid rgba(30,16,34,0.12)">
+        <h2>More Cougars &amp; Cubs Club Guides</h2>
+        <ul>
+          ${STATIC_GUIDES.filter((other) => other.slug !== g.slug)
+            .map(
+              (other) =>
+                `<li><a style="color:#D90452;font-weight:700" href="../${other.slug}/">${escapeHtml(other.title)}</a></li>`,
+            )
+            .join('\n          ')}
+        </ul>
+      </nav>
+    </div>
   </main>
 </body>
 </html>

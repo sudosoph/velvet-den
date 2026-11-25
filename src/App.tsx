@@ -480,16 +480,16 @@ export default function App() {
 
       {/* Password-Protected Founder Playtest & Affiliate Vault Bar */}
       {wallet.isFounderUnlimited && (
-        <div className="border-b border-[#E5C17B]/30 bg-gradient-to-r from-[#171122] via-[#1E152A] to-[#171122] px-3 py-2.5 shadow-lg">
-          <div className="mx-auto max-w-5xl space-y-2 text-xs">
+        <div className="border-b-[2.5px] border-[#1E1022] bg-[#FFF1CC] px-4 py-3 sm:px-6">
+          <div className="mx-auto w-full max-w-6xl space-y-2.5 text-xs">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1.5 font-bold text-[#FDE68A]">
-                <Wrench className="h-3.5 w-3.5 text-emerald-400" />
+              <span className="inline-flex items-center gap-1.5 font-extrabold text-[#1E1022]">
+                <Wrench className="h-4 w-4 text-[#FF2E63]" />
                 👑 Founder Playtest Vault • ∞ Credits &amp; All VIP Unlocked
               </span>
 
               {/* 1-Click Whole-Game Screen Switchers */}
-              <div className="flex flex-wrap items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-2">
                 {(
                   [
                     ['mixer', '1. Matchmaker'],
@@ -502,10 +502,10 @@ export default function App() {
                     key={key}
                     type="button"
                     onClick={() => handleFounderPlaytestJump(key)}
-                    className={`rounded-lg border px-2.5 py-1 font-semibold transition cursor-pointer ${
+                    className={`pop-btn rounded-xl px-3 py-1.5 font-bold cursor-pointer ${
                       activeTab === 'game' && phase === key
-                        ? 'border-[#E5C17B] bg-[#E5C17B] text-[#0C0910]'
-                        : 'border-white/15 bg-black/45 text-stone-200 hover:border-[#E5C17B]/50 hover:text-white'
+                        ? 'bg-[#FF2E63] text-white'
+                        : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
                     }`}
                   >
                     {label}
@@ -515,7 +515,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleLockFounderMode}
-                  className="inline-flex items-center gap-1 rounded-lg border border-rose-400/35 bg-rose-950/60 px-2.5 py-1 font-semibold text-rose-200 hover:bg-rose-900/70 cursor-pointer"
+                  className="pop-btn inline-flex items-center gap-1 rounded-xl bg-[#1E1022] px-3 py-1.5 font-bold text-white cursor-pointer"
                 >
                   <Lock className="h-3 w-3" />
                   <span>Lock Founder Mode</span>
@@ -523,7 +523,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-2">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[#1E1022]/15 pt-2.5">
               <select
                 aria-label="Founder instant scene jumper"
                 defaultValue=""
@@ -534,7 +534,7 @@ export default function App() {
                   setActiveTab('game');
                   setPhase('episodes');
                 }}
-                className="max-w-full sm:max-w-xs rounded-lg border border-[#E5C17B]/40 bg-[#0C0910] px-2.5 py-1.5 text-xs font-semibold text-[#FAF7F5]"
+                className="max-w-full sm:max-w-sm rounded-xl border-2 border-[#1E1022] bg-white px-3 py-1.5 text-xs font-bold text-[#1E1022]"
               >
                 <option value="">⚡ Jump to Any Scene / Minigame ({EPISODES.length})...</option>
                 {EPISODES.map((ep) => (
@@ -549,13 +549,13 @@ export default function App() {
               {/* Protected Amazon Affiliate Tag Vault */}
               <form
                 onSubmit={handleSaveFounderAmazonTag}
-                className="flex flex-wrap items-center gap-1.5"
+                className="flex flex-wrap items-center gap-2"
               >
                 <span
-                  className={`inline-flex items-center gap-1 rounded-md px-2 py-1 font-semibold ${
+                  className={`inline-flex items-center gap-1 rounded-xl border-2 border-[#1E1022] px-2.5 py-1 font-bold ${
                     founderTagProtected
-                      ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-400/30'
-                      : 'bg-amber-500/15 text-[#FDE68A] border border-[#E5C17B]/30'
+                      ? 'bg-[#D1FAE5] text-[#065F46]'
+                      : 'bg-white text-[#1E1022]'
                   }`}
                 >
                   <ShieldCheck className="h-3.5 w-3.5" />
@@ -570,17 +570,17 @@ export default function App() {
                   placeholder="yourtag-20"
                   value={founderTagInput}
                   onChange={(e) => setFounderTagInput(e.target.value)}
-                  className="w-32 rounded-lg border border-white/15 bg-[#0C0910] px-2.5 py-1 text-xs text-white placeholder:text-stone-500"
+                  className="w-36 rounded-xl border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-bold text-[#1E1022] placeholder:text-[#5A4664]/60"
                 />
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-1 rounded-lg bg-[#E5C17B] px-2.5 py-1 font-bold text-[#0C0910] hover:bg-[#FDE68A] cursor-pointer"
+                  className="pop-btn inline-flex items-center gap-1 rounded-xl bg-[#FF2E63] px-3 py-1 font-bold text-white cursor-pointer"
                 >
                   <Check className="h-3 w-3" />
                   <span>Save Tag</span>
                 </button>
                 {founderTagStatus && (
-                  <span className="text-emerald-300 font-medium">{founderTagStatus}</span>
+                  <span className="text-[#065F46] font-bold">{founderTagStatus}</span>
                 )}
               </form>
             </div>
@@ -588,14 +588,14 @@ export default function App() {
         </div>
       )}
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-3 py-6 sm:px-6 sm:py-8 space-y-4">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-5">
         {noticeBanner && (
-          <div className="vice-panel flex items-center justify-between gap-3 rounded-xl bg-amber-400/20 border-amber-400 px-4 py-3 text-sm font-semibold text-amber-200">
+          <div className="vice-panel flex items-center justify-between gap-3 rounded-2xl bg-[#FFBE0B] px-4 py-3 text-sm font-extrabold text-[#1E1022]">
             <span>{noticeBanner}</span>
             <button
               type="button"
               onClick={() => setNoticeBanner(null)}
-              className="rounded px-2 py-0.5 text-xs font-extrabold text-amber-100 hover:bg-black/30 cursor-pointer"
+              className="rounded-lg border-2 border-[#1E1022] bg-white px-2 py-0.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
               aria-label="Dismiss notice"
             >
               ✕
@@ -762,8 +762,8 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-white/10 bg-[#0C0910]/90 py-5 text-center text-xs text-stone-400">
-        <div className="mx-auto max-w-5xl px-4 flex flex-wrap items-center justify-between gap-2">
+      <footer className="border-t-[2.5px] border-[#1E1022] bg-[#FFFDF9] py-5 text-sm font-semibold text-[#5A4664]">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
           <span>
             {BRAND_CONFIG.name} • Cheeky PG-13/R Satire for Adult Age-Gap Relationships (21+)
           </span>
@@ -771,28 +771,28 @@ export default function App() {
             <button
               type="button"
               onClick={() => setPopTriviaOpen(true)}
-              className="hover:text-rose-300 underline cursor-pointer"
+              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
             >
               Pop-Culture Quiz
             </button>
             <button
               type="button"
               onClick={() => setLiveInboxOpen(true)}
-              className="hover:text-rose-300 underline cursor-pointer"
+              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
             >
               Live AI Texting
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('journal')}
-              className="hover:text-[#FDE68A] underline cursor-pointer"
+              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
             >
               Age-Gap Dating &amp; Gift Guides
             </button>
             <button
               type="button"
               onClick={() => setBoutiqueOpen(true)}
-              className="hover:text-[#FDE68A] underline cursor-pointer"
+              className="font-bold text-[#1E1022] hover:text-[#FF2E63] underline cursor-pointer"
             >
               Cougars &amp; Cubs Club VIP Lounge
             </button>
@@ -806,10 +806,10 @@ export default function App() {
                   setFounderModalOpen(true);
                 }
               }}
-              className="inline-flex items-center gap-1 text-stone-500 hover:text-[#E5C17B] transition cursor-pointer"
+              className="inline-flex items-center gap-1 font-bold text-[#5A4664] hover:text-[#FF2E63] transition cursor-pointer"
               aria-label="Founder Vault"
             >
-              <Lock className="h-3 w-3" />
+              <Lock className="h-3.5 w-3.5" />
               <span>{wallet.isFounderUnlimited ? 'Lock Founder' : 'Founder'}</span>
             </button>
           </div>
@@ -818,24 +818,24 @@ export default function App() {
 
       {founderModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label="Founder Passphrase Vault"
         >
           <form
             onSubmit={handleFounderUnlockSubmit}
-            className="vice-panel w-full max-w-md rounded-3xl bg-[#15101C] p-6 space-y-4"
+            className="vice-panel w-full max-w-md rounded-3xl p-6 space-y-4"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/10 px-3 py-0.5 text-xs font-bold uppercase tracking-wider text-[#FDE68A]">
+                <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 text-xs font-extrabold uppercase text-[#1E1022]">
                   <Lock className="h-3 w-3" /> Salted SHA-256 Protected
                 </span>
-                <h2 className="mt-1.5 font-display text-2xl text-white">
+                <h2 className="mt-2 font-display text-2xl text-[#1E1022]">
                   Founder Playtest &amp; Affiliate Vault
                 </h2>
-                <p className="mt-1 text-xs text-stone-300">
+                <p className="mt-1 text-sm font-medium text-[#5A4664]">
                   Enter your private Founder passphrase to unlock unlimited credits, 1-click stage playtesting, and live Amazon Associate Tag configuration.
                 </p>
               </div>
@@ -843,14 +843,14 @@ export default function App() {
                 type="button"
                 onClick={() => setFounderModalOpen(false)}
                 aria-label="Close Founder Vault"
-                className="rounded-xl border border-white/12 bg-[#1E1729] p-2 text-stone-300 hover:bg-rose-600 hover:text-white cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="founder-passphrase-input" className="block text-xs font-bold uppercase tracking-wider text-stone-300">
+              <label htmlFor="founder-passphrase-input" className="block text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
                 Private Vault Passphrase
               </label>
               <input
@@ -864,10 +864,10 @@ export default function App() {
                   setFounderPassInput(e.target.value);
                   if (founderAuthError) setFounderAuthError(null);
                 }}
-                className="w-full rounded-2xl border border-white/15 bg-[#0C0910] px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:border-[#E5C17B] focus:outline-none"
+                className="w-full rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-sm font-bold text-[#1E1022] placeholder:text-[#5A4664]/60 focus:border-[#FF2E63] focus:outline-none"
               />
               {founderAuthError && (
-                <p className="text-xs font-semibold text-rose-300">{founderAuthError}</p>
+                <p className="text-xs font-extrabold text-[#D90452]">{founderAuthError}</p>
               )}
             </div>
 
@@ -875,13 +875,13 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setFounderModalOpen(false)}
-                className="rounded-xl border border-white/12 bg-white/5 px-4 py-2.5 text-sm font-semibold text-stone-300 hover:bg-white/10 cursor-pointer"
+                className="pop-btn rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-[#1E1022] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg hover:from-rose-500 hover:to-rose-400 cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FF2E63] px-5 py-2.5 text-sm font-extrabold text-white cursor-pointer"
               >
                 Unlock Founder Vault
               </button>

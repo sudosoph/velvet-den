@@ -48,7 +48,7 @@ interface MinigameWidgetProps {
 }
 
 const FRAME_CLASS =
-  'rounded-2xl border border-[#E5C17B]/25 bg-[#1E1729] p-4 space-y-3 shadow-inner';
+  'rounded-2xl border-2 border-[#1E1022] bg-[#1E1022] text-white p-4 space-y-3 shadow-[4px_4px_0px_#FFBE0B]';
 
 /* ============================================================================
  * UNIVERSAL SCENE MICRO-INTERACTIONS (Covers the 60 scenes without bespoke minigame!)

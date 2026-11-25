@@ -56,25 +56,25 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-6 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-6 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Pop-Culture Cougar & Cub Trivia"
     >
-      <div className="vice-panel relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl bg-[#150f24]/95 p-6 sm:p-8 space-y-5">
-        <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
+      <div className="vice-panel relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl p-6 sm:p-8 space-y-5">
+        <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/12 pb-4">
           <div className="space-y-1">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-400/30 bg-rose-500/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-rose-200">
-              <Sparkles className="h-3.5 w-3.5 text-amber-300" /> Celebrity Lore &amp; Pop-Culture Blitz
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
+              <Sparkles className="h-3.5 w-3.5" /> Celebrity Lore &amp; Pop-Culture Blitz
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl text-white">
+            <h2 className="font-display text-2xl sm:text-3xl text-[#1E1022]">
               Cougars &amp; Cubs in Pop Culture Quiz
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-white/15 bg-white/5 p-2.5 text-slate-200 hover:bg-rose-500 hover:text-white transition cursor-pointer"
+            className="pop-btn rounded-xl bg-[#FFF4F7] p-2.5 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
             aria-label="Close Trivia"
           >
             <X className="h-5 w-5" />
@@ -82,18 +82,18 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
         </div>
 
         {finished ? (
-          <div className="rounded-3xl border border-amber-300/35 bg-white/5 p-7 text-center space-y-4">
-            <Award className="mx-auto h-12 w-12 text-amber-300" />
-            <div className="font-display text-4xl sm:text-5xl text-white">
+          <div className="rounded-3xl border-2 border-[#1E1022] bg-[#FFFBEB] p-7 text-center space-y-4">
+            <Award className="mx-auto h-12 w-12 text-[#FF2E63]" />
+            <div className="font-display text-4xl sm:text-5xl text-[#1E1022]">
               {score} / {POP_CULTURE_TRIVIA.length} Correct!
             </div>
-            <p className="text-base text-slate-200 leading-relaxed">
+            <p className="text-base font-medium text-[#34223B] leading-relaxed">
               {score >= 6
                 ? 'Certified Red-Carpet Cougar Historian! Jessica Alba, Sienna Miller, Cher, and Miley would let you sit at Table 1.'
                 : 'Solid run—brush up on your Alba, Sienna, Ellie & Miley lore and run it back!'}
             </p>
             {bonusClaimed && (
-              <div className="rounded-2xl bg-emerald-500/15 border border-emerald-400/40 px-4 py-3 text-sm font-semibold text-emerald-200">
+              <div className="rounded-2xl bg-[#D1FAE5] border-2 border-[#1E1022] px-4 py-3 text-sm font-extrabold text-[#065F46]">
                 🎉 +3 Bonus Club Credits added to your wallet for completing the Pop-Culture Quiz!
               </div>
             )}
@@ -101,14 +101,14 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
               <button
                 type="button"
                 onClick={handleRestart}
-                className="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition cursor-pointer"
+                className="pop-btn rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-[#1E1022] cursor-pointer"
               >
                 Play Quiz Again
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-2xl bg-amber-300 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-amber-200 transition cursor-pointer"
+                className="pop-btn rounded-2xl bg-[#FF2E63] px-6 py-3 text-sm font-extrabold text-white cursor-pointer"
               >
                 Back to Game
               </button>
@@ -116,29 +116,29 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="flex items-center justify-between text-xs sm:text-sm font-semibold">
-              <span className="rounded-full bg-amber-400/15 border border-amber-300/30 px-3.5 py-1 text-amber-200">
+            <div className="flex items-center justify-between text-xs sm:text-sm font-extrabold">
+              <span className="rounded-full bg-[#FFBE0B] border-2 border-[#1E1022] px-3.5 py-1 text-[#1E1022]">
                 {current.badge}
               </span>
-              <span className="text-slate-300">
+              <span className="text-[#5A4664]">
                 Question {qIdx + 1} of {POP_CULTURE_TRIVIA.length} • Score: {score}
               </span>
             </div>
 
-            <p className="text-lg font-bold text-white leading-relaxed">{current.question}</p>
+            <p className="text-lg font-extrabold text-[#1E1022] leading-relaxed">{current.question}</p>
 
             <div className="grid gap-3">
               {current.options.map((opt, idx) => {
                 const isSelected = selectedOpt === idx;
                 const isCorrect = idx === current.correctIndex;
-                let style = 'border-white/14 bg-white/[0.05] text-white hover:bg-white/[0.09]';
+                let style = 'border-[#1E1022] bg-white text-[#1E1022] hover:bg-[#FFF4F7]';
                 if (selectedOpt !== null) {
                   if (isCorrect) {
-                    style = 'border-emerald-400/70 bg-emerald-950/70 text-emerald-200';
+                    style = 'border-[#1E1022] bg-[#D1FAE5] text-[#065F46]';
                   } else if (isSelected) {
-                    style = 'border-rose-500/70 bg-rose-950/70 text-rose-200';
+                    style = 'border-[#1E1022] bg-[#FFE4E6] text-[#9F1239]';
                   } else {
-                    style = 'border-white/5 bg-black/25 text-slate-500';
+                    style = 'border-[#1E1022]/20 bg-[#FFF7F0] text-[#5A4664]';
                   }
                 }
                 return (
@@ -146,11 +146,11 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                     key={opt}
                     type="button"
                     onClick={() => handlePick(idx)}
-                    className={`flex items-center justify-between rounded-2xl border px-4 py-3.5 text-left text-base font-medium transition cursor-pointer ${style}`}
+                    className={`flex items-center justify-between rounded-2xl border-2 px-4 py-3.5 text-left text-base font-bold transition cursor-pointer ${style}`}
                   >
                     <span>{opt}</span>
                     {selectedOpt !== null && isCorrect && (
-                      <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-300" />
+                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#065F46]" />
                     )}
                   </button>
                 );
@@ -158,12 +158,12 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
             </div>
 
             {selectedOpt !== null && (
-              <div className="animate-stage-in rounded-2xl border border-amber-300/35 bg-amber-400/10 p-4 space-y-3">
-                <p className="text-sm text-amber-100 leading-relaxed">{current.funFact}</p>
+              <div className="animate-stage-in rounded-2xl border-2 border-[#1E1022] bg-[#FFFBEB] p-4 space-y-3">
+                <p className="text-sm font-semibold text-[#1E1022] leading-relaxed">{current.funFact}</p>
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="w-full rounded-2xl bg-gradient-to-r from-rose-500 to-amber-400 py-3 font-display text-lg text-slate-950 shadow hover:brightness-105 transition cursor-pointer"
+                  className="pop-btn w-full rounded-2xl bg-[#FF2E63] py-3 font-display text-lg text-white cursor-pointer"
                 >
                   {qIdx + 1 >= POP_CULTURE_TRIVIA.length
                     ? 'See Final Trivia Rank (+3 Free Credits) →'

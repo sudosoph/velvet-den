@@ -208,21 +208,21 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 sm:p-5 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-5 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="25-Point Cougars & Cubs Viral Experience Checklist"
     >
-      <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#15101C] p-4 sm:p-6 space-y-4">
-        <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+      <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl p-5 sm:p-7 space-y-4">
+        <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/12 pb-3">
           <div>
-            <span className="inline-flex items-center gap-1 rounded-full bg-rose-500/20 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-rose-200">
-              <Sparkles className="h-3 w-3 text-[#FDE68A]" /> TikTok Green-Screen Ready • 0–100 Score Test
+            <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
+              <Sparkles className="h-3.5 w-3.5" /> TikTok Green-Screen Ready • 0–100 Score Test
             </span>
-            <h2 className="mt-1.5 font-display text-2xl sm:text-4xl text-white leading-tight">
+            <h2 className="mt-1.5 font-display text-2xl sm:text-3xl text-[#1E1022] leading-tight">
               The 25-Point Cougars &amp; Cubs Experience Test
             </h2>
-            <p className="mt-1 text-xs text-stone-300">
+            <p className="mt-1 text-xs sm:text-sm font-medium text-[#5A4664]">
               Check every moment you’ve lived (or would survive)—share your 0–100 score for +2 Free Credits!
             </p>
           </div>
@@ -230,29 +230,29 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
             type="button"
             onClick={onClose}
             aria-label="Close Checklist"
-            className="rounded-xl border border-white/14 bg-[#1E1729] p-2 text-stone-200 hover:bg-rose-600 cursor-pointer"
+            className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Live Score Banner */}
-        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#E5C17B]/30 bg-gradient-to-r from-[#24132E] via-[#1C1329] to-[#171122] px-4 py-3 shadow-lg">
+        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] px-4 py-3 shadow-[3px_3px_0px_#1E1022]">
           <div>
-            <div className="text-xs font-bold uppercase text-[#FDE68A]">{rank.title}</div>
-            <div className="text-xs text-stone-200">{rank.subtitle}</div>
+            <div className="text-xs font-extrabold uppercase text-[#1E1022]">{rank.title}</div>
+            <div className="text-xs font-semibold text-[#34223B]">{rank.subtitle}</div>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <div className="font-display text-4xl leading-none text-[#FDE68A]">{score}/100</div>
-              <div className="text-xs font-bold text-stone-300">{checkedIds.length}/25 Checked</div>
+              <div className="font-display text-4xl leading-none text-[#1E1022]">{score}/100</div>
+              <div className="text-xs font-extrabold text-[#1E1022]">{checkedIds.length}/25 Checked</div>
             </div>
             {checkedIds.length > 0 && (
               <button
                 type="button"
                 onClick={() => setCheckedIds([])}
                 title="Reset checkboxes"
-                className="rounded-lg bg-black/50 p-2 text-stone-300 hover:text-white cursor-pointer"
+                className="rounded-lg border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] cursor-pointer"
               >
                 <RotateCcw className="h-4 w-4" />
               </button>
@@ -261,7 +261,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
         </div>
 
         {/* 25 Checkboxes */}
-        <div className="grid gap-1.5">
+        <div className="grid gap-2">
           {COUGAR_CUB_CHECKLIST_ITEMS.map((item, idx) => {
             const checked = checkedIds.includes(item.id);
             return (
@@ -269,19 +269,19 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
                 key={item.id}
                 type="button"
                 onClick={() => toggleItem(item.id)}
-                className={`flex items-start gap-2.5 rounded-xl border px-3 py-2 text-left text-xs transition cursor-pointer ${
+                className={`flex items-start gap-2.5 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm transition cursor-pointer ${
                   checked
-                    ? 'border-[#E5C17B]/70 bg-[#E5C17B]/15 text-white font-semibold'
-                    : 'border-white/10 bg-[#1E1729]/65 text-stone-200 hover:bg-[#1E1729]'
+                    ? 'border-[#1E1022] bg-[#FFF4F7] text-[#1E1022] font-extrabold'
+                    : 'border-[#1E1022]/15 bg-white text-[#1E1022] font-medium hover:border-[#1E1022]'
                 }`}
               >
                 {checked ? (
-                  <CheckSquare className="h-4 w-4 shrink-0 text-[#FDE68A] mt-0.5" />
+                  <CheckSquare className="h-4 w-4 shrink-0 text-[#FF2E63] mt-0.5" />
                 ) : (
-                  <Square className="h-4 w-4 shrink-0 text-stone-400 mt-0.5" />
+                  <Square className="h-4 w-4 shrink-0 text-[#5A4664] mt-0.5" />
                 )}
                 <span>
-                  <strong className="text-rose-300 mr-1">#{idx + 1}.</strong>
+                  <strong className="text-[#FF2E63] mr-1">#{idx + 1}.</strong>
                   {item.text}
                 </span>
               </button>
@@ -290,11 +290,11 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
         </div>
 
         {/* Bottom Viral Share + Play Matched Scenario Funnel */}
-        <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-white/10 pt-3">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 border-t-2 border-[#1E1022]/12 pt-3">
           <button
             type="button"
             onClick={handleShareScore}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-amber-400 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
+            className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FFBE0B] px-4 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
           >
             <Share2 className="h-4 w-4" />
             <span>Share Score Receipt (+2 Cr)</span>
@@ -307,14 +307,14 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               onClose();
               onPlayMatchedScenario(rank.recommendedEp);
             }}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-rose-500 px-5 py-2.5 font-display text-xl text-white hover:bg-rose-400 cursor-pointer"
+            className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-5 py-2.5 font-display text-lg text-white cursor-pointer"
           >
-            <Play className="h-4 w-4" />
+            <Play className="h-4 w-4 fill-white" />
             <span>Play Matched Scenario →</span>
           </button>
         </div>
 
-        {shareToast && <p className="text-xs font-bold text-emerald-300">{shareToast}</p>}
+        {shareToast && <p className="text-xs font-extrabold text-[#065F46]">{shareToast}</p>}
       </div>
     </div>
   );

@@ -127,27 +127,27 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
   ];
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 animate-stage-in">
+    <div className="w-full space-y-6 animate-stage-in">
       {bonusToast && (
-        <div className="vice-panel rounded-2xl border-emerald-400/40 bg-emerald-500/15 px-5 py-3.5 text-sm font-semibold text-emerald-200">
+        <div className="vice-panel rounded-2xl bg-[#D1FAE5] px-5 py-3.5 text-sm font-extrabold text-[#065F46]">
           🎉 +3 Bonus Club Credits added to your wallet for sharing!
         </div>
       )}
 
       {/* Hero Verdict Banner */}
-      <section className="vice-panel rounded-3xl bg-gradient-to-br from-[#231233] via-[#160e26] to-[#120b1d] p-6 sm:p-8">
+      <section className="vice-panel rounded-3xl bg-gradient-to-r from-[#FFFDF9] via-[#FFF4F7] to-[#FFFBEB] p-6 sm:p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/35 bg-amber-400/15 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-200">
-              <Award className="h-3.5 w-3.5 text-amber-300" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
+              <Award className="h-4 w-4 text-[#FF2E63]" />
               Official Cougars &amp; Cubs Club Verdict
             </span>
 
-            <h2 className="font-display text-3xl sm:text-5xl text-white">
+            <h2 className="font-display text-3xl sm:text-4xl text-[#1E1022]">
               {summary.rankTitle}
             </h2>
 
-            <p className="text-base text-slate-200 max-w-2xl leading-relaxed">
+            <p className="text-base font-medium text-[#34223B] max-w-2xl leading-relaxed">
               {summary.verdictLine}
             </p>
 
@@ -156,7 +156,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
                 {summary.badges.map((b) => (
                   <span
                     key={b}
-                    className="rounded-full border border-amber-300/30 bg-white/5 px-3.5 py-1 text-xs font-semibold text-amber-200"
+                    className="rounded-full border-2 border-[#1E1022] bg-white px-3.5 py-1 text-xs font-extrabold text-[#1E1022]"
                   >
                     🏆 {b}
                   </span>
@@ -165,39 +165,39 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
             )}
           </div>
 
-          <div className="shrink-0 rounded-3xl border border-amber-300/30 bg-black/45 px-7 py-6 text-center shadow-inner">
-            <div className="font-display text-5xl sm:text-6xl text-amber-300">
+          <div className="shrink-0 rounded-3xl border-[2.5px] border-[#1E1022] bg-[#FFBE0B] px-7 py-6 text-center shadow-[4px_4px_0px_#1E1022]">
+            <div className="font-display text-5xl sm:text-6xl text-[#1E1022]">
               {summary.overallScore}%
             </div>
-            <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-300">
+            <div className="mt-1 text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
               Vibe &amp; Chemistry Score
             </div>
-            <div className="mt-2 text-xs font-medium text-emerald-300">
+            <div className="mt-2 text-xs font-extrabold text-[#065F46]">
               Red Flags: {summary.redFlags} / 3
             </div>
           </div>
         </div>
       </section>
 
-      {/* Two-Column Viral Studio: Left = 2P Audition + iMessage/Discord Interactive Cards; Right = Crisp 9:16 Story Card */}
+      {/* Aligned Two-Column Viral Studio */}
       <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] items-start">
         <div className="space-y-6">
           {/* Card 1: 2-Player Crush / Partner Vetting Link */}
-          <div className="vice-panel rounded-3xl bg-[#161026]/90 p-6 space-y-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-400/30 bg-rose-500/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-rose-200">
-              <Sparkles className="h-3.5 w-3.5 text-amber-300" /> 2-Player Couples &amp; Crush Mode (+3 Credits)
+          <div className="vice-panel rounded-3xl p-6 space-y-4">
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
+              <Sparkles className="h-3.5 w-3.5" /> 2-Player Couples &amp; Crush Mode (+3 Credits)
             </span>
 
-            <h3 className="font-display text-2xl sm:text-3xl text-white">
+            <h3 className="font-display text-2xl sm:text-3xl text-[#1E1022]">
               Send a 60-Second Vetting Audition to Your Cougar, Cub, or Match
             </h3>
 
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-sm font-medium text-[#3D2A45] leading-relaxed">
               Your exact scene choices are encoded into a private challenge link. When they open it, they play 5 rapid scenes and see their live compatibility score against your standards.
             </p>
 
             <div className="space-y-1.5">
-              <label className="block text-sm font-semibold text-amber-200" htmlFor="sender-nick">
+              <label className="block text-sm font-extrabold text-[#1E1022]" htmlFor="sender-nick">
                 Your Name or Nickname on Their Screen
               </label>
               <input
@@ -206,14 +206,14 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
                 maxLength={32}
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
-                className="w-full rounded-2xl border border-white/15 bg-black/45 px-4 py-3 text-base text-white placeholder:text-slate-500 focus:border-rose-400 focus:outline-none"
+                className="w-full rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-base font-bold text-[#1E1022] focus:border-[#FF2E63] focus:outline-none"
               />
             </div>
 
             <button
               type="button"
               onClick={handleSendPartnerAudition}
-              className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-rose-500 to-amber-400 px-5 py-3.5 font-display text-lg text-slate-950 shadow-lg hover:brightness-105 active:scale-[0.99] transition cursor-pointer"
+              className="pop-btn w-full flex items-center justify-center gap-2 rounded-2xl bg-[#FF2E63] px-5 py-3.5 font-display text-lg text-white cursor-pointer"
             >
               {copiedState === 'audition' ? (
                 <>
@@ -229,27 +229,26 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
             </button>
           </div>
 
-          {/* Card 2: Sleek Interactive iMessage & Discord Share Studio */}
-          <div className="vice-panel rounded-3xl bg-[#161026]/90 p-6 space-y-4">
+          {/* Card 2: Interactive iMessage & Discord Share Studio */}
+          <div className="vice-panel rounded-3xl p-6 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="font-display text-xl sm:text-2xl text-white">
+                <h3 className="font-display text-xl sm:text-2xl text-[#1E1022]">
                   Share Receipt to iMessage or Discord
                 </h3>
-                <p className="text-sm text-slate-300">
+                <p className="text-sm font-medium text-[#5A4664]">
                   Preview how your card looks in group chats &amp; servers (+3 Bonus Credits)
                 </p>
               </div>
 
-              {/* Segmented Platform Switcher */}
-              <div className="inline-flex rounded-2xl border border-white/12 bg-black/50 p-1 text-sm font-semibold">
+              <div className="inline-flex rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-1 text-sm font-extrabold">
                 <button
                   type="button"
                   onClick={() => setSharePreviewTab('imessage')}
                   className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 transition cursor-pointer ${
                     sharePreviewTab === 'imessage'
-                      ? 'bg-[#0A84FF] text-white shadow'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-[#0A84FF] text-white'
+                      : 'text-[#1E1022] hover:bg-white'
                   }`}
                 >
                   <MessageCircle className="h-4 w-4" />
@@ -260,8 +259,8 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
                   onClick={() => setSharePreviewTab('discord')}
                   className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 transition cursor-pointer ${
                     sharePreviewTab === 'discord'
-                      ? 'bg-[#5865F2] text-white shadow'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-[#5865F2] text-white'
+                      : 'text-[#1E1022] hover:bg-white'
                   }`}
                 >
                   <Hash className="h-4 w-4" />
@@ -405,25 +404,25 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
         </div>
 
         {/* Right Column: Crisp, Overflow-Proof 9:16 IG Story / TikTok Card */}
-        <div className="vice-panel rounded-3xl bg-[#161026]/90 p-6 flex flex-col items-center gap-5">
+        <div className="vice-panel rounded-3xl p-6 flex flex-col items-center gap-5">
           <div className="w-full flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h3 className="font-display text-xl sm:text-2xl text-white">
+              <h3 className="font-display text-xl sm:text-2xl text-[#1E1022]">
                 9:16 Story &amp; TikTok Card
               </h3>
-              <p className="text-sm text-slate-300"> Crisp 1080×1920 HD • Ready to post</p>
+              <p className="text-sm font-medium text-[#5A4664]">Crisp 1080×1920 HD • Ready to post</p>
             </div>
             <button
               type="button"
               onClick={handleDownloadStoryPng}
-              className="inline-flex items-center gap-2 rounded-2xl bg-amber-300 px-4 py-2.5 text-sm font-bold text-slate-950 shadow hover:bg-amber-200 transition cursor-pointer"
+              className="pop-btn inline-flex items-center gap-2 rounded-2xl bg-[#FFBE0B] px-4 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
             >
               <Download className="h-4 w-4" />
               <span>Download PNG</span>
             </button>
           </div>
 
-          <div className="rounded-[2rem] border border-white/15 bg-black/60 p-2.5 shadow-2xl">
+          <div className="rounded-[2rem] border-[2.5px] border-[#1E1022] bg-[#FFF7F0] p-2.5 shadow-[4px_4px_0px_#1E1022]">
             <canvas
               ref={canvasRef}
               className="w-72 sm:w-80 aspect-[9/16] rounded-[1.5rem] block"
@@ -434,7 +433,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
             <button
               type="button"
               onClick={onPlayAgain}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white hover:bg-white/10 transition cursor-pointer"
+              className="pop-btn inline-flex items-center justify-center gap-2 rounded-2xl bg-white py-3 text-sm font-extrabold text-[#1E1022] cursor-pointer"
             >
               <RotateCcw className="h-4 w-4" />
               <span>Mix Another Pairing</span>
@@ -442,7 +441,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
             <button
               type="button"
               onClick={onOpenBoutique}
-              className="rounded-2xl bg-rose-500 py-3 text-sm font-bold text-white hover:bg-rose-400 transition cursor-pointer"
+              className="pop-btn rounded-2xl bg-[#FF2E63] py-3 text-sm font-extrabold text-white cursor-pointer"
             >
               VIP Lounge &amp; Boutique
             </button>

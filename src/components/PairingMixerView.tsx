@@ -162,41 +162,44 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 animate-stage-in">
+    <div className="w-full space-y-6 animate-stage-in">
       {noticeBanner && (
-        <div className="vice-panel rounded-2xl border-[#E5C17B]/40 bg-[#1E1729] px-5 py-3 text-sm font-medium text-[#FDE68A]">
+        <div className="vice-panel rounded-2xl bg-[#FFBE0B] px-5 py-3 text-sm font-extrabold text-[#1E1022]">
           {noticeBanner}
         </div>
       )}
 
-      {/* Editorial Header + Segmented Role Switch */}
-      <section className="text-center space-y-4 pt-1">
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#E5C17B]/30 bg-[#15101C] px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
-          <Flame className="h-3.5 w-3.5 text-rose-500" />
-          <span>Cougars &amp; Cubs Club • Interactive Romance Game</span>
+      {/* ALIGNED HERO BAR: Left = Bold Headline, Right = 2-Button Role Toggle */}
+      <section className="vice-panel rounded-3xl p-5 sm:p-6 bg-gradient-to-r from-[#FFFDF9] via-[#FFF4F7] to-[#FFFBEB] flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
+            <Flame className="h-3.5 w-3.5 text-[#FF2E63]" />
+            <span>Interactive Age-Gap Romance &amp; Arcade Sim</span>
+          </div>
+
+          <h1 className="font-display text-2xl sm:text-[32px] text-[#1E1022]">
+            Lower Your Age Slider. Vet the Red Flags.{' '}
+            <span className="text-[#FF2E63]">Win Real Love.</span>
+          </h1>
         </div>
 
-        <h1 className="font-display text-[2rem] sm:text-[2.75rem] text-[#FAF7F5] max-w-3xl mx-auto">
-          Lower Your Age Slider. Vet the Red Flags.{' '}
-          <span className="italic text-[#FDE68A]">Win Real Love.</span>
-        </h1>
-
-        {/* Clean 2-Segment Role Pill */}
-        <div className="mx-auto inline-grid grid-cols-1 sm:grid-cols-2 gap-2 rounded-2xl border border-white/[0.08] bg-[#15101C] p-1.5 max-w-xl w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 shrink-0 lg:w-[430px]">
           <button
             type="button"
             onClick={() => {
               sfx.messagePop();
               onChangeRole('her');
             }}
-            className={`rounded-xl px-4 py-2.5 text-left transition cursor-pointer ${
+            className={`pop-btn rounded-2xl px-4 py-3 text-left cursor-pointer ${
               role === 'her'
-                ? 'bg-rose-600 text-[#FAF7F5] shadow-md'
-                : 'text-stone-300 hover:bg-white/[0.05]'
+                ? 'bg-[#FF2E63] text-white'
+                : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
             }`}
           >
-            <div className="text-sm font-semibold">🐆 Play as Her</div>
-            <div className="text-xs opacity-85">Vet &amp; Train • Catch Red Flags</div>
+            <div className="text-sm font-extrabold">🐆 Play as Her</div>
+            <div className={`text-xs font-semibold ${role === 'her' ? 'text-white/90' : 'text-[#5A4664]'}`}>
+              Vet &amp; Train • Catch Red Flags
+            </div>
           </button>
 
           <button
@@ -205,25 +208,27 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               sfx.messagePop();
               onChangeRole('him');
             }}
-            className={`rounded-xl px-4 py-2.5 text-left transition cursor-pointer ${
+            className={`pop-btn rounded-2xl px-4 py-3 text-left cursor-pointer ${
               role === 'him'
-                ? 'bg-[#E5C17B] text-[#0C0910] shadow-md'
-                : 'text-stone-300 hover:bg-white/[0.05]'
+                ? 'bg-[#FFBE0B] text-[#1E1022]'
+                : 'bg-white text-[#1E1022] hover:bg-[#FFFBEB]'
             }`}
           >
-            <div className="text-sm font-semibold">🥂 Play as Him</div>
-            <div className="text-xs opacity-85">Impress &amp; Commit • Code-Switch</div>
+            <div className="text-sm font-extrabold">🥂 Play as Him</div>
+            <div className="text-xs font-semibold text-[#5A4664]">
+              Impress &amp; Commit • Code-Switch
+            </div>
           </button>
         </div>
       </section>
 
       {/* Mobile Pair Switcher */}
-      <div className="flex lg:hidden rounded-2xl border border-white/[0.08] bg-[#15101C] p-1 text-sm font-semibold">
+      <div className="flex lg:hidden rounded-2xl border-2 border-[#1E1022] bg-white p-1 text-sm font-bold shadow-[3px_3px_0px_#1E1022]">
         <button
           type="button"
           onClick={() => setMobilePairSlot('her')}
           className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
-            mobilePairSlot === 'her' ? 'bg-rose-600 text-[#FAF7F5]' : 'text-stone-300'
+            mobilePairSlot === 'her' ? 'bg-[#FF2E63] text-white' : 'text-[#1E1022]'
           }`}
         >
           Her: {her.name}, {her.age}F
@@ -232,36 +237,36 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           type="button"
           onClick={() => setMobilePairSlot('him')}
           className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
-            mobilePairSlot === 'him' ? 'bg-[#E5C17B] text-[#0C0910]' : 'text-stone-300'
+            mobilePairSlot === 'him' ? 'bg-[#FFBE0B] text-[#1E1022]' : 'text-[#1E1022]'
           }`}
         >
           Cub: {his.name}, {his.age}M
         </button>
       </div>
 
-      {/* UNIFIED 3-COLUMN "MATCHMAKER'S STAGE" (Fits Above the Fold!) */}
-      <section className="grid gap-5 lg:grid-cols-[1fr_300px_1fr] items-stretch">
+      {/* STRICTLY ALIGNED 3-COLUMN MATCHMAKER STAGE (Equal-Height Cards!) */}
+      <section className="grid gap-5 lg:grid-cols-[1fr_320px_1fr] items-stretch">
         {/* LEFT SPOTLIGHT: HER */}
         <div
           className={`${
             mobilePairSlot === 'him' ? 'hidden lg:flex' : 'flex'
-          } vice-panel rounded-3xl p-4 sm:p-5 flex-col justify-between gap-3.5`}
+          } vice-panel rounded-3xl p-5 flex-col justify-between gap-4 h-full`}
         >
-          <div className="space-y-3">
-            <div className="relative h-56 sm:h-64 w-full overflow-hidden rounded-2xl bg-[#0C0910]">
+          <div className="space-y-3.5">
+            <div className="relative h-64 sm:h-72 w-full overflow-hidden rounded-2xl border-2 border-[#1E1022] bg-[#1E1022]">
               <img
                 key={her.photoUrl}
                 src={her.photoUrl}
                 alt={`${her.name}, ${her.age}`}
                 className="h-full w-full object-cover object-top animate-stage-in"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#15101C] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1E1022]/75 via-transparent to-transparent" />
 
               <button
                 type="button"
                 aria-label="Previous Her character"
                 onClick={() => cycleHer(-1)}
-                className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] shadow hover:bg-[#FFBE0B] cursor-pointer"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -269,87 +274,88 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 type="button"
                 aria-label="Next Her character"
                 onClick={() => cycleHer(1)}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] shadow hover:bg-[#FFBE0B] cursor-pointer"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
 
-              <span className="absolute top-3 left-3 rounded-full bg-[#0C0910]/80 border border-white/15 px-3 py-1 text-xs font-medium text-[#FDE68A]">
+              <span className="absolute top-3 left-3 rounded-full border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022] shadow">
                 📏 {herDetails.height} • {herDetails.zodiac.split('•')[0].replace(' Sun', '').trim()}
               </span>
             </div>
 
             <div className="flex items-center justify-between gap-2">
               <div>
-                <h2 className="font-display text-2xl text-[#FAF7F5]">
-                  {her.name}, <span className="text-rose-400">{her.age}F</span>
+                <h2 className="font-display text-2xl text-[#1E1022]">
+                  {her.name}, <span className="text-[#FF2E63]">{her.age}F</span>
                 </h2>
-                <div className="text-xs font-semibold text-rose-300">{her.title}</div>
+                <div className="text-sm font-bold text-[#D90452]">{her.title}</div>
               </div>
 
-              {/* Age Fine-Tune Stepper */}
-              <div className="inline-flex items-center gap-1.5 rounded-xl bg-[#1E1729] border border-white/[0.08] px-2.5 py-1.5 text-xs">
+              <div className="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFF4F7] px-2.5 py-1.5 text-xs font-extrabold text-[#1E1022]">
                 <button
                   type="button"
                   onClick={() => onAdjustHerAge(-1)}
                   aria-label="Decrease Her Age"
-                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
+                  className="rounded-lg border border-[#1E1022] bg-white p-1 hover:bg-[#FFBE0B] cursor-pointer"
                 >
                   <Minus className="h-3 w-3" />
                 </button>
-                <span className="font-semibold text-[#FAF7F5] w-6 text-center">{her.age}</span>
+                <span className="w-6 text-center">{her.age}</span>
                 <button
                   type="button"
                   onClick={() => onAdjustHerAge(1)}
                   aria-label="Increase Her Age"
-                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
+                  className="rounded-lg border border-[#1E1022] bg-white p-1 hover:bg-[#FFBE0B] cursor-pointer"
                 >
                   <Plus className="h-3 w-3" />
                 </button>
               </div>
             </div>
 
-            <p className="text-sm text-stone-300 leading-relaxed line-clamp-2">
+            <p className="text-sm font-medium text-[#3D2A45] leading-relaxed line-clamp-2">
               {her.vibeSummary}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#1E1729] px-3 py-2 text-xs text-stone-300">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border-2 border-[#1E1022] bg-[#FFF4F7] px-3.5 py-2.5 text-xs font-bold text-[#1E1022]">
             <span className="truncate">🍸 {herDetails.signatureDrink}</span>
-            <span className="text-[#FDE68A] font-medium">{herDetails.loveLanguage}</span>
+            <span className="text-[#D90452]">{herDetails.loveLanguage}</span>
           </div>
         </div>
 
-        {/* CENTER PEDESTAL: CHEMISTRY MEDALLION + PLAY CTA + DICE SHUFFLER */}
-        <div className="vice-panel rounded-3xl p-5 flex flex-col justify-between gap-4 text-center border-[#E5C17B]/25">
-          <div className="space-y-2.5">
-            <span className="inline-block rounded-full bg-[#E5C17B]/15 border border-[#E5C17B]/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+        {/* CENTER ARCADE POD: CHEMISTRY + START CTA + SHUFFLE DICE */}
+        <div className="vice-panel rounded-3xl p-5 flex flex-col justify-between gap-4 text-center bg-gradient-to-b from-[#FFFDF9] to-[#FFF4F7] h-full">
+          <div className="space-y-3">
+            <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
               {pairing.badgeLabel}
             </span>
 
-            <div className="font-display text-2xl text-[#FAF7F5]">
+            <div className="font-display text-2xl text-[#1E1022]">
               {her.name} × {his.name}
             </div>
 
-            <p className="text-xs text-stone-300 leading-relaxed">{pairing.zodiacSpark}</p>
+            <p className="text-sm font-medium text-[#5A4664] leading-relaxed">
+              {pairing.zodiacSpark}
+            </p>
 
             {pairing.energyPolarity && (
-              <div className="rounded-xl bg-[#1E1729] border border-rose-500/25 px-3 py-1.5 text-xs font-medium text-rose-200">
+              <div className="rounded-xl border-2 border-[#1E1022] bg-white px-3 py-2 text-xs font-extrabold text-[#D90452]">
                 {pairing.energyPolarity}
               </div>
             )}
           </div>
 
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {onChangePacingMode && (
-              <div className="grid grid-cols-2 rounded-xl bg-[#1E1729] p-1 text-xs font-semibold">
+              <div className="grid grid-cols-2 rounded-xl border-2 border-[#1E1022] bg-white p-1 text-xs font-extrabold">
                 <button
                   type="button"
                   onClick={() => onChangePacingMode('curated')}
-                  className={`rounded-lg py-1.5 transition cursor-pointer ${
+                  className={`rounded-lg py-2 transition cursor-pointer ${
                     pacingMode === 'curated'
-                      ? 'bg-[#E5C17B] text-[#0C0910]'
-                      : 'text-stone-300 hover:text-white'
+                      ? 'bg-[#1E1022] text-white'
+                      : 'text-[#1E1022] hover:bg-[#FFF4F7]'
                   }`}
                 >
                   ⚡ 8-Scene Arc
@@ -357,10 +363,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 <button
                   type="button"
                   onClick={() => onChangePacingMode('marathon')}
-                  className={`rounded-lg py-1.5 transition cursor-pointer ${
+                  className={`rounded-lg py-2 transition cursor-pointer ${
                     pacingMode === 'marathon'
-                      ? 'bg-[#E5C17B] text-[#0C0910]'
-                      : 'text-stone-300 hover:text-white'
+                      ? 'bg-[#1E1022] text-white'
+                      : 'text-[#1E1022] hover:bg-[#FFF4F7]'
                   }`}
                 >
                   🎬 Full Season
@@ -368,14 +374,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </div>
             )}
 
-            {/* Primary Velvet Crimson Play CTA */}
             <button
               type="button"
               onClick={() => {
                 sfx.swipeRight();
                 onStartGame();
               }}
-              className="w-full h-12 rounded-2xl bg-rose-600 hover:bg-rose-500 text-[15px] font-semibold text-[#FAF7F5] shadow-lg active:scale-[0.98] transition cursor-pointer"
+              className="pop-btn w-full h-13 rounded-2xl bg-[#FF2E63] hover:bg-[#E01E50] text-base font-extrabold text-white cursor-pointer"
             >
               Start Vetting →
             </button>
@@ -383,36 +388,36 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={handleSlotMachineShuffle}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[#E5C17B]/35 bg-[#1E1729] py-2.5 text-sm font-semibold text-[#FDE68A] hover:bg-[#E5C17B]/15 transition cursor-pointer"
+              className="pop-btn w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#FFBE0B] hover:bg-[#FFD166] py-3 text-sm font-extrabold text-[#1E1022] cursor-pointer"
             >
               <Dices className={`h-4 w-4 ${shuffling ? 'animate-spin' : ''}`} />
               <span>{shuffling ? 'Spinning Chemistry…' : 'Shuffle Spicy Matchup'}</span>
             </button>
           </div>
 
-          <div className="space-y-1.5 pt-2 border-t border-white/[0.08] text-xs">
+          <div className="space-y-2 pt-3 border-t-2 border-[#1E1022]/12 text-xs font-bold">
             <button
               type="button"
               onClick={() => setActiveDrawer('custom')}
-              className="w-full flex items-center justify-between rounded-xl px-3 py-2 text-stone-300 hover:bg-white/[0.05] hover:text-[#FAF7F5] transition cursor-pointer"
+              className="w-full flex items-center justify-between rounded-xl border-2 border-[#1E1022]/20 bg-white px-3.5 py-2.5 text-[#1E1022] hover:border-[#1E1022] transition cursor-pointer"
             >
-              <span className="inline-flex items-center gap-1.5 font-medium">
-                <Sliders className="h-3.5 w-3.5 text-[#E5C17B]" />
-                Customize Names, Drinks &amp; Twists
+              <span className="inline-flex items-center gap-1.5">
+                <Sliders className="h-3.5 w-3.5 text-[#FF2E63]" />
+                Customize Names &amp; Twists
               </span>
-              <span className="text-[#FDE68A]">→</span>
+              <span>→</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveDrawer('vip')}
-              className="w-full flex items-center justify-between rounded-xl px-3 py-2 text-stone-300 hover:bg-white/[0.05] hover:text-[#FAF7F5] transition cursor-pointer"
+              className="w-full flex items-center justify-between rounded-xl border-2 border-[#1E1022]/20 bg-white px-3.5 py-2.5 text-[#1E1022] hover:border-[#1E1022] transition cursor-pointer"
             >
-              <span className="inline-flex items-center gap-1.5 font-medium">
-                <Crown className="h-3.5 w-3.5 text-[#E5C17B]" />
+              <span className="inline-flex items-center gap-1.5">
+                <Crown className="h-3.5 w-3.5 text-[#FFBE0B]" />
                 VIP Bonus Scenes ({selectedVipIds.length}/4)
               </span>
-              <span className="text-[#FDE68A]">→</span>
+              <span>→</span>
             </button>
           </div>
         </div>
@@ -421,23 +426,23 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         <div
           className={`${
             mobilePairSlot === 'her' ? 'hidden lg:flex' : 'flex'
-          } vice-panel rounded-3xl p-4 sm:p-5 flex-col justify-between gap-3.5`}
+          } vice-panel rounded-3xl p-5 flex-col justify-between gap-4 h-full`}
         >
-          <div className="space-y-3">
-            <div className="relative h-56 sm:h-64 w-full overflow-hidden rounded-2xl bg-[#0C0910]">
+          <div className="space-y-3.5">
+            <div className="relative h-64 sm:h-72 w-full overflow-hidden rounded-2xl border-2 border-[#1E1022] bg-[#1E1022]">
               <img
                 key={his.photoUrl}
                 src={his.photoUrl}
                 alt={`${his.name}, ${his.age}`}
                 className="h-full w-full object-cover object-top animate-stage-in"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#15101C] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1E1022]/75 via-transparent to-transparent" />
 
               <button
                 type="button"
                 aria-label="Previous Cub character"
                 onClick={() => cycleHis(-1)}
-                className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] shadow hover:bg-[#FFBE0B] cursor-pointer"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -445,68 +450,68 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 type="button"
                 aria-label="Next Cub character"
                 onClick={() => cycleHis(1)}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/70 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] shadow hover:bg-[#FFBE0B] cursor-pointer"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
 
-              <span className="absolute top-3 left-3 rounded-full bg-[#0C0910]/80 border border-white/15 px-3 py-1 text-xs font-medium text-[#FDE68A]">
+              <span className="absolute top-3 left-3 rounded-full border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022] shadow">
                 📏 {hisDetails.height} • {hisDetails.zodiac.split('•')[0].replace(' Sun', '').trim()}
               </span>
             </div>
 
             <div className="flex items-center justify-between gap-2">
               <div>
-                <h2 className="font-display text-2xl text-[#FAF7F5]">
-                  {his.name}, <span className="text-[#FDE68A]">{his.age}M</span>
+                <h2 className="font-display text-2xl text-[#1E1022]">
+                  {his.name}, <span className="text-[#D97706]">{his.age}M</span>
                 </h2>
-                <div className="text-xs font-semibold text-[#E5C17B]">{his.title}</div>
+                <div className="text-sm font-bold text-[#B45309]">{his.title}</div>
               </div>
 
-              <div className="inline-flex items-center gap-1.5 rounded-xl bg-[#1E1729] border border-white/[0.08] px-2.5 py-1.5 text-xs">
+              <div className="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFFBEB] px-2.5 py-1.5 text-xs font-extrabold text-[#1E1022]">
                 <button
                   type="button"
                   onClick={() => onAdjustHisAge(-1)}
                   aria-label="Decrease His Age"
-                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
+                  className="rounded-lg border border-[#1E1022] bg-white p-1 hover:bg-[#FFBE0B] cursor-pointer"
                 >
                   <Minus className="h-3 w-3" />
                 </button>
-                <span className="font-semibold text-[#FAF7F5] w-6 text-center">{his.age}</span>
+                <span className="w-6 text-center">{his.age}</span>
                 <button
                   type="button"
                   onClick={() => onAdjustHisAge(1)}
                   aria-label="Increase His Age"
-                  className="rounded-lg bg-white/10 p-1 hover:bg-white/20 cursor-pointer"
+                  className="rounded-lg border border-[#1E1022] bg-white p-1 hover:bg-[#FFBE0B] cursor-pointer"
                 >
                   <Plus className="h-3 w-3" />
                 </button>
               </div>
             </div>
 
-            <p className="text-sm text-stone-300 leading-relaxed line-clamp-2">
+            <p className="text-sm font-medium text-[#3D2A45] leading-relaxed line-clamp-2">
               {his.vibeSummary}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#1E1729] px-3 py-2 text-xs text-stone-300">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border-2 border-[#1E1022] bg-[#FFFBEB] px-3.5 py-2.5 text-xs font-bold text-[#1E1022]">
             <span className="truncate">🥂 {hisDetails.signatureDrink}</span>
-            <span className="text-[#FDE68A] font-medium">{hisDetails.loveLanguage}</span>
+            <span className="text-[#B45309]">{hisDetails.loveLanguage}</span>
           </div>
         </div>
       </section>
 
-      {/* COMPACT TABBED CAST SELECTOR STRIP (Replaces Two Giant 1,000px Stacked Grids!) */}
+      {/* ALIGNED CAST ROSTER CARD */}
       <section className="vice-panel rounded-3xl p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="inline-flex rounded-xl bg-[#1E1729] p-1 text-sm font-semibold">
+          <div className="inline-flex rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-1 text-sm font-extrabold">
             <button
               type="button"
               onClick={() => setCastTab('her')}
-              className={`rounded-lg px-4 py-1.5 transition cursor-pointer ${
+              className={`rounded-xl px-4 py-2 transition cursor-pointer ${
                 castTab === 'her'
-                  ? 'bg-rose-600 text-[#FAF7F5]'
-                  : 'text-stone-300 hover:text-white'
+                  ? 'bg-[#FF2E63] text-white'
+                  : 'text-[#1E1022] hover:bg-white'
               }`}
             >
               🐆 Her Roster ({HER_ARCHETYPES.length} • Ages 30–64)
@@ -514,10 +519,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setCastTab('him')}
-              className={`rounded-lg px-4 py-1.5 transition cursor-pointer ${
+              className={`rounded-xl px-4 py-2 transition cursor-pointer ${
                 castTab === 'him'
-                  ? 'bg-[#E5C17B] text-[#0C0910]'
-                  : 'text-stone-300 hover:text-white'
+                  ? 'bg-[#FFBE0B] text-[#1E1022]'
+                  : 'text-[#1E1022] hover:bg-white'
               }`}
             >
               🥂 Cub Roster ({HIS_ARCHETYPES.length} • Ages 21–33)
@@ -531,10 +536,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   key={f}
                   type="button"
                   onClick={() => setHerFilter(f)}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                  className={`rounded-full border-2 px-3.5 py-1 text-xs font-extrabold transition cursor-pointer ${
                     herFilter === f
-                      ? 'bg-[#E5C17B] text-[#0C0910]'
-                      : 'bg-[#1E1729] text-stone-300 hover:text-white'
+                      ? 'border-[#1E1022] bg-[#FFBE0B] text-[#1E1022]'
+                      : 'border-[#1E1022]/20 bg-white text-[#1E1022] hover:border-[#1E1022]'
                   }`}
                 >
                   {f === 'all' ? 'All Decades' : f === '60s' ? '60+' : f}
@@ -544,7 +549,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setExpandedGrid((v) => !v)}
-              className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-xs font-semibold text-[#FDE68A] hover:bg-white/10 cursor-pointer"
+              className="pop-btn rounded-full bg-white px-3.5 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
             >
               {expandedGrid ? 'Compact Strip' : 'Expand All Cards'}
             </button>
@@ -554,8 +559,8 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         <div
           className={
             expandedGrid
-              ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3'
-              : 'flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x'
+              ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 items-stretch'
+              : 'flex gap-3.5 overflow-x-auto pb-2 no-scrollbar snap-x'
           }
         >
           {(castTab === 'her' ? filteredHerList : HIS_ARCHETYPES).map((item) => {
@@ -576,31 +581,29 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   }
                 }}
                 className={`${
-                  expandedGrid ? 'w-full' : 'w-36 sm:w-40 shrink-0 snap-start'
-                } group overflow-hidden rounded-2xl border text-left transition bg-[#1E1729] cursor-pointer ${
+                  expandedGrid ? 'w-full' : 'w-40 shrink-0 snap-start'
+                } group overflow-hidden rounded-2xl border-2 text-left transition cursor-pointer flex flex-col justify-between ${
                   isSelected
-                    ? castTab === 'her'
-                      ? 'border-rose-500 ring-2 ring-rose-500/60 -translate-y-0.5'
-                      : 'border-[#E5C17B] ring-2 ring-[#E5C17B]/60 -translate-y-0.5'
-                    : 'border-white/[0.08] hover:border-white/25 hover:-translate-y-0.5'
+                    ? 'border-[#1E1022] bg-[#FFBE0B] shadow-[4px_4px_0px_#1E1022] -translate-y-0.5'
+                    : 'border-[#1E1022] bg-white hover:bg-[#FFF4F7] hover:-translate-y-0.5 shadow-[2px_2px_0px_#1E1022]'
                 }`}
               >
-                <div className="relative aspect-[3/3.4] w-full overflow-hidden bg-[#0C0910]">
+                <div className="relative aspect-[3/3.4] w-full overflow-hidden border-b-2 border-[#1E1022] bg-[#1E1022]">
                   <img
                     src={item.photoUrl}
                     alt={`${item.name}, ${item.age}`}
                     loading="lazy"
                     className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
                   />
-                  <span className="absolute top-2 left-2 rounded-full bg-[#0C0910]/80 px-2 py-0.5 text-[11px] font-medium text-[#FDE68A]">
+                  <span className="absolute top-2 left-2 rounded-full border border-[#1E1022] bg-white px-2 py-0.5 text-[11px] font-extrabold text-[#1E1022]">
                     {d.height}
                   </span>
                 </div>
                 <div className="p-2.5">
-                  <div className="font-display text-base text-[#FAF7F5] truncate">
-                    {item.name}, <span className="text-[#FDE68A]">{item.age}</span>
+                  <div className="font-display text-base text-[#1E1022] truncate">
+                    {item.name}, <span className="text-[#D90452]">{item.age}</span>
                   </div>
-                  <div className="text-xs text-stone-400 truncate">{item.title}</div>
+                  <div className="text-xs font-semibold text-[#5A4664] truncate">{item.title}</div>
                 </div>
               </button>
             );
@@ -608,24 +611,24 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
       </section>
 
-      {/* DREAM DADDY-STYLE INTERACTIVE NIGHT-OUT DATE & OBSTACLE MAP */}
+      {/* DREAM DADDY INTERACTIVE NIGHT-OUT DATE & OBSTACLE MAP */}
       {onJumpToMapScene && (
-        <section className="vice-panel rounded-3xl p-4 sm:p-5 space-y-3">
-          <div className="flex flex-wrap items-center justify-between gap-2">
+        <section className="vice-panel rounded-3xl p-5 sm:p-6 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
-                <MapPin className="h-3.5 w-3.5 text-rose-400" /> Interactive Date-Night &amp; Obstacle Map
+              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-3 py-0.5 text-xs font-extrabold uppercase text-[#D90452]">
+                <MapPin className="h-3.5 w-3.5" /> Interactive Date-Night &amp; Obstacle Map
               </span>
-              <h2 className="font-display text-xl sm:text-2xl text-[#FAF7F5]">
-                Tap Any Hotspot to Play That Scene &amp; Arcade Toy Immediately
+              <h2 className="mt-1.5 font-display text-xl sm:text-2xl text-[#1E1022]">
+                Tap Any Hotspot to Play That Animated Scene &amp; Arcade Toy
               </h2>
             </div>
-            <span className="rounded-full border border-[#E5C17B]/30 bg-[#1E1729] px-3 py-1 text-xs font-semibold text-[#FDE68A]">
-              6 Signature Locations
+            <span className="rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold text-[#1E1022]">
+              6 Playable Hotspots
             </span>
           </div>
 
-          <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
             {[
               {
                 epId: 'check-drop',
@@ -677,23 +680,23 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   sfx.crystalClink();
                   onJumpToMapScene(spot.epId);
                 }}
-                className="group relative h-28 overflow-hidden rounded-2xl border border-white/12 bg-[#0C0910] p-3.5 text-left hover:border-[#E5C17B] transition cursor-pointer flex flex-col justify-between"
+                className="pop-btn group relative h-32 overflow-hidden rounded-2xl bg-[#1E1022] p-4 text-left cursor-pointer flex flex-col justify-between"
               >
                 <img
                   src={spot.img}
                   alt={spot.title}
                   loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover opacity-45 group-hover:scale-105 group-hover:opacity-60 transition duration-500"
+                  className="absolute inset-0 h-full w-full object-cover opacity-70 group-hover:scale-105 transition duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0C0910] via-[#0C0910]/55 to-transparent" />
-                <span className="relative z-10 inline-flex w-fit items-center gap-1 rounded-full border border-[#E5C17B]/40 bg-[#0C0910]/80 px-2.5 py-0.5 text-[11px] font-semibold text-[#FDE68A]">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1E1022]/95 via-[#1E1022]/35 to-transparent" />
+                <span className="relative z-10 inline-flex w-fit items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-xs font-extrabold text-[#1E1022]">
                   {spot.pin}
                 </span>
                 <div className="relative z-10">
-                  <div className="font-display text-base text-[#FAF7F5] leading-tight">
+                  <div className="font-display text-lg text-white leading-tight">
                     {spot.title}
                   </div>
-                  <div className="text-xs text-rose-200">{spot.sub} →</div>
+                  <div className="text-xs font-bold text-[#FFBE0B]">{spot.sub} →</div>
                 </div>
               </button>
             ))}
@@ -701,22 +704,22 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </section>
       )}
 
-      {/* CLEAN 4-TILE CLUB MODES DOCK */}
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {/* EQUAL-HEIGHT 4-TILE CLUB MODES DOCK */}
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
         <button
           type="button"
           onClick={() => {
             sfx.messagePop();
             onOpenLiveInbox();
           }}
-          className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+          className="vice-panel rounded-2xl p-4 text-left hover:bg-[#FFF4F7] transition cursor-pointer flex items-center gap-3.5 h-full"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-600/15 text-rose-400">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border-2 border-[#1E1022] bg-[#FF2E63] text-white">
             <MessageCircle className="h-5 w-5" />
           </span>
           <div>
-            <div className="text-sm font-semibold text-[#FAF7F5]">Live AI Texting Mode</div>
-            <div className="text-xs text-stone-400">Survive Their Inbox live</div>
+            <div className="text-sm font-extrabold text-[#1E1022]">Live AI Texting Mode</div>
+            <div className="text-xs font-semibold text-[#5A4664]">Survive Their Inbox live</div>
           </div>
         </button>
 
@@ -726,14 +729,14 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             sfx.messagePop();
             onOpenPopTrivia();
           }}
-          className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+          className="vice-panel rounded-2xl p-4 text-left hover:bg-[#FFFBEB] transition cursor-pointer flex items-center gap-3.5 h-full"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E5C17B]/15 text-[#E5C17B]">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border-2 border-[#1E1022] bg-[#FFBE0B] text-[#1E1022]">
             <Award className="h-5 w-5" />
           </span>
           <div>
-            <div className="text-sm font-semibold text-[#FAF7F5]">Pop-Culture Quiz (+3 Cr)</div>
-            <div className="text-xs text-stone-400">Celebrity Cougar &amp; Cub blitz</div>
+            <div className="text-sm font-extrabold text-[#1E1022]">Pop-Culture Quiz (+3 Cr)</div>
+            <div className="text-xs font-semibold text-[#5A4664]">Celebrity Cougar &amp; Cub blitz</div>
           </div>
         </button>
 
@@ -744,14 +747,14 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               sfx.messagePop();
               onOpenChecklist();
             }}
-            className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+            className="vice-panel rounded-2xl p-4 text-left hover:bg-[#FFF4F7] transition cursor-pointer flex items-center gap-3.5 h-full"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-600/15 text-rose-300">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border-2 border-[#1E1022] bg-[#FFE3EC] text-[#FF2E63]">
               <Sparkles className="h-5 w-5" />
             </span>
             <div>
-              <div className="text-sm font-semibold text-[#FAF7F5]">25-Pt Viral Score Test</div>
-              <div className="text-xs text-stone-400">Check your lived score (+2 Cr)</div>
+              <div className="text-sm font-extrabold text-[#1E1022]">25-Pt Viral Score Test</div>
+              <div className="text-xs font-semibold text-[#5A4664]">Check your lived score (+2 Cr)</div>
             </div>
           </button>
         )}
@@ -759,14 +762,14 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         <button
           type="button"
           onClick={onQuickCreateAudition}
-          className="vice-panel rounded-2xl p-4 text-left hover:border-[#E5C17B]/40 transition cursor-pointer flex items-center gap-3"
+          className="vice-panel rounded-2xl p-4 text-left hover:bg-[#FFFBEB] transition cursor-pointer flex items-center gap-3.5 h-full"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E5C17B]/15 text-[#E5C17B]">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border-2 border-[#1E1022] bg-[#D1FAE5] text-[#065F46]">
             <Send className="h-5 w-5" />
           </span>
           <div>
-            <div className="text-sm font-semibold text-[#FAF7F5]">2-Player Audition Link</div>
-            <div className="text-xs text-stone-400">Text your match (+3 Cr)</div>
+            <div className="text-sm font-extrabold text-[#1E1022]">2-Player Audition Link</div>
+            <div className="text-xs font-semibold text-[#5A4664]">Text your match (+3 Cr)</div>
           </div>
         </button>
       </section>
@@ -775,7 +778,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         <button
           type="button"
           onClick={onOpenFieldGuide}
-          className="text-xs font-semibold text-stone-400 hover:text-[#FDE68A] underline cursor-pointer"
+          className="text-sm font-bold text-[#5A4664] hover:text-[#FF2E63] underline cursor-pointer"
         >
           What is a Junior Cougar (6-Yr Gap) vs. Puma vs. Cougar vs. Jaguar? Explore Tier Glossary →
         </button>
@@ -784,17 +787,17 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       {/* MODAL DRAWER: CUSTOMIZE NAMES, DRINKS & TWISTS / VIP SCENES */}
       {activeDrawer && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0C0910]/85 p-4 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
         >
           <div className="vice-panel max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-3xl p-6 space-y-5">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+            <div className="flex items-center justify-between border-b-2 border-[#1E1022]/12 pb-4">
               <div>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+                <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 text-xs font-extrabold uppercase text-[#1E1022]">
                   {activeDrawer === 'custom' ? 'Custom Fantasy Studio' : 'Deep-Cut Episodes'}
                 </span>
-                <h3 className="font-display text-2xl text-[#FAF7F5]">
+                <h3 className="mt-1.5 font-display text-2xl text-[#1E1022]">
                   {activeDrawer === 'custom'
                     ? 'Customize Names, Zero-Proof Orders & Plot Twists'
                     : 'Select Bonus VIP Scenes'}
@@ -803,7 +806,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               <button
                 type="button"
                 onClick={() => setActiveDrawer(null)}
-                className="rounded-xl border border-white/12 bg-white/[0.05] p-2 text-stone-300 hover:text-white cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -811,7 +814,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
 
             {activeDrawer === 'custom' && onUpdateHerCustom && onUpdateHisCustom && (
               <div className="space-y-4">
-                <div className="rounded-xl bg-[#1E1729] px-3.5 py-2 text-xs text-[#FDE68A]">
+                <div className="rounded-xl border-2 border-[#1E1022] bg-[#FFFBEB] px-3.5 py-2 text-xs font-extrabold text-[#1E1022]">
                   {wallet.isVip || wallet.isFounderUnlimited
                     ? '👑 VIP Active: Unlimited Custom Builds'
                     : customEditCount >= 2
@@ -820,50 +823,50 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <label className="space-y-1 text-xs text-stone-300">
-                    <span className="font-semibold text-[#FAF7F5]">Her Custom Name</span>
+                  <label className="space-y-1 text-xs font-bold text-[#1E1022]">
+                    <span>Her Custom Name</span>
                     <input
                       type="text"
                       maxLength={24}
                       value={her.name}
                       onChange={(e) => onUpdateHerCustom({ ...her, name: e.target.value || 'Claire' })}
-                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                      className="w-full rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-sm font-bold text-[#1E1022]"
                     />
                   </label>
-                  <label className="space-y-1 text-xs text-stone-300">
-                    <span className="font-semibold text-[#FAF7F5]">Cub Custom Name</span>
+                  <label className="space-y-1 text-xs font-bold text-[#1E1022]">
+                    <span>Cub Custom Name</span>
                     <input
                       type="text"
                       maxLength={24}
                       value={his.name}
                       onChange={(e) => onUpdateHisCustom({ ...his, name: e.target.value || 'Leo' })}
-                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                      className="w-full rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-sm font-bold text-[#1E1022]"
                     />
                   </label>
-                  <label className="space-y-1 text-xs text-stone-300">
-                    <span className="font-semibold text-[#FAF7F5]">Her Star Sign</span>
+                  <label className="space-y-1 text-xs font-bold text-[#1E1022]">
+                    <span>Her Star Sign</span>
                     <input
                       type="text"
                       maxLength={36}
                       value={herDetails.zodiac}
                       onChange={(e) => onUpdateHerCustom({ ...her, zodiac: e.target.value })}
-                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                      className="w-full rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-sm font-bold text-[#1E1022]"
                     />
                   </label>
-                  <label className="space-y-1 text-xs text-stone-300">
-                    <span className="font-semibold text-[#FAF7F5]">Signature Order</span>
+                  <label className="space-y-1 text-xs font-bold text-[#1E1022]">
+                    <span>Signature Order</span>
                     <input
                       type="text"
                       maxLength={44}
                       value={herDetails.signatureDrink}
                       onChange={(e) => onUpdateHerCustom({ ...her, signatureDrink: e.target.value })}
-                      className="w-full rounded-xl border border-white/12 bg-[#1E1729] px-3 py-2 text-sm text-[#FAF7F5]"
+                      className="w-full rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-sm font-bold text-[#1E1022]"
                     />
                   </label>
                 </div>
 
                 <div className="space-y-1.5">
-                  <div className="text-xs font-semibold text-[#FDE68A]">
+                  <div className="text-xs font-extrabold text-[#1E1022]">
                     1-Tap Zero-Proof, Smoothie &amp; Lounge Presets (Free):
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -890,10 +893,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                               subplotTags: nextTags,
                             });
                           }}
-                          className={`rounded-full border px-3 py-1 text-xs font-medium transition cursor-pointer ${
+                          className={`rounded-full border-2 px-3 py-1 text-xs font-bold transition cursor-pointer ${
                             active
-                              ? 'border-[#E5C17B] bg-[#E5C17B] text-[#0C0910] font-semibold'
-                              : 'border-white/12 bg-[#1E1729] text-stone-200 hover:bg-white/10'
+                              ? 'border-[#1E1022] bg-[#FFBE0B] text-[#1E1022]'
+                              : 'border-[#1E1022]/20 bg-white text-[#1E1022] hover:border-[#1E1022]'
                           }`}
                         >
                           {String(drinkLabel)}
@@ -904,7 +907,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 </div>
 
                 <div className="space-y-1.5">
-                  <div className="text-xs font-semibold text-[#FDE68A]">Plot-Twist Stickers:</div>
+                  <div className="text-xs font-extrabold text-[#1E1022]">Plot-Twist Stickers:</div>
                   <div className="flex flex-wrap gap-2">
                     {(
                       [
@@ -928,10 +931,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                           key={tag}
                           type="button"
                           onClick={() => (target === 'her' ? toggleHerTag(tag) : toggleHisTag(tag))}
-                          className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
+                          className={`rounded-full border-2 px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
                             active
-                              ? 'border-rose-500 bg-rose-600 text-[#FAF7F5]'
-                              : 'border-white/12 bg-[#1E1729] text-stone-300 hover:text-white'
+                              ? 'border-[#1E1022] bg-[#FF2E63] text-white'
+                              : 'border-[#1E1022]/20 bg-white text-[#1E1022] hover:border-[#1E1022]'
                           }`}
                         >
                           {active ? '✓ ' : '+ '}
@@ -943,9 +946,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 </div>
 
                 {onOpenBoutique && (
-                  <div className="flex items-center justify-between gap-2 rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-3.5 text-xs">
-                    <span className="text-stone-300">
-                      Unlock Unlimited Custom Builds ($6.99 VIP) or sponsor a custom public character ($29)
+                  <div className="flex items-center justify-between gap-2 rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-3.5 text-xs font-bold text-[#1E1022]">
+                    <span>
+                      Unlock Unlimited Custom Builds ($6.99 VIP) or sponsor a custom character ($29)
                     </span>
                     <button
                       type="button"
@@ -953,7 +956,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                         setActiveDrawer(null);
                         onOpenBoutique();
                       }}
-                      className="shrink-0 rounded-xl bg-[#E5C17B] px-3 py-1.5 font-semibold text-[#0C0910] cursor-pointer"
+                      className="pop-btn shrink-0 rounded-xl bg-[#FFBE0B] px-3 py-1.5 font-extrabold text-[#1E1022] cursor-pointer"
                     >
                       VIP Lounge →
                     </button>
@@ -975,25 +978,25 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                       key={ep.id}
                       type="button"
                       onClick={() => onToggleVipEpisode(ep.id, ep.creditCost)}
-                      className={`flex items-center justify-between gap-3 rounded-2xl border p-4 text-left transition cursor-pointer ${
+                      className={`flex items-center justify-between gap-3 rounded-2xl border-2 p-4 text-left transition cursor-pointer ${
                         active
-                          ? 'border-[#E5C17B] bg-[#E5C17B]/12'
-                          : 'border-white/10 bg-[#1E1729] hover:border-white/25'
+                          ? 'border-[#1E1022] bg-[#FFFBEB]'
+                          : 'border-[#1E1022]/20 bg-white hover:border-[#1E1022]'
                       }`}
                     >
                       <div>
-                        <div className="text-sm font-semibold text-[#FAF7F5]">{ep.title}</div>
-                        <div className="text-xs text-stone-400 mt-0.5">
+                        <div className="text-sm font-extrabold text-[#1E1022]">{ep.title}</div>
+                        <div className="text-xs font-medium text-[#5A4664] mt-0.5">
                           {ep.subredditThreadInspiration.replace(/^r\/CougarsAndCubs[^:]*:\s*/i, '')}
                         </div>
                       </div>
                       <span
-                        className={`shrink-0 inline-flex items-center gap-1 rounded-xl px-3 py-1.5 text-xs font-semibold ${
+                        className={`shrink-0 inline-flex items-center gap-1 rounded-xl border-2 border-[#1E1022] px-3 py-1.5 text-xs font-extrabold ${
                           unlocked
                             ? active
-                              ? 'bg-emerald-500/20 text-emerald-200'
-                              : 'bg-white/10 text-[#FDE68A]'
-                            : 'bg-[#E5C17B] text-[#0C0910]'
+                              ? 'bg-[#D1FAE5] text-[#065F46]'
+                              : 'bg-white text-[#1E1022]'
+                            : 'bg-[#FFBE0B] text-[#1E1022]'
                         }`}
                       >
                         {unlocked ? (
@@ -1015,7 +1018,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               <button
                 type="button"
                 onClick={() => setActiveDrawer(null)}
-                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-2.5 text-sm font-semibold text-[#FAF7F5] cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FF2E63] px-6 py-2.5 text-sm font-extrabold text-white cursor-pointer"
               >
                 Done
               </button>
@@ -1025,12 +1028,12 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       )}
 
       {/* Sticky Mobile Launch Bar */}
-      <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border border-white/12 bg-[#15101C]/95 p-3 shadow-2xl backdrop-blur-md flex items-center justify-between gap-3">
+      <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border-2 border-[#1E1022] bg-white p-3 shadow-[4px_4px_0px_#1E1022] flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate font-display text-base text-[#FAF7F5]">
+          <div className="truncate font-display text-base text-[#1E1022]">
             {her.name} ({her.age}F) × {his.name} ({his.age}M)
           </div>
-          <div className="truncate text-xs text-[#FDE68A]">
+          <div className="truncate text-xs font-bold text-[#D90452]">
             {pacingMode === 'curated' ? '⚡ 8-Scene Arc' : '🎬 Full Season'} • {pairing.ageGap}yr Gap
           </div>
         </div>
@@ -1040,7 +1043,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             sfx.swipeRight();
             onStartGame();
           }}
-          className="shrink-0 rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-[#FAF7F5]"
+          className="pop-btn shrink-0 rounded-xl bg-[#FF2E63] px-4 py-2.5 text-sm font-extrabold text-white"
         >
           Play Run →
         </button>

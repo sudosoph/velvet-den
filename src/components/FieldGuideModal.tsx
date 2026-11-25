@@ -26,28 +26,28 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-6 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-6 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Age-Gap Dating Field Guide"
     >
-      <div className="vice-panel relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-[#140e22]/95 p-6 sm:p-8 space-y-5">
-        <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
+      <div className="vice-panel relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-3xl p-6 sm:p-8 space-y-5">
+        <div className="flex items-start justify-between gap-4 border-b-2 border-[#1E1022]/12 pb-4">
           <div className="space-y-1">
-            <span className="inline-block rounded-full border border-amber-300/30 bg-amber-400/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-200">
+            <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
               Insider Community Glossary &amp; Pop-Culture Hall of Fame
             </span>
-            <h2 className="font-display text-2xl sm:text-4xl text-white">
+            <h2 className="font-display text-2xl sm:text-3xl text-[#1E1022]">
               The Age-Gap Field Guide: Lore &amp; Celebrity Icons
             </h2>
-            <p className="text-sm sm:text-base text-slate-300">
+            <p className="text-sm sm:text-base font-medium text-[#5A4664]">
               From Puma, Cougar, and Jaguar tiers to Jessica Alba, Sienna Miller, Ellie Goulding, Miley Cyrus &amp; the &ldquo;Cub Grooming&rdquo; glow-up.
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-white/15 bg-white/5 p-2.5 text-slate-200 hover:bg-rose-500 hover:text-white transition cursor-pointer"
+            className="pop-btn rounded-xl bg-[#FFF4F7] p-2.5 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
             aria-label="Close Field Guide"
           >
             <X className="h-5 w-5" />
@@ -65,10 +65,10 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
               key={tab.id}
               type="button"
               onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
-              className={`rounded-full border px-4 py-2 text-sm font-semibold transition cursor-pointer ${
+              className={`pop-btn rounded-full px-4 py-2 text-sm font-extrabold cursor-pointer ${
                 activeFilter === tab.id
-                  ? 'border-transparent bg-gradient-to-r from-rose-500 to-amber-400 text-slate-950 font-bold'
-                  : 'border-white/12 bg-white/5 text-slate-200 hover:bg-white/10'
+                  ? 'bg-[#FF2E63] text-white'
+                  : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
               }`}
             >
               {tab.label}
@@ -76,30 +76,28 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
           ))}
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 items-stretch">
           {visibleEntries.map((entry) => {
             const stamped = unlockedStamps.includes(entry.id);
             const isPop = entry.category === 'pop_culture';
             return (
               <div
                 key={entry.id}
-                className={`rounded-2xl border p-5 space-y-2.5 ${
-                  isPop
-                    ? 'border-rose-400/35 bg-rose-500/[0.07]'
-                    : 'border-white/12 bg-white/[0.04]'
+                className={`rounded-2xl border-2 border-[#1E1022] p-5 space-y-2.5 h-full ${
+                  isPop ? 'bg-[#FFF4F7]' : 'bg-[#FFFBEB]'
                 }`}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-display text-xl text-amber-200">{entry.label}</span>
-                  <span className="rounded-full bg-white/10 px-3 py-0.5 text-xs font-semibold text-rose-200">
+                  <span className="font-display text-xl text-[#1E1022]">{entry.label}</span>
+                  <span className="rounded-full border border-[#1E1022] bg-white px-3 py-0.5 text-xs font-extrabold text-[#D90452]">
                     {entry.ageRange}
                   </span>
                 </div>
-                <div className="text-xs sm:text-sm font-bold uppercase tracking-wide text-amber-300">
+                <div className="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-[#D90452]">
                   {entry.headline} {stamped ? '• ✓ Unlocked' : ''}
                 </div>
-                <p className="text-sm leading-relaxed text-slate-200">{entry.insiderLore}</p>
-                <p className="rounded-xl bg-black/35 px-3.5 py-2 text-xs sm:text-sm italic text-amber-100/90">
+                <p className="text-sm font-medium leading-relaxed text-[#34223B]">{entry.insiderLore}</p>
+                <p className="rounded-xl border border-[#1E1022]/20 bg-white px-3.5 py-2 text-xs sm:text-sm italic font-semibold text-[#1E1022]">
                   Signature Tell: {entry.signatureTell}
                 </p>
               </div>

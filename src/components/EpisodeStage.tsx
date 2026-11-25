@@ -133,6 +133,7 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     id.includes('perimenopause') ||
     id.includes('menopause') ||
     id.includes('hobosexual') ||
+    id.includes('pillow') ||
     id.includes('doubt')
   ) {
     return {
@@ -428,44 +429,43 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     run.pairing.his.subplotTags.includes('zero_proof_wellness');
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4 relative">
-      {/* Velvet Curtain Scene Wipe Overlay */}
+    <div className="w-full space-y-5 relative">
+      {/* Scene Wipe Curtain */}
       {curtainTitle && (
-        <div className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center bg-[#0C0910]/85 backdrop-blur-md animate-curtain-wipe">
-          <div className="rounded-full border border-[#E5C17B]/40 bg-[#15101C] px-6 py-3 font-display text-xl sm:text-2xl text-[#FDE68A] shadow-2xl">
+        <div className="pointer-events-none fixed inset-0 z-40 flex items-center justify-center bg-[#FFF7F0]/90 backdrop-blur-md animate-curtain-wipe">
+          <div className="vice-panel rounded-full bg-[#FFBE0B] px-6 py-3 font-display text-xl sm:text-2xl text-[#1E1022]">
             {curtainTitle}
           </div>
         </div>
       )}
 
-      {/* Compact Glass Telemetry Bar (Replaces 230px Multi-Row Dashboard) */}
-      <div className="vice-panel rounded-2xl px-4 py-3 space-y-2.5">
+      {/* Aligned Pop-Art Telemetry Bar */}
+      <div className="vice-panel rounded-3xl px-5 py-4 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+            <span className="rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 text-xs font-extrabold text-[#1E1022]">
               Scene {Math.min(run.currentEpisodeIndex + 1, run.episodeQueue.length)}/
               {run.episodeQueue.length} • {RELATIONSHIP_STAGE_LABELS[activeStage]}
             </span>
             {streak >= 2 && (
-              <span className="animate-combo-pulse inline-flex items-center gap-1 rounded-full bg-rose-600 px-2.5 py-0.5 text-[11px] font-semibold text-[#FAF7F5]">
-                <Flame className="h-3 w-3" /> {streak}x Streak
+              <span className="animate-combo-pulse inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FF2E63] px-3 py-0.5 text-xs font-extrabold text-white">
+                <Flame className="h-3.5 w-3.5" /> {streak}x Streak
               </span>
             )}
           </div>
 
-          {/* Inline 4-Stat Chips With Live Outcome Deltas */}
           <div className="flex flex-wrap items-center gap-2">
             {statItems.map(([label, val, delta]) => (
               <div
                 key={label}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#1E1729] border border-white/[0.07] px-2.5 py-1 text-xs"
+                className="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-1 text-xs font-bold text-[#1E1022]"
               >
-                <span className="text-stone-400">{label}</span>
-                <strong className="text-[#FAF7F5]">{val}</strong>
+                <span className="text-[#5A4664]">{label}</span>
+                <strong className="font-extrabold">{val}</strong>
                 {Boolean(lastEntry) && typeof delta === 'number' && delta !== 0 && (
                   <span
-                    className={`font-semibold ${
-                      delta > 0 ? 'text-emerald-300' : 'text-rose-300'
+                    className={`font-extrabold ${
+                      delta > 0 ? 'text-[#059669]' : 'text-[#E11D48]'
                     }`}
                   >
                     {delta > 0 ? `+${delta}` : delta}
@@ -475,12 +475,12 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             ))}
           </div>
 
-          <div className="flex items-center gap-3 text-xs">
-            <span className="inline-flex items-center gap-1 text-[#FDE68A] font-semibold">
-              <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500" />
+          <div className="flex items-center gap-3 text-xs font-extrabold text-[#1E1022]">
+            <span className="inline-flex items-center gap-1">
+              <Heart className="h-4 w-4 text-[#FF2E63] fill-[#FF2E63]" />
               Lv.{affinity.level} {affinity.title}
             </span>
-            <span className="inline-flex items-center gap-1 font-semibold text-stone-300">
+            <span className="inline-flex items-center gap-1">
               {[0, 1, 2].map((strike) => (
                 <span key={strike}>{strike < run.redFlags ? '🚩' : '⚪'}</span>
               ))}
@@ -488,20 +488,19 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
           </div>
         </div>
 
-        {/* Slim 6-Stage Arc Strip */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
           {STAGE_PILLS.map(({ stage: st, short }) => {
             const reached = st <= activeStage;
             const current = st === activeStage;
             return (
               <div
                 key={st}
-                className={`rounded-lg px-2 py-1 text-center text-[11px] font-semibold tracking-wide transition ${
+                className={`rounded-xl border-2 px-2 py-1.5 text-center text-xs font-extrabold transition ${
                   current
-                    ? 'bg-[#E5C17B] text-[#0C0910]'
+                    ? 'border-[#1E1022] bg-[#FF2E63] text-white shadow-[2px_2px_0px_#1E1022]'
                     : reached
-                      ? 'bg-emerald-500/12 text-emerald-300 border border-emerald-400/20'
-                      : 'bg-[#1E1729] text-stone-400'
+                      ? 'border-[#1E1022] bg-[#D1FAE5] text-[#065F46]'
+                      : 'border-[#1E1022]/15 bg-[#FFF7F0] text-[#5A4664]'
                 }`}
               >
                 {short}
@@ -514,9 +513,9 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
       {/* DREAM DADDY-INSPIRED LIVING VISUAL-NOVEL STAGE */}
       {sceneSpec && (
         <div
-          className={`vice-panel relative h-72 sm:h-[348px] w-full overflow-hidden rounded-3xl bg-[#0C0910] ${
-            stageReaction === 'red' && lastEntry ? 'animate-screen-shake ring-2 ring-rose-500' : ''
-          } ${stageReaction === 'green' && lastEntry ? 'ring-2 ring-[#E5C17B]/70' : ''}`}
+          className={`vice-panel relative h-72 sm:h-[360px] w-full overflow-hidden rounded-3xl bg-[#1E1022] ${
+            stageReaction === 'red' && lastEntry ? 'animate-screen-shake ring-4 ring-[#FF2E63]' : ''
+          } ${stageReaction === 'green' && lastEntry ? 'ring-4 ring-[#FFBE0B]' : ''}`}
         >
           <img
             key={sceneSpec.imageUrl}
@@ -524,44 +523,37 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             alt={sceneSpec.locationBadge}
             className="absolute inset-0 h-full w-full object-cover animate-ken-burns"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0C0910]/30 via-[#0C0910]/25 to-[#0C0910]/94" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1E1022]/30 via-transparent to-[#1E1022]/90" />
 
-          {/* Ambient Floating Candlelight & Champagne Bokeh Orbs */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 overflow-hidden"
-          >
-            <span className="animate-bokeh-drift absolute left-[14%] top-[28%] h-16 w-16 rounded-full bg-rose-500/20 blur-xl" />
+          {/* Ambient Floating Bokeh Orbs */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            <span className="animate-bokeh-drift absolute left-[14%] top-[28%] h-16 w-16 rounded-full bg-[#FF2E63]/25 blur-xl" />
             <span
               style={{ animationDelay: '1.8s' }}
-              className="animate-bokeh-drift absolute right-[18%] top-[22%] h-20 w-20 rounded-full bg-[#E5C17B]/20 blur-xl"
-            />
-            <span
-              style={{ animationDelay: '3.2s' }}
-              className="animate-bokeh-drift absolute left-[46%] top-[36%] h-14 w-14 rounded-full bg-amber-300/15 blur-xl"
+              className="animate-bokeh-drift absolute right-[18%] top-[22%] h-20 w-20 rounded-full bg-[#FFBE0B]/25 blur-xl"
             />
           </div>
 
           {/* Top Bar: Location Stamp + Animated AI Voice-Note Player */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 p-3.5 sm:p-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0C0910]/80 px-3.5 py-1 text-xs font-medium text-[#FDE68A] backdrop-blur-md">
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 p-4">
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-white px-3.5 py-1 text-xs font-extrabold text-[#1E1022] shadow">
               {sceneSpec.locationBadge}
             </span>
 
             <button
               type="button"
               onClick={handleToggleSceneVoice}
-              className="inline-flex items-center gap-2 rounded-full border border-[#E5C17B]/35 bg-[#0C0910]/80 px-3.5 py-1 text-xs font-semibold text-[#FAF7F5] hover:bg-[#0C0910] backdrop-blur-md transition cursor-pointer"
+              className="pop-btn inline-flex items-center gap-2 rounded-full bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
             >
               {speakingEpId === displayedEpisode?.id ? (
                 <>
-                  <VolumeX className="h-3.5 w-3.5 text-rose-400" />
+                  <VolumeX className="h-3.5 w-3.5 text-[#FF2E63]" />
                   <span className="inline-flex items-end gap-0.5 h-3">
                     {[0, 1, 2, 3, 4].map((b) => (
                       <span
                         key={b}
                         style={{ animationDelay: `${b * 90}ms` }}
-                        className="animate-waveform-bar w-0.5 h-3 rounded-full bg-[#E5C17B]"
+                        className="animate-waveform-bar w-0.5 h-3 rounded-full bg-[#1E1022]"
                       />
                     ))}
                   </span>
@@ -569,7 +561,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 </>
               ) : (
                 <>
-                  <Volume2 className="h-3.5 w-3.5 text-[#E5C17B]" />
+                  <Volume2 className="h-3.5 w-3.5" />
                   <span>🔊 Hear Scene Voice</span>
                 </>
               )}
@@ -587,10 +579,8 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
               {statFlyups.map((f) => (
                 <span
                   key={f.id}
-                  className={`animate-stat-flyup rounded-full px-4 py-1 text-xs sm:text-sm font-semibold shadow-xl ${
-                    f.positive
-                      ? 'bg-[#E5C17B] text-[#0C0910]'
-                      : 'bg-rose-600 text-[#FAF7F5]'
+                  className={`animate-stat-flyup rounded-full border-2 border-[#1E1022] px-4 py-1 text-xs sm:text-sm font-extrabold shadow-lg ${
+                    f.positive ? 'bg-[#FFBE0B] text-[#1E1022]' : 'bg-[#FF2E63] text-white'
                   }`}
                 >
                   {f.text}
@@ -599,14 +589,11 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          {/* Outcome Center Stamp */}
           {lastEntry && (
             <div className="pointer-events-none absolute inset-x-0 bottom-32 z-20 flex justify-center px-4">
               <div
-                className={`rounded-full px-4 py-1 text-xs sm:text-sm font-semibold uppercase tracking-wider shadow-xl ${
-                  isRedOutcome
-                    ? 'bg-rose-600 text-[#FAF7F5]'
-                    : 'bg-[#E5C17B] text-[#0C0910]'
+                className={`rounded-full border-2 border-[#1E1022] px-4 py-1 text-xs sm:text-sm font-extrabold uppercase shadow-xl ${
+                  isRedOutcome ? 'bg-[#FF2E63] text-white' : 'bg-[#FFBE0B] text-[#1E1022]'
                 }`}
               >
                 {isRedOutcome ? '🚩 Red Flag Triggered' : '✨ Chemistry Sparked'}
@@ -614,8 +601,8 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          {/* Foreground Expressive Dream-Daddy Sprites + Floating Reaction Balloons */}
-          <div className="absolute inset-x-3 sm:inset-x-6 bottom-3 z-20 flex items-end justify-between gap-3">
+          {/* Foreground Expressive Sprites + Crisp White Comic Balloons */}
+          <div className="absolute inset-x-4 sm:inset-x-6 bottom-3 z-20 flex items-end justify-between gap-3">
             {/* HER SPRITE */}
             <div
               className={`flex items-end gap-3 transition-all duration-500 ${
@@ -629,27 +616,20 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
               }`}
             >
               <div className="relative">
-                {/* Floating Comic Reaction Balloon */}
-                <div className="animate-float-bubble hidden sm:block absolute -top-9 left-0 whitespace-nowrap rounded-2xl rounded-bl-xs border border-rose-400/40 bg-[#15101C]/95 px-2.5 py-1 text-[11px] font-semibold text-rose-200 shadow-lg">
+                <div className="animate-float-bubble hidden sm:block absolute -top-10 left-0 whitespace-nowrap rounded-2xl rounded-bl-xs border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022] shadow-[3px_3px_0px_#1E1022]">
                   {lastEntry
                     ? isRedOutcome
                       ? '🚩 "Excuse me?!"'
-                      : '😻 "Now THAT’S a move…"'
+                      : '😻 "Now THAT’S a move!"'
                     : '🍸 "Impress me…"'}
                 </div>
 
                 <img
                   src={run.pairing.her.photoUrl}
                   alt={run.pairing.her.name}
-                  className={`h-26 w-20 sm:h-36 sm:w-28 rounded-2xl object-cover object-top border-2 shadow-2xl transition-all ${
-                    lastEntry && !isRedOutcome
-                      ? 'border-[#E5C17B] ring-4 ring-rose-500/30'
-                      : role === 'her'
-                        ? 'border-rose-500'
-                        : 'border-white/30'
-                  }`}
+                  className="h-26 w-20 sm:h-36 sm:w-28 rounded-2xl object-cover object-top border-[2.5px] border-white shadow-2xl"
                 />
-                <span className="absolute -bottom-1.5 -right-1.5 rounded-full bg-rose-600 px-2 py-0.5 text-[11px] font-semibold text-[#FAF7F5] shadow">
+                <span className="absolute -bottom-1.5 -right-1.5 rounded-full border-2 border-[#1E1022] bg-[#FF2E63] px-2.5 py-0.5 text-[11px] font-extrabold text-white">
                   {lastEntry
                     ? isRedOutcome
                       ? '😒 Ick'
@@ -659,11 +639,11 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                       : '😼 Vetting'}
                 </span>
               </div>
-              <div className="pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                <div className="font-display text-lg sm:text-[22px] text-[#FAF7F5]">
+              <div className="pb-1 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+                <div className="font-display text-lg sm:text-2xl text-white">
                   {run.pairing.her.name}, {run.pairing.her.age}
                 </div>
-                <div className="text-xs text-rose-200">{run.pairing.her.title}</div>
+                <div className="text-xs font-bold text-[#FFE3EC]">{run.pairing.her.title}</div>
               </div>
             </div>
 
@@ -679,15 +659,14 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                     : 'animate-portrait-breathe'
               }`}
             >
-              <div className="pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                <div className="font-display text-lg sm:text-[22px] text-[#FAF7F5]">
+              <div className="pb-1 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+                <div className="font-display text-lg sm:text-2xl text-white">
                   {run.pairing.his.name}, {run.pairing.his.age}
                 </div>
-                <div className="text-xs text-[#FDE68A]">{run.pairing.his.title}</div>
+                <div className="text-xs font-bold text-[#FFBE0B]">{run.pairing.his.title}</div>
               </div>
               <div className="relative">
-                {/* Floating Comic Reaction Balloon */}
-                <div className="animate-float-bubble hidden sm:block absolute -top-9 right-0 whitespace-nowrap rounded-2xl rounded-br-xs border border-[#E5C17B]/40 bg-[#15101C]/95 px-2.5 py-1 text-[11px] font-semibold text-[#FDE68A] shadow-lg">
+                <div className="animate-float-bubble hidden sm:block absolute -top-10 right-0 whitespace-nowrap rounded-2xl rounded-br-xs border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022] shadow-[3px_3px_0px_#1E1022]">
                   {lastEntry
                     ? isRedOutcome
                       ? '💦 "Uh oh…"'
@@ -698,15 +677,9 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 <img
                   src={run.pairing.his.photoUrl}
                   alt={run.pairing.his.name}
-                  className={`h-26 w-20 sm:h-36 sm:w-28 rounded-2xl object-cover object-top border-2 shadow-2xl transition-all ${
-                    lastEntry && !isRedOutcome
-                      ? 'border-[#E5C17B] ring-4 ring-[#E5C17B]/30'
-                      : role === 'him'
-                        ? 'border-[#E5C17B]'
-                        : 'border-white/30'
-                  }`}
+                  className="h-26 w-20 sm:h-36 sm:w-28 rounded-2xl object-cover object-top border-[2.5px] border-white shadow-2xl"
                 />
-                <span className="absolute -bottom-1.5 -left-1.5 rounded-full bg-[#E5C17B] px-2 py-0.5 text-[11px] font-semibold text-[#0C0910] shadow">
+                <span className="absolute -bottom-1.5 -left-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-[11px] font-extrabold text-[#1E1022]">
                   {lastEntry
                     ? isRedOutcome
                       ? '😬 Busted'
@@ -721,14 +694,14 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
         </div>
       )}
 
-      {/* Earned Body-Language Insight (Unlocks automatically when the scene's tactile game completes!) */}
+      {/* Earned Body-Language Insight */}
       {!lastEntry && currentEpisode && sceneSpec && sceneGameCompleted && (
-        <div className="animate-stage-in rounded-2xl border border-[#E5C17B]/30 bg-[#1E1729] px-4 py-3 text-sm text-stone-200 flex items-center justify-between gap-3">
+        <div className="animate-stage-in rounded-2xl border-2 border-[#1E1022] bg-[#D1FAE5] px-4 py-3 text-sm font-bold text-[#065F46] flex items-center justify-between gap-3 shadow-[3px_3px_0px_#1E1022]">
           <span>
-            <strong className="text-[#FDE68A]">👀 Room Read Unlocked:</strong>{' '}
+            <strong>👀 Room Read Unlocked:</strong>{' '}
             {role === 'her' ? sceneSpec.vibeReadHer : sceneSpec.vibeReadHim}
           </span>
-          <span className="shrink-0 rounded-full bg-emerald-500/15 px-3 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-300">
+          <span className="shrink-0 rounded-full border border-[#065F46] bg-white px-3 py-0.5 text-xs font-extrabold uppercase">
             Bonus Active
           </span>
         </div>
@@ -739,49 +712,47 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
         <div className="vice-panel animate-stage-in rounded-3xl p-6 sm:p-8 space-y-5">
           <div className="flex flex-wrap items-center gap-2.5">
             <div
-              className={`vice-toast inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wider shadow ${
-                isRedOutcome
-                  ? 'bg-rose-950 border border-rose-500/50 text-rose-200'
-                  : 'bg-[#E5C17B] text-[#0C0910]'
+              className={`vice-toast inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] px-4 py-1.5 text-xs sm:text-sm font-extrabold uppercase ${
+                isRedOutcome ? 'bg-[#FFE4E6] text-[#9F1239]' : 'bg-[#FFBE0B] text-[#1E1022]'
               }`}
             >
               ⚡ {lastEntry.toastBanner}
             </div>
 
             {lastEntry.badgeUnlocked && (
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-500/15 px-3.5 py-1.5 text-xs font-semibold text-emerald-200">
-                <Award className="h-3.5 w-3.5 text-[#E5C17B]" />
+              <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#D1FAE5] px-3.5 py-1.5 text-xs font-extrabold text-[#065F46]">
+                <Award className="h-3.5 w-3.5" />
                 <span>{lastEntry.badgeUnlocked}</span>
               </div>
             )}
           </div>
 
-          <h3 className="font-display text-2xl sm:text-3xl text-[#FAF7F5]">
+          <h3 className="font-display text-2xl sm:text-3xl text-[#1E1022]">
             {resolvedEpisode.title}
           </h3>
-          <p className="text-[15px] sm:text-base leading-relaxed text-stone-200 max-w-[65ch]">
+          <p className="text-base font-medium leading-relaxed text-[#34223B]">
             {renderRichText(lastEntry.outcomeText)}
           </p>
 
-          <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] px-4 py-3 text-sm text-stone-300">
+          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-sm font-bold text-[#1E1022]">
             Global Club Pulse:{' '}
-            <strong className="text-[#FDE68A]">
+            <strong className="text-[#FF2E63]">
               {crowdPcts[lastEntry.choiceIndex] ?? 48}%
             </strong>{' '}
             of players made this exact move.
           </div>
 
           {resolvedChoice?.triggerTipPrompt && Boolean(lastEntry.badgeUnlocked) && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4">
-              <div className="text-sm text-stone-200">
-                <strong className="text-[#FAF7F5]">Lived this moment in real life?</strong> Toss an Espresso Martini in the Creator Lounge.
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4">
+              <div className="text-sm font-bold text-[#1E1022]">
+                <strong>Lived this moment in real life?</strong> Toss an Espresso Martini in the Creator Lounge.
               </div>
               {liveTipUrl ? (
                 <a
                   href={liveTipUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2.5 text-sm font-semibold text-[#FAF7F5] transition"
+                  className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-4 py-2.5 text-sm font-extrabold text-white"
                 >
                   <Coffee className="h-4 w-4" />
                   <span>Send a Martini Tip</span>
@@ -790,7 +761,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 <button
                   type="button"
                   onClick={onOpenBoutique}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2.5 text-sm font-semibold text-[#FAF7F5] transition cursor-pointer"
+                  className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-4 py-2.5 text-sm font-extrabold text-white cursor-pointer"
                 >
                   <Coffee className="h-4 w-4" />
                   <span>Open Creator Lounge</span>
@@ -799,25 +770,24 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          {/* Protected Affiliate Boutique Drop */}
           {affiliate && (
-            <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFFBEB] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
-                <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+                <span className="inline-block rounded-full border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-xs font-extrabold uppercase text-[#1E1022]">
                   Curated Club Pick • {affiliate.badge}
                 </span>
-                <div className="text-base font-semibold text-[#FAF7F5]">
+                <div className="text-base font-extrabold text-[#1E1022]">
                   {affiliate.name} ({affiliate.priceDisplay})
                 </div>
-                <p className="text-sm text-stone-300">{affiliate.cheekyPitch}</p>
+                <p className="text-sm font-medium text-[#5A4664]">{affiliate.cheekyPitch}</p>
               </div>
               <a
                 href={buildAffiliateUrl(affiliate, `scene_${resolvedEpisode.id}`)}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-[#E5C17B] hover:bg-[#F0CFA0] px-4 py-2.5 text-sm font-semibold text-[#0C0910] transition"
+                className="pop-btn shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-4 py-2.5 text-sm font-extrabold text-white"
               >
-                <span>Shop Pick</span>
+                <span>Shop Protected Pick</span>
                 <ExternalLink className="h-4 w-4" />
               </a>
             </div>
@@ -827,7 +797,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             <button
               type="button"
               onClick={handleRewindClick}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/[0.05] px-4 py-2.5 text-sm font-semibold text-[#FDE68A] hover:bg-white/10 transition cursor-pointer"
+              className="pop-btn inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
             >
               <RotateCcw className="h-4 w-4" />
               <span>Smooth Rewind (1 Credit • {credits} left)</span>
@@ -840,7 +810,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                   sfx.redFlag();
                   onFinishRun();
                 }}
-                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-3 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FF2E63] px-6 py-3 text-base font-extrabold text-white cursor-pointer"
               >
                 3 Strikes! See Vibe Receipt →
               </button>
@@ -851,7 +821,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                   sfx.victoryFanfare();
                   onFinishRun();
                 }}
-                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-3 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FF2E63] px-6 py-3 text-base font-extrabold text-white cursor-pointer"
               >
                 See Official Vibe Receipt →
               </button>
@@ -859,7 +829,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
               <button
                 type="button"
                 onClick={handleAdvanceNextScene}
-                className="rounded-xl bg-rose-600 hover:bg-rose-500 px-6 py-3 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FF2E63] px-6 py-3 text-base font-extrabold text-white cursor-pointer"
               >
                 Next Stage Scene →
               </button>
@@ -867,31 +837,31 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
           </div>
         </div>
       ) : currentEpisode ? (
-        <div key={currentEpisode.id} className="vice-panel rounded-3xl p-5 sm:p-7 space-y-5 animate-stage-in">
+        <div key={currentEpisode.id} className="vice-panel rounded-3xl p-6 sm:p-7 space-y-5 animate-stage-in">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+            <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-3 py-1 text-xs font-extrabold text-[#D90452]">
               {cleanStoryTag}
             </span>
             <button
               type="button"
               onClick={() => onShareDilemma(currentEpisode.id, currentEpisode.title)}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-white/12 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-stone-200 hover:bg-white/10 transition cursor-pointer"
+              className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-white px-3.5 py-1.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
             >
-              <Share2 className="h-3.5 w-3.5 text-[#E5C17B]" />
+              <Share2 className="h-3.5 w-3.5 text-[#FF2E63]" />
               <span>Ask Bestie: Ghost or Train?</span>
             </button>
           </div>
 
-          <h2 className="font-display text-2xl sm:text-3xl text-[#FAF7F5]">
+          <h2 className="font-display text-2xl sm:text-3xl text-[#1E1022]">
             {currentEpisode.title}
           </h2>
 
           {/* Dream-Daddy Visual-Novel Speaker Plaque + Dialogue Box */}
-          <div className="animate-vn-box relative rounded-2xl border border-[#E5C17B]/30 bg-[#1E1729]/95 p-4 sm:p-5 shadow-lg">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E5C17B] px-3 py-0.5 font-display text-xs font-bold text-[#0C0910] mb-2">
+          <div className="animate-vn-box relative rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-5">
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 font-display text-xs font-extrabold text-[#1E1022] mb-2">
               🎬 {role === 'her' ? `${run.pairing.her.name}’s POV` : `${run.pairing.his.name}’s POV`}
             </span>
-            <p className="text-[15px] sm:text-base leading-relaxed text-[#FAF7F5] max-w-[68ch]">
+            <p className="text-[15px] sm:text-base font-medium leading-relaxed text-[#1E1022]">
               {renderRichText(
                 personalizeText(
                   role === 'her' ? currentEpisode.setupHer : currentEpisode.setupHim,
@@ -901,7 +871,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </p>
           </div>
 
-          {/* 100% Tactile Scene Coverage: Bespoke Minigame OR Auto-Matched Universal Microgame! */}
+          {/* 100% Tactile Scene Coverage: Bespoke Minigame OR Auto-Matched Universal Microgame */}
           {sceneGameType && (
             <MinigameWidget
               type={sceneGameType}
@@ -913,13 +883,13 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             />
           )}
 
-          {/* Compact Collapsible Inner Whispers (Code-Switch / Mirror Doubts) */}
+          {/* Collapsible Inner Whispers */}
           {(currentEpisode.codeSwitchRawImpulse || currentEpisode.innerInsecurityBubble) && (
             <div className="space-y-2.5">
               <button
                 type="button"
                 onClick={() => setWhispersOpen((v) => !v)}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#FDE68A] hover:text-white cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#D90452] hover:underline cursor-pointer"
               >
                 <span>
                   {currentEpisode.codeSwitchRawImpulse
@@ -932,34 +902,34 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
               </button>
 
               {whispersOpen && currentEpisode.codeSwitchRawImpulse && (
-                <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-4 space-y-1.5">
-                  <p className="text-sm text-[#FAF7F5]">
-                    <span className="text-stone-400">Unfiltered impulse:</span> &ldquo;
+                <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFFBEB] p-4 space-y-1.5">
+                  <p className="text-sm font-bold text-[#1E1022]">
+                    <span className="text-[#5A4664]">Unfiltered impulse:</span> &ldquo;
                     {renderRichText(currentEpisode.codeSwitchRawImpulse.rawThought)}&rdquo;
                   </p>
-                  <p className="text-xs text-[#FDE68A]">
+                  <p className="text-xs font-extrabold text-[#B45309]">
                     ⚠️ {renderRichText(currentEpisode.codeSwitchRawImpulse.warningNote)}
                   </p>
                 </div>
               )}
 
               {whispersOpen && currentEpisode.innerInsecurityBubble && (
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-2xl bg-[#1E1729] border border-rose-500/25 p-3.5">
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-rose-300">
+                <div className="grid gap-3 sm:grid-cols-2 items-stretch">
+                  <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4">
+                    <div className="text-xs font-extrabold uppercase text-[#D90452]">
                       {run.pairing.her.name}’s Silent Doubt
                     </div>
-                    <p className="mt-1 text-sm italic text-stone-200 leading-relaxed">
+                    <p className="mt-1 text-sm font-medium italic text-[#1E1022] leading-relaxed">
                       {renderRichText(
                         personalizeText(currentEpisode.innerInsecurityBubble.herDoubt, run.pairing),
                       )}
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-3.5">
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+                  <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFFBEB] p-4">
+                    <div className="text-xs font-extrabold uppercase text-[#B45309]">
                       {run.pairing.his.name}’s Silent Doubt
                     </div>
-                    <p className="mt-1 text-sm italic text-stone-200 leading-relaxed">
+                    <p className="mt-1 text-sm font-medium italic text-[#1E1022] leading-relaxed">
                       {renderRichText(
                         personalizeText(currentEpisode.innerInsecurityBubble.hisDoubt, run.pairing),
                       )}
@@ -970,18 +940,18 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             </div>
           )}
 
-          {/* 3-Column Tactile Play Card Hand (3D Hover Tilt + 2-Tier Headline/Subtext) */}
+          {/* 3 EQUAL-HEIGHT TACTILE PLAY CARDS */}
           <div className="space-y-3 pt-1">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+              <span className="text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
                 Choose Your Play
               </span>
-              <span className="text-xs text-stone-400">
+              <span className="text-xs font-bold text-[#5A4664]">
                 {role === 'her' ? 'Vet his instincts & set the tone' : 'Make your move'}
               </span>
             </div>
 
-            <div className="grid gap-3 lg:grid-cols-3">
+            <div className="grid gap-4 lg:grid-cols-3 items-stretch">
               {shuffledIndices.map((originalIdx, displayPosition) => {
                 const choice = currentEpisode.choices[originalIdx];
                 if (!choice) return null;
@@ -1004,7 +974,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                     style={{
                       animationDelay: `${displayPosition * 65}ms`,
                       transform: isTilted
-                        ? `perspective(700px) rotateX(${tiltState.rx}deg) rotateY(${tiltState.ry}deg) translateY(-3px)`
+                        ? `perspective(700px) rotateX(${tiltState.rx}deg) rotateY(${tiltState.ry}deg) translateY(-2px)`
                         : undefined,
                     }}
                     onPointerEnter={() => sfx.cardHoverTick()}
@@ -1012,36 +982,36 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                       const rect = e.currentTarget.getBoundingClientRect();
                       const nx = (e.clientX - rect.left) / rect.width - 0.5;
                       const ny = (e.clientY - rect.top) / rect.height - 0.5;
-                      setTiltState({ idx: displayPosition, rx: -ny * 5, ry: nx * 5 });
+                      setTiltState({ idx: displayPosition, rx: -ny * 4, ry: nx * 4 });
                     }}
                     onPointerLeave={() => setTiltState(null)}
                     onClick={() => handlePick(originalIdx)}
-                    className="animate-card-deal group flex flex-col justify-between rounded-2xl border border-white/12 bg-[#1E1729] p-4 text-left hover:border-[#E5C17B]/60 hover:bg-[#251d33] active:scale-[0.98] transition-colors cursor-pointer"
+                    className="animate-card-deal pop-btn group flex flex-col justify-between rounded-2xl bg-white p-4 text-left hover:bg-[#FFF4F7] cursor-pointer h-full"
                   >
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-white/[0.06] px-2.5 py-0.5 text-[11px] font-semibold text-[#FDE68A]">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-[#1E1022] bg-[#FFFBEB] px-2.5 py-0.5 text-xs font-extrabold text-[#1E1022]">
                           <span>{parsed.toneIcon}</span>
                           <span>{parsed.toneLabel}</span>
                         </span>
-                        <span className="flex h-6 w-6 items-center justify-center rounded-full border border-[#E5C17B]/40 text-xs font-semibold text-[#FDE68A] group-hover:bg-[#E5C17B] group-hover:text-[#0C0910] transition">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] text-xs font-extrabold text-[#1E1022] group-hover:bg-[#FF2E63] group-hover:text-white transition">
                           {String.fromCharCode(65 + displayPosition)}
                         </span>
                       </div>
 
-                      <div className="text-[15px] font-semibold leading-snug text-[#FAF7F5]">
+                      <div className="text-[15px] font-extrabold leading-snug text-[#1E1022]">
                         {renderRichText(parsed.headline)}
                       </div>
 
                       {parsed.restText && (
-                        <div className="text-sm leading-relaxed text-stone-300">
+                        <div className="text-sm font-medium leading-relaxed text-[#3D2A45]">
                           {renderRichText(parsed.restText)}
                         </div>
                       )}
                     </div>
 
                     {houseboyGateWarning && (
-                      <div className="mt-3 rounded-lg bg-rose-950/80 border border-rose-500/40 px-2.5 py-1 text-xs font-semibold text-rose-200">
+                      <div className="mt-3 rounded-xl border-2 border-[#1E1022] bg-[#FFE4E6] px-2.5 py-1 text-xs font-extrabold text-[#9F1239]">
                         🔒 Clear 60+ Maturity &amp; EQ above first
                       </div>
                     )}

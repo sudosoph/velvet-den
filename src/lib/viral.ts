@@ -339,167 +339,155 @@ export function drawStoryReceiptToCanvas(
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  const displayFont = '"Playfair Display", Georgia, serif';
-  const bodyFont = '"DM Sans", system-ui, sans-serif';
+  const displayFont = '"Outfit", system-ui, sans-serif';
+  const bodyFont = '"Plus Jakarta Sans", system-ui, sans-serif';
   const CX = W / 2;
 
-  // 1. Midnight Champagne & Rose Luxury Backdrop
+  // 1. Palm Springs Sunlit Pop-Art Backdrop
   const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0, '#120b1f');
-  bg.addColorStop(0.5, '#22102d');
-  bg.addColorStop(1, '#0d0a18');
+  bg.addColorStop(0, '#FFF5EC');
+  bg.addColorStop(0.5, '#FFE8F0');
+  bg.addColorStop(1, '#FFF3D6');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  if (typeof ctx.createRadialGradient === 'function') {
-    const glowTop = ctx.createRadialGradient(CX, 280, 40, CX, 280, 560);
-    glowTop.addColorStop(0, 'rgba(244, 63, 94, 0.28)');
-    glowTop.addColorStop(1, 'rgba(244, 63, 94, 0)');
-    ctx.fillStyle = glowTop;
-    ctx.fillRect(0, 0, W, 900);
-
-    const glowBot = ctx.createRadialGradient(CX, 1520, 40, CX, 1520, 520);
-    glowBot.addColorStop(0, 'rgba(251, 191, 36, 0.16)');
-    glowBot.addColorStop(1, 'rgba(251, 191, 36, 0)');
-    ctx.fillStyle = glowBot;
-    ctx.fillRect(0, 1000, W, 920);
-  }
-
-  // Outer Champagne Card Frame
-  drawRoundedPanel(ctx, 48, 48, W - 96, H - 96, 48, {
-    stroke: 'rgba(253, 230, 138, 0.35)',
-    lineWidth: 3,
+  // Outer Bold Ink Frame
+  drawRoundedPanel(ctx, 44, 44, W - 88, H - 88, 48, {
+    fill: '#FFFDF9',
+    stroke: '#1E1022',
+    lineWidth: 6,
   });
 
-  // 2. Top Brand Header Pill (y = 96..184)
-  const pillGrad = ctx.createLinearGradient(180, 96, 900, 184);
-  pillGrad.addColorStop(0, '#e11d48');
-  pillGrad.addColorStop(1, '#d97706');
-  drawRoundedPanel(ctx, 150, 96, 780, 84, 42, { fill: pillGrad });
+  // 2. Top Brand Header Pill (y = 92..180)
+  drawRoundedPanel(ctx, 130, 92, 820, 86, 43, {
+    fill: '#FF2E63',
+    stroke: '#1E1022',
+    lineWidth: 5,
+  });
 
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = '#FFFFFF';
   drawAutoFitCentered(
     ctx,
-    '🐆 COUGARS & CUBS CLUB • VIBE RECEIPT',
+    '🐆 Cougars & Cubs Club • Vibe Receipt',
     CX,
-    150,
-    720,
-    34,
+    148,
+    760,
+    36,
     24,
     '800',
     displayFont,
   );
 
-  // 3. Couple Matchup Glass Card (y = 216..406)
-  drawRoundedPanel(ctx, 90, 216, 900, 190, 32, {
-    fill: 'rgba(255, 255, 255, 0.05)',
-    stroke: 'rgba(255, 255, 255, 0.12)',
-    lineWidth: 2,
+  // 3. Couple Matchup Pop Card (y = 212..402)
+  drawRoundedPanel(ctx, 90, 212, 900, 190, 32, {
+    fill: '#FFF4F7',
+    stroke: '#1E1022',
+    lineWidth: 4,
   });
 
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = '#1E1022';
   drawAutoFitCentered(
     ctx,
     `${summary.pairing.her.name} (${summary.pairing.her.age}F)  ×  ${summary.pairing.his.name} (${summary.pairing.his.age}M)`,
     CX,
-    292,
+    290,
     830,
     46,
     30,
-    '700',
+    '800',
     displayFont,
   );
 
-  ctx.fillStyle = '#fde68a';
+  ctx.fillStyle = '#D90452';
   drawAutoFitCentered(
     ctx,
     summary.pairing.badgeLabel,
     CX,
-    358,
+    356,
     820,
     30,
     20,
-    '600',
+    '700',
     bodyFont,
   );
 
-  // 4. Stacked Hero Score Medallion (y = 434..824) — Zero Side-by-Side Collision!
-  drawRoundedPanel(ctx, 90, 434, 900, 390, 36, {
-    fill: 'rgba(13, 9, 24, 0.82)',
-    stroke: 'rgba(251, 191, 36, 0.4)',
-    lineWidth: 3,
+  // 4. Stacked Hero Score Medallion (y = 432..822)
+  drawRoundedPanel(ctx, 90, 432, 900, 390, 36, {
+    fill: '#FFBE0B',
+    stroke: '#1E1022',
+    lineWidth: 5,
   });
 
-  ctx.fillStyle = '#fbbf24';
-  drawAutoFitCentered(ctx, `${summary.overallScore}%`, CX, 582, 800, 134, 96, '800', displayFont);
+  ctx.fillStyle = '#1E1022';
+  drawAutoFitCentered(ctx, `${summary.overallScore}%`, CX, 582, 800, 136, 96, '900', displayFont);
 
-  // Multi-line wrapped Rank Title inside 820px width
-  ctx.font = `700 38px ${displayFont}`;
-  ctx.fillStyle = '#ffffff';
+  ctx.font = `800 38px ${displayFont}`;
+  ctx.fillStyle = '#1E1022';
   ctx.textAlign = 'center';
   const rankLines = wrapLines(ctx, summary.rankTitle, 820, 38, 2);
   rankLines.forEach((line, idx) => {
-    ctx.fillText(line, CX, 654 + idx * 48, 820);
+    ctx.fillText(line, CX, 652 + idx * 48, 820);
   });
 
-  const strikesY = rankLines.length > 1 ? 776 : 742;
-  ctx.fillStyle = summary.redFlags === 0 ? '#6ee7b7' : '#fda4af';
+  const strikesY = rankLines.length > 1 ? 774 : 740;
+  ctx.fillStyle = summary.redFlags === 0 ? '#065F46' : '#9F1239';
   drawAutoFitCentered(
     ctx,
-    `Red Flags Triggered: ${summary.redFlags} / 3  •  ${summary.redFlags === 0 ? 'Zero-Ick Run' : 'Vetted Live'}`,
+    `Red Flags: ${summary.redFlags} / 3  •  ${summary.redFlags === 0 ? 'Zero-Ick Run!' : 'Vetted Live'}`,
     CX,
     strikesY,
     800,
     28,
     22,
-    '600',
+    '700',
     bodyFont,
   );
 
   // 5. Four Capsule Stat Bars (y = 864..1324)
-  const statEntries: [string, number, string, string][] = [
-    ['Emotional Maturity', summary.stats.maturity, '#fb7185', '#e11d48'],
-    ['Chivalry & Effort', summary.stats.chivalry, '#fcd34d', '#d97706'],
-    ['Communication & EQ', summary.stats.eq, '#6ee7b7', '#10b981'],
-    ['Chemistry & Spark', summary.stats.chemistry, '#f472b6', '#db2777'],
+  const statEntries: [string, number, string][] = [
+    ['Emotional Maturity', summary.stats.maturity, '#FF2E63'],
+    ['Chivalry & Effort', summary.stats.chivalry, '#FFBE0B'],
+    ['Communication & EQ', summary.stats.eq, '#10B981'],
+    ['Chemistry & Spark', summary.stats.chemistry, '#FF6B6B'],
   ];
 
-  statEntries.forEach(([label, val, cStart, cEnd], idx) => {
+  statEntries.forEach(([label, val, barColor], idx) => {
     const y = 890 + idx * 114;
     const clampedVal = Math.max(0, Math.min(100, Math.round(val)));
 
-    ctx.font = `600 30px ${bodyFont}`;
-    ctx.fillStyle = '#f1f5f9';
+    ctx.font = `700 30px ${bodyFont}`;
+    ctx.fillStyle = '#1E1022';
     ctx.textAlign = 'left';
     ctx.fillText(label, 105, y, 660);
 
-    ctx.font = `700 32px ${displayFont}`;
-    ctx.fillStyle = '#fde68a';
+    ctx.font = `800 32px ${displayFont}`;
+    ctx.fillStyle = '#D90452';
     ctx.textAlign = 'right';
     ctx.fillText(`${clampedVal}/100`, 975, y, 160);
 
-    // Track
-    drawRoundedPanel(ctx, 105, y + 18, 870, 28, 14, {
-      fill: 'rgba(255, 255, 255, 0.09)',
+    drawRoundedPanel(ctx, 105, y + 18, 870, 30, 15, {
+      fill: '#F3E8EE',
+      stroke: '#1E1022',
+      lineWidth: 3,
     });
 
-    // Fill
-    const fillW = Math.max(28, Math.round((870 * clampedVal) / 100));
-    const barGrad = ctx.createLinearGradient(105, y + 18, 105 + fillW, y + 46);
-    barGrad.addColorStop(0, cStart);
-    barGrad.addColorStop(1, cEnd);
-    drawRoundedPanel(ctx, 105, y + 18, fillW, 28, 14, { fill: barGrad });
+    const fillW = Math.max(32, Math.round((870 * clampedVal) / 100));
+    drawRoundedPanel(ctx, 105, y + 18, fillW, 30, 15, {
+      fill: barColor,
+      stroke: '#1E1022',
+      lineWidth: 3,
+    });
   });
 
   // 6. Earned Club Badges Card (y = 1364..1696)
   drawRoundedPanel(ctx, 90, 1364, 900, 326, 32, {
-    fill: 'rgba(255, 255, 255, 0.04)',
-    stroke: 'rgba(255, 255, 255, 0.1)',
-    lineWidth: 2,
+    fill: '#FFF4F7',
+    stroke: '#1E1022',
+    lineWidth: 4,
   });
 
-  ctx.fillStyle = '#fde68a';
-  drawAutoFitCentered(ctx, '🏆 EARNED CLUB BADGES', CX, 1420, 820, 30, 24, '700', displayFont);
+  ctx.fillStyle = '#1E1022';
+  drawAutoFitCentered(ctx, '🏆 Earned Club Badges', CX, 1420, 820, 32, 24, '800', displayFont);
 
   const badges =
     summary.badges.length > 0
@@ -509,18 +497,24 @@ export function drawStoryReceiptToCanvas(
   badges.forEach((badge, idx) => {
     const pillY = 1450 + idx * 72;
     drawRoundedPanel(ctx, 130, pillY, 820, 56, 28, {
-      fill: 'rgba(244, 63, 94, 0.16)',
+      fill: '#FFFFFF',
+      stroke: '#1E1022',
+      lineWidth: 3,
     });
 
-    ctx.fillStyle = '#f8fafc';
-    drawAutoFitCentered(ctx, `✨ ${badge}`, CX, pillY + 38, 770, 27, 20, '600', bodyFont);
+    ctx.fillStyle = '#1E1022';
+    drawAutoFitCentered(ctx, `✨ ${badge}`, CX, pillY + 38, 770, 26, 20, '700', bodyFont);
   });
 
   // 7. Footer Call-to-Action Pill (y = 1734..1830)
   const cleanDomain = publicUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '');
-  drawRoundedPanel(ctx, 90, 1734, 900, 92, 46, { fill: pillGrad });
+  drawRoundedPanel(ctx, 90, 1734, 900, 92, 46, {
+    fill: '#FF2E63',
+    stroke: '#1E1022',
+    lineWidth: 5,
+  });
 
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = '#FFFFFF';
   drawAutoFitCentered(
     ctx,
     `Play & Send Your 60s Audition → ${cleanDomain}`,
@@ -529,10 +523,9 @@ export function drawStoryReceiptToCanvas(
     830,
     32,
     22,
-    '700',
+    '800',
     displayFont,
   );
 
-  // Restore default left alignment for any external callers
   ctx.textAlign = 'left';
 }

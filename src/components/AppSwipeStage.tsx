@@ -49,7 +49,6 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [flyDir, setFlyDir] = useState<'left' | 'right' | null>(null);
   const [mobileTab, setMobileTab] = useState<'photo' | 'dossier'>('photo');
-  const [ageSliderOpen, setAgeSliderOpen] = useState(false);
   const [swipeFeedback, setSwipeFeedback] = useState<{ text: string; good: boolean } | null>(null);
 
   const [agePref, setAgePref] = useState<number>(() => (role === 'her' ? 28 : 48));
@@ -238,24 +237,20 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const dragProgress = Math.min(1, Math.abs(dragX) / 90);
 
   return (
-    <div className="mx-auto max-w-5xl space-y-3.5 animate-stage-in">
-      {/* Slim Top Bar + Inline Age-Preference Control */}
-      <div className="vice-panel rounded-2xl px-4 py-3 space-y-2.5">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-3">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+    <div className="w-full space-y-5 animate-stage-in">
+      {/* Aligned Age-Preference Slider Bar */}
+      <div className="vice-panel rounded-3xl px-5 py-4 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold text-[#1E1022]">
               Act I • Profile {index + 1} of {deck.length}
             </span>
-            <button
-              type="button"
-              onClick={() => setAgeSliderOpen((v) => !v)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#E5C17B]/35 bg-[#1E1729] px-3 py-1 text-xs font-semibold text-[#FDE68A] hover:bg-white/10 transition cursor-pointer"
-            >
-              <SlidersHorizontal className="h-3.5 w-3.5 text-rose-400" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFF4F7] px-3 py-1 text-xs font-extrabold text-[#1E1022]">
+              <SlidersHorizontal className="h-3.5 w-3.5 text-[#FF2E63]" />
               <span>
                 {role === 'her' ? `Age Filter: ${agePref}–45` : `Age Filter: 30–${agePref}`}
               </span>
-            </button>
+            </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -264,16 +259,16 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(25)}
-                  className="rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/12 px-2.5 py-1 text-xs font-semibold text-[#FDE68A] hover:bg-[#E5C17B]/20 cursor-pointer"
+                  className="pop-btn rounded-full bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
                 >
-                  🤠 Drop to 25
+                  🤠 Drop to 25 (Montana Cowboy)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(21)}
-                  className="rounded-full border border-rose-500/45 bg-rose-950/70 px-2.5 py-1 text-xs font-semibold text-rose-200 hover:bg-rose-900/75 cursor-pointer"
+                  className="pop-btn rounded-full bg-[#FF2E63] px-3 py-1 text-xs font-extrabold text-white cursor-pointer"
                 >
-                  🚨 Dare: 21
+                  🚨 Drop to 21 (Danger Zone)
                 </button>
               </>
             ) : (
@@ -281,14 +276,14 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(53)}
-                  className="rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/12 px-2.5 py-1 text-xs font-semibold text-[#FDE68A] cursor-pointer"
+                  className="pop-btn rounded-full bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
                 >
                   🔥 50s Jaguars
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(64)}
-                  className="rounded-full border border-[#E5C17B]/35 bg-[#E5C17B]/12 px-2.5 py-1 text-xs font-semibold text-[#FDE68A] cursor-pointer"
+                  className="pop-btn rounded-full bg-[#FF2E63] px-3 py-1 text-xs font-extrabold text-white cursor-pointer"
                 >
                   👑 60+ Icons
                 </button>
@@ -298,15 +293,14 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             <button
               type="button"
               onClick={onCompleteSwipes}
-              className="text-xs font-semibold text-stone-400 hover:text-[#FAF7F5] underline ml-1 cursor-pointer"
+              className="text-xs font-extrabold text-[#1E1022] hover:text-[#FF2E63] underline ml-1 cursor-pointer"
             >
               Skip to Date #1 →
             </button>
           </div>
         </div>
 
-        {/* Always keep range slider accessible in DOM for instant drag & test access */}
-        <div className={ageSliderOpen || sliderBanner ? 'block space-y-2' : 'block'}>
+        <div className="space-y-2">
           <input
             type="range"
             aria-label="Dating app age preference slider"
@@ -314,10 +308,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             max={role === 'her' ? 34 : 65}
             value={agePref}
             onChange={(e) => handleAgeSliderChange(Number(e.target.value))}
-            className="w-full accent-[#E5C17B] cursor-pointer h-1.5 rounded-lg bg-[#1E1729]"
+            className="w-full accent-[#FF2E63] cursor-pointer h-2 rounded-lg bg-[#FFF4F7]"
           />
           {sliderBanner && (
-            <div className="rounded-xl bg-[#1E1729] border border-[#E5C17B]/30 px-3 py-1.5 text-xs font-medium text-[#FDE68A]">
+            <div className="rounded-xl border-2 border-[#1E1022] bg-[#FFFBEB] px-3.5 py-2 text-xs font-extrabold text-[#1E1022]">
               {sliderBanner}
             </div>
           )}
@@ -327,23 +321,21 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
       {/* Post-Swipe Consequence Toast */}
       {swipeFeedback && (
         <div
-          className={`vice-toast rounded-2xl px-4 py-2.5 text-center text-sm font-semibold shadow-xl ${
-            swipeFeedback.good
-              ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-200'
-              : 'bg-rose-950/90 border border-rose-500/50 text-rose-200'
+          className={`vice-toast rounded-2xl border-2 border-[#1E1022] px-4 py-3 text-center text-sm font-extrabold shadow-[4px_4px_0px_#1E1022] ${
+            swipeFeedback.good ? 'bg-[#D1FAE5] text-[#065F46]' : 'bg-[#FFE4E6] text-[#9F1239]'
           }`}
         >
           {swipeFeedback.text}
         </div>
       )}
 
-      {/* Mobile View Switcher (Keeps Phone Card Zero-Scroll!) */}
-      <div className="flex lg:hidden rounded-2xl bg-[#15101C] border border-white/[0.08] p-1 text-sm font-semibold">
+      {/* Mobile View Switcher */}
+      <div className="flex lg:hidden rounded-2xl border-2 border-[#1E1022] bg-white p-1 text-sm font-extrabold shadow-[3px_3px_0px_#1E1022]">
         <button
           type="button"
           onClick={() => setMobileTab('photo')}
           className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
-            mobileTab === 'photo' ? 'bg-rose-600 text-[#FAF7F5]' : 'text-stone-300'
+            mobileTab === 'photo' ? 'bg-[#FF2E63] text-white' : 'text-[#1E1022]'
           }`}
         >
           📸 Photos ({safePhotoIdx + 1}/{totalPhotos})
@@ -352,37 +344,35 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           type="button"
           onClick={() => setMobileTab('dossier')}
           className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
-            mobileTab === 'dossier' ? 'bg-[#E5C17B] text-[#0C0910]' : 'text-stone-300'
+            mobileTab === 'dossier' ? 'bg-[#FFBE0B] text-[#1E1022]' : 'text-[#1E1022]'
           }`}
         >
           💬 Bio, Prompts &amp; Voice
         </button>
       </div>
 
-      {/* ZERO-SCROLL TWO-COLUMN SPLIT: Left = 2-Card Draggable Stack + Swipe Dock | Right = Dossier */}
-      <div className="grid gap-5 lg:grid-cols-[390px_1fr] items-start">
-        {/* LEFT COLUMN: 2-Card Depth Stack + Docked Pass/Date Bar */}
-        <div className={`${mobileTab === 'dossier' ? 'hidden lg:block' : 'block'} space-y-3`}>
+      {/* STRICTLY ALIGNED TWO-COLUMN SPLIT */}
+      <div className="grid gap-6 lg:grid-cols-[410px_1fr] items-start">
+        {/* LEFT COLUMN: 2-Card Draggable Stack + Swipe Dock */}
+        <div className={`${mobileTab === 'dossier' ? 'hidden lg:block' : 'block'} space-y-3.5`}>
           <div className="relative">
-            {/* Next Card Peeking Underneath */}
             {nextProfile && (
               <div
                 aria-hidden="true"
                 style={{
-                  transform: `scale(${0.94 + dragProgress * 0.05}) translateY(${10 - dragProgress * 10}px)`,
-                  opacity: 0.45 + dragProgress * 0.45,
+                  transform: `scale(${0.95 + dragProgress * 0.04}) translateY(${8 - dragProgress * 8}px)`,
+                  opacity: 0.5 + dragProgress * 0.4,
                 }}
-                className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-3xl border border-white/10 bg-[#15101C]"
+                className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-3xl border-2 border-[#1E1022] bg-[#FFF4F7]"
               >
                 <img
                   src={nextProfile.photos[0].photoUrl}
                   alt=""
-                  className="h-full w-full object-cover object-top opacity-60"
+                  className="h-full w-full object-cover object-top opacity-65"
                 />
               </div>
             )}
 
-            {/* Active Draggable Front Card */}
             <div
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
@@ -399,7 +389,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                   ? 'none'
                   : 'transform 0.34s cubic-bezier(0.22, 1, 0.36, 1)',
               }}
-              className={`vice-panel relative z-10 select-none touch-pan-y overflow-hidden rounded-3xl p-3 space-y-2.5 ${
+              className={`vice-panel relative z-10 select-none touch-pan-y overflow-hidden rounded-3xl p-3.5 space-y-3 ${
                 flyDir === 'left'
                   ? 'animate-swipe-left'
                   : flyDir === 'right'
@@ -407,11 +397,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                     : ''
               }`}
             >
-              {/* Proportional Drag Stamps */}
               {dragX > 24 && (
                 <div
                   style={{ opacity: dragProgress, transform: `scale(${0.85 + dragProgress * 0.2}) rotate(-10deg)` }}
-                  className="pointer-events-none absolute top-16 left-5 z-30 rounded-xl border-2 border-emerald-400 bg-[#0C0910]/85 px-4 py-1 font-display text-2xl text-emerald-300"
+                  className="pointer-events-none absolute top-16 left-5 z-30 rounded-xl border-2 border-[#1E1022] bg-[#D1FAE5] px-4 py-1 font-display text-2xl text-[#065F46] shadow-lg"
                 >
                   Date 💚
                 </div>
@@ -419,13 +408,12 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               {dragX < -24 && (
                 <div
                   style={{ opacity: dragProgress, transform: `scale(${0.85 + dragProgress * 0.2}) rotate(10deg)` }}
-                  className="pointer-events-none absolute top-16 right-5 z-30 rounded-xl border-2 border-rose-500 bg-[#0C0910]/85 px-4 py-1 font-display text-2xl text-rose-300"
+                  className="pointer-events-none absolute top-16 right-5 z-30 rounded-xl border-2 border-[#1E1022] bg-[#FFE4E6] px-4 py-1 font-display text-2xl text-[#9F1239] shadow-lg"
                 >
                   Pass 🚩
                 </div>
               )}
 
-              {/* Story Progress Bars + Photo Selector Pills */}
               <div className="space-y-2">
                 <div
                   className="grid gap-1.5"
@@ -437,15 +425,15 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       type="button"
                       aria-label={`Slide ${idx + 1}`}
                       onClick={() => selectPhoto(idx)}
-                      className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                        safePhotoIdx === idx ? 'bg-[#E5C17B]' : 'bg-white/20 hover:bg-white/40'
+                      className={`h-2 rounded-full border border-[#1E1022] transition-all cursor-pointer ${
+                        safePhotoIdx === idx ? 'bg-[#FF2E63]' : 'bg-[#FFF4F7]'
                       }`}
                     />
                   ))}
                 </div>
 
                 <div className="flex items-center justify-between gap-2">
-                  <div className="flex gap-1 overflow-x-auto no-scrollbar rounded-xl bg-[#1E1729] p-1">
+                  <div className="flex gap-1 overflow-x-auto no-scrollbar rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] p-1">
                     {profile.photos.map((ph, idx) => {
                       const defaultLabel =
                         idx === 0
@@ -458,12 +446,12 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                           key={idx}
                           type="button"
                           onClick={() => selectPhoto(idx)}
-                          className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-semibold transition cursor-pointer ${
+                          className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-extrabold transition cursor-pointer ${
                             safePhotoIdx === idx
                               ? ph.isRedFlagPhoto
-                                ? 'bg-rose-600 text-[#FAF7F5]'
-                                : 'bg-[#E5C17B] text-[#0C0910]'
-                              : 'text-stone-300 hover:text-[#FAF7F5]'
+                                ? 'bg-[#FF2E63] text-white'
+                                : 'bg-[#FFBE0B] text-[#1E1022]'
+                              : 'text-[#1E1022] hover:bg-white'
                           }`}
                         >
                           {ph.shortTab || defaultLabel}
@@ -480,23 +468,23 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                         `Would you swipe right on ${profile.name} (${profile.age})?!`,
                       )
                     }
-                    className="shrink-0 inline-flex items-center gap-1 rounded-xl border border-white/12 bg-white/[0.05] px-2.5 py-1 text-xs font-semibold text-stone-200 hover:bg-white/10 cursor-pointer"
+                    className="pop-btn shrink-0 inline-flex items-center gap-1 rounded-xl bg-white px-2.5 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
                   >
-                    <Share2 className="h-3.5 w-3.5 text-[#E5C17B]" />
+                    <Share2 className="h-3.5 w-3.5 text-[#FF2E63]" />
                     <span>Ask Bestie</span>
                   </button>
                 </div>
               </div>
 
-              {/* Portrait Frame (Compact Height So Buttons Always Stay Visible!) */}
-              <div className="relative h-[360px] sm:h-[390px] w-full overflow-hidden rounded-2xl bg-[#0C0910]">
+              {/* Portrait Frame */}
+              <div className="relative h-[360px] sm:h-[390px] w-full overflow-hidden rounded-2xl border-2 border-[#1E1022] bg-[#1E1022]">
                 <img
                   src={currentPhoto.photoUrl}
                   alt={`${profile.name} ${currentPhoto.caption}`}
                   draggable={false}
                   className="h-full w-full object-cover object-top transition-all duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0C0910]/95 via-[#0C0910]/15 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1E1022]/95 via-[#1E1022]/15 to-transparent" />
 
                 {totalPhotos > 1 && (
                   <>
@@ -504,7 +492,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       type="button"
                       aria-label="Previous photo"
                       onClick={() => selectPhoto(safePhotoIdx - 1)}
-                      className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/65 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                      className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] hover:bg-[#FFBE0B] cursor-pointer"
                     >
                       <ChevronLeft className="h-4 w-4" />
                     </button>
@@ -512,7 +500,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       type="button"
                       aria-label="Next photo"
                       onClick={() => selectPhoto(safePhotoIdx + 1)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-[#0C0910]/65 p-2 text-white hover:bg-[#0C0910] cursor-pointer"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] hover:bg-[#FFBE0B] cursor-pointer"
                     >
                       <ChevronRight className="h-4 w-4" />
                     </button>
@@ -520,16 +508,15 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 )}
 
                 <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-1.5">
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-[#0C0910]/80 px-2.5 py-1 text-xs font-medium text-emerald-300 border border-emerald-400/30">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-white px-2.5 py-1 text-xs font-extrabold text-[#065F46]">
+                    <span className="h-2 w-2 rounded-full bg-[#10B981] animate-pulse" />
                     <span>{profile.activeAgo}</span>
                   </div>
-                  <span className="rounded-full bg-[#0C0910]/80 border border-[#E5C17B]/35 px-2.5 py-1 text-xs font-medium text-[#FDE68A]">
+                  <span className="rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-2.5 py-1 text-xs font-extrabold text-[#1E1022]">
                     {profile.lookBadge}
                   </span>
                 </div>
 
-                {/* Interactive Photo #2 Tap-Directly-on-Clue Magnifier Hotspot! */}
                 {safePhotoIdx >= 1 && (
                   <button
                     type="button"
@@ -538,10 +525,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       else sfx.greenFlag();
                       setClueMagnified((v) => !v);
                     }}
-                    className={`animate-hotspot-ping absolute right-5 top-1/2 -translate-y-1/2 rounded-full border-2 px-3 py-1.5 text-xs font-bold shadow-xl backdrop-blur-md cursor-pointer ${
+                    className={`animate-hotspot-ping absolute right-5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] px-3 py-1.5 text-xs font-extrabold shadow-xl cursor-pointer ${
                       currentPhoto.isRedFlagPhoto
-                        ? 'border-rose-400 bg-rose-600/90 text-white'
-                        : 'border-emerald-300 bg-emerald-600/90 text-white'
+                        ? 'bg-[#FF2E63] text-white'
+                        : 'bg-[#FFBE0B] text-[#1E1022]'
                     }`}
                   >
                     {clueMagnified
@@ -554,10 +541,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
 
                 <div className="absolute bottom-3 left-3.5 right-3.5 flex items-end justify-between gap-2">
                   <div>
-                    <h3 className="font-display text-3xl text-[#FAF7F5] leading-none">
-                      {profile.name}, <span className="text-[#FDE68A]">{profile.age}</span>
+                    <h3 className="font-display text-3xl text-white leading-none">
+                      {profile.name}, <span className="text-[#FFBE0B]">{profile.age}</span>
                     </h3>
-                    <p className="mt-1 text-xs text-stone-300">
+                    <p className="mt-1 text-xs font-bold text-white/90">
                       {profile.occupation} • {profile.height} • {profile.zodiac}
                     </p>
                   </div>
@@ -568,7 +555,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       sfx.shockZoom();
                       setAgeZoomed((v) => !v);
                     }}
-                    className="inline-flex items-center gap-1 rounded-xl bg-[#E5C17B] hover:bg-[#F0CFA0] px-3 py-1.5 text-xs font-semibold text-[#0C0910] shadow cursor-pointer"
+                    className="pop-btn inline-flex items-center gap-1 rounded-xl bg-[#FFBE0B] px-3 py-1.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
                   >
                     <Search className="h-3.5 w-3.5" />
                     <span>Zoom Age: {profile.age}</span>
@@ -576,24 +563,23 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 </div>
               </div>
 
-              {/* Compact Photo Caption */}
               <div
-                className={`rounded-xl px-3.5 py-2 text-xs ${
+                className={`rounded-xl border-2 border-[#1E1022] px-3.5 py-2 text-xs font-bold ${
                   currentPhoto.isRedFlagPhoto
-                    ? 'bg-rose-950/85 border border-rose-500/45 text-rose-200'
-                    : 'bg-[#1E1729] text-stone-200'
+                    ? 'bg-[#FFE4E6] text-[#9F1239]'
+                    : 'bg-[#FFF7F0] text-[#1E1022]'
                 }`}
               >
-                <span className="font-semibold text-[#FAF7F5]">{currentPhoto.caption}: </span>
+                <span className="font-extrabold">{currentPhoto.caption}: </span>
                 <span>{currentPhoto.vibeNote}</span>
               </div>
 
               {ageZoomed && (
-                <div className="animate-shock-zoom rounded-2xl bg-[#E5C17B] p-3.5 text-[#0C0910]">
-                  <div className="text-xs font-semibold uppercase tracking-wider">
+                <div className="animate-shock-zoom rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] p-3.5 text-[#1E1022]">
+                  <div className="text-xs font-extrabold uppercase tracking-wide">
                     🔍 Age Check: {profile.age}
                   </div>
-                  <p className="mt-0.5 text-sm font-semibold">
+                  <p className="mt-0.5 text-sm font-bold">
                     {role === 'her' ? profile.ageShockQuipHer : profile.ageShockQuipHim}
                   </p>
                 </div>
@@ -601,14 +587,14 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             </div>
           </div>
 
-          {/* Docked Swipe Action Bar (ALWAYS Visible Without Scrolling!) */}
+          {/* Docked Swipe Action Bar */}
           <div className="grid grid-cols-[1fr_auto_1fr] gap-2.5">
             <button
               type="button"
               onClick={() => commitSwipe('left')}
-              className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.06] text-[15px] font-semibold text-stone-200 hover:border-rose-500/45 hover:text-rose-300 transition cursor-pointer"
+              className="pop-btn flex h-12 items-center justify-center gap-2 rounded-2xl bg-white text-sm font-extrabold text-[#1E1022] hover:bg-[#FFE4E6] cursor-pointer"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4 text-[#FF2E63]" />
               <span>Swipe Left (Pass)</span>
             </button>
 
@@ -616,103 +602,99 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               type="button"
               onClick={handleUnlockXray}
               title="Run 1-Credit Maturity X-Ray"
-              className="flex h-12 items-center justify-center gap-1.5 rounded-2xl border border-[#E5C17B]/40 bg-[#1E1729] px-3.5 text-xs font-semibold text-[#FDE68A] hover:bg-[#E5C17B]/15 transition cursor-pointer"
+              className="pop-btn flex h-12 items-center justify-center gap-1.5 rounded-2xl bg-[#FFBE0B] px-3.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
             >
               <Eye className="h-4 w-4" />
-              <span>{xrayOpen ? 'X-Ray On' : isFounderUnlimited ? 'X-Ray' : `X-Ray (1 Cr)`}</span>
+              <span>{xrayOpen ? 'X-Ray On' : isFounderUnlimited ? 'X-Ray' : 'X-Ray (1 Cr)'}</span>
             </button>
 
             <button
               type="button"
               onClick={() => commitSwipe('right')}
-              className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-rose-600 hover:bg-rose-500 text-[15px] font-semibold text-[#FAF7F5] shadow-lg transition cursor-pointer"
+              className="pop-btn flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#FF2E63] text-sm font-extrabold text-white cursor-pointer"
             >
-              <Heart className="h-4 w-4" />
+              <Heart className="h-4 w-4 fill-white" />
               <span>Swipe Right (Date)</span>
             </button>
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Cohesive Profile Dossier (Voice Note, Bio, Prompts & Red/Green Vitals) */}
+        {/* RIGHT COLUMN: Cohesive Pop-Art Profile Dossier */}
         <div
           className={`${
             mobileTab === 'photo' ? 'hidden lg:block' : 'block'
-          } vice-panel rounded-3xl p-5 space-y-4`}
+          } vice-panel rounded-3xl p-6 space-y-4`}
         >
-          {/* Voice Note & Opening DM */}
-          <div className="rounded-2xl bg-[#1E1729] border border-[#E5C17B]/25 p-4 space-y-2">
+          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4 space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+              <span className="text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
                 {role === 'her' ? 'Opening Message & Voice Note' : 'Her Opening Challenge'}
               </span>
               <button
                 type="button"
                 onClick={handleToggleVoiceNote}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                className={`pop-btn inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-extrabold cursor-pointer ${
                   playingVoiceId === profile.id
-                    ? 'bg-emerald-500/25 border border-emerald-400 text-emerald-200 animate-pulse'
-                    : 'bg-[#0C0910]/70 border border-[#E5C17B]/35 text-[#FDE68A] hover:bg-[#0C0910]'
+                    ? 'bg-[#FF2E63] text-white'
+                    : 'bg-[#FFBE0B] text-[#1E1022]'
                 }`}
               >
                 <Volume2 className="h-3.5 w-3.5" />
                 <span>
-                  {playingVoiceId === profile.id ? 'Playing Voice Note…' : 'Hear Voice Note'}
+                  {playingVoiceId === profile.id ? 'Playing Voice Note…' : '🔊 Hear Voice Note'}
                 </span>
               </button>
             </div>
-            <p className="text-[15px] leading-relaxed text-[#FAF7F5]">
+            <p className="text-[15px] font-bold leading-relaxed text-[#1E1022]">
               &ldquo;{profile.openingDm}&rdquo;
             </p>
           </div>
 
           {xrayOpen && (
-            <div className="animate-stage-in rounded-2xl border border-emerald-400/45 bg-emerald-500/12 p-3.5 text-sm font-medium text-emerald-200">
-              <strong className="text-emerald-300">👁️ X-Ray Scan:</strong> {profile.xrayLeak}
+            <div className="animate-stage-in rounded-2xl border-2 border-[#1E1022] bg-[#D1FAE5] p-4 text-sm font-bold text-[#065F46]">
+              <strong>👁️ X-Ray Scan:</strong> {profile.xrayLeak}
             </div>
           )}
 
-          {/* Bio & Spotify */}
-          <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-2.5">
-            <p className="text-[15px] leading-relaxed text-stone-200">
+          <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-[#FFF7F0] p-4 space-y-2.5">
+            <p className="text-[15px] font-medium leading-relaxed text-[#34223B]">
               &ldquo;{profile.tinderBio}&rdquo;
             </p>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-3 py-1 text-xs font-medium text-[#FDE68A]">
-              <Music2 className="h-3.5 w-3.5 text-rose-400" />
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-[#1E1022] bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022]">
+              <Music2 className="h-3.5 w-3.5 text-[#FF2E63]" />
               <span>Anthem: {profile.spotifyAnthem}</span>
             </div>
           </div>
 
-          {/* Unified Hinge Prompts (Matching Velvet Wells!) */}
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-1">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-rose-300">
-                <Sparkles className="inline h-3 w-3 mr-1 text-[#E5C17B]" />
+          <div className="grid gap-3.5 sm:grid-cols-2 items-stretch">
+            <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-white p-4 space-y-1">
+              <div className="text-xs font-extrabold uppercase text-[#D90452]">
+                <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#FFBE0B]" />
                 {profile.hingePromptQuestion}
               </div>
-              <div className="text-sm leading-relaxed text-[#FAF7F5]">
+              <div className="text-sm font-semibold leading-relaxed text-[#1E1022]">
                 {profile.hingePromptAnswer}
               </div>
             </div>
 
             {profile.secondPromptQuestion && profile.secondPromptAnswer && (
-              <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-1">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
-                  <Sparkles className="inline h-3 w-3 mr-1" />
+              <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-white p-4 space-y-1">
+                <div className="text-xs font-extrabold uppercase text-[#B45309]">
+                  <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#FF2E63]" />
                   {profile.secondPromptQuestion}
                 </div>
-                <div className="text-sm leading-relaxed text-[#FAF7F5]">
+                <div className="text-sm font-semibold leading-relaxed text-[#1E1022]">
                   {profile.secondPromptAnswer}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Looking For & Lifestyle Tags */}
-          <div className="rounded-2xl bg-[#1E1729] border border-white/[0.07] p-4 space-y-2.5">
+          <div className="rounded-2xl border-2 border-[#1E1022]/15 bg-[#FFFBEB] p-4 space-y-2.5">
             <div className="text-sm">
-              <span className="text-stone-400">Looking for: </span>
-              <span className="font-semibold text-[#FAF7F5]">&ldquo;{profile.lookingFor}&rdquo;</span>
-              <span className="block text-xs italic text-stone-400 mt-0.5">
+              <span className="font-bold text-[#5A4664]">Looking for: </span>
+              <span className="font-extrabold text-[#1E1022]">&ldquo;{profile.lookingFor}&rdquo;</span>
+              <span className="block text-xs italic font-semibold text-[#5A4664] mt-0.5">
                 {profile.lookingForSubtext}
               </span>
             </div>
@@ -731,10 +713,8 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 return (
                   <span
                     key={interest}
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${
-                      red
-                        ? 'bg-rose-950/75 text-rose-300 border border-rose-500/40'
-                        : 'bg-white/[0.06] text-stone-200 border border-white/10'
+                    className={`rounded-full border border-[#1E1022] px-3 py-1 text-xs font-extrabold ${
+                      red ? 'bg-[#FFE4E6] text-[#9F1239]' : 'bg-white text-[#1E1022]'
                     }`}
                   >
                     {red ? '🚩 ' : '✨ '}
@@ -749,9 +729,9 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             <button
               type="button"
               onClick={handleUnlockXray}
-              className="w-full rounded-2xl border border-dashed border-[#E5C17B]/40 bg-white/[0.02] py-2.5 text-xs font-semibold text-[#FDE68A] hover:bg-white/[0.05] transition cursor-pointer"
+              className="pop-btn w-full rounded-2xl bg-[#FFBE0B] py-3 text-sm font-extrabold text-[#1E1022] cursor-pointer"
             >
-              <Eye className="inline h-3.5 w-3.5 mr-1" />
+              <Eye className="inline h-4 w-4 mr-1" />
               Run Maturity X-Ray Scan ({isFounderUnlimited ? 'FREE • ∞ Founder' : `1 Credit • ${credits} left`})
             </button>
           )}

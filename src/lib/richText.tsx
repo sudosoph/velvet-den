@@ -16,21 +16,21 @@ export function renderRichText(text: string): React.ReactNode {
   return parts.map((part, idx) => {
     if (part.startsWith('***') && part.endsWith('***') && part.length > 6) {
       return (
-        <strong key={idx} className="font-semibold italic text-[#FDE68A]">
+        <strong key={idx} className="font-extrabold italic text-[#D90452]">
           {part.slice(3, -3)}
         </strong>
       );
     }
     if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
       return (
-        <strong key={idx} className="font-semibold text-[#FDE68A]">
+        <strong key={idx} className="font-extrabold text-[#1E1022]">
           {part.slice(2, -2)}
         </strong>
       );
     }
     if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
       return (
-        <em key={idx} className="font-display italic text-rose-200">
+        <em key={idx} className="italic font-semibold text-[#B51749]">
           {part.slice(1, -1)}
         </em>
       );
@@ -39,7 +39,7 @@ export function renderRichText(text: string): React.ReactNode {
       return (
         <span
           key={idx}
-          className="rounded-md bg-white/10 px-1.5 py-0.5 text-[0.92em] font-medium text-[#E5C17B]"
+          className="rounded-md border border-[#1E1022]/25 bg-[#FFF1CC] px-1.5 py-0.5 text-[0.92em] font-bold text-[#1E1022]"
         >
           {part.slice(1, -1)}
         </span>
