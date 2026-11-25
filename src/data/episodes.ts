@@ -254,6 +254,7 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     requiredAnyTags: ['single_mom_sitter'],
     sceneArt: 'babysitter_clock',
+    recommendedAffiliateId: 'bridget-jones-cougar-town-watch',
     setupHer:
       'It’s your ONE kid-free Friday this month, and your $20/hr sitter arrives in 90 minutes ($80 on the clock). Rain clouds roll in and your phone lights up from {hisName}.',
     setupHim:
@@ -505,6 +506,7 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     requiredAnyTags: ['done_with_kids', 'wants_kids_someday'],
     sceneArt: 'fertility_talk',
+    recommendedAffiliateId: 'after-dark-couples-deck',
     setupHer:
       'Six months in, the chemistry with {hisName} ({hisAge}M) is electric—and real love has arrived. Over late-night wine, the #1 real-world subplot surfaces: at {herAge}, you’re 100% done having kids, and he once pictured being a dad.',
     setupHim:
@@ -554,6 +556,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
+    recommendedAffiliateId: 'big-carl-giant-wine-glass',
     setupHer:
       'Sunday mimosas: your 22-year-old college-senior daughter (nearly {hisName}’s age!) AND your most skeptical friend ("What when you’re 65?!") are across the table.',
     setupHim:
@@ -604,6 +607,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'babysitter_clock',
+    recommendedAffiliateId: 'bridget-jones-cougar-town-watch',
     setupHer:
       'You’re 36 with an ironclad rule: nobody meets your 7-year-old before six months of consistency. Sunday morning while {hisName} is grabbing his jacket at your porch, your co-parenting ex pulls into the driveway 25 minutes early for custody drop-off.',
     setupHim:
@@ -652,6 +656,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
+    recommendedAffiliateId: 'cub-grooming-beard-skincare-kit',
     setupHer:
       'Friday happy hour: {hisName} brings you to meet his 25-year-old friend group for the first time. Two beers in, his loudest roommate jokes: "Bro skipped Vegas Dayclub for PTA snacks?!"',
     setupHim:
@@ -699,6 +704,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'fertility_talk',
+    recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
       'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: with **Sienna Miller & Oli Green** and **Ellie Goulding & Beau Minniear** welcoming babies with their 20s Cubs all over the headlines, everyone assumes you’re either rushing a baby clock or playing casual—when you actually want real intentionality.',
     setupHim:
@@ -796,6 +802,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
       '{hisName} just got offered a promotion at work—with a lowball 6% bump. You negotiate seven-figure departmental budgets in your sleep, yet you never want to act like his boss or mom.',
     setupHim:
@@ -844,6 +851,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'date-night-oud-bergamot',
     setupHer:
       'Cocktail lounge night meeting {hisName}’s mid-20s friend circle. Everyone is charming until one tipsy college buddy grins: "Yo {hisName}, blink twice if she’s buying you a PS5 Pro!"',
     setupHim:
@@ -892,6 +900,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
+    recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
       'At {herAge}, you are peak Gen-X: allergic to 47 work-hour meme texts, voice-note monologues, and "wyd" bubbles. It’s 6:05 PM Wednesday—how does {hisName} ({hisAge}M) bridge the communication gap?',
     setupHim:
@@ -989,6 +998,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
+    recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     setupHer:
       'One year together: {hisName} has passed every test, your daughter likes him, and the love is real. Traditional scripts say "move in together"—yet at {herAge}, you spent decades earning your peaceful solo home and love keeping romance intentional.',
     setupHim:
@@ -1086,6 +1096,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
+    recommendedAffiliateId: 'big-carl-giant-wine-glass',
     setupHer:
       'Your three fiercest lifelong girlfriends invite you and {hisName} ({hisAge}M) for martinis. Their unspoken mission: verify he isn’t chasing your desert house or breaking your heart.',
     setupHim:
@@ -1300,6 +1311,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
+    recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
       'Sunday sunset after seeing {hisName}’s friends post engagement parties and backpacking trips. A fierce wave of protective doubt hits your chest: you’ve already lived your 20s, raised kids, built your empire. *Can this actually work without quietly stealing milestones from him—or risking your hard-won peace?*',
     setupHim:
@@ -1355,6 +1367,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
+    recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
       'No emerald velvet tonight: a sprained ankle and fever leave you in flannel pajamas with zero makeup and an ice pack. When {hisName} ({hisAge}M) texts that he’s heading over, a sharp doubt hits: *Anyone loves a Panther over Palm Springs martinis—can this actually work when real-life vulnerability walks in?*',
     setupHim:
@@ -1412,6 +1425,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'trader_joes_aisle',
+    recommendedAffiliateId: 'short-leash-leather-dog-leash',
     setupHer:
       'After divorcing your ex and enduring three bleak Hinge dates with 41-year-old men who ranted about crypto and their ex-wives, you lowered your age slider to {hisAge}. Test #1 at the sunlit wine patio: your scruffy rescue dog **Barnaby**, who barks at 80% of men in finance vests.',
     setupHim:
@@ -1512,6 +1526,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
+    recommendedAffiliateId: 'bridget-jones-cougar-town-watch',
     setupHer:
       'Dog-friendly patio brunch with Barnaby under the table and your two blunt 38-year-old divorced girlfriends across from {hisName} ({hisAge}M). Both just survived terrible dates with 44-year-old finance bros—and arch their eyebrows: *"Girl, you swore off man-children and went younger?!"*',
     setupHim:
@@ -1619,6 +1634,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
+    recommendedAffiliateId: 'short-leash-leather-dog-leash',
     setupHer:
       'One year together: Barnaby adores him, your jaded friends are converts, and you survived the Doubt stage. At {herAge}, you love your child-free freedom—traveling on a whim, sleeping in after dog walks, zero diaper plans. Time for the ultimate Stage 6 alignment with {hisName} ({hisAge}M).',
     setupHim:
@@ -1669,6 +1685,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
       'At {herAge}F and {hisAge}M, strict age-gap gatekeepers say you’re shy of the 10-year cutoff—officially dubbing you a **Junior Cougar**. Halfway through Date #1 cocktails, you do the inevitable calendar math and gasp: *"Wait... when I graduated college, you were taking sophomore geometry?!"*',
     setupHim:
@@ -1717,6 +1734,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
+    recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
       'Road-trip playlist battle: with a sub-10-year Junior Cougar gap, you share 80% of references—until you mention crafting passive-aggressive AIM Away Messages on dial-up while {hisName} ({hisAge}M) quotes 2014 Vines and admits his buddies still call you "his hot Cougar."',
     setupHim:
@@ -1813,6 +1831,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'thanksgiving_table',
+    recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     setupHer:
       'Nobody talks about this 6-year Junior Cougar hazard: you retired from 8-wedding summers five years ago, and suddenly {hisName} ({hisAge}M) is a groomsman in FOUR chaotic open-bar weddings this summer where his buddies are doing tequila shots at 11:30 PM.',
     setupHim:
@@ -1918,6 +1937,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
+    recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
       'Six stages cleared: you laughed through 2008 geometry math, survived his friends’ wedding marathon, and synced watches through the Doubt stage. Just like **Miley Cyrus marrying her 6-year Junior Cougar Cub Maxx Morando** in Palm Springs, you’ve unlocked modern dating’s secret sweet-spot cheat code.',
     setupHim:
@@ -2279,6 +2299,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
+    recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
       'At cocktail hour, the table starts talking celebrity couples—and pop culture is officially in its Golden Cougar Era: **Jessica Alba** thriving with her Cub **Danny Ramirez**, **Sienna Miller & Oli Green** plus **Ellie Goulding & Beau Minniear** welcoming babies with devoted younger partners, and **Miley Cyrus** marrying her 6-year Cub **Maxx Morando**! Someone turns to you ({herAge}F) and {hisName} ({hisAge}M): *"So are Cougars & Cubs just trendy now because of Hollywood?"*',
     setupHim:
@@ -2328,6 +2349,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'chic-candlelit-menu-readers',
     setupHer:
       'Friday night, 8:15 PM. {hisName} ({hisAge}M) already scored silent points by pre-heating your passenger seat warmer to Level 3 before opening your car door. Now you’re in a trendy, pitch-dark Italian bistro where the pasta menu is printed in microscopic 7-point grey italic font—a hate crime against anyone over 38 who left her reading glasses in her other clutch.',
     setupHim:
@@ -2424,6 +2446,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
+    recommendedAffiliateId: 'seed-oil-free-ghee-evoo-set',
     setupHer:
       '11:30 PM Saturday after a very active evening. {hisName} ({hisAge}M) casually inhales half a pepperoni pizza straight from the box and will wake up tomorrow with visible lower abs—whereas if you touch late-night sodium or cheap tequila at {herAge}, you wake up puffy with rings stuck on your fingers and acid reflux.',
     setupHim:
@@ -2521,6 +2544,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'linen-picnic-insulated-tote',
     setupHer:
       'Every veteran Cougar warns newcomers about the **"Pocket Girlfriend" Red Flag**: younger guys who melt over you behind closed doors at 10 PM, yet mysteriously avoid busy Saturday farmers markets, daylight patios, or walking hand-in-hand past people their age. Time to see how {hisName} ({hisAge}M) handles bright Saturday noon sunlight.',
     setupHim:
@@ -2568,6 +2592,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
+    recommendedAffiliateId: 'chic-candlelit-menu-readers',
     setupHer:
       'Three generational micro-collisions happen in ten minutes: first, you left {hisName} ({hisAge}M) a normal 20-second voicemail and he called back breathless thinking someone was in the ER (*"Nobody under 30 leaves voicemails unless a meteor hit!!"*). Second, you see his friends’ unhinged public Venmo feed. Third, while talking 1999 music, he earnestly says: *"Wait, tickets were $30 back in the **late 1900s**?!"*',
     setupHim:
@@ -2620,6 +2645,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
+    recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
       'One-on-one, {hisName} ({hisAge}M) cooks ribeye and reads hardcovers. Tonight you stop by his college buddies’ apartment for a quick pre-game drink—and experience pure anthropological shock: four 24-year-old men communicating entirely in deep-fried Discord memes, arguing passionately over **Roblox *Dress to Impress*** runway scores on a 75-inch TV, and asking if you want a lukewarm White Claw or "wanna hop in our Roblox server?!"',
     setupHim:
@@ -2668,6 +2694,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
+    recommendedAffiliateId: 'big-carl-giant-wine-glass',
     setupHer:
       'Drinks with your younger sibling—who you literally used to babysit and drive to middle school in your first Honda Civic. Five minutes into small talk, your baby sibling and {hisName} ({hisAge}M) realize they were **born the exact same year**, took the SAT the same Saturday, and watched the exact same childhood cartoons. Your sibling stares at you across their margarita: *"Did you seriously raid my birth year?!"*',
     setupHim:
@@ -2717,6 +2744,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
+    recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
       'The #1 high-wire scenario on Cougars & Cubs Club: Sunday morning in your kitchen, your **grown son** (practically the exact same age as {hisName}, {hisAge}M!) drops by unannounced using his family key—and freezes nose-to-nose with {hisName}, who is standing by the espresso machine wearing the **exact same sneakers**.',
     setupHim:
@@ -2766,6 +2794,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'thanksgiving_table',
+    recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
       'Your very first black-tie/cocktail wedding together as official `+1`s! Walking into cocktail hour with {hisName} ({hisAge}M) looking devastating in a tailored suit, 150 guests turn: two coworkers whisper behind champagne flutes, and tipsy Aunt Linda squints at the place cards asking *"Wait—nephew, personal trainer, or... OH GOOD FOR YOU HONEY!!"*',
     setupHim:
@@ -2814,6 +2843,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'thanksgiving_table',
+    recommendedAffiliateId: 'houseboy-linen-apron',
     setupHer:
       'Another legendary forum milestone: meeting {hisName}’s ({hisAge}M) parents for dinner—knowing full well his mom is right in your generational bracket (and listened to the exact same high-school graduation songs!). Halfway through appetizers, his mom pulls {hisName} toward the kitchen asking quietly: *"Sweetheart, are you sure she’s serious about someone your age?"*',
     setupHim:
@@ -2961,6 +2991,7 @@ export const EPISODES: Episode[] = [
     isVip: true,
     creditCost: 3,
     sceneArt: 'thanksgiving_table',
+    recommendedAffiliateId: 'big-carl-giant-wine-glass',
     setupHer:
       'Holiday crossover episode: you’re meeting {hisName}’s mother—who is right around your age and loved the exact same 1997 Alanis Morissette tour.',
     setupHim:
@@ -3062,7 +3093,7 @@ export const EPISODES: Episode[] = [
       'Instead of three weeks of pen-pal texting, your FaceTime vibe check with {hisName} ({hisAge}M) goes two electric hours past midnight. Next thing you know, you both carve out an **18-hour spontaneous escape** in a boutique hotel town an hour away—starting with golden-hour rooftop cocktails where nobody knows either of you, followed by the heated outdoor hotel pool and cedar sauna after dark.',
     setupHim:
       'Your video call with {herName} ({herAge}F) had off-the-charts chemistry—so you boldly proposed meeting halfway in a boutique getaway town for **18 unforgettable hours**: sunset rooftop drinks, late-night heated hotel pool laps, and cedar sauna steam before checking out at 11 AM.',
-    recommendedAffiliateId: 'princess-mulberry-silk-robe',
+    recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     choices: [
       {
         labelHer: 'He arrives 15 minutes early with carry-on polish, claims a sunset rooftop corner booth, transitions seamlessly to midnight pool & cedar-sauna conversation, and orders room-service espresso before checkout.',
@@ -3106,6 +3137,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'babygirl-movie-prime',
     setupHer:
       '{hisName} ({hisAge}M) just defended his PhD and finally has free evenings to date! For tonight’s date on his leafy university quad, you swap your corner-office heels for crisp white sneakers, fitted denim, and a sleek bomber jacket—blending right in on the brick walkway before slipping into a candlelit campus sushi bar and leaning into cheeky **"Visiting Professor & Star Grad Student After Office Hours"** banter.',
     setupHim:
@@ -3153,6 +3185,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'princess_bouquet',
+    recommendedAffiliateId: 'babygirl-movie-prime',
     setupHer:
       'Lukewarm American small-talk bores you to tears: when you love, cook, dance, or call out nonsense, your accent sharpens and the temperature in the room jumps ten degrees. Tonight at a bustling wine bar, {hisName} ({hisAge}M)—who openly adores worldly, fiery international women—gets his first taste of your rapid-fire native-tongue passion.',
     setupHim:
@@ -3200,6 +3233,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'princess_bouquet',
+    recommendedAffiliateId: 'linen-picnic-insulated-tote',
     setupHer:
       '{hisName} ({hisAge}M) is a self-made craftsman—warm accent, freshly pressed linen shirt, zero trust-fund flash, and real gentleman pride about impressing you with *effort* rather than credit-card flexing. For Saturday, he packs a handmade meadow picnic (fresh baguette, strawberries, cheeses, wildflowers) followed by trash-talking **retro neon bowling**!',
     setupHim:
@@ -3248,6 +3282,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
+    recommendedAffiliateId: 'big-carl-giant-wine-glass',
     setupHer:
       '**Six-Month Milestone Unlocked!** Half a year ago it was one electric check-drop and an age-slider experiment. Tonight, {hisName} ({hisAge}M) has his own skincare spot on your vanity, knows your exact coffee & star-sign quirks, and shows up for your **6-Month Anniversary** with peonies, a handwritten card, and two comically giant *Cougar Town* **"Big Carl"** wine pours.',
     setupHim:
@@ -3299,7 +3334,7 @@ export const EPISODES: Episode[] = [
       '**One-Year Anniversary Finale!** Four full seasons with {hisName} ({hisAge}M): his friends adore you, your inner circle stopped asking "Is it just a phase?" months ago, and you’ve checked into a candlelit coastal suite with a heated midnight pool to toast **365 days** of choosing each other out loud.',
     setupHim:
       '**One-Year Anniversary Finale!** One full year with {herName} ({herAge}F)—from catching dating-app red flags to holidays, inside jokes, and building a real partnership that outshines every same-age couple you know. Time for the 365-day toast!',
-    recommendedAffiliateId: 'after-dark-couples-deck',
+    recommendedAffiliateId: 'fill-in-love-coupon-cards',
     choices: [
       {
         labelHer: 'Raise champagne under the stars poolside, thank him for loving every chapter of who you are, and step into Year Two hand-in-hand without a single apology.',
@@ -3346,6 +3381,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'babygirl-movie-prime',
     setupHer:
       'An upscale **hotel lobby bar** on a solo work trip is the #1 "in-the-wild" spot for lightning to strike. You’re unwinding in silk after a keynote when the bartender sets down TWO glasses from {hisName} ({hisAge}M) at the end of the bar: your exact dirty martini—AND, with a cheeky wink referencing Nicole Kidman’s viral ***Babygirl*** scene, a tiny shot glass of cold oat milk with a cocktail napkin reading: *"Pick your poison—zero pressure."* ',
     setupHim:
@@ -3393,6 +3429,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'ridge_trail_leash',
+    recommendedAffiliateId: 'trail-hydration-vest',
     setupHer:
       'Every single week on `Cougars & Cubs Club`, younger guys ask how to approach a fit Cougar at the gym—and every woman replies with the Sacred Headphone Law. You’re in the zone with noise-canceling headphones on; {hisName} ({hisAge}M) has been training in the next rack at 7 AM for three weeks.',
     setupHim:
@@ -3440,6 +3477,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'waiter_shock',
+    recommendedAffiliateId: 'date-night-oud-bergamot',
     setupHer:
       'Two classic age-gap comedy moments hit back-to-back outside a speakeasy jazz bar: in line, {hisName} ({hisAge}M) catches himself mid-sentence starting to explain how vinyl pressings and fixed-rate mortgages work (*"Cubsplaining"*!). Five seconds later, the 23-year-old bouncer shines a UV flashlight on **{hisName}’s** license for 40 seconds while waving you straight through the velvet rope.',
     setupHim:
@@ -3487,6 +3525,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'waiter_shock',
+    recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     minAgeGap: 14,
     setupHer:
       'You and {hisName} ({hisAge}M) step up to the marble reception desk for your weekend coastal trip. The well-meaning 21-year-old clerk glances between your reservation and {hisName}, taps furiously on his keyboard, and whispers helpfully: *"Oh! The system booked ONE King bed by mistake—let me switch you and your son into Two Queens at no charge!"*',
@@ -3585,6 +3624,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
+    recommendedAffiliateId: 'short-leash-leather-dog-leash',
     setupHer:
       'After three bleak dates with grumpy 45-year-old divorcés who complained about property taxes for two hours, your bestie grabs your phone over martinis, yells *"Remember Kristin Cavallari and Mark from Montana Boyz?!"*, and drags your minimum age setting down to **25**. Ten minutes later, {hisName} ({hisAge}M)—a 6\'3" former college wide receiver raised on a ranch—accidentally replies *"I love you"* from his buddies’ shared account before DMing you from his real profile asking to fly in Friday!',
     setupHim:
@@ -3682,6 +3722,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
+    recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     setupHer:
       'Your peaceful, mortgage-paid home has 62°F central air, stocked Pellegrino, and a lush backyard—which makes it prime territory for the dreaded **"Hobosexual" Soft Move-In**. On Week 3, {hisName} ({hisAge}M) arrives for Friday night carrying not just an overnight dopp kit, but a **duffel of unwashed laundry, a 5-lb tub of vanilla whey protein, and an HDMI cable peeking out of his backpack**!',
     setupHim:
@@ -3730,6 +3771,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'short-leash-leather-dog-leash',
     setupHer:
       'You radiate pure **🐈‍⬛ Black Cat** poise: self-contained, unhurried, and allergic to instant over-familiarity. When {hisName} ({hisAge}M) comes in beaming with tail-wagging **🐕 Golden-Retriever** enthusiasm trying to lock in both Thursday *and* Sunday on Date #1, you lean back over your glass and push back playfully: *"Easy there, sunshine—I take my time, and you haven’t even earned Date #2 yet."* Men your own age usually sulk or call you "guarded." Watch what {hisName} does instead.',
     setupHim:
@@ -3930,6 +3972,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
+    recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
       'You graciously attend {hisName}’s ({hisAge}M) friend’s birthday dinner. You sip one glass of Sancerre and order branzino, while two of his 23-year-old buddies order **three rounds of Don Julio 1942 shots and twin tomahawk steaks**—then loudly announce as the **$1,120 check** lands: *"Yo let’s just split it evenly 8 ways—everybody Venmo Brody $140 right now, especially since {herName}’s an executive lol!"*',
     setupHim:
@@ -3974,7 +4017,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 1,
     minigame: 'timeshare_interrogation',
-    recommendedAffiliateId: 'espresso-martini-barware',
+    recommendedAffiliateId: 'linen-picnic-insulated-tote',
     title: '🌺 College-Cub Red Flag: "Come to My Place in Hawaii" (Spoiler: It’s His Mom’s Timeshare)',
     loreQuote:
       'Sub-23 College Flex Horror • "Skeptical he’s in undergrad → he invites you to \'my place in Hawaii\' → admits it’s his parents’ Maui timeshare!"',
@@ -4077,7 +4120,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     minigame: 'seed_oil_audit',
-    recommendedAffiliateId: 'cast-iron-steak-skillet',
+    recommendedAffiliateId: 'seed-oil-free-ghee-evoo-set',
     requiredAnyTags: ['seed_oil_bernedoodle_mommy', 'qigong_mommy_domme', 'zero_proof_wellness'],
     title: '🥑 Health-Nut Wellness Mommy: Zero Seed Oils, Gluten-Free Bliss & The Tricolor Mini Bernedoodle Waitlist!',
     loreQuote:

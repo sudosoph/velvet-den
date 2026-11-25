@@ -73,6 +73,26 @@ const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
     'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
   'zero-proof-botanical-mocktail-set':
     'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
+  'fill-in-love-coupon-cards':
+    'https://www.amazon.com/s?k=fill+in+the+blank+love+coupons+cards+for+couples',
+  'short-leash-leather-dog-leash':
+    'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp',
+  'big-carl-giant-wine-glass':
+    'https://www.amazon.com/s?k=oversized+giant+full+bottle+wine+glass+funny+gift',
+  'chic-candlelit-menu-readers':
+    'https://www.amazon.com/s?k=oversized+tortoiseshell+reading+glasses+women+chic',
+  'babygirl-movie-prime':
+    'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
+  'idea-of-you-movie-book':
+    'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
+  'bridget-jones-cougar-town-watch':
+    'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
+  'seed-oil-free-ghee-evoo-set':
+    'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil',
+  'linen-picnic-insulated-tote':
+    'https://www.amazon.com/s?k=wicker+picnic+basket+for+2+with+waterproof+blanket',
+  'velvet-travel-weekender-duffel':
+    'https://www.amazon.com/s?k=mens+canvas+leather+overnight+weekender+duffel+bag',
 };
 
 const JSON_HEADERS = {
@@ -702,7 +722,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v18-imessage-discord',
+        version: 'v19-organic-affiliates',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),

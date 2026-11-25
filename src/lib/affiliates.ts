@@ -1,9 +1,18 @@
 import { MONETIZATION_CONFIG } from '../config/monetization';
 
+export type AffiliateCategory =
+  | 'funny_cute'
+  | 'cinema_pop_culture'
+  | 'houseboy'
+  | 'trail_wellness'
+  | 'princess_luxury'
+  | 'hosting_upgrade'
+  | 'date_night';
+
 export interface AffiliateProduct {
   id: string;
   name: string;
-  category: 'houseboy' | 'trail_wellness' | 'princess_luxury' | 'hosting_upgrade' | 'date_night';
+  category: AffiliateCategory;
   priceDisplay: string;
   badge: string;
   cheekyPitch: string;
@@ -173,6 +182,116 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
       'For Qigong & Tai Chi Wellness Mommies protecting 8 hours of beauty sleep and attentive Cubs who prefer 6:30 AM Cloud-Hands stamina over tequila hangovers.',
     whyItConverts: 'Direct tie-in to the Qigong Wellness Mommy-Domme & Zero-Proof Mocktail episodes.',
     merchantUrl: 'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
+  },
+  {
+    id: 'fill-in-love-coupon-cards',
+    name: 'Fill-in-the-Blank Romantic Love Coupon Cards & Date-Night Vouchers',
+    category: 'funny_cute',
+    priceDisplay: 'Cute Gift Pick',
+    badge: 'Founder Favorite • Under-$15 Gem',
+    cheekyPitch:
+      'Hand-write custom IOUs she actually craves: "1 Zero-Dishes Linen-Apron Sunday," "3 AM Cold-Pillow Flip," "Uncomplaining Target Run," or "18h Cedar Sauna Escape."',
+    whyItConverts: 'Ultra-high-conversion impulse gift that unlocks Amazon’s 24-hour universal cart cookie.',
+    merchantUrl: 'https://www.amazon.com/s?k=fill+in+the+blank+love+coupons+cards+for+couples',
+  },
+  {
+    id: 'short-leash-leather-dog-leash',
+    name: 'Braided Leather Hands-Free "Short-Leash" Dog Leash & Brass Clasp',
+    category: 'funny_cute',
+    priceDisplay: 'Cheeky Pick',
+    badge: 'Bernedoodle & Golden-Retriever Boyfriend Approved',
+    cheekyPitch:
+      'Officially built for walking her tricolor Mini Bernedoodle "Miso" or rescue pup Barnaby—unofficially the funniest inside-joke gift for a Cub who loves staying on Mommy’s short leash.',
+    whyItConverts: 'Double-entendre viral hit across Dog-Mom Puma, Bernedoodle Mommy, and Short-Leash Trail arcs.',
+    merchantUrl: 'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp',
+  },
+  {
+    id: 'big-carl-giant-wine-glass',
+    name: 'Oversized "Big Carl" XL Stemmed Red-Wine Goblet (Holds Full Bottle)',
+    category: 'funny_cute',
+    priceDisplay: 'Funny Gag Gift',
+    badge: 'Cougar Town "Just One Glass" Icon',
+    cheekyPitch:
+      'Channel Courteney Cox’s Jules Cobb on girls’ night or your 6-month anniversary: technically "just one glass of Pinot" when the goblet holds 750ml.',
+    whyItConverts: 'Direct payoff to the Big Carl Wine Pour minigame & Cougar Town SEO guide.',
+    merchantUrl: 'https://www.amazon.com/s?k=oversized+giant+full+bottle+wine+glass+funny+gift',
+  },
+  {
+    id: 'chic-candlelit-menu-readers',
+    name: 'Oversized Tortoiseshell Designer Blue-Light & Bistro Menu Readers',
+    category: 'funny_cute',
+    priceDisplay: 'Amazon Pick',
+    badge: '6-Point Candlelit Menu Hero',
+    cheekyPitch:
+      'Because trendy speakeasies print menus in microscopic grey italics in pitch darkness—and slipping on chic tortoiseshell frames beats borrowing his iPhone flashlight.',
+    whyItConverts: 'Laugh-out-loud relatable payoff to the Candlelit Menu Font & Seat-Warmer episode.',
+    merchantUrl: 'https://www.amazon.com/s?k=oversized+tortoiseshell+reading+glasses+women+chic',
+  },
+  {
+    id: 'babygirl-movie-prime',
+    name: 'Babygirl (Prime Video 4K Watch-Night & Collector’s Edition)',
+    category: 'cinema_pop_culture',
+    priceDisplay: 'Prime Video',
+    badge: '"Tall Glass of Milk" Cinema Night',
+    cheekyPitch:
+      'Queue up Nicole Kidman & Harris Dickinson’s iconic A24 hotel-bar power play for Friday movie night—tall glass of milk or dirty olive martini optional.',
+    whyItConverts: 'Zero-return instant streaming rental/purchase directly from our #1 viral hotel-bar scene.',
+    merchantUrl: 'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
+  },
+  {
+    id: 'idea-of-you-movie-book',
+    name: 'The Idea of You — Robinne Lee Paperback & Prime Video Double Feature',
+    category: 'cinema_pop_culture',
+    priceDisplay: 'Book & Prime',
+    badge: '#1 Cougar × Cub Comfort Watch',
+    cheekyPitch:
+      'From Anne Hathaway & Nicholas Galitzine’s Coachella VIP trailer meet-cute to Robinne Lee’s beloved novel—mandatory homework for every modern Cub.',
+    whyItConverts: 'High-volume BookTok + streaming conversion from Celebrity & Cougar Cinema guides.',
+    merchantUrl: 'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
+  },
+  {
+    id: 'bridget-jones-cougar-town-watch',
+    name: 'Bridget Jones: Mad About the Boy & Cougar Town Comfort-Watch Collection',
+    category: 'cinema_pop_culture',
+    priceDisplay: 'Prime Video',
+    badge: 'Second-Act Rom-Com Royalty',
+    cheekyPitch:
+      'Celebrate Leo Woodall’s charming 29-year-old park ranger "Roxster" winning over Bridget Jones alongside Jules Cobb’s Cul-de-Sac Crew.',
+    whyItConverts: 'Direct match for second-act divorced/widowed Puma & Cougar readers.',
+    merchantUrl: 'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
+  },
+  {
+    id: 'seed-oil-free-ghee-evoo-set',
+    name: 'Grass-Fed Artisanal Ghee & Cold-Pressed Tuscan Extra-Virgin Olive Oil Duo',
+    category: 'houseboy',
+    priceDisplay: 'Wellness Pantry',
+    badge: '100% Seed-Oil-Free Mommy Approved',
+    cheekyPitch:
+      'Retire canola and soybean oil before your Holistic Health-Nut Mommy inspects your kitchen—sear her grass-fed ribeye in pure ghee and polyphenol EVOO.',
+    whyItConverts: 'Direct payoff to the Seed-Oil-Free & Tricolor Mini Bernedoodle Mommy audit minigame.',
+    merchantUrl: 'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil',
+  },
+  {
+    id: 'linen-picnic-insulated-tote',
+    name: 'Woven Willow & Waterproof Linen Sunset Picnic Basket for Two',
+    category: 'date_night',
+    priceDisplay: 'Date-Night Pick',
+    badge: 'Beats Mom’s Maui Timeshare',
+    cheekyPitch:
+      'Proof that an honest meadow picnic with fresh figs and gluten-free crackers beats pretending your mom Linda’s Hawaii timeshare is "your place" every single time.',
+    whyItConverts: 'Payoff to both the Meadow Picnic & Mom’s Hawaii Timeshare Interrogation scenes.',
+    merchantUrl: 'https://www.amazon.com/s?k=wicker+picnic+basket+for+2+with+waterproof+blanket',
+  },
+  {
+    id: 'velvet-travel-weekender-duffel',
+    name: 'Canvas & Full-Grain Leather Overnight Weekender Bag ("Zero PS5" Edition)',
+    category: 'hosting_upgrade',
+    priceDisplay: 'Travel Pick',
+    badge: '18h Getaway • Sanctuary Approved',
+    cheekyPitch:
+      'Sized cleanly for pressed linen, cedar parfum, and a spontaneous 18-hour hotel-sauna escape—intentionally too compact to smuggle a PS5 and gym laundry into her condo.',
+    whyItConverts: 'Bridges the Spontaneous 18h Getaway and Hobosexual PS5 Bouncer episodes.',
+    merchantUrl: 'https://www.amazon.com/s?k=mens+canvas+leather+overnight+weekender+duffel+bag',
   },
 ];
 

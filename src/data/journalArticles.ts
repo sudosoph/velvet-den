@@ -131,9 +131,10 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     ],
     featuredEpisodeId: 'princess-soft-life',
     featuredAffiliateIds: [
+      'fill-in-love-coupon-cards',
       'princess-mulberry-silk-robe',
       'houseboy-linen-apron',
-      'date-night-oud-bergamot',
+      'short-leash-leather-dog-leash',
     ],
   },
   {
@@ -249,7 +250,12 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
     ],
     featuredEpisodeId: 'black-cat-pushback-golden-retriever-test',
-    featuredAffiliateIds: ['silk-pillowcase-sleepover-duo', 'cub-grooming-beard-skincare-kit'],
+    featuredAffiliateIds: [
+      'short-leash-leather-dog-leash',
+      'fill-in-love-coupon-cards',
+      'silk-pillowcase-sleepover-duo',
+      'cub-grooming-beard-skincare-kit',
+    ],
   },
   {
     slug: 'celebrity-cougars-and-cubs-pop-culture-guide',
@@ -284,7 +290,12 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
     ],
     featuredEpisodeId: 'pop-culture-cougar-renaissance',
-    featuredAffiliateIds: ['cub-grooming-beard-skincare-kit', 'princess-mulberry-silk-robe'],
+    featuredAffiliateIds: [
+      'idea-of-you-movie-book',
+      'babygirl-movie-prime',
+      'cub-grooming-beard-skincare-kit',
+      'princess-mulberry-silk-robe',
+    ],
   },
   {
     slug: 'dating-younger-man-perimenopause-menopause-intimacy',
@@ -348,7 +359,12 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
     ],
     featuredEpisodeId: 'junior-cougar-gatekeeper-tease',
-    featuredAffiliateIds: ['cast-iron-steak-skillet', 'after-dark-couples-deck'],
+    featuredAffiliateIds: [
+      'fill-in-love-coupon-cards',
+      'idea-of-you-movie-book',
+      'cast-iron-steak-skillet',
+      'after-dark-couples-deck',
+    ],
   },
   {
     slug: 'older-woman-grown-son-same-age-meeting-parents-guide',
@@ -412,7 +428,12 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
     ],
     featuredEpisodeId: 'qigong-tai-chi-wellness-mommy-domme',
-    featuredAffiliateIds: ['zero-proof-botanical-mocktail-set', 'houseboy-linen-apron'],
+    featuredAffiliateIds: [
+      'seed-oil-free-ghee-evoo-set',
+      'linen-picnic-insulated-tote',
+      'velvet-travel-weekender-duffel',
+      'zero-proof-botanical-mocktail-set',
+    ],
   },
   {
     slug: 'cougar-town-pop-culture-age-gap-dating-history',
@@ -442,7 +463,12 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
     ],
     featuredEpisodeId: 'milestone-six-month-anniversary',
-    featuredAffiliateIds: ['espresso-martini-barware', 'after-dark-couples-deck'],
+    featuredAffiliateIds: [
+      'big-carl-giant-wine-glass',
+      'bridget-jones-cougar-town-watch',
+      'chic-candlelit-menu-readers',
+      'fill-in-love-coupon-cards',
+    ],
   },
   {
     slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
@@ -502,7 +528,12 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
     ],
     featuredEpisodeId: 'babygirl-hotel-bar-milk-or-martini',
-    featuredAffiliateIds: ['princess-mulberry-silk-robe', 'espresso-martini-barware'],
+    featuredAffiliateIds: [
+      'babygirl-movie-prime',
+      'idea-of-you-movie-book',
+      'bridget-jones-cougar-town-watch',
+      'princess-mulberry-silk-robe',
+    ],
   },
   {
     slug: 'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',

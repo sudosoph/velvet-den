@@ -40,6 +40,16 @@ const URL_TO_PRODUCT_ID = {
   'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set': 'cub-grooming-beard-skincare-kit',
   'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip': 'silk-pillowcase-sleepover-duo',
   'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses': 'zero-proof-botanical-mocktail-set',
+  'https://www.amazon.com/s?k=fill+in+the+blank+love+coupons+cards+for+couples': 'fill-in-love-coupon-cards',
+  'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp': 'short-leash-leather-dog-leash',
+  'https://www.amazon.com/s?k=oversized+giant+full+bottle+wine+glass+funny+gift': 'big-carl-giant-wine-glass',
+  'https://www.amazon.com/s?k=oversized+tortoiseshell+reading+glasses+women+chic': 'chic-candlelit-menu-readers',
+  'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie': 'babygirl-movie-prime',
+  'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie': 'idea-of-you-movie-book',
+  'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video': 'bridget-jones-cougar-town-watch',
+  'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil': 'seed-oil-free-ghee-evoo-set',
+  'https://www.amazon.com/s?k=wicker+picnic+basket+for+2+with+waterproof+blanket': 'linen-picnic-insulated-tote',
+  'https://www.amazon.com/s?k=mens+canvas+leather+overnight+weekender+duffel+bag': 'velvet-travel-weekender-duffel',
 };
 
 function tagAmazon(rawUrl, slug) {
@@ -147,11 +157,15 @@ const STATIC_GUIDES = [
     ],
     picks: [
       {
-        name: '22-Momme Mulberry Silk Lounge Robe ($118)',
+        name: 'Fill-in-the-Blank Romantic Love Coupon Cards',
+        url: 'https://www.amazon.com/s?k=fill+in+the+blank+love+coupons+cards+for+couples',
+      },
+      {
+        name: '22-Momme Mulberry Silk Lounge Robe',
         url: 'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
       },
       {
-        name: 'Japanese Cross-Back Heavyweight Linen Apron ($34)',
+        name: 'Japanese Cross-Back Heavyweight Linen Apron',
         url: 'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men',
       },
     ],
@@ -368,12 +382,16 @@ const STATIC_GUIDES = [
     ],
     picks: [
       {
-        name: 'Weighted Copper Cocktail & Wine Barware Set ($54)',
-        url: 'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
+        name: 'Oversized "Big Carl" XL Full-Bottle Red-Wine Goblet',
+        url: 'https://www.amazon.com/s?k=oversized+giant+full+bottle+wine+glass+funny+gift',
       },
       {
-        name: 'After-Dark Couples Conversation Card Deck ($26)',
-        url: 'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
+        name: 'Bridget Jones: Mad About the Boy & Cougar Town Watch Collection',
+        url: 'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
+      },
+      {
+        name: 'Oversized Tortoiseshell Bistro Menu Reading Glasses',
+        url: 'https://www.amazon.com/s?k=oversized+tortoiseshell+reading+glasses+women+chic',
       },
     ],
   },
@@ -426,12 +444,16 @@ const STATIC_GUIDES = [
     ],
     picks: [
       {
-        name: '22-Momme Mulberry Silk Kimono Lounge Robe ($118)',
-        url: 'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
+        name: 'Babygirl (Nicole Kidman • Prime Video 4K)',
+        url: 'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
       },
       {
-        name: 'Weighted Copper Espresso Martini Barware Set ($54)',
-        url: 'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
+        name: 'The Idea of You — Robinne Lee Paperback & Prime Video',
+        url: 'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
+      },
+      {
+        name: 'Bridget Jones: Mad About the Boy (Prime Video)',
+        url: 'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
       },
     ],
   },
@@ -490,12 +512,16 @@ const STATIC_GUIDES = [
     ],
     picks: [
       {
-        name: '22-Momme Mulberry Silk Pillowcase & Claw-Clip Set ($39)',
-        url: 'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
+        name: 'Braided Leather "Short-Leash" Dog Leash (Miso & Golden-Retriever Approved)',
+        url: 'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp',
       },
       {
-        name: 'Warm Cedar, Bergamot & Amber Eau de Parfum ($68)',
-        url: 'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men',
+        name: 'Fill-in-the-Blank Romantic Love Coupon Cards',
+        url: 'https://www.amazon.com/s?k=fill+in+the+blank+love+coupons+cards+for+couples',
+      },
+      {
+        name: '22-Momme Mulberry Silk Pillowcase & Claw-Clip Set',
+        url: 'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
       },
     ],
   },

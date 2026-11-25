@@ -10,8 +10,11 @@ import {
   spendCredits,
   verifyFounderPassphrase,
 } from '../src/domain/economy';
-import { AFFILIATE_CATALOG, buildAffiliateUrl } from '../src/lib/affiliates';
+import { AFFILIATE_CATALOG, buildAffiliateUrl, getAffiliateById } from '../src/lib/affiliates';
+import { EPISODES } from '../src/data/episodes';
+import { JOURNAL_ARTICLES } from '../src/data/journalArticles';
 import { localCrowdStatsService } from '../src/services/adapters';
+import workerApp, { type WorkerEnv } from '../worker/index';
 
 function makeMemoryStorage(initial?: Record<string, string>) {
   const store = new Map<string, string>(Object.entries(initial ?? {}));
@@ -158,5 +161,47 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     const percentages = await localCrowdStatsService.getChoicePercentages('check-drop', 3);
     expect(percentages).toHaveLength(3);
     expect(percentages.reduce((sum, n) => sum + n, 0)).toBe(100);
+  });
+
+  it('verifies 100% organic affiliate coverage across all 24 catalog items, all 81 episodes, all 15 guides, and Worker /api/go/:id redirects', async () => {
+    expect(AFFILIATE_CATALOG.length).toBe(24);
+    const mustHaveIds = [
+      'fill-in-love-coupon-cards',
+      'short-leash-leather-dog-leash',
+      'babygirl-movie-prime',
+      'idea-of-you-movie-book',
+      'bridget-jones-cougar-town-watch',
+      'big-carl-giant-wine-glass',
+      'chic-candlelit-menu-readers',
+      'seed-oil-free-ghee-evoo-set',
+    ];
+    for (const id of mustHaveIds) {
+      expect(getAffiliateById(id)).toBeDefined();
+    }
+
+    // All 81 episodes map cleanly to an organic catalog item
+    for (const ep of EPISODES) {
+      expect(ep.recommendedAffiliateId).toBeTruthy();
+      expect(getAffiliateById(ep.recommendedAffiliateId)).toBeDefined();
+    }
+
+    // All 15 in-app guides map cleanly to valid catalog items
+    for (const guide of JOURNAL_ARTICLES) {
+      expect(guide.featuredAffiliateIds.length).toBeGreaterThanOrEqual(2);
+      for (const affId of guide.featuredAffiliateIds) {
+        expect(getAffiliateById(affId)).toBeDefined();
+      }
+    }
+
+    // Every catalog item redirects cleanly (302) via /api/go/:id on the Cloudflare Worker
+    const mockEnv: WorkerEnv = { AMAZON_ASSOCIATE_TAG: 'cougarsandcubs-20' };
+    for (const item of AFFILIATE_CATALOG) {
+      const res = await workerApp.fetch(
+        new Request(`https://cougarsandcubs.club/api/go/${item.id}?src=test_suite`),
+        mockEnv,
+      );
+      expect(res.status).toBe(302);
+      expect(res.headers.get('Location')).toContain('tag=cougarsandcubs-20');
+    }
   });
 });

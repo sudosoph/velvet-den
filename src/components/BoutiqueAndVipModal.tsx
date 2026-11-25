@@ -21,7 +21,11 @@ import {
   SOCIAL_SHARE_QUEST_IDS,
   type WalletState,
 } from '../domain/economy';
-import { AFFILIATE_CATALOG, buildAffiliateUrl } from '../lib/affiliates';
+import {
+  AFFILIATE_CATALOG,
+  buildAffiliateUrl,
+  type AffiliateCategory,
+} from '../lib/affiliates';
 import { shareOrCopy } from '../lib/viral';
 import { fetchVerifiedReferralSlots } from '../services/adapters';
 
@@ -70,6 +74,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   const [cameoEmail, setCameoEmail] = useState('');
   const [cameoBrief, setCameoBrief] = useState('');
   const [cameoMsg, setCameoMsg] = useState<string | null>(null);
+  const [shopFilter, setShopFilter] = useState<'all' | AffiliateCategory>('all');
 
   if (!open) return null;
 
@@ -619,18 +624,49 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         </form>
 
         {/* Curated Lifestyle & Date-Night Affiliate Boutique */}
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h3 className="font-display text-2xl text-[#1E1022]">
-              🛍️ Curated Cougar &amp; Cub Lifestyle Essentials
+              🛍️ Curated Cougar &amp; Cub Shop ({AFFILIATE_CATALOG.length} Organic Picks)
             </h3>
             <span className="text-xs font-semibold text-[#5A4664]">
               FTC Disclosure: Protected partner links may earn a small commission at zero extra cost to you.
             </span>
           </div>
 
+          {/* Symmetrical 36px Category Filter Pills */}
+          <div className="flex flex-wrap gap-2">
+            {(
+              [
+                ['all', `✨ All (${AFFILIATE_CATALOG.length})`],
+                ['funny_cute', '🐶 Cute & Funny'],
+                ['cinema_pop_culture', '🎬 Movies & Books'],
+                ['houseboy', '🥂 Houseboy & Pantry'],
+                ['princess_luxury', '👑 Soft-Life Luxury'],
+                ['hosting_upgrade', '🛏️ Hosting & Travel'],
+                ['date_night', '🍸 Date Night'],
+                ['trail_wellness', '🏔️ Trail & Gym'],
+              ] as const
+            ).map(([cat, label]) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setShopFilter(cat)}
+                className={`pop-btn h-9 rounded-xl px-3 text-xs cursor-pointer ${
+                  shopFilter === cat
+                    ? 'bg-[#FFBE0B] text-[#1E1022]'
+                    : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
           <div className="grid gap-4 sm:grid-cols-2 items-stretch">
-            {AFFILIATE_CATALOG.map((item) => (
+            {AFFILIATE_CATALOG.filter(
+              (item) => shopFilter === 'all' || item.category === shopFilter,
+            ).map((item) => (
               <div
                 key={item.id}
                 className="rounded-2xl border-2 border-[#1E1022] bg-white p-4 shadow-[3px_3px_0px_#1E1022] flex flex-col justify-between gap-3 h-full"
