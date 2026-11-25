@@ -212,7 +212,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </h1>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 shrink-0 lg:w-[440px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 shrink-0 lg:w-[476px]">
             <button
               type="button"
               onClick={() => {
@@ -227,7 +227,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             >
               <div className="text-sm leading-tight">🐆 Play as Her</div>
               <div
-                className={`font-sans text-xs font-semibold leading-tight mt-0.5 ${
+                className={`font-sans text-[11.5px] font-semibold leading-tight mt-0.5 whitespace-nowrap ${
                   role === 'her' ? 'text-white/90' : 'text-[#5A4664]'
                 }`}
               >
@@ -248,7 +248,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               }`}
             >
               <div className="text-sm leading-tight">🥂 Play as Him</div>
-              <div className="font-sans text-xs font-semibold leading-tight mt-0.5 text-[#5A4664]">
+              <div className="font-sans text-[11.5px] font-semibold leading-tight mt-0.5 whitespace-nowrap text-[#5A4664]">
                 Impress &amp; Commit • Code-Switch
               </div>
             </button>
@@ -558,7 +558,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         {/* CENTER ARCADE POD: CHEMISTRY + SYMMETRICAL CONTROLS */}
         <div className="vice-panel rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-3.5 text-center bg-gradient-to-b from-[#FFFDF9] to-[#FFF4F7] h-full">
           <div className="space-y-2">
-            <span className="inline-flex h-7 items-center rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 text-xs font-bold uppercase tracking-wide text-[#1E1022]">
+            <span className="inline-flex min-h-[28px] items-center justify-center rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-1 text-[11px] font-bold uppercase leading-tight tracking-wide text-[#1E1022]">
               {pairing.badgeLabel}
             </span>
 

@@ -233,7 +233,7 @@ const WORLD_PICKUPS: WorldPickup[] = [
   { id: 'ghee_jar', x: 350, y: 336, label: '+20 XP Grass-Fed Ghee', color: '#F59E0B', accent: '#FFFBEB' },
   { id: 'bernedoodle_bone', x: 615, y: 168, label: '+20 XP Bernedoodle Treat', color: '#FF2E63', accent: '#FFFFFF' },
   { id: 'oolong_tea', x: 165, y: 336, label: '+20 XP Jasmine Oolong', color: '#14B8A6', accent: '#CCFBF1' },
-  { id: 'gluten_free_tart', x: 480, y: 336, label: '+20 XP GF Cassava Tart', color: '#EC4899', accent: '#FCE7F3' },
+  { id: 'gluten_free_tart', x: 565, y: 336, label: '+20 XP GF Cassava Tart', color: '#EC4899', accent: '#FCE7F3' },
   { id: 'martini_star', x: 795, y: 168, label: '+20 XP Zero-Proof Elixir', color: '#8B5CF6', accent: '#EDE9FE' },
 ];
 
