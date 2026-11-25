@@ -541,19 +541,32 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
   if (env.AI) {
     try {
+      const priorPlayerTurns = Array.isArray(body.history)
+        ? body.history.filter((t) => t.sender === 'player').length
+        : 0;
+      const stageContext =
+        priorPlayerTurns <= 1
+          ? 'STAGE 1 (First Spark): React to their opener/plan, tease playfully, and ask a fun follow-up question to keep the conversation rolling!'
+          : priorPlayerTurns <= 4
+            ? 'STAGE 2 (Pre-Date Chemistry): The first date plan is taking shape! Flirt deeper, ask about their vibe/music/cooking/fitness, or test how they handle your age-gap dynamic.'
+            : priorPlayerTurns <= 7
+              ? 'STAGE 3 (After Date #1): Pretend Date #1 went great and you are texting the next day! Bring up a fun moment from last night and suggest what to do together this weekend.'
+              : 'STAGE 4 (Ongoing Relationship): You two have real momentum now! Banter like an ongoing couple/situationship with inside jokes, weekend plans, and playful affection.';
+
       const systemPrompt = [
         `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic comedy dating game.`,
         `STRICT SAFETY RULE: Keep banter PG-13 cheeky & flirty, NEVER explicit/NSFW.`,
+        `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext} NEVER end the conversation abruptly; always give them something fun, flirty, or intriguing to reply to so the chat keeps flowing naturally!`,
         `CRITICAL HUMAN TEXTING STYLE: Text like a REAL attractive human on Tinder / iMessage, NEVER like an AI chatbot or novelist! NEVER use em-dashes (—), en-dashes (–), or semicolons (;). NEVER use stiff phrases like "how quaint", "meanwhile", or "ah,". Write 1-2 short, natural, punchy text sentences with casual rhythm (contractions, occasional "lol", "wait", "tbh", "babe", or "...") and 1 to 3 natural emojis (😏, 🍸, 😭, 💀, 👀, ✨, 😍, 🚩).`,
         personaRole === 'her'
           ? `Vibe: You have cool "Black Cat" or warm "Wellness Mommy-Domme" confidence. You love playful "Yes, Mommy / good boy" banter when paired with real effort and concrete date plans, and you melt for unbothered "Golden Retriever" warmth. Roast "Cubsplaining" ("well actually..."), pine-pollen biohackers sending "all up in my feels" midnight walls of text, lazy "hey/wyd" texts, Snapchat requests, "for your age", and Sugar-Mama freeloaders.`
           : `Vibe: You are a charming, sunny "Golden Retriever" younger man who plans real dates, uses natural emojis, respects her pace without sulking, and never Cubsplains.`,
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
-        `{"herReply":"1-2 natural text-message sentences with emojis and ZERO em-dashes","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy tip without em-dashes","passedVibeCheck":boolean}`,
+        `{"herReply":"1-2 natural text-message sentences with emojis, ZERO em-dashes, and a hook to keep chatting","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy tip without em-dashes","passedVibeCheck":boolean}`,
       ].join(' ');
 
       const recentTurns = Array.isArray(body.history)
-        ? body.history.slice(-4).map((t) => ({
+        ? body.history.slice(-16).map((t) => ({
             role: (t.sender === 'player' ? 'user' : 'assistant') as 'user' | 'assistant',
             content: String(t.text || '').slice(0, 280),
           }))
@@ -849,7 +862,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v21-tinder-web-chat',
+        version: 'v22-roster-polish',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
@@ -923,7 +936,18 @@ export default {
     }
 
     if (env.ASSETS) {
-      return env.ASSETS.fetch(request);
+      const assetRes = await env.ASSETS.fetch(request);
+      const ct = assetRes.headers.get('content-type') || '';
+      if (ct.includes('text/html')) {
+        const headers = new Headers(assetRes.headers);
+        headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        headers.set('CDN-Cache-Control', 'no-store');
+        return new Response(assetRes.body, {
+          status: assetRes.status,
+          headers,
+        });
+      }
+      return assetRes;
     }
 
     return new Response('Not Found', { status: 404 });

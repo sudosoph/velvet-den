@@ -2,41 +2,47 @@
 
 @layer base {
   :root {
-    --font-display: 'Fredoka', system-ui, -apple-system, sans-serif;
-    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-editorial: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-pixel: 'Silkscreen', monospace;
-    --bg-canvas: #FFF7F0;
+    --bg-canvas: #FAF7F5;
     --bg-card: #FFFFFF;
-    --bg-well: #FFF4F7;
-    --ink: #1E1022;
-    --accent-coral: #FF2E63;
-    --accent-mango: #FFBE0B;
+    --bg-well: #FFF5F7;
+    --ink: #18101E;
+    --accent-coral: #E11D48;
+    --accent-mango: #F59E0B;
   }
 
   html {
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
 
   body {
     font-family: var(--font-sans);
     background-color: var(--bg-canvas);
     background-image:
-      radial-gradient(ellipse 65% 45% at 10% 0%, rgba(255, 46, 99, 0.1), transparent 60%),
-      radial-gradient(ellipse 60% 45% at 92% 8%, rgba(255, 190, 11, 0.16), transparent 58%),
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255, 133, 161, 0.12), transparent 65%);
-    background-attachment: fixed;
+      radial-gradient(ellipse 65% 45% at 10% 0%, rgba(225, 29, 72, 0.06), transparent 60%),
+      radial-gradient(ellipse 60% 45% at 92% 8%, rgba(245, 158, 11, 0.08), transparent 58%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(244, 63, 94, 0.05), transparent 65%);
     color: var(--ink);
-    line-height: 1.5;
+    line-height: 1.55;
     overflow-x: hidden;
   }
 }
 
 .font-display {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.022em;
+  line-height: 1.18;
+}
+
+.font-editorial {
+  font-family: var(--font-editorial);
+  letter-spacing: -0.015em;
 }
 
 .font-pixel {
@@ -44,38 +50,40 @@
   letter-spacing: 0.02em;
 }
 
-/* Tactile Zynga / Dream-Daddy Game Surface & Button System */
+/* Modern Editorial Dating-Club Surface & Tactile Button System */
 .vice-panel,
 .velvet-card,
 .pop-card {
   background-color: #FFFFFF;
-  color: #1E1022;
-  border: 2.5px solid #1E1022;
-  box-shadow: 5px 5px 0px #1E1022;
+  color: #18101E;
+  border: 1px solid rgba(24, 16, 30, 0.11);
+  box-shadow:
+    0 10px 28px -8px rgba(24, 16, 30, 0.08),
+    0 2px 6px -1px rgba(24, 16, 30, 0.04);
 }
 
 .velvet-well,
 .pop-well {
-  background-color: #FFF4F7;
-  color: #1E1022;
-  border: 2px solid #1E1022;
+  background-color: #FFF5F7;
+  color: #18101E;
+  border: 1px solid rgba(225, 29, 72, 0.16);
 }
 
 .pop-btn {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: 0.005em;
-  border: 2px solid #1E1022;
-  box-shadow: 3px 3px 0px #1E1022;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  border: 1px solid rgba(24, 16, 30, 0.14);
+  box-shadow: 0 2px 6px rgba(24, 16, 30, 0.06);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 .pop-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0px #1E1022;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(24, 16, 30, 0.1);
 }
 .pop-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px #1E1022;
+  transform: translateY(0px);
+  box-shadow: 0 1px 3px rgba(24, 16, 30, 0.08);
 }
 
 .no-scrollbar::-webkit-scrollbar {

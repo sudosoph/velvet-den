@@ -95,18 +95,21 @@ export const InGameClubAside: React.FC<InGameClubAsideProps> = ({
           <button
             type="button"
             onClick={onOpenFullChecklist}
-            className="text-xs font-extrabold text-[#D90452] hover:underline cursor-pointer"
+            className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-white border border-[#18101E]/15 px-3 py-1 text-xs font-bold text-[#E11D48] hover:bg-[#FFF1F2] cursor-pointer"
           >
-            Your IRL Score: {checkedCount * 4}/100 →
+            <span>IRL Score: {checkedCount * 4}/100 →</span>
           </button>
         )}
         {mode === 'pop' && onOpenFullTrivia && (
           <button
             type="button"
             onClick={onOpenFullTrivia}
-            className="text-xs font-extrabold text-[#B45309] hover:underline cursor-pointer"
+            className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] border border-[#F59E0B]/40 px-3 py-1 text-xs font-bold text-[#92400E] hover:bg-[#FEF3C7] cursor-pointer"
           >
-            Full Pop-Culture Blitz (+3 Cr) →
+            <span>Full Pop Quiz</span>
+            <span className="rounded-full bg-[#FDE68A] px-1.5 py-0.2 text-[10px] font-extrabold text-[#78350F] whitespace-nowrap">
+              +3 Cr
+            </span>
           </button>
         )}
       </div>

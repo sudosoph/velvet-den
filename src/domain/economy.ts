@@ -169,12 +169,16 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
         ? parsed.referralCode
         : generateReferralCode();
 
-    // CRITICAL SECURITY INVARIANT: Never auto-load Founder Mode from localStorage!
-    // Every visitor & page load starts as a normal player unless unlocked in-memory via /api/founder-auth.
+    // CRITICAL SECURITY INVARIANT: Never auto-load Founder Mode or unverified VIP from localStorage!
+    // Every visitor & page load starts as a normal player unless unlocked in-memory via /api/founder-auth,
+    // or holding a verified Stripe / promo claim in claimedRewards.
+    const verifiedVip = hasRealVipClaim && Boolean(parsed.isVip);
+    const hadUnverifiedVip = Boolean(parsed.isVip) && !verifiedVip;
+
     const normalized: WalletState = {
       credits,
       lastRefillDate: lastDate < today ? today : lastDate,
-      isVip: hadLegacyFounderState ? hasRealVipClaim && Boolean(parsed.isVip) : Boolean(parsed.isVip),
+      isVip: verifiedVip,
       isFounderUnlimited: false,
       referralCode,
       unlockedEpisodeIds: Array.isArray(parsed.unlockedEpisodeIds) ? parsed.unlockedEpisodeIds : [],
@@ -184,7 +188,7 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
         : ['puma', 'cougar'],
     };
 
-    if (lastDate < today || !parsed.referralCode || hadLegacyFounderState) {
+    if (lastDate < today || !parsed.referralCode || hadLegacyFounderState || hadUnverifiedVip) {
       saveWallet(normalized, store);
     }
     return normalized;

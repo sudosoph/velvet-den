@@ -19,7 +19,11 @@ import {
   VolumeX,
 } from 'lucide-react';
 import type { WalletState } from '../domain/economy';
-import { HER_ARCHETYPES, HIS_ARCHETYPES } from '../domain/taxonomy';
+import {
+  getProfileDetails,
+  HER_ARCHETYPES,
+  HIS_ARCHETYPES,
+} from '../domain/taxonomy';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { liveAiInboxService, type LiveInboxTurn } from '../services/adapters';
 
@@ -43,6 +47,8 @@ interface InboxContact {
   height: string;
   zodiac: string;
   drink: string;
+  loveLanguage: string;
+  tagline: string;
   title: string;
   bio: string;
   role: 'her' | 'him';
@@ -64,13 +70,17 @@ const TAPBACK_OPTIONS = ['❤️', '😂', '‼️', '👍', '👎', '❓'] as c
 const QUICK_EMOJIS = ['😏', '🍸', '😍', '😭', '💀', '🔥', '👀', '✨', '🥂', '🚩'] as const;
 
 const INBOX_CONTACTS: InboxContact[] = [
-  ...HER_ARCHETYPES.map((h) => ({
+  ...HER_ARCHETYPES.map((h) => {
+    const details = getProfileDetails(h);
+    return {
     id: h.id,
     name: h.name,
     age: h.age,
-    height: h.height || '5\'7"',
-    zodiac: h.zodiac || 'Scorpio',
-    drink: h.signatureDrink || 'Espresso Martini',
+    height: details.height,
+    zodiac: details.zodiac,
+    drink: details.signatureDrink,
+    loveLanguage: details.loveLanguage,
+    tagline: h.tagline,
     title: h.title,
     bio: h.vibeSummary,
     role: 'her' as const,
@@ -125,14 +135,19 @@ const INBOX_CONTACTS: InboxContact[] = [
           'Bringing cast-iron ribeye, cooling bamboo sheets, and my full attention all night 😏 unlock the door at 7:30 ✨',
           'Wait is your little sister cute too?? 😂🔥',
         ],
-  })),
-  ...HIS_ARCHETYPES.map((c) => ({
+    };
+  }),
+  ...HIS_ARCHETYPES.map((c) => {
+    const details = getProfileDetails(c);
+    return {
     id: c.id,
     name: c.name,
     age: c.age,
-    height: c.height || '6\'1"',
-    zodiac: c.zodiac || 'Leo',
-    drink: 'Espresso Tonic',
+    height: details.height,
+    zodiac: details.zodiac,
+    drink: details.signatureDrink,
+    loveLanguage: details.loveLanguage,
+    tagline: c.tagline,
     title: c.title,
     bio: c.vibeSummary,
     role: 'him' as const,
@@ -156,7 +171,8 @@ const INBOX_CONTACTS: InboxContact[] = [
       'Save enough strength to flip my pillow to the cold side at 3am tonight 😌✨',
       'Bring cast-iron ribeye first, then you can carry me upstairs 🍷🔥',
     ],
-  })),
+    };
+  }),
 ];
 
 type DiscordChannelId = 'first-dm-vetting' | 'after-dark-flirt' | 'boys-roblox-vc';
@@ -209,11 +225,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const [callBanner, setCallBanner] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
-  const [freeTrialUsed, setFreeTrialUsed] = useState(false);
+  const [freeMessagesSent, setFreeMessagesSent] = useState(0);
   const [speakingTurnIdx, setSpeakingTurnIdx] = useState<number | null>(null);
   const [teaStory, setTeaStory] = useState('');
   const [teaSubmitted, setTeaSubmitted] = useState(false);
   const stopVoiceRef = useRef<(() => void) | null>(null);
+  const chatScrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setPlatform(initialPlatform);
@@ -253,6 +270,22 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const activePrompt = steamyMode ? selected.steamyPrompt : selected.openingPrompt;
   const activeChips = steamyMode ? selected.steamyChips : selected.quickChips;
 
+  const playerTurnCount = turns.filter((t) => t.sender === 'player').length;
+  const stageLabel =
+    playerTurnCount < 2
+      ? 'Stage 1/4 • First Spark'
+      : playerTurnCount < 5
+        ? 'Stage 2/4 • Pre-Date Banter'
+        : playerTurnCount < 8
+          ? 'Stage 3/4 • After Date #1'
+          : 'Stage 4/4 • Going Steady (Ongoing)';
+
+  // Smoothly scroll ONLY the inner message container on new messages (zero page scroll jump!)
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+    }
+  }, [turns.length, typing, selected.id, platform]);
   const greenTurnCount = turns.filter((t) => t.sender === 'match' && t.passed).length;
   const vibePercent = Math.min(
     100,
@@ -320,12 +353,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     const trimmed = input.trim();
     if (!trimmed || typing) return;
 
-    if (freeTrialUsed && !wallet.isVip && !wallet.isFounderUnlimited) {
+    // First 3 messages are 100% free; afterward 1 credit unlocks every 3 dynamic turns (or unlimited w/ VIP)
+    if (freeMessagesSent >= 3 && (freeMessagesSent - 3) % 3 === 0 && !wallet.isVip && !wallet.isFounderUnlimited) {
       const ok = onSpendCreditOrOpenBoutique();
       if (!ok) return;
-    } else {
-      setFreeTrialUsed(true);
     }
+    setFreeMessagesSent((n) => n + 1);
 
     sfx.messagePop();
     const nextTurns = [...turns, { sender: 'player' as const, text: trimmed }];
@@ -430,15 +463,15 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           )}
 
           <div className="hidden xl:block pl-1">
-            <div className="font-display text-base text-[#1E1022] leading-tight">
-              Live Dating &amp; Chat Simulator
+            <div className="font-display text-base text-[#18101E] leading-tight">
+              Dynamic Multi-Turn AI Chat • {stageLabel}
             </div>
-            <div className="text-[11px] font-semibold text-[#5A4664]">
-              {!freeTrialUsed
-                ? '🎁 First text FREE • Real human-style replies + emojis'
+            <div className="text-[11px] font-semibold text-[#475569]">
+              {freeMessagesSent < 3
+                ? `🎁 ${3 - freeMessagesSent} free replies left • Ongoing chat evolves across 4 relationship stages`
                 : wallet.isVip || wallet.isFounderUnlimited
-                  ? '👑 VIP Unlimited Chat Active'
-                  : `Wallet: ${wallet.credits} Credits`}
+                  ? '👑 VIP Unlimited Ongoing Chat Active'
+                  : `Ongoing Chat Active • Wallet: ${wallet.credits} Credits`}
             </div>
           </div>
         </div>
@@ -527,11 +560,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
        * MAIN 3-COLUMN TINDER-WEB DESKTOP WORKSPACE (76vh+)
        * Col 1: Matches & Messages Sidebar | Col 2: Live App Chat | Col 3: Profile Card
        * ===================================================================== */}
-      <div className="vice-panel overflow-hidden rounded-3xl grid grid-cols-1 lg:grid-cols-[290px_1fr_300px] min-h-[75vh] bg-white">
+      <div className="vice-panel overflow-hidden rounded-3xl grid grid-cols-1 lg:grid-cols-[290px_1fr_340px] items-start bg-white">
         {/* -------------------------------------------------------------------
-         * COLUMN 1: TINDER WEB MATCHES & THREADS SIDEBAR
+         * COLUMN 1: TINDER WEB ROSTER & THREADS SIDEBAR (Clean Overscroll-Contained)
          * ------------------------------------------------------------------- */}
-        <aside className="flex flex-col border-b-2 lg:border-b-0 lg:border-r-2 border-[#1E1022]/15 bg-[#FAFAFC] max-h-[300px] lg:max-h-[78vh]">
+        <aside className="flex flex-col border-b lg:border-b-0 lg:border-r border-[#18101E]/10 bg-[#FAFAFC] h-[340px] lg:h-[680px]">
           {/* Coral-Pink Tinder Sidebar Header */}
           <div className="bg-gradient-to-r from-[#FD267A] to-[#FF6036] px-4 py-3 text-white space-y-2.5">
             <div className="flex items-center justify-between">
@@ -624,7 +657,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           </div>
 
           {/* Scrollable Tinder Messages Thread List */}
-          <div className="flex-1 overflow-y-auto divide-y divide-[#F1F5F9]">
+          <div className="flex-1 overflow-y-auto overscroll-contain divide-y divide-[#F1F5F9]">
             {filteredContacts.map((c) => {
               const active = c.id === selected.id;
               const tKey = `${c.id}:${steamyMode ? 'steamy' : 'vet'}`;
@@ -670,7 +703,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         {c.zodiac.split(' ')[0]}
                       </span>
                     </div>
-                    <p className="truncate text-xs font-medium text-[#64748B] mt-0.5">
+                    <p className="line-clamp-2 text-xs font-medium text-[#64748B] mt-0.5 leading-snug">
                       {preview}
                     </p>
                   </div>
@@ -684,7 +717,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
          * COLUMN 2: CENTER LIVE CHAT CANVAS (TINDER / iMESSAGE / DISCORD)
          * ------------------------------------------------------------------- */}
         {platform === 'tinder' ? (
-          <div className="flex flex-col overflow-hidden bg-white font-sans text-[#1E1022] max-h-[78vh]">
+          <div className="flex flex-col overflow-hidden bg-white font-sans text-[#18101E] h-[640px] lg:h-[680px]">
             {/* Authentic Tinder Web Match Header */}
             <div className="flex items-center justify-between gap-2 border-b border-[#E5E7EB] bg-white px-4 py-3">
               <div className="flex items-center gap-3 min-w-0">
@@ -743,10 +776,13 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             </div>
 
             {/* Tinder Message Thread */}
-            <div className="flex-1 overflow-y-auto bg-[#FCFCFD] p-4 sm:p-6 space-y-4">
+            <div
+              ref={chatScrollRef}
+              className="flex-1 overflow-y-auto overscroll-contain bg-[#FCFCFD] p-4 sm:p-6 space-y-4"
+            >
               <div className="text-center">
                 <span className="inline-block rounded-full bg-[#FFF0F5] px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#FD267A]">
-                  🔥 IT’S A MATCH • {selected.height} • {selected.zodiac}
+                  🔥 {stageLabel} • {selected.height} • {selected.zodiac.split('•')[0].trim()}
                 </span>
               </div>
 
@@ -955,7 +991,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           /* -------------------------------------------------------------------
            * SKIN B: AUTHENTIC iOS 18 / MAC iMESSAGE INTERFACE
            * ------------------------------------------------------------------- */
-          <div className="flex flex-col overflow-hidden bg-white font-sans text-[#1C1C1E] max-h-[78vh]">
+          <div className="flex flex-col overflow-hidden bg-white font-sans text-[#1C1C1E] h-[640px] lg:h-[680px]">
             <div className="border-b border-[#C6C6C8] bg-[#F2F2F7]/95 px-4 py-2.5 backdrop-blur-md flex items-center justify-between">
               <button
                 type="button"
@@ -1009,9 +1045,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto bg-white p-4 sm:px-6 space-y-3">
+            <div
+              ref={chatScrollRef}
+              className="flex-1 overflow-y-auto overscroll-contain bg-white p-4 sm:px-6 space-y-3"
+            >
               <div className="text-center text-[11px] font-medium text-[#8E8E93]">
-                iMessage • Today 7:42 PM
+                iMessage • {stageLabel}
               </div>
 
               {callBanner && (
@@ -1219,7 +1258,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           /* -------------------------------------------------------------------
            * SKIN C: AUTHENTIC DISCORD SERVER & #BOYS-ROBLOX-VC
            * ------------------------------------------------------------------- */
-          <div className="flex flex-col overflow-hidden bg-[#313338] font-sans text-[#DBDEE1] max-h-[78vh]">
+          <div className="flex flex-col overflow-hidden bg-[#313338] font-sans text-[#DBDEE1] h-[640px] lg:h-[680px]">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1F2023] bg-[#2B2D31] px-4 py-2.5">
               <div className="flex flex-wrap items-center gap-1.5">
                 {(
@@ -1256,7 +1295,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            <div
+              ref={chatScrollRef}
+              className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-3"
+            >
               <div className="flex items-start gap-3 rounded-lg px-2 py-1 hover:bg-[#2E3035]">
                 <img
                   src={selected.photoUrl}
@@ -1438,63 +1480,73 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         )}
 
         {/* -------------------------------------------------------------------
-         * COLUMN 3: RIGHT TINDER PROFILE CARD & LIVE CHEMISTRY METER
+         * COLUMN 3: FULL READABLE PROFILE DOSSIER & CHEMISTRY METER (Zero Truncation!)
          * ------------------------------------------------------------------- */}
-        <aside className="flex flex-col justify-between border-t-2 lg:border-t-0 lg:border-l-2 border-[#1E1022]/15 bg-[#FFFDF9] p-4 space-y-4 overflow-y-auto max-h-[78vh]">
+        <aside className="flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#18101E]/10 bg-[#FAF8F9] p-4 sm:p-5 space-y-4 lg:min-h-[680px]">
           <div className="space-y-3">
-            <div className="relative overflow-hidden rounded-2xl border-2 border-[#1E1022] shadow-[3px_3px_0px_#1E1022]">
+            <div className="relative overflow-hidden rounded-2xl border border-[#18101E]/12 shadow-xs">
               <img
                 src={selected.photoUrl}
                 alt={selected.name}
-                className="h-56 w-full object-cover object-top"
+                className="h-52 w-full object-cover object-top"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-3 text-white">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-3.5 text-white">
                 <div className="flex items-center gap-1.5 font-display text-xl">
                   <span>
                     {selected.name}, {selected.age}
                   </span>
                   <BadgeCheck className="h-4 w-4 text-[#38BDF8]" />
                 </div>
-                <div className="text-xs font-semibold text-white/90">{selected.title}</div>
+                <div className="text-xs font-semibold text-white/95 leading-snug">
+                  {selected.title}
+                </div>
               </div>
             </div>
 
-            {/* Vitals Pills */}
-            <div className="flex flex-wrap gap-1.5 text-[11px] font-bold text-[#1E1022]">
-              <span className="rounded-full border border-[#1E1022]/20 bg-white px-2.5 py-0.5">
+            {/* Complete Vitals Pills */}
+            <div className="flex flex-wrap gap-1.5 text-[11px] font-bold text-[#18101E]">
+              <span className="rounded-full border border-[#18101E]/12 bg-white px-2.5 py-0.5">
                 📏 {selected.height}
               </span>
-              <span className="rounded-full border border-[#1E1022]/20 bg-white px-2.5 py-0.5">
+              <span className="rounded-full border border-[#18101E]/12 bg-white px-2.5 py-0.5">
                 ✨ {selected.zodiac}
               </span>
-              <span className="rounded-full border border-[#1E1022]/20 bg-[#FFF4F7] px-2.5 py-0.5 text-[#D90452]">
+              <span className="rounded-full border border-[#E11D48]/20 bg-[#FFF1F2] px-2.5 py-0.5 text-[#BE123C]">
                 🍸 {selected.drink}
               </span>
             </div>
 
-            <p className="text-xs font-medium leading-relaxed text-[#4A3852] bg-white rounded-2xl border border-[#1E1022]/12 p-3">
-              {selected.bio}
-            </p>
+            {/* Full Untruncated Profile Tagline + Bio + Love Language */}
+            <div className="rounded-2xl border border-[#18101E]/10 bg-white p-3.5 space-y-2 text-xs leading-relaxed">
+              <p className="font-bold text-[#18101E]">{selected.tagline}</p>
+              <p className="font-medium text-[#475569]">{selected.bio}</p>
+              <div className="pt-1 text-[11px] font-bold text-[#BE123C]">
+                💞 Love Language: {selected.loveLanguage}
+              </div>
+            </div>
 
-            {/* Live Chemistry Thermometer */}
-            <div className="rounded-2xl border-2 border-[#1E1022] bg-white p-3 space-y-1.5">
-              <div className="flex items-center justify-between text-xs font-extrabold text-[#1E1022]">
-                <span>🔥 Date Chemistry Meter</span>
+            {/* Live Chemistry & Dynamic Stage Meter */}
+            <div className="rounded-2xl border border-[#18101E]/12 bg-white p-3.5 space-y-2">
+              <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
+                <span>🔥 Chemistry ({stageLabel.split('•')[0].trim()})</span>
                 <span className="text-[#FD267A]">{vibePercent}%</span>
               </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
                 <div
                   style={{ width: `${vibePercent}%` }}
-                  className="h-full rounded-full bg-gradient-to-r from-[#FD267A] to-[#FFBE0B] transition-all duration-300"
+                  className="h-full rounded-full bg-gradient-to-r from-[#FD267A] to-[#F59E0B] transition-all duration-300"
                 />
               </div>
+              <p className="text-[11px] font-medium text-[#64748B]">
+                Keep texting dynamically to advance from First DM → Pre-Date → After Date #1 → Going Steady!
+              </p>
               {onStartDateWithContact && (
                 <button
                   type="button"
                   onClick={() => onStartDateWithContact(selected.id, selected.role)}
-                  className="pop-btn mt-2 w-full h-10 rounded-xl bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-xs font-extrabold text-white cursor-pointer"
+                  className="pop-btn mt-1 w-full h-10 rounded-xl bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-xs font-extrabold text-white border-transparent cursor-pointer"
                 >
-                  💘 Take {selected.name} on Full Date Run →
+                  💘 Play Full Date Run w/ {selected.name} →
                 </button>
               )}
             </div>

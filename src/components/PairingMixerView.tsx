@@ -110,7 +110,8 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
 }) => {
   const [castTab, setCastTab] = useState<'her' | 'him'>('her');
   const [herFilter, setHerFilter] = useState<HerDecadeFilter>('all');
-  const [expandedGrid, setExpandedGrid] = useState(false);
+  const [expandedGrid, setExpandedGrid] = useState(true);
+  const [inspectedProfile, setInspectedProfile] = useState<HerArchetype | HisArchetype | null>(null);
   const [activeDrawer, setActiveDrawer] = useState<'custom' | 'vip' | null>(null);
   const [shuffling, setShuffling] = useState(false);
   const [mobilePairSlot, setMobilePairSlot] = useState<'her' | 'him'>('her');
@@ -256,17 +257,21 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
 
         {/* Strictly Symmetrical 4-Column Equal-Height (48px) Arcade Launcher Bar */}
-        <div className="pt-3.5 border-t-2 border-[#1E1022]/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="pt-3.5 border-t border-[#18101E]/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
           <button
             type="button"
+            aria-label="Pop-Culture Quiz (+3 Cr)"
             onClick={() => {
               sfx.messagePop();
               onOpenPopTrivia();
             }}
-            className="pop-btn h-12 w-full rounded-2xl bg-[#FFBE0B] hover:bg-[#FFD166] px-3.5 inline-flex items-center justify-center gap-2 text-sm text-[#1E1022] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#FFFBEB] hover:bg-[#FEF3C7] px-3 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-[#92400E] whitespace-nowrap cursor-pointer"
           >
-            <Award className="h-4 w-4 shrink-0" />
-            <span>Pop-Culture Quiz (+3 Cr)</span>
+            <Award className="h-4 w-4 shrink-0 text-[#D97706]" />
+            <span className="whitespace-nowrap">Pop-Culture Quiz</span>
+            <span className="rounded-full bg-[#FDE68A] px-2 py-0.5 text-[11px] font-extrabold text-[#78350F] whitespace-nowrap">
+              +3 Cr
+            </span>
           </button>
 
           {onOpenChecklist && (
@@ -276,33 +281,36 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 sfx.messagePop();
                 onOpenChecklist();
               }}
-              className="pop-btn h-12 w-full rounded-2xl bg-[#FFF4F7] hover:bg-[#FFE4EC] px-3.5 inline-flex items-center justify-center gap-2 text-sm text-[#D90452] cursor-pointer"
+              className="pop-btn h-11 w-full rounded-xl bg-[#FFF1F2] hover:bg-[#FFE4E6] px-3 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-[#BE123C] whitespace-nowrap cursor-pointer"
             >
-              <Sparkles className="h-4 w-4 shrink-0 text-[#FF2E63]" />
-              <span>25-Pt Viral Score Test</span>
+              <Sparkles className="h-4 w-4 shrink-0 text-[#E11D48]" />
+              <span className="whitespace-nowrap">25-Pt Viral Score Test</span>
             </button>
           )}
 
           <button
             type="button"
-            aria-label="Live AI Texting Mode — Chat in iMessage or Discord"
+            aria-label="Live AI Texting Mode — Chat in Tinder, iMessage or Discord"
             onClick={() => {
               sfx.messagePop();
               onOpenLiveInbox();
             }}
-            className="pop-btn h-12 w-full rounded-2xl bg-[#EEF6FF] hover:bg-[#DBEAFE] px-3.5 inline-flex items-center justify-center gap-2 text-sm text-[#1E1022] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-gradient-to-r from-[#FD267A] to-[#FF6036] hover:opacity-95 px-3 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-white border-transparent whitespace-nowrap cursor-pointer"
           >
-            <MessageCircle className="h-4 w-4 shrink-0 text-[#007AFF]" />
-            <span>iMessage &amp; Discord AI</span>
+            <MessageCircle className="h-4 w-4 shrink-0" />
+            <span className="whitespace-nowrap">Tinder · iMessage · Discord</span>
           </button>
 
           <button
             type="button"
             onClick={onQuickCreateAudition}
-            className="pop-btn h-12 w-full rounded-2xl bg-[#ECFDF5] hover:bg-[#D1FAE5] px-3.5 inline-flex items-center justify-center gap-2 text-sm text-[#065F46] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#ECFDF5] hover:bg-[#D1FAE5] px-3 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-[#065F46] whitespace-nowrap cursor-pointer"
           >
             <Send className="h-4 w-4 shrink-0" />
-            <span>2-Player Audition (+3 Cr)</span>
+            <span className="whitespace-nowrap">2-Player Audition</span>
+            <span className="rounded-full bg-[#A7F3D0] px-2 py-0.5 text-[11px] font-extrabold text-[#065F46] whitespace-nowrap">
+              +3 Cr
+            </span>
           </button>
         </div>
       </section>
@@ -360,9 +368,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     }}
                     className={`pop-btn min-h-[44px] w-full rounded-xl px-3 py-2 text-left text-xs sm:text-sm leading-snug flex items-center justify-between gap-2 cursor-pointer ${btnColor}`}
                   >
-                    <span className="line-clamp-2">{opt}</span>
+                    <span>{opt}</span>
                     {blitzPicked !== null && isCorrect && (
-                      <span className="shrink-0 font-pixel text-[10px]">+15XP</span>
+                      <span className="shrink-0 whitespace-nowrap font-pixel text-[10px]">+15XP</span>
                     )}
                   </button>
                 );
@@ -433,9 +441,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   }
                   setViralIdx((idx) => (idx + 1) % COUGAR_CUB_CHECKLIST_ITEMS.length);
                 }}
-                className="pop-btn h-11 w-full rounded-xl bg-[#FF2E63] hover:bg-[#E01E50] px-3 text-xs sm:text-sm text-white inline-flex items-center justify-center cursor-pointer"
+                className="pop-btn h-11 w-full rounded-xl bg-[#E11D48] hover:bg-[#BE123C] px-2.5 text-xs font-bold text-white inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
               >
-                🙋‍♀️ Lived This! (+15 XP)
+                <span>🙋‍♀️ Lived This! (+15 XP)</span>
               </button>
 
               <button
@@ -445,9 +453,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   onGainAdventureXp?.(10);
                   setViralIdx((idx) => (idx + 1) % COUGAR_CUB_CHECKLIST_ITEMS.length);
                 }}
-                className="pop-btn h-11 w-full rounded-xl bg-white hover:bg-[#FFFBEB] px-3 text-xs sm:text-sm text-[#1E1022] inline-flex items-center justify-center cursor-pointer"
+                className="pop-btn h-11 w-full rounded-xl bg-white hover:bg-[#FFFBEB] px-2.5 text-xs font-bold text-[#18101E] inline-flex items-center justify-center whitespace-nowrap cursor-pointer"
               >
-                🛡️ Dodged! → Next
+                <span>🛡️ Dodged! → Next</span>
               </button>
             </div>
           </div>
@@ -516,20 +524,20 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </span>
             </div>
 
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <h2 className="font-display text-xl sm:text-2xl text-[#1E1022] truncate">
-                  {her.name}, <span className="text-[#FF2E63]">{her.age}F</span>
+                <h2 className="font-display text-xl sm:text-2xl text-[#18101E]">
+                  {her.name}, <span className="text-[#E11D48]">{her.age}F</span>
                 </h2>
-                <div className="text-sm font-bold text-[#D90452] truncate">{her.title}</div>
+                <div className="text-sm font-bold text-[#BE123C] leading-snug">{her.title}</div>
               </div>
 
-              <div className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFF4F7] px-2 text-sm font-bold text-[#1E1022]">
+              <div className="inline-flex h-9 shrink-0 items-center gap-1 rounded-xl border border-[#18101E]/15 bg-[#FFF1F2] px-2 text-sm font-bold text-[#18101E]">
                 <button
                   type="button"
                   onClick={() => onAdjustHerAge(-1)}
                   aria-label="Decrease Her Age"
-                  className="h-7 w-7 inline-flex items-center justify-center rounded-lg border border-[#1E1022] bg-white hover:bg-[#FFBE0B] cursor-pointer"
+                  className="h-6 w-6 inline-flex items-center justify-center rounded-lg border border-[#18101E]/15 bg-white hover:bg-[#FEF3C7] cursor-pointer"
                 >
                   <Minus className="h-3.5 w-3.5" />
                 </button>
@@ -538,41 +546,44 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   type="button"
                   onClick={() => onAdjustHerAge(1)}
                   aria-label="Increase Her Age"
-                  className="h-7 w-7 inline-flex items-center justify-center rounded-lg border border-[#1E1022] bg-white hover:bg-[#FFBE0B] cursor-pointer"
+                  className="h-6 w-6 inline-flex items-center justify-center rounded-lg border border-[#18101E]/15 bg-white hover:bg-[#FEF3C7] cursor-pointer"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
 
-            <p className="text-sm sm:text-[15px] font-medium text-[#3D2A45] leading-snug line-clamp-3">
+            <p className="text-sm font-semibold text-[#18101E] leading-relaxed">
               {her.tagline}
+            </p>
+            <p className="text-xs sm:text-[13.5px] font-medium text-[#475569] leading-relaxed bg-[#FAF8F9] rounded-xl p-3 border border-[#18101E]/8">
+              {her.vibeSummary}
             </p>
           </div>
 
-          <div className="rounded-xl border-2 border-[#1E1022] bg-[#FFF4F7] px-3.5 py-2.5 space-y-0.5 text-xs sm:text-sm font-bold text-[#1E1022]">
-            <div className="truncate">🍸 {herDetails.signatureDrink}</div>
-            <div className="text-[#D90452] truncate">💞 {herDetails.loveLanguage}</div>
+          <div className="rounded-xl border border-[#E11D48]/20 bg-[#FFF5F7] px-3.5 py-2.5 space-y-1 text-xs sm:text-sm font-semibold text-[#18101E]">
+            <div>🍸 {herDetails.signatureDrink}</div>
+            <div className="text-[#BE123C]">💞 {herDetails.loveLanguage}</div>
           </div>
         </div>
 
-        {/* CENTER ARCADE POD: CHEMISTRY + SYMMETRICAL CONTROLS */}
-        <div className="vice-panel rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-3.5 text-center bg-gradient-to-b from-[#FFFDF9] to-[#FFF4F7] h-full">
-          <div className="space-y-2">
-            <span className="inline-flex min-h-[28px] items-center justify-center rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-1 text-[11px] font-bold uppercase leading-tight tracking-wide text-[#1E1022]">
+        {/* CENTER ROSTER MATCHUP POD */}
+        <div className="vice-panel rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-3.5 text-center bg-gradient-to-b from-white to-[#FFF5F7] h-full">
+          <div className="space-y-2.5">
+            <span className="inline-flex min-h-[28px] items-center justify-center rounded-full border border-[#F59E0B]/40 bg-[#FEF3C7] px-3 py-1 text-[11px] font-extrabold uppercase leading-tight tracking-wide text-[#92400E]">
               {pairing.badgeLabel}
             </span>
 
-            <div className="font-display text-2xl text-[#1E1022]">
+            <div className="font-display text-2xl text-[#18101E]">
               {her.name} × {his.name}
             </div>
 
-            <p className="text-xs sm:text-sm font-medium text-[#5A4664] leading-snug line-clamp-2">
+            <p className="text-xs sm:text-sm font-medium text-[#475569] leading-relaxed">
               {pairing.zodiacSpark}
             </p>
 
             {pairing.energyPolarity && (
-              <div className="rounded-xl border-2 border-[#1E1022] bg-white px-3 py-1.5 text-xs font-bold text-[#D90452]">
+              <div className="rounded-xl border border-[#E11D48]/20 bg-white px-3 py-1.5 text-xs font-bold text-[#BE123C]">
                 {pairing.energyPolarity}
               </div>
             )}
@@ -686,20 +697,20 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </span>
             </div>
 
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <h2 className="font-display text-xl sm:text-2xl text-[#1E1022] truncate">
+                <h2 className="font-display text-xl sm:text-2xl text-[#18101E]">
                   {his.name}, <span className="text-[#D97706]">{his.age}M</span>
                 </h2>
-                <div className="text-sm font-bold text-[#B45309] truncate">{his.title}</div>
+                <div className="text-sm font-bold text-[#B45309] leading-snug">{his.title}</div>
               </div>
 
-              <div className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFFBEB] px-2 text-sm font-bold text-[#1E1022]">
+              <div className="inline-flex h-9 shrink-0 items-center gap-1 rounded-xl border border-[#18101E]/15 bg-[#FFFBEB] px-2 text-sm font-bold text-[#18101E]">
                 <button
                   type="button"
                   onClick={() => onAdjustHisAge(-1)}
                   aria-label="Decrease His Age"
-                  className="h-7 w-7 inline-flex items-center justify-center rounded-lg border border-[#1E1022] bg-white hover:bg-[#FFBE0B] cursor-pointer"
+                  className="h-6 w-6 inline-flex items-center justify-center rounded-lg border border-[#18101E]/15 bg-white hover:bg-[#FEF3C7] cursor-pointer"
                 >
                   <Minus className="h-3.5 w-3.5" />
                 </button>
@@ -708,21 +719,24 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   type="button"
                   onClick={() => onAdjustHisAge(1)}
                   aria-label="Increase His Age"
-                  className="h-7 w-7 inline-flex items-center justify-center rounded-lg border border-[#1E1022] bg-white hover:bg-[#FFBE0B] cursor-pointer"
+                  className="h-6 w-6 inline-flex items-center justify-center rounded-lg border border-[#18101E]/15 bg-white hover:bg-[#FEF3C7] cursor-pointer"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
 
-            <p className="text-sm sm:text-[15px] font-medium text-[#3D2A45] leading-snug line-clamp-3">
+            <p className="text-sm font-semibold text-[#18101E] leading-relaxed">
               {his.tagline}
+            </p>
+            <p className="text-xs sm:text-[13.5px] font-medium text-[#475569] leading-relaxed bg-[#FAF8F9] rounded-xl p-3 border border-[#18101E]/8">
+              {his.vibeSummary}
             </p>
           </div>
 
-          <div className="rounded-xl border-2 border-[#1E1022] bg-[#FFFBEB] px-3.5 py-2.5 space-y-0.5 text-xs sm:text-sm font-bold text-[#1E1022]">
-            <div className="truncate">🥂 {hisDetails.signatureDrink}</div>
-            <div className="text-[#B45309] truncate">💞 {hisDetails.loveLanguage}</div>
+          <div className="rounded-xl border border-[#F59E0B]/25 bg-[#FFFBEB] px-3.5 py-2.5 space-y-1 text-xs sm:text-sm font-semibold text-[#18101E]">
+            <div>🥂 {hisDetails.signatureDrink}</div>
+            <div className="text-[#B45309]">💞 {hisDetails.loveLanguage}</div>
           </div>
         </div>
       </section>
@@ -743,17 +757,17 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         />
       )}
 
-      {/* BAND 5: ALIGNED CAST ROSTER CARD (Uniform 40px Button Toolbar!) */}
-      <section className="vice-panel rounded-3xl p-5 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2.5">
+      {/* BAND 5: FULL READABLE CLUB ROSTER (Zero Truncation, Clean Vertical Flow!) */}
+      <section className="vice-panel rounded-3xl p-5 sm:p-6 space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={() => setCastTab('her')}
-              className={`pop-btn h-10 rounded-xl px-4 text-xs sm:text-sm inline-flex items-center justify-center cursor-pointer ${
+              className={`pop-btn h-10 rounded-full px-4 text-xs sm:text-sm font-bold inline-flex items-center justify-center whitespace-nowrap cursor-pointer ${
                 castTab === 'her'
-                  ? 'bg-[#FF2E63] text-white'
-                  : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
+                  ? 'bg-[#E11D48] text-white border-transparent'
+                  : 'bg-white text-[#18101E] hover:bg-[#FFF1F2]'
               }`}
             >
               🐆 Her Roster ({HER_ARCHETYPES.length} • Ages 30–64)
@@ -761,27 +775,27 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setCastTab('him')}
-              className={`pop-btn h-10 rounded-xl px-4 text-xs sm:text-sm inline-flex items-center justify-center cursor-pointer ${
+              className={`pop-btn h-10 rounded-full px-4 text-xs sm:text-sm font-bold inline-flex items-center justify-center whitespace-nowrap cursor-pointer ${
                 castTab === 'him'
-                  ? 'bg-[#FFBE0B] text-[#1E1022]'
-                  : 'bg-white text-[#1E1022] hover:bg-[#FFFBEB]'
+                  ? 'bg-[#F59E0B] text-[#18101E] border-transparent'
+                  : 'bg-white text-[#18101E] hover:bg-[#FFFBEB]'
               }`}
             >
               🥂 Cub Roster ({HIS_ARCHETYPES.length} • Ages 21–33)
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             {castTab === 'her' &&
               (['all', '30s', '40s', '50s', '60s'] as const).map((f) => (
                 <button
                   key={f}
                   type="button"
                   onClick={() => setHerFilter(f)}
-                  className={`pop-btn h-10 rounded-xl px-3.5 text-xs inline-flex items-center justify-center cursor-pointer ${
+                  className={`pop-btn h-9 rounded-full px-3.5 text-xs font-bold inline-flex items-center justify-center whitespace-nowrap cursor-pointer ${
                     herFilter === f
-                      ? 'bg-[#FFBE0B] text-[#1E1022]'
-                      : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
+                      ? 'bg-[#18101E] text-white'
+                      : 'bg-white text-[#18101E] hover:bg-[#F8FAFC]'
                   }`}
                 >
                   {f === 'all' ? 'All Decades' : f === '60s' ? '60+' : f}
@@ -791,9 +805,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setExpandedGrid((v) => !v)}
-              className="pop-btn h-10 rounded-xl bg-[#FFF7F0] px-3.5 text-xs text-[#1E1022] inline-flex items-center justify-center cursor-pointer"
+              className="pop-btn h-9 rounded-full bg-[#F8FAFC] px-3.5 text-xs font-bold text-[#475569] inline-flex items-center justify-center whitespace-nowrap cursor-pointer"
             >
-              {expandedGrid ? 'Compact Strip' : 'Expand All Cards'}
+              {expandedGrid ? 'Carousel View' : 'Full Roster Grid'}
             </button>
           </div>
         </div>
@@ -801,64 +815,194 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         <div
           className={
             expandedGrid
-              ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch'
-              : 'flex gap-4 overflow-x-auto pb-2 no-scrollbar snap-x'
+              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch'
+              : 'flex gap-4 overflow-x-auto pb-3 snap-x'
           }
         >
           {(castTab === 'her' ? filteredHerList : HIS_ARCHETYPES).map((item) => {
             const isSelected = castTab === 'her' ? item.id === her.id : item.id === his.id;
             const d = getProfileDetails(item);
             return (
-              <button
+              <div
                 key={item.id}
-                type="button"
-                onClick={() => {
-                  sfx.messagePop();
-                  if (castTab === 'her') {
-                    onSelectHer(item as HerArchetype);
-                    setMobilePairSlot('her');
-                  } else {
-                    onSelectHis(item as HisArchetype);
-                    setMobilePairSlot('him');
-                  }
-                }}
                 className={`${
-                  expandedGrid ? 'w-full' : 'w-56 shrink-0 snap-start'
-                } group overflow-hidden rounded-2xl border-2 text-left transition cursor-pointer flex flex-col justify-between ${
+                  expandedGrid ? 'w-full' : 'w-72 shrink-0 snap-start'
+                } group overflow-hidden rounded-2xl border transition flex flex-col justify-between ${
                   isSelected
-                    ? 'border-[#1E1022] bg-[#FFBE0B] shadow-[4px_4px_0px_#1E1022] -translate-y-0.5'
-                    : 'border-[#1E1022] bg-white hover:bg-[#FFF4F7] hover:-translate-y-0.5 shadow-[2px_2px_0px_#1E1022]'
+                    ? 'border-[#E11D48] ring-2 ring-[#E11D48]/25 bg-[#FFF5F7]'
+                    : 'border-[#18101E]/12 bg-white hover:border-[#E11D48]/50 shadow-xs'
                 }`}
               >
-                <div className="relative aspect-[4/3.6] w-full overflow-hidden border-b-2 border-[#1E1022] bg-[#1E1022]">
-                  <img
-                    src={item.photoUrl}
-                    alt={`${item.name}, ${item.age}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
-                  />
-                  <span className="absolute top-2.5 left-2.5 rounded-full border-2 border-[#1E1022] bg-white px-2.5 py-0.5 text-xs font-bold text-[#1E1022]">
-                    {d.height}
-                  </span>
-                </div>
-                <div className="p-3.5 space-y-1 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="font-display text-lg text-[#1E1022]">
-                      {item.name}, <span className="text-[#D90452]">{item.age}</span>
-                    </div>
-                    <div className="text-sm font-bold text-[#1E1022]/85 leading-snug">
-                      {item.title}
+                <div>
+                  <div className="relative h-52 w-full overflow-hidden bg-[#18101E]">
+                    <img
+                      src={item.photoUrl}
+                      alt={`${item.name}, ${item.age}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5">
+                      <span className="rounded-full bg-white/95 backdrop-blur-xs px-2.5 py-0.5 text-xs font-bold text-[#18101E] shadow-xs whitespace-nowrap">
+                        📏 {d.height} • {d.zodiac.split('•')[0].replace(' Sun', '').trim()}
+                      </span>
+                      {isSelected && (
+                        <span className="rounded-full bg-[#E11D48] px-2.5 py-0.5 text-[11px] font-extrabold text-white whitespace-nowrap">
+                          ✓ Active Roster
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <p className="text-[13px] font-medium text-[#3D2A45] leading-snug pt-1">
-                    {item.shortHook}
-                  </p>
+
+                  <div className="p-4 space-y-2">
+                    <div>
+                      <div className="font-display text-lg text-[#18101E]">
+                        {item.name}, <span className="text-[#E11D48]">{item.age}</span>
+                      </div>
+                      <div className="text-xs font-bold text-[#BE123C] leading-snug">
+                        {item.title}
+                      </div>
+                    </div>
+
+                    <p className="text-xs sm:text-[13px] font-semibold text-[#18101E] leading-relaxed">
+                      {item.tagline}
+                    </p>
+                    <p className="text-xs font-medium text-[#475569] leading-relaxed">
+                      {item.vibeSummary}
+                    </p>
+                    <div className="pt-1 flex flex-wrap gap-1.5 text-[11px] font-semibold text-[#475569]">
+                      <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/10 px-2.5 py-0.5">
+                        🍸 {d.signatureDrink}
+                      </span>
+                      <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/10 px-2.5 py-0.5">
+                        💞 {d.loveLanguage}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </button>
+
+                <div className="px-4 pb-4 pt-1 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sfx.messagePop();
+                      if (castTab === 'her') {
+                        onSelectHer(item as HerArchetype);
+                        setMobilePairSlot('her');
+                      } else {
+                        onSelectHis(item as HisArchetype);
+                        setMobilePairSlot('him');
+                      }
+                    }}
+                    className={`pop-btn flex-1 h-9 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#18101E] text-white'
+                        : 'bg-[#E11D48] hover:bg-[#BE123C] text-white border-transparent'
+                    }`}
+                  >
+                    {isSelected ? '✓ On Your Roster' : `Draft ${item.name}`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setInspectedProfile(item)}
+                    className="pop-btn h-9 rounded-xl bg-white hover:bg-[#F8FAFC] px-3 text-xs font-bold text-[#18101E] whitespace-nowrap cursor-pointer"
+                  >
+                    Full Bio
+                  </button>
+                </div>
+              </div>
             );
           })}
         </div>
       </section>
+
+      {/* FULL PROFILE DOSSIER MODAL (Read 100% of any Roster Member anywhere!) */}
+      {inspectedProfile && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/60 p-4 backdrop-blur-xs"
+          onClick={() => setInspectedProfile(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="vice-panel max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl p-6 space-y-4 bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <span className="inline-block rounded-full bg-[#FFF1F2] px-3 py-0.5 text-xs font-bold text-[#E11D48]">
+                  Official Club Roster Dossier
+                </span>
+                <h3 className="mt-1 font-display text-2xl text-[#18101E]">
+                  {inspectedProfile.name}, {inspectedProfile.age}
+                </h3>
+                <div className="text-sm font-bold text-[#BE123C]">{inspectedProfile.title}</div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setInspectedProfile(null)}
+                className="pop-btn h-9 w-9 inline-flex items-center justify-center rounded-full bg-[#F8FAFC] text-[#18101E] cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <img
+              src={inspectedProfile.photoUrl}
+              alt={inspectedProfile.name}
+              className="h-64 w-full rounded-2xl object-cover object-top"
+            />
+
+            {(() => {
+              const details = getProfileDetails(inspectedProfile);
+              return (
+                <div className="space-y-3 text-sm text-[#18101E]">
+                  <div className="flex flex-wrap gap-2 text-xs font-bold">
+                    <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/12 px-3 py-1">
+                      📏 {details.height}
+                    </span>
+                    <span className="rounded-full bg-[#F8FAFC] border border-[#18101E]/12 px-3 py-1">
+                      ✨ {details.zodiac}
+                    </span>
+                    <span className="rounded-full bg-[#FFF1F2] px-3 py-1 text-[#BE123C]">
+                      🍸 {details.signatureDrink}
+                    </span>
+                  </div>
+                  <p className="font-semibold leading-relaxed">{inspectedProfile.tagline}</p>
+                  <p className="text-[#475569] leading-relaxed">{inspectedProfile.vibeSummary}</p>
+                  <div className="rounded-xl bg-[#FFFBEB] border border-[#F59E0B]/30 p-3 text-xs font-semibold text-[#92400E]">
+                    💞 Love Language: {details.loveLanguage}
+                  </div>
+                </div>
+              );
+            })()}
+
+            <div className="flex gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  if ('felineTierHint' in inspectedProfile || HER_ARCHETYPES.some((h) => h.id === inspectedProfile.id)) {
+                    onSelectHer(inspectedProfile as HerArchetype);
+                  } else {
+                    onSelectHis(inspectedProfile as HisArchetype);
+                  }
+                  setInspectedProfile(null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="pop-btn flex-1 h-11 rounded-xl bg-[#E11D48] text-sm font-bold text-white border-transparent cursor-pointer"
+              >
+                Draft {inspectedProfile.name} &amp; View Matchup ↑
+              </button>
+              <button
+                type="button"
+                onClick={() => setInspectedProfile(null)}
+                className="pop-btn h-11 rounded-xl bg-white px-4 text-sm font-bold text-[#18101E] cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="text-center">
         <button

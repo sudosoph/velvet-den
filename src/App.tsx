@@ -533,6 +533,7 @@ export default function App() {
         onOpenBoutique={() => setBoutiqueOpen(true)}
         onOpenLiveInbox={() => setActiveTab('inbox')}
         onOpenPopTrivia={() => setPopTriviaOpen(true)}
+        onOpenChecklist={() => setChecklistOpen(true)}
         onRequestFounderModal={() => {
           setFounderAuthError(null);
           setFounderModalOpen(true);

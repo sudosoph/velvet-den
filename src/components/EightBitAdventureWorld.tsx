@@ -1228,16 +1228,22 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
           <button
             type="button"
             onClick={() => triggerNodeEncounter(WORLD_NODES[0])}
-            className="pop-btn h-11 w-full rounded-xl bg-[#FFBE0B] px-3 text-sm text-[#1E1022] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#FFFBEB] hover:bg-[#FEF3C7] px-3 text-xs sm:text-sm font-bold text-[#92400E] inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
           >
-            🕹️ Jukebox Trivia (+35 XP)
+            <span>🕹️ Jukebox Trivia</span>
+            <span className="rounded-full bg-[#FDE68A] px-2 py-0.5 text-[11px] font-extrabold text-[#78350F] whitespace-nowrap">
+              +35 XP
+            </span>
           </button>
           <button
             type="button"
             onClick={() => triggerNodeEncounter(WORLD_NODES[1])}
-            className="pop-btn h-11 w-full rounded-xl bg-[#FFF4F7] px-3 text-sm text-[#D90452] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#FFF1F2] hover:bg-[#FFE4E6] px-3 text-xs sm:text-sm font-bold text-[#BE123C] inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
           >
-            🔥 Viral Shrine (+25 XP)
+            <span>🔥 Viral Shrine</span>
+            <span className="rounded-full bg-[#FECDD3] px-2 py-0.5 text-[11px] font-extrabold text-[#9F1239] whitespace-nowrap">
+              +25 XP
+            </span>
           </button>
           <button
             type="button"
@@ -1248,9 +1254,9 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
               sfx.shockZoom();
               setActiveEncounter({ type: 'goblin', goblin: nextGoblin });
             }}
-            className="pop-btn h-11 w-full rounded-xl bg-[#FFE4E6] px-3 text-sm text-[#9F1239] cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#18101E] hover:bg-[#2E1F38] px-3 text-xs sm:text-sm font-bold text-white inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
           >
-            ⚡ Intercept Red-Flag Goblin
+            <span>⚡ Intercept Red-Flag Goblin</span>
           </button>
         </div>
       </div>
