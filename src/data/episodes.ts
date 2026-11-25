@@ -1385,6 +1385,264 @@ export const EPISODES: Episode[] = [
     ],
   },
 
+  // --- 5 CHILD-FREE DIVORCED DOG-MOM PUMA EPISODES (JADED BY 40YO PEER MEN) ---
+  {
+    id: 'puma-dog-park-vetting',
+    act: 2,
+    stage: 1,
+    allowedTiers: ['lynx', 'puma'],
+    requiredAnyTags: ['dog_mom_divorced'],
+    title: 'The Rescue-Dog Patio Vetting & Why She Quit Dating Men Her Own Age',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "37F divorced & child-free—men my age just ranted about their ex-wives, then a 26yo won over my rescue dog in 30 seconds"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'trader_joes_aisle',
+    setupHer:
+      'After divorcing your ex and enduring three bleak Hinge dates with 41-year-old men who ranted about crypto and their ex-wives, you lowered your age slider to {hisAge}. Test #1 at the sunlit wine patio: your scruffy rescue dog **Barnaby**, who barks at 80% of men in finance vests.',
+    setupHim:
+      '{herName} ({herAge}F) admits with a dry smile she only lowered her age filter because men her age kept trauma-dumping over IPAs. Under the table, her rescue mutt **Barnaby** is sniffing your shoes with full veto power.',
+    choices: [
+      {
+        labelHer: 'He crouches calmly to let Barnaby sniff his hand first, asks the waiter for a water bowl before ordering wine, and brings refreshing zero-bitterness curiosity about you.',
+        labelHim: 'Crouch to let Barnaby come to you on his terms, ask the server for a fresh dog bowl first, and bring warm, zero-baggage curiosity all evening.',
+        outcomeHer:
+          'Barnaby flops onto {hisName}’s loafers within four minutes—and hearing a man ask thoughtful questions instead of complaining about his 2019 divorce feels like pure oxygen.',
+        outcomeHim:
+          'Barnaby rests his chin on your shoe while {herName} blinks in disbelief: "Okay, you just beat every 42-year-old man in this zip code in six minutes."',
+        toastBanner: 'BARNABY APPROVED! • CHIVALRY +20 • CHEMISTRY +25',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Barnaby Veto-Proof Certified',
+      },
+      {
+        labelHer: 'He ignores Barnaby, complains about his ex-situationship for 35 minutes, and calls you "low-baggage since you don’t have kids."',
+        labelHim: 'Ignore the dog and spend forty minutes ranting about your toxic ex-girlfriend.',
+        outcomeHer:
+          'Great—the exact bitter monologue you fled 42-year-old Hinge men to escape, just in younger sneakers.',
+        outcomeHim:
+          'Barnaby growls softly, and she finishes her rosé in record time.',
+        toastBanner: 'RED FLAG! • BARNABY VETO & EX-RANT (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Take Barnaby on a sunset neighborhood walk together before grabbing patio tapas.',
+        labelHim: 'Suggest a 20-minute sunset dog walk together first so Barnaby warms up naturally.',
+        outcomeHer:
+          'Side-by-side dog-walk banter melts first-date skepticism effortlessly.',
+        outcomeHim:
+          'Smart move—walking with Barnaby makes conversation flow naturally.',
+        toastBanner: 'PACK WALK CHEMISTRY +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'puma-weaponized-incompetence-test',
+    act: 2,
+    stage: 3,
+    allowedTiers: ['lynx', 'puma'],
+    requiredAnyTags: ['dog_mom_divorced', 'jaded_peer_men'],
+    title: 'Zero Weaponized Incompetence: The 7:30 AM Drizzle Dog-Walk Test',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Divorced my 39yo ex over weaponized incompetence—nearly cried when my 25yo cub walked my dog in the rain without waking me"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'houseboy_apron',
+    setupHer:
+      'Your marriage ended because a 39-year-old man couldn’t locate trash bags or walk the dog without a 12-step tutorial. It’s 7:30 AM Sunday, pouring rain outside, and you wake up braced to haul Barnaby out—only to notice {hisName}’s side of the bed is already empty.',
+    setupHim:
+      '7:15 AM Sunday drizzle at {herName}’s townhouse. Barnaby taps his leash by the bedroom door. You know her 40-year-old ex-husband traumatized her with helpless man-child excuses—what’s your move?',
+    recommendedAffiliateId: 'houseboy-linen-apron',
+    choices: [
+      {
+        labelHer: 'Come downstairs to find Barnaby already walked, paws towel-dried, food bowl filled, and fresh espresso waiting—zero questions asked, zero gold-star begging.',
+        labelHim: 'Slip out quietly with Barnaby in the rain, towel-dry all four muddy paws at the mat, refill his kibble, and have hot coffee waiting when she wakes up.',
+        outcomeHer:
+          'You stand on the bottom stair genuinely misty-eyed. A {hisAge}-year-old man just demonstrated more domestic competence before 8 AM than your ex-husband managed in five years.',
+        outcomeHim:
+          'She stares at Barnaby’s clean paws and the steaming mug like she’s witnessing a miracle—and pulls you straight back upstairs.',
+        toastBanner: 'WEAPONIZED INCOMPETENCE CURED! • CHIVALRY +25 • EQ +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Muddy-Paws & Morning Coffee Hero',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He pokes your shoulder at 7:15 AM: "Babe your dog is whining—also where do you keep mugs, spoons, and water?"',
+        labelHim: 'Wake her up asking where the leash, towel, coffee mugs, and spoons live.',
+        outcomeHer:
+          'Instant ex-husband PTSD flashback. You have cabinets with doors, not a CIA vault!',
+        outcomeHim:
+          'Asking four helpless questions before coffee triggers instant ex-husband flashbacks.',
+        toastBanner: 'RED FLAG! • MAN-CHILD FLASHBACK (-20)',
+        deltas: { maturity: -25, chivalry: -20, eq: -15, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Walk Barnaby together under a shared umbrella and grab warm croissants down the block.',
+        labelHim: 'Brew coffee first, then invite her on a cozy shared-umbrella walk to the corner bakery with Barnaby.',
+        outcomeHer:
+          'Teamwork + warm croissants = elite Sunday morning.',
+        outcomeHim:
+          'Thoughtful initiative with cozy couple energy.',
+        toastBanner: 'RAINY BAKERY RUN +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'puma-brunch-cynical-peers',
+    act: 3,
+    stage: 4,
+    allowedTiers: ['lynx', 'puma'],
+    requiredAnyTags: ['dog_mom_divorced', 'jaded_peer_men'],
+    title: 'Stage 4 Boss: Patio Brunch With Her Jaded 38F Divorcee Besties',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "My late-30s divorced friends hate 42yo Hinge men—yet roasted me for dating a 26yo until brunch"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'brunch_daughter',
+    setupHer:
+      'Dog-friendly patio brunch with Barnaby under the table and your two blunt 38-year-old divorced girlfriends across from {hisName} ({hisAge}M). Both just survived terrible dates with 44-year-old finance bros—and arch their eyebrows: *"Girl, you swore off man-children and went younger?!"*',
+    setupHim:
+      'Patio mimosas with {herName}’s two razor-sharp divorced best friends (38F). They’re deeply cynical about men *their* age—and doubly skeptical about what a {hisAge}-year-old brings to the table.',
+    choices: [
+      {
+        labelHer: 'He laughs warmly without trying too hard, sneaks Barnaby an approved ice cube, listens to their Hinge horror stories with sharp wit, and quietly covers the table’s mimosa pitcher.',
+        labelHim: 'Bring easy warmth, zero defensive posturing, keep Barnaby happy beside your chair, match their dry humor, and pick up the mimosa pitcher smoothly.',
+        outcomeHer:
+          'Before the check lands, both girlfriends text your side-chat: *"WAIT. Should WE be lowering our Hinge age filters to 26?!"*',
+        outcomeHim:
+          'By noon, both of her cynical best friends are asking if you have single friends from physical therapy school.',
+        toastBanner: 'CYNICAL BESTIES CONVERTED! • EQ +25 • CHIVALRY +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Converted Her Hinge-Jaded Besties',
+      },
+      {
+        labelHer: 'He lectures two 38-year-old women about why "men in their 40s are actually peak high-value alphas" from a podcast he heard.',
+        labelHim: 'Quote a red-pill dating podcast at two divorced 38-year-old women.',
+        outcomeHer:
+          'Even Barnaby puts his paws over his ears under the table. Immediate exile.',
+        outcomeHim:
+          'Quoting podcast bro science at brunch gets you roasted into another dimension.',
+        toastBanner: 'RED FLAG! • PODCAST BRO CRINGE (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Meet at the off-leash dog beach first so everyone bonds casually before sitting down.',
+        labelHim: 'Start with a breezy dog-beach coffee walk so her friends see you two in action naturally.',
+        outcomeHer:
+          'Action beats interrogation—watching how good he is with Barnaby wins them over fast.',
+        outcomeHim:
+          'Relaxed dog-beach setting lets genuine chemistry shine.',
+        toastBanner: 'DOG-BEACH CHARM +15',
+        deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'doubt-puma-peer-cynicism',
+    act: 3,
+    stage: 5,
+    minigame: 'doubt_spiral',
+    allowedTiers: ['lynx', 'puma'],
+    requiredAnyTags: ['dog_mom_divorced', 'jaded_peer_men'],
+    title: 'Stage 5 • The Doubt: Waiting for the Mask to Drop ("Can He Really Be Different?")',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Divorced & jaded by men my age—my 26yo cub treats me so well my brain keeps waiting for the catch"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Five months in, {hisName} ({hisAge}M) remembers your coffee order, adores Barnaby, and never plays games—and paradoxically, *that’s* what triggers your 2 AM doubt spiral. Your ex-husband was charming in month five too, and every 41-year-old peer you dated disappointed you. *Can this actually work, or are you about to get blindsided again?*',
+    setupHim:
+      'Nothing went wrong—yet {herName} ({herAge}F) suddenly gets guarded after an amazing weekend. Over late-night wine with Barnaby curled between you, she confesses: *"Men my own age burned me so badly I keep waiting for the catch with us. Can this actually last?"*',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her 2 AM spiral: "When a 40-year-old man couldn’t show up as an equal partner, am I naive believing a {hisAge}-year-old won’t eventually get restless or lazy?"',
+      hisDoubt:
+        'His 2 AM spiral: "She’s bracing for me to turn into her ex-husband—how do I earn real trust without paying for sins committed by bitter 42-year-old dudes?"',
+    },
+    recommendedAffiliateId: 'after-dark-couples-deck',
+    choices: [
+      {
+        labelHer: 'Own your jaded armor honestly instead of testing him with traps—judging {hisName} by his own six months of steady actions rather than your ex’s ghosts.',
+        labelHim: 'Respond with grounded warmth and clear boundaries: "You don’t have to trust promises—just look at who I’ve been every week, and let me be *me*, not your ex."',
+        outcomeHer:
+          'Separating old divorce scar tissue from the devoted man right in front of you lifted the fog completely. Good partnership isn’t an age—it’s character.',
+        outcomeHim:
+          'Gentle empathy paired with self-respect melted her cynicism—she stops waiting for the other shoe to drop and leans all the way in.',
+        toastBanner: 'CYNICISM MELTED! • EQ +30 • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 30, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Unlearned Peer Cynicism',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'Pick a random fight to test whether he leaves like everyone else.',
+        labelHim: 'Get bitter back ("All divorced women just project their ex onto new guys!").',
+        outcomeHer:
+          'Manufacturing tests punishes the one guy who actually showed up cleanly.',
+        outcomeHim:
+          'Throwing her divorce in her face confirms every cynical instinct she had.',
+        toastBanner: 'RED FLAG! • CYNICISM SPIRAL (-20)',
+        deltas: { maturity: -20, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Create a simple Sunday check-in ritual so minor worries get voiced before becoming spirals.',
+        labelHim: 'Propose a 10-minute Sunday dog-walk check-in where anything unspoken gets aired safely.',
+        outcomeHer:
+          'Transparent communication habits replace hypervigilance with peace.',
+        outcomeHim:
+          'Walking Barnaby while checking in keeps communication effortless.',
+        toastBanner: 'HEALTHY CHECK-IN RITUAL +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'puma-dogmom-dink-future',
+    act: 3,
+    stage: 6,
+    allowedTiers: ['lynx', 'puma'],
+    requiredAnyTags: ['dog_mom_divorced'],
+    title: 'Stage 6 Finale: The Child-Free Dog-Pack & Passport Future',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Child-free 37F + 26M cub—choosing a rescue-dogs, travel & zero-kids life with eyes wide open"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'One year together: Barnaby adores him, your jaded friends are converts, and you survived the Doubt stage. At {herAge}, you love your child-free freedom—traveling on a whim, sleeping in after dog walks, zero diaper plans. Time for the ultimate Stage 6 alignment with {hisName} ({hisAge}M).',
+    setupHim:
+      'One year with {herName} ({herAge}F) and Barnaby: deeply in love and looking ahead. She’s happily child-free for life—passports, weekend road trips, maybe rescue dog #2—and wants 100% certainty you want that exact future too.',
+    choices: [
+      {
+        labelHer: 'Lock in the Child-Free DINK + Rescue-Dog Pact—booking Lisbon in October and agreeing Barnaby gets a little rescue sister next spring!',
+        labelHim: 'Choose the child-free passport + dog-pack life enthusiastically: "Two careers, full freedom, Lisbon in the fall, and rescue dog #2—that’s my dream life with you."',
+        outcomeHer:
+          'Zero suburban pressure, zero peer bitterness—just an extraordinary, sunlit, dog-hair-and-boarding-passes partnership.',
+        outcomeHim:
+          'Barnaby barks right on cue as she kisses you—officially sealing the happiest child-free power couple in the Club.',
+        toastBanner: 'DINK + DOG-PACK LIFEMATES! • MATURITY +30 • CHEMISTRY +30',
+        deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Child-Free Dog-Pack Lifemate',
+      },
+      {
+        labelHer: 'He secretly hopes you’ll "change your mind about babies at 39" despite everything you said.',
+        labelHim: 'Say yes now while secretly assuming she’ll change her mind and want kids in two years.',
+        outcomeHer:
+          'Never date someone hoping to rewrite their core life design.',
+        outcomeHim:
+          'Hidden agendas break child-free trust—honesty today beats resentment tomorrow.',
+        toastBanner: 'RED FLAG! • HIDDEN KID AGENDA (-25)',
+        deltas: { maturity: -25, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'If fatherhood is truly non-negotiable for him, part with deep gratitude before anyone compromises their truth.',
+        labelHim: 'If you realize you truly want biological kids someday, tell her with total love and honesty now.',
+        outcomeHer:
+          'Honoring both truths cleanly proves real emotional maturity—zero bitterness, lifelong respect.',
+        outcomeHim:
+          'Total integrity and tenderness, even when life paths diverge.',
+        toastBanner: 'HONEST INTEGRITY +25',
+        deltas: { maturity: 25, chivalry: 15, eq: 25, chemistry: 10, redFlags: 0 },
+      },
+    ],
+  },
+
   // --- 4 EXISTING VIP SUBREDDIT DEEP-CUT EPISODES (isVip: true preserved!) ---
   {
     id: 'vip-apartment-soap-audit',

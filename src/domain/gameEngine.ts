@@ -93,40 +93,66 @@ export function buildEpisodeQueue(
     if (ep) pushById(ep.id);
   }
 
-  // Cohesive 5-Stage Relationship Arc tailored to exact age bracket & profile!
+  // Cohesive 6-Stage Relationship Arc tailored to exact age bracket & profile!
   if (tier === 'lynx' || tier === 'puma') {
-    // 30s Puma Arc: Babysitter Clocks, Co-Parenting Boundaries, Boys' Group Chat & 30s Intentionality (NEVER "Is that your son?")
-    pushById('check-drop');
-    if (tags.has('single_mom_sitter')) {
-      pushById('babysitter-flake-test');
-    }
-    pushById('code-switch-texting');
-    if (tags.has('princess_treatment')) {
-      pushById('princess-soft-life');
-    } else {
+    if (tags.has('dog_mom_divorced')) {
+      // 30s Child-Free Divorced Dog-Mom Puma Arc (Jaded about 40yo peer men, ZERO kid/babysitter scenes!)
+      pushById('puma-dog-park-vetting');
+      pushById('check-drop');
+      pushById('code-switch-texting');
       pushById('trail-run-short-leash');
-    }
-    pushById('puma-kid-intro-boundary');
-    pushById('mirror-game-insecurities');
+      pushById('puma-weaponized-incompetence-test');
+      pushById('mirror-game-insecurities');
 
-    for (const vipId of includeVipEpisodeIds) {
-      const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
-      if (ep) pushById(ep.id);
-    }
+      for (const vipId of includeVipEpisodeIds) {
+        const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
+        if (ep) pushById(ep.id);
+      }
 
-    pushById('houseboy-sunday-sanctuary');
-    pushById('puma-boys-groupchat-kid');
-    pushById('doubt-puma-divorce-scar');
+      pushById('houseboy-sunday-sanctuary');
+      pushById('puma-brunch-cynical-peers');
+      pushById('doubt-puma-peer-cynicism');
 
-    for (const vipId of includeVipEpisodeIds) {
-      const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
-      if (ep) pushById(ep.id);
-    }
+      for (const vipId of includeVipEpisodeIds) {
+        const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
+        if (ep) pushById(ep.id);
+      }
 
-    if (tags.has('done_with_kids')) {
-      pushById('fertility-kids-crossroads');
+      pushById('puma-dogmom-dink-future');
     } else {
-      pushById('puma-one-and-done-clock');
+      // 30s Single-Mom Puma Arc: Babysitter Clocks, Co-Parenting Boundaries, Boys' Group Chat, Doubt & 30s Intentionality
+      pushById('check-drop');
+      if (tags.has('single_mom_sitter')) {
+        pushById('babysitter-flake-test');
+      }
+      pushById('code-switch-texting');
+      if (tags.has('princess_treatment')) {
+        pushById('princess-soft-life');
+      } else {
+        pushById('trail-run-short-leash');
+      }
+      pushById('puma-kid-intro-boundary');
+      pushById('mirror-game-insecurities');
+
+      for (const vipId of includeVipEpisodeIds) {
+        const ep = EPISODES.find((e) => e.id === vipId && e.act === 2 && e.stage !== 1);
+        if (ep) pushById(ep.id);
+      }
+
+      pushById('houseboy-sunday-sanctuary');
+      pushById('puma-boys-groupchat-kid');
+      pushById('doubt-puma-divorce-scar');
+
+      for (const vipId of includeVipEpisodeIds) {
+        const ep = EPISODES.find((e) => e.id === vipId && e.act === 3);
+        if (ep) pushById(ep.id);
+      }
+
+      if (tags.has('done_with_kids')) {
+        pushById('fertility-kids-crossroads');
+      } else {
+        pushById('puma-one-and-done-clock');
+      }
     }
   } else if (tier === 'cougar') {
     // 40s Cougar / Princess Cougar Arc

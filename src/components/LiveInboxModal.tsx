@@ -32,8 +32,10 @@ const INBOX_CONTACTS: InboxContact[] = [
     role: 'her' as const,
     photoUrl: h.photoUrl,
     openingPrompt:
-      h.age < 40
-        ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
+      h.subplotTags.includes('dog_mom_divorced')
+        ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
+        : h.age < 40
+          ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
         : h.age >= 60
           ? `We matched at the Palm Springs gallery opening. Most men half my age get nervous—tell me how you’d court me this weekend.`
           : h.subplotTags.includes('princess_treatment')

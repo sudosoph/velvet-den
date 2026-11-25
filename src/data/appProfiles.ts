@@ -379,6 +379,48 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       },
     ],
   },
+  {
+    id: 'her-chloe-37',
+    name: 'Chloé',
+    age: 37,
+    height: '5\'5"',
+    zodiac: 'Capricorn',
+    occupation: 'Brand Strategist • Dog Mom',
+    distance: '2 miles away',
+    activeAgo: 'Active 4m ago',
+    spotifyAnthem: 'Kacey Musgraves — Justified',
+    tinderBio:
+      'Happily divorced, child-free, and my rescue mutt Barnaby has veto power 🐾 Swiped past every bitter 42yo "still figuring out my goals" man in town—lowered my age filter to see if younger men actually bring enthusiasm.',
+    hingePromptQuestion: 'Quickest way to my heart',
+    hingePromptAnswer:
+      'Win over Barnaby first, know where the dishwasher pods go without a tutorial, and never trauma-dump about your ex over IPAs.',
+    ageShockZoom: false,
+    ageShockQuipHer: 'Child-free Puma perfection.',
+    ageShockQuipHim:
+      '37F child-free dog-mom Puma—jaded by lazy 40yo Hinge guys and ready to melt for real effort + dog-guy charm!',
+    lookingFor: 'Real effort & dog-walk banter',
+    lookingForSubtext: 'Allergic to weaponized incompetence and 41-year-old Peter Pans.',
+    interests: ['Rescue Dogs', 'Patio Rosé', 'Travel', 'Zero Kids'],
+    openingDm:
+      'Fair warning: I lowered my age slider after three dreadful dates with men my own age. Convince me (and Barnaby) it was a smart move.',
+    xrayLeak:
+      'INSIDER TIP: Bring a pocket dog treat for Barnaby, never act helpless around her house, and match her wit without cynicism.',
+    isGreenFlagMatch: true,
+    photos: [
+      {
+        caption: 'Photo 1 of 2 • Patio Rosé With Rescue Pup Barnaby',
+        vibeNote: '💚 Child-free, divorced, sharp wit—and Barnaby is watching closely.',
+        variant: 'dog_park_coffee',
+        photoUrl: './images/cast/chloe-37f.jpg',
+      },
+      {
+        caption: 'Photo 2 of 2 • Golden-Hour Sidewalk Café',
+        vibeNote: '💚 Done babysitting 42-year-old Peter Pans; rewards genuine enthusiasm.',
+        variant: 'tailored_linen',
+        photoUrl: './images/cast/maya-36f.jpg',
+      },
+    ],
+  },
 ];
 
 export function getSwipeDeckForRole(role: PlayerRole): SwipeProfile[] {

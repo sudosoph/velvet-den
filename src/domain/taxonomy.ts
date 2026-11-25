@@ -4,6 +4,8 @@ export type GenerationCohort = 'gen_z' | 'millennial' | 'gen_x' | 'icon_60_plus'
 
 export type SubplotTag =
   | 'single_mom_sitter'
+  | 'dog_mom_divorced'
+  | 'jaded_peer_men'
   | 'done_with_kids'
   | 'wants_kids_someday'
   | 'princess_treatment'
@@ -142,6 +144,22 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     subplotTags: ['single_mom_sitter', 'princess_treatment'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/maya-36f.jpg',
+  },
+  {
+    id: 'chloe-puma-dogmom',
+    name: 'Chloé',
+    age: 37,
+    title: 'Child-Free Dog-Mom Puma',
+    shortHook: 'Divorced, zero kids, rescue pup Barnaby—done with 42yo Peter Pans.',
+    tagline:
+      'Happily divorced, child-free, and slightly jaded by bitter 40-something men—lowered her age slider only for real effort + Barnaby’s approval.',
+    vibeSummary:
+      '37, sharp, zero kids, one spoiled scruffy rescue dog named Barnaby. Tried dating men her own age (38–45) and got trauma-dumped on over IPAs by guys who weaponize incompetence—now pleasantly shocked by how eager and emotionally present a vetted Cub can be.',
+    secretInsecurity:
+      'After divorcing a man-child and surviving bleak peer dates, part of her waits for the mask to slip and expects every man to eventually treat her like his unpaid life manager.',
+    subplotTags: ['dog_mom_divorced', 'jaded_peer_men', 'done_with_kids', 'solo_sanctuary'],
+    portraitVariant: 'puma',
+    photoUrl: './images/cast/chloe-37f.jpg',
   },
   {
     id: 'valerie-jaguar-trail',
@@ -382,7 +400,9 @@ export function analyzePairing(
 
   let trackTitle: string;
   if (felineTier === 'puma' || felineTier === 'lynx') {
-    trackTitle = '30s Puma Storyline: Babysitter Clocks, Co-Parenting & Millennial/Gen-Z Rhythm';
+    trackTitle = her.subplotTags.includes('dog_mom_divorced')
+      ? '30s Child-Free Dog-Mom Puma Arc: Rescue-Dog Vetting, Peer Cynicism & Zero Man-Child Tolerance'
+      : '30s Single-Mom Puma Storyline: Babysitter Clocks, Co-Parenting & Millennial/Gen-Z Rhythm';
   } else if (felineTier === 'cougar') {
     trackTitle = her.subplotTags.includes('princess_treatment')
       ? '40s Princess Cougar Storyline: Soft-Life Royalty, Career Coaching & Baby Crossroads'

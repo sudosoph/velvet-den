@@ -31,16 +31,31 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 30 subplots accurately by age bracket across 6 stages—including a dedicated Stage 5 Doubt crisis before Stage 6 Future', () => {
-    expect(EPISODES.length).toBe(30);
+  it('routes 35 subplots accurately by age bracket & profile—separating Single-Mom Puma vs. Child-Free Divorced Dog-Mom Puma (jaded by older/peer men) across 6 stages', () => {
+    expect(EPISODES.length).toBe(35);
 
     const maya36 = HER_ARCHETYPES.find((h) => h.id === 'maya-puma-mom')!;
+    const chloe37 = HER_ARCHETYPES.find((h) => h.id === 'chloe-puma-dogmom')!;
     const claire45 = HER_ARCHETYPES.find((h) => h.id === 'claire-cougar-exec')!;
     const valerie53 = HER_ARCHETYPES.find((h) => h.id === 'valerie-jaguar-trail')!;
     const celeste62 = HER_ARCHETYPES.find((h) => h.id === 'celeste-panther-icon')!;
     const leo25 = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
 
-    // 36F Puma × 25M Cub (11-yr gap): gets babysitter, 6-month kid boundary, Puma Doubt stage, 30s timeline; NEVER waiter-son-incident!
+    // 37F Child-Free Divorced Dog-Mom Puma × 25M Cub: gets rescue-dog vetting, zero weaponized incompetence, jaded divorcee brunch, peer-cynicism Doubt stage, and DINK dog-pack future—ZERO kid/babysitter scenes!
+    const dogMomIds = createRun(analyzePairing(chloe37, leo25, 'her')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(dogMomIds).toContain('puma-dog-park-vetting');
+    expect(dogMomIds).toContain('puma-weaponized-incompetence-test');
+    expect(dogMomIds).toContain('puma-brunch-cynical-peers');
+    expect(dogMomIds).toContain('doubt-puma-peer-cynicism');
+    expect(dogMomIds).toContain('puma-dogmom-dink-future');
+    expect(dogMomIds).not.toContain('babysitter-flake-test');
+    expect(dogMomIds).not.toContain('puma-kid-intro-boundary');
+    expect(dogMomIds).not.toContain('puma-boys-groupchat-kid');
+    expect(dogMomIds).not.toContain('waiter-son-incident');
+
+    // 36F Single-Mom Puma × 25M Cub (11-yr gap): gets babysitter, 6-month kid boundary, Puma Doubt stage, 30s timeline; NEVER waiter-son-incident or dog-mom DINK track!
     const pumaQueue = createRun(analyzePairing(maya36, leo25, 'her')).episodeQueue;
     const pumaIds = pumaQueue.map((e) => e.id);
     expect(pumaIds).toContain('babysitter-flake-test');
@@ -50,6 +65,7 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(pumaIds.indexOf('doubt-puma-divorce-scar')).toBeLessThan(
       pumaIds.indexOf('puma-one-and-done-clock'),
     );
+    expect(pumaIds).not.toContain('puma-dog-park-vetting');
     expect(pumaIds).not.toContain('waiter-son-incident');
     expect(pumaIds).not.toContain('adult-kid-brunch');
 
