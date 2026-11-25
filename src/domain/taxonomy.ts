@@ -28,6 +28,9 @@ export interface HerArchetype {
   subplotTags: SubplotTag[];
   portraitVariant: 'puma' | 'princess' | 'cougar' | 'jaguar' | 'panther';
   photoUrl: string;
+  lookBadge?: string;
+  galleryPhotos?: { label: string; url: string }[];
+  interests?: string[];
 }
 
 export interface HisArchetype {
@@ -42,6 +45,9 @@ export interface HisArchetype {
   subplotTags: SubplotTag[];
   portraitVariant: 'golden' | 'oldsoul' | 'trail' | 'architect';
   photoUrl: string;
+  lookBadge?: string;
+  galleryPhotos?: { label: string; url: string }[];
+  interests?: string[];
 }
 
 export interface FieldGuideEntry {
@@ -207,6 +213,174 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
     photoUrl: './images/cast/celeste-62f.jpg',
+    lookBadge: 'Platinum Silver • Sea-Green Eyes',
+    galleryPhotos: [
+      { label: '🏖️ Desert Pool', url: './images/cast/celeste-62f.jpg' },
+      { label: '🥂 Sunset Terrace', url: './images/cast/hero-couple.jpg' },
+      { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Palm Springs Pools', 'Vinyl Jazz', 'Dry Martinis', 'Modern Art', 'Silk Kaftans'],
+  },
+  {
+    id: 'priya-surgeon-puma',
+    name: 'Priya',
+    age: 35,
+    title: 'ER Trauma Doc • Hiking Puma',
+    shortHook: 'South Asian MD, golden retriever Rani & canyon switchbacks.',
+    tagline:
+      'Runs trauma bays all week—craves a grounding trail hike with her golden retriever Rani and a Cub who cooks real food.',
+    vibeSummary:
+      '35F Indian-American ER physician with bright hazel-brown eyes, glossy raven hair, and zero patience for flaky "wyd" texts after a 12-hour hospital shift. Win over her golden retriever Rani on the coastal ridge trail and sear cast-iron steak when her iron dips.',
+    secretInsecurity:
+      'Her traditional aunties ask weekly why she isn’t married to a 39-year-old cardiologist—so she needs a younger man who carries himself with unmistakable pride.',
+    subplotTags: ['dog_mom_divorced', 'trail_leash_boss', 'solo_sanctuary', 'income_gap'],
+    portraitVariant: 'puma',
+    photoUrl: './images/cast/priya-35f.jpg',
+    lookBadge: 'South Asian • Hazel Eyes • Raven Hair',
+    galleryPhotos: [
+      { label: '🏔️ Trail & Dog', url: './images/cast/priya-35f.jpg' },
+      { label: '🐾 Rosé Picnic', url: './images/cast/dog-park-picnic.jpg' },
+      { label: '☕ Bistro Glow', url: './images/cast/sienna-38f.jpg' },
+    ],
+    interests: ['Coastal Hiking', 'Golden Retrievers', 'Spicy Chai', ' Pilates', 'Travel'],
+  },
+  {
+    id: 'camila-lagoon-puma',
+    name: 'Camila',
+    age: 39,
+    title: 'Mezcal Lounge Owner • Puma',
+    shortHook: 'Latina honey curls, waterfall bikinis & two-left-feet salsa tests.',
+    tagline:
+      '39 and thriving—owns the sexiest mezcal & vinyl room downtown and swims every waterfall lagoon from Oaxaca to Maui.',
+    vibeSummary:
+      'Sun-kissed Afro-Latina Puma on the cusp of 40 with honey-highlighted curls, infectious laugh, and unapologetic curves. Expect spontaneous beach weekends, spicy banter, and an immediate rhythm check when salsa comes on in the kitchen.',
+    secretInsecurity:
+      'Turns 40 next birthday and jokes about graduating from Puma to full Cougar—secretly melted when he plans a surprise getaway without being asked.',
+    subplotTags: ['princess_treatment', 'solo_sanctuary'],
+    portraitVariant: 'puma',
+    photoUrl: './images/cast/camila-39f.jpg',
+    lookBadge: 'Latina • Honey Curls • Warm Brown Eyes',
+    galleryPhotos: [
+      { label: '🏖️ Lagoon Bikini', url: './images/cast/camila-39f.jpg' },
+      { label: '🥂 Cocktail Hour', url: './images/cast/hero-couple.jpg' },
+      { label: '🐾 Park Picnic', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Waterfall Swims', 'Salsa Dancing', 'Artisanal Mezcal', 'Beach Bikinis', 'Live Vinyl'],
+  },
+  {
+    id: 'astrid-blonde-cougar',
+    name: 'Astrid',
+    age: 41,
+    title: 'Malibu Surfer & Biotech Cougar',
+    shortHook: 'Golden blonde, ice-blue eyes, dawn-patrol surf & sauna.',
+    tagline:
+      'Scandinavian-Californian biotech founder: golden blonde, piercing ice-blue eyes, 6:30 AM Malibu surf & Nordic cold-plunge grit.',
+    vibeSummary:
+      'Sold her first diagnostics startup at 39 and moved five minutes from the Malibu point break. Lives in sporty bikinis, salt air, and linen button-downs—and loves watching a fit Cub try to pop up on a longboard.',
+    secretInsecurity:
+      'Spent a decade in lab coats out-working everyone; still learning how to let a devoted younger partner take care of *her* on Sunday.',
+    subplotTags: ['trail_leash_boss', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
+    portraitVariant: 'cougar',
+    photoUrl: './images/cast/astrid-41f.jpg',
+    lookBadge: 'Blonde • Ice-Blue Eyes • Surfer Fit',
+    galleryPhotos: [
+      { label: '🏄‍♀️ Surf Bikini', url: './images/cast/astrid-41f.jpg' },
+      { label: '🏔️ Ridge Trail', url: './images/cast/valerie-53f.jpg' },
+      { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Dawn Surfing', 'Cold Plunge & Sauna', 'Ocean Bikinis', 'Clean Wine', ' Nordic Design'],
+  },
+  {
+    id: 'simone-auntie-cougar',
+    name: 'Simone',
+    age: 44,
+    title: 'Music Attorney • "Rich Auntie" Cougar',
+    shortHook: 'Black goddess braids, Palm Springs bikinis & silk-pillowcase law.',
+    tagline:
+      'Entertainment partner in peak Rich Auntie Era: emerald cabana bikinis, honey braids, R&B vinyl, and strict silk-bonnet sleepover respect.',
+    vibeSummary:
+      '44F Black entertainment lawyer who negotiates festival headliner deals by day and floats in Palm Springs pools by Friday afternoon. Waiters card her like she’s 31; her cousins at the Sunday cookout will vet your soul in ninety seconds flat.',
+    secretInsecurity:
+      'Used to being the powerhouse fixer in every room—melts completely when a tall, emotionally fluent Cub rub-oils her shoulders and handles dinner without ego.',
+    subplotTags: ['princess_treatment', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
+    portraitVariant: 'princess',
+    photoUrl: './images/cast/simone-44f.jpg',
+    lookBadge: 'Black • Honey Braids • Deep Brown Eyes',
+    galleryPhotos: [
+      { label: '👙 Cabana Bikini', url: './images/cast/simone-44f.jpg' },
+      { label: '🥂 Rooftop Martini', url: './images/cast/hero-couple.jpg' },
+      { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Palm Springs Cabanas', '90s R&B Vinyl', 'Silk Loungewear', 'Espresso Tonics', 'Art Collecting'],
+  },
+  {
+    id: 'meiling-architect-cougar',
+    name: 'Mei-Ling',
+    age: 48,
+    title: 'Coastal Architect • Cougar',
+    shortHook: 'East Asian poise, infinity-pool swimwear & razor-sharp dry wit.',
+    tagline:
+      'Designs cliffside glass homes from Big Sur to Kyoto—minimalist black swimwear, bone-dry humor, and immaculate taste.',
+    vibeSummary:
+      '48F East Asian architectural principal who swims 1,500 meters every morning in her ocean-view lap pool. Allergic to loud braggarts;weak in the knees for a respectful younger man with rolled sleeves, skincare discipline, and curious conversation.',
+    secretInsecurity:
+      'Navigating late-40s perimenopause shifts behind calm perfectionism—deeply touched when he notices small physical comforts without making it awkward.',
+    subplotTags: ['done_with_kids', 'solo_sanctuary', 'adult_children', 'income_gap'],
+    portraitVariant: 'cougar',
+    photoUrl: './images/cast/meiling-48f.jpg',
+    lookBadge: 'East Asian • Raven Waves • Dark Eyes',
+    galleryPhotos: [
+      { label: '🏖️ Infinity Pool', url: './images/cast/meiling-48f.jpg' },
+      { label: '🥂 Sunset Lounge', url: './images/cast/claire-45f.jpg' },
+      { label: '🐾 Park Picnic', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Ocean Lap Swims', 'Modern Architecture', 'Omakase', 'Matcha & Sancerre', 'Kyoto Travel'],
+  },
+  {
+    id: 'scarlett-redhead-jaguar',
+    name: 'Scarlett',
+    age: 51,
+    title: 'Sommelier & Chef • Curvy Jaguar',
+    shortHook: 'Copper redhead, emerald-green eyes, lush curves & midnight wine.',
+    tagline:
+      '51, fiery copper curls, vivid emerald-green eyes, unapologetic hourglass curves, and a private cellar of Barolo.',
+    vibeSummary:
+      'Chef-owner of a candlelit coastal osteria who laughs with her whole chest, rocks plunge swimsuits on Italian stone terraces, and feeds her Cub handmade truffle tagliatelle at midnight after service.',
+    secretInsecurity:
+      'In an LA world obsessed with size-zero Pilates clones, she watches for the split second a younger man proves he genuinely worships lush, soft, real-woman curves.',
+    subplotTags: ['princess_treatment', 'done_with_kids', 'adult_children', 'solo_sanctuary'],
+    portraitVariant: 'jaguar',
+    photoUrl: './images/cast/scarlett-51f.jpg',
+    lookBadge: 'Copper Redhead • Green Eyes • Curvy',
+    galleryPhotos: [
+      { label: '🍷 Sunset Swim', url: './images/cast/scarlett-51f.jpg' },
+      { label: '🥂 Terrace Glow', url: './images/cast/hero-couple.jpg' },
+      { label: '🐾 Rosé Picnic', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Barolo & Truffles', 'Mediterranean Pools', 'Late-Night Cooking', 'Opera & Soul', 'Italian Coast'],
+  },
+  {
+    id: 'vivienne-silver-panther',
+    name: 'Vivienne',
+    age: 61,
+    title: 'Fashion Editor • Silver-Braids Panther',
+    shortHook: 'Regal Black icon, silver braids, Amalfi swimwear & zero apologies.',
+    tagline:
+      'Former NYC fashion director wintering on the coast: waist-length silver braids, bronze resort swimwear, and magnetic presence.',
+    vibeSummary:
+      '61F Black style icon who spent thirty years shooting covers in Paris and Milan. Commands every room she enters, swims in the sea till November, and adores an attentive younger man who holds her hand across crowded piazzas.',
+    secretInsecurity:
+      'Fiercely protective of her joy and peace—tests early whether he has the spine to smile past public double-takes without flinching.',
+    subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
+    portraitVariant: 'panther',
+    photoUrl: './images/cast/vivienne-61f.jpg',
+    lookBadge: 'Black • Silver Braids • Regal Icon',
+    galleryPhotos: [
+      { label: '🏖️ Amalfi Swim', url: './images/cast/vivienne-61f.jpg' },
+      { label: '🌴 Desert Pool', url: './images/cast/celeste-62f.jpg' },
+      { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Amalfi Summers', 'Runway Archives', 'Sea Swimming', 'Negronis', ' Jazz Vinyl'],
   },
 ];
 
@@ -270,6 +444,105 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     subplotTags: ['princess_treatment', 'adult_children'],
     portraitVariant: 'architect',
     photoUrl: './images/cast/miles-32m.jpg',
+    lookBadge: '32M • Dark Hair • Brown Eyes',
+    galleryPhotos: [
+      { label: '🍸 Rooftop Blazer', url: './images/cast/miles-32m.jpg' },
+      { label: '🍝 Linen Apron', url: './images/cast/leo-25m.jpg' },
+      { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Architecture', 'Rooftop Wine', 'Boutique Hotels', 'Cooking'],
+  },
+  {
+    id: 'marcus-firefighter-cub',
+    name: 'Marcus',
+    age: 26,
+    title: '6\'2" Firefighter & Rescue-Dog Cub',
+    shortHook: 'Black firefighter/paramedic, beach runs with his dog & Cajun pasta.',
+    tagline:
+      '6\'2" station house chef & paramedic: carries groceries in one trip, runs the beach with his rescue mutt Otis, and bench-presses houses.',
+    vibeSummary:
+      'Calm under pressure, megawatt smile, deep voice, and immaculate manners raised by three powerhouse aunties. Cooks Cajun shrimp pasta for the whole firehouse and pre-heats your passenger seat warmer before opening your door.',
+    secretInsecurity:
+      'Works 24-hour fire shifts and hopes an accomplished executive woman sees how fiercely reliable and devoted a firefighter schedule actually makes him.',
+    subplotTags: ['houseboy_eager', 'princess_treatment', 'trail_leash_boss'],
+    portraitVariant: 'golden',
+    photoUrl: './images/cast/marcus-26m.jpg',
+    lookBadge: 'Black • Clean Fade • Warm Brown Eyes',
+    galleryPhotos: [
+      { label: '🏖️ Beach & Dog', url: './images/cast/marcus-26m.jpg' },
+      { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
+      { label: '🍝 Kitchen Prep', url: './images/cast/leo-25m.jpg' },
+    ],
+    interests: ['Beach Runs', 'Rescue Dogs', 'Firehouse Cooking', '225-Lb Bench', '90s R&B'],
+  },
+  {
+    id: 'jin-souschef-cub',
+    name: 'Jin',
+    age: 25,
+    title: 'Fine-Dining Sous Chef & Climber Cub',
+    shortHook: 'Korean-American chef, forearm tattoo, 10-step skincare & bouldering.',
+    tagline:
+      'Sous-chef by night, outdoor boulderer by morning—knife skills, Korean skincare glow, and midnight handmade dumplings.',
+    vibeSummary:
+      '25M Korean-American chef with a minimalist geometric forearm tattoo, toned climber shoulders, and better SPF habits than most dermatologists. Cooks post-date midnight ramen from scratch and leaves zero dishes in the sink.',
+    secretInsecurity:
+      'Quietly wonders if working restaurant hours clashes with her corporate 9-to-5—so he guards every Sunday off exclusively for her.',
+    subplotTags: ['houseboy_eager', 'trail_leash_boss'],
+    portraitVariant: 'trail',
+    photoUrl: './images/cast/jin-25m.jpg',
+    lookBadge: 'Korean-American • Forearm Tattoo • Climber',
+    galleryPhotos: [
+      { label: '🧗‍♂️ Bouldering', url: './images/cast/jin-25m.jpg' },
+      { label: '🍝 Chef Apron', url: './images/cast/leo-25m.jpg' },
+      { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Outdoor Climbing', 'Handmade Pasta', 'Korean Skincare', 'Natural Wine', 'Espresso'],
+  },
+  {
+    id: 'liam-redhead-carpenter-cub',
+    name: 'Liam',
+    age: 28,
+    title: 'Redhead Green-Eyed Carpenter & Hiker Cub',
+    shortHook: 'Copper curls, emerald-green eyes, custom furniture & mountain trails.',
+    tagline:
+      'Irish-American custom woodworker: copper-red hair, emerald-green eyes, flannel sleeves, and fixes every cabinet hinge on Houseboy Sunday.',
+    vibeSummary:
+      'Builds custom walnut dining tables with his hands, hikes pine ridges at dawn, smells like cedarwood shavings and bergamot, and brings peak rugged-sweetheart devotion.',
+    secretInsecurity:
+      'Doesn’t wear corporate suits or talk tech jargon—hopes real craftsmanship, steady hands, and zero pretension beat finance-bro flash.',
+    subplotTags: ['houseboy_eager', 'trail_leash_boss', 'princess_treatment'],
+    portraitVariant: 'golden',
+    photoUrl: './images/cast/liam-28m.jpg',
+    lookBadge: 'Copper Redhead • Emerald-Green Eyes',
+    galleryPhotos: [
+      { label: '🏔️ Pine Trail', url: './images/cast/liam-28m.jpg' },
+      { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
+      { label: '🍸 Evening Out', url: './images/cast/miles-32m.jpg' },
+    ],
+    interests: ['Custom Woodworking', 'Mountain Hiking', 'Folk Vinyl', 'Cast-Iron Steaks', 'Rescue Dogs'],
+  },
+  {
+    id: 'lucas-blonde-swimmer-cub',
+    name: 'Lucas',
+    age: 30,
+    title: 'Blonde Blue-Eyed Swimmer & Sports MD Cub',
+    shortHook: 'Sunlit blonde, ocean-blue eyes, poolside stamina & passenger-seat warmers.',
+    tagline:
+      'Former D1 swimmer turned sports-medicine fellow: sun-bleached blonde hair, bright blue eyes, and effortless Palm Springs weekend energy.',
+    vibeSummary:
+      '30M golden-boy charm without an ounce of frat-boy arrogance. Rubs SPF 50 onto your shoulders poolside, orders crisp Sancerre properly, and fixes sore Pilates shoulders like magic.',
+    secretInsecurity:
+      'People assume a blonde swimmer in California is a casual beach boy—so he goes all-in proving his long-term loyalty.',
+    subplotTags: ['princess_treatment', 'wants_kids_someday'],
+    portraitVariant: 'oldsoul',
+    photoUrl: './images/cast/lucas-30m.jpg',
+    lookBadge: 'Blonde • Ocean-Blue Eyes • Swimmer Fit',
+    galleryPhotos: [
+      { label: '🏊‍♂️ Poolside', url: './images/cast/lucas-30m.jpg' },
+      { label: '🏔️ Ridge Run', url: './images/cast/mateo-26m.jpg' },
+      { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Ocean Swimming', 'Palm Springs Pools', 'Sports Medicine', 'Tennis', 'Crisp Sancerre'],
   },
 ];
 

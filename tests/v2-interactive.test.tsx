@@ -23,6 +23,7 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       expect(p.tinderBio.length).toBeGreaterThan(20);
       expect(p.spotifyAnthem.length).toBeGreaterThan(4);
       expect(p.hingePromptQuestion.length).toBeGreaterThan(4);
+      expect(p.photos.length).toBeGreaterThanOrEqual(2);
       expect(p.photos[0].photoUrl).toMatch(/^\.\/images\/cast\/.+\.jpg$/);
       expect(p.photos[1].photoUrl).toMatch(/^\.\/images\/cast\/.+\.jpg$/);
     }
@@ -31,8 +32,10 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 48 subplots accurately—including Pop-Culture Cougar Renaissance, Cub "Grooming" Glow-Up, Hormonal/Menopause real talk, Bench-Press, and Sister-Age Shock across all tracks', () => {
-    expect(EPISODES.length).toBe(48);
+  it('routes 52 subplots accurately—including Lifestyle Micro-Details, Pop-Culture Renaissance, Cub "Grooming" Glow-Up, Hormonal/Menopause real talk, Bench-Press, and Sister-Age Shock across all tracks', () => {
+    expect(EPISODES.length).toBe(52);
+    expect(HER_ARCHETYPES.length).toBe(14);
+    expect(HIS_ARCHETYPES.length).toBe(8);
 
     const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
     const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
@@ -147,6 +150,20 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       fireEvent.click(btn);
     }
     expect(screen.getByText(/Full “Cougar-Groomed” Glow-Up Complete!/i)).toBeInTheDocument();
+  });
+
+  it('activates Founder Unlimited Mode via ?founder=1, grants infinite credits/VIP, and opens the Pop-Culture Quiz', () => {
+    window.history.replaceState({}, '', '/?founder=1');
+    render(<App />);
+
+    expect(screen.getByText(/Founder Unlimited Mode/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Founder instant scene jumper/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Pop-Culture Quiz \(\+3 Cr\)/i }));
+    expect(
+      screen.getByRole('dialog', { name: /Pop-Culture Cougar & Cub Trivia/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Maxx Morando in Palm Springs/i)).toBeInTheDocument();
   });
 
   it('renders the interactive 2 AM Doubt Breaker minigame on Stage 5 Doubt episodes and awards EQ + Maturity', () => {

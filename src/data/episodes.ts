@@ -2308,6 +2308,199 @@ export const EPISODES: Episode[] = [
     ],
   },
 
+  // --- 4 "DEVIL IS IN THE DETAILS" COUGAR & CUB LIFESTYLE MICRO-DETAIL EPISODES ---
+  {
+    id: 'candlelit-menu-font-seatwarmer',
+    act: 2,
+    stage: 2,
+    title: '8-Point Candlelit Menu Font, Level-3 Seat Warmers & The Top Shelf',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "It’s the tiny details: he pre-heated my seat warmer, reached the top pantry shelf & read the tiny dim menu font without a single joke"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'Friday night, 8:15 PM. {hisName} ({hisAge}M) already scored silent points by pre-heating your passenger seat warmer to Level 3 before opening your car door. Now you’re in a trendy, pitch-dark Italian bistro where the pasta menu is printed in microscopic 7-point grey italic font—a hate crime against anyone over 38 who left her reading glasses in her other clutch.',
+    setupHim:
+      'You pre-warmed {herName}’s ({herAge}F) passenger seat on the drive over and got her into a gorgeous candlelit trattoria. Only problem: the lighting is moody dark and the menu font is microscopic. You notice her holding the cardstock slightly farther back—what’s the move?',
+    choices: [
+      {
+        labelHer: 'Before you even squint, he leans in warmly ("It’s pitch dark in here—listen to this wild boar ragu & truffle cacio e pepe") and reads the best four dishes aloud with zero age jokes.',
+        labelHim: 'Blame the restaurant’s dark mood lighting casually and read the top pasta & wine highlights aloud like a sommelier—zero "need my phone flashlight, grandma?" jokes.',
+        outcomeHer:
+          'Pre-heated seat warmer + reading tiny menu print smoothly without making it weird + reaching your top wine-glass shelf afterward? Husband-tier micro-chivalry.',
+        outcomeHim:
+          'She relaxes instantly, squeezes your knee under the tablecloth, and whispers that your attention to detail is lethal.',
+        toastBanner: 'MICRO-CHIVALRY PERFECTION! • CHIVALRY +25 • EQ +25',
+        deltas: { maturity: 20, chivalry: 25, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Candlelit Menu & Seat-Warmer Pro',
+      },
+      {
+        labelHer: 'He turns his iPhone strobe flashlight onto 1,000 lumens aimed at your face and yells "NEED BIFOCALS?!" across the restaurant.',
+        labelHim: 'Blast your iPhone flashlight across the table and joke loudly about senior-citizen menus.',
+        outcomeHer:
+          'Every table turns to stare while you contemplate ordering a solo Uber from the ladies’ room.',
+        outcomeHim:
+          'Blinding your date with a strobe light while yelling bifocal jokes is an instant fumble.',
+        toastBanner: 'RED FLAG! • STROBE-LIGHT MENU CRIME (-20)',
+        deltas: { maturity: -20, chivalry: -25, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Pull out your chic tortoiseshell readers with zero shame—and watch him lose his mind over the hot-professor look.',
+        labelHim: 'When she slips on her tortoiseshell reading glasses, tell her honestly that look is dangerously attractive.',
+        outcomeHer:
+          'Wait—he thinks the tortoiseshell readers are hot?! Crisis upgraded into foreplay.',
+        outcomeHim:
+          'Complimenting her reading glasses genuinely makes her blush over her Barolo.',
+        toastBanner: 'HOT-PROFESSOR READERS SPARK +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'silk-pillowcase-clawclip-drawer',
+    act: 2,
+    stage: 3,
+    title: 'Silk Pillowcase Law, Braids/Blowout Protection & His Secret "Her Drawer"',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Opened my 26yo cub’s nightstand expecting video games—found a mulberry silk pillowcase, claw clip, makeup wipes & my charger"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'bathroom_audit',
+    setupHer:
+      'Second sleepover at {hisName}’s ({hisAge}M) place. Usually sleeping at a younger man’s apartment means rough cotton pillowcases wrecking your blowout, silk press, or braids, zero makeup remover, and hunting for a hair tie at midnight. Then he opens the top drawer of his bathroom vanity...',
+    setupHim:
+      '{herName} ({herAge}F) is staying the night at your place after wine bar Friday. You noticed on Sleepover #1 how protective she is of her hair, skincare barrier, and sleep setup. How did you prep?',
+    recommendedAffiliateId: 'silk-pillowcase-sleepover-duo',
+    choices: [
+      {
+        labelHer: 'Inside his "Her Drawer": a fresh 22-momme mulberry silk pillowcase already on your pillow, micellar wipes, a spare tortoiseshell claw clip, Ibuprofen, and an extra USB-C cord on your side!',
+        labelHim: 'Put a 22-momme silk pillowcase on her side of the bed and stock a dedicated drawer with a spare claw clip, gentle makeup wipes, Advil, and her own phone charger.',
+        outcomeHer:
+          'You stare at the silk pillowcase and spare claw clip in stunned silence. Men at 44 never thought of this—meanwhile {hisName} studied the assignment like a scholar.',
+        outcomeHim:
+          'When she spots the silk pillowcase and dedicated claw clip, she kisses you like you just won an Oscar.',
+        toastBanner: '"HER DRAWER" LEGEND! • CHIVALRY +30 • CHEMISTRY +25',
+        deltas: { maturity: 25, chivalry: 30, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Silk-Pillowcase & Claw-Clip MVP',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'Scratchy unwashed flannel pillowcase, zero hand towel, and he accidentally lies directly on your hair mid-kiss.',
+        labelHim: 'Offer a scratchy college pillowcase and accidentally yank her hair leaning on your elbow.',
+        outcomeHer:
+          'Trapping a woman’s hair under your elbow on a sandpaper pillowcase is a two-count misdemeanor.',
+        outcomeHim:
+          'Watch the elbow on the hair—and invest $39 in silk!',
+        toastBanner: 'RED FLAG! • BLOWOUT / BRAID HAZARD (-15)',
+        deltas: { maturity: -15, chivalry: -20, eq: -15, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Ask what exact skincare & hair essentials she likes so you stock them before next weekend.',
+        labelHim: 'Take a quick mental note tonight and order her exact favorite pillowcase & cleanser for Friday.',
+        outcomeHer:
+          'Thoughtful, attentive, and zero guesswork.',
+        outcomeHim:
+          'Asking directly and following through by next Friday wins huge points.',
+        toastBanner: 'ATTENTIVE HOSTING +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'midnight-pizza-vs-sodium-rings',
+    act: 2,
+    stage: 3,
+    title: 'His 25yo Midnight Pizza Abs vs. Her Post-8 PM Soy-Sauce Ring Swell',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Unfair biology: my cub eats 4 slices of pepperoni pizza at midnight and wakes up with 8-pack abs; I look at soy sauce after 8 PM and my rings don’t fit"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'houseboy_apron',
+    setupHer:
+      '11:30 PM Saturday after a very active evening. {hisName} ({hisAge}M) casually inhales half a pepperoni pizza straight from the box and will wake up tomorrow with visible lower abs—whereas if you touch late-night sodium or cheap tequila at {herAge}, you wake up puffy with rings stuck on your fingers and acid reflux.',
+    setupHim:
+      'Post-date midnight hunger hits your {hisAge}-year-old furnace metabolism hard, while {herName} ({herAge}F) laughs that eating salty takeout at 11:45 PM means puffy eyes and tight rings tomorrow morning.',
+    choices: [
+      {
+        labelHer: 'He eats his midnight slice in the kitchen (zero crumbs in bed!), brings you chilled electrolyte lemon water + peppermint tea + fresh berries, and gives you a lymphatic shoulder rub.',
+        labelHim: 'Keep midnight pizza out of her crisp sheets, bring her ice-cold lemon electrolyte water + herbal tea + berries, and never peer-pressure late-night junk food.',
+        outcomeHer:
+          'You wake up hydrated, glowing, rings sliding cleanly, and still marveling at his unfair 20s metabolism over Sunday espresso.',
+        outcomeHim:
+          'Respecting her body’s rhythm while keeping crumbs 50 feet away from her bed earns lifetime sleepover privileges.',
+        toastBanner: 'METABOLISM & HYDRATION IQ +25',
+        deltas: { maturity: 20, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Midnight Hydration Concierge',
+      },
+      {
+        labelHer: 'He drips garlic-butter crust oil onto your white duvet and says "Why are you so strict, live a little!"',
+        labelHim: 'Eat greasy garlic knots over her white percale duvet and tease her for skipping midnight pizza.',
+        outcomeHer:
+          'Garlic oil on 600-thread-count percale PLUS food commentary?! Banished to the couch.',
+        outcomeHim:
+          'Greasy fingers on luxury bedding is an automatic ejection.',
+        toastBanner: 'RED FLAG! • GARLIC OIL ON PERCALE (-20)',
+        deltas: { maturity: -20, chivalry: -20, eq: -20, chemistry: -15, redFlags: 1 },
+      },
+      {
+        labelHer: 'Cook a clean 6:30 PM protein-and-greens dinner together so nobody needs 1 AM grease.',
+        labelHim: 'Make an early seared-salmon & avocado dinner at 7 PM and save big brunch pancakes for 10 AM.',
+        outcomeHer:
+          '7 PM dinner + 10 AM brunch is peak Cougar-Cub scheduling harmony.',
+        outcomeHim:
+          'Smart timing leaves both of you feeling 10/10 in the morning.',
+        toastBanner: 'DINNER TIMING GENIUS +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'retinol-stubble-eye-cream-heist',
+    act: 2,
+    stage: 3,
+    title: 'Tretinoin vs. Stubble Burn (And Catching Him Stealing Your $180 Eye Cream)',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Told my cub his 5 o’clock shadow irritated my retinol barrier—caught him moisturizing his beard AND patting on my $180 peptide eye cream"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'mirror_vanity',
+    setupHer:
+      'Two classic age-gap bathroom details collide: first, scratchy two-day stubble against your prescription tretinoin/retinol skin barrier equals instant chin redness. Second, you walk into your bathroom at 10:15 PM and catch {hisName} ({hisAge}M) carefully dabbing your $180 luxury peptide eye cream under his eyes with his ring finger.',
+    setupHim:
+      'First {herName} ({herAge}F) taught you that dry scruff burns her night-retinol skin unless you soften your beard. Next thing you know, she walks into the bathroom right as you’re sampling a tiny dab of her ultra-luxury peptide cream in the mirror.',
+    recommendedAffiliateId: 'cub-grooming-beard-skincare-kit',
+    choices: [
+      {
+        labelHer: 'Laugh warmly, teach him proper ring-finger patting technique, gift him his own peptide moisturizer + sandalwood beard softener, and enjoy butter-soft kisses all night.',
+        labelHim: 'Grin red-handed ("Hey, I’m trying to age as well as you!"), keep your stubble conditioned soft for her retinol barrier, and buy your own jar tomorrow.',
+        outcomeHer:
+          'Zero retinol chin burn AND a boyfriend with glowing cheekbones who smells like sandalwood? Absolute win.',
+        outcomeHim:
+          'Softened stubble + playful honesty turns a hilarious bathroom catch into ten minutes of making out against the vanity.',
+        toastBanner: 'RETINOL-SAFE KISSES! • CHEMISTRY +25 • EQ +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Retinol-Safe Beard Certified',
+      },
+      {
+        labelHer: 'He scoops a golf-ball glob of your $180 serum onto his elbows and rubs sandpaper stubble across your freshly retinized cheeks.',
+        labelHim: 'Use half her $180 jar as hand lotion and rub scratchy dry stubble across her face.',
+        outcomeHer:
+          'Using $180 eye serum as elbow lotion is a war crime in every zip code.',
+        outcomeHim:
+          'RIP her moisture barrier and your weekend invite.',
+        toastBanner: 'RED FLAG! • $180 SERUM FELONY (-20)',
+        deltas: { maturity: -20, chivalry: -20, eq: -15, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Do Friday sheet-masks together with chilled wine before bed.',
+        labelHim: 'Embrace a hilarious couples sheet-mask + beard-oil wind-down ritual together.',
+        outcomeHer:
+          'Playful, domestic, and keeps both faces glowing.',
+        outcomeHim:
+          'Zero toxic masculinity + glowing skin = top-tier Cub behavior.',
+        toastBanner: 'SHEET-MASK BONDING +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+
   // --- 4 EXISTING VIP SUBREDDIT DEEP-CUT EPISODES (isVip: true preserved!) ---
   {
     id: 'vip-apartment-soap-audit',

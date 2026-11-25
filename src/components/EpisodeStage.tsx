@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Coffee, ExternalLink, RotateCcw, Share2 } from 'lucide-react';
+import { Award, CheckCircle2, Coffee, ExternalLink, RotateCcw, Share2 } from 'lucide-react';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import {
   EPISODES,
@@ -7,6 +7,7 @@ import {
   type Episode,
   type RelationshipStage,
 } from '../data/episodes';
+import { POP_CULTURE_TRIVIA } from '../data/popCultureTrivia';
 import { personalizeText, type GameRunState, type Stats } from '../domain/gameEngine';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { sfx } from '../lib/sound';
@@ -48,9 +49,19 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     getLocalChoicePercentagesSync('check-drop', 3),
   );
   const [particleBurst, setParticleBurst] = useState<string | null>(null);
+  const [answeredTriviaEpIds, setAnsweredTriviaEpIds] = useState<Record<string, number>>({});
 
   const currentEpisode: Episode | undefined = run.episodeQueue[run.currentEpisodeIndex];
   const role = run.pairing.role;
+
+  // Intersperse a breezy Pop-Culture Cougar/Cub Trivia card every 3rd episode (indices 2, 5, 8)!
+  const showInterludeTrivia =
+    run.episodeQueue.length >= 4 &&
+    (run.currentEpisodeIndex === 2 ||
+      run.currentEpisodeIndex === 5 ||
+      run.currentEpisodeIndex === 8);
+  const interludeQuestion =
+    POP_CULTURE_TRIVIA[run.currentEpisodeIndex % POP_CULTURE_TRIVIA.length];
 
   const lastEntry =
     showingOutcomeForEpId && run.history.length > 0
@@ -353,6 +364,67 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
         </div>
       ) : currentEpisode ? (
         <div key={currentEpisode.id} className="space-y-4 animate-stage-in">
+          {/* Interspersed Pop-Culture Cougar & Cub Trivia Bonus Card! */}
+          {showInterludeTrivia && interludeQuestion && (
+            <div className="vice-panel rounded-2xl bg-gradient-to-r from-[#2c113b] via-[#1c1332] to-[#0f252e] p-4 space-y-3 border-2 border-pink-400/60">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-300">
+                  <Award className="h-4 w-4 text-pink-300" /> Pop-Culture Cougar Interlude • {interludeQuestion.badge}
+                </span>
+                <span className="text-[11px] font-bold text-teal-300">
+                  Bonus +6 Chemistry for Correct Answer!
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm font-bold text-white">{interludeQuestion.question}</p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {interludeQuestion.options.map((opt, oIdx) => {
+                  const picked = answeredTriviaEpIds[currentEpisode.id];
+                  const hasPicked = typeof picked === 'number';
+                  const isCorrect = oIdx === interludeQuestion.correctIndex;
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      disabled={hasPicked}
+                      onClick={() => {
+                        setAnsweredTriviaEpIds((prev) => ({ ...prev, [currentEpisode.id]: oIdx }));
+                        if (isCorrect) {
+                          sfx.greenFlag();
+                          onCompleteMinigame(
+                            `trivia_${currentEpisode.id}`,
+                            { chemistry: 6 },
+                            'Pop-Culture Cougar Scholar',
+                          );
+                        } else {
+                          sfx.redFlag();
+                        }
+                      }}
+                      className={`flex items-center justify-between rounded-xl border-2 px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
+                        !hasPicked
+                          ? 'border-black bg-black/50 text-slate-100 hover:bg-black/75'
+                          : isCorrect
+                            ? 'border-emerald-400 bg-emerald-950/70 text-emerald-200'
+                            : picked === oIdx
+                              ? 'border-rose-500 bg-rose-950/70 text-rose-200'
+                              : 'border-black/40 bg-black/25 text-slate-500'
+                      }`}
+                    >
+                      <span>{opt}</span>
+                      {hasPicked && isCorrect && (
+                        <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-300" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+              {typeof answeredTriviaEpIds[currentEpisode.id] === 'number' && (
+                <p className="text-xs text-amber-200 leading-relaxed">
+                  {interludeQuestion.funFact}
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="vice-panel rounded-3xl bg-[#180d28] p-5 sm:p-7 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-xs font-bold italic text-pink-300">

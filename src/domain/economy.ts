@@ -6,6 +6,7 @@ export interface WalletState {
   credits: number;
   lastRefillDate: string;
   isVip: boolean;
+  isFounderUnlimited?: boolean;
   unlockedEpisodeIds: string[];
   claimedRewards: string[];
   unlockedStamps: string[];
@@ -33,6 +34,7 @@ export function createDefaultWallet(now: Date = new Date()): WalletState {
     credits: MONETIZATION_CONFIG.dailyFreeCredits,
     lastRefillDate: toUtcDateKey(now),
     isVip: false,
+    isFounderUnlimited: false,
     unlockedEpisodeIds: [],
     claimedRewards: [],
     unlockedStamps: ['puma', 'cougar'],
@@ -77,6 +79,7 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
       credits,
       lastRefillDate: lastDate < today ? today : lastDate,
       isVip: Boolean(parsed.isVip),
+      isFounderUnlimited: Boolean(parsed.isFounderUnlimited),
       unlockedEpisodeIds: Array.isArray(parsed.unlockedEpisodeIds) ? parsed.unlockedEpisodeIds : [],
       claimedRewards: Array.isArray(parsed.claimedRewards) ? parsed.claimedRewards : [],
       unlockedStamps: Array.isArray(parsed.unlockedStamps)
@@ -109,7 +112,7 @@ export function spendCredits(
   wallet: WalletState,
   cost: number,
 ): { ok: boolean; wallet: WalletState } {
-  if (cost <= 0) return { ok: true, wallet };
+  if (wallet.isFounderUnlimited || cost <= 0) return { ok: true, wallet };
   if (wallet.credits < cost) {
     return { ok: false, wallet };
   }
@@ -127,7 +130,11 @@ export function unlockEpisodeWithCredits(
   episodeId: string,
   cost: number,
 ): { ok: boolean; wallet: WalletState } {
-  if (wallet.isVip || wallet.unlockedEpisodeIds.includes(episodeId)) {
+  if (
+    wallet.isFounderUnlimited ||
+    wallet.isVip ||
+    wallet.unlockedEpisodeIds.includes(episodeId)
+  ) {
     return {
       ok: true,
       wallet: wallet.unlockedEpisodeIds.includes(episodeId)
@@ -172,15 +179,40 @@ export function grantRewardCredits(
   };
 }
 
+const FOUNDER_KEYS = new Set(['foundermode', 'sophia999', 'sudosoph', 'velvetfounder']);
+
 export function applyUnlockCodeOrQuery(
   wallet: WalletState,
   codeOrSearch: string,
-): { unlocked: 'vip' | 'credits' | null; wallet: WalletState } {
+): { unlocked: 'vip' | 'credits' | 'founder' | null; wallet: WalletState } {
   const trimmed = codeOrSearch.trim();
   if (!trimmed) return { unlocked: null, wallet };
 
   if (trimmed.startsWith('?')) {
     const params = new URLSearchParams(trimmed);
+    const founderParam = (params.get('founder') ?? '').trim().toLowerCase();
+    if (
+      founderParam === '1' ||
+      founderParam === 'true' ||
+      founderParam === 'sophia' ||
+      FOUNDER_KEYS.has(founderParam)
+    ) {
+      return {
+        unlocked: 'founder',
+        wallet: {
+          ...wallet,
+          isVip: true,
+          isFounderUnlimited: true,
+          credits: Math.max(wallet.credits, 999),
+        },
+      };
+    }
+
+    // Only allow client-side ?unlock= preview parameters while sandboxPreviewMode is true!
+    if (!MONETIZATION_CONFIG.sandboxPreviewMode) {
+      return { unlocked: null, wallet };
+    }
+
     const token = (params.get('unlock') ?? '').trim().toLowerCase();
     if (token === 'vip' || token === 'blackcard') {
       if (wallet.claimedRewards.includes(`stripe_${token}`)) {
@@ -198,25 +230,42 @@ export function applyUnlockCodeOrQuery(
     }
     if (token === 'credits15') {
       const grant = grantRewardCredits(wallet, 'stripe_credits15_once', 15);
-      return { unlocked: 'credits', wallet: grant.wallet };
+      return { unlocked: grant.granted ? 'credits' : null, wallet: grant.wallet };
     }
     return { unlocked: null, wallet };
   }
 
-  const normalizedCode = trimmed.toUpperCase();
-  if (MONETIZATION_CONFIG.vipUnlockCodes.includes(normalizedCode)) {
+  const normalizedCode = trimmed.toLowerCase();
+  if (FOUNDER_KEYS.has(normalizedCode)) {
+    return {
+      unlocked: 'founder',
+      wallet: {
+        ...wallet,
+        isVip: true,
+        isFounderUnlimited: true,
+        credits: Math.max(wallet.credits, 999),
+      },
+    };
+  }
+
+  // Only accept public demo VIP codes while sandboxPreviewMode is enabled!
+  if (!MONETIZATION_CONFIG.sandboxPreviewMode) {
+    return { unlocked: null, wallet };
+  }
+
+  const upper = trimmed.toUpperCase();
+  if (MONETIZATION_CONFIG.vipUnlockCodes.includes(upper)) {
+    const rewardId = `code_${upper}`;
+    const already = wallet.claimedRewards.includes(rewardId);
     return {
       unlocked: 'vip',
       wallet: {
         ...wallet,
         isVip: true,
+        credits: already ? wallet.credits : wallet.credits + 10,
+        claimedRewards: already ? wallet.claimedRewards : [...wallet.claimedRewards, rewardId],
       },
     };
-  }
-
-  if (normalizedCode === 'CUB15') {
-    const grant = grantRewardCredits(wallet, 'promo_cub15', 15);
-    return { unlocked: grant.granted ? 'credits' : null, wallet: grant.wallet };
   }
 
   return { unlocked: null, wallet };

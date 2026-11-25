@@ -323,6 +323,51 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
   });
 }
 
+async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { email?: string; source?: string } = {};
+  try {
+    body = (await request.json()) as { email?: string; source?: string };
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+  const email = String(body.email || '').trim().toLowerCase();
+  if (!email || !email.includes('@') || email.length > 160) {
+    return jsonResponse({ error: 'Invalid email' }, 400);
+  }
+  if (env.VELVET_KV) {
+    try {
+      const raw = await env.VELVET_KV.get('subscribers:emails');
+      const list: string[] = raw ? (JSON.parse(raw) as string[]) : [];
+      if (!list.includes(email)) {
+        list.push(email);
+        await env.VELVET_KV.put('subscribers:emails', JSON.stringify(list));
+      }
+    } catch {
+      // Non-fatal KV write
+    }
+  }
+  return jsonResponse({ ok: true });
+}
+
+async function handleRestoreVip(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { email?: string } = {};
+  try {
+    body = (await request.json()) as { email?: string };
+  } catch {
+    return jsonResponse({ restored: false }, 400);
+  }
+  const email = String(body.email || '').trim().toLowerCase();
+  if (!email || !email.includes('@') || !env.VELVET_KV) {
+    return jsonResponse({ restored: false });
+  }
+  try {
+    const found = await env.VELVET_KV.get(`vip_email:${email}`);
+    return jsonResponse({ restored: Boolean(found) });
+  } catch {
+    return jsonResponse({ restored: false });
+  }
+}
+
 async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response> {
   const sessionId = sanitizeId(url.searchParams.get('session_id'), 120);
   if (!sessionId || !sessionId.startsWith('cs_')) {
@@ -331,6 +376,13 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
 
   if (!env.STRIPE_SECRET_KEY) {
     return jsonResponse({ verified: false, reason: 'Stripe secret not yet configured' });
+  }
+
+  if (env.VELVET_KV) {
+    const alreadyRedeemed = await env.VELVET_KV.get(`redeemed_session:${sessionId}`);
+    if (alreadyRedeemed) {
+      return jsonResponse({ verified: false, reason: 'Session already redeemed' });
+    }
   }
 
   try {
@@ -349,12 +401,22 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
       payment_status?: string;
       amount_total?: number;
       metadata?: Record<string, string>;
+      customer_details?: { email?: string };
     };
     if (session.payment_status !== 'paid') {
       return jsonResponse({ verified: false });
     }
     const isVip =
       session.metadata?.tier === 'vip' || (typeof session.amount_total === 'number' && session.amount_total >= 600);
+
+    if (env.VELVET_KV) {
+      await env.VELVET_KV.put(`redeemed_session:${sessionId}`, new Date().toISOString());
+      const buyerEmail = session.customer_details?.email?.trim().toLowerCase();
+      if (isVip && buyerEmail) {
+        await env.VELVET_KV.put(`vip_email:${buyerEmail}`, sessionId);
+      }
+    }
+
     return jsonResponse({
       verified: true,
       grantType: isVip ? 'vip' : 'credits',
@@ -392,6 +454,16 @@ export default {
 
     if (url.pathname === '/api/verify-checkout') {
       if (request.method === 'GET') return handleVerifyCheckout(url, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/subscribe') {
+      if (request.method === 'POST') return handleSubscribe(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/restore-vip') {
+      if (request.method === 'POST') return handleRestoreVip(request, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

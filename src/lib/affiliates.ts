@@ -152,6 +152,17 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     whyItConverts: 'Direct payoff to the Cub "Grooming" Salon minigame & pop-culture episode.',
     merchantUrl: 'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set',
   },
+  {
+    id: 'silk-pillowcase-sleepover-duo',
+    name: '22-Momme Mulberry Silk Pillowcase & Tortoiseshell Claw-Clip Set',
+    category: 'princess_luxury',
+    priceDisplay: '$39',
+    badge: 'His Apartment "Her Drawer" MVP',
+    cheekyPitch:
+      'For the elite Cub who protects her blowout, honey braids, and retinol barrier at his place—plus a spare claw clip so she never has to hunt in her purse.',
+    whyItConverts: 'Direct tie-in to the Silk Pillowcase & Secret "Her Drawer" lifestyle episode.',
+    merchantUrl: 'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
+  },
 ];
 
 export interface AffiliateTagOverrides {

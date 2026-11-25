@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Wrench } from 'lucide-react';
 import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AppSwipeStage } from './components/AppSwipeStage';
@@ -9,6 +10,7 @@ import { LiveInboxModal } from './components/LiveInboxModal';
 import { OutcomeAndViralView } from './components/OutcomeAndViralView';
 import { PairingMixerView } from './components/PairingMixerView';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
+import { PopCultureTriviaModal } from './components/PopCultureTriviaModal';
 import { TopHudBar } from './components/TopHudBar';
 import { VelvetJournalView } from './components/VelvetJournalView';
 import { APP_SWIPE_PROFILES, HER_SWIPE_PROFILES } from './data/appProfiles';
@@ -68,7 +70,8 @@ function readInitialUrlState() {
   const corruptedChallenge = Boolean(rawChallenge && !decoded);
   const dilemmaId = params.get('dilemma');
   const journalSlug = params.get('journal');
-  const unlockQuery = params.has('unlock') ? window.location.search : '';
+  const unlockQuery =
+    params.has('unlock') || params.has('founder') ? window.location.search : '';
   const stripeSessionId = params.get('session_id');
 
   return {
@@ -117,6 +120,7 @@ export default function App() {
   const [fieldGuideOpen, setFieldGuideOpen] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
   const [liveInboxOpen, setLiveInboxOpen] = useState(false);
+  const [popTriviaOpen, setPopTriviaOpen] = useState(false);
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
       ? 'Heads up: that audition link looked truncated or expired—mix your own Cougar & Cub run below!'
@@ -157,7 +161,6 @@ export default function App() {
     saveWallet(next);
   };
 
-  // Phase B: Server-verified Stripe Checkout session unlock when returning with ?session_id=
   useEffect(() => {
     if (!initialUrl.stripeSessionId) return;
     const sessionKey = `stripe_session_${initialUrl.stripeSessionId}`;
@@ -179,6 +182,22 @@ export default function App() {
       setNoticeBanner('🎉 Stripe Checkout verified! Your VIP / Velvet Credits are live.');
     });
   }, [initialUrl.stripeSessionId, wallet.claimedRewards]);
+
+  const handleToggleFounderMode = () => {
+    const enabling = !wallet.isFounderUnlimited;
+    const next: WalletState = {
+      ...wallet,
+      isFounderUnlimited: enabling,
+      isVip: enabling ? true : wallet.isVip,
+      credits: enabling ? Math.max(wallet.credits, 999) : 10,
+    };
+    updateWallet(next);
+    setNoticeBanner(
+      enabling
+        ? '🛠️ Founder Unlimited Mode ACTIVE: ∞ Credits, all VIP scenes unlocked, and instant 52-scene jumper enabled!'
+        : 'Exited Founder Mode — viewing normal player credit & VIP state.',
+    );
+  };
 
   const handleToggleVipEpisode = (episodeId: string, creditCost: number) => {
     if (selectedVipIds.includes(episodeId)) {
@@ -280,6 +299,8 @@ export default function App() {
         onOpenFieldGuide={() => setFieldGuideOpen(true)}
         onOpenBoutique={() => setBoutiqueOpen(true)}
         onOpenLiveInbox={() => setLiveInboxOpen(true)}
+        onOpenPopTrivia={() => setPopTriviaOpen(true)}
+        onToggleFounderMode={handleToggleFounderMode}
         onGoHome={() => {
           setActiveTab('game');
           setPhase('mixer');
@@ -287,6 +308,49 @@ export default function App() {
           setNoticeBanner(null);
         }}
       />
+
+      {/* Founder Unlimited Test Bar (Activated via ?founder=1, code FOUNDERMODE, or clicking 🐆 5x) */}
+      {wallet.isFounderUnlimited && (
+        <div className="border-b-2 border-black bg-gradient-to-r from-emerald-950 via-[#1b1030] to-amber-950/80 px-3 py-2">
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 text-xs">
+            <span className="inline-flex items-center gap-1.5 font-extrabold text-emerald-300">
+              <Wrench className="h-3.5 w-3.5 text-amber-300" />
+              🛠️ Founder Unlimited Mode • ∞ Credits &amp; All VIP Scenes Active
+            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <select
+                aria-label="Founder instant scene jumper"
+                defaultValue=""
+                onChange={(e) => {
+                  const epId = e.target.value;
+                  if (!epId) return;
+                  setRun(createRun(pairing, selectedVipIds, epId));
+                  setActiveTab('game');
+                  setPhase('episodes');
+                }}
+                className="rounded-lg border border-emerald-400/50 bg-black/70 px-2.5 py-1 text-xs font-bold text-white"
+              >
+                <option value="">⚡ Jump to Any Scene / Minigame ({EPISODES.length})...</option>
+                {EPISODES.map((ep) => (
+                  <option key={ep.id} value={ep.id}>
+                    [Stage {ep.stage}
+                    {ep.minigame ? ` • 🎮 ${ep.minigame}` : ''}
+                    {ep.isVip ? ' • 👑 VIP' : ''}] {ep.title}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                onClick={handleToggleFounderMode}
+                className="rounded-lg border border-white/20 bg-black/50 px-2.5 py-1 font-bold text-rose-300 hover:bg-black cursor-pointer"
+              >
+                Exit Founder Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-3 py-6 sm:px-6 sm:py-8 space-y-4">
         {noticeBanner && (
@@ -325,6 +389,7 @@ export default function App() {
             key={`${role}-${swipeStartIdx}`}
             role={role}
             credits={wallet.credits}
+            isFounderUnlimited={Boolean(wallet.isFounderUnlimited)}
             initialProfileIndex={swipeStartIdx}
             onSpendXrayCredit={() => {
               const res = spendCredits(wallet, 1);
@@ -428,6 +493,7 @@ export default function App() {
             onToggleVipEpisode={handleToggleVipEpisode}
             onStartGame={handleStartGame}
             onOpenLiveInbox={() => setLiveInboxOpen(true)}
+            onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
           />
@@ -439,7 +505,14 @@ export default function App() {
           <span>
             {BRAND_CONFIG.name} • Cheeky PG-13/R Satire for Adult Age-Gap Relationships (21+)
           </span>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
+            <button
+              type="button"
+              onClick={() => setPopTriviaOpen(true)}
+              className="hover:text-pink-300 underline cursor-pointer"
+            >
+              Pop-Culture Quiz
+            </button>
             <button
               type="button"
               onClick={() => setLiveInboxOpen(true)}
@@ -471,6 +544,16 @@ export default function App() {
         onClose={() => setFieldGuideOpen(false)}
       />
 
+      <PopCultureTriviaModal
+        open={popTriviaOpen}
+        onClose={() => setPopTriviaOpen(false)}
+        onEarnTriviaReward={(key, amount) => {
+          const res = grantRewardCredits(wallet, key, amount);
+          if (res.granted) updateWallet(res.wallet);
+          return res.granted;
+        }}
+      />
+
       <LiveInboxModal
         open={liveInboxOpen}
         wallet={wallet}
@@ -499,13 +582,23 @@ export default function App() {
           }
           return false;
         }}
+        onRestoreVipSuccess={() => {
+          updateWallet({ ...wallet, isVip: true });
+        }}
         onSandboxGrantCredits={() => {
           updateWallet({ ...wallet, credits: wallet.credits + 15 });
         }}
         onSandboxUnlockVip={() => {
           updateWallet({ ...wallet, isVip: true, credits: wallet.credits + 10 });
         }}
-        onClaimNewsletterBonus={() => {
+        onClaimNewsletterBonus={(email) => {
+          if (typeof fetch === 'function') {
+            fetch('/api/subscribe', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, source: 'boutique_modal' }),
+            }).catch(() => {});
+          }
           const res = grantRewardCredits(
             wallet,
             'newsletter_signup',

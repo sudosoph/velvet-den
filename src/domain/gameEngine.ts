@@ -104,9 +104,11 @@ export function buildEpisodeQueue(
     // Sub-10-Year "Junior Cougar" (e.g. 6-Year Gap) 6-Stage Arc!
     pushById('junior-cougar-gatekeeper-tease');
     pushById('check-drop');
+    pushById('candlelit-menu-font-seatwarmer');
     pushById('junior-cougar-micro-gen-overlap');
     pushById('cub-bench-press-cougar-training');
     pushById('junior-cougar-condo-vs-lease');
+    pushById('silk-pillowcase-clawclip-drawer');
     pushById('cub-grooming-red-carpet-glowup');
     pushById('puma-low-iron-ferritin-care');
     pushById('steamy-texts-sister-age-shock');
@@ -138,6 +140,8 @@ export function buildEpisodeQueue(
       pushById('code-switch-texting');
       pushById('cub-bench-press-cougar-training');
       pushById('puma-weaponized-incompetence-test');
+      pushById('silk-pillowcase-clawclip-drawer');
+      pushById('midnight-pizza-vs-sodium-rings');
       pushById('cub-grooming-red-carpet-glowup');
       pushById('puma-low-iron-ferritin-care');
       pushById('steamy-texts-sister-age-shock');
@@ -202,7 +206,11 @@ export function buildEpisodeQueue(
       pushById('cougar-thermostat-retinol');
     }
     pushById('cub-bench-press-cougar-training');
+    pushById('candlelit-menu-font-seatwarmer');
     pushById('cougar-salary-negotiation');
+    pushById('silk-pillowcase-clawclip-drawer');
+    pushById('retinol-stubble-eye-cream-heist');
+    pushById('midnight-pizza-vs-sodium-rings');
     pushById('cub-grooming-red-carpet-glowup');
     pushById('cougar-perimenopause-surge-nightsweats');
     pushById('steamy-texts-sister-age-shock');
@@ -237,7 +245,9 @@ export function buildEpisodeQueue(
     pushById('check-drop');
     pushById('trail-run-short-leash');
     pushById('jaguar-pilates-core-shake');
+    pushById('candlelit-menu-font-seatwarmer');
     pushById('cub-bench-press-cougar-training');
+    pushById('retinol-stubble-eye-cream-heist');
     pushById('cub-grooming-red-carpet-glowup');
     pushById('menopause-intimacy-masterclass');
     pushById('steamy-texts-sister-age-shock');

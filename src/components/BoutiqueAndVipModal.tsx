@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Coffee, Crown, ExternalLink, Gift, Mail, Sparkles, X } from 'lucide-react';
-import { BRAND_CONFIG } from '../config/brand';
+import { Coffee, Crown, ExternalLink, Gift, Mail, ShieldCheck, Sparkles, X } from 'lucide-react';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import type { WalletState } from '../domain/economy';
 import { AFFILIATE_CATALOG, buildAffiliateUrl } from '../lib/affiliates';
@@ -10,6 +9,7 @@ interface BoutiqueAndVipModalProps {
   wallet: WalletState;
   onClose: () => void;
   onRedeemCode: (code: string) => boolean;
+  onRestoreVipSuccess?: () => void;
   onSandboxGrantCredits: () => void;
   onSandboxUnlockVip: () => void;
   onClaimNewsletterBonus: (email: string) => boolean;
@@ -20,6 +20,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   wallet,
   onClose,
   onRedeemCode,
+  onRestoreVipSuccess,
   onSandboxGrantCredits,
   onSandboxUnlockVip,
   onClaimNewsletterBonus,
@@ -28,6 +29,8 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   const [codeMessage, setCodeMessage] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const [newsletterMsg, setNewsletterMsg] = useState<string | null>(null);
+  const [restoreEmail, setRestoreEmail] = useState('');
+  const [restoreMsg, setRestoreMsg] = useState<string | null>(null);
   const [tipStatusMsg, setTipStatusMsg] = useState<string | null>(null);
 
   if (!open) return null;
@@ -41,7 +44,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     const ok = onRedeemCode(promoCode);
     setCodeMessage(
       ok
-        ? '✨ Unlocked! VIP / Bonus Credits applied to your wallet.'
+        ? '✨ Unlocked! VIP / Founder Unlimited access applied to your wallet.'
         : isSandbox
           ? 'Code not recognized (try VELVETVIP in preview mode).'
           : 'Code not recognized. Check your confirmation email and try again.',
@@ -64,6 +67,27 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     setEmail('');
   };
 
+  const handleRestoreVip = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!restoreEmail.includes('@')) return;
+    try {
+      const res = await fetch('/api/restore-vip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: restoreEmail }),
+      });
+      const json = (await res.json()) as { restored?: boolean };
+      if (json.restored) {
+        onRestoreVipSuccess?.();
+        setRestoreMsg('✓ Paid VIP Black Card restored to this browser!');
+      } else {
+        setRestoreMsg('No completed VIP purchase found under that email yet.');
+      }
+    } catch {
+      setRestoreMsg('Could not reach VIP restore service right now—try again in a moment.');
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 sm:p-6 backdrop-blur-sm"
@@ -81,8 +105,13 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               The Velvet Concierge &amp; Creator Lounge
             </h2>
             <p className="text-xs sm:text-sm text-slate-300">
-              Balance: <strong className="text-amber-300">{wallet.credits} Credits</strong>{' '}
-              {wallet.isVip && <strong className="text-emerald-300">• VIP BLACK CARD ACTIVE</strong>}
+              Balance:{' '}
+              <strong className="text-amber-300">
+                {wallet.isFounderUnlimited ? '∞ Unlimited Founder Credits' : `${wallet.credits} Credits`}
+              </strong>{' '}
+              {(wallet.isVip || wallet.isFounderUnlimited) && (
+                <strong className="text-emerald-300">• VIP BLACK CARD ACTIVE</strong>
+              )}
             </p>
           </div>
           <button
@@ -242,14 +271,14 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
           </div>
         </div>
 
-        {/* Promo Code + Newsletter Lead Magnet Row */}
-        <div className="grid gap-4 md:grid-cols-2">
+        {/* Promo / Founder Code + Newsletter Lead Magnet + Cross-Browser VIP Restore */}
+        <div className="grid gap-4 md:grid-cols-3">
           <form
             onSubmit={handlePromoSubmit}
             className="rounded-2xl border-2 border-black bg-black/40 p-4 space-y-2"
           >
             <div className="text-xs font-extrabold uppercase text-slate-300">
-              Have a Stripe VIP Pass or Promo Code?
+              Have a Stripe VIP or Creator Code?
             </div>
             <div className="flex gap-2">
               <input
@@ -261,7 +290,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               />
               <button
                 type="submit"
-                className="rounded-xl bg-slate-700 px-4 py-2 text-xs font-bold text-white hover:bg-slate-600 cursor-pointer"
+                className="rounded-xl bg-slate-700 px-3.5 py-2 text-xs font-bold text-white hover:bg-slate-600 cursor-pointer"
               >
                 Redeem
               </button>
@@ -275,7 +304,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
           >
             <div className="text-xs font-extrabold uppercase text-amber-300">
               <Mail className="inline h-3.5 w-3.5 mr-1" />
-              Join The Velvet Dispatch (+5 Free Credits + Weekly Dilemmas)
+              Velvet Dispatch (+5 Free Credits)
             </div>
             <div className="flex gap-2">
               <input
@@ -288,12 +317,39 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               />
               <button
                 type="submit"
-                className="rounded-xl bg-amber-400 px-4 py-2 text-xs font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
+                className="rounded-xl bg-amber-400 px-3.5 py-2 text-xs font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
               >
-                Claim +5 Cr
+                +5 Cr
               </button>
             </div>
             {newsletterMsg && <p className="text-xs text-emerald-300">{newsletterMsg}</p>}
+          </form>
+
+          <form
+            onSubmit={handleRestoreVip}
+            className="rounded-2xl border-2 border-black bg-black/40 p-4 space-y-2"
+          >
+            <div className="text-xs font-extrabold uppercase text-teal-300">
+              <ShieldCheck className="inline h-3.5 w-3.5 mr-1" />
+              Restore Paid VIP on New Device
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="email"
+                required
+                placeholder="Checkout email"
+                value={restoreEmail}
+                onChange={(e) => setRestoreEmail(e.target.value)}
+                className="flex-1 rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-xs text-white"
+              />
+              <button
+                type="submit"
+                className="rounded-xl bg-teal-500 px-3 py-2 text-xs font-extrabold text-slate-950 hover:bg-teal-400 cursor-pointer"
+              >
+                Restore
+              </button>
+            </div>
+            {restoreMsg && <p className="text-xs text-amber-200">{restoreMsg}</p>}
           </form>
         </div>
 
@@ -338,29 +394,6 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 </a>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Community Links */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4 text-xs text-slate-300">
-          <span>Join our daily &ldquo;Vet or Ghost?&rdquo; community polls:</span>
-          <div className="flex gap-3 font-bold">
-            <a
-              href={BRAND_CONFIG.discordInviteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-300 underline"
-            >
-              Velvet Den Discord
-            </a>
-            <a
-              href={BRAND_CONFIG.ownedSubredditUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pink-300 underline"
-            >
-              Official Brand Community
-            </a>
           </div>
         </div>
       </div>

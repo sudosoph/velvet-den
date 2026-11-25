@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { ChevronDown, Crown, Flame, Lock, MessageCircle, Minus, Plus, Send, Sparkles } from 'lucide-react';
+import {
+  Award,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Crown,
+  Flame,
+  Lock,
+  MessageCircle,
+  Minus,
+  Plus,
+  Send,
+  Sparkles,
+} from 'lucide-react';
 import { EPISODES } from '../data/episodes';
 import type { WalletState } from '../domain/economy';
 import {
@@ -28,9 +41,12 @@ interface PairingMixerViewProps {
   onToggleVipEpisode: (episodeId: string, creditCost: number) => void;
   onStartGame: () => void;
   onOpenLiveInbox: () => void;
+  onOpenPopTrivia: () => void;
   onQuickCreateAudition: () => void;
   onOpenFieldGuide: () => void;
 }
+
+type HerDecadeFilter = 'all' | '30s' | '40s' | '50s' | '60s';
 
 export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   role,
@@ -48,11 +64,42 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onToggleVipEpisode,
   onStartGame,
   onOpenLiveInbox,
+  onOpenPopTrivia,
   onQuickCreateAudition,
   onOpenFieldGuide,
 }) => {
   const [showVipDrawer, setShowVipDrawer] = useState(false);
+  const [herFilter, setHerFilter] = useState<HerDecadeFilter>('all');
+  const [herPhotoIdx, setHerPhotoIdx] = useState(0);
+  const [hisPhotoIdx, setHisPhotoIdx] = useState(0);
+
   const vipEpisodes = EPISODES.filter((e) => e.isVip);
+
+  const filteredHerList = HER_ARCHETYPES.filter((item) => {
+    if (herFilter === '30s') return item.age < 40;
+    if (herFilter === '40s') return item.age >= 40 && item.age < 50;
+    if (herFilter === '50s') return item.age >= 50 && item.age < 60;
+    if (herFilter === '60s') return item.age >= 60;
+    return true;
+  });
+
+  const herGallery = her.galleryPhotos?.length
+    ? her.galleryPhotos
+    : [
+        { label: '📸 Portrait', url: her.photoUrl },
+        { label: '🏖️ Lagoon Swim', url: './images/cast/camila-39f.jpg' },
+        { label: '🐾 Park Rosé', url: './images/cast/dog-park-picnic.jpg' },
+      ];
+  const hisGallery = his.galleryPhotos?.length
+    ? his.galleryPhotos
+    : [
+        { label: '📸 Portrait', url: his.photoUrl },
+        { label: '🍝 Chef Mode', url: './images/cast/leo-25m.jpg' },
+        { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
+      ];
+
+  const activeHerSlide = herGallery[herPhotoIdx % herGallery.length];
+  const activeHisSlide = hisGallery[hisPhotoIdx % hisGallery.length];
 
   return (
     <div className="space-y-6 animate-stage-in">
@@ -71,11 +118,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </span>
 
             <h1 className="font-display text-4xl sm:text-6xl leading-[0.95] text-white drop-shadow-[3px_3px_0px_#09050f]">
-              SWIPE THE TRAPS. PLAY THE CHECK-DROP. WIN REAL LOVE.
+              BROWSE YOUR TYPE. VET THE RED FLAGS. WIN REAL LOVE.
             </h1>
 
             <p className="text-sm text-slate-200 max-w-xl">
-              Pick your Cougar &amp; Cub below—every age bracket unlocks its own 6-stage relationship arc (from First Spark through The Doubt to The Real Future), tactile arcade minigames, and live AI texting.
+              Scroll multi-photo Tinder cards across every decade &amp; vibe—from 35F hiking Pumas and 44F Palm Springs bikini Cougars to 51F redhead Jaguars and 61F silver-braided Panthers—paired with arcade minigames, pop-culture trivia, and live AI texting.
             </p>
 
             {/* Role Toggle Pills */}
@@ -118,7 +165,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
 
             {/* Primary Play CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
               <button
                 type="button"
                 onClick={() => {
@@ -140,6 +187,18 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               >
                 <MessageCircle className="h-4 w-4 text-amber-300" />
                 <span>💬 Live AI Texting Mode</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  sfx.messagePop();
+                  onOpenPopTrivia();
+                }}
+                className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-black bg-[#2b1238] px-4 py-3 text-xs font-extrabold text-pink-200 shadow-[3px_3px_0px_#09050f] hover:bg-[#381849] cursor-pointer"
+              >
+                <Award className="h-4 w-4 text-amber-300" />
+                <span>🎬 Pop-Culture Quiz (+3 Cr)</span>
               </button>
             </div>
           </div>
@@ -175,12 +234,17 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
       </section>
 
-      {/* Step 1: Photorealistic Her Cast Carousel */}
+      {/* Step 1: Diverse Her Cast Browser With Decade Filter Pills */}
       <section className="space-y-3">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-display text-3xl text-rose-400">
-            1. Pick Her ({her.name}, {her.age}F)
-          </h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 className="font-display text-3xl text-rose-400">
+              1. Pick Her Type ({her.name}, {her.age}F — {HER_ARCHETYPES.length} Profiles)
+            </h2>
+            <p className="text-xs text-slate-300">
+              Filter by decade or browse across Black, Latina, South &amp; East Asian, Blonde, Copper-Redhead &amp; Silver icons
+            </p>
+          </div>
           <button
             type="button"
             onClick={onOpenFieldGuide}
@@ -190,8 +254,34 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
-          {HER_ARCHETYPES.map((item) => {
+        {/* Decade Filter Pills */}
+        <div className="flex flex-wrap gap-2">
+          {(
+            [
+              ['all', `All Women (${HER_ARCHETYPES.length})`],
+              ['30s', '30s Pumas & Junior Cougars'],
+              ['40s', '40s Cougars'],
+              ['50s', '50s Jaguars'],
+              ['60s', '60s+ Panthers'],
+            ] as const
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setHerFilter(id)}
+              className={`rounded-full border-2 border-black px-3.5 py-1 text-xs font-extrabold transition cursor-pointer ${
+                herFilter === id
+                  ? 'bg-rose-500 text-white shadow-[2px_2px_0px_#09050f]'
+                  : 'bg-[#1b102d] text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {filteredHerList.map((item) => {
             const selected = item.id === her.id;
             const displayAge = selected ? her.age : item.age;
             return (
@@ -200,11 +290,12 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 onClick={() => {
                   sfx.messagePop();
                   onSelectHer(item);
+                  setHerPhotoIdx(0);
                 }}
                 className={`group relative overflow-hidden rounded-2xl border-2 border-black transition cursor-pointer ${
                   selected
                     ? 'ring-3 ring-rose-400 shadow-[5px_5px_0px_#f43f5e] -translate-y-0.5'
-                    : 'opacity-85 hover:opacity-100 hover:-translate-y-0.5'
+                    : 'opacity-90 hover:opacity-100 hover:-translate-y-0.5'
                 }`}
               >
                 <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900">
@@ -214,6 +305,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#12071d] via-black/25 to-transparent" />
+                  {item.lookBadge && (
+                    <span className="absolute top-2 left-2 rounded-full bg-black/75 px-2 py-0.5 text-[9px] font-bold text-amber-200 border border-amber-300/30">
+                      {item.lookBadge.split('•')[0].trim()}
+                    </span>
+                  )}
                   {selected && (
                     <span className="absolute top-2 right-2 rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-extrabold uppercase text-white shadow">
                       Selected
@@ -237,14 +333,14 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
       </section>
 
-      {/* Step 2: Photorealistic Handsome Cubs Grid */}
+      {/* Step 2: Diverse Handsome Cubs Grid */}
       <section className="space-y-3">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="font-display text-3xl text-teal-300">
-            2. Pick Her Cub ({his.name}, {his.age}M)
+            2. Pick Her Cub ({his.name}, {his.age}M — {HIS_ARCHETYPES.length} Cubs)
           </h2>
           <span className="text-xs text-slate-400">
-            Each pairing unlocks age-specific relationship dilemmas across 5 stages
+            From 6&apos;2&quot; firefighters &amp; sous-chefs to redhead hikers, blonde swimmers &amp; 30s architects
           </span>
         </div>
 
@@ -258,11 +354,12 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 onClick={() => {
                   sfx.messagePop();
                   onSelectHis(item);
+                  setHisPhotoIdx(0);
                 }}
                 className={`group relative overflow-hidden rounded-2xl border-2 border-black transition cursor-pointer ${
                   selected
                     ? 'ring-3 ring-teal-400 shadow-[5px_5px_0px_#2dd4bf] -translate-y-0.5'
-                    : 'opacity-85 hover:opacity-100 hover:-translate-y-0.5'
+                    : 'opacity-90 hover:opacity-100 hover:-translate-y-0.5'
                 }`}
               >
                 <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900">
@@ -272,6 +369,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b1622] via-black/25 to-transparent" />
+                  {item.lookBadge && (
+                    <span className="absolute top-2 left-2 rounded-full bg-black/75 px-2 py-0.5 text-[9px] font-bold text-teal-200 border border-teal-300/30">
+                      {item.lookBadge.split('•')[0].trim()}
+                    </span>
+                  )}
                   {selected && (
                     <span className="absolute top-2 right-2 rounded-full bg-teal-400 px-2 py-0.5 text-[10px] font-extrabold uppercase text-slate-950 shadow">
                       Selected
@@ -292,6 +394,145 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* Side-by-Side Scrollable Tinder Profile Inspector for Selected Pair! */}
+      <section className="grid gap-4 md:grid-cols-2">
+        {/* Selected Her Full Multi-Photo Card */}
+        <div className="vice-panel rounded-3xl bg-[#1a0d2b] p-4 space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-rose-300">
+              🐆 Selected Her Profile • Scroll Photos
+            </span>
+            {her.lookBadge && (
+              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-[11px] font-bold text-amber-300">
+                {her.lookBadge}
+              </span>
+            )}
+          </div>
+
+          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border-2 border-black bg-slate-950">
+            <img
+              src={activeHerSlide.url}
+              alt={`${her.name} ${activeHerSlide.label}`}
+              className="h-full w-full object-cover object-top"
+            />
+            <button
+              type="button"
+              aria-label="Previous Her photo"
+              onClick={() => setHerPhotoIdx((i) => (i - 1 + herGallery.length) % herGallery.length)}
+              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next Her photo"
+              onClick={() => setHerPhotoIdx((i) => (i + 1) % herGallery.length)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+            <div className="absolute bottom-2 left-2 flex gap-1">
+              {herGallery.map((g, idx) => (
+                <button
+                  key={g.label}
+                  type="button"
+                  onClick={() => setHerPhotoIdx(idx)}
+                  className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold cursor-pointer ${
+                    idx === herPhotoIdx % herGallery.length
+                      ? 'bg-amber-400 text-slate-950'
+                      : 'bg-black/75 text-white'
+                  }`}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-xs leading-relaxed text-slate-200">{her.vibeSummary}</p>
+          {her.interests && (
+            <div className="flex flex-wrap gap-1.5">
+              {her.interests.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-rose-500/20 border border-rose-400/30 px-2.5 py-0.5 text-[10px] font-bold text-rose-200"
+                >
+                  ✨ {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Selected His Full Multi-Photo Card */}
+        <div className="vice-panel rounded-3xl bg-[#0e1e2b] p-4 space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-teal-300">
+              🔥 Selected Cub Profile • Scroll Photos
+            </span>
+            {his.lookBadge && (
+              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-[11px] font-bold text-teal-200">
+                {his.lookBadge}
+              </span>
+            )}
+          </div>
+
+          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border-2 border-black bg-slate-950">
+            <img
+              src={activeHisSlide.url}
+              alt={`${his.name} ${activeHisSlide.label}`}
+              className="h-full w-full object-cover object-top"
+            />
+            <button
+              type="button"
+              aria-label="Previous Cub photo"
+              onClick={() => setHisPhotoIdx((i) => (i - 1 + hisGallery.length) % hisGallery.length)}
+              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next Cub photo"
+              onClick={() => setHisPhotoIdx((i) => (i + 1) % hisGallery.length)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/70 p-1.5 text-white hover:bg-black cursor-pointer"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+            <div className="absolute bottom-2 left-2 flex gap-1">
+              {hisGallery.map((g, idx) => (
+                <button
+                  key={g.label}
+                  type="button"
+                  onClick={() => setHisPhotoIdx(idx)}
+                  className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold cursor-pointer ${
+                    idx === hisPhotoIdx % hisGallery.length
+                      ? 'bg-teal-400 text-slate-950'
+                      : 'bg-black/75 text-white'
+                  }`}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-xs leading-relaxed text-slate-200">{his.vibeSummary}</p>
+          {his.interests && (
+            <div className="flex flex-wrap gap-1.5">
+              {his.interests.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-teal-500/20 border border-teal-400/30 px-2.5 py-0.5 text-[10px] font-bold text-teal-200"
+                >
+                  ✨ {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -381,7 +622,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         {showVipDrawer && (
           <div className="pt-3 border-t border-white/10 grid gap-2.5 sm:grid-cols-2">
             {vipEpisodes.map((ep) => {
-              const unlocked = wallet.isVip || wallet.unlockedEpisodeIds.includes(ep.id);
+              const unlocked =
+                wallet.isVip ||
+                Boolean(wallet.isFounderUnlimited) ||
+                wallet.unlockedEpisodeIds.includes(ep.id);
               const active = selectedVipIds.includes(ep.id);
               return (
                 <button

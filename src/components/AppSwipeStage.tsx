@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Eye, Heart, Music2, Search, Share2, Sparkles, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye, Heart, Music2, Search, Share2, Sparkles, X } from 'lucide-react';
 import { getSwipeDeckForRole } from '../data/appProfiles';
 import type { PlayerRole } from '../domain/taxonomy';
 import { sfx } from '../lib/sound';
@@ -7,6 +7,7 @@ import { sfx } from '../lib/sound';
 interface AppSwipeStageProps {
   role: PlayerRole;
   credits: number;
+  isFounderUnlimited?: boolean;
   initialProfileIndex?: number;
   onSpendXrayCredit: () => boolean;
   onSwipeProfile: (profileId: string, direction: 'left' | 'right') => void;
@@ -17,6 +18,7 @@ interface AppSwipeStageProps {
 export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   role,
   credits,
+  isFounderUnlimited = false,
   initialProfileIndex = 0,
   onSpendXrayCredit,
   onSwipeProfile,
@@ -27,7 +29,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const [index, setIndex] = useState(
     initialProfileIndex >= 0 && initialProfileIndex < deck.length ? initialProfileIndex : 0,
   );
-  const [photoIdx, setPhotoIdx] = useState<0 | 1>(0);
+  const [photoIdx, setPhotoIdx] = useState<number>(0);
   const [ageZoomed, setAgeZoomed] = useState(false);
   const [xrayUnlockedIds, setXrayUnlockedIds] = useState<string[]>([]);
   const [dragX, setDragX] = useState(0);
@@ -40,7 +42,18 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     return null;
   }
 
+  const totalPhotos = profile.photos.length;
+  const safePhotoIdx = photoIdx < totalPhotos ? photoIdx : 0;
+  const currentPhoto = profile.photos[safePhotoIdx];
   const xrayOpen = xrayUnlockedIds.includes(profile.id);
+
+  const selectPhoto = (nextIdx: number) => {
+    const wrapped = (nextIdx + totalPhotos) % totalPhotos;
+    const target = profile.photos[wrapped];
+    if (target?.isRedFlagPhoto) sfx.redFlag();
+    else sfx.messagePop();
+    setPhotoIdx(wrapped);
+  };
 
   const commitSwipe = (direction: 'left' | 'right') => {
     if (direction === 'right') {
@@ -69,6 +82,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).closest('button')) return;
     startXRef.current = e.clientX;
   };
 
@@ -99,12 +113,12 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
       <div className="flex items-center justify-between gap-2">
         <div>
           <span className="rounded bg-rose-500/25 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-rose-300">
-            Act I • The Dating App Prowl ({index + 1} / {deck.length})
+            Act I • Browse &amp; Vet Profiles ({index + 1} / {deck.length})
           </span>
           <h2 className="mt-1 font-display text-3xl text-white">
             {role === 'her'
-              ? 'Drag to Swipe — Always Tap Photo #2 First!'
-              : 'Swipe Her Deck & Read What She Actually Wants'}
+              ? 'Scroll Every Photo (Hiking, Dogs, Pool & Traps) Before Swiping!'
+              : 'Browse Diverse Cougars, Jaguars & Pumas — Tap Photos to Scroll!'}
           </h2>
         </div>
         <button
@@ -114,6 +128,36 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
         >
           Skip to Date #1 →
         </button>
+      </div>
+
+      {/* Quick Profile Jumper Strip so users can browse the whole diverse deck freely */}
+      <div className="flex gap-1.5 overflow-x-auto pb-1">
+        {deck.map((item, i) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => {
+              sfx.messagePop();
+              setIndex(i);
+              setPhotoIdx(0);
+              setAgeZoomed(false);
+            }}
+            className={`shrink-0 flex items-center gap-1.5 rounded-full border-2 border-black px-2.5 py-1 text-xs font-extrabold transition cursor-pointer ${
+              i === index
+                ? 'bg-amber-400 text-slate-950'
+                : 'bg-[#1a0f2b] text-slate-300 hover:bg-slate-800'
+            }`}
+          >
+            <img
+              src={item.photos[0].photoUrl}
+              alt={item.name}
+              className="h-5 w-5 rounded-full object-cover object-top"
+            />
+            <span>
+              {i === index ? `Now Viewing • ${item.age}` : `${item.name.split(' ')[0]}, ${item.age}`}
+            </span>
+          </button>
+        ))}
       </div>
 
       {/* Interactive Tinder / Hinge Card */}
@@ -149,46 +193,51 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           </div>
         )}
 
-        {/* Top Tinder Story Bars + Controls */}
+        {/* Top Tinder Story Bars + Easy Photo Tab Scroller */}
         <div className="p-3 sm:p-4 pb-0 space-y-2.5">
-          <div className="grid grid-cols-2 gap-1.5">
-            {[0, 1].map((idx) => (
-              <div
+          <div
+            className="grid gap-1.5"
+            style={{ gridTemplateColumns: `repeat(${totalPhotos}, minmax(0, 1fr))` }}
+          >
+            {profile.photos.map((_, idx) => (
+              <button
                 key={idx}
-                className={`h-1.5 rounded-full transition-all ${
-                  photoIdx === idx ? 'bg-amber-300' : 'bg-white/25'
+                type="button"
+                aria-label={`Slide ${idx + 1}`}
+                onClick={() => selectPhoto(idx)}
+                className={`h-2 rounded-full transition-all cursor-pointer ${
+                  safePhotoIdx === idx ? 'bg-amber-300' : 'bg-white/25 hover:bg-white/50'
                 }`}
               />
             ))}
           </div>
 
           <div className="flex items-center justify-between gap-2">
-            <div className="inline-flex rounded-xl border-2 border-black bg-black/60 p-1">
-              <button
-                type="button"
-                onClick={() => {
-                  sfx.messagePop();
-                  setPhotoIdx(0);
-                }}
-                className={`rounded-lg px-3 py-1 text-xs font-extrabold cursor-pointer ${
-                  photoIdx === 0 ? 'bg-amber-400 text-slate-950' : 'text-slate-300'
-                }`}
-              >
-                Photo 1 (The Bait)
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  if (profile.photos[1].isRedFlagPhoto) sfx.redFlag();
-                  else sfx.greenFlag();
-                  setPhotoIdx(1);
-                }}
-                className={`rounded-lg px-3 py-1 text-xs font-extrabold cursor-pointer ${
-                  photoIdx === 1 ? 'bg-rose-500 text-white' : 'text-slate-300'
-                }`}
-              >
-                Photo 2 (The Truth 👀)
-              </button>
+            <div className="flex gap-1 overflow-x-auto rounded-xl border-2 border-black bg-black/60 p-1">
+              {profile.photos.map((ph, idx) => {
+                const defaultLabel =
+                  idx === 0
+                    ? 'Photo 1 (The Bait)'
+                    : idx === 1 && ph.isRedFlagPhoto
+                      ? 'Photo 2 (The Truth 👀)'
+                      : `Photo ${idx + 1}`;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => selectPhoto(idx)}
+                    className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-extrabold cursor-pointer ${
+                      safePhotoIdx === idx
+                        ? ph.isRedFlagPhoto
+                          ? 'bg-rose-500 text-white'
+                          : 'bg-amber-400 text-slate-950'
+                        : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    {ph.shortTab || defaultLabel}
+                  </button>
+                );
+              })}
             </div>
 
             <button
@@ -196,10 +245,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               onClick={() =>
                 onShareDilemma(
                   profile.id,
-                  `Would you swipe right on ${profile.name} (${profile.age}) after Photo #2?!`,
+                  `Would you swipe right on ${profile.name} (${profile.age})?!`,
                 )
               }
-              className="inline-flex items-center gap-1 rounded-lg border-2 border-black bg-slate-800 px-2.5 py-1.5 text-xs font-bold text-teal-300 hover:bg-slate-700 cursor-pointer"
+              className="shrink-0 inline-flex items-center gap-1 rounded-lg border-2 border-black bg-slate-800 px-2.5 py-1.5 text-xs font-bold text-teal-300 hover:bg-slate-700 cursor-pointer"
             >
               <Share2 className="h-3.5 w-3.5" />
               <span>Ask Bestie</span>
@@ -207,21 +256,48 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           </div>
         </div>
 
-        {/* Photorealistic Profile Image + Gradient Name Overlay */}
+        {/* Photorealistic Profile Image + Left/Right Tap Arrows + Gradient Overlay */}
         <div className="p-3 sm:p-4 space-y-3.5">
-          <div className="relative aspect-[4/5] sm:aspect-[4/4.4] w-full overflow-hidden rounded-2xl border-2 border-black bg-slate-950">
+          <div className="relative aspect-[4/5] sm:aspect-[4/4.5] w-full overflow-hidden rounded-2xl border-2 border-black bg-slate-950">
             <img
-              src={profile.photos[photoIdx].photoUrl}
-              alt={`${profile.name} ${profile.photos[photoIdx].caption}`}
+              src={currentPhoto.photoUrl}
+              alt={`${profile.name} ${currentPhoto.caption}`}
               draggable={false}
               className="h-full w-full object-cover object-top transition-all duration-300"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/15 to-transparent" />
 
-            {/* Active Pill */}
-            <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/75 px-2.5 py-1 text-[11px] font-bold text-emerald-300 border border-emerald-400/40">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>{profile.activeAgo}</span>
+            {/* Left / Right Easy Photo Carousel Chevrons */}
+            {totalPhotos > 1 && (
+              <>
+                <button
+                  type="button"
+                  aria-label="Previous photo"
+                  onClick={() => selectPhoto(safePhotoIdx - 1)}
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/65 p-2 text-white hover:bg-black/90 cursor-pointer"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next photo"
+                  onClick={() => selectPhoto(safePhotoIdx + 1)}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-black/65 p-2 text-white hover:bg-black/90 cursor-pointer"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </>
+            )}
+
+            {/* Active Pill + Look / Feature Diversity Badge */}
+            <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-1.5">
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-black/75 px-2.5 py-1 text-[11px] font-bold text-emerald-300 border border-emerald-400/40">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>{profile.activeAgo}</span>
+              </div>
+              <span className="rounded-full bg-black/75 border border-amber-300/40 px-2.5 py-1 text-[11px] font-extrabold text-amber-200">
+                {profile.lookBadge}
+              </span>
             </div>
 
             {/* Name, Age, Height, Zodiac & Shock Zoom */}
@@ -253,13 +329,13 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           {/* Photo Caption Callout */}
           <div
             className={`rounded-xl border-2 border-black px-3.5 py-2.5 text-xs font-semibold ${
-              profile.photos[photoIdx].isRedFlagPhoto
+              currentPhoto.isRedFlagPhoto
                 ? 'bg-rose-950/90 text-rose-200'
                 : 'bg-black/50 text-amber-200'
             }`}
           >
-            <div className="font-bold text-white">{profile.photos[photoIdx].caption}</div>
-            <div className="mt-0.5">{profile.photos[photoIdx].vibeNote}</div>
+            <div className="font-bold text-white">{currentPhoto.caption}</div>
+            <div className="mt-0.5">{currentPhoto.vibeNote}</div>
           </div>
 
           {ageZoomed && (
@@ -284,18 +360,32 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             </div>
           </div>
 
-          {/* Hinge-Style Prompt Card */}
-          <div className="rounded-2xl border-2 border-black bg-[#211234] p-3.5">
-            <div className="text-[11px] font-extrabold uppercase tracking-wider text-pink-300">
-              <Sparkles className="inline h-3 w-3 mr-1" />
-              {profile.hingePromptQuestion}
+          {/* Hinge-Style Prompt Cards (1 or 2 fleshed-out prompts!) */}
+          <div className="grid gap-2.5 sm:grid-cols-2">
+            <div className="rounded-2xl border-2 border-black bg-[#211234] p-3.5">
+              <div className="text-[11px] font-extrabold uppercase tracking-wider text-pink-300">
+                <Sparkles className="inline h-3 w-3 mr-1" />
+                {profile.hingePromptQuestion}
+              </div>
+              <div className="mt-1 font-semibold text-xs sm:text-sm text-amber-100">
+                {profile.hingePromptAnswer}
+              </div>
             </div>
-            <div className="mt-1 font-semibold text-sm text-amber-100">
-              {profile.hingePromptAnswer}
-            </div>
+
+            {profile.secondPromptQuestion && profile.secondPromptAnswer && (
+              <div className="rounded-2xl border-2 border-black bg-[#191b34] p-3.5">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-teal-300">
+                  <Sparkles className="inline h-3 w-3 mr-1" />
+                  {profile.secondPromptQuestion}
+                </div>
+                <div className="mt-1 font-semibold text-xs sm:text-sm text-slate-100">
+                  {profile.secondPromptAnswer}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Looking For & Interests Badges */}
+          {/* Looking For & Expanded Lifestyle Interests */}
           <div className="rounded-xl border-2 border-black bg-black/40 p-3.5 space-y-2">
             <div className="text-xs">
               <span className="font-bold text-slate-400">Looking for: </span>
@@ -353,7 +443,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               className="w-full rounded-xl border-2 border-dashed border-amber-400/60 bg-black/30 py-2 text-xs font-bold text-amber-300 hover:bg-black/50 cursor-pointer"
             >
               <Eye className="inline h-3.5 w-3.5 mr-1" />
-              Run Maturity X-Ray Scan (1 Credit • You have {credits})
+              Run Maturity X-Ray Scan ({isFounderUnlimited ? 'FREE • ∞ Founder' : `1 Credit • You have ${credits}`})
             </button>
           )}
 
