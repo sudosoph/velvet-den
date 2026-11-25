@@ -3,8 +3,10 @@ import { analyzePairing, HER_ARCHETYPES, HIS_ARCHETYPES } from '../src/domain/ta
 import { applyEpisodeChoice, computeRunSummary, createRun } from '../src/domain/gameEngine';
 import {
   buildDilemmaShareLink,
+  buildDiscordReceipt,
   buildEmojiReceipt,
   decodeChallengeParam,
+  drawStoryReceiptToCanvas,
   encodeChallengeLink,
   scorePartnerAudition,
   type ChallengePayload,
@@ -70,5 +72,61 @@ describe('3-part viral engine: 2-player audition links, dilemma deep links & emo
     expect(receipt).toContain('COUGARS & CUBS CLUB');
     expect(receipt).toContain('https://sudosoph.github.io/velvet-den/');
     expect(receipt).toContain(summary.rankTitle);
+
+    const discordCard = buildDiscordReceipt(summary, 'https://cougarsandcubs.club/');
+    expect(discordCard).toContain('COUGARS & CUBS CLUB');
+    expect(discordCard).toContain('https://cougarsandcubs.club/');
+
+    // Verify 9:16 Story Canvas renderer enforces strict maxWidth bounds on every drawn line (zero overflow!)
+    const drawnCalls: { text: string; x: number; y: number; maxWidth?: number; align: string }[] = [];
+    const fakeCtx = {
+      fillStyle: '',
+      strokeStyle: '',
+      lineWidth: 1,
+      font: '30px sans-serif',
+      textAlign: 'left',
+      createLinearGradient: () => ({ addColorStop: () => {} }),
+      createRadialGradient: () => ({ addColorStop: () => {} }),
+      fillRect: () => {},
+      beginPath: () => {},
+      moveTo: () => {},
+      lineTo: () => {},
+      quadraticCurveTo: () => {},
+      closePath: () => {},
+      stroke: () => {},
+      fill: () => {},
+      measureText: (txt: string) => ({ width: txt.length * 22 }),
+      fillText(txt: string, x: number, y: number, maxWidth?: number) {
+        drawnCalls.push({ text: txt, x, y, maxWidth, align: this.textAlign });
+      },
+    };
+    const fakeCanvas = {
+      width: 0,
+      height: 0,
+      getContext: () => fakeCtx,
+    } as unknown as HTMLCanvasElement;
+
+    drawStoryReceiptToCanvas(
+      fakeCanvas,
+      {
+        ...summary,
+        rankTitle: 'APEX COUGARS & CUBS CLUB LIFEMATE EXTRAORDINAIRE WITH VERY LONG TITLE',
+        badges: [
+          '18-Hour Midnight Hotel Pool & Cedar Sauna Getaway Legend With Extra Words',
+          'Black Cat & Golden Retriever Slow-Burn Polarity Champion',
+        ],
+      },
+      'https://cougarsandcubs.club/',
+    );
+
+    expect(fakeCanvas.width).toBe(1080);
+    expect(fakeCanvas.height).toBe(1920);
+    expect(drawnCalls.length).toBeGreaterThan(8);
+    for (const call of drawnCalls) {
+      expect(call.maxWidth).toBeDefined();
+      expect(call.maxWidth!).toBeLessThanOrEqual(870);
+      expect(call.y).toBeGreaterThanOrEqual(120);
+      expect(call.y).toBeLessThanOrEqual(1840);
+    }
   });
 });

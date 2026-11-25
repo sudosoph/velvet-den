@@ -188,7 +188,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               <h2 className="font-display text-2xl sm:text-3xl text-white leading-none">
                 Survive Their Inbox • Live AI Texting
               </h2>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-xs text-slate-300">
                 {!freeTrialUsed
                   ? '🎁 1st live text round FREE • Then 1 Credit/reply (Unlimited for VIP)'
                   : wallet.isVip
@@ -200,7 +200,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
           <div className="flex items-center gap-2">
             {/* First-Date Vetting vs. Midday Steamy Slow-Burn Toggle */}
-            <div className="inline-flex rounded-xl border-2 border-black bg-black/60 p-0.5 text-xs font-extrabold">
+            <div className="inline-flex rounded-xl border border-white/14 bg-black/60 p-0.5 text-xs font-extrabold">
               <button
                 type="button"
                 onClick={() => setSteamyMode(false)}
@@ -227,7 +227,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border-2 border-black bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
+              className="rounded-lg border border-white/14 bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
               aria-label="Close Live Inbox"
             >
               <X className="h-4 w-4" />
@@ -247,7 +247,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 className={`flex shrink-0 items-center gap-2 rounded-full border-2 px-2.5 py-1 text-left transition cursor-pointer ${
                   active
                     ? 'border-amber-400 bg-rose-950/80 text-white'
-                    : 'border-black bg-slate-900/80 text-slate-300 hover:bg-slate-800'
+                    : 'border-white/12 bg-slate-900/80 text-slate-300 hover:bg-slate-800'
                 }`}
               >
                 <img
@@ -259,7 +259,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   <div className="text-xs font-extrabold leading-tight">
                     {c.name}, {c.age}
                   </div>
-                  <div className="text-[10px] text-amber-300 leading-tight">
+                  <div className="text-xs text-amber-300 leading-tight">
                     {c.role === 'her' ? 'Her Inbox' : 'His DM'}
                   </div>
                 </div>
@@ -269,7 +269,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         </div>
 
         {/* Chat Thread */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-gradient-to-b from-[#130a20] to-[#0d1622]">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-gradient-to-b from-[#130a20] to-[#100b1c]">
           {/* Selected Persona Card */}
           <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/40 p-3">
             <img
@@ -343,7 +343,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   {lastCoach.passed ? '💚 VIBE CHECK PASSED: ' : '🚩 VIBE CHECK ROASTED: '}
                   {lastCoach.deltas}
                 </span>
-                <span className="rounded bg-black/40 px-2 py-0.5 text-[10px] text-amber-300">
+                <span className="rounded bg-black/40 px-2 py-0.5 text-xs text-amber-300">
                   <Sparkles className="inline h-3 w-3 mr-0.5" />
                   {lastCoach.source}
                 </span>
@@ -361,7 +361,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 key={idx}
                 type="button"
                 onClick={() => setInput(chip)}
-                className="shrink-0 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-[11px] text-amber-200 hover:bg-black/70 cursor-pointer"
+                className="shrink-0 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-xs text-amber-200 hover:bg-black/70 cursor-pointer"
               >
                 💡 {chip.length > 52 ? `${chip.slice(0, 52)}…` : chip}
               </button>
@@ -375,12 +375,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               onChange={(e) => setInput(e.target.value)}
               placeholder={`Message ${selected.name}...`}
               maxLength={280}
-              className="flex-1 rounded-2xl border-2 border-black bg-slate-950 px-4 py-2.5 text-sm text-white focus:border-teal-400 focus:outline-none"
+              className="flex-1 rounded-2xl border border-white/14 bg-slate-950 px-4 py-2.5 text-sm text-white focus:border-teal-400 focus:outline-none"
             />
             <button
               type="submit"
               disabled={!input.trim() || typing}
-              className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-black bg-gradient-to-r from-rose-500 to-amber-400 px-5 py-2.5 text-xs font-extrabold uppercase text-slate-950 disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-2xl border border-white/14 bg-gradient-to-r from-rose-500 to-amber-400 px-5 py-2.5 text-xs font-extrabold uppercase text-slate-950 disabled:opacity-50 cursor-pointer"
             >
               <Send className="h-4 w-4" />
               <span>Send</span>

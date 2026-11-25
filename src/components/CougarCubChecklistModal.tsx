@@ -213,10 +213,10 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
       aria-modal="true"
       aria-label="25-Point Cougars & Cubs Viral Experience Checklist"
     >
-      <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#140b24] p-4 sm:p-6 space-y-4">
+      <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#140e22] p-4 sm:p-6 space-y-4">
         <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
           <div>
-            <span className="inline-flex items-center gap-1 rounded bg-pink-500/25 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-pink-200">
+            <span className="inline-flex items-center gap-1 rounded bg-pink-500/25 px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
               <Sparkles className="h-3 w-3 text-amber-300" /> TikTok Green-Screen Ready • 0–100 Score Test
             </span>
             <h2 className="mt-1 font-display text-3xl sm:text-4xl text-white leading-none">
@@ -230,22 +230,22 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
             type="button"
             onClick={onClose}
             aria-label="Close Checklist"
-            className="rounded-xl border-2 border-black bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
+            className="rounded-xl border border-white/14 bg-slate-800 p-2 text-slate-200 hover:bg-rose-600 cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Live Score Banner */}
-        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-black bg-gradient-to-r from-[#2c103d] via-[#1b1130] to-[#0d2830] px-4 py-3 shadow-lg">
+        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/14 bg-gradient-to-r from-[#2c103d] via-[#1b1130] to-[#1a112b] px-4 py-3 shadow-lg">
           <div>
-            <div className="text-[11px] font-extrabold uppercase text-amber-300">{rank.title}</div>
+            <div className="text-xs font-extrabold uppercase text-amber-300">{rank.title}</div>
             <div className="text-xs text-slate-200">{rank.subtitle}</div>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-right">
               <div className="font-display text-4xl leading-none text-teal-300">{score}/100</div>
-              <div className="text-[10px] font-bold text-slate-300">{checkedIds.length}/25 Checked</div>
+              <div className="text-xs font-bold text-slate-300">{checkedIds.length}/25 Checked</div>
             </div>
             {checkedIds.length > 0 && (
               <button
@@ -294,7 +294,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
           <button
             type="button"
             onClick={handleShareScore}
-            className="inline-flex items-center gap-1.5 rounded-xl border-2 border-black bg-amber-400 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-amber-400 px-4 py-2.5 text-xs font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
           >
             <Share2 className="h-4 w-4" />
             <span>Share Score Receipt (+2 Cr)</span>
@@ -307,7 +307,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               onClose();
               onPlayMatchedScenario(rank.recommendedEp);
             }}
-            className="inline-flex items-center gap-1.5 rounded-xl border-2 border-black bg-rose-500 px-5 py-2.5 font-display text-xl text-white hover:bg-rose-400 cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-rose-500 px-5 py-2.5 font-display text-xl text-white hover:bg-rose-400 cursor-pointer"
           >
             <Play className="h-4 w-4" />
             <span>Play Matched Scenario →</span>

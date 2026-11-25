@@ -178,18 +178,18 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       )}
 
       {/* Breezy Visual Game Splash — Cinematic Portrait + Instant Play */}
-      <section className="vice-panel relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#2a0e38] via-[#180b2a] to-[#0b272e] p-4 sm:p-7">
+      <section className="vice-panel relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#221030] via-[#160e26] to-[#120b1e] p-4 sm:p-7">
         <div className="grid gap-6 md:grid-cols-[1.25fr_0.9fr] md:items-center">
           <div className="space-y-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/40 bg-pink-500/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-200">
               <Flame className="h-3.5 w-3.5 text-amber-300" /> Cougars &amp; Cubs Club • Interactive Romance Game
             </span>
 
-            <h1 className="font-display text-4xl sm:text-6xl leading-[0.95] text-white drop-shadow-[3px_3px_0px_#09050f]">
-              LOWER YOUR AGE SLIDER. VET THE RED FLAGS. WIN REAL LOVE.
+            <h1 className="font-display text-3xl sm:text-5xl text-white">
+              Lower Your Age Slider. Vet the Red Flags. Win Real Love.
             </h1>
 
-            <p className="text-sm text-slate-200 max-w-xl">
+            <p className="text-base text-slate-200 max-w-xl leading-relaxed">
               Browse {HER_ARCHETYPES.length} women (every single year from 30 to 64!) and {HIS_ARCHETYPES.length} Cubs (every year from 21 to 33)—complete with heights, star signs, voice notes, tactile minigames, and live AI texting inside Cougars &amp; Cubs Club.
             </p>
 
@@ -201,14 +201,14 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   sfx.messagePop();
                   onChangeRole('her');
                 }}
-                className={`rounded-2xl border-2 border-black px-4 py-3 text-left transition cursor-pointer ${
+                className={`rounded-2xl border border-white/14 px-4 py-3 text-left transition cursor-pointer ${
                   role === 'her'
-                    ? 'bg-rose-500 text-white shadow-[4px_4px_0px_#09050f]'
+                    ? 'bg-rose-500 text-white shadow-lg'
                     : 'bg-black/45 text-slate-300 hover:bg-black/65'
                 }`}
               >
                 <div className="font-display text-2xl leading-none">🐆 Play as Her</div>
-                <div className="text-[11px] font-bold opacity-95 mt-1">
+                <div className="text-xs font-bold opacity-95 mt-1">
                   Vet &amp; Train • Catch Red Flags
                 </div>
               </button>
@@ -219,14 +219,14 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   sfx.messagePop();
                   onChangeRole('him');
                 }}
-                className={`rounded-2xl border-2 border-black px-4 py-3 text-left transition cursor-pointer ${
+                className={`rounded-2xl border border-white/14 px-4 py-3 text-left transition cursor-pointer ${
                   role === 'him'
-                    ? 'bg-teal-400 text-slate-950 shadow-[4px_4px_0px_#09050f]'
+                    ? 'bg-teal-400 text-slate-950 shadow-lg'
                     : 'bg-black/45 text-slate-300 hover:bg-black/65'
                 }`}
               >
                 <div className="font-display text-2xl leading-none">🔥 Play as Him</div>
-                <div className="text-[11px] font-bold opacity-95 mt-1">
+                <div className="text-xs font-bold opacity-95 mt-1">
                   Impress &amp; Commit • Code-Switch
                 </div>
               </button>
@@ -251,7 +251,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   sfx.messagePop();
                   onOpenLiveInbox();
                 }}
-                className="inline-flex items-center gap-2 rounded-2xl border-2 border-black bg-[#152836] px-4 py-3 text-xs font-extrabold text-teal-300 shadow-[3px_3px_0px_#09050f] hover:bg-[#1c3547] cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-2xl border border-white/14 bg-[#1b132e] px-4 py-3 text-xs font-extrabold text-teal-300 shadow-lg hover:bg-[#24193d] cursor-pointer"
               >
                 <MessageCircle className="h-4 w-4 text-amber-300" />
                 <span>💬 Live AI Texting Mode</span>
@@ -263,7 +263,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   sfx.messagePop();
                   onOpenPopTrivia();
                 }}
-                className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-black bg-[#2b1238] px-4 py-3 text-xs font-extrabold text-pink-200 shadow-[3px_3px_0px_#09050f] hover:bg-[#381849] cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-2xl border border-white/14 bg-[#2b1238] px-4 py-3 text-xs font-extrabold text-pink-200 shadow-lg hover:bg-[#381849] cursor-pointer"
               >
                 <Award className="h-4 w-4 text-amber-300" />
                 <span>🎬 Pop-Culture Quiz (+3 Cr)</span>
@@ -276,7 +276,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     sfx.messagePop();
                     onOpenChecklist();
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-black bg-[#331029] px-4 py-3 text-xs font-extrabold text-amber-200 shadow-[3px_3px_0px_#09050f] hover:bg-[#451638] cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-2xl border border-white/14 bg-[#331029] px-4 py-3 text-xs font-extrabold text-amber-200 shadow-lg hover:bg-[#451638] cursor-pointer"
                 >
                   <Sparkles className="h-4 w-4 text-pink-300" />
                   <span>📋 25-Pt Viral Score Test</span>
@@ -286,7 +286,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </div>
 
           {/* Photorealistic Hero Couple Card */}
-          <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border-3 border-black shadow-[6px_6px_0px_#09050f]">
+          <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-white/14 shadow-lg">
             <img
               src="./images/cast/hero-couple.jpg"
               alt="Sunlit rooftop Cougar and Cub couple"
@@ -295,7 +295,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
               <div>
-                <span className="rounded bg-amber-400 px-2 py-0.5 text-[10px] font-extrabold uppercase text-slate-950">
+                <span className="rounded bg-amber-400 px-2 py-0.5 text-xs font-extrabold uppercase text-slate-950">
                   {pairing.badgeLabel}
                 </span>
                 <div className="mt-1 font-display text-2xl text-white leading-none">
@@ -305,7 +305,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               <button
                 type="button"
                 onClick={onQuickCreateAudition}
-                className="shrink-0 inline-flex items-center gap-1 rounded-xl border-2 border-black bg-teal-400 px-2.5 py-1.5 text-[11px] font-extrabold text-slate-950 hover:bg-teal-300 cursor-pointer"
+                className="shrink-0 inline-flex items-center gap-1 rounded-xl border border-white/14 bg-teal-400 px-2.5 py-1.5 text-xs font-extrabold text-slate-950 hover:bg-teal-300 cursor-pointer"
                 title="Send a 60-second Vetting Audition link to your real Cougar or Cub"
               >
                 <Send className="h-3 w-3" />
@@ -351,9 +351,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               key={id}
               type="button"
               onClick={() => setHerFilter(id)}
-              className={`rounded-full border-2 border-black px-3.5 py-1 text-xs font-extrabold transition cursor-pointer ${
+              className={`rounded-full border border-white/14 px-3.5 py-1 text-xs font-extrabold transition cursor-pointer ${
                 herFilter === id
-                  ? 'bg-rose-500 text-white shadow-[2px_2px_0px_#09050f]'
+                  ? 'bg-rose-500 text-white shadow-lg'
                   : 'bg-[#1b102d] text-slate-300 hover:bg-slate-800'
               }`}
             >
@@ -365,7 +365,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setSortHerByAge((v) => !v)}
-              className={`rounded-full border-2 border-black px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
+              className={`rounded-full border border-white/14 px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
                 sortHerByAge
                   ? 'bg-amber-400 text-slate-950'
                   : 'bg-black/50 text-amber-300 hover:bg-black/80'
@@ -376,7 +376,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           )}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {visibleHerList.map((item) => {
             const selected = item.id === her.id;
             const displayAge = selected ? her.age : item.age;
@@ -390,42 +390,41 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   onSelectHer(item);
                   setHerPhotoIdx(0);
                 }}
-                className={`group relative overflow-hidden rounded-2xl border-2 border-black transition cursor-pointer ${
+                className={`group flex flex-col overflow-hidden rounded-3xl border transition cursor-pointer bg-[#150f24]/95 ${
                   selected
-                    ? 'ring-3 ring-rose-400 shadow-[5px_5px_0px_#f43f5e] -translate-y-0.5'
-                    : 'opacity-90 hover:opacity-100 hover:-translate-y-0.5'
+                    ? 'border-rose-400 ring-2 ring-rose-400/70 shadow-xl -translate-y-0.5'
+                    : 'border-white/12 hover:border-white/25 hover:-translate-y-0.5'
                 }`}
               >
-                <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900">
+                <div className="relative aspect-[4/4.4] w-full overflow-hidden bg-slate-900">
                   <img
                     src={item.photoUrl}
                     alt={`${item.name}, ${displayAge}`}
                     loading="lazy"
                     className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#12071d] via-black/30 to-transparent" />
-                  <span className="absolute top-2 left-2 rounded-full bg-black/80 px-2 py-0.5 text-[9px] font-extrabold text-amber-200 border border-amber-300/35">
+                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#150f24] to-transparent" />
+                  <span className="absolute top-2.5 left-2.5 rounded-full bg-black/75 backdrop-blur-md px-2.5 py-1 text-xs font-semibold text-amber-200 border border-white/15">
                     📏 {itemDetails.height} • {shortSign}
                   </span>
                   {selected && (
-                    <span className="absolute top-2 right-2 rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-extrabold uppercase text-white shadow">
+                    <span className="absolute top-2.5 right-2.5 rounded-full bg-rose-500 px-2.5 py-1 text-xs font-bold uppercase text-white shadow">
                       Selected
                     </span>
                   )}
-                  <div className="absolute bottom-2 left-2.5 right-2.5">
-                    <div className="font-display text-2xl text-white leading-none">
+                </div>
+                <div className="p-3.5 space-y-1 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="font-display text-xl text-white">
                       {item.name}, <span className="text-amber-300">{displayAge}</span>
                     </div>
-                    <div className="text-[10px] font-extrabold uppercase tracking-wide text-rose-300 mt-0.5 truncate">
+                    <div className="text-xs font-semibold text-rose-300 truncate">
                       {item.title}
                     </div>
-                    <div className="mt-0.5 text-[9px] font-bold text-teal-200/95 truncate">
-                      {itemDetails.statusPill}
-                    </div>
-                    <p className="mt-0.5 text-[10px] leading-snug text-slate-200 line-clamp-2">
-                      {item.shortHook}
-                    </p>
                   </div>
+                  <p className="text-xs sm:text-sm leading-snug text-slate-300 line-clamp-2 pt-0.5">
+                    {item.shortHook}
+                  </p>
                 </div>
               </div>
             );
@@ -437,7 +436,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setShowAllHer((v) => !v)}
-              className="rounded-full border-2 border-black bg-[#231238] px-5 py-2 text-xs font-extrabold text-amber-300 shadow-[3px_3px_0px_#09050f] hover:bg-[#2f184b] cursor-pointer"
+              className="rounded-full border border-white/14 bg-[#231238] px-5 py-2 text-xs font-extrabold text-amber-300 shadow-lg hover:bg-[#2f184b] cursor-pointer"
             >
               {showAllHer
                 ? '▲ Collapse to Top 10 Showcase'
@@ -461,7 +460,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           <button
             type="button"
             onClick={() => setSortHisByAge((v) => !v)}
-            className={`rounded-full border-2 border-black px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
+            className={`rounded-full border border-white/14 px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
               sortHisByAge
                 ? 'bg-teal-400 text-slate-950'
                 : 'bg-black/50 text-teal-300 hover:bg-black/80'
@@ -471,7 +470,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {visibleHisList.map((item) => {
             const selected = item.id === his.id;
             const displayAge = selected ? his.age : item.age;
@@ -487,50 +486,49 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   onSelectHis(item);
                   setHisPhotoIdx(0);
                 }}
-                className={`group relative overflow-hidden rounded-2xl border-2 border-black transition cursor-pointer ${
+                className={`group flex flex-col overflow-hidden rounded-3xl border transition cursor-pointer bg-[#150f24]/95 ${
                   selected
-                    ? 'ring-3 ring-teal-400 shadow-[5px_5px_0px_#2dd4bf] -translate-y-0.5'
+                    ? 'border-amber-300 ring-2 ring-amber-300/70 shadow-xl -translate-y-0.5'
                     : isObstacle
-                      ? 'ring-1 ring-rose-500/60 opacity-95 hover:opacity-100 hover:-translate-y-0.5'
-                      : 'opacity-90 hover:opacity-100 hover:-translate-y-0.5'
+                      ? 'border-rose-500/45 hover:border-rose-400 hover:-translate-y-0.5'
+                      : 'border-white/12 hover:border-white/25 hover:-translate-y-0.5'
                 }`}
               >
-                <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900">
+                <div className="relative aspect-[4/4.4] w-full overflow-hidden bg-slate-900">
                   <img
                     src={item.photoUrl}
                     alt={`${item.name}, ${displayAge}`}
                     loading="lazy"
                     className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1622] via-black/30 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#150f24] to-transparent" />
                   <span
-                    className={`absolute top-2 left-2 rounded-full bg-black/80 px-2 py-0.5 text-[9px] font-extrabold border ${
+                    className={`absolute top-2.5 left-2.5 rounded-full bg-black/75 backdrop-blur-md px-2.5 py-1 text-xs font-semibold border ${
                       isObstacle
-                        ? 'text-rose-300 border-rose-400/50'
-                        : 'text-teal-200 border-teal-300/35'
+                        ? 'text-rose-200 border-rose-400/50'
+                        : 'text-amber-200 border-white/15'
                     }`}
                   >
                     📏 {itemDetails.height} • {shortSign}
                   </span>
                   {selected && (
-                    <span className="absolute top-2 right-2 rounded-full bg-teal-400 px-2 py-0.5 text-[10px] font-extrabold uppercase text-slate-950 shadow">
+                    <span className="absolute top-2.5 right-2.5 rounded-full bg-amber-300 px-2.5 py-1 text-xs font-bold uppercase text-slate-950 shadow">
                       Selected
                     </span>
                   )}
-                  <div className="absolute bottom-2 left-2.5 right-2.5">
-                    <div className="font-display text-2xl text-white leading-none">
-                      {item.name}, <span className="text-teal-300">{displayAge}</span>
+                </div>
+                <div className="p-3.5 space-y-1 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="font-display text-xl text-white">
+                      {item.name}, <span className="text-amber-300">{displayAge}</span>
                     </div>
-                    <div className="text-[10px] font-extrabold uppercase tracking-wide text-amber-300 mt-0.5 truncate">
+                    <div className="text-xs font-semibold text-amber-200/90 truncate">
                       {item.title}
                     </div>
-                    <div className="mt-0.5 text-[9px] font-bold text-pink-200/95 truncate">
-                      {itemDetails.statusPill}
-                    </div>
-                    <p className="mt-0.5 text-[10px] leading-snug text-slate-200 line-clamp-2">
-                      {item.shortHook}
-                    </p>
                   </div>
+                  <p className="text-xs sm:text-sm leading-snug text-slate-300 line-clamp-2 pt-0.5">
+                    {item.shortHook}
+                  </p>
                 </div>
               </div>
             );
@@ -542,7 +540,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setShowAllHis((v) => !v)}
-              className="rounded-full border-2 border-black bg-[#102532] px-5 py-2 text-xs font-extrabold text-teal-300 shadow-[3px_3px_0px_#09050f] hover:bg-[#163344] cursor-pointer"
+              className="rounded-full border border-white/14 bg-[#1b132e] px-5 py-2 text-xs font-extrabold text-teal-300 shadow-lg hover:bg-[#24193d] cursor-pointer"
             >
               {showAllHis
                 ? '▲ Collapse to Top 10 Cubs'
@@ -555,19 +553,19 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       {/* Side-by-Side Scrollable Tinder Profile Inspector for Selected Pair! */}
       <section className="grid gap-4 md:grid-cols-2">
         {/* Selected Her Full Multi-Photo Card */}
-        <div className="vice-panel rounded-3xl bg-[#1a0d2b] p-4 space-y-3">
+        <div className="vice-panel rounded-3xl bg-[#161026] p-4 space-y-3">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-extrabold uppercase tracking-wider text-rose-300">
               🐆 Selected Her Profile • Scroll Photos
             </span>
             {her.lookBadge && (
-              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-[11px] font-bold text-amber-300">
+              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-bold text-amber-300">
                 {her.lookBadge}
               </span>
             )}
           </div>
 
-          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border-2 border-black bg-slate-950">
+          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border border-white/14 bg-slate-950">
             <img
               src={activeHerSlide.url}
               alt={`${her.name} ${activeHerSlide.label}`}
@@ -595,7 +593,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   key={g.label}
                   type="button"
                   onClick={() => setHerPhotoIdx(idx)}
-                  className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold cursor-pointer ${
+                  className={`rounded-full px-2.5 py-0.5 text-xs font-extrabold cursor-pointer ${
                     idx === herPhotoIdx % herGallery.length
                       ? 'bg-amber-400 text-slate-950'
                       : 'bg-black/75 text-white'
@@ -607,7 +605,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-rose-400/20 bg-black/40 p-2.5 text-[11px]">
+          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-rose-400/20 bg-black/40 p-2.5 text-xs">
             <div>
               <span className="text-slate-400">Star Sign:</span>{' '}
               <strong className="text-amber-300">{herDetails.zodiac}</strong>
@@ -629,13 +627,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
           </div>
 
-          <p className="text-xs leading-relaxed text-slate-200">{her.vibeSummary}</p>
+          <p className="text-sm leading-relaxed text-slate-200">{her.vibeSummary}</p>
           {her.interests && (
             <div className="flex flex-wrap gap-1.5">
               {her.interests.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-rose-500/20 border border-rose-400/30 px-2.5 py-0.5 text-[10px] font-bold text-rose-200"
+                  className="rounded-full bg-rose-500/20 border border-rose-400/30 px-2.5 py-0.5 text-xs font-bold text-rose-200"
                 >
                   ✨ {tag}
                 </span>
@@ -645,19 +643,19 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
 
         {/* Selected His Full Multi-Photo Card */}
-        <div className="vice-panel rounded-3xl bg-[#0e1e2b] p-4 space-y-3">
+        <div className="vice-panel rounded-3xl bg-[#161026] p-4 space-y-3">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-extrabold uppercase tracking-wider text-teal-300">
               🔥 Selected Cub Profile • Scroll Photos
             </span>
             {his.lookBadge && (
-              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-[11px] font-bold text-teal-200">
+              <span className="rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-bold text-teal-200">
                 {his.lookBadge}
               </span>
             )}
           </div>
 
-          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border-2 border-black bg-slate-950">
+          <div className="relative aspect-[4/3.6] w-full overflow-hidden rounded-2xl border border-white/14 bg-slate-950">
             <img
               src={activeHisSlide.url}
               alt={`${his.name} ${activeHisSlide.label}`}
@@ -685,7 +683,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   key={g.label}
                   type="button"
                   onClick={() => setHisPhotoIdx(idx)}
-                  className={`rounded-full px-2.5 py-0.5 text-[10px] font-extrabold cursor-pointer ${
+                  className={`rounded-full px-2.5 py-0.5 text-xs font-extrabold cursor-pointer ${
                     idx === hisPhotoIdx % hisGallery.length
                       ? 'bg-teal-400 text-slate-950'
                       : 'bg-black/75 text-white'
@@ -697,7 +695,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-teal-400/20 bg-black/40 p-2.5 text-[11px]">
+          <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-teal-400/20 bg-black/40 p-2.5 text-xs">
             <div>
               <span className="text-slate-400">Star Sign:</span>{' '}
               <strong className="text-teal-300">{hisDetails.zodiac}</strong>
@@ -719,13 +717,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
           </div>
 
-          <p className="text-xs leading-relaxed text-slate-200">{his.vibeSummary}</p>
+          <p className="text-sm leading-relaxed text-slate-200">{his.vibeSummary}</p>
           {his.interests && (
             <div className="flex flex-wrap gap-1.5">
               {his.interests.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-teal-500/20 border border-teal-400/30 px-2.5 py-0.5 text-[10px] font-bold text-teal-200"
+                  className="rounded-full bg-teal-500/20 border border-teal-400/30 px-2.5 py-0.5 text-xs font-bold text-teal-200"
                 >
                   ✨ {tag}
                 </span>
@@ -736,7 +734,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       </section>
 
       {/* Compact Matchup Dock + Custom Age Dial + Expandable VIP Add-Ons */}
-      <section className="vice-panel rounded-3xl bg-[#180e29] p-4 sm:p-5 space-y-4">
+      <section className="vice-panel rounded-3xl bg-[#161026] p-4 sm:p-5 space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">
@@ -745,11 +743,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </span>
               <span className="text-xs font-bold text-pink-300">{pairing.trackTitle}</span>
             </div>
-            <div className="text-[11px] font-semibold text-amber-200/95">
+            <div className="text-xs font-semibold text-amber-200/95">
               ✨ {pairing.zodiacSpark}
             </div>
             {pairing.energyPolarity && (
-              <div className="inline-flex items-center gap-1.5 rounded-xl border border-fuchsia-400/40 bg-fuchsia-950/50 px-2.5 py-1 text-[11px] font-extrabold text-pink-200">
+              <div className="inline-flex items-center gap-1.5 rounded-xl border border-fuchsia-400/40 bg-fuchsia-950/50 px-2.5 py-1 text-xs font-extrabold text-pink-200">
                 {pairing.energyPolarity}
               </div>
             )}
@@ -802,7 +800,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
 
           <div className="flex flex-wrap items-center gap-2.5">
             {onChangePacingMode && (
-              <div className="inline-flex rounded-xl border-2 border-black bg-black/60 p-0.5 text-xs font-extrabold">
+              <div className="inline-flex rounded-xl border border-white/14 bg-black/60 p-0.5 text-xs font-extrabold">
                 <button
                   type="button"
                   onClick={() => onChangePacingMode('curated')}
@@ -834,7 +832,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               <button
                 type="button"
                 onClick={() => setShowCustomizer((v) => !v)}
-                className="inline-flex items-center gap-1.5 rounded-xl border-2 border-black bg-[#26143d] px-3.5 py-2.5 text-xs font-extrabold text-pink-200 hover:bg-[#331b52] cursor-pointer"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-[#26143d] px-3.5 py-2.5 text-xs font-extrabold text-pink-200 hover:bg-[#331b52] cursor-pointer"
               >
                 <Sparkles className="h-4 w-4 text-amber-300" />
                 <span>🎛️ Customize Vibe &amp; Drinks</span>
@@ -847,7 +845,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <button
               type="button"
               onClick={() => setShowVipDrawer((v) => !v)}
-              className="inline-flex items-center gap-1.5 rounded-xl border-2 border-black bg-black/50 px-3.5 py-2.5 text-xs font-extrabold text-amber-300 hover:bg-black/70 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/14 bg-black/50 px-3.5 py-2.5 text-xs font-extrabold text-amber-300 hover:bg-black/70 cursor-pointer"
             >
               <Crown className="h-4 w-4" />
               <span>Bonus VIP Scenes ({selectedVipIds.length}/4)</span>
@@ -862,7 +860,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 sfx.swipeRight();
                 onStartGame();
               }}
-              className="rounded-xl border-2 border-black bg-rose-500 px-6 py-2.5 font-display text-2xl text-white shadow-[3px_3px_0px_#09050f] hover:bg-rose-400 cursor-pointer"
+              className="rounded-xl border border-white/14 bg-rose-500 px-6 py-2.5 font-display text-2xl text-white shadow-lg hover:bg-rose-400 cursor-pointer"
             >
               Enter The Prowl →
             </button>
@@ -875,7 +873,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
                 🎛️ Custom Fantasy Studio • Names, Zero-Proof Orders &amp; Plot Twists
               </div>
-              <span className="rounded-full border border-amber-400/40 bg-black/50 px-2.5 py-0.5 text-[10px] font-extrabold text-teal-200">
+              <span className="rounded-full border border-amber-400/40 bg-black/50 px-2.5 py-0.5 text-xs font-extrabold text-teal-200">
                 {wallet.isVip || wallet.isFounderUnlimited
                   ? '👑 VIP Active: Unlimited Custom Builds!'
                   : customEditCount >= 2
@@ -885,7 +883,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
 
             <div className="grid gap-2.5 sm:grid-cols-4">
-              <label className="text-[11px] text-slate-300 space-y-1">
+              <label className="text-xs text-slate-300 space-y-1">
                 <span className="font-bold text-rose-300">Her Custom Name</span>
                 <input
                   type="text"
@@ -895,7 +893,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
                 />
               </label>
-              <label className="text-[11px] text-slate-300 space-y-1">
+              <label className="text-xs text-slate-300 space-y-1">
                 <span className="font-bold text-teal-300">Cub Custom Name</span>
                 <input
                   type="text"
@@ -905,7 +903,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
                 />
               </label>
-              <label className="text-[11px] text-slate-300 space-y-1">
+              <label className="text-xs text-slate-300 space-y-1">
                 <span className="font-bold text-amber-300">Her Star Sign</span>
                 <input
                   type="text"
@@ -915,7 +913,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   className="w-full rounded-lg border border-white/15 bg-black/50 px-2.5 py-1.5 text-xs text-white"
                 />
               </label>
-              <label className="text-[11px] text-slate-300 space-y-1">
+              <label className="text-xs text-slate-300 space-y-1">
                 <span className="font-bold text-pink-300">
                   Signature Order (Mocktail, Smoothie or Drink)
                 </span>
@@ -931,7 +929,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
 
             {/* 1-Tap Non-Alcoholic Mocktail, Smoothie, Matcha & Classic Order Pills */}
             <div className="space-y-1">
-              <div className="text-[11px] font-bold text-emerald-300">
+              <div className="text-xs font-bold text-emerald-300">
                 🥤 Quick Zero-Proof, Smoothie &amp; Lounge Order Presets (Always Free):
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -958,7 +956,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                           subplotTags: nextTags,
                         });
                       }}
-                      className={`rounded-full border px-2.5 py-1 text-[11px] font-bold transition cursor-pointer ${
+                      className={`rounded-full border px-2.5 py-1 text-xs font-bold transition cursor-pointer ${
                         selectedDrink
                           ? 'border-emerald-300 bg-emerald-400 text-slate-950'
                           : 'border-white/15 bg-black/45 text-slate-200 hover:bg-black/75'
@@ -996,9 +994,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     key={tag}
                     type="button"
                     onClick={() => (target === 'her' ? toggleHerTag(tag) : toggleHisTag(tag))}
-                    className={`rounded-full border-2 border-black px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
+                    className={`rounded-full border border-white/14 px-3 py-1 text-xs font-extrabold transition cursor-pointer ${
                       active
-                        ? 'bg-amber-400 text-slate-950 shadow-[2px_2px_0px_#09050f]'
+                        ? 'bg-amber-400 text-slate-950 shadow-lg'
                         : 'bg-black/45 text-slate-200 hover:bg-black/70'
                     }`}
                   >
@@ -1017,7 +1015,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 <button
                   type="button"
                   onClick={onOpenBoutique}
-                  className="rounded-lg border border-amber-300/60 bg-amber-400 px-3 py-1 text-[11px] font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
+                  className="rounded-lg border border-amber-300/60 bg-amber-400 px-3 py-1 text-xs font-extrabold text-slate-950 hover:bg-amber-300 cursor-pointer"
                 >
                   Unlock Unlimited / $29 Cameo →
                 </button>
@@ -1039,7 +1037,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   key={ep.id}
                   type="button"
                   onClick={() => onToggleVipEpisode(ep.id, ep.creditCost)}
-                  className={`flex items-center justify-between gap-3 rounded-xl border-2 border-black p-3 text-left transition cursor-pointer ${
+                  className={`flex items-center justify-between gap-3 rounded-xl border border-white/14 p-3 text-left transition cursor-pointer ${
                     active
                       ? 'bg-amber-400/20 ring-2 ring-amber-400'
                       : 'bg-black/40 hover:bg-black/60'
@@ -1047,7 +1045,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 >
                   <div>
                     <div className="text-xs font-bold text-white">{ep.title}</div>
-                    <div className="text-[11px] text-slate-300 mt-0.5">
+                    <div className="text-xs text-slate-300 mt-0.5">
                       {ep.subredditThreadInspiration.replace(/^r\/CougarsAndCubs[^:]*:\s*/i, '')}
                     </div>
                   </div>
@@ -1080,12 +1078,12 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       </section>
 
       {/* Sticky Thumb-Friendly Mobile Launch Bar so phone players never have to hunt for Start */}
-      <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border-2 border-black bg-[#160b26]/95 p-2.5 shadow-[0_6px_20px_rgba(0,0,0,0.75)] backdrop-blur-md flex items-center justify-between gap-2">
+      <div className="sm:hidden sticky bottom-2 z-20 rounded-2xl border border-white/14 bg-[#160b26]/95 p-2.5 shadow-[0_6px_20px_rgba(0,0,0,0.75)] backdrop-blur-md flex items-center justify-between gap-2">
         <div className="min-w-0">
           <div className="truncate font-display text-lg text-white leading-none">
             {her.name} ({her.age}F) × {his.name} ({his.age}M)
           </div>
-          <div className="truncate text-[10px] font-bold text-amber-300">
+          <div className="truncate text-xs font-bold text-amber-300">
             {pacingMode === 'curated' ? '⚡ Quick 8-Scene Arc' : '🎬 Full Season'} • {pairing.ageGap}yr Gap
           </div>
         </div>
@@ -1095,7 +1093,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             sfx.swipeRight();
             onStartGame();
           }}
-          className="shrink-0 rounded-xl border-2 border-black bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 font-display text-xl text-slate-950 shadow-[2px_2px_0px_#09050f]"
+          className="shrink-0 rounded-xl border border-white/14 bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-2 font-display text-xl text-slate-950 shadow-lg"
         >
           Play Now →
         </button>

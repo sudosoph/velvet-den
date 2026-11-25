@@ -37,12 +37,12 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
   if (episodes.length === 0) {
     return (
-      <div className="vice-panel rounded-2xl bg-[#180d28] p-6 text-center space-y-4">
-        <p className="text-white font-bold">This audition had no valid episodes.</p>
+      <div className="vice-panel rounded-3xl bg-[#150f24]/95 p-8 text-center space-y-4">
+        <p className="text-base text-white font-semibold">This audition had no valid episodes.</p>
         <button
           type="button"
           onClick={onExitToMainGame}
-          className="rounded-xl bg-amber-400 px-4 py-2 font-bold text-slate-950 cursor-pointer"
+          className="rounded-2xl bg-amber-300 px-5 py-2.5 text-sm font-bold text-slate-950 cursor-pointer"
         >
           Play Full Game
         </button>
@@ -80,18 +80,23 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
     };
 
     return (
-      <div className="mx-auto max-w-2xl vice-panel rounded-3xl bg-[#180d28] p-6 sm:p-8 space-y-5">
-        <span className="rounded bg-teal-400 px-2.5 py-1 text-xs font-extrabold uppercase text-slate-950">
+      <div className="mx-auto max-w-2xl vice-panel rounded-3xl bg-[#150f24]/95 p-6 sm:p-8 space-y-5 animate-stage-in">
+        <span className="inline-block rounded-full bg-amber-300 px-3.5 py-1 text-xs font-bold uppercase text-slate-950">
           Audition Complete for {challenge.senderName}
         </span>
-        <div className="flex items-baseline gap-4">
-          <span className="font-display text-6xl text-amber-300">{result.matchPercent}%</span>
-          <span className="font-display text-3xl text-white">{result.verdictTitle}</span>
+
+        <div className="flex flex-wrap items-baseline gap-4">
+          <span className="font-display text-5xl sm:text-6xl text-amber-300">
+            {result.matchPercent}%
+          </span>
+          <span className="font-display text-2xl sm:text-3xl text-white">
+            {result.verdictTitle}
+          </span>
         </div>
 
-        <ul className="space-y-2 text-sm text-slate-200">
+        <ul className="space-y-2.5 text-sm sm:text-base text-slate-200">
           {result.roastNotes.map((note, idx) => (
-            <li key={idx} className="rounded-xl bg-black/40 px-3.5 py-2.5">
+            <li key={idx} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               {note}
             </li>
           ))}
@@ -101,7 +106,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
           <button
             type="button"
             onClick={handleSendBack}
-            className="flex-1 vice-panel flex items-center justify-center gap-2 rounded-2xl bg-teal-400 py-3 font-display text-2xl text-slate-950 cursor-pointer"
+            className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-rose-500 to-amber-400 py-3.5 font-display text-lg text-slate-950 shadow-lg hover:brightness-105 transition cursor-pointer"
           >
             {copiedReply ? <Check className="h-5 w-5" /> : <Send className="h-5 w-5" />}
             <span>
@@ -113,7 +118,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
           <button
             type="button"
             onClick={onExitToMainGame}
-            className="rounded-2xl border-2 border-black bg-rose-500 px-5 py-3 font-display text-2xl text-white cursor-pointer"
+            className="rounded-2xl border border-white/15 bg-white/5 px-6 py-3.5 font-display text-lg text-white hover:bg-white/10 transition cursor-pointer"
           >
             Play Full Game →
           </button>
@@ -125,14 +130,14 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
   const ep = episodes[step];
 
   return (
-    <div className="mx-auto max-w-2xl vice-panel rounded-3xl bg-[#180d28] p-6 sm:p-8 space-y-5">
-      <div className="rounded-xl bg-gradient-to-r from-rose-600 to-amber-500 px-4 py-2.5 font-display text-2xl text-slate-950">
+    <div className="mx-auto max-w-2xl vice-panel rounded-3xl bg-[#150f24]/95 p-6 sm:p-8 space-y-5 animate-stage-in">
+      <div className="rounded-2xl bg-gradient-to-r from-rose-500 to-amber-400 px-4 py-3 font-display text-lg sm:text-xl text-slate-950">
         🐆 {challenge.senderName} Sent You an Official Vetting Audition ({step + 1} /{' '}
         {episodes.length})
       </div>
 
-      <h2 className="font-display text-3xl sm:text-4xl text-white">{ep.title}</h2>
-      <p className="text-sm sm:text-base text-slate-200">
+      <h2 className="font-display text-2xl sm:text-3xl text-white">{ep.title}</h2>
+      <p className="text-base leading-relaxed text-slate-100">
         {renderRichText(receiverRole === 'her' ? ep.setupHer : ep.setupHim)}
       </p>
 
@@ -142,9 +147,9 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
             key={idx}
             type="button"
             onClick={() => handlePick(idx)}
-            className="w-full rounded-2xl border-2 border-black bg-[#25143d] p-4 text-left text-sm font-semibold text-white hover:border-teal-400 cursor-pointer"
+            className="w-full rounded-2xl border border-white/14 bg-white/[0.05] p-4 sm:p-5 text-left text-base font-medium text-white hover:bg-white/[0.09] hover:border-amber-300/60 transition cursor-pointer"
           >
-            <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded bg-teal-400 text-xs font-extrabold text-slate-950">
+            <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-xl bg-amber-300 text-xs font-extrabold text-slate-950">
               {String.fromCharCode(65 + idx)}
             </span>
             {renderRichText(receiverRole === 'her' ? c.labelHer : c.labelHim)}

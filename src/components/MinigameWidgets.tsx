@@ -63,31 +63,31 @@ const CheckDropReflexGame: React.FC<{
   };
 
   return (
-    <div className="rounded-2xl border-2 border-amber-400/70 bg-gradient-to-r from-[#231236] via-[#19142f] to-[#0f262c] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-amber-400/70 bg-gradient-to-r from-[#231236] via-[#19142f] to-[#181129] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-300">
           <CreditCard className="h-4 w-4" /> Interactive Reflex Minigame • Check-Drop Timing
         </span>
-        <span className="text-[11px] font-bold text-teal-300">
+        <span className="text-xs font-bold text-teal-300">
           Hit the Emerald Sweet Spot for +14 Stat Bonus!
         </span>
       </div>
 
       {/* Reflex Track */}
-      <div className="relative h-9 w-full overflow-hidden rounded-xl border-2 border-black bg-slate-900">
-        <div className="absolute inset-y-0 left-0 w-[34%] bg-rose-950/70 flex items-center justify-center text-[10px] font-bold text-rose-300">
+      <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-900">
+        <div className="absolute inset-y-0 left-0 w-[34%] bg-rose-950/70 flex items-center justify-center text-xs font-bold text-rose-300">
           Venmo Math
         </div>
-        <div className="absolute inset-y-0 left-[34%] w-[34%] bg-emerald-500/35 border-x-2 border-emerald-400 flex items-center justify-center text-[10px] font-extrabold uppercase text-emerald-200">
+        <div className="absolute inset-y-0 left-[34%] w-[34%] bg-emerald-500/35 border-x-2 border-emerald-400 flex items-center justify-center text-xs font-extrabold uppercase text-emerald-200">
           🎯 Smooth Grab Zone
         </div>
-        <div className="absolute inset-y-0 right-0 w-[32%] bg-rose-950/70 flex items-center justify-center text-[10px] font-bold text-rose-300">
+        <div className="absolute inset-y-0 right-0 w-[32%] bg-rose-950/70 flex items-center justify-center text-xs font-bold text-rose-300">
           Awkward Pause
         </div>
 
         {/* Moving Card Cursor */}
         <div
-          className="absolute top-0.5 bottom-0.5 w-3.5 -ml-1.5 rounded-md bg-amber-300 border-2 border-black shadow-[0_0_12px_#fbbf24] transition-none"
+          className="absolute top-0.5 bottom-0.5 w-3.5 -ml-1.5 rounded-md bg-amber-300 border border-white/14 shadow-[0_0_12px_#fbbf24] transition-none"
           style={{ left: `${cursor}%` }}
         />
       </div>
@@ -108,7 +108,7 @@ const CheckDropReflexGame: React.FC<{
               setStopped(false);
               setResultMsg(null);
             }}
-            className="rounded-xl border-2 border-black bg-slate-800 px-3.5 py-1.5 text-xs font-extrabold text-amber-300 hover:bg-slate-700 cursor-pointer"
+            className="rounded-xl border border-white/14 bg-slate-800 px-3.5 py-1.5 text-xs font-extrabold text-amber-300 hover:bg-slate-700 cursor-pointer"
           >
             🔄 Retry Reflex Shot
           </button>
@@ -155,18 +155,18 @@ const TrailPaceRunnerGame: React.FC<{
   };
 
   return (
-    <div className="rounded-2xl border-2 border-teal-400/70 bg-gradient-to-r from-[#0e262d] via-[#171c30] to-[#281236] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-teal-400/70 bg-gradient-to-r from-[#181129] via-[#171c30] to-[#281236] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-teal-300">
           <Flame className="h-4 w-4 text-amber-300" /> Interactive Cardio Minigame • Keep {herName}’s Short-Leash Pace!
         </span>
-        <span className="text-[11px] font-bold text-amber-300">
+        <span className="text-xs font-bold text-amber-300">
           Summit Progress: {Math.round(progress)}%
         </span>
       </div>
 
       {/* Canyon Ridge Track */}
-      <div className="relative h-10 w-full overflow-hidden rounded-xl border-2 border-black bg-slate-950 px-2 flex items-center">
+      <div className="relative h-10 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-950 px-2 flex items-center">
         <div
           className="h-6 rounded-lg bg-gradient-to-r from-rose-500 via-amber-400 to-teal-400 transition-all duration-150 flex items-center justify-end pr-2 text-xs font-extrabold text-slate-950"
           style={{ width: `${progress}%` }}
@@ -192,7 +192,7 @@ const TrailPaceRunnerGame: React.FC<{
             <CheckCircle2 className="h-4 w-4" /> ⛰️ Summit Reached on Her Short Leash! (+8 Chemistry, +6 Maturity)
           </span>
         )}
-        <span className="text-[11px] text-slate-300">
+        <span className="text-xs text-slate-300">
           {won || completed
             ? 'Cardio verified! Pick your summit move below.'
             : 'Tap 4–5x before the incline pulls you back!'}
@@ -251,12 +251,12 @@ const RoomAuditHotspotGame: React.FC<{
   const allFixed = completed || fixedIds.length === ROOM_ITEMS.length;
 
   return (
-    <div className="rounded-2xl border-2 border-pink-400/60 bg-gradient-to-br from-[#231134] to-[#10222b] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-pink-400/60 bg-gradient-to-br from-[#231134] to-[#181129] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-300">
           <Sparkles className="h-4 w-4 text-amber-300" /> Interactive Sanctuary Prep • Tap All 4 Upgrades ({fixedIds.length}/4)
         </span>
-        <span className="text-[11px] font-bold text-emerald-300">
+        <span className="text-xs font-bold text-emerald-300">
           <Zap className="inline h-3.5 w-3.5" /> +10 Maturity &amp; +10 EQ (Unlocks 60+ Gate!)
         </span>
       </div>
@@ -269,14 +269,14 @@ const RoomAuditHotspotGame: React.FC<{
               key={item.id}
               type="button"
               onClick={() => handleToggleFix(item.id)}
-              className={`flex items-center justify-between rounded-xl border-2 border-black px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
+              className={`flex items-center justify-between rounded-xl border border-white/14 px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
                 isFixed
                   ? 'bg-emerald-500/25 text-emerald-200 border-emerald-400/60'
                   : 'bg-rose-950/60 text-rose-200 hover:bg-rose-900/70'
               }`}
             >
               <span>{isFixed ? item.good : item.bad}</span>
-              <span className="ml-2 rounded px-1.5 py-0.5 text-[10px] font-extrabold bg-black/40">
+              <span className="ml-2 rounded px-1.5 py-0.5 text-xs font-extrabold bg-black/40">
                 {isFixed ? '✓ READY' : 'TAP TO FIX'}
               </span>
             </button>
@@ -342,12 +342,12 @@ const DoubtSpiralGame: React.FC<{
   const allCleared = completed || clearedIds.length === DOUBT_THOUGHTS.length;
 
   return (
-    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-br from-[#240e35] via-[#18122e] to-[#0f242c] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-br from-[#240e35] via-[#18122e] to-[#181129] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-fuchsia-300">
           <Sparkles className="h-4 w-4 text-amber-300" /> Interactive 2 AM Doubt Breaker • Reframe All 4 Fears ({clearedIds.length}/4)
         </span>
-        <span className="text-[11px] font-bold text-teal-300">
+        <span className="text-xs font-bold text-teal-300">
           +8 EQ &amp; +8 Maturity (Stop Self-Sabotage!)
         </span>
       </div>
@@ -360,14 +360,14 @@ const DoubtSpiralGame: React.FC<{
               key={item.id}
               type="button"
               onClick={() => handleClear(item.id)}
-              className={`flex items-center justify-between gap-2 rounded-xl border-2 border-black px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
+              className={`flex items-center justify-between gap-2 rounded-xl border border-white/14 px-3 py-2 text-left text-xs font-bold transition cursor-pointer ${
                 isCleared
                   ? 'bg-teal-500/25 text-teal-100 border-teal-400/60'
                   : 'bg-fuchsia-950/70 text-pink-200 hover:bg-fuchsia-900/70'
               }`}
             >
               <span>{isCleared ? item.grounded : item.spiral}</span>
-              <span className="shrink-0 rounded px-1.5 py-0.5 text-[10px] font-extrabold bg-black/40">
+              <span className="shrink-0 rounded px-1.5 py-0.5 text-xs font-extrabold bg-black/40">
                 {isCleared ? '✓ GROUNDED' : 'REFRAME'}
               </span>
             </button>
@@ -412,18 +412,18 @@ const BenchPressCougarGame: React.FC<{
   const done = completed || reps >= 5;
 
   return (
-    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#290f2d] via-[#191330] to-[#0f262c] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#290f2d] via-[#191330] to-[#181129] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-rose-300">
           <Flame className="h-4 w-4 text-amber-300" /> Cub Gym Minigame • Bench Press for {herName} ({reps}/5 Reps)
         </span>
-        <span className="text-[11px] font-bold text-amber-300">
+        <span className="text-xs font-bold text-amber-300">
           +8 Chemistry &amp; +8 Chivalry (Unlock Stairway Carry!)
         </span>
       </div>
 
       {/* Animated Barbell Rack */}
-      <div className="relative h-12 w-full overflow-hidden rounded-xl border-2 border-black bg-slate-950 px-3 flex items-center justify-between">
+      <div className="relative h-12 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-950 px-3 flex items-center justify-between">
         <div
           className={`flex items-center gap-2 font-display text-xl text-amber-300 transition-transform duration-150 ${
             barLifted ? '-translate-y-2 scale-105' : 'translate-y-0.5'
@@ -436,7 +436,7 @@ const BenchPressCougarGame: React.FC<{
           {[1, 2, 3, 4, 5].map((r) => (
             <span
               key={r}
-              className={`h-3 w-5 rounded-sm border border-black ${
+              className={`h-3 w-5 rounded-sm border border-white/12 ${
                 r <= reps ? 'bg-emerald-400' : 'bg-slate-800'
               }`}
             />
@@ -513,12 +513,12 @@ const CubGroomingGlowUpGame: React.FC<{
   const allDone = completed || polishedIds.length === GROOMING_UPGRADES.length;
 
   return (
-    <div className="rounded-2xl border-2 border-pink-400/70 bg-gradient-to-r from-[#2b1038] via-[#1c1332] to-[#11262d] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-pink-400/70 bg-gradient-to-r from-[#2b1038] via-[#1c1332] to-[#181129] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-300">
           <Sparkles className="h-4 w-4 text-amber-300" /> Cougar &ldquo;Grooming&rdquo; Salon • Polish {hisName} ({polishedIds.length}/4)
         </span>
-        <span className="text-[11px] font-bold text-amber-300">
+        <span className="text-xs font-bold text-amber-300">
           +8 Chemistry &amp; +8 Chivalry (Red-Carpet Glow-Up!)
         </span>
       </div>
@@ -606,7 +606,7 @@ const ThermostatPitCrewGame: React.FC<{
             setPillowFlipped(true);
             checkWin(temp, true);
           }}
-          className={`rounded-xl border-2 border-black px-3.5 py-1.5 text-xs font-extrabold transition cursor-pointer ${
+          className={`rounded-xl border border-white/14 px-3.5 py-1.5 text-xs font-extrabold transition cursor-pointer ${
             pillowFlipped
               ? 'bg-cyan-400 text-slate-950'
               : 'bg-slate-800 text-cyan-200 hover:bg-slate-700'
@@ -620,7 +620,7 @@ const ThermostatPitCrewGame: React.FC<{
             ❄️ 62°F Sanctuary Locked! (+10 EQ, +8 Chemistry)
           </span>
         ) : (
-          <span className="text-[11px] text-slate-300">
+          <span className="text-xs text-slate-300">
             Slide dial down to 62°F + flip pillow!
           </span>
         )}
@@ -656,7 +656,7 @@ const BigCarlWinePourGame: React.FC<{
   };
 
   return (
-    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#2c0e28] via-[#1b112e] to-[#10242c] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-rose-400/70 bg-gradient-to-r from-[#2c0e28] via-[#1b112e] to-[#181129] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
           🍷 Cougar Town &ldquo;Big Carl&rdquo; Goblet • Pour to the 80% Gold Line!
@@ -664,12 +664,12 @@ const BigCarlWinePourGame: React.FC<{
         <span className="text-xs font-extrabold text-amber-300">Goblet Level: {fill}%</span>
       </div>
 
-      <div className="relative h-9 w-full overflow-hidden rounded-xl border-2 border-black bg-slate-950">
+      <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/14 bg-slate-950">
         <div
           className="h-full bg-gradient-to-r from-[#5c0a28] via-rose-700 to-rose-500 transition-all duration-150"
           style={{ width: `${fill}%` }}
         />
-        <div className="absolute inset-y-0 left-[74%] w-[20%] border-x-2 border-amber-300 bg-amber-400/20 flex items-center justify-center text-[10px] font-extrabold text-amber-200">
+        <div className="absolute inset-y-0 left-[74%] w-[20%] border-x-2 border-amber-300 bg-amber-400/20 flex items-center justify-center text-xs font-extrabold text-amber-200">
           🥂 BIG CARL ZONE
         </div>
       </div>
@@ -746,12 +746,12 @@ const BlackCatPaceGame: React.FC<{
   const done = completed || step >= 3;
 
   return (
-    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-r from-[#1e0d2e] via-[#15122b] to-[#0e262b] p-4 space-y-3">
+    <div className="rounded-2xl border-2 border-fuchsia-400/70 bg-gradient-to-r from-[#1e0d2e] via-[#15122b] to-[#181129] p-4 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-pink-200">
           🐈‍⬛ Black Cat × 🐕 Golden Retriever Pacing Meter ({Math.min(step, 3)}/3 Earned)
         </span>
-        <span className="text-[11px] font-bold text-amber-300">
+        <span className="text-xs font-bold text-amber-300">
           +10 Chemistry &amp; +8 EQ (Melt {herName}’s Guard!)
         </span>
       </div>
@@ -761,7 +761,7 @@ const BlackCatPaceGame: React.FC<{
         {['1 · Aloof Side-Eye', '2 · Intrigued Smirk', '3 · Earned Purr 🔥'].map((lbl, idx) => (
           <div
             key={lbl}
-            className={`rounded-lg py-1 px-2 text-center text-[10px] font-extrabold border ${
+            className={`rounded-lg py-1 px-2 text-center text-xs font-extrabold border ${
               step > idx
                 ? 'border-emerald-400 bg-emerald-500/25 text-emerald-200'
                 : idx === step
@@ -781,7 +781,7 @@ const BlackCatPaceGame: React.FC<{
             <button
               type="button"
               onClick={handlePatientBeat}
-              className="rounded-xl border-2 border-black bg-gradient-to-r from-amber-400 to-teal-400 px-3 py-2 text-left text-xs font-extrabold text-slate-950 hover:brightness-110 cursor-pointer"
+              className="rounded-xl border border-white/14 bg-gradient-to-r from-amber-400 to-teal-400 px-3 py-2 text-left text-xs font-extrabold text-slate-950 hover:brightness-110 cursor-pointer"
             >
               {BLACK_CAT_BEATS[step].rightMove}
             </button>
@@ -793,7 +793,7 @@ const BlackCatPaceGame: React.FC<{
               {BLACK_CAT_BEATS[step].rushTrap}
             </button>
           </div>
-          {hissNote && <p className="text-[11px] font-bold text-rose-300">{hissNote}</p>}
+          {hissNote && <p className="text-xs font-bold text-rose-300">{hissNote}</p>}
         </div>
       ) : (
         <div className="text-xs font-extrabold text-emerald-300">

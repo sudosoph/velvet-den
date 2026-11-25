@@ -55,34 +55,34 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-30 border-b-3 border-black bg-[#12091c]/95 backdrop-blur-md">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-3 py-2.5 sm:px-6">
+    <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0d0917]/90 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <button
           type="button"
           onClick={handleLogoClick}
-          className="group flex items-center gap-2.5 text-left cursor-pointer"
+          className="group flex items-center gap-3 text-left cursor-pointer"
           title="Home (Tip: Click 5x to toggle Founder Unlimited Test Mode)"
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-black bg-gradient-to-br from-rose-500 to-amber-400 text-xl shadow-[3px_3px_0px_#09050f]">
+          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-500 to-amber-400 text-xl shadow-md">
             🐆
           </span>
           <div>
-            <div className="font-display text-xl sm:text-2xl leading-none text-white group-hover:text-amber-300 transition-colors">
+            <div className="font-display text-lg sm:text-xl text-white group-hover:text-amber-200 transition-colors">
               {BRAND_CONFIG.name}
             </div>
-            <div className="hidden sm:block text-[11px] text-slate-300">
+            <div className="hidden md:block text-xs text-slate-400">
               {BRAND_CONFIG.subtitle}
             </div>
           </div>
         </button>
 
-        <nav className="flex w-full sm:w-auto overflow-x-auto no-scrollbar items-center gap-1.5 sm:gap-2 pb-0.5 sm:pb-0">
+        <nav className="flex w-full sm:w-auto overflow-x-auto no-scrollbar items-center gap-2 pb-0.5 sm:pb-0">
           <button
             type="button"
             onClick={onOpenLiveInbox}
-            className="inline-flex items-center gap-1.5 rounded-lg border-2 border-black bg-[#1c2b3a] px-2.5 py-1.5 text-xs font-extrabold text-amber-300 hover:bg-[#25394d] cursor-pointer"
+            className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-white/12 bg-white/5 px-3 py-2 text-xs sm:text-sm font-semibold text-slate-100 hover:bg-white/10 transition cursor-pointer"
           >
-            <MessageCircle className="h-3.5 w-3.5 text-teal-300" />
+            <MessageCircle className="h-4 w-4 text-rose-400" />
             <span>AI Text</span>
           </button>
 
@@ -90,9 +90,9 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             <button
               type="button"
               onClick={onOpenPopTrivia}
-              className="inline-flex items-center gap-1 rounded-lg border-2 border-black bg-[#2a1237] px-2.5 py-1.5 text-xs font-extrabold text-pink-200 hover:bg-[#381849] cursor-pointer"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-white/12 bg-white/5 px-3 py-2 text-xs sm:text-sm font-semibold text-slate-100 hover:bg-white/10 transition cursor-pointer"
             >
-              <Award className="h-3.5 w-3.5 text-amber-300" />
+              <Award className="h-4 w-4 text-amber-300" />
               <span>Quiz</span>
             </button>
           )}
@@ -100,36 +100,36 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onOpenFieldGuide}
-            className="inline-flex items-center gap-1.5 rounded-lg border-2 border-black bg-slate-800 px-2.5 py-1.5 text-xs font-bold text-teal-300 hover:bg-slate-700 cursor-pointer"
+            className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-white/12 bg-white/5 px-3 py-2 text-xs sm:text-sm font-semibold text-slate-100 hover:bg-white/10 transition cursor-pointer"
           >
-            <BookOpen className="h-3.5 w-3.5" />
+            <BookOpen className="h-4 w-4 text-amber-200" />
             <span>Field Guide</span>
           </button>
 
           <button
             type="button"
             onClick={() => onSelectTab(activeTab === 'journal' ? 'game' : 'journal')}
-            className={`inline-flex items-center gap-1.5 rounded-lg border-2 border-black px-2.5 py-1.5 text-xs font-bold cursor-pointer ${
+            className={`shrink-0 inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs sm:text-sm font-semibold transition cursor-pointer ${
               activeTab === 'journal'
-                ? 'bg-teal-400 text-slate-950'
-                : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                ? 'border-amber-300/60 bg-amber-300 text-slate-950'
+                : 'border-white/12 bg-white/5 text-slate-100 hover:bg-white/10'
             }`}
           >
-            <Newspaper className="h-3.5 w-3.5" />
+            <Newspaper className="h-4 w-4" />
             <span>Dating Guides</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenBoutique}
-            className="inline-flex items-center gap-1.5 rounded-lg border-2 border-black bg-gradient-to-r from-amber-400 to-rose-400 px-2.5 py-1.5 text-xs font-extrabold text-slate-950 shadow-[2px_2px_0px_#09050f] hover:brightness-105 cursor-pointer"
+            className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-400 px-3.5 py-2 text-xs sm:text-sm font-bold text-slate-950 shadow-sm hover:brightness-105 transition cursor-pointer"
           >
             {wallet.isFounderUnlimited ? (
-              <Wrench className="h-3.5 w-3.5" />
+              <Wrench className="h-4 w-4" />
             ) : wallet.isVip ? (
-              <Crown className="h-3.5 w-3.5" />
+              <Crown className="h-4 w-4" />
             ) : (
-              <Sparkles className="h-3.5 w-3.5" />
+              <Sparkles className="h-4 w-4" />
             )}
             <span>
               {wallet.isFounderUnlimited
@@ -146,32 +146,36 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               href={liveTipUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-lg border-2 border-black bg-pink-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-[2px_2px_0px_#09050f] hover:bg-pink-500"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-rose-400/30 bg-rose-500/15 px-3 py-2 text-xs sm:text-sm font-semibold text-rose-200 hover:bg-rose-500/25 transition"
               title="Buy the creator an Espresso Martini"
             >
-              <Coffee className="h-3.5 w-3.5" />
-              <span className="hidden md:inline">Tip Martini</span>
+              <Coffee className="h-4 w-4" />
+              <span className="hidden lg:inline">Tip Martini</span>
             </a>
           ) : (
             <button
               type="button"
               onClick={onOpenBoutique}
-              className="inline-flex items-center gap-1 rounded-lg border-2 border-black bg-pink-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-[2px_2px_0px_#09050f] hover:bg-pink-500 cursor-pointer"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-xl border border-rose-400/30 bg-rose-500/15 px-3 py-2 text-xs sm:text-sm font-semibold text-rose-200 hover:bg-rose-500/25 transition cursor-pointer"
               title="Open Creator Tip Jar & VIP Lounge"
             >
-              <Coffee className="h-3.5 w-3.5" />
-              <span className="hidden md:inline">Tip Martini</span>
+              <Coffee className="h-4 w-4" />
+              <span className="hidden lg:inline">Tip Martini</span>
             </button>
           )}
 
           <button
             type="button"
             onClick={() => setMuted(toggleSoundMute())}
-            className="inline-flex items-center justify-center rounded-lg border-2 border-black bg-slate-800 p-1.5 text-slate-200 hover:bg-slate-700 cursor-pointer"
+            className="shrink-0 inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/5 p-2 text-slate-200 hover:bg-white/10 transition cursor-pointer"
             aria-label={muted ? 'Unmute game audio' : 'Mute game audio'}
             title={muted ? 'Unmute game sound effects' : 'Mute game sound effects'}
           >
-            {muted ? <VolumeX className="h-4 w-4 text-rose-400" /> : <Volume2 className="h-4 w-4 text-teal-300" />}
+            {muted ? (
+              <VolumeX className="h-4 w-4 text-rose-400" />
+            ) : (
+              <Volume2 className="h-4 w-4 text-amber-300" />
+            )}
           </button>
         </nav>
       </div>

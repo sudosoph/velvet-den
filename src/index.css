@@ -2,72 +2,97 @@
 
 @layer base {
   :root {
-    --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+    --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     font-family: var(--font-sans);
+    background-color: #0b0813;
     background-image:
-      radial-gradient(circle at 12% 10%, rgba(244, 63, 94, 0.24), transparent 36%),
-      radial-gradient(circle at 88% 14%, rgba(20, 184, 166, 0.2), transparent 34%),
-      radial-gradient(circle at 50% 92%, rgba(245, 158, 11, 0.16), transparent 44%);
+      radial-gradient(ellipse 75% 50% at 15% 5%, rgba(244, 63, 94, 0.16), transparent 60%),
+      radial-gradient(ellipse 65% 45% at 85% 12%, rgba(251, 191, 36, 0.11), transparent 58%),
+      radial-gradient(ellipse 70% 55% at 50% 96%, rgba(190, 24, 93, 0.14), transparent 62%);
     background-attachment: fixed;
+    color: #f8fafc;
+    line-height: 1.6;
     overflow-x: hidden;
   }
 }
 
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-.vice-panel {
-  border: 3px solid #09050f;
-  box-shadow: 6px 6px 0px #09050f;
+/* Cohesive Midnight Champagne Glass Surface System */
+.vice-panel,
+.lounge-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 20px 46px -14px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.lounge-subcard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .vice-toast {
-  animation: toastPop 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+  animation: toastPop 0.36s cubic-bezier(0.18, 0.89, 0.32, 1.24) both;
 }
 
 @keyframes toastPop {
   0% {
     opacity: 0;
-    transform: translateY(10px) scale(0.92) rotate(-2deg);
+    transform: translateY(10px) scale(0.94);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes shockZoom {
   0% {
-    transform: scale(0.82);
+    transform: scale(0.88);
     opacity: 0;
   }
-  45% {
-    transform: scale(1.1) rotate(-2deg);
+  50% {
+    transform: scale(1.04);
     opacity: 1;
   }
-  70% {
-    transform: scale(0.97) rotate(1.5deg);
-  }
   100% {
-    transform: scale(1) rotate(-0.8deg);
+    transform: scale(1);
     opacity: 1;
   }
 }
 
 .animate-shock-zoom {
-  animation: shockZoom 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+  animation: shockZoom 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.24) both;
 }
 
 @keyframes stageSlideIn {
   0% {
     opacity: 0;
-    transform: translateY(18px) scale(0.98);
+    transform: translateY(14px) scale(0.99);
   }
   100% {
     opacity: 1;
@@ -76,20 +101,20 @@
 }
 
 .animate-stage-in {
-  animation: stageSlideIn 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: stageSlideIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes floatParticle {
   0% {
     opacity: 0;
-    transform: translateY(16px) scale(0.6);
+    transform: translateY(14px) scale(0.7);
   }
   25% {
     opacity: 1;
   }
   100% {
     opacity: 0;
-    transform: translateY(-95px) scale(1.25) rotate(10deg);
+    transform: translateY(-90px) scale(1.22);
   }
 }
 
@@ -100,14 +125,14 @@
 @keyframes swipeFlyLeft {
   to {
     opacity: 0;
-    transform: translateX(-130%) rotate(-22deg);
+    transform: translateX(-130%) rotate(-18deg);
   }
 }
 
 @keyframes swipeFlyRight {
   to {
     opacity: 0;
-    transform: translateX(130%) rotate(22deg);
+    transform: translateX(130%) rotate(18deg);
   }
 }
 
@@ -126,45 +151,45 @@
     transform: scale(1.02) translate3d(0, 0, 0);
   }
   50% {
-    transform: scale(1.1) translate3d(-1.5%, -1%, 0);
+    transform: scale(1.09) translate3d(-1.4%, -0.8%, 0);
   }
   100% {
-    transform: scale(1.04) translate3d(1%, -0.5%, 0);
+    transform: scale(1.04) translate3d(1%, -0.4%, 0);
   }
 }
 
 .animate-ken-burns {
-  animation: kenBurnsScene 14s ease-in-out infinite alternate;
+  animation: kenBurnsScene 15s ease-in-out infinite alternate;
 }
 
 @keyframes screenShake {
   0%, 100% { transform: translateX(0); }
-  18% { transform: translateX(-8px) rotate(-0.8deg); }
-  36% { transform: translateX(8px) rotate(0.8deg); }
-  54% { transform: translateX(-6px) rotate(-0.5deg); }
-  72% { transform: translateX(6px) rotate(0.5deg); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
 }
 
 .animate-screen-shake {
-  animation: screenShake 0.44s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation: screenShake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 @keyframes statFlyUp {
   0% {
     opacity: 0;
-    transform: translateY(18px) scale(0.75);
+    transform: translateY(16px) scale(0.8);
   }
   20% {
     opacity: 1;
-    transform: translateY(0px) scale(1.08);
+    transform: translateY(0px) scale(1.06);
   }
   80% {
     opacity: 1;
-    transform: translateY(-28px) scale(1);
+    transform: translateY(-26px) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-48px) scale(0.95);
+    transform: translateY(-44px) scale(0.96);
   }
 }
 
@@ -175,14 +200,14 @@
 @keyframes comboPulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.45);
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.35);
   }
   50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 18px 4px rgba(244, 63, 94, 0.45);
+    transform: scale(1.04);
+    box-shadow: 0 0 18px 3px rgba(244, 63, 94, 0.4);
   }
 }
 
 .animate-combo-pulse {
-  animation: comboPulse 1.8s ease-in-out infinite;
+  animation: comboPulse 2s ease-in-out infinite;
 }
