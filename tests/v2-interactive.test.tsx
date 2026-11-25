@@ -29,11 +29,12 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     }
 
     expect(getSwipeDeckForRole('her')[0].id).toBe('connor-bottle-trap');
+    expect(APP_SWIPE_PROFILES.some((p) => p.id === 'brandon-roblox-dl-trap')).toBe(true);
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 52 subplots accurately—including Lifestyle Micro-Details, Pop-Culture Renaissance, Cub "Grooming" Glow-Up, Hormonal/Menopause real talk, Bench-Press, and Sister-Age Shock across all tracks', () => {
-    expect(EPISODES.length).toBe(52);
+  it('routes 59 subplots accurately—including Forum Red Flags, Grown-Son Same-Age, Sibling Birth-Year, Parents, Wedding +1, 1900s & Roblox across all tracks', () => {
+    expect(EPISODES.length).toBe(59);
     expect(HER_ARCHETYPES.length).toBe(14);
     expect(HIS_ARCHETYPES.length).toBe(8);
 
@@ -42,11 +43,12 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     const maya36 = HER_ARCHETYPES.find((h) => h.id === 'maya-puma-mom')!;
     const chloe37 = HER_ARCHETYPES.find((h) => h.id === 'chloe-puma-dogmom')!;
     const claire45 = HER_ARCHETYPES.find((h) => h.id === 'claire-cougar-exec')!;
+    const serena43 = HER_ARCHETYPES.find((h) => h.id === 'serena-princess-cougar')!;
     const valerie53 = HER_ARCHETYPES.find((h) => h.id === 'valerie-jaguar-trail')!;
     const celeste62 = HER_ARCHETYPES.find((h) => h.id === 'celeste-panther-icon')!;
     const leo25 = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
 
-    // 6-Year "Junior Cougar" (38F × 32M = 6-yr gap): gets 2008 math, bench press, cub grooming, pop-culture renaissance, 30s low-iron ferritin, sister-age shock, 7-wedding summer, 6-yr clock Doubt, and Miley & Maxx sweet-spot finale!
+    // 6-Year "Junior Cougar" (38F × 32M = 6-yr gap): gets 2008 math, bench press, cub grooming, pop-culture renaissance, 30s low-iron ferritin, sister-age shock, younger sibling birth-year twin, 7-wedding summer, 6-yr clock Doubt, and Miley & Maxx sweet-spot finale!
     const juniorPairing = analyzePairing(sienna38, miles32, 'her');
     expect(juniorPairing.ageGap).toBe(6);
     expect(juniorPairing.badgeLabel).toBe('6-Year Junior Cougar Matchup');
@@ -57,19 +59,23 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(juniorIds).toContain('pop-culture-cougar-renaissance');
     expect(juniorIds).toContain('puma-low-iron-ferritin-care');
     expect(juniorIds).toContain('steamy-texts-sister-age-shock');
+    expect(juniorIds).toContain('younger-sibling-same-birth-year');
     expect(juniorIds).toContain('junior-cougar-condo-vs-lease');
     expect(juniorIds).toContain('junior-cougar-wedding-season-marathon');
     expect(juniorIds).toContain('doubt-junior-cougar-timeline-sync');
     expect(juniorIds).toContain('junior-cougar-sweet-spot-future');
     expect(juniorIds).not.toContain('waiter-son-incident');
+    expect(juniorIds).not.toContain('grown-son-same-age-collision');
     expect(juniorIds).not.toContain('babysitter-flake-test');
 
-    // 37F Child-Free Divorced Dog-Mom Puma × 25M Cub: gets rescue-dog vetting, zero weaponized incompetence, jaded divorcee brunch, peer-cynicism Doubt stage, and DINK dog-pack future—ZERO kid/babysitter scenes!
+    // 37F Child-Free Divorced Dog-Mom Puma × 25M Cub: gets rescue-dog vetting, zero weaponized incompetence, Roblox friends shock, sibling birth-year twin, jaded divorcee brunch, peer-cynicism Doubt stage, and DINK dog-pack future—ZERO kid/babysitter/grown-son scenes!
     const dogMomIds = createRun(analyzePairing(chloe37, leo25, 'her')).episodeQueue.map(
       (e) => e.id,
     );
     expect(dogMomIds).toContain('puma-dog-park-vetting');
     expect(dogMomIds).toContain('puma-weaponized-incompetence-test');
+    expect(dogMomIds).toContain('cub-friends-memes-roblox-shock');
+    expect(dogMomIds).toContain('younger-sibling-same-birth-year');
     expect(dogMomIds).toContain('puma-brunch-cynical-peers');
     expect(dogMomIds).toContain('doubt-puma-peer-cynicism');
     expect(dogMomIds).toContain('puma-dogmom-dink-future');
@@ -77,12 +83,15 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(dogMomIds).not.toContain('puma-kid-intro-boundary');
     expect(dogMomIds).not.toContain('puma-boys-groupchat-kid');
     expect(dogMomIds).not.toContain('waiter-son-incident');
+    expect(dogMomIds).not.toContain('grown-son-same-age-collision');
 
-    // 36F Single-Mom Puma × 25M Cub (11-yr gap): gets babysitter, 6-month kid boundary, Puma Doubt stage, 30s timeline; NEVER waiter-son-incident or dog-mom DINK track!
+    // 36F Single-Mom Puma × 25M Cub (11-yr gap): gets babysitter, 6-month kid boundary, Roblox friends, wedding +1 debut, Puma Doubt stage, 30s timeline; NEVER waiter-son-incident or grown-son-same-age-collision!
     const pumaQueue = createRun(analyzePairing(maya36, leo25, 'her')).episodeQueue;
     const pumaIds = pumaQueue.map((e) => e.id);
     expect(pumaIds).toContain('babysitter-flake-test');
     expect(pumaIds).toContain('puma-kid-intro-boundary');
+    expect(pumaIds).toContain('cub-friends-memes-roblox-shock');
+    expect(pumaIds).toContain('first-wedding-plus-one-debut');
     expect(pumaIds).toContain('doubt-puma-divorce-scar');
     expect(pumaIds).toContain('puma-one-and-done-clock');
     expect(pumaIds.indexOf('doubt-puma-divorce-scar')).toBeLessThan(
@@ -90,21 +99,35 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     );
     expect(pumaIds).not.toContain('puma-dog-park-vetting');
     expect(pumaIds).not.toContain('waiter-son-incident');
+    expect(pumaIds).not.toContain('grown-son-same-age-collision');
     expect(pumaIds).not.toContain('adult-kid-brunch');
 
-    // 45F Cougar × 25M Cub: hits Perimenopause Surge/3 AM Sheets, Bench Press, Sister-Age Shock, Stage 5 Doubt, and Stage 6 fertility/kids finale!
+    // 45F Cougar (with adult_children) × 25M Cub: hits Pocket-Secret Test, 1900s/Venmo Whiplash, Perimenopause, Roblox Friends, Sibling Birth-Year, Wedding +1, Same-Age Mom, Grown-Son Same-Age Collision, Stage 5 Doubt & Stage 6 finale!
     const cougarIds = createRun(analyzePairing(claire45, leo25, 'her')).episodeQueue.map(
       (e) => e.id,
     );
+    expect(cougarIds).toContain('forum-redflag-pocket-secret-test');
+    expect(cougarIds).toContain('generational-1900s-venmo-whiplash');
     expect(cougarIds).toContain('cub-bench-press-cougar-training');
     expect(cougarIds).toContain('cougar-perimenopause-surge-nightsweats');
     expect(cougarIds).toContain('steamy-texts-sister-age-shock');
+    expect(cougarIds).toContain('cub-friends-memes-roblox-shock');
+    expect(cougarIds).toContain('younger-sibling-same-birth-year');
+    expect(cougarIds).toContain('first-wedding-plus-one-debut');
+    expect(cougarIds).toContain('meeting-his-parents-same-age-mom');
+    expect(cougarIds).toContain('grown-son-same-age-collision');
     expect(cougarIds).toContain('doubt-cougar-honeymoon-cliff');
     expect(cougarIds.indexOf('doubt-cougar-honeymoon-cliff')).toBeLessThan(
       cougarIds.indexOf('fertility-kids-crossroads'),
     );
 
-    // 53F Jaguar × 25M Cub (28-yr gap): gets 6 PM Gen-X call, Pilates shake, Menopause Intimacy Masterclass, Sister-Age Shock, waiter-son-incident, adult-kid-brunch, Stage 5 Doubt, and Stage 6 LAT finale!
+    // Child-free 43F Cougar (Serena) × 25M Cub does NOT see grown-son-same-age-collision!
+    const princessCougarIds = createRun(analyzePairing(serena43, leo25, 'her')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(princessCougarIds).not.toContain('grown-son-same-age-collision');
+
+    // 53F Jaguar × 25M Cub (28-yr gap): gets 6 PM Gen-X call, Pilates shake, Menopause Intimacy Masterclass, Roblox Friends, Wedding +1, Same-Age Mom, Grown-Son Same-Age Collision, adult-kid-brunch, Stage 5 Doubt & Stage 6 LAT finale!
     const jaguarIds = createRun(analyzePairing(valerie53, leo25, 'her')).episodeQueue.map(
       (e) => e.id,
     );
@@ -112,17 +135,24 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(jaguarIds).toContain('jaguar-pilates-core-shake');
     expect(jaguarIds).toContain('menopause-intimacy-masterclass');
     expect(jaguarIds).toContain('steamy-texts-sister-age-shock');
+    expect(jaguarIds).toContain('cub-friends-memes-roblox-shock');
+    expect(jaguarIds).toContain('first-wedding-plus-one-debut');
+    expect(jaguarIds).toContain('meeting-his-parents-same-age-mom');
     expect(jaguarIds).toContain('waiter-son-incident');
+    expect(jaguarIds).toContain('grown-son-same-age-collision');
     expect(jaguarIds).toContain('adult-kid-brunch');
     expect(jaguarIds).toContain('doubt-jaguar-worlds-collide');
     expect(jaguarIds).toContain('jaguar-lat-living-apart');
 
-    // 62F Panther × 25M Cub (37-yr gap): gets black-tie gala, Menopause Intimacy Masterclass, fierce friends, Stage 5 Doubt, and Stage 6 "75 and 45" timeline!
+    // 62F Panther × 25M Cub (37-yr gap): gets black-tie gala, Menopause Intimacy Masterclass, Wedding +1, Same-Age Mom, Grown-Son Same-Age Collision, fierce friends, Stage 5 Doubt & Stage 6 "75 and 45" timeline!
     const pantherIds = createRun(analyzePairing(celeste62, leo25, 'him')).episodeQueue.map(
       (e) => e.id,
     );
     expect(pantherIds).toContain('panther-black-tie-gala');
     expect(pantherIds).toContain('menopause-intimacy-masterclass');
+    expect(pantherIds).toContain('first-wedding-plus-one-debut');
+    expect(pantherIds).toContain('meeting-his-parents-same-age-mom');
+    expect(pantherIds).toContain('grown-son-same-age-collision');
     expect(pantherIds).toContain('panther-protective-friends');
     expect(pantherIds).toContain('doubt-panther-real-world-gravity');
     expect(pantherIds).toContain('panther-timeline-75-45');

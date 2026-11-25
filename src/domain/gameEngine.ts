@@ -120,6 +120,7 @@ export function buildEpisodeQueue(
 
     pushById('houseboy-sunday-sanctuary');
     pushById('pop-culture-cougar-renaissance');
+    pushById('younger-sibling-same-birth-year');
     pushById('junior-cougar-wedding-season-marathon');
     pushById('doubt-junior-cougar-timeline-sync');
 
@@ -153,6 +154,8 @@ export function buildEpisodeQueue(
 
       pushById('houseboy-sunday-sanctuary');
       pushById('pop-culture-cougar-renaissance');
+      pushById('cub-friends-memes-roblox-shock');
+      pushById('younger-sibling-same-birth-year');
       pushById('puma-brunch-cynical-peers');
       pushById('doubt-puma-peer-cynicism');
 
@@ -182,6 +185,8 @@ export function buildEpisodeQueue(
 
       pushById('houseboy-sunday-sanctuary');
       pushById('pop-culture-cougar-renaissance');
+      pushById('cub-friends-memes-roblox-shock');
+      pushById('first-wedding-plus-one-debut');
       pushById('puma-boys-groupchat-kid');
       pushById('doubt-puma-divorce-scar');
 
@@ -199,7 +204,9 @@ export function buildEpisodeQueue(
   } else if (tier === 'cougar') {
     // 40s Cougar / Princess Cougar Arc (with Bench Press, Cub Grooming, Perimenopause, Pop-Culture & Sister-Shock!)
     pushById('check-drop');
+    pushById('forum-redflag-pocket-secret-test');
     pushById('code-switch-texting');
+    pushById('generational-1900s-venmo-whiplash');
     if (tags.has('princess_treatment')) {
       pushById('princess-soft-life');
     } else {
@@ -223,8 +230,15 @@ export function buildEpisodeQueue(
 
     pushById('houseboy-sunday-sanctuary');
     pushById('pop-culture-cougar-renaissance');
+    pushById('cub-friends-memes-roblox-shock');
+    pushById('younger-sibling-same-birth-year');
+    pushById('first-wedding-plus-one-debut');
+    pushById('meeting-his-parents-same-age-mom');
     if (ageGap >= 18) {
       pushById('waiter-son-incident');
+      if (tags.has('adult_children')) {
+        pushById('grown-son-same-age-collision');
+      }
     }
     pushById('cougar-boys-groupchat-ceo');
     pushById('doubt-cougar-honeymoon-cliff');
@@ -259,7 +273,11 @@ export function buildEpisodeQueue(
 
     pushById('houseboy-sunday-sanctuary');
     pushById('pop-culture-cougar-renaissance');
+    pushById('cub-friends-memes-roblox-shock');
+    pushById('first-wedding-plus-one-debut');
+    pushById('meeting-his-parents-same-age-mom');
     pushById('waiter-son-incident');
+    pushById('grown-son-same-age-collision');
     pushById('adult-kid-brunch');
     pushById('doubt-jaguar-worlds-collide');
 
@@ -290,7 +308,10 @@ export function buildEpisodeQueue(
 
     pushById('houseboy-sunday-sanctuary');
     pushById('pop-culture-cougar-renaissance');
+    pushById('first-wedding-plus-one-debut');
+    pushById('meeting-his-parents-same-age-mom');
     pushById('waiter-son-incident');
+    pushById('grown-son-same-age-collision');
     pushById('panther-protective-friends');
     pushById('doubt-panther-real-world-gravity');
 

@@ -540,6 +540,54 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       },
     ],
   },
+  {
+    id: 'brandon-roblox-dl-trap',
+    name: 'Brandon "Brando"',
+    age: 24,
+    height: '5\'10"',
+    zodiac: 'Pisces',
+    lookBadge: '"Discrete Only" • 3 AM Roblox Trap',
+    occupation: '"Streamer / Between Gigs"',
+    distance: '5 miles away',
+    activeAgo: 'Active 1m ago',
+    spotifyAnthem: '100 gecs — money machine',
+    tinderBio:
+      'Looking for something discrete / lowkey after 10 PM 👀 Never dated someone born in the late 1900s before lol kinda wild!! Catch me on Roblox Dress to Impress w the boys till 4 AM 🎮',
+    hingePromptQuestion: 'Ideal first linkup',
+    hingePromptAnswer: 'Come thru after 10:30 PM once my roommates hop on Roblox—no labels, keep it private 🤫',
+    secondPromptQuestion: 'Green flag about me',
+    secondPromptAnswer: 'My mom still does my laundry on Sundays so my hoodies smell fresh.',
+    ageShockZoom: true,
+    ageShockQuipHer:
+      '"BORN IN THE LATE 1900s"?! "DISCRETE AFTER 10 PM"?! AND ROBLOX TILL 4 AM?! Every single r/CougarsAndCubs alarm bell just exploded!',
+    ageShockQuipHim:
+      'Study Forum Red Flag #1: writing "discrete/lowkey" + calling 1984 "the late 1900s" gets you launched into orbit.',
+    lookingFor: 'Something casual & discrete',
+    lookingForSubtext: 'Forum Warning #1: "Discrete" means he either has a girlfriend or hides you from daylight.',
+    interests: ['Nightlife', 'Roblox', 'Discord Memes', 'Clubs', 'Energy Drinks'],
+    openingDm: 'yo 👀 crazy ur from the 1900s lol u down for a discrete late night link tn??',
+    xrayLeak:
+      'X-RAY SCAN: Hides older women from his friends, plays Roblox till 4 AM on a floor mattress, and spells discreet wrong.',
+    isGreenFlagMatch: false,
+    photos: [
+      {
+        caption: 'Photo 1 of 2 • Daylight Kitchen Smile (Borrowed Apartment)',
+        shortTab: 'Photo 1 (The Bait)',
+        vibeNote: 'Looks harmless enough in Photo 1... read that bio and check Photo 2!',
+        variant: 'home_chef_linen',
+        photoUrl: './images/cast/leo-25m.jpg',
+      },
+      {
+        caption: 'Photo 2 of 2 • 3:40 AM Roblox Headset & Floor Mattress',
+        shortTab: 'Photo 2 (Roblox 🚩)',
+        vibeNote:
+          '🚨 FORUM RED FLAG COMBO: "Discrete after 10 PM" + "born in the 1900s" + 3 AM Roblox nest!',
+        variant: 'crew_socks_mirror',
+        photoUrl: './images/cast/tyler-mattress-trap.jpg',
+        isRedFlagPhoto: true,
+      },
+    ],
+  },
 ];
 
 export const HER_SWIPE_PROFILES: SwipeProfile[] = [

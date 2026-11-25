@@ -2501,6 +2501,348 @@ export const EPISODES: Episode[] = [
     ],
   },
 
+  // --- 7 FORUM RED-FLAG, GROWN-SON / SIBLING SAME-AGE, PARENTS, WEDDING +1 & ROBLOX EPISODES ---
+  {
+    id: 'forum-redflag-pocket-secret-test',
+    act: 2,
+    stage: 2,
+    title: 'Forum Red Flag #1: "After-9-PM Secret Link" vs. Daylight Sidewalk Pride',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "PSA to new Cougars: if he says \'discreet\', never takes you to 11 AM daylight brunch, or drops your hand in public—RUN"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'Every veteran on r/CougarsAndCubs warns newcomers about the **"Pocket Girlfriend" Red Flag**: younger guys who melt over you behind closed doors at 10 PM, yet mysteriously avoid busy Saturday farmers markets, daylight patios, or walking hand-in-hand past people their age. Time to see how {hisName} ({hisAge}M) handles bright Saturday noon sunlight.',
+    setupHim:
+      'Rule #1 from older women on the forums: nothing dries up attraction faster than feeling like a younger man’s "secret after-hours experiment." It’s Saturday at 11:30 AM—how do you court {herName} ({herAge}F) in broad daylight?',
+    choices: [
+      {
+        labelHer: 'He books a sunlit 11:30 AM street-side brunch patio in the busiest neighborhood in town, holds your hand walking past his own gym crowd, and beams introducing you.',
+        labelHim: 'Book the sunniest front-row sidewalk brunch table at 11:30 AM, reach for her hand effortlessly on the crosswalk, and radiate unmistakable pride.',
+        outcomeHer:
+          'Zero shadows, zero "keep it lowkey" nonsense—walking down the avenue in noon sunlight with a man who looks proud to be beside you passes the #1 forum test!',
+        outcomeHim:
+          'She squeezes your fingers at the crosswalk smiling: "Okay, you officially passed the Saturday Daylight Test."',
+        toastBanner: 'DAYLIGHT PRIDE CERTIFIED! • CHIVALRY +25 • EQ +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Saturday Daylight Pride Certified',
+      },
+      {
+        labelHer: 'He only texts after 9:30 PM ("come over lowkey 👀") and drops your hand the second two 24-year-old girls walk past.',
+        labelHim: 'Suggest only late-night indoor hangouts and pull your hand back when people your age walk by.',
+        outcomeHer:
+          'We don’t do secret pocket girlfriends in this club—blocked before you reach the corner!',
+        outcomeHim:
+          'Flinching in public is the fastest one-way ticket out of The Velvet Den.',
+        toastBanner: 'RED FLAG! • "SECRET POCKET" VIOLATION (-25)',
+        deltas: { maturity: -25, chivalry: -25, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Hit the Saturday farmers market together for coffee, peaches, and flowers in full daylight.',
+        labelHim: 'Invite her on a Saturday morning farmers-market coffee & flower stroll.',
+        outcomeHer:
+          'Easy, public, romantic daylight energy.',
+        outcomeHim:
+          'Daytime dates prove genuine relationship intent immediately.',
+        toastBanner: 'DAYLIGHT MARKET CHARM +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 15, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'generational-1900s-venmo-whiplash',
+    act: 2,
+    stage: 2,
+    title: '"Back in the Late 1900s?!", Voicemail Panic & Public Venmo Emojis',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "My 25yo cub innocently asked what concerts were like \'in the late 1900s\'—right after panicking because I left him a voicemail"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'Three generational micro-collisions happen in ten minutes: first, you left {hisName} ({hisAge}M) a normal 20-second voicemail and he called back breathless thinking someone was in the ER (*"Nobody under 30 leaves voicemails unless a meteor hit!!"*). Second, you see his friends’ unhinged public Venmo feed. Third, while talking 1999 music, he earnestly says: *"Wait, tickets were $30 back in the **late 1900s**?!"*',
+    setupHim:
+      'Generational culture clash alert with {herName} ({herAge}F): her voicemail notification nearly gave you a heart attack, she prints hotel confirmations as PDFs just in case, and you accidentally referred to 1998 as **"the late 1900s"** out loud.',
+    codeSwitchRawImpulse: {
+      rawThought: 'Whoa wait so did u have color TV back in the 1900s or nah 💀💀',
+      warningNote:
+        'ABORT!! Calling the 1990s "the 1900s" twice in one night carries a mandatory 48-hour couch sentence!',
+    },
+    choices: [
+      {
+        labelHer: 'He catches himself mid-"1900s" horrified, flips his Venmo privacy to Private immediately, queues 1998 Lauryn Hill on vinyl to atone, and kisses you laughing.',
+        labelHim: 'Apologize laughing for the "late 1900s" slip, switch your Venmo default to Private like an adult, and put on *The Miseducation of Lauryn Hill* as peace offering.',
+        outcomeHer:
+          'You throw one velvet sofa pillow at his head, burst out laughing, and forgive the 21st-century baby immediately.',
+        outcomeHim:
+          'She hits you with a throw pillow laughing—and spends the next hour teaching you peak 1999 album lore.',
+        toastBanner: '"LATE 1900s" SURVIVED! • CHEMISTRY +25 • EQ +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Survived Calling 1998 "The 1900s"',
+      },
+      {
+        labelHer: 'He doubles down calling you a "20th-century historical artifact" AND posts a public Venmo memo with 🐆🍼 emojis.',
+        labelHim: 'Make five more "20th-century relic" jokes and send a public Venmo request with cougar emojis.',
+        outcomeHer:
+          'Public Venmo cougar emojis?! Enjoy singlehood in the 2020s!',
+        outcomeHim:
+          'Broadcasting private relationship jokes on public Venmo is peak immaturity.',
+        toastBanner: 'RED FLAG! • PUBLIC VENMO CRINGE (-20)',
+        deltas: { maturity: -25, chivalry: -15, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Trade generational tech lessons: he sets up your Apple Wallet shortcuts; you teach him voicemail calm & collar ironing.',
+        labelHim: 'Swap skills fairly: organize her travel passes while she upgrades your wine & wardrobe game.',
+        outcomeHer:
+          'Best cross-generational skill swap ever.',
+        outcomeHim:
+          'Playful teamwork turns every micro-gap into an inside joke.',
+        toastBanner: 'CROSS-GEN TEAMWORK +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'cub-friends-memes-roblox-shock',
+    act: 3,
+    stage: 4,
+    title: 'Meeting His Younger Friends: Brainrot Memes & Playing Roblox at 10 PM?!',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "My 25yo cub is a gentleman alone—then I met his friends and realized they just AirDrop unhinged memes and play Roblox Dress to Impress!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'One-on-one, {hisName} ({hisAge}M) cooks ribeye and reads hardcovers. Tonight you stop by his college buddies’ apartment for a quick pre-game drink—and experience pure anthropological shock: four 24-year-old men communicating entirely in deep-fried Discord memes, arguing passionately over **Roblox *Dress to Impress*** runway scores on a 75-inch TV, and asking if you want a lukewarm White Claw or "wanna hop in our Roblox server?!"',
+    setupHim:
+      'Worlds collide: you brought sophisticated {herName} ({herAge}F) to say hi to your boys for 40 minutes before dinner—right as Bro #1 AirDrops cursed memes and Bro #2 boots up **Roblox** on the living-room TV yelling about obby checkpoints.',
+    choices: [
+      {
+        labelHer: 'He pours your wine into a real glass he brought, playfully roasts his Roblox-obsessed roommates, wins a 2-minute round *for* you laughing, and whisks you out at minute 40 to your candlelit reservation!',
+        labelHim: 'Pour her chilled wine in real glassware, keep her right at the center of warm conversation, laugh off your boys’ Roblox chaos without regressing into it, and head out right on schedule at 8 PM.',
+        outcomeHer:
+          'Seeing the hilarious contrast between his Roblox-playing buddies and how grown, attentive, and protective {hisName} is with you actually makes him look *ten times* hotter!',
+        outcomeHim:
+          'In the Uber to dinner she’s crying laughing: "Your friends are literally 12-year-olds on Roblox—how on earth did YOU turn out so smooth?!"',
+        toastBanner: 'ROBLOX PRE-GAME SURVIVED! • MATURITY +25 • CHEMISTRY +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Escaped the Boys’ Roblox Lobby',
+      },
+      {
+        labelHer: 'He flops onto a beanbag chair screaming into a headset on Roblox for three hours while you sit stranded beside an empty White Claw box.',
+        labelHim: 'Grab a controller, ignore her on the futon for two hours, and scream at a Roblox obby with the boys.',
+        outcomeHer:
+          'Watching a man scream over virtual Roblox shoes at 10:30 PM cures attraction permanently.',
+        outcomeHim:
+          'By the time you look up from Roblox, she’s already home in silk pajamas blocking your number.',
+        toastBanner: 'RED FLAG! • 3-HOUR ROBLOX REGRESSION (-25)',
+        deltas: { maturity: -30, chivalry: -25, eq: -20, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Judge one 3-minute round of Dress to Impress like Anna Wintour, make all his friends howl laughing, then head to dinner.',
+        labelHim: 'Hand her the mic as celebrity fashion judge for one 3-minute round before heading to your wine-bar reservation.',
+        outcomeHer:
+          'His friends worship you as an absolute legend, and you still make your 8 PM pasta table!',
+        outcomeHim:
+          'Your buddies crown her the coolest girlfriend on earth within five minutes.',
+        toastBanner: 'ICONIC GOOD SPORT +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'younger-sibling-same-birth-year',
+    act: 3,
+    stage: 4,
+    minAgeGap: 6,
+    title: 'Her Baby Brother / Sister Was Born the EXACT Same Year as Her Cub!',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Introduced my cub to my family—my baby brother squinted and yelled \'BRO WE WERE BORN THE EXACT SAME MONTH!!\'"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'brunch_daughter',
+    setupHer:
+      'Drinks with your younger sibling—who you literally used to babysit and drive to middle school in your first Honda Civic. Five minutes into small talk, your baby sibling and {hisName} ({hisAge}M) realize they were **born the exact same year**, took the SAT the same Saturday, and watched the exact same childhood cartoons. Your sibling stares at you across their margarita: *"Did you seriously raid my birth year?!"*',
+    setupHim:
+      'You’re meeting {herName}’s ({herAge}F) younger sibling—and realize within three sentences that you two were born the **exact same calendar year**. Her sibling grins wickedly: *"Wait, she used to wipe pudding off my face while you were in 1st grade too!!"*',
+    choices: [
+      {
+        labelHer: 'He handles your sibling’s teasing with effortless charm, never teams up against you or gets weird, covers the appetizer round cleanly, and keeps all romantic focus clearly on you.',
+        labelHim: 'Laugh along warmly without ever crossing boundaries or ganging up on {herName}, treat her sibling with friendly respect, and keep your eyes unmistakably on your partner.',
+        outcomeHer:
+          'By drink two, your younger sibling texts you under the table: *"Okay fine, it was weird for 4 minutes—he’s actually awesome for you."*',
+        outcomeHim:
+          'Her younger sibling gives you a fist-bump at the curb and officially signs off on the birth-year crossover.',
+        toastBanner: 'SAME-YEAR SIBLING APPROVED! • EQ +25 • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Baby-Sibling Birth-Year Survivor',
+      },
+      {
+        labelHer: 'He gets way too flirty with your younger sister OR gangs up with your baby brother making "old big sister" jokes all night.',
+        labelHim: 'Flirt awkwardly with her younger sister or roast {herName} nonstop with her baby brother.',
+        outcomeHer:
+          'Either one is an immediate, unforgivable ejection from the bloodline.',
+        outcomeHim:
+          'Worst family-intro fumble imaginable—instant exile.',
+        toastBanner: 'RED FLAG! • SIBLING BOUNDARY DISASTER (-30)',
+        deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Own the comedy upfront ("Yes, 1999/2000 was clearly a great vintage") and steer conversation to shared travel & careers.',
+        labelHim: 'Acknowledge the funny birth-year coincidence once with a grin, then pivot smoothly to real adult topics.',
+        outcomeHer:
+          'Naming the joke once kills 100% of the awkwardness.',
+        outcomeHim:
+          'Pivoting cleanly shows grown composure.',
+        toastBanner: 'SMOOTH PIVOT +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'grown-son-same-age-collision',
+    act: 3,
+    stage: 4,
+    minAgeGap: 18,
+    requiredAnyTags: ['adult_children'],
+    title: 'Ultimate Forum Boss: Her Grown Son Is the EXACT Same Age as Her Cub!',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "My 25yo son walked into my kitchen holding laundry right beside my 25yo boyfriend—same age, same height, same Nike Dunks"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'brunch_daughter',
+    setupHer:
+      'The #1 high-wire scenario on r/CougarsAndCubs: Sunday morning in your kitchen, your **grown son** (practically the exact same age as {hisName}, {hisAge}M!) drops by unannounced using his family key—and freezes nose-to-nose with {hisName}, who is standing by the espresso machine wearing the **exact same sneakers**.',
+    setupHim:
+      'The back door opens Sunday morning and in walks {herName}’s ({herAge}F) **grown adult son**—who is literally your exact age, wearing your exact sneakers, staring straight at you beside his mom’s coffee maker. Every forum rule ever written hangs on your next ten seconds!',
+    choices: [
+      {
+        labelHer: 'Zero creepy "hey champ / stepdad" posturing! He shakes your son’s hand man-to-man with calm respect, lets you anchor the conversation, and graciously heads out after ten warm minutes so you and your son get solo time.',
+        labelHim: 'NEVER act like a fake stepdad or try too hard to be his best bro—offer a calm, respectful man-to-man handshake, let {herName} lead, and head out smoothly after coffee to respect their mother-son time.',
+        outcomeHer:
+          'You exhale a breath you were holding since 2024. Later your son shrugs: *"Look, same-age math is wild, Mom—at least the guy wasn’t weird and clearly respects you."*',
+        outcomeHim:
+          'Zero ego, zero weirdness, 100% emotional intelligence—she texts you twenty minutes later: "You handled that better than any man alive."',
+        toastBanner: 'GROWN-SON COLLISION MASTERED! • MATURITY +30 • EQ +30',
+        deltas: { maturity: 30, chivalry: 20, eq: 30, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Zero-Weirdness Peer-Son Respect',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He claps your 25-year-old son on the shoulder and says: "Good to meet you, sport—proud of the man you’re becoming!"',
+        labelHim: 'Pat a guy your exact age on the shoulder and call him "kiddo / champ" like a sitcom stepdad.',
+        outcomeHer:
+          'Your soul physically leaves your body from secondhand embarrassment. Calling a man born the same month as you "sport" is illegal!',
+        outcomeHim:
+          'Calling someone your own age "champ" creates enough cringe to power a small city.',
+        toastBanner: 'RED FLAG! • FAKE-STEPDAD "CHAMP" CRINGE (-30)',
+        deltas: { maturity: -30, chivalry: -15, eq: -30, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer: 'Keep adult-kid introductions planned at a neutral lunch spot rather than surprise Sunday mornings.',
+        labelHim: 'Set a clear house rule together afterwards: heads-up texts before family drop-ins so everyone feels comfortable.',
+        outcomeHer:
+          'Healthy boundaries keep both worlds harmonious.',
+        outcomeHim:
+          'Calm boundary-setting prevents repeat kitchen ambushes.',
+        toastBanner: 'SMART FAMILY BOUNDARIES +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'first-wedding-plus-one-debut',
+    act: 3,
+    stage: 4,
+    minAgeGap: 10,
+    title: 'First Time as Wedding +1: Table 9 Whispers, Tipsy Aunties & Slow Dances',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Survived our first big wedding together as official +1s—from tipsy Aunt Linda’s math to owning the dance floor!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'thanksgiving_table',
+    setupHer:
+      'Your very first black-tie/cocktail wedding together as official `+1`s! Walking into cocktail hour with {hisName} ({hisAge}M) looking devastating in a tailored suit, 150 guests turn: two coworkers whisper behind champagne flutes, and tipsy Aunt Linda squints at the place cards asking *"Wait—nephew, personal trainer, or... OH GOOD FOR YOU HONEY!!"*',
+    setupHim:
+      'Your first big formal wedding as {herName}’s ({herAge}F) official `+1`! She looks breathtaking, Table 9 is buzzing with curious glances, and the band just started playing *September* into a classic slow ballad.',
+    choices: [
+      {
+        labelHer: 'He introduces himself to Table 9 with warm poise, charms Tipsy Aunt Linda onto your fan club, keeps a fresh drink in your hand, and pulls you onto the dance floor like you’re the only woman in the ballroom.',
+        labelHim: 'Work Table 9 with warm gentleman charm, laugh graciously with Tipsy Aunt Linda, and lead {herName} onto the dance floor with total pride.',
+        outcomeHer:
+          'By cake-cutting, four married women at Table 9 tell you privately you look happier than anyone in the room—and Aunt Linda tries to adopt him!',
+        outcomeHim:
+          'Owning the room with grace and pride turns curious whispers into open admiration before dessert.',
+        toastBanner: 'WEDDING +1 DEBUT CRUSHED! • CHIVALRY +30 • CHEMISTRY +25',
+        deltas: { maturity: 25, chivalry: 30, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Wedding +1 Ballroom MVP',
+      },
+      {
+        labelHer: 'He hides by the shrimp tower alone on his phone all night because he feels awkward around people in their 40s.',
+        labelHim: 'Hide awkwardly near the bathroom hallway scrolling your phone because her friends are older.',
+        outcomeHer:
+          'Bringing a `+1` you have to babysit by the shrimp tower defeats the whole point of a handsome date!',
+        outcomeHim:
+          'Shrinking into the wallpaper leaves your partner fending off Table 9 solo.',
+        toastBanner: 'RED FLAG! • SHRIMP-TOWER WALLFLOWER (-20)',
+        deltas: { maturity: -20, chivalry: -20, eq: -20, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Arrive right on time, crush two hours of dancing & toasts, and slip away together to the hotel suite before midnight.',
+        labelHim: 'Give two high-energy, gracious hours at the reception, then whisk her away for a private suite nightcap.',
+        outcomeHer:
+          'Peak entrance, peak dancing, peak exit.',
+        outcomeHim:
+          'Leaving while the night is electric is veteran wedding strategy.',
+        toastBanner: 'PERFECT WEDDING EXIT +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'meeting-his-parents-same-age-mom',
+    act: 3,
+    stage: 4,
+    minAgeGap: 10,
+    title: 'Meeting His Parents (When His Mom Is Your Exact Age—Or Two Years Younger!)',
+    subredditThreadInspiration: 'r/CougarsAndCubs: "Met my 26yo cub’s parents—his mom is 48, I’m 49, and Rule #1 saved us: he briefed them respectfully a week beforehand!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'thanksgiving_table',
+    setupHer:
+      'Another legendary forum milestone: meeting {hisName}’s ({hisAge}M) parents for dinner—knowing full well his mom is right in your generational bracket (and listened to the exact same high-school graduation songs!). Halfway through appetizers, his mom pulls {hisName} toward the kitchen asking quietly: *"Sweetheart, are you sure she’s serious about someone your age?"*',
+    setupHim:
+      'You’re introducing {herName} ({herAge}F) to your parents over dinner. Your dad blinks doing silent birth-year math while your mom—who is right around {herName}’s age—pulls you aside in the hallway whispering: *"Honey, what about timelines and grandkids? Are you in over your head?"*',
+    choices: [
+      {
+        labelHer: 'Because he briefed them respectfully a week ahead (no ambush!), he answers his mom in the kitchen with calm, grown-man conviction, clears every plate, and lets his mom see how radiant and grounded you two are.',
+        labelHim: 'Prep your parents a week ahead (never blindside!), tell your mom calmly in the hallway "She makes me happier and better than anyone I’ve ever dated, and I’d love for you to really know her," and handle dish duty.',
+        outcomeHer:
+          'By coffee, you and his mom are laughing over 90s travel stories while his dad pours {hisName} the good bourbon. Forum Masterclass!',
+        outcomeHim:
+          'Standing calmly as a grown man—without getting defensive—melts your mom’s protective fear into genuine respect by dessert.',
+        toastBanner: 'PARENTS WON OVER! • MATURITY +30 • EQ +25',
+        deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Same-Age Mom Dinner Diplomat',
+      },
+      {
+        labelHer: 'He never warned them about your age—springing a shock ambush at the front door—then whines "MOM YOU NEVER LET ME LIVE!!" at the table.',
+        labelHim: 'Ambush your parents unannounced with the age gap at the door, then argue like a 15-year-old over salad.',
+        outcomeHer:
+          'Forum Cardinal Sin #1 (the unwarned parent ambush) PLUS teenage whining? Get me out of this dining room!',
+        outcomeHim:
+          'Ambushing your parents sets your partner up to fail—always prep family with respect first.',
+        toastBanner: 'RED FLAG! • UNWARNED PARENT AMBUSH (-25)',
+        deltas: { maturity: -30, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
+      },
+      {
+        labelHer: 'Meet at a warm, neutral restaurant for a crisp 90-minute dinner rather than a 6-hour house stay.',
+        labelHim: 'Host the first intro at a relaxed neighborhood bistro (your treat!) so everyone is on neutral ground.',
+        outcomeHer:
+          'Neutral restaurant + picking up the tab = textbook forum wisdom.',
+        outcomeHim:
+          'Covering dinner on neutral turf establishes your adulthood instantly.',
+        toastBanner: 'NEUTRAL-TURF GENIUS +20',
+        deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+
   // --- 4 EXISTING VIP SUBREDDIT DEEP-CUT EPISODES (isVip: true preserved!) ---
   {
     id: 'vip-apartment-soap-audit',
