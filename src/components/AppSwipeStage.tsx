@@ -9,13 +9,13 @@ import {
   Share2,
   SlidersHorizontal,
   Sparkles,
-  Volume2,
   X,
 } from 'lucide-react';
 import { getSwipeDeckForRole, type SwipeProfile } from '../data/appProfiles';
 import type { PlayerRole } from '../domain/taxonomy';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { InGameClubAside } from './InGameClubAside';
+import { SwipeOpeningChatCard } from './SceneChatInterface';
 
 interface AppSwipeStageProps {
   role: PlayerRole;
@@ -648,30 +648,12 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             mobileTab === 'photo' ? 'hidden lg:block' : 'block'
           } vice-panel rounded-3xl p-6 sm:p-7 space-y-5`}
         >
-          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-5 space-y-2.5">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
-                {role === 'her' ? 'Opening Message & Voice Note' : 'Her Opening Challenge'}
-              </span>
-              <button
-                type="button"
-                onClick={handleToggleVoiceNote}
-                className={`pop-btn inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-extrabold cursor-pointer ${
-                  playingVoiceId === profile.id
-                    ? 'bg-[#FF2E63] text-white'
-                    : 'bg-[#FFBE0B] text-[#1E1022]'
-                }`}
-              >
-                <Volume2 className="h-3.5 w-3.5" />
-                <span>
-                  {playingVoiceId === profile.id ? 'Playing Voice Note…' : '🔊 Hear Voice Note'}
-                </span>
-              </button>
-            </div>
-            <p className="text-base sm:text-lg font-bold leading-relaxed text-[#1E1022]">
-              &ldquo;{profile.openingDm}&rdquo;
-            </p>
-          </div>
+          <SwipeOpeningChatCard
+            profile={profile}
+            role={role}
+            isPlayingVoice={playingVoiceId === profile.id}
+            onToggleVoice={handleToggleVoiceNote}
+          />
 
           {xrayOpen && (
             <div className="animate-stage-in rounded-2xl border-2 border-[#1E1022] bg-[#D1FAE5] p-4 text-base font-bold text-[#065F46]">

@@ -26,6 +26,7 @@ import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { getLocalChoicePercentagesSync, localCrowdStatsService } from '../services/adapters';
 import { InGameClubAside } from './InGameClubAside';
 import { MinigameWidget, resolveSceneGameType } from './MinigameWidgets';
+import { buildEpisodeChatSpec, EpisodeChatFeed } from './SceneChatInterface';
 
 interface EpisodeStageProps {
   run: GameRunState;
@@ -877,6 +878,12 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
               )}
             </p>
           </div>
+
+          {/* Authentic Interactive iMessage / Discord Feed on Texting & Group-Chat Episodes */}
+          {(() => {
+            const chatSpec = buildEpisodeChatSpec(currentEpisode, run.pairing);
+            return chatSpec ? <EpisodeChatFeed spec={chatSpec} pairing={run.pairing} /> : null;
+          })()}
 
           {/* 100% Tactile Scene Coverage: Bespoke Minigame OR Auto-Matched Universal Microgame */}
           {sceneGameType && (

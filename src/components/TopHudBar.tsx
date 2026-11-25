@@ -106,10 +106,10 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onOpenLiveInbox}
-            className="pop-btn shrink-0 inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-white px-3 text-sm text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
+            className="pop-btn shrink-0 inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-white px-3 text-sm text-[#1E1022] hover:bg-[#EEF6FF] cursor-pointer"
           >
-            <MessageCircle className="h-4 w-4 text-[#FF2E63]" />
-            <span>AI Text</span>
+            <MessageCircle className="h-4 w-4 text-[#007AFF]" />
+            <span>iMessage · Discord</span>
           </button>
 
           <button

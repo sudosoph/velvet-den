@@ -285,14 +285,15 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
 
           <button
             type="button"
+            aria-label="Live AI Texting Mode — Chat in iMessage or Discord"
             onClick={() => {
               sfx.messagePop();
               onOpenLiveInbox();
             }}
-            className="pop-btn h-12 w-full rounded-2xl bg-white hover:bg-[#FFF4F7] px-3.5 inline-flex items-center justify-center gap-2 text-sm text-[#1E1022] cursor-pointer"
+            className="pop-btn h-12 w-full rounded-2xl bg-[#EEF6FF] hover:bg-[#DBEAFE] px-3.5 inline-flex items-center justify-center gap-2 text-sm text-[#1E1022] cursor-pointer"
           >
-            <MessageCircle className="h-4 w-4 shrink-0 text-[#FF2E63]" />
-            <span>Live AI Texting Mode</span>
+            <MessageCircle className="h-4 w-4 shrink-0 text-[#007AFF]" />
+            <span>iMessage &amp; Discord AI</span>
           </button>
 
           <button

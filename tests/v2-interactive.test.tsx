@@ -741,4 +741,32 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     fireEvent.click(screen.getByRole('button', { name: /Lived This! \(\+15 XP\)/i }));
     expect(screen.getByText(/Club Viral Score: 4 pts/i)).toBeInTheDocument();
   });
+
+  it('switches Live Inbox between authentic iOS iMessage and Discord #boys-roblox-vc, and renders Discord group chat in Roblox scenes', async () => {
+    window.history.replaceState({}, '', '/?dilemma=cub-friends-memes-roblox-shock');
+    const { unmount } = render(<App />);
+
+    // EpisodeStage renders live Discord #🎮-roblox-dti-and-boys-vc feed with Kyle & Brody
+    expect(screen.getByText(/Kyle_DTI_RunwayKing/i)).toBeInTheDocument();
+    expect(screen.getByText(/Dress to Impress Cyber-Y2K runway fit/i)).toBeInTheDocument();
+    unmount();
+
+    window.history.replaceState({}, '', '/');
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /Live AI Texting Mode/i }));
+
+    // Defaults to authentic iOS iMessage skin; switch to Discord #boys-roblox-vc and send a reply
+    expect(screen.getByPlaceholderText(/Message Claire on iMessage/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /^Discord$/i }));
+    fireEvent.click(screen.getByRole('button', { name: /boys-roblox-vc/i }));
+
+    const discordInput = screen.getByPlaceholderText(/Message Claire in #boys-roblox-vc/i);
+    fireEvent.change(discordInput, {
+      target: { value: 'Booked a quiet corner table Friday at 7:30—peonies included.' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /^Send$/i }));
+
+    expect(await screen.findByText(/W RIZZ IN #BOYS-ROBLOX-VC/i)).toBeInTheDocument();
+    expect(screen.getByText(/Club Vibe Referee/i)).toBeInTheDocument();
+  });
 });

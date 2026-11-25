@@ -702,7 +702,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v17-zynga-polish',
+        version: 'v18-imessage-discord',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
