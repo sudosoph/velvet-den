@@ -291,14 +291,36 @@ function fallbackEvaluateDm(req: {
     };
   }
 
-  if (/\b(mommy|sugar\s*mama|amex|allowance|cabo)\b/.test(lower)) {
+  if (/\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(lower)) {
     return {
-      herReply: `Rule #1 of Cougars & Cubs Club: Cougar never means Sugar Mama. Better luck on TikTok.`,
+      herReply: `🤓 Hold right there, sweet boy—did you just start a sentence with "well actually" to Cubsplain something I mastered 15 years ago? Drop your shoulders and try again without the lecture.`,
+      maturityDelta: -22,
+      chivalryDelta: -15,
+      chemistryDelta: -20,
+      coachNote: 'Zero Cubsplaining! Curiosity and confidence beat podcast lectures every time.',
+      passedVibeCheck: false,
+    };
+  }
+
+  if (/\b(sugar\s*mama|amex|allowance|spoil\s*me|pay\s*my)\b/.test(lower) || /^(hey+|yo+|sup)\s+mommy[!?.🔥😍👀]*$/i.test(msg)) {
+    return {
+      herReply: `Rule #1 of Cougars & Cubs Club: Mommy-Domme is playful romantic polarity—Cougar NEVER means Sugar Mama. Better luck out there.`,
       maturityDelta: -20,
       chivalryDelta: -20,
       chemistryDelta: -18,
-      coachNote: 'Fetishizing clichés or Sugar-Mama assumptions get instant blocks.',
+      coachNote: 'Sugar-Mama freeloading or lazy 2-word openers get instant blocks.',
       passedVibeCheck: false,
+    };
+  }
+
+  if (/\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong)\b/.test(lower)) {
+    return {
+      herReply: `🧘‍♀️ Good boy—shoulders relaxed, zero Cubsplaining, and real follow-through. Meet Mommy in the bamboo courtyard at 6:30 AM for Qigong & jasmine oolong. 🍵`,
+      maturityDelta: 22,
+      chivalryDelta: 20,
+      chemistryDelta: 25,
+      coachNote: 'Playful Mommy-Domme polarity + grounded effort unlocked!',
+      passedVibeCheck: true,
     };
   }
 
@@ -428,8 +450,8 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         `You are roleplaying as ${personaName} (${personaAge}, ${personaTitle}) in "Cougars & Cubs Club", a cheeky, witty, PG-13 romantic comedy game inspired by real adult age-gap dating etiquette.`,
         `STRICT SAFETY RULE: Keep all banter strictly PG-13 cheeky romance (flirty, witty, sharp—NEVER explicit/NSFW).`,
         personaRole === 'her'
-          ? `Community etiquette: You radiate cool, unhurried "Black Cat" confidence—you like taking your time and pushing back playfully at first, and you melt when a sunny "Golden Retriever" Cub responds with unbothered patience, concrete plans, chivalry, and zero bruised ego. You despise lazy "hey/wyd" texts, Snapchat requests, whining about "playing hard to get", "for your age" backhanded compliments, and Sugar-Mama/Mommy stereotypes.`
-          : `Community etiquette: You are a confident, sunny "Golden Retriever" younger man who plans real dates, respects her unhurried Black Cat pace without sulking, and never plays games.`,
+          ? `Community etiquette: You radiate cool, unhurried "Black Cat" or serene Qigong "Wellness Mommy-Domme" confidence—you enjoy playful, consensual "Yes, Mommy / good boy" banter when paired with genuine adult respect and concrete plans, and you melt when a sunny "Golden Retriever" Cub responds with unbothered patience and chivalry. You roast "Cubsplaining" ("well actually..."), lazy "hey/wyd" texts, Snapchat requests, whining about "playing hard to get", "for your age" backhanded compliments, and Sugar-Mama/allowance freeloaders.`
+          : `Community etiquette: You are a confident, sunny "Golden Retriever" younger man who plans real dates, respects her unhurried Black Cat or playful Mommy-Domme pace without sulking, never Cubsplains, and never plays games.`,
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
         `{"herReply":"1-2 witty in-character sentences","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 crisp coaching tip","passedVibeCheck":boolean}`,
       ].join(' ');
@@ -583,9 +605,33 @@ async function handleReferralStatus(url: URL, env: WorkerEnv): Promise<Response>
   }
 }
 
+async function handleCameoBrief(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { email?: string; brief?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ ok: false, error: 'Invalid JSON' }, 400);
+  }
+  const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+  const brief = String(body.brief || '').trim().slice(0, 500);
+  if (!email.includes('@') || brief.length < 10) {
+    return jsonResponse({ ok: false, error: 'Valid email and 10+ char brief required' }, 400);
+  }
+  if (env.VELVET_KV) {
+    try {
+      const raw = await env.VELVET_KV.get('cameo_briefs:list');
+      const list: { email: string; brief: string; createdAt: string }[] = raw ? JSON.parse(raw) : [];
+      list.push({ email, brief, createdAt: new Date().toISOString() });
+      await env.VELVET_KV.put('cameo_briefs:list', JSON.stringify(list.slice(-200)));
+    } catch {
+      // Non-blocking KV error
+    }
+  }
+  return jsonResponse({ ok: true });
+}
+
 async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response> {
   const sessionId = sanitizeId(url.searchParams.get('session_id'), 120);
-  const tierHint = sanitizeId(url.searchParams.get('tier'), 24).toLowerCase();
   if (!sessionId || !sessionId.startsWith('cs_')) {
     return jsonResponse({ verified: false, reason: 'Invalid session_id' }, 400);
   }
@@ -598,17 +644,7 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
   }
 
   if (!env.STRIPE_SECRET_KEY) {
-    if (/^cs_(live|test)_[A-Za-z0-9]{20,}$/.test(sessionId) && env.VELVET_KV) {
-      await env.VELVET_KV.put(`redeemed_session:${sessionId}`, new Date().toISOString());
-      const isVipTier = tierHint === 'vip' || tierHint === 'cameo';
-      const credits = tierHint === 'cameo' ? 50 : tierHint === 'tip' ? 10 : 15;
-      return jsonResponse({
-        verified: true,
-        grantType: isVipTier ? 'vip' : 'credits',
-        credits,
-      });
-    }
-    return jsonResponse({ verified: false, reason: 'Stripe secret not yet configured' });
+    return jsonResponse({ verified: false, reason: 'Stripe secret not yet configured' }, 503);
   }
 
   try {
@@ -710,6 +746,11 @@ export default {
 
     if (url.pathname === '/api/subscribe') {
       if (request.method === 'POST') return handleSubscribe(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/cameo-brief') {
+      if (request.method === 'POST') return handleCameoBrief(request, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

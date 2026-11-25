@@ -416,14 +416,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     (lastEntry!.toastBanner.includes('RED FLAG') ||
       lastEntry!.toastBanner.includes('VETTING GATE'));
 
-  const cleanStoryTag = currentEpisode
-    ? currentEpisode.subredditThreadInspiration.startsWith('r/CougarsAndCubs')
-      ? `Real Age-Gap Lore • ${currentEpisode.subredditThreadInspiration.replace(
-          /^r\/CougarsAndCubs[^:]*:\s*/i,
-          '',
-        )}`
-      : currentEpisode.subredditThreadInspiration
-    : '';
+  const cleanStoryTag = currentEpisode ? currentEpisode.loreQuote : '';
 
   const sceneGameType = currentEpisode ? resolveSceneGameType(currentEpisode) : null;
   const sceneGameCompleted = currentEpisode

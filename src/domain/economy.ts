@@ -16,7 +16,7 @@ export interface WalletState {
 export const SOCIAL_SHARE_QUEST_IDS = [
   'quest_groupchat_roast',
   'quest_x_threads_post',
-  'quest_reddit_discord_drop',
+  'quest_community_drop',
 ] as const;
 
 export const MAX_VERIFIED_REFERRAL_CLAIMS = 3;

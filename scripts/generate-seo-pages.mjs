@@ -36,8 +36,10 @@ const URL_TO_PRODUCT_ID = {
   'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game': 'after-dark-couples-deck',
   'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen': 'cooling-bamboo-sheets',
   'https://www.amazon.com/s?k=12+inch+pre+seasoned+cast+iron+skillet': 'cast-iron-steak-skillet',
+  'https://www.amazon.com/s?k=foldable+adjustable+weight+bench+home+gym': 'adjustable-dumbbell-bench',
   'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set': 'cub-grooming-beard-skincare-kit',
   'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip': 'silk-pillowcase-sleepover-duo',
+  'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses': 'zero-proof-botanical-mocktail-set',
 };
 
 function tagAmazon(rawUrl, slug) {
@@ -74,7 +76,7 @@ const STATIC_GUIDES = [
       'What is the difference between a Puma, Cougar, Jaguar, and Panther in age-gap dating? Learn the real older-woman / younger-man relationship slang, etiquette, and rules.',
     episodeId: 'check-drop',
     paragraphs: [
-      'In older-woman / younger-man age-gap dating communities such as r/CougarsAndCubs, relationship labels follow clear community etiquette rather than tabloid clichés.',
+      'In older-woman / younger-man age-gap dating communities such as Cougars & Cubs Club, relationship labels follow clear community etiquette rather than tabloid clichés.',
       'A Puma refers to a woman in her 30s (under 40) dating a younger man. A Cougar is a woman aged 40 or older with at least a 10-year age gap with her younger male partner (Cub) or younger female partner (Kitten). Women in their 50s embrace Jaguar status, and confident women 60+ claim Panther or Sabertooth.',
       'Above all, remember Rule #1: Cougar never means Sugar Mama, and many high-achieving women secretly love soft-life princess treatment—planned reservations, flowers, and car doors opened—after managing everyone else’s mental load all week.',
     ],
@@ -270,7 +272,7 @@ const STATIC_GUIDES = [
       'Under strict 10-year Cougar rules, a 6-to-8 year older-woman / younger-man gap earns the Junior Cougar badge. Learn why couples love the micro-generational sweet spot.',
     episodeId: 'junior-cougar-gatekeeper-tease',
     paragraphs: [
-      'While strict r/CougarsAndCubs taxonomy reserves official Cougar status for a 10+ year gap at age 40+, women who are 5 to 9 years older than their partner proudly claim the "Junior Cougar" title.',
+      'While strict Cougars & Cubs Club taxonomy reserves official Cougar status for a 10+ year gap at age 40+, women who are 5 to 9 years older than their partner proudly claim the "Junior Cougar" title.',
       'A 6-year gap (such as 38F × 32M, or newlyweds Miley Cyrus & Maxx Morando) blends shared cultural touchstones and zero public stares with playful 2008 high-school math banter and homeowner-era intentionality.',
     ],
     faqs: [
@@ -437,7 +439,7 @@ const STATIC_GUIDES = [
     slug: 'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',
     title: 'How to Meet Older Women "In the Wild": Hotel Bars, Gym Headphone Rules & Zero Cubsplaining',
     description:
-      'Real advice from r/CougarsAndCubs on meeting Cougars in real life: why upscale hotel bars beat supermarket ambushes, the sacred gym headphone rule, and avoiding Cubsplaining.',
+      'Real advice from Cougars & Cubs Club on meeting Cougars in real life: why upscale hotel bars beat supermarket ambushes, the sacred gym headphone rule, and avoiding Cubsplaining.',
     episodeId: 'gym-headphones-vs-three-week-nod',
     paragraphs: [
       'Younger men frequently ask where to meet confident women in their late 30s, 40s, and 50s offline without coming across as intrusive. Community veterans agree on rule #1: never interrupt a woman mid-workout when her headphones are on, and skip rehearsed grocery-aisle pickup lines.',
@@ -569,7 +571,7 @@ for (const g of STATIC_GUIDES) {
         ${g.picks
           .map(
             (p) =>
-              `<a class="pick-link" href="${escapeHtml(tagAmazon(p.url, g.slug))}" rel="noopener noreferrer sponsored" target="_blank">🛍️ ${escapeHtml(p.name)} →</a>`,
+              `<a class="pick-link" href="${escapeHtml(tagAmazon(p.url, g.slug))}" rel="noopener noreferrer sponsored" target="_blank">🛍️ ${escapeHtml(p.name.replace(/\s*\(\$\d+\)/g, ' (Check Price on Amazon)'))} →</a>`,
           )
           .join('\n        ')}
       </section>

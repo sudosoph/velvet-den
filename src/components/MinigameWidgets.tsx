@@ -1428,6 +1428,108 @@ const TimeshareInterrogationGame: React.FC<{
   );
 };
 
+const QIGONG_MOMMY_BEATS = [
+  {
+    id: 'posture',
+    prompt: '🧘‍♀️ Beat 1: Drop Shoulders & Unclench Jaw ("Breathe with Mommy")',
+    doneLabel: '✓ Spine aligned • Shoulders dropped on Mommy’s cue',
+  },
+  {
+    id: 'mute_cubsplain',
+    prompt: '🤐 Beat 2: Mute That Podcast "Cubsplain" Impulse ("Listen, Good Boy")',
+    doneLabel: '✓ Zero Cubsplaining • Pure attentive presence',
+  },
+  {
+    id: 'cloud_hands',
+    prompt: '🌊 Beat 3: Mirror Her Slow Tai Chi Cloud Hands ("Yes, Mommy" Flow)',
+    doneLabel: '✓ Cloud-Hands Qi synced • Nervous system melted',
+  },
+] as const;
+
+const QigongMommyBreathGame: React.FC<{
+  completed: boolean;
+  herName: string;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, herName, onWin }) => {
+  const [syncedIds, setSyncedIds] = useState<string[]>(
+    completed ? QIGONG_MOMMY_BEATS.map((b) => b.id) : [],
+  );
+  const [cubsplainWarning, setCubsplainWarning] = useState(false);
+
+  const handleSync = (id: string) => {
+    if (completed || syncedIds.includes(id)) return;
+    setCubsplainWarning(false);
+    sfx.crystalClink();
+    const next = [...syncedIds, id];
+    setSyncedIds(next);
+    if (next.length === QIGONG_MOMMY_BEATS.length) {
+      sfx.greenFlag();
+      onWin({ eq: 10, chemistry: 10 }, 'Mommy’s Grounded Qigong Cub');
+    }
+  };
+
+  const done = completed || syncedIds.length === QIGONG_MOMMY_BEATS.length;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#FFBE0B]">
+          <Sparkles className="h-4 w-4 text-[#FF2E63]" /> {herName}’s Dawn Qigong &amp; Mommy-Domme Breath Sync ({syncedIds.length}/3)
+        </span>
+        <span className="text-xs font-bold text-stone-200">+10 EQ · +10 Chemistry</span>
+      </div>
+
+      <div className="grid gap-2">
+        {QIGONG_MOMMY_BEATS.map((b) => {
+          const isSynced = done || syncedIds.includes(b.id);
+          return (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => handleSync(b.id)}
+              className={`flex items-center justify-between gap-3 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm font-bold transition cursor-pointer ${
+                isSynced
+                  ? 'border-emerald-400 bg-emerald-950/70 text-emerald-100'
+                  : 'border-[#FFBE0B]/60 bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <span>{isSynced ? b.doneLabel : b.prompt}</span>
+              <span className="shrink-0 rounded-full bg-[#FF2E63] px-2.5 py-0.5 text-xs font-extrabold text-white">
+                {isSynced ? 'SYNCED ✓' : 'SYNC →'}
+              </span>
+            </button>
+          );
+        })}
+
+        {!done && (
+          <button
+            type="button"
+            onClick={() => {
+              sfx.redFlag();
+              setCubsplainWarning(true);
+            }}
+            className="rounded-xl border border-rose-400/50 bg-rose-950/40 px-3.5 py-2 text-left text-xs font-bold text-rose-200 hover:bg-rose-900/50 cursor-pointer"
+          >
+            🤓 Temptation Trap: "Well actually, let me Cubsplain breathwork from a podcast..."
+          </button>
+        )}
+      </div>
+
+      {cubsplainWarning && !done && (
+        <div className="text-xs font-bold text-amber-300">
+          😼 Mommy-Domme Eyebrow Raise! Never Cubsplain 20 years of Qigong mastery, sweet boy—drop your shoulders and tap all 3 sync beats!
+        </div>
+      )}
+
+      {done && (
+        <div className="text-sm font-bold text-emerald-300">
+          🧘‍♀️ "Good boy." Full Tai Chi Cloud-Hands harmony unlocked (+10 EQ, +10 Chemistry)!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -1437,6 +1539,14 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   onWinBonus,
 }) => {
   switch (type) {
+    case 'qigong_breath_sync':
+      return (
+        <QigongMommyBreathGame
+          completed={alreadyCompleted}
+          herName={herName}
+          onWin={onWinBonus}
+        />
+      );
     case 'timeshare_interrogation':
       return (
         <TimeshareInterrogationGame

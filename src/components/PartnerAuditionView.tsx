@@ -1,13 +1,32 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Check, Send } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { EPISODES } from '../data/episodes';
+import { personalizeText } from '../domain/gameEngine';
+import { analyzePairing, HER_ARCHETYPES, HIS_ARCHETYPES } from '../domain/taxonomy';
 import { renderRichText } from '../lib/richText';
 import {
   scorePartnerAudition,
   shareOrCopy,
   type ChallengePayload,
 } from '../lib/viral';
+
+function getAuditionPermutation(epId: string): [number, number, number] {
+  let h = 2166136261;
+  for (let i = 0; i < epId.length; i += 1) {
+    h ^= epId.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const perms: [number, number, number][] = [
+    [1, 0, 2],
+    [0, 2, 1],
+    [2, 0, 1],
+    [0, 1, 2],
+    [2, 1, 0],
+    [1, 2, 0],
+  ];
+  return perms[(h >>> 0) % perms.length];
+}
 
 interface PartnerAuditionViewProps {
   challenge: ChallengePayload;
@@ -34,6 +53,11 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
   const episodes = alignedPairs.map((p) => p.episode);
   const receiverRole = challenge.senderRole === 'her' ? 'him' : 'her';
+  const pairing = useMemo(() => {
+    const her = HER_ARCHETYPES.find((h) => h.id === challenge.herId) ?? HER_ARCHETYPES[0];
+    const his = HIS_ARCHETYPES.find((c) => c.id === challenge.hisId) ?? HIS_ARCHETYPES[0];
+    return analyzePairing(her, his, receiverRole);
+  }, [challenge.herId, challenge.hisId, receiverRole]);
 
   if (episodes.length === 0) {
     return (
@@ -128,6 +152,11 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
   }
 
   const ep = episodes[step];
+  const perm = ep.choices.length === 3 ? getAuditionPermutation(ep.id) : ep.choices.map((_, i) => i);
+  const setupCopy = personalizeText(
+    receiverRole === 'her' ? ep.setupHer : ep.setupHim,
+    pairing,
+  );
 
   return (
     <div className="mx-auto max-w-2xl vice-panel rounded-3xl p-6 sm:p-8 space-y-5 animate-stage-in">
@@ -138,23 +167,31 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
       <h2 className="font-display text-2xl sm:text-3xl text-[#1E1022]">{ep.title}</h2>
       <p className="text-base font-medium leading-relaxed text-[#34223B]">
-        {renderRichText(receiverRole === 'her' ? ep.setupHer : ep.setupHim)}
+        {renderRichText(setupCopy)}
       </p>
 
       <div className="space-y-3">
-        {ep.choices.map((c, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => handlePick(idx)}
-            className="pop-btn w-full rounded-2xl bg-white p-4 sm:p-5 text-left text-base font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
-          >
-            <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-xl border border-[#1E1022] bg-[#FFBE0B] text-xs font-extrabold text-[#1E1022]">
-              {String.fromCharCode(65 + idx)}
-            </span>
-            {renderRichText(receiverRole === 'her' ? c.labelHer : c.labelHim)}
-          </button>
-        ))}
+        {perm.map((originalIdx, displayIdx) => {
+          const c = ep.choices[originalIdx];
+          if (!c) return null;
+          const choiceCopy = personalizeText(
+            receiverRole === 'her' ? c.labelHer : c.labelHim,
+            pairing,
+          );
+          return (
+            <button
+              key={originalIdx}
+              type="button"
+              onClick={() => handlePick(originalIdx)}
+              className="pop-btn w-full rounded-2xl bg-white p-4 sm:p-5 text-left text-base font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
+            >
+              <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-xl border border-[#1E1022] bg-[#FFBE0B] text-xs font-extrabold text-[#1E1022]">
+                {String.fromCharCode(65 + displayIdx)}
+              </span>
+              {renderRichText(choiceCopy)}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

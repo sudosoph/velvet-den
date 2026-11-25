@@ -4,8 +4,6 @@ export interface BrandConfig {
   subtitle: string;
   repoSlug: string;
   publicBaseUrl: string;
-  discordInviteUrl: string;
-  ownedSubredditUrl: string;
 }
 
 export const BRAND_CONFIG: BrandConfig = {
@@ -14,6 +12,4 @@ export const BRAND_CONFIG: BrandConfig = {
   subtitle: 'Lower Your Age Slider. Vet the Red Flags. Win Real Romance.',
   repoSlug: 'sudosoph/velvet-den',
   publicBaseUrl: 'https://cougarsandcubs.club/',
-  discordInviteUrl: 'https://discord.gg/cougarsandcubs',
-  ownedSubredditUrl: 'https://www.reddit.com/r/CougarsAndCubsClub/',
 };

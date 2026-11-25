@@ -559,7 +559,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     secondPromptAnswer: 'My mom still does my laundry on Sundays so my hoodies smell fresh.',
     ageShockZoom: true,
     ageShockQuipHer:
-      '"BORN IN THE LATE 1900s"?! "DISCRETE AFTER 10 PM"?! AND ROBLOX TILL 4 AM?! Every single r/CougarsAndCubs alarm bell just exploded!',
+      '"BORN IN THE LATE 1900s"?! "DISCRETE AFTER 10 PM"?! AND ROBLOX TILL 4 AM?! Every single Cougars & Cubs Club alarm bell just exploded!',
     ageShockQuipHim:
       'Study Forum Red Flag #1: writing "discrete/lowkey" + calling 1984 "the late 1900s" gets you launched into orbit.',
     lookingFor: 'Something casual & discrete',
@@ -1402,7 +1402,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockQuipHim:
       '6-year Junior Cougar sweet spot: shared references, zero 20s roommate chaos, and electric banter!',
     lookingFor: 'Junior Cougar sweet-spot chemistry',
-    lookingForSubtext: 'Subreddit purists call under-10-years a Junior Cougar—she wears the badge proudly.',
+    lookingForSubtext: 'Age-gap purists call under-10-years a Junior Cougar—she wears the badge proudly.',
     interests: ['Vinyl & Wine Bars', 'Boutique Design', 'Weekend Getaways', 'Cooking', 'Palm Springs'],
     openingDm:
       'Quick math check: you’re 6 years younger, which officially makes me a Junior Cougar. Where were you in 2008—and where are you taking me Friday?',
@@ -1430,6 +1430,58 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
         vibeNote: '💚 All the older-woman confidence, synced on the same wavelength.',
         variant: 'dog_park_coffee',
         photoUrl: './images/cast/hero-couple.jpg',
+      },
+    ],
+  },
+  {
+    id: 'her-sedona-qigong-mommy',
+    name: 'Sedona',
+    age: 46,
+    height: '5\'9"',
+    zodiac: 'Virgo',
+    lookBadge: 'Auburn Silver Waves • Qigong & Tai Chi Mommy-Domme',
+    occupation: 'Qigong & Nervous-System Studio Founder • Wellness Mommy-Domme',
+    distance: '3 miles away',
+    activeAgo: 'Active 2m ago',
+    spotifyAnthem: 'Khruangbin — Texas Sun',
+    tinderBio:
+      '6:30 AM bamboo-courtyard Qigong, Yang-style Tai Chi Cloud Hands, and jasmine oolong 🧘‍♀️ Soft Mommy-Domme energy for an attentive, emotionally fluent Cub who drops his shoulders when I say "breathe with Mommy"—and never tries to Cubsplain a biohacking podcast to me.',
+    hingePromptQuestion: 'Two quickest ways to get my full Mommy-Domme praise',
+    hingePromptAnswer:
+      'Show up grounded with zero Cubsplaining, match my slow Tai Chi breathwork, and remember Rule #1: Mommy-Domme means playful command & care—never an ATM.',
+    ageShockZoom: false,
+    ageShockQuipHer: 'Serene Wellness Mommy-Domme mastery.',
+    ageShockQuipHim:
+      '46F Qigong & Tai Chi Mommy-Domme: two fingers under your chin and you’ll forget every podcast you ever listened to!',
+    lookingFor: 'Grounded devotion, breathwork & playful "Yes, Mommy" polarity',
+    lookingForSubtext: 'Zero tolerance for Cubsplaining, rushed jittery texting, or Sugar-Mama freeloaders.',
+    interests: ['Qigong & Tai Chi', 'Mommy-Domme Praise', 'Jasmine Oolong', 'Cedar Sauna', 'Zero-Proof Elixirs'],
+    openingDm:
+      'Unclench your jaw and take one slow breath before typing, sweet boy. Tell me your Friday plan—and promise you won’t try to Cubsplain breathwork to me.',
+    xrayLeak:
+      'INSIDER TIP: Lean playfully into her calm Mommy-Domme cadence, skip the know-it-all lectures, and suggest an unhurried tea lounge or sauna date!',
+    isGreenFlagMatch: true,
+    photos: [
+      {
+        caption: 'Photo 1 of 3 • Dawn Bamboo-Courtyard Qigong & Cloud Hands',
+        shortTab: '🧘‍♀️ Qigong',
+        vibeNote: '💚 20 years of Tai Chi mastery + calm Mommy-Domme poise.',
+        variant: 'golden_trail_stud',
+        photoUrl: './images/cast/sedona-qigong-46f.jpg',
+      },
+      {
+        caption: 'Photo 2 of 3 • Sunrise Canyon Ridge Breathwork',
+        shortTab: '🏔️ Canyon',
+        vibeNote: '💚 Out-grounds and out-paces men 20 years younger without breaking a sweat.',
+        variant: 'golden_trail_stud',
+        photoUrl: './images/cast/valerie-53f.jpg',
+      },
+      {
+        caption: 'Photo 3 of 3 • Post-Practice Jasmine Oolong & Meadow Tea',
+        shortTab: '🍵 Oolong',
+        vibeNote: '💚 Rewards curiosity, posture, and attentive caretaking.',
+        variant: 'dog_park_coffee',
+        photoUrl: './images/cast/dog-park-picnic.jpg',
       },
     ],
   },

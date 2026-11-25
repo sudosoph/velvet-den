@@ -645,18 +645,18 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 img: './images/scenes/palm-springs-resort.jpg',
               },
               {
+                epId: 'qigong-tai-chi-wellness-mommy-domme',
+                pin: '🧘‍♀️ Wellness Mommy-Domme',
+                title: 'Qigong & Tai Chi Cloud Hands ("Yes, Mommy")',
+                sub: 'Breath Sync & Zero Cubsplaining',
+                img: './images/cast/sedona-qigong-46f.jpg',
+              },
+              {
                 epId: 'broke-college-dutch-calculator-horror',
                 pin: '🚨 Sub-23 Sushi Trap',
                 title: 'Swat the $41.63 Edamame Venmo',
                 sub: 'Obstacle Boss Arcade',
                 img: './images/scenes/campus-autumn-sushi.jpg',
-              },
-              {
-                epId: 'check-drop',
-                pin: '🍷 Corner Booth',
-                title: 'The Tapas Check-Drop Reflex',
-                sub: 'Quick-Draw Card Arcade',
-                img: './images/scenes/wine-bar-booth.jpg',
               },
               {
                 epId: 'spontaneous-18h-pool-sauna-getaway',
@@ -918,6 +918,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   <div className="flex flex-wrap gap-2">
                     {(
                       [
+                        ['qigong_mommy_domme', 'her', '🧘‍♀️ Qigong & Tai Chi Mommy-Domme'],
                         ['zero_proof_wellness', 'her', '🥤 Zero-Proof Mocktail & Smoothie Date'],
                         ['black_cat_energy', 'her', '🐈‍⬛ Black Cat Energy (Pushes Back First)'],
                         ['golden_retriever_energy', 'his', '🐕 Golden Retriever Cub'],
@@ -994,7 +995,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                       <div>
                         <div className="text-sm font-extrabold text-[#1E1022]">{ep.title}</div>
                         <div className="text-xs font-medium text-[#5A4664] mt-0.5">
-                          {ep.subredditThreadInspiration.replace(/^r\/CougarsAndCubs[^:]*:\s*/i, '')}
+                          {ep.loreQuote}
                         </div>
                       </div>
                       <span

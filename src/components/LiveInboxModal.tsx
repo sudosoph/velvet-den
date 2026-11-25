@@ -34,37 +34,53 @@ const INBOX_CONTACTS: InboxContact[] = [
     role: 'her' as const,
     photoUrl: h.photoUrl,
     openingPrompt:
-      h.subplotTags.includes('black_cat_energy')
-        ? `🐈‍⬛ Slow down, eager puppy—every guy in my inbox promises the moon on Day 1. I take my time and I’m not easy to impress. Why shouldn’t I make you wait till next week?`
-        : h.subplotTags.includes('junior_cougar_gap')
-          ? `Quick math check: I’m 38, so a 6-year gap officially makes me a "Junior Cougar." Tell me where you were in 2008—and your actual Friday dinner plan.`
-          : h.subplotTags.includes('dog_mom_divorced')
-            ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
-            : h.age < 40
-              ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
-              : h.age >= 60
-                ? `We matched at the Palm Springs gallery opening. Most men half my age get nervous—tell me how you’d court me this weekend.`
-                : h.subplotTags.includes('princess_treatment')
-                  ? `I’ve made 400 executive decisions this week and refuse to plan Friday night. How are you spoiling me?`
-                  : `90% of cubs in my DMs open with "hey" or ask for Snapchat. You get one shot—what’s your actual Friday move?`,
+      h.subplotTags.includes('qigong_mommy_domme')
+        ? `🧘‍♀️ Unclench your jaw and drop your shoulders before typing, sweet boy. I guide 6:30 AM Qigong & Tai Chi Cloud Hands—tell me your Friday plan, and promise you won’t try to Cubsplain breathwork to Mommy.`
+        : h.subplotTags.includes('black_cat_energy')
+          ? `🐈‍⬛ Slow down, eager puppy—every guy in my inbox promises the moon on Day 1. I take my time and I’m not easy to impress. Why shouldn’t I make you wait till next week?`
+          : h.subplotTags.includes('junior_cougar_gap')
+            ? `Quick math check: I’m 38, so a 6-year gap officially makes me a "Junior Cougar." Tell me where you were in 2008—and your actual Friday dinner plan.`
+            : h.subplotTags.includes('dog_mom_divorced')
+              ? `Fair warning: I’m 37, happily divorced, child-free, and only lowered my age slider because every 42yo man on Hinge rants about his ex. Tell me your Friday plan—and how you’re winning over my rescue pup Barnaby.`
+              : h.age < 40
+                ? `Hey! My $20/hr sitter is booked for Friday at 7 and I get ONE free night this month. Impress me in two sentences—what’s our plan?`
+                : h.age >= 60
+                  ? `We matched at the Palm Springs gallery opening. Most men half my age get nervous—tell me how you’d court me this weekend.`
+                  : h.subplotTags.includes('princess_treatment')
+                    ? `I’ve made 400 executive decisions this week and refuse to plan Friday night. How are you spoiling me?`
+                    : `90% of cubs in my DMs open with "hey" or ask for Snapchat. You get one shot—what’s your actual Friday move?`,
     steamyPrompt:
-      h.age >= 50
-        ? `Stuck in a meeting still smiling about how unhurried and attentive you were last night... keep the slow-burn tension going before tonight 🔥`
-        : h.age >= 40
-          ? `Can’t focus on this VP deck after last night—hope you hit bench press today because you’re carrying me straight upstairs at 8 🔥 What’s the plan?`
-          : `Still blushing at my desk thinking about last night (right until I panicked realizing you’re my baby sister’s age 😱😂). Keep the spark going—what are you doing to me Friday?`,
-    quickChips: [
-      'Take all the time you want—honestly a woman who doesn’t rush makes me 10x more excited. I’ll hold Friday at 7:30 at The Cougar Lounge whenever you’re ready.',
-      'Booked a corner table at The Cougar Lounge Friday at 7:30—peonies & zero planning on your end.',
-      'hey 😍 why u playing hard to get whats ur snap??',
-    ],
-    steamyChips: [
-      'Just crushed 5 sets of 225 on bench specifically so I can carry you straight upstairs at 8—silk robe & dinner handled 🔥',
-      'Bringing cast-iron ribeye, cooling bamboo sheets, and my full unhurried attention all night—unlock the door at 7:30.',
-      'Wait is your little sister cute too?? 😂🔥',
-    ],
+      h.subplotTags.includes('qigong_mommy_domme')
+        ? `🧘‍♀️ Still smiling from how fast you melted into Tai Chi Cloud Hands when Mommy fixed your posture this morning... keep that grounded devotion going before cedar sauna tonight 🔥`
+        : h.age >= 50
+          ? `Stuck in a meeting still smiling about how unhurried and attentive you were last night... keep the slow-burn tension going before tonight 🔥`
+          : h.age >= 40
+            ? `Can’t focus on this VP deck after last night—hope you hit bench press today because you’re carrying me straight upstairs at 8 🔥 What’s the plan?`
+            : `Still blushing at my desk thinking about last night (right until I panicked realizing you’re my baby sister’s age 😱😂). Keep the spark going—what are you doing to me Friday?`,
+    quickChips: h.subplotTags.includes('qigong_mommy_domme')
+      ? [
+          'Yes, Mommy—shoulders dropped and podcast brain muted! Meet you at 6:30 AM in the bamboo courtyard for Qigong, Tai Chi Cloud Hands & warm jasmine oolong.',
+          'Booked us a quiet Friday 7:30 tea lounge & cedar sauna session—zero Cubsplaining, just following your lead.',
+          'Well actually let me explain how vagus-nerve breathwork works from a podcast I heard!!',
+        ]
+      : [
+          'Take all the time you want—honestly a woman who doesn’t rush makes me 10x more excited. I’ll hold Friday at 7:30 at The Cougar Lounge whenever you’re ready.',
+          'Booked a corner table at The Cougar Lounge Friday at 7:30—peonies & zero planning on your end.',
+          'Well actually let me explain mortgages to you—also whats ur snap??',
+        ],
+    steamyChips: h.subplotTags.includes('qigong_mommy_domme')
+      ? [
+          'Yes, Mommy—drawing your herbal bath, steeping jasmine oolong, and keeping my shoulders relaxed until you say otherwise 🔥',
+          'Just finished bench press & Tai Chi stance work so I can carry you straight from the cedar sauna to cooling bamboo sheets at 8.',
+          'Wait can Mommy put my gym membership on her AmEx?? 😂',
+        ]
+      : [
+          'Just crushed 5 sets of 225 on bench specifically so I can carry you straight upstairs at 8—silk robe & dinner handled 🔥',
+          'Bringing cast-iron ribeye, cooling bamboo sheets, and my full unhurried attention all night—unlock the door at 7:30.',
+          'Wait is your little sister cute too?? 😂🔥',
+        ],
   })),
-  ...HIS_ARCHETYPES.slice(0, 6).map((c) => ({
+  ...HIS_ARCHETYPES.map((c) => ({
     id: c.id,
     name: c.name,
     age: c.age,
@@ -73,15 +89,17 @@ const INBOX_CONTACTS: InboxContact[] = [
     photoUrl: c.photoUrl,
     openingPrompt:
       c.id === 'kayden-broke-dutch-cub'
-        ? `yo ${c.name} here!! down to grab sushi tn if we go dutch lol my campus dining dollars dont work off campus 😅`
+        ? `yo ${c.name} here!! down to grab sushi tn if we go dutch lol—or come to my place in Maui next month (technically my parents’ timeshare w/ my mom Linda 😅)`
         : c.id === 'colton-montana-cowboy-cub'
-          ? `Okay busted—I accidentally commented "I love you" from my boys’ shared @MontanaRanchBoyz TikTok before sliding in here 🤠 Let me fly out and take you to dinner Friday?`
-          : `Hey ${c.name} here—saw your profile and couldn’t resist saying hi! Would love to take you for espresso martinis Thursday at 7:30 if you’re free?`,
-    steamyPrompt: `Just finished bench press & split squats at the gym thinking about last night... tell me what time I’m sweeping you off your feet tonight 🔥`,
+          ? `Okay busted—I accidentally commented "I love you" from my boys’ shared @MontanaRanchBoyz account before sliding in here 🤠 Let me fly out and take you to dinner Friday?`
+          : c.id === 'rafael-accented-gentleman-cub'
+            ? `Hola—${c.name} here. Packed fresh figs, crusty baguette & espresso for a sunset meadow picnic Friday before retro neon bowling, if you’ll let me court you properly?`
+            : `Hey ${c.name} here—saw your profile and couldn’t resist saying hi! Would love to take you for espresso martinis Thursday at 7:30 if you’re free?`,
+    steamyPrompt: `Just finished bench press & split squats at the gym thinking about last night... tell me what time Mommy wants me at the door tonight 🔥`,
     quickChips: [
-      'Thursday at 7:30 sounds lovely—bonus points if you survive my 6 AM Saturday ridge hike after.',
-      'Only if you confirm you own a real bedframe, never split appetizers to $0.38, and never ask for Snapchat.',
-      'Aren’t cubs supposed to let me boss them around? Show up on time.',
+      'Thursday at 7:30 sounds lovely—drop your shoulders, zero Cubsplaining, and bonus points if you survive my 6:30 AM Qigong & ridge hike.',
+      'Only if Hawaii isn’t your mom Linda’s timeshare and you never split edamame to $0.38 on Venmo.',
+      'Breathe with Mommy, show up at 7:30 sharp in pressed linen, and let me see if you listen.',
     ],
     steamyChips: [
       'Door’s unlocked at 8, silk robe is on, and wallets stay hidden so I don’t shriek at your birth year again 🔥',
@@ -394,15 +412,15 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
         {/* Quick Inspiration Chips + Composer */}
         <div className="border-t-2 border-[#1E1022] bg-white p-3.5 sm:p-4 space-y-2.5">
-          <div className="flex gap-1.5 overflow-x-auto pb-1">
+          <div className="flex flex-wrap gap-1.5 pb-1">
             {activeChips.map((chip, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setInput(chip)}
-                className="shrink-0 rounded-full border-2 border-[#1E1022] bg-[#FFFBEB] px-3 py-1 text-xs font-bold text-[#1E1022] hover:bg-[#FFBE0B] cursor-pointer"
+                className="rounded-2xl border-2 border-[#1E1022] bg-[#FFFBEB] px-3 py-1.5 text-left text-xs font-bold text-[#1E1022] hover:bg-[#FFBE0B] cursor-pointer"
               >
-                💡 {chip.length > 52 ? `${chip.slice(0, 52)}…` : chip}
+                💡 {chip}
               </button>
             ))}
           </div>

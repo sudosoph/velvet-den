@@ -24,7 +24,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'houseboy-linen-apron',
     name: 'Japanese Cross-Back Heavyweight Linen Apron',
     category: 'houseboy',
-    priceDisplay: '$34',
+    priceDisplay: 'Amazon Pick',
     badge: 'Sunday Houseboy Uniform',
     cheekyPitch:
       'For the vetted Cub who passed every maturity test and is ready to meal-prep, scrub counters, and look dangerously good doing her chores.',
@@ -35,7 +35,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'trail-hydration-vest',
     name: 'Ultralight Ridge-Run Hydration Vest & Electrolyte Pack',
     category: 'trail_wellness',
-    priceDisplay: '$48',
+    priceDisplay: 'Amazon Pick',
     badge: '6 AM Short-Leash Survival',
     cheekyPitch:
       'Because bragging about 25-year-old cardio means nothing when a 52-year-old Jaguar drops you on mile four of the ridge trail.',
@@ -46,7 +46,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'princess-mulberry-silk-robe',
     name: '22-Momme Mulberry Silk Kimono Lounge Robe',
     category: 'princess_luxury',
-    priceDisplay: '$118',
+    priceDisplay: 'Luxury Pick',
     badge: 'Princess Cougar Favorite',
     cheekyPitch:
       'She carried everyone else’s mental load all week. Pour her a Pinot, draw the bath, and wrap her in pure soft-life luxury.',
@@ -57,7 +57,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'hosting-lidded-bin-soap',
     name: 'Matte-Black Lidded Bathroom Bin + Aesop-Style Botanical Hand Wash',
     category: 'hosting_upgrade',
-    priceDisplay: '$42',
+    priceDisplay: 'Amazon Pick',
     badge: 'Rule #1 Hosting Fix',
     cheekyPitch:
       'Every experienced woman begs young men to own two things before she comes over: botanical hand soap and a bathroom trash can WITH A LID.',
@@ -68,7 +68,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'percale-hosting-sheets',
     name: '600-Thread-Count Crisp Long-Staple Cotton Sheet Set',
     category: 'hosting_upgrade',
-    priceDisplay: '$79',
+    priceDisplay: 'Amazon Pick',
     badge: 'Retire the Navy Polyester',
     cheekyPitch:
       'Upgrade from dorm microfiber before inviting a C-Suite Cougar back to your place. Bonus points if you own an actual oak bedframe.',
@@ -79,7 +79,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'date-night-oud-bergamot',
     name: 'Warm Cedar, Bergamot & Amber Eau de Parfum',
     category: 'date_night',
-    priceDisplay: '$68',
+    priceDisplay: 'Amazon Pick',
     badge: 'Code-Switch Signature Scent',
     cheekyPitch:
       'Leaves club body-spray in sophomore year. Subtle, warm, close-to-the-collarbone sophistication when you lean in to open her car door.',
@@ -90,7 +90,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'espresso-martini-barware',
     name: 'Weighted Copper Cocktail Shaker & Coupe Glass Pair',
     category: 'date_night',
-    priceDisplay: '$54',
+    priceDisplay: 'Amazon Pick',
     badge: '"Not Her Son" Toast Kit',
     cheekyPitch:
       'For shaking two celebratory espresso martinis at home right after laughing off the restaurant waiter.',
@@ -101,18 +101,18 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'after-dark-couples-deck',
     name: 'Deep-Dive Intimacy & Life-Stage Couples Card Deck',
     category: 'date_night',
-    priceDisplay: '$26',
+    priceDisplay: 'Amazon Pick',
     badge: 'Date #3 Conversation Spark',
     cheekyPitch:
       'Skip the small talk and jump straight into fun, cheeky, emotionally mature prompts designed for real connection.',
-    whyItConverts: 'Impulse sub-$30 gift for real Cougar/Cub couples.',
+    whyItConverts: 'Impulse date-night gift for real Cougar/Cub couples.',
     merchantUrl: 'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
   },
   {
     id: 'cooling-bamboo-sheets',
     name: '100% Organic Bamboo Viscose Temperature-Regulating Sheet Set',
     category: 'hosting_upgrade',
-    priceDisplay: '$89',
+    priceDisplay: 'Amazon Pick',
     badge: '3 AM Perimenopause & Menopause Hero',
     cheekyPitch:
       'For 10 PM sparks followed by 3 AM flash-furnace heat waves—wicks heat instantly so nobody has to kick the duvet across the room.',
@@ -123,7 +123,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'cast-iron-steak-skillet',
     name: '12-Inch Pre-Seasoned Cast-Iron Ribeye Skillet',
     category: 'houseboy',
-    priceDisplay: '$44',
+    priceDisplay: 'Amazon Pick',
     badge: '30s Low-Iron Caretaking MVP',
     cheekyPitch:
       'When her ferritin hits 11 and her toes are ice cubes: sear a grass-fed ribeye with lemony spinach in cast iron like an elite high-EQ Cub.',
@@ -134,7 +134,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'adjustable-dumbbell-bench',
     name: 'Heavy-Duty Foldable Weight Bench ("Carry Her Upstairs" Kit)',
     category: 'trail_wellness',
-    priceDisplay: '$129',
+    priceDisplay: 'Fitness Pick',
     badge: 'Cub Bench-Press Essential',
     cheekyPitch:
       'Because keeping up with a Cougar in her prime—and sweeping her up the stairs after espresso martinis—requires real chest and core reps.',
@@ -145,7 +145,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'cub-grooming-beard-skincare-kit',
     name: 'Sandalwood Beard Oil, Peptide Moisturizer & Barber Grooming Kit',
     category: 'princess_luxury',
-    priceDisplay: '$46',
+    priceDisplay: 'Amazon Pick',
     badge: '"Cougar-Groomed" Red-Carpet Kit',
     cheekyPitch:
       'The ONLY kind of "grooming" endorsed by Cougars & Cubs Club: throw out his 5-in-1 neon-blue shower gel and polish a grown 26+ Cub to Danny Ramirez red-carpet sheen.',
@@ -156,7 +156,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'silk-pillowcase-sleepover-duo',
     name: '22-Momme Mulberry Silk Pillowcase & Tortoiseshell Claw-Clip Set',
     category: 'princess_luxury',
-    priceDisplay: '$39',
+    priceDisplay: 'Amazon Pick',
     badge: 'His Apartment "Her Drawer" MVP',
     cheekyPitch:
       'For the elite Cub who protects her blowout, honey braids, and retinol barrier at his place—plus a spare claw clip so she never has to hunt in her purse.',
@@ -167,11 +167,11 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     id: 'zero-proof-botanical-mocktail-set',
     name: 'Zero-Proof Botanical Aperitif Elixir & Ribbed Mocktail Coupe Set',
     category: 'date_night',
-    priceDisplay: '$44',
-    badge: 'Sober-Curious & Sleep-First MVP',
+    priceDisplay: 'Wellness Pick',
+    badge: 'Qigong Mommy & Sleep-First MVP',
     cheekyPitch:
-      'For wellness-minded Cougars protecting 8 hours of beauty sleep and Gen-Z Cubs who prefer 7 AM Pilates stamina over tequila hangovers.',
-    whyItConverts: 'Direct tie-in to the Zero-Proof Mocktail & Smoothie Date episode.',
+      'For Qigong & Tai Chi Wellness Mommies protecting 8 hours of beauty sleep and attentive Cubs who prefer 6:30 AM Cloud-Hands stamina over tequila hangovers.',
+    whyItConverts: 'Direct tie-in to the Qigong Wellness Mommy-Domme & Zero-Proof Mocktail episodes.',
     merchantUrl: 'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
   },
 ];

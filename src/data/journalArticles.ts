@@ -32,7 +32,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     headline: 'Cougar vs. Puma vs. Jaguar Age Chart: Older Woman Dating Younger Man Guide',
     readTime: '4 min read',
     intro:
-      'If you have ever lurked on age-gap relationship forums like r/CougarsAndCubs, you quickly learn that not every woman dating a younger man calls herself a Cougar—and getting the etiquette wrong is the fastest way to get left on Read.',
+      'If you have ever lurked on age-gap relationship modern older-woman / younger-man dating circles, you quickly learn that not every woman dating a younger man calls herself a Cougar—and getting the etiquette wrong is the fastest way to get left on Read.',
     sections: [
       {
         heading: 'The Real Age-Gap Dating Scale (30s to 60+)',
@@ -221,7 +221,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       'Why sunny Golden-Retriever younger men fall hardest for cool, unhurried "Black Cat" older women who take their time, set boundaries, and push back playfully at first.',
     readTime: '5 min read',
     intro:
-      'Across Romance TikTok and r/CougarsAndCubs, one dynamic outlasts every flash-in-the-pan fling: the selective, unhurried "Black Cat" older woman paired with the sunny, devoted "Golden Retriever" younger man. Where insecure peer men often bristle when a woman takes her time or pushes back on Date #1, a high-EQ Golden-Retriever Cub lights up at the challenge of earning her warmth.',
+      'Across Romance TikTok and Cougars & Cubs Club, one dynamic outlasts every flash-in-the-pan fling: the selective, unhurried "Black Cat" older woman paired with the sunny, devoted "Golden Retriever" younger man. Where insecure peer men often bristle when a woman takes her time or pushes back on Date #1, a high-EQ Golden-Retriever Cub lights up at the challenge of earning her warmth.',
     sections: [
       {
         heading: '1. Why Older Women Naturally Radiate "Black Cat" Energy',
@@ -250,5 +250,292 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     ],
     featuredEpisodeId: 'black-cat-pushback-golden-retriever-test',
     featuredAffiliateIds: ['silk-pillowcase-sleepover-duo', 'cub-grooming-beard-skincare-kit'],
+  },
+  {
+    slug: 'celebrity-cougars-and-cubs-pop-culture-guide',
+    seoTitle: 'Celebrity Cougars and Cubs: Jessica Alba, Sienna Miller, Ellie Goulding & Miley Cyrus',
+    metaDescription:
+      'From Jessica Alba & Danny Ramirez and Sienna Miller & Oli Green to Ellie Goulding & Beau Minniear and newlyweds Miley Cyrus & Maxx Morando—how pop culture entered its Golden Cougar Era.',
+    targetKeywords: [
+      'celebrity cougars and cubs',
+      'jessica alba danny ramirez age gap',
+      'sienna miller oli green relationship',
+      'miley cyrus maxx morando age gap',
+    ],
+    headline: 'Celebrity Cougars & Cubs: How Pop Culture Entered Its Unapologetic Golden Cougar Era',
+    readTime: '5 min read',
+    intro:
+      'Hollywood’s double standard around older-woman / younger-man relationships has officially collapsed, led by self-made women dating confident younger partners without a single apology.',
+    sections: [
+      {
+        heading: '1. Jessica Alba, Sienna Miller & Ellie Goulding Rewriting Timeline Rules',
+        body: 'Jessica Alba and Top Gun: Maverick star Danny Ramirez embody effortless 40s Cougar × early-30s Cub chemistry, while Sienna Miller & Oli Green (15-year gap) and Ellie Goulding & Beau Minniear (11-year gap) welcomed babies together while dominating London and Met Gala red carpets.',
+      },
+      {
+        heading: '2. Miley Cyrus, Heidi Klum, Priyanka Chopra & Cher',
+        body: 'Miley Cyrus marrying 6-years-younger drummer Maxx Morando in Palm Springs cemented the sub-10-year "Junior Cougar" sweet spot alongside enduring icons Heidi Klum & Tom Kaulitz (16-year gap), Priyanka Chopra & Nick Jonas (10-year gap), and Cher ("Mom, I AM a rich man").',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Who are the most famous Cougar and Cub celebrity couples right now?',
+        answer:
+          'Top pop-culture older-woman / younger-man couples include Jessica Alba & Danny Ramirez, Sienna Miller & Oli Green, Ellie Goulding & Beau Minniear, Miley Cyrus & Maxx Morando, Heidi Klum & Tom Kaulitz, and Priyanka Chopra & Nick Jonas.',
+      },
+    ],
+    featuredEpisodeId: 'pop-culture-cougar-renaissance',
+    featuredAffiliateIds: ['cub-grooming-beard-skincare-kit', 'princess-mulberry-silk-robe'],
+  },
+  {
+    slug: 'dating-younger-man-perimenopause-menopause-intimacy',
+    seoTitle: 'Dating a Younger Man in Perimenopause & Menopause: Real Intimacy & Sleep Guide',
+    metaDescription:
+      'Honest advice on perimenopause libido surges, 3 AM hot flashes, menopause intimacy, cooling bamboo sheets, and high-EQ communication with a younger male partner.',
+    targetKeywords: [
+      'dating younger man perimenopause',
+      'menopause intimacy younger boyfriend',
+      'cooling bamboo sheets night sweats',
+    ],
+    headline: 'Dating a Younger Man in Perimenopause & Menopause: Real Intimacy, 62°F Sleep & High-EQ Care',
+    readTime: '5 min read',
+    intro:
+      'One of the best-kept secrets of 40s, 50s, and 60+ Cougar, Jaguar, and Panther relationships is how liberating intimacy becomes once open communication replaces guesswork.',
+    sections: [
+      {
+        heading: '1. 10 PM Desire Surges Meet 3 AM Flash-Furnace Night Sweats',
+        body: 'In perimenopause (often ages 40–51), women frequently experience dramatic 10 PM libido surges paired with 3 AM temperature swings. High-EQ Cubs lock the bedroom thermostat at 62°F and keep 100% organic bamboo viscose cooling sheets on the bed.',
+      },
+      {
+        heading: '2. Unhurried Presence & Zero Guesswork',
+        body: 'Treating cooling sleep setups, unhurried warmup, and hydration as joyful adult teamwork deepens trust and keeps both partners rested for 6:30 AM Qigong or ridge hikes.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How do couples handle perimenopause night sweats and menopause intimacy shifts?',
+        answer:
+          'Pair breathable bamboo cooling sheets and a 62°F bedroom with unhurried warmup, open communication, and bedside hydration.',
+      },
+    ],
+    featuredEpisodeId: 'cougar-perimenopause-surge-nightsweats',
+    featuredAffiliateIds: ['cooling-bamboo-sheets', 'silk-pillowcase-sleepover-duo'],
+  },
+  {
+    slug: 'junior-cougar-6-year-age-gap-relationship-guide',
+    seoTitle: 'Junior Cougar Meaning: Why a 5-to-9 Year Age Gap Is Modern Dating’s Sweet Spot',
+    metaDescription:
+      'Under strict 10-year Cougar rules, a 6-to-8 year older-woman / younger-man gap earns the Junior Cougar badge. Learn why couples love the micro-generational sweet spot.',
+    targetKeywords: [
+      'junior cougar meaning',
+      '6 year age gap older woman younger man',
+      '5 to 9 year age gap dating',
+    ],
+    headline: 'Junior Cougar Meaning: Why a 5-to-9 Year Age Gap Is Modern Dating’s Sweet Spot',
+    readTime: '4 min read',
+    intro:
+      'While strict Cougars & Cubs Club taxonomy reserves official Cougar status for a 10+ year gap at age 40+, women who are 5 to 9 years older than their partner proudly wear the "Junior Cougar" badge.',
+    sections: [
+      {
+        heading: 'All the Spark With Shared Cultural References',
+        body: 'A 6-year gap (such as 38F × 32M, or newlyweds Miley Cyrus & Maxx Morando) blends shared music touchstones and zero restaurant stares with playful 2008 high-school math banter and homeowner-era intentionality.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Does a 6-year age gap count as a Cougar relationship?',
+        answer:
+          'Purists playfully dub a 5-to-9 year older-woman / younger-man gap a "Junior Cougar" matchup—combining older-woman confidence with closely aligned life timelines.',
+      },
+    ],
+    featuredEpisodeId: 'junior-cougar-gatekeeper-tease',
+    featuredAffiliateIds: ['cast-iron-steak-skillet', 'after-dark-couples-deck'],
+  },
+  {
+    slug: 'older-woman-grown-son-same-age-meeting-parents-guide',
+    seoTitle: 'Dating an Older Woman With a Grown Son Your Age (Plus Meeting Parents & Wedding +1)',
+    metaDescription:
+      'Real advice on navigating grown children the same age as her partner, meeting his same-age parents, and attending your first wedding together as a +1.',
+    targetKeywords: [
+      'dating older woman with son my age',
+      'meeting boyfriend parents same age',
+      'older woman younger man wedding plus one',
+    ],
+    headline: 'Dating an Older Woman With a Grown Son Your Age (Plus Meeting Parents & First Wedding +1)',
+    readTime: '5 min read',
+    intro:
+      'In 18+ year older-woman / younger-man relationships, two milestones test real maturity: meeting an adult son or daughter within two years of his age, and realizing she graduated high school the exact same year as his mom.',
+    sections: [
+      {
+        heading: 'Zero Stepdad Posturing & Zero Doorway Ambushes',
+        body: 'Brief family warmly a week ahead instead of springing holiday doorway surprises, treat her adult kids with peer-level warmth rather than fake authority, and own the slow dance at your first wedding together as a +1.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How should a younger man act when meeting an older girlfriend’s grown children?',
+        answer:
+          'Treat them with warm peer-level respect, zero step-parent posturing, and steady consistency.',
+      },
+    ],
+    featuredEpisodeId: 'grown-son-same-age-collision',
+    featuredAffiliateIds: ['espresso-martini-barware', 'after-dark-couples-deck'],
+  },
+  {
+    slug: 'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man',
+    seoTitle: 'Best Cougar & Cub Date Ideas: 18-Hour Getaways, Qigong Courtyards, Picnics & Bowling',
+    metaDescription:
+      'Skip stiff dinner interviews: why spontaneous 18-hour hotel pool & sauna getaways, dawn Qigong & Tai Chi tea dates, campus sushi, and meadow picnics spark chemistry.',
+    targetKeywords: [
+      'cougar and cub date ideas',
+      'spontaneous weekend getaway older woman',
+      'wellness date ideas qigong sauna',
+    ],
+    headline: 'Best Cougar & Cub Date Ideas: 18-Hour Pool & Sauna Getaways, Dawn Qigong & Meadow Picnics',
+    readTime: '5 min read',
+    intro:
+      'Accomplished women in their late 30s, 40s, 50s, and 60s have sat through enough corporate steakhouse interviews for three lifetimes—playful movement, sensory calm, and planning effort win every time.',
+    sections: [
+      {
+        heading: '1. 18-Hour Pool & Cedar Sauna Escapes + Dawn Qigong Tea Rituals',
+        body: 'Pair a chemistry-vetted video call with sunset rooftop mocktails, a heated midnight pool & cedar sauna, or a 6:30 AM bamboo-courtyard Qigong & Tai Chi Cloud-Hands session followed by warm jasmine oolong.',
+      },
+      {
+        heading: '2. Hand-Packed Meadow Picnics & Retro Neon Bowling',
+        body: 'On an early-career budget, a linen-blanket meadow picnic with fresh figs and crusty baguette followed by playful retro bowling beats fake trust-fund flexing (especially pretending your mom’s Hawaii timeshare is "your place"!).',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How can a younger man on an early-career budget plan an unforgettable date?',
+        answer:
+          'Pack a thoughtful linen-blanket meadow picnic and book retro bowling—authentic effort always beats pretending your parents’ timeshare is yours.',
+      },
+    ],
+    featuredEpisodeId: 'qigong-tai-chi-wellness-mommy-domme',
+    featuredAffiliateIds: ['zero-proof-botanical-mocktail-set', 'houseboy-linen-apron'],
+  },
+  {
+    slug: 'cougar-town-pop-culture-age-gap-dating-history',
+    seoTitle: 'From Cougar Town’s "Big Carl" to 2026 Icons: How Pop Culture Rewrote Age-Gap Romance',
+    metaDescription:
+      'How Courteney Cox’s Cougar Town ("Big Carl" wine glasses & post-divorce joy) paved the way for modern Cougar and Cub romances in film, TV, and celebrity culture.',
+    targetKeywords: [
+      'cougar town big carl wine glass',
+      'courteney cox cougar town age gap',
+      'pop culture cougar history',
+    ],
+    headline: 'From Cougar Town’s "Big Carl" to Modern Icons: How Pop Culture Rewrote Age-Gap Joy',
+    readTime: '4 min read',
+    intro:
+      'When Courteney Cox launched Cougar Town armed with her comically oversized wine glass "Big Carl," television began shifting older-woman / younger-man stories from punchlines to joyful self-reclamation.',
+    sections: [
+      {
+        heading: 'From Cul-de-Sac Comedy to Real-Life Anniversaries',
+        body: 'Today, couples celebrating 6-month and 1-year milestones blend Jules Cobb’s humor with genuine emotional intelligence, zero shame, and unapologetic partnership.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What was Jules Cobb’s giant wine glass called on Cougar Town?',
+        answer:
+          'Courteney Cox’s character Jules Cobb named her oversized red wine glass "Big Carl" (followed by Big Joe and Big Lou).',
+      },
+    ],
+    featuredEpisodeId: 'milestone-six-month-anniversary',
+    featuredAffiliateIds: ['espresso-martini-barware', 'after-dark-couples-deck'],
+  },
+  {
+    slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
+    seoTitle: 'Zodiac & Star-Sign Compatibility in Older-Woman / Younger-Man Relationships',
+    metaDescription:
+      'Explore astrology chemistry for Cougars and Cubs: why Scorpio, Aries, Leo, Taurus, and Virgo pairings create magnetic cross-generational romance.',
+    targetKeywords: [
+      'zodiac compatibility older woman younger man',
+      'scorpio woman taurus younger man',
+      'astrology age gap dating',
+    ],
+    headline: 'Zodiac & Star-Sign Compatibility in Older-Woman / Younger-Man Relationships',
+    readTime: '4 min read',
+    intro:
+      'Astrology-loving Cougars, Wellness Mommies, and Cubs swear by cross-element magnetism—especially Fire-and-Earth and Water-and-Earth pairings.',
+    sections: [
+      {
+        heading: 'Fiery Aries/Leo & Serene Virgo/Scorpio Pairings',
+        body: 'Bold Aries and Leo Cougars thrive with grounded Taurus or Cancer Cubs who adore their confidence without competing for the spotlight, while Virgo and Scorpio Mommy-Dommes melt for attentive partners who remember 62°F bamboo sheets and passenger-seat warmers.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Which zodiac signs match best in Cougar and Cub dating?',
+        answer:
+          'Fire-and-Earth pairings (Aries or Leo with Taurus or Virgo) and Water-and-Earth pairings (Scorpio or Cancer with Taurus or Capricorn) rank highest for passion and domestic harmony.',
+      },
+    ],
+    featuredEpisodeId: 'fiery-foreign-cougar-passion-test',
+    featuredAffiliateIds: ['date-night-oud-bergamot', 'cooling-bamboo-sheets'],
+  },
+  {
+    slug: 'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man',
+    seoTitle: 'Best Older-Woman / Younger-Man Movies: Babygirl, The Idea of You, Bridget Jones & Lonely Planet',
+    metaDescription:
+      'Loved Babygirl’s hotel-bar scene, The Idea of You, Bridget Jones: Mad About the Boy, or Lonely Planet? Explore the golden wave of Cougar & Cub cinema.',
+    targetKeywords: [
+      'movies like babygirl older woman younger man',
+      'the idea of you bridget jones mad about the boy',
+      'older woman younger man romance movies',
+    ],
+    headline: 'Best Older-Woman / Younger-Man Movies: Babygirl, The Idea of You & Bridget Jones',
+    readTime: '5 min read',
+    intro:
+      'Cinema and streaming have entered a full-scale older-woman / younger-man renaissance—led by Babygirl, The Idea of You, Bridget Jones: Mad About the Boy, and Lonely Planet.',
+    sections: [
+      {
+        heading: 'Why the Hotel-Bar & Second-Act Romance Wave Resonates',
+        body: 'From Nicole Kidman and Harris Dickinson’s viral hotel-bar glass-of-milk wink in Babygirl to Anne Hathaway in The Idea of You and Renée Zellweger with park-ranger Cub Roxster in Bridget Jones, modern cinema celebrates accomplished women reclaiming desire, playfulness, and soft Mommy-Domme authority.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Why did the glass of milk scene in Babygirl go viral?',
+        answer:
+          'Harris Dickinson’s younger character sends Nicole Kidman’s CEO character a glass of milk across a hotel bar—a real-life moment borrowed from director Halina Reijn.',
+      },
+    ],
+    featuredEpisodeId: 'babygirl-hotel-bar-milk-or-martini',
+    featuredAffiliateIds: ['princess-mulberry-silk-robe', 'espresso-martini-barware'],
+  },
+  {
+    slug: 'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',
+    seoTitle: 'How to Meet Older Women "In the Wild": Hotel Bars, Gym Headphones & Zero Cubsplaining',
+    metaDescription:
+      'Real etiquette on meeting Cougars & Wellness Mommies offline: upscale hotel bars, the sacred gym headphone rule, playful Mommy-Domme respect, and avoiding Cubsplaining.',
+    targetKeywords: [
+      'how to meet older women in real life',
+      'approaching older woman gym headphones',
+      'what is cubsplaining age gap dating',
+    ],
+    headline: 'How to Meet Older Women "In the Wild": Hotel Bars, Gym Headphone Law & Zero Cubsplaining',
+    readTime: '5 min read',
+    intro:
+      'Meeting confident women in their late 30s, 40s, and 50s offline comes down to situational awareness, unhurried rapport, and never lecturing her on skills she mastered twenty years ago.',
+    sections: [
+      {
+        heading: '1. Respect the Sacred Gym Headphone Law & Qigong Sanctuary',
+        body: 'Never interrupt a woman mid-squat or mid-Tai Chi form while her headphones are on. Build three weeks of warm nods, rerack your 45-lb plates cleanly, and say hello naturally at the smoothie or tea counter once headphones come off.',
+      },
+      {
+        heading: '2. Cure "Cubsplaining" Before Sentence One Finishes',
+        body: 'Nothing dries up spark faster than a 25-year-old "Cubsplaining" fixed-rate mortgages, Fleetwood Mac vinyl, or breathwork to an accomplished homeowner or Qigong Mommy-Domme. Lead with curiosity, listen well, and hand her your number with zero hovering.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What does Cubsplaining mean in age-gap dating?',
+        answer:
+          'Cubsplaining is when an eager younger man patronizingly lectures an accomplished older woman on life skills, music history, finance, or wellness practices she mastered decades earlier.',
+      },
+    ],
+    featuredEpisodeId: 'cubsplaining-and-bouncer-id-check',
+    featuredAffiliateIds: ['adjustable-dumbbell-bench', 'cub-grooming-beard-skincare-kit'],
   },
 ];

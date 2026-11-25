@@ -99,14 +99,14 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
     episodeId: 'cub-bench-press-cougar-training',
   },
   {
-    id: 'petstaredown',
-    text: 'Survived an unblinking stare-down from her spoiled rescue dog or orange cat Mochi.',
-    episodeId: 'puma-dog-park-vetting',
+    id: 'qigongmommy',
+    text: 'Melted into "Yes, Mommy" posture when a Qigong / Tai Chi Wellness Mommy-Domme fixed your breathing with two fingers under your chin.',
+    episodeId: 'qigong-tai-chi-wellness-mommy-domme',
   },
   {
-    id: 'campussushi',
-    text: 'Dressed down in sneakers for a campus stroll + sushi "Professor & Grad Student" bit.',
-    episodeId: 'campus-stroll-sushi-professor-student',
+    id: 'cubsplaining',
+    text: 'Caught a Cub mid-"Cubsplain" trying to lecture an accomplished homeowner Mommy on mortgages, Fleetwood Mac, or breathwork.',
+    episodeId: 'cubsplaining-and-bouncer-id-check',
   },
   {
     id: 'getaway18h',
@@ -144,7 +144,7 @@ function rankForScore(score: number): { title: string; subtitle: string; recomme
   if (score >= 76) {
     return {
       title: '👑 HALL-OF-FAME COUGAR DEN APEX',
-      subtitle: 'You didn’t just read r/CougarsAndCubs—you practically wrote the sacred texts.',
+      subtitle: 'You didn’t just study age-gap courtship—you practically wrote the Cougars & Cubs Club handbook.',
       recommendedEp: 'babygirl-hotel-bar-milk-or-martini',
     };
   }

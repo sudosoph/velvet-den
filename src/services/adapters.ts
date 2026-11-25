@@ -123,13 +123,24 @@ export function evaluateDmLocally(params: {
     lower,
   );
   const hasSisterFumble = /little\s+sister\s+cute|sister\s+single/.test(lower);
-  const hasMommyOrSugar =
-    /\b(mommy|sugar\s*mama|allowance|spoil\s*me|amex|cabo|cougar\s*bucket)\b/.test(lower);
+  const hasCubsplaining =
+    /\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(
+      lower,
+    );
+  const hasSugarFreeloader =
+    /\b(sugar\s*mama|allowance|spoil\s*me|amex|pay\s*my|cougar\s*bucket)\b/.test(lower) ||
+    /^(hey+|yo+|sup)\s+mommy[!?.🔥😍👀]*$/i.test(msg);
+  const hasPlayfulMommyOrQigong =
+    !hasSugarFreeloader &&
+    !hasCubsplaining &&
+    /\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong)\b/.test(
+      lower,
+    );
   const hasForYourAge = /for\s+(your|ur)\s+age/.test(lower) || /\blook\s+good\s+for\b/.test(lower);
   const isLazyHey =
     msg.length < 12 || /^(hey+|yo+|sup|wyd|u\s*up\??|hi+)$/i.test(msg.replace(/[!?.🔥😍👀]/g, '').trim());
   const hasPlan =
-    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow)\b/.test(
+    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|6:?30|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow|oolong|sauna|courtyard)\b/.test(
       lower,
     );
 
@@ -140,6 +151,18 @@ export function evaluateDmLocally(params: {
       chemistryDelta: -25,
       herReply: `Excuse me?! Ask about my little sister ONE more time and your gym duffel is going out the second-story window. 🚩`,
       coachNote: 'Rule #0: When she has a post-hookup "OMG you’re my baby sister’s age!!" shock moment, make her laugh—NEVER ask if her sister is cute!',
+      passedVibeCheck: false,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasCubsplaining) {
+    return {
+      maturityDelta: -22,
+      chivalryDelta: -15,
+      chemistryDelta: -22,
+      herReply: `🤓 Hold right there, sweet boy—did you just start a sentence with "well actually" to Cubsplain something I mastered in 2006? Unclench your jaw, mute the podcast brain, and try again.`,
+      coachNote: 'Zero Cubsplaining! Accomplished Cougars & Wellness Mommies love curiosity and confidence—never a 10-minute Wikipedia lecture.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -157,6 +180,18 @@ export function evaluateDmLocally(params: {
     };
   }
 
+  if (hasPlayfulMommyOrQigong && !hasSnap && !hasForYourAge) {
+    return {
+      maturityDelta: 22,
+      chivalryDelta: 20,
+      chemistryDelta: 26,
+      herReply: `🧘‍♀️ Good boy—shoulders dropped, zero Cubsplaining, and actual follow-through. Meet Mommy in the bamboo courtyard at 6:30 AM for Tai Chi Cloud Hands and warm jasmine oolong. 🍵`,
+      coachNote: '🧘‍♀️ Wellness Mommy-Domme bullseye! Playful, consensual "Yes, Mommy" polarity + real effort (zero freeloading) melts her instantly.',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
   if (hasGoldenPatience) {
     return {
       maturityDelta: 22,
@@ -169,12 +204,12 @@ export function evaluateDmLocally(params: {
     };
   }
 
-  if (hasSnap || hasMommyOrSugar || hasForYourAge) {
+  if (hasSnap || hasSugarFreeloader || hasForYourAge) {
     const reason = hasSnap
       ? `Did you seriously just ask ${params.personaName} (${params.personaAge}) for Snapchat? Instant block.`
       : hasForYourAge
         ? '"For your age" is banned in all 50 states. Try complimenting her without a birth-certificate footnote!'
-        : 'Rule #1 of the Club: Cougar never means Sugar Mama or fetish category.';
+        : 'Rule #1 of the Club: Mommy-Domme is playful romantic polarity—Cougar NEVER means Sugar Mama or allowance ATM!';
     return {
       maturityDelta: -18,
       chivalryDelta: -15,
@@ -183,7 +218,7 @@ export function evaluateDmLocally(params: {
         ? `I have a mortgage and a wine cellar, sweetie—I haven’t opened Snapchat since 2016. Good luck out there. 👋`
         : hasForYourAge
           ? `"For my age"?! I was about to say yes to drinks until that sentence happened.`
-          : `Wrong inbox—I’m looking for a grown partner with spark, not an allowance applicant.`,
+          : `Wrong inbox—playful Mommy-Domme banter is earned by grown partners, never freeloaders looking for an allowance.`,
       coachNote: reason,
       passedVibeCheck: false,
       source: 'local-heuristic',

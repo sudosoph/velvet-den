@@ -57,9 +57,10 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
         <div className="flex flex-wrap gap-2">
           {[
             { id: 'all', label: 'All Lore' },
+            { id: 'crossover_lore', label: '🧘‍♀️ Mommy-Domme & Polarity' },
             { id: 'pop_culture', label: '✨ Pop-Culture Icons' },
             { id: 'feline_scale', label: '🐆 Feline Scale' },
-            { id: 'cub_taxonomy', label: '🥂 Cub Taxonomy' },
+            { id: 'cub_taxonomy', label: '🥂 Cub & Cubsplaining' },
           ].map((tab) => (
             <button
               key={tab.id}

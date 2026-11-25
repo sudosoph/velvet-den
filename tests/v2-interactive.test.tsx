@@ -33,10 +33,18 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 79 subplots accurately—including Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
-    expect(EPISODES.length).toBe(79);
-    expect(HER_ARCHETYPES.length).toBe(37);
+  it('routes 80 subplots accurately—including Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(80);
+    expect(HER_ARCHETYPES.length).toBe(38);
     expect(HIS_ARCHETYPES.length).toBe(17);
+
+    const sedona46 = HER_ARCHETYPES.find((h) => h.id === 'sedona-qigong-mommy')!;
+    const leoForSedona = HIS_ARCHETYPES.find((c) => c.id === 'leo-golden-cub')!;
+    const sedonaIds = createRun(analyzePairing(sedona46, leoForSedona, 'him')).episodeQueue.map(
+      (e) => e.id,
+    );
+    expect(sedonaIds).toContain('qigong-tai-chi-wellness-mommy-domme');
+    expect(sedonaIds).toContain('zero-proof-mocktail-smoothie-date');
 
     const sienna38 = HER_ARCHETYPES.find((h) => h.id === 'sienna-junior-cougar')!;
     const miles32 = HIS_ARCHETYPES.find((c) => c.id === 'miles-millennial-cub')!;
@@ -388,6 +396,25 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(planVerdict.passedVibeCheck).toBe(true);
     expect(planVerdict.chemistryDelta).toBeGreaterThan(15);
 
+    const qigongMommyVerdict = evaluateDmLocally({
+      personaName: 'Sedona',
+      personaAge: 46,
+      personaRole: 'her',
+      playerMessage:
+        'Yes, Mommy—shoulders relaxed and zero Cubsplaining. Meet you at 6:30 AM for Qigong & Tai Chi Cloud Hands!',
+    });
+    expect(qigongMommyVerdict.passedVibeCheck).toBe(true);
+    expect(qigongMommyVerdict.chemistryDelta).toBeGreaterThanOrEqual(25);
+
+    const cubsplainVerdict = evaluateDmLocally({
+      personaName: 'Sedona',
+      personaAge: 46,
+      personaRole: 'her',
+      playerMessage: 'Well actually let me explain how breathwork works from a podcast I heard.',
+    });
+    expect(cubsplainVerdict.passedVibeCheck).toBe(false);
+    expect(cubsplainVerdict.maturityDelta).toBeLessThan(0);
+
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: /Live AI Texting Mode/i }));
     expect(
@@ -494,25 +521,77 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(refStatusJson.uniqueReferrals).toBe(1);
     expect(refStatusJson.claimableSlots).toBe(1);
 
-    const checkoutOnce = await workerApp.fetch(
+    // Without STRIPE_SECRET_KEY configured, forged cs_live_... session IDs MUST be rejected!
+    const unconfiguredCheckout = await workerApp.fetch(
       new Request(
         'https://cougarsandcubs.club/api/verify-checkout?session_id=cs_live_a1B2c3D4e5F6g7H8i9J0k1L2m3N4&tier=vip',
       ),
       mockEnv,
     );
-    const checkoutOnceJson = (await checkoutOnce.json()) as { verified: boolean; grantType: string };
-    expect(checkoutOnceJson.verified).toBe(true);
-    expect(checkoutOnceJson.grantType).toBe('vip');
+    expect(unconfiguredCheckout.status).toBe(503);
+    const unconfiguredJson = (await unconfiguredCheckout.json()) as { verified: boolean };
+    expect(unconfiguredJson.verified).toBe(false);
 
-    // Second replay of exact same session_id is rejected!
-    const checkoutReplay = await workerApp.fetch(
-      new Request(
-        'https://cougarsandcubs.club/api/verify-checkout?session_id=cs_live_a1B2c3D4e5F6g7H8i9J0k1L2m3N4&tier=vip',
-      ),
+    // With STRIPE_SECRET_KEY configured, Worker verifies against Stripe API and enforces one-time redemption
+    const origFetch = globalThis.fetch;
+    globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+      const urlStr = typeof input === 'string' ? input : input.toString();
+      if (urlStr.startsWith('https://api.stripe.com/v1/checkout/sessions/')) {
+        return new Response(
+          JSON.stringify({
+            payment_status: 'paid',
+            amount_total: 699,
+            metadata: { tier: 'vip' },
+            customer_details: { email: 'vipbuyer@example.com' },
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+      return origFetch(input, init);
+    }) as typeof fetch;
+
+    try {
+      const stripeEnv: WorkerEnv = { ...mockEnv, STRIPE_SECRET_KEY: 'sk_test_mock_key' };
+      const checkoutOnce = await workerApp.fetch(
+        new Request(
+          'https://cougarsandcubs.club/api/verify-checkout?session_id=cs_live_a1B2c3D4e5F6g7H8i9J0k1L2m3N4&tier=vip',
+        ),
+        stripeEnv,
+      );
+      const checkoutOnceJson = (await checkoutOnce.json()) as {
+        verified: boolean;
+        grantType: string;
+      };
+      expect(checkoutOnceJson.verified).toBe(true);
+      expect(checkoutOnceJson.grantType).toBe('vip');
+
+      // Second replay of exact same session_id is rejected!
+      const checkoutReplay = await workerApp.fetch(
+        new Request(
+          'https://cougarsandcubs.club/api/verify-checkout?session_id=cs_live_a1B2c3D4e5F6g7H8i9J0k1L2m3N4&tier=vip',
+        ),
+        stripeEnv,
+      );
+      const checkoutReplayJson = (await checkoutReplay.json()) as { verified: boolean };
+      expect(checkoutReplayJson.verified).toBe(false);
+    } finally {
+      globalThis.fetch = origFetch;
+    }
+
+    // $29 Custom Scenario / Cameo Brief endpoint stores brief in KV
+    const cameoRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/cameo-brief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'vipbuyer@example.com',
+          brief: '46F Qigong Mommy-Domme roasts a Cub trying to Cubsplain Tai Chi at sunrise!',
+        }),
+      }),
       mockEnv,
     );
-    const checkoutReplayJson = (await checkoutReplay.json()) as { verified: boolean };
-    expect(checkoutReplayJson.verified).toBe(false);
+    expect(cameoRes.status).toBe(200);
+    expect(memoryKv.get('cameo_briefs:list')).toContain('Qigong Mommy-Domme');
 
     // Founder auth rejects wrong password (401) and accepts real passphrase (200)
     const badFounderRes = await workerApp.fetch(
@@ -578,5 +657,29 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     fireEvent.click(screen.getByRole('button', { name: /Viral IRL Check/i }));
     fireEvent.click(screen.getByRole('button', { name: /Lived This IRL!/i }));
     expect(screen.getByText(/of Club regulars have survived this exact moment!/i)).toBeInTheDocument();
+  });
+
+  it('plays the Qigong & Tai Chi Wellness Mommy-Domme Cloud-Hands Breath Sync minigame and roasts Cubsplaining', () => {
+    render(<App />);
+    fireEvent.click(
+      screen.getByRole('button', { name: /Qigong & Tai Chi Cloud Hands \("Yes, Mommy"\)/i }),
+    );
+
+    expect(screen.getByText(/Dawn Qigong & Mommy-Domme Breath Sync/i)).toBeInTheDocument();
+
+    // Hitting the Cubsplaining temptation trap triggers Mommy-Domme eyebrow raise
+    fireEvent.click(screen.getByRole('button', { name: /Temptation Trap: .*Cubsplain/i }));
+    expect(screen.getByText(/Mommy-Domme Eyebrow Raise!/i)).toBeInTheDocument();
+
+    // Syncing all 3 Tai Chi Cloud-Hands beats unlocks full harmony
+    const syncBtns = screen.getAllByRole('button', { name: /SYNC →/i });
+    expect(syncBtns).toHaveLength(3);
+    for (const btn of syncBtns) {
+      fireEvent.click(btn);
+    }
+    expect(screen.getByText(/Full Tai Chi Cloud-Hands harmony unlocked/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Yes, Mommy—podcast brain officially muted/i }));
+    expect(screen.getByText(/MOMMY-DOMME QIGONG SYNC!/i)).toBeInTheDocument();
   });
 });

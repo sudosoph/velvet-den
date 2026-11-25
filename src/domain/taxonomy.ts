@@ -25,7 +25,8 @@ export type SubplotTag =
   | 'montana_cowboy_slider'
   | 'black_cat_energy'
   | 'golden_retriever_energy'
-  | 'zero_proof_wellness';
+  | 'zero_proof_wellness'
+  | 'qigong_mommy_domme';
 
 export interface HerArchetype {
   id: string;
@@ -169,6 +170,35 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
     ],
     interests: ['Dawn Surfing', 'Cold Plunge & Sauna', 'Ocean Bikinis', 'Clean Wine', 'Coastal Runs'],
+  },
+  {
+    id: 'sedona-qigong-mommy',
+    name: 'Sedona',
+    age: 46,
+    title: 'Qigong & Tai Chi Wellness Mommy-Domme',
+    shortHook: '6:30 AM bamboo-courtyard Qigong, soft Mommy-Domme praise & zero Cubsplaining.',
+    tagline:
+      '46F Tai Chi & nervous-system studio founder: serene Mommy-Domme command, jasmine oolong, and "Breathe with Mommy, good boy."',
+    vibeSummary:
+      'Guides dawn Qigong and slow Tai Chi Cloud Hands in a sunlit desert courtyard. Fixes an over-caffeinated Cub’s posture with two fingers under his chin, melts him with calm Mommy-Domme praise, and shuts down "Cubsplaining" with a single knowing smirk.',
+    secretInsecurity:
+      'Everyone comes to her to be grounded and regulated—privately loves when an attentive Cub draws her herbal bath and rubs her feet without trying to lecture her on Huberman podcasts.',
+    subplotTags: ['qigong_mommy_domme', 'zero_proof_wellness', 'black_cat_energy', 'solo_sanctuary', 'done_with_kids'],
+    portraitVariant: 'cougar',
+    photoUrl: './images/cast/sedona-qigong-46f.jpg',
+    lookBadge: 'Auburn Silver Waves • Qigong Mommy-Domme',
+    statusPill: 'Tai Chi Sanctuary • Zero-Proof',
+    zodiac: '♍ Virgo Sun • ♏ Scorpio Rising',
+    height: '5\'9"',
+    loveLanguage: 'Guided Qigong Breathwork & "Good Boy" Praise',
+    originOrAccent: 'Serene Sedona Velvet Cadence',
+    signatureDrink: 'Warm Jasmine Oolong & Adaptogen Matcha Smoothie',
+    galleryPhotos: [
+      { label: '🧘‍♀️ Dawn Qigong', url: './images/cast/sedona-qigong-46f.jpg' },
+      { label: '🏔️ Canyon Trail', url: './images/cast/valerie-53f.jpg' },
+      { label: '🐾 Meadow Tea', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: ['Qigong & Tai Chi', 'Breathwork', 'Mommy-Domme Praise', 'Jasmine Oolong', 'Cold Plunge & Sauna'],
   },
   {
     id: 'scarlett-redhead-jaguar',
@@ -492,7 +522,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     shortHook: '$20/hr sitter on the clock—never flake or ask for Snap.',
     tagline: 'One free Friday night a month ($20/hr babysitter on the clock)—do NOT send "might rain, raincheck?"',
     vibeSummary:
-      'Under 40 so officially a Puma per subreddit law. Uses 😂 unironically, loves a Google Calendar invite, and guards her kid’s world fiercely.',
+      'Under 40 so officially a Puma per community law. Uses 😂 unironically, loves a Google Calendar invite, and guards her kid’s world fiercely.',
     secretInsecurity:
       'Worries one flaky cub wastes the only kid-free evening she gets all month—and whether her post-kids belly still turns heads.',
     subplotTags: ['single_mom_sitter', 'princess_treatment'],
@@ -776,12 +806,12 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     id: 'diana-coastal-jaguar',
     name: 'Diana',
     age: 50,
-    title: 'Newly-50 Wellness Founder • Blonde Jaguar',
-    shortHook: 'Sunlit natural blonde, 50th-year glow, ocean swims & zero apologies.',
+    title: 'Newly-50 Breathwork & Pilates Wellness Mommy • Jaguar',
+    shortHook: 'Sunlit blonde Wellness Mommy, 50th-year Tai Chi glow, ocean swims & zero apologies.',
     tagline:
-      'Hit 50 with better abs, better credit, and better boundaries than she had at 28.',
+      'Hit 50 with better abs, calmer chi, better credit, and sweeter "Good boy" energy than she had at 28.',
     vibeSummary:
-      '50F sunlit blonde Pilates and breathwork founder who celebrates entering her Jaguar decade with barefoot beach dinners and attentive late-20s Cubs.',
+      '50F sunlit blonde Pilates, Qigong, and breathwork Wellness Mommy who celebrates entering her Jaguar decade with barefoot beach dinners and devoted late-20s Cubs who follow her lead.',
     secretInsecurity:
       'Friends warned her dating apps vanish at 50—instead her inbox exploded the day her 50 badge went live.',
     subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary'],
@@ -1555,7 +1585,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'feline_scale',
     headline: 'Pre-Puma Apprentice',
     insiderLore:
-      'Too young for official subreddit Cougar status, though occasionally dates slightly younger guys while studying the ways of the Den.',
+      'Too young for official community Cougar status, though occasionally dates slightly younger guys while studying the ways of the Den.',
     signatureTell: 'Still figuring out her own lease renewal.',
   },
   {
@@ -1575,7 +1605,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'feline_scale',
     headline: 'Official Under-40 Age-Gap Contender',
     insiderLore:
-      'Per r/CougarsAndCubs law: a woman under 40 dating a younger man is a Puma, not yet a Cougar! Often an Elder Millennial allergic to Snapchat streaks.',
+      'Per Cougars & Cubs Club law: a woman under 40 dating a younger man is a Puma, not yet a Cougar! Often an Elder Millennial allergic to Snapchat streaks.',
     signatureTell: 'Uses 😂 unironically and panics if you call without texting first.',
   },
   {
@@ -1629,6 +1659,26 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     signatureTell: 'When she says "Slow down, eager puppy," he grins ear-to-ear instead of sulking.',
   },
   {
+    id: 'qigong_mommy_domme_lore',
+    label: '🧘‍♀️ Wellness Mommy & Soft Mommy-Domme',
+    ageRange: 'Serene Command • Ages 38–60+',
+    category: 'crossover_lore',
+    headline: 'Qigong, Tai Chi Grounding & Consensual "Good Boy" Praise (Never an ATM!)',
+    insiderLore:
+      'The ultimate nervous-system magnet: a radiant Qigong, Tai Chi, or Pilates Wellness Mommy who slows an anxious 26-year-old’s racing heart with two fingers under his chin and calm Mommy-Domme command ("Drop your shoulders and breathe with Mommy"). Rule #1 still holds: Mommy-Domme means romantic authority & praise—NEVER paying a freeloader’s rent!',
+    signatureTell: 'Fixes his posture in 3 seconds flat and makes him forget every podcast he was about to Cubsplain.',
+  },
+  {
+    id: 'cubsplaining_lore',
+    label: '🤓 "Cubsplaining"',
+    ageRange: 'Rookie Cub Fumble #1',
+    category: 'cub_taxonomy',
+    headline: 'Explaining Mortgages, Vinyl, or Qigong to a Woman Who Mastered Them in 2006',
+    insiderLore:
+      'The hilarious moment an eager 24-to-29-year-old launches into a 10-minute lecture on Fleetwood Mac pressings, Roth IRAs, or breathwork to an accomplished homeowner Cougar. Smart Cubs catch themselves mid-sentence, laugh, and let Mommy school them instead.',
+    signatureTell: 'Starts a sentence with "Well actually, the way Nervous System Regulation works is..."',
+  },
+  {
     id: 'black_cat_golden_retriever',
     label: '🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub',
     ageRange: 'The #1 Polarity in The Cougar Den',
@@ -1643,7 +1693,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     label: 'The "hey" / Broke Dutch Goblin',
     ageRange: 'Blocked Immediately',
     category: 'cub_taxonomy',
-    headline: 'Cautionary Subreddit Specimen',
+    headline: 'Cautionary Club Specimen',
     insiderLore:
       'Either opens with "hey mommy" + purple LED Tito’s selfies OR invites you out on a campus meal plan and pulls out a calculator to Venmo-request $41.63.',
     signatureTell: 'Asks for your Snapchat or itemizes half the edamame.',
@@ -1655,7 +1705,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'crossover_lore',
     headline: 'Younger Woman in an Age-Gap Match',
     insiderLore:
-      'Official r/CougarsAndCubs banner term for a younger woman dating a Cougar (10+ years older) or older partner.',
+      'Official Cougars & Cubs Club banner term for a younger woman dating a Cougar (10+ years older) or older partner.',
     signatureTell: 'Brings immaculate playlist range and zero flakiness.',
   },
   {

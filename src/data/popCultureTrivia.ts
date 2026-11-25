@@ -77,7 +77,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     id: 'priyanka-nick-cutoff',
     badge: 'Exact 10-Year Cougar Law',
     question:
-      'Under strict r/CougarsAndCubs law (10+ year gap), which celebrity power couple clears the official 10-year Cougar-Cub cutoff right on the nose?',
+      'Under strict Cougars & Cubs Club law (10+ year gap), which celebrity power couple clears the official 10-year Cougar-Cub cutoff right on the nose?',
     options: [
       'Zendaya & Tom Holland',
       'Priyanka Chopra & Nick Jonas',
@@ -157,7 +157,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     id: 'black-cat-golden-retriever-trope',
     badge: '🐈‍⬛ Black Cat × 🐕 Golden Retriever Lore',
     question:
-      'In modern romance & r/CougarsAndCubs slang, what happens when a sunny "Golden Retriever" Cub meets a cool, unhurried "Black Cat" older woman who pushes back a little at first?',
+      'In modern romance & Cougars & Cubs Club slang, what happens when a sunny "Golden Retriever" Cub meets a cool, unhurried "Black Cat" older woman who pushes back a little at first?',
     options: [
       'He sulks and asks why she is playing hard to get',
       'He becomes 10x more smitten—respecting her slow-burn pace until he earns her real smile!',
@@ -167,5 +167,20 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     correctIndex: 1,
     funFact:
       'Black Cat Older Woman × Golden Retriever Younger Man is the #1 chemistry pairing in The Cougar Den: her unhurried boundaries filter out fragile egos, while his sunny, unbothered devotion melts her walls!',
+  },
+  {
+    id: 'mommy-domme-vs-cubsplaining',
+    badge: '🧘‍♀️ Wellness Mommy-Domme & Cubsplaining',
+    question:
+      'In Cougars & Cubs Club lore, what separates playful "Wellness Mommy / Mommy-Domme" polarity from "Sugar Mama" freeloading or "Cubsplaining"?',
+    options: [
+      'They mean the exact same thing—hand over the platinum AmEx',
+      'Mommy-Domme is consensual romantic command, Qigong calm & "good boy" praise between self-supporting adults—while Sugar-Mama mooching & Cubsplaining get instant blocks!',
+      'Cubs are supposed to lecture her for 20 minutes on Huberman podcasts',
+      'Only men over 45 are allowed into dawn Tai Chi',
+    ],
+    correctIndex: 1,
+    funFact:
+      'A Qigong or Pilates Wellness Mommy-Domme loves melting an attentive Cub with serene command ("Drop your shoulders and breathe with Mommy")—zero ATM freeloading and zero Cubsplaining allowed!',
   },
 ];

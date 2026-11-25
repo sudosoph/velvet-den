@@ -67,6 +67,9 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   const [tipStatusMsg, setTipStatusMsg] = useState<string | null>(null);
   const [questMsg, setQuestMsg] = useState<string | null>(null);
   const [verifyingRef, setVerifyingRef] = useState(false);
+  const [cameoEmail, setCameoEmail] = useState('');
+  const [cameoBrief, setCameoBrief] = useState('');
+  const [cameoMsg, setCameoMsg] = useState<string | null>(null);
 
   if (!open) return null;
 
@@ -109,7 +112,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     } else {
       await shareOrCopy({
         title: 'Cougars & Cubs Club Vetting Challenge',
-        text: `🐆 65 real Cougar & Cub scenarios (from 18h hotel-sauna getaways & campus PhD sushi to 3 AM Roblox shock)—see your rank:`,
+        text: `🐆 80 real Cougar & Cub scenarios (from Qigong Wellness Mommy-Dommes & Mom’s Hawaii Timeshare traps to 18h hotel-sauna getaways)—see your rank:`,
         url: refUrl,
       });
     }
@@ -413,9 +416,9 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   label: '🐦 Post "1900s" Roast on X (+2 Cr)',
                 },
                 {
-                  id: 'quest_reddit_discord_drop' as const,
+                  id: 'quest_community_drop' as const,
                   mode: 'community' as const,
-                  label: '🔥 Share to Discord / Reddit (+2 Cr)',
+                  label: '🔥 Share to Club / Socials (+2 Cr)',
                 },
               ].map((q) => {
                 const done = wallet.claimedRewards.includes(q.id);
@@ -558,6 +561,62 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             {restoreMsg && <p className="text-xs font-bold text-[#D90452]">{restoreMsg}</p>}
           </form>
         </div>
+
+        {/* $29 Custom Scenario / Archetype Cameo Brief Submission */}
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (!cameoEmail.includes('@') || cameoBrief.trim().length < 10) return;
+            try {
+              const res = await fetch('/api/cameo-brief', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: cameoEmail, brief: cameoBrief }),
+              });
+              if (res.ok) {
+                setCameoMsg('🎬 Custom Scenario Brief saved! Our writers match it with your $29 Stripe checkout email.');
+                setCameoBrief('');
+              } else {
+                setCameoMsg('Could not submit brief right now—please check your message length and retry.');
+              }
+            } catch {
+              setCameoMsg('🎬 Brief queued locally—thank you for sponsoring the next Club drop!');
+            }
+          }}
+          className="rounded-2xl border-2 border-[#1E1022] bg-white p-4 space-y-2.5"
+        >
+          <div className="text-xs font-extrabold uppercase text-[#1E1022]">
+            <Gift className="inline h-3.5 w-3.5 mr-1 text-[#FF2E63]" />
+            Sponsored a $29 Custom Cougar / Cub Scenario? Submit Your Character &amp; Inside-Joke Brief:
+          </div>
+          <div className="grid gap-2 sm:grid-cols-[220px_1fr_auto]">
+            <input
+              type="email"
+              required
+              placeholder="Your Stripe checkout email"
+              value={cameoEmail}
+              onChange={(e) => setCameoEmail(e.target.value)}
+              className="rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-xs font-bold text-[#1E1022]"
+            />
+            <input
+              type="text"
+              required
+              minLength={10}
+              maxLength={400}
+              placeholder="Describe your custom Mommy-Domme, Cub red flag, or couple inside joke..."
+              value={cameoBrief}
+              onChange={(e) => setCameoBrief(e.target.value)}
+              className="rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-xs font-bold text-[#1E1022]"
+            />
+            <button
+              type="submit"
+              className="pop-btn rounded-xl bg-[#FFBE0B] px-4 py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+            >
+              Send Brief
+            </button>
+          </div>
+          {cameoMsg && <p className="text-xs font-extrabold text-[#065F46]">{cameoMsg}</p>}
+        </form>
 
         {/* Curated Lifestyle & Date-Night Affiliate Boutique */}
         <div className="space-y-3">
