@@ -1100,6 +1100,253 @@ const BlackCatPaceGame: React.FC<{
   );
 };
 
+/**
+ * 10. VenmoCalculatorBlockGame: Swat all 4 petty itemized Venmo popups!
+ */
+const VENMO_POPUPS = [
+  { id: 'edamame', amount: '$4.12', note: '4/7ths of Shared Edamame Pods 🫛' },
+  { id: 'ginger', amount: '$1.85', note: 'Extra Pickled Ginger & Wasabi Side' },
+  { id: 'roll', amount: '$11.40', note: '2 Pieces of Dragon Roll + 8.75% Tax' },
+  { id: 'parking', amount: '$24.26', note: 'Half Valet + "Campus Card Declined Fee"' },
+];
+
+const VenmoCalculatorBlockGame: React.FC<{
+  completed: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, onWin }) => {
+  const [blocked, setBlocked] = useState<string[]>(completed ? VENMO_POPUPS.map((p) => p.id) : []);
+
+  const handleSwat = (id: string) => {
+    if (completed || blocked.includes(id)) return;
+    sfx.venmoSwat();
+    const next = [...blocked, id];
+    setBlocked(next);
+    if (next.length === VENMO_POPUPS.length) {
+      sfx.victoryFanfare();
+      onWin({ maturity: 8, chivalry: 8 }, 'Blocked the $41.63 Venmo Calculator');
+    }
+  };
+
+  const done = completed || blocked.length === VENMO_POPUPS.length;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <CreditCard className="h-3.5 w-3.5 text-rose-400" /> Obstacle Arcade • Swat All 4 Petty Venmo Requests! ({blocked.length}/4)
+        </span>
+        <span className="text-xs font-medium text-stone-300">+8 Maturity · +8 Chivalry</span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {VENMO_POPUPS.map((item, idx) => {
+          const isSwatted = done || blocked.includes(item.id);
+          return (
+            <button
+              key={item.id}
+              type="button"
+              disabled={isSwatted}
+              onClick={() => handleSwat(item.id)}
+              style={{ animationDelay: `${idx * 80}ms` }}
+              className={`flex items-center justify-between gap-2 rounded-xl border px-3 py-2.5 text-left text-xs transition ${
+                isSwatted
+                  ? 'border-emerald-400/40 bg-emerald-950/40 text-emerald-200 line-through opacity-80'
+                  : 'animate-float-bubble border-rose-500/50 bg-[#0C0910] text-[#FAF7F5] hover:border-[#E5C17B] cursor-pointer'
+              }`}
+            >
+              <div>
+                <div className="font-bold text-rose-300">💸 Request: {item.amount}</div>
+                <div className="text-stone-300">{item.note}</div>
+              </div>
+              <span
+                className={`shrink-0 rounded-lg px-2.5 py-1 text-[11px] font-bold uppercase ${
+                  isSwatted ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-600 text-white'
+                }`}
+              >
+                {isSwatted ? 'BLOCKED' : 'SWAT ✕'}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {done && (
+        <div className="text-xs font-semibold text-emerald-300">
+          🛡️ All 4 itemized Venmo popups swatted into orbit! Zero edamame math tolerated (+16 stats)!
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * 11. RoommateKitchenEscapeGame: 7 AM Cheerios Mixing-Bowl Stealth Escape!
+ */
+const RoommateKitchenEscapeGame: React.FC<{
+  completed: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, onWin }) => {
+  const [pos, setPos] = useState(18);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const [won, setWon] = useState(completed);
+  const [spottedMsg, setSpottedMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (won || completed) return;
+    const id = window.setInterval(() => {
+      setPos((p) => {
+        const next = p + dir * 5;
+        if (next >= 92) {
+          setDir(-1);
+          return 92;
+        }
+        if (next <= 8) {
+          setDir(1);
+          return 8;
+        }
+        return next;
+      });
+    }, 38);
+    return () => window.clearInterval(id);
+  }, [dir, won, completed]);
+
+  const handleDash = () => {
+    if (won || completed) return;
+    if (pos >= 56 && pos <= 86) {
+      setWon(true);
+      setSpottedMsg(null);
+      sfx.victoryFanfare();
+      onWin({ eq: 8, maturity: 7 }, 'Stealth Espresso Extraction');
+    } else {
+      sfx.redFlag();
+      setSpottedMsg('🥣 Spotted by Kyle’s Cheerios ladle! Wait for the Green Coast-Clear Window!');
+    }
+  };
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Radar className="h-3.5 w-3.5 text-emerald-400" /> 7:10 AM Stealth Radar • Dodge the 3 Cheerios Roommates!
+        </span>
+        <span className="text-xs font-medium text-stone-300">+8 EQ · +7 Maturity</span>
+      </div>
+
+      <div
+        onClick={handleDash}
+        className="relative h-11 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910] cursor-pointer select-none"
+      >
+        <div className="absolute inset-y-0 left-0 w-[55%] bg-rose-950/45 flex items-center pl-3 text-[11px] text-rose-300">
+          🥣 Kyle &amp; Brody Gaming
+        </div>
+        <div className="absolute inset-y-0 left-[56%] w-[30%] bg-emerald-500/20 border-x border-emerald-400/60 flex items-center justify-center text-[11px] font-bold uppercase text-emerald-300">
+          ☕ Coast Clear!
+        </div>
+        <span
+          className="absolute top-1/2 -translate-y-1/2 -ml-3 text-xl"
+          style={{ left: `${pos}%` }}
+        >
+          🕶️
+        </span>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {!won && !completed ? (
+          <button
+            type="button"
+            onClick={handleDash}
+            className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] transition cursor-pointer"
+          >
+            🕶️ Slip Out to Café!
+          </button>
+        ) : (
+          <span className="text-xs font-semibold text-emerald-300">
+            ✓ Clean getaway with hot lattes—zero mixing-bowl trauma (+15 stats)!
+          </span>
+        )}
+        {spottedMsg && <span className="text-xs text-rose-300">{spottedMsg}</span>}
+      </div>
+    </div>
+  );
+};
+
+/**
+ * 12. HobosexualBagInterceptGame: Bounce all 4 contraband Week-3 move-in items!
+ */
+const CONTRABAND_ITEMS = [
+  { id: 'ps5', label: '🎮 PS5 + Tangled HDMI Cord' },
+  { id: 'socks', label: '🧦 2 Duffel Loads of Gym Laundry' },
+  { id: 'whey', label: '💪 5-lb Vanilla Whey Protein Tub' },
+  { id: 'lease', label: '📦 "My Lease Ended Friday" Box' },
+];
+
+const HobosexualBagInterceptGame: React.FC<{
+  completed: boolean;
+  onWin: (bonus: Partial<Stats>, badge: string) => void;
+}> = ({ completed, onWin }) => {
+  const [bounced, setBounced] = useState<string[]>(
+    completed ? CONTRABAND_ITEMS.map((c) => c.id) : [],
+  );
+
+  const handleBounce = (id: string) => {
+    if (completed || bounced.includes(id)) return;
+    sfx.hotspotFix();
+    const next = [...bounced, id];
+    setBounced(next);
+    if (next.length === CONTRABAND_ITEMS.length) {
+      sfx.victoryFanfare();
+      onWin({ maturity: 9, eq: 7 }, 'Sanctuary Door Bouncer');
+    }
+  };
+
+  const done = completed || bounced.length === CONTRABAND_ITEMS.length;
+
+  return (
+    <div className={FRAME_CLASS}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
+          <Sparkles className="h-3.5 w-3.5 text-rose-400" /> Sanctuary Bouncer • Intercept All 4 Soft-Move-In Items! ({bounced.length}/4)
+        </span>
+        <span className="text-xs font-medium text-stone-300">+9 Maturity · +7 EQ</span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {CONTRABAND_ITEMS.map((item) => {
+          const isOut = done || bounced.includes(item.id);
+          return (
+            <button
+              key={item.id}
+              type="button"
+              disabled={isOut}
+              onClick={() => handleBounce(item.id)}
+              className={`flex items-center justify-between gap-2 rounded-xl border px-3 py-2 text-left text-xs font-semibold transition ${
+                isOut
+                  ? 'border-emerald-400/40 bg-emerald-950/40 text-emerald-300'
+                  : 'border-white/14 bg-[#0C0910] text-[#FAF7F5] hover:border-[#E5C17B] cursor-pointer'
+              }`}
+            >
+              <span>{item.label}</span>
+              <span
+                className={`rounded-md px-2 py-0.5 text-[11px] font-bold uppercase ${
+                  isOut ? 'bg-emerald-500/20 text-emerald-300' : 'bg-[#E5C17B] text-[#0C0910]'
+                }`}
+              >
+                {isOut ? '✓ Bounced' : 'Bounce 🚪'}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {done && (
+        <div className="text-xs font-semibold text-emerald-300">
+          👑 Sanctuary defended! Only a clean toothbrush &amp; fresh wine allowed inside (+16 stats)!
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   type,
   alreadyCompleted,
@@ -1137,6 +1384,12 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
       return (
         <BlackCatPaceGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
       );
+    case 'venmo_calculator_block':
+      return <VenmoCalculatorBlockGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'roommate_kitchen_escape':
+      return <RoommateKitchenEscapeGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'hobosexual_bag_intercept':
+      return <HobosexualBagInterceptGame completed={alreadyCompleted} onWin={onWinBonus} />;
     case 'clink_toast':
       return <VelvetToastGame completed={alreadyCompleted} zeroProof={zeroProof} onWin={onWinBonus} />;
     case 'eye_contact_hold':

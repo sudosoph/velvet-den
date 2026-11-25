@@ -4,6 +4,7 @@ import {
   BookOpen,
   Crown,
   MessageCircle,
+  Music,
   Newspaper,
   ShoppingBag,
   Sparkles,
@@ -13,7 +14,12 @@ import {
 } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import type { WalletState } from '../domain/economy';
-import { isSoundMuted, toggleSoundMute } from '../lib/sound';
+import {
+  isLoungeMusicPlaying,
+  isSoundMuted,
+  toggleLoungeMusic,
+  toggleSoundMute,
+} from '../lib/sound';
 
 interface TopHudBarProps {
   wallet: WalletState;
@@ -39,6 +45,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
   onGoHome,
 }) => {
   const [muted, setMuted] = useState(() => isSoundMuted());
+  const [bgmOn, setBgmOn] = useState(() => isLoungeMusicPlaying());
   const tapCountRef = useRef(0);
   const resetTimerRef = useRef<number | null>(null);
 
@@ -145,7 +152,30 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
           <button
             type="button"
-            onClick={() => setMuted(toggleSoundMute())}
+            onClick={() => {
+              const playing = toggleLoungeMusic();
+              setBgmOn(playing);
+              if (playing) setMuted(false);
+            }}
+            className={`shrink-0 inline-flex items-center gap-1 rounded-xl border px-2.5 py-2 text-xs font-semibold transition cursor-pointer ${
+              bgmOn
+                ? 'border-[#E5C17B] bg-[#E5C17B]/20 text-[#FDE68A]'
+                : 'border-white/10 bg-white/[0.04] text-stone-300 hover:bg-white/10 hover:text-white'
+            }`}
+            aria-label={bgmOn ? 'Pause lounge soundtrack' : 'Play lounge soundtrack'}
+            title="Toggle Cocktail Lounge Soundtrack"
+          >
+            <Music className="h-3.5 w-3.5 text-[#E5C17B]" />
+            <span className="hidden md:inline">{bgmOn ? 'BGM On' : 'BGM'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              const nextMuted = toggleSoundMute();
+              setMuted(nextMuted);
+              if (nextMuted) setBgmOn(false);
+            }}
             className="shrink-0 inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] p-2 text-stone-300 hover:bg-white/10 hover:text-white transition cursor-pointer"
             aria-label={muted ? 'Unmute game audio' : 'Mute game audio'}
             title={muted ? 'Unmute game sound effects' : 'Mute game sound effects'}

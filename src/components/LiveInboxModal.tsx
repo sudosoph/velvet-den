@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Flame, MessageCircle, Send, Sparkles, X } from 'lucide-react';
+import { Flame, MessageCircle, Send, Sparkles, Volume2, VolumeX, X } from 'lucide-react';
 import type { WalletState } from '../domain/economy';
 import { HER_ARCHETYPES, HIS_ARCHETYPES } from '../domain/taxonomy';
-import { sfx } from '../lib/sound';
+import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { liveAiInboxService, type LiveInboxTurn } from '../services/adapters';
 
 interface LiveInboxModalProps {
@@ -108,6 +108,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const [freeTrialUsed, setFreeTrialUsed] = useState(false);
+  const [speakingTurnIdx, setSpeakingTurnIdx] = useState<number | null>(null);
+  const stopVoiceRef = React.useRef<(() => void) | null>(null);
 
   if (!open) return null;
 
@@ -316,8 +318,49 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   alt={selected.name}
                   className="h-8 w-8 rounded-full object-cover object-top border border-white/20 shrink-0"
                 />
-                <div className="rounded-2xl rounded-bl-sm border border-[#E5C17B]/30 bg-[#241934] px-4 py-2.5 text-sm text-white shadow">
-                  {turn.text}
+                <div className="space-y-1.5">
+                  <div className="rounded-2xl rounded-bl-sm border border-[#E5C17B]/30 bg-[#241934] px-4 py-2.5 text-sm text-white shadow">
+                    {turn.text}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (speakingTurnIdx === i) {
+                        stopVoiceRef.current?.();
+                        setSpeakingTurnIdx(null);
+                        return;
+                      }
+                      stopVoiceRef.current?.();
+                      setSpeakingTurnIdx(i);
+                      stopVoiceRef.current = playVoiceNotePreview(
+                        turn.text,
+                        selected.role === 'her' ? 'her' : 'green_cub',
+                        () => setSpeakingTurnIdx((curr) => (curr === i ? null : curr)),
+                      );
+                    }}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-[#E5C17B]/30 bg-[#1E1729] px-3 py-1 text-xs font-semibold text-[#FDE68A] hover:bg-white/10 transition cursor-pointer"
+                  >
+                    {speakingTurnIdx === i ? (
+                      <>
+                        <VolumeX className="h-3.5 w-3.5 text-rose-400" />
+                        <span className="inline-flex items-end gap-0.5 h-3">
+                          {[0, 1, 2, 3, 4].map((b) => (
+                            <span
+                              key={b}
+                              style={{ animationDelay: `${b * 85}ms` }}
+                              className="animate-waveform-bar w-0.5 h-3 rounded-full bg-[#E5C17B]"
+                            />
+                          ))}
+                        </span>
+                        <span>Stop Voice Note</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="h-3.5 w-3.5 text-[#E5C17B]" />
+                        <span>▶️ Play AI Voice Note</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             ),

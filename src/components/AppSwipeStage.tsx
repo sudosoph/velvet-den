@@ -43,6 +43,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   );
   const [photoIdx, setPhotoIdx] = useState(0);
   const [ageZoomed, setAgeZoomed] = useState(false);
+  const [clueMagnified, setClueMagnified] = useState(false);
   const [xrayOpen, setXrayOpen] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -66,6 +67,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   useEffect(() => {
     setPhotoIdx(0);
     setAgeZoomed(false);
+    setClueMagnified(false);
     setXrayOpen(false);
     setDragX(0);
     setFlyDir(null);
@@ -526,6 +528,29 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                     {profile.lookBadge}
                   </span>
                 </div>
+
+                {/* Interactive Photo #2 Tap-Directly-on-Clue Magnifier Hotspot! */}
+                {safePhotoIdx >= 1 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (currentPhoto.isRedFlagPhoto) sfx.redFlag();
+                      else sfx.greenFlag();
+                      setClueMagnified((v) => !v);
+                    }}
+                    className={`animate-hotspot-ping absolute right-5 top-1/2 -translate-y-1/2 rounded-full border-2 px-3 py-1.5 text-xs font-bold shadow-xl backdrop-blur-md cursor-pointer ${
+                      currentPhoto.isRedFlagPhoto
+                        ? 'border-rose-400 bg-rose-600/90 text-white'
+                        : 'border-emerald-300 bg-emerald-600/90 text-white'
+                    }`}
+                  >
+                    {clueMagnified
+                      ? currentPhoto.isRedFlagPhoto
+                        ? '🚩 Red Flag Spotted!'
+                        : '💚 Green Flag Verified!'
+                      : '🔍 Tap Photo Clue'}
+                  </button>
+                )}
 
                 <div className="absolute bottom-3 left-3.5 right-3.5 flex items-end justify-between gap-2">
                   <div>

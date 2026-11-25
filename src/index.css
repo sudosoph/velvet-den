@@ -279,3 +279,82 @@
 .animate-combo-pulse {
   animation: comboPulse 2.2s ease-in-out infinite;
 }
+
+@keyframes bokehDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate3d(14px, -18px, 0) scale(1.12);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(-10px, -32px, 0) scale(0.95);
+    opacity: 0.2;
+  }
+}
+
+.animate-bokeh-drift {
+  animation: bokehDrift 7s ease-in-out infinite alternate;
+}
+
+@keyframes vnTalkBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  45% {
+    transform: translateY(-6px) scale(1.02);
+  }
+}
+
+.animate-vn-talk {
+  animation: vnTalkBounce 2.1s ease-in-out infinite;
+}
+
+@keyframes vnDialogueBoxIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-vn-box {
+  animation: vnDialogueBoxIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes waveformBar {
+  0%, 100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-waveform-bar {
+  animation: waveformBar 0.65s ease-in-out infinite;
+}
+
+@keyframes hotspotPing {
+  0% {
+    transform: scale(0.92);
+    box-shadow: 0 0 0 0 rgba(229, 193, 123, 0.7);
+  }
+  70% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 14px rgba(229, 193, 123, 0);
+  }
+  100% {
+    transform: scale(0.92);
+    box-shadow: 0 0 0 0 rgba(229, 193, 123, 0);
+  }
+}
+
+.animate-hotspot-ping {
+  animation: hotspotPing 1.8s ease-out infinite;
+}

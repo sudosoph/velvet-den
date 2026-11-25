@@ -511,10 +511,10 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
         </div>
       </div>
 
-      {/* CINEMATIC WIDESCREEN VISUAL STAGE */}
+      {/* DREAM DADDY-INSPIRED LIVING VISUAL-NOVEL STAGE */}
       {sceneSpec && (
         <div
-          className={`vice-panel relative h-60 sm:h-76 w-full overflow-hidden rounded-3xl bg-[#0C0910] ${
+          className={`vice-panel relative h-72 sm:h-[348px] w-full overflow-hidden rounded-3xl bg-[#0C0910] ${
             stageReaction === 'red' && lastEntry ? 'animate-screen-shake ring-2 ring-rose-500' : ''
           } ${stageReaction === 'green' && lastEntry ? 'ring-2 ring-[#E5C17B]/70' : ''}`}
         >
@@ -524,28 +524,53 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             alt={sceneSpec.locationBadge}
             className="absolute inset-0 h-full w-full object-cover animate-ken-burns"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0C0910]/35 via-[#0C0910]/30 to-[#0C0910]/92" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0C0910]/30 via-[#0C0910]/25 to-[#0C0910]/94" />
 
-          {/* Top Bar: Location Stamp + Hear Scene */}
+          {/* Ambient Floating Candlelight & Champagne Bokeh Orbs */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 overflow-hidden"
+          >
+            <span className="animate-bokeh-drift absolute left-[14%] top-[28%] h-16 w-16 rounded-full bg-rose-500/20 blur-xl" />
+            <span
+              style={{ animationDelay: '1.8s' }}
+              className="animate-bokeh-drift absolute right-[18%] top-[22%] h-20 w-20 rounded-full bg-[#E5C17B]/20 blur-xl"
+            />
+            <span
+              style={{ animationDelay: '3.2s' }}
+              className="animate-bokeh-drift absolute left-[46%] top-[36%] h-14 w-14 rounded-full bg-amber-300/15 blur-xl"
+            />
+          </div>
+
+          {/* Top Bar: Location Stamp + Animated AI Voice-Note Player */}
           <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 p-3.5 sm:p-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0C0910]/75 px-3.5 py-1 text-xs font-medium text-[#FDE68A] backdrop-blur-md">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0C0910]/80 px-3.5 py-1 text-xs font-medium text-[#FDE68A] backdrop-blur-md">
               {sceneSpec.locationBadge}
             </span>
 
             <button
               type="button"
               onClick={handleToggleSceneVoice}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0C0910]/75 px-3.5 py-1 text-xs font-semibold text-[#FAF7F5] hover:bg-[#0C0910] backdrop-blur-md transition cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full border border-[#E5C17B]/35 bg-[#0C0910]/80 px-3.5 py-1 text-xs font-semibold text-[#FAF7F5] hover:bg-[#0C0910] backdrop-blur-md transition cursor-pointer"
             >
               {speakingEpId === displayedEpisode?.id ? (
                 <>
                   <VolumeX className="h-3.5 w-3.5 text-rose-400" />
-                  <span>Stop Voice</span>
+                  <span className="inline-flex items-end gap-0.5 h-3">
+                    {[0, 1, 2, 3, 4].map((b) => (
+                      <span
+                        key={b}
+                        style={{ animationDelay: `${b * 90}ms` }}
+                        className="animate-waveform-bar w-0.5 h-3 rounded-full bg-[#E5C17B]"
+                      />
+                    ))}
+                  </span>
+                  <span>Stop Voice Note</span>
                 </>
               ) : (
                 <>
                   <Volume2 className="h-3.5 w-3.5 text-[#E5C17B]" />
-                  <span>Hear Scene</span>
+                  <span>🔊 Hear Scene Voice</span>
                 </>
               )}
             </button>
@@ -576,7 +601,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
 
           {/* Outcome Center Stamp */}
           {lastEntry && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-24 z-20 flex justify-center px-4">
+            <div className="pointer-events-none absolute inset-x-0 bottom-32 z-20 flex justify-center px-4">
               <div
                 className={`rounded-full px-4 py-1 text-xs sm:text-sm font-semibold uppercase tracking-wider shadow-xl ${
                   isRedOutcome
@@ -584,35 +609,50 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                     : 'bg-[#E5C17B] text-[#0C0910]'
                 }`}
               >
-                {isRedOutcome ? '🚩 Red Flag Triggered' : '✨ Chemistry Earned'}
+                {isRedOutcome ? '🚩 Red Flag Triggered' : '✨ Chemistry Sparked'}
               </div>
             </div>
           )}
 
-          {/* Foreground Expressive Character Portraits */}
-          <div className="absolute inset-x-4 sm:inset-x-6 bottom-3 z-20 flex items-end justify-between gap-3">
-            {/* HER */}
+          {/* Foreground Expressive Dream-Daddy Sprites + Floating Reaction Balloons */}
+          <div className="absolute inset-x-3 sm:inset-x-6 bottom-3 z-20 flex items-end justify-between gap-3">
+            {/* HER SPRITE */}
             <div
               className={`flex items-end gap-3 transition-all duration-500 ${
                 lastEntry
                   ? isRedOutcome
                     ? '-translate-x-2 opacity-90'
                     : 'translate-x-3 sm:translate-x-8 scale-105'
-                  : 'animate-portrait-breathe'
+                  : speakingEpId === displayedEpisode?.id && role === 'her'
+                    ? 'animate-vn-talk'
+                    : 'animate-portrait-breathe'
               }`}
             >
               <div className="relative">
+                {/* Floating Comic Reaction Balloon */}
+                <div className="animate-float-bubble hidden sm:block absolute -top-9 left-0 whitespace-nowrap rounded-2xl rounded-bl-xs border border-rose-400/40 bg-[#15101C]/95 px-2.5 py-1 text-[11px] font-semibold text-rose-200 shadow-lg">
+                  {lastEntry
+                    ? isRedOutcome
+                      ? '🚩 "Excuse me?!"'
+                      : '😻 "Now THAT’S a move…"'
+                    : '🍸 "Impress me…"'}
+                </div>
+
                 <img
                   src={run.pairing.her.photoUrl}
                   alt={run.pairing.her.name}
-                  className={`h-22 w-18 sm:h-28 sm:w-23 rounded-2xl object-cover object-top border-2 shadow-xl ${
-                    role === 'her' ? 'border-rose-500' : 'border-white/30'
+                  className={`h-26 w-20 sm:h-36 sm:w-28 rounded-2xl object-cover object-top border-2 shadow-2xl transition-all ${
+                    lastEntry && !isRedOutcome
+                      ? 'border-[#E5C17B] ring-4 ring-rose-500/30'
+                      : role === 'her'
+                        ? 'border-rose-500'
+                        : 'border-white/30'
                   }`}
                 />
-                <span className="absolute -top-2 -right-2 rounded-full bg-rose-600 px-2 py-0.5 text-[11px] font-semibold text-[#FAF7F5] shadow">
+                <span className="absolute -bottom-1.5 -right-1.5 rounded-full bg-rose-600 px-2 py-0.5 text-[11px] font-semibold text-[#FAF7F5] shadow">
                   {lastEntry
                     ? isRedOutcome
-                      ? '😒 Unimpressed'
+                      ? '😒 Ick'
                       : '😻 Smitten'
                     : role === 'her'
                       ? '🐆 You'
@@ -627,14 +667,16 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
               </div>
             </div>
 
-            {/* HIM */}
+            {/* HIM SPRITE */}
             <div
               className={`flex items-end gap-3 text-right transition-all duration-500 ${
                 lastEntry
                   ? isRedOutcome
                     ? 'translate-x-2 opacity-85'
                     : '-translate-x-3 sm:-translate-x-8 scale-105'
-                  : 'animate-portrait-breathe'
+                  : speakingEpId === displayedEpisode?.id && role === 'him'
+                    ? 'animate-vn-talk'
+                    : 'animate-portrait-breathe'
               }`}
             >
               <div className="pb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
@@ -644,14 +686,27 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
                 <div className="text-xs text-[#FDE68A]">{run.pairing.his.title}</div>
               </div>
               <div className="relative">
+                {/* Floating Comic Reaction Balloon */}
+                <div className="animate-float-bubble hidden sm:block absolute -top-9 right-0 whitespace-nowrap rounded-2xl rounded-br-xs border border-[#E5C17B]/40 bg-[#15101C]/95 px-2.5 py-1 text-[11px] font-semibold text-[#FDE68A] shadow-lg">
+                  {lastEntry
+                    ? isRedOutcome
+                      ? '💦 "Uh oh…"'
+                      : '🔥 "Yes ma’am!"'
+                    : '🥂 "Locked in!"'}
+                </div>
+
                 <img
                   src={run.pairing.his.photoUrl}
                   alt={run.pairing.his.name}
-                  className={`h-22 w-18 sm:h-28 sm:w-23 rounded-2xl object-cover object-top border-2 shadow-xl ${
-                    role === 'him' ? 'border-[#E5C17B]' : 'border-white/30'
+                  className={`h-26 w-20 sm:h-36 sm:w-28 rounded-2xl object-cover object-top border-2 shadow-2xl transition-all ${
+                    lastEntry && !isRedOutcome
+                      ? 'border-[#E5C17B] ring-4 ring-[#E5C17B]/30'
+                      : role === 'him'
+                        ? 'border-[#E5C17B]'
+                        : 'border-white/30'
                   }`}
                 />
-                <span className="absolute -top-2 -left-2 rounded-full bg-[#E5C17B] px-2 py-0.5 text-[11px] font-semibold text-[#0C0910] shadow">
+                <span className="absolute -bottom-1.5 -left-1.5 rounded-full bg-[#E5C17B] px-2 py-0.5 text-[11px] font-semibold text-[#0C0910] shadow">
                   {lastEntry
                     ? isRedOutcome
                       ? '😬 Busted'
@@ -831,14 +886,20 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             {currentEpisode.title}
           </h2>
 
-          <p className="text-[15px] sm:text-base leading-relaxed text-stone-200 max-w-[66ch]">
-            {renderRichText(
-              personalizeText(
-                role === 'her' ? currentEpisode.setupHer : currentEpisode.setupHim,
-                run.pairing,
-              ),
-            )}
-          </p>
+          {/* Dream-Daddy Visual-Novel Speaker Plaque + Dialogue Box */}
+          <div className="animate-vn-box relative rounded-2xl border border-[#E5C17B]/30 bg-[#1E1729]/95 p-4 sm:p-5 shadow-lg">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E5C17B] px-3 py-0.5 font-display text-xs font-bold text-[#0C0910] mb-2">
+              🎬 {role === 'her' ? `${run.pairing.her.name}’s POV` : `${run.pairing.his.name}’s POV`}
+            </span>
+            <p className="text-[15px] sm:text-base leading-relaxed text-[#FAF7F5] max-w-[68ch]">
+              {renderRichText(
+                personalizeText(
+                  role === 'her' ? currentEpisode.setupHer : currentEpisode.setupHim,
+                  run.pairing,
+                ),
+              )}
+            </p>
+          </div>
 
           {/* 100% Tactile Scene Coverage: Bespoke Minigame OR Auto-Matched Universal Microgame! */}
           {sceneGameType && (

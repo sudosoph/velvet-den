@@ -33,8 +33,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 76 subplots accurately—including Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy & Broke College Dutch-Splitter across both Marathon and Approach A Curated modes', () => {
-    expect(EPISODES.length).toBe(76);
+  it('routes 78 subplots accurately—including Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy & Broke College Dutch-Splitter across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(78);
     expect(HER_ARCHETYPES.length).toBe(37);
     expect(HIS_ARCHETYPES.length).toBe(17);
 
@@ -226,6 +226,19 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     fireEvent.click(screen.getByRole('button', { name: /Hold Calm 7:30 Wine-Bar Plan/i }));
 
     expect(screen.getByText(/Black Cat Melted!/i)).toBeInTheDocument();
+  });
+
+  it('launches horrifying real-world obstacle from the Night-Out Date Map and swats all 4 itemized Venmo popups', () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /Swat the \$41\.63 Edamame Venmo/i }));
+
+    expect(screen.getByText(/Swat All 4 Petty Venmo Requests/i)).toBeInTheDocument();
+    const swatBtns = screen.getAllByRole('button', { name: /SWAT ✕/i });
+    expect(swatBtns).toHaveLength(4);
+    for (const btn of swatBtns) {
+      fireEvent.click(btn);
+    }
+    expect(screen.getByText(/All 4 itemized Venmo popups swatted into orbit!/i)).toBeInTheDocument();
   });
 
   it('lets players drag the Dating-App Age-Preference Slider to unlock Montana Cowboy (25) and Broke Dutch Trap (21)', () => {

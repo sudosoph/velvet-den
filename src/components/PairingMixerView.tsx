@@ -7,6 +7,7 @@ import {
   Dices,
   Flame,
   Lock,
+  MapPin,
   MessageCircle,
   Minus,
   Plus,
@@ -56,6 +57,7 @@ interface PairingMixerViewProps {
   onOpenChecklist?: () => void;
   onQuickCreateAudition: () => void;
   onOpenFieldGuide: () => void;
+  onJumpToMapScene?: (episodeId: string) => void;
 }
 
 type HerDecadeFilter = 'all' | '30s' | '40s' | '50s' | '60s';
@@ -86,6 +88,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onOpenChecklist,
   onQuickCreateAudition,
   onOpenFieldGuide,
+  onJumpToMapScene,
 }) => {
   const [castTab, setCastTab] = useState<'her' | 'him'>('her');
   const [herFilter, setHerFilter] = useState<HerDecadeFilter>('all');
@@ -604,6 +607,99 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           })}
         </div>
       </section>
+
+      {/* DREAM DADDY-STYLE INTERACTIVE NIGHT-OUT DATE & OBSTACLE MAP */}
+      {onJumpToMapScene && (
+        <section className="vice-panel rounded-3xl p-4 sm:p-5 space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#E5C17B]">
+                <MapPin className="h-3.5 w-3.5 text-rose-400" /> Interactive Date-Night &amp; Obstacle Map
+              </span>
+              <h2 className="font-display text-xl sm:text-2xl text-[#FAF7F5]">
+                Tap Any Hotspot to Play That Scene &amp; Arcade Toy Immediately
+              </h2>
+            </div>
+            <span className="rounded-full border border-[#E5C17B]/30 bg-[#1E1729] px-3 py-1 text-xs font-semibold text-[#FDE68A]">
+              6 Signature Locations
+            </span>
+          </div>
+
+          <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                epId: 'check-drop',
+                pin: '🍷 Corner Booth',
+                title: 'The Tapas Check-Drop Reflex',
+                sub: 'Quick-Draw Card Arcade',
+                img: './images/scenes/wine-bar-booth.jpg',
+              },
+              {
+                epId: 'broke-college-dutch-calculator-horror',
+                pin: '🚨 Sub-23 Sushi Trap',
+                title: 'Swat the $41.63 Edamame Venmo',
+                sub: 'Obstacle Boss Arcade',
+                img: './images/scenes/campus-autumn-sushi.jpg',
+              },
+              {
+                epId: 'spontaneous-18h-pool-sauna-getaway',
+                pin: '🏊‍♀️ Midnight Getaway',
+                title: '18-Hour Pool & Cedar Sauna',
+                sub: 'Crystal Toast Spark',
+                img: './images/scenes/hotel-pool-sauna.jpg',
+              },
+              {
+                epId: 'four-roommates-cereal-kitchen-horror',
+                pin: '🥣 7 AM Ambush',
+                title: '4-Roommate Cheerios Stealth',
+                sub: 'Stealth Radar Escape',
+                img: './images/scenes/sunday-kitchen-sanctuary.jpg',
+              },
+              {
+                epId: 'hobosexual-ps5-suitcase-creep',
+                pin: '🎮 Sanctuary Door',
+                title: 'Hobosexual PS5 & Laundry Bouncer',
+                sub: 'Contraband Bouncer Toy',
+                img: './images/scenes/luxury-bedroom-sanctuary.jpg',
+              },
+              {
+                epId: 'houseboy-sunday-sanctuary',
+                pin: '🍝 Sunday Sanctuary',
+                title: 'Earned Linen-Apron Sunday',
+                sub: '4-Point Sanctuary Prep',
+                img: './images/scenes/sunday-kitchen-sanctuary.jpg',
+              },
+            ].map((spot) => (
+              <button
+                key={spot.epId}
+                type="button"
+                onClick={() => {
+                  sfx.crystalClink();
+                  onJumpToMapScene(spot.epId);
+                }}
+                className="group relative h-28 overflow-hidden rounded-2xl border border-white/12 bg-[#0C0910] p-3.5 text-left hover:border-[#E5C17B] transition cursor-pointer flex flex-col justify-between"
+              >
+                <img
+                  src={spot.img}
+                  alt={spot.title}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover opacity-45 group-hover:scale-105 group-hover:opacity-60 transition duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0C0910] via-[#0C0910]/55 to-transparent" />
+                <span className="relative z-10 inline-flex w-fit items-center gap-1 rounded-full border border-[#E5C17B]/40 bg-[#0C0910]/80 px-2.5 py-0.5 text-[11px] font-semibold text-[#FDE68A]">
+                  {spot.pin}
+                </span>
+                <div className="relative z-10">
+                  <div className="font-display text-base text-[#FAF7F5] leading-tight">
+                    {spot.title}
+                  </div>
+                  <div className="text-xs text-rose-200">{spot.sub} →</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* CLEAN 4-TILE CLUB MODES DOCK */}
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

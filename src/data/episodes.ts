@@ -10,7 +10,10 @@ export type MinigameType =
   | 'cub_grooming'
   | 'thermostat_dial'
   | 'big_carl_pour'
-  | 'black_cat_pace';
+  | 'black_cat_pace'
+  | 'venmo_calculator_block'
+  | 'roommate_kitchen_escape'
+  | 'hobosexual_bag_intercept';
 
 export const RELATIONSHIP_STAGE_LABELS: Record<RelationshipStage, string> = {
   1: 'Stage 1 • First Spark',
@@ -3524,7 +3527,7 @@ export const EPISODES: Episode[] = [
     id: 'broke-college-dutch-calculator-horror',
     act: 2,
     stage: 1,
-    minigame: 'check_reflex',
+    minigame: 'venmo_calculator_block',
     title: '🚨 Broke College "Go-Dutch" Horror: Declined Campus Card & The $41.63 Venmo Calculator',
     subredditThreadInspiration: 'Sub-23 Danger Zone • "Declined campus Dining Dollars + itemizing 4 edamame pods for $41.63 on Venmo!"',
     isVip: false,
@@ -3620,6 +3623,7 @@ export const EPISODES: Episode[] = [
     id: 'four-roommates-cereal-kitchen-horror',
     act: 2,
     stage: 3,
+    minigame: 'roommate_kitchen_escape',
     title: '🥣 Obstacle Alert: The 7 AM Four-Roommate Mixing-Bowl Cheerios Ambush',
     subredditThreadInspiration: '7 AM Sleepover Obstacle • "Walking out in silk to three 23yo roommates eating Cheerios out of a plastic mixing bowl"',
     isVip: false,
@@ -3667,6 +3671,7 @@ export const EPISODES: Episode[] = [
     id: 'hobosexual-ps5-suitcase-creep',
     act: 2,
     stage: 3,
+    minigame: 'hobosexual_bag_intercept',
     title: '🎮 Red-Flag Obstacle: The "Hobosexual" PS5, Whey-Tub & Laundry-Bag Soft Move-In',
     subredditThreadInspiration: 'Sanctuary Red-Flag Test • "Spotting a smooth-talking Hobosexual sneaking a PS5 & laundry bag into your AC sanctuary"',
     isVip: false,
@@ -3858,6 +3863,104 @@ export const EPISODES: Episode[] = [
           'Stocking her exact mocktail or smoothie ingredients proves top-1% attentiveness.',
         toastBanner: 'THOUGHTFUL WELLNESS CARE +20',
         deltas: { maturity: 20, chivalry: 25, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'twin-xl-single-pillow-horror',
+    act: 2,
+    stage: 3,
+    minigame: 'room_audit',
+    title: '🛏️ Real-World Obstacle: The Unsheeted Twin-XL & Flat Yellow 2017 Dorm Pillow',
+    subredditThreadInspiration: 'Sleepover Horror Lore • "Walking into his bedroom and seeing ONE pancake-flat pillow, zero top sheet, and LED gamer strips"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'bathroom_audit',
+    recommendedAffiliateId: 'percale-hosting-sheets',
+    setupHer:
+      'Chemistry at dinner was a 10/10, so you step into {hisName}’s ({hisAge}M) apartment for a nightcap—and gasp internally: **one flat, case-less yellow pillow from sophomore year**, zero top sheet, and neon purple LED strips taped straight onto drywall! Can this Cub be domesticated before midnight, or are you calling an Uber Black?',
+    setupHim:
+      'Emergency Sanctuary Check! {herName} ({herAge}F) is walking down your hallway in heels right now. Every Cougar horror story starts with a bare mattress, one sad pancake pillow, and zero hand towels. How did you prep before Date #3?',
+    choices: [
+      {
+        labelHer: 'False alarm—he surprises you with crisp white 400-thread-count percale sheets, FOUR fluffed pillows, warm bedside lamps, and an unopened spare toothbrush on the vanity!',
+        labelHim: 'Upgrade to crisp white percale Queen sheets, four real pillows, warm table lamps (LED strips ripped down forever!), and a lidded bathroom bin + luxury hand soap before she ever steps inside!',
+        outcomeHer:
+          'FOUR FLUFFY PILLOWS AND A TOP SHEET?! You practically purr—he actually did his homework!',
+        outcomeHim:
+          'She takes one look at four crisp white pillows and warm lamplight and whispers: *"Wait… how are you {hisAge} and already better at hosting than men twice your age?!"*',
+        toastBanner: '4-PILLOW GROWN-MAN SANCTUARY! • MATURITY +30 • CHIVALRY +25',
+        deltas: { maturity: 30, chivalry: 25, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Four-Pillow Percale Certified',
+      },
+      {
+        labelHer: 'He pats a bare mattress with one pancake-flat pillow and offers you his clean gym hoodie as a blanket.',
+        labelHim: 'Offer an accomplished woman a bare mattress and one flat dorm pillow from 2018.',
+        outcomeHer:
+          'Your cervical spine files a restraining order on the spot—Uber Black arrives in 3 minutes flat!',
+        outcomeHim:
+          'Nothing ends a hot night faster than expecting a woman with her own thread-count standards to sleep under a gym hoodie.',
+        toastBanner: 'RED FLAG! • SINGLE FLAT PILLOW CRIME SCENE (-30)',
+        deltas: { maturity: -30, chivalry: -25, eq: -25, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Laugh warmly, send him a link to crisp cotton percale sheets for next week, and bring him back to your five-star sanctuary tonight.',
+        labelHim: 'Host at her sanctuary first while your new Queen bedframe & crisp white linen set arrive Tuesday.',
+        outcomeHer:
+          'Coachable Cubs who upgrade their bedding by Friday are keepers.',
+        outcomeHim:
+          'Fixing the gap within 48 hours proves eager, coachable effort.',
+        toastBanner: 'COACHABLE UPGRADE +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'birthday-dinner-group-venmo-ambush',
+    act: 2,
+    stage: 4,
+    minigame: 'venmo_calculator_block',
+    title: '🧾 Group-Dinner Obstacle: His 23yo Friends Order 14 Tequila Shots & Demand an "Even Split"',
+    subredditThreadInspiration: 'Public Group Horror • "You ordered one $19 salad + sparkling water, his bros ordered wagyu + 14 Don Julio shots, and someone yells LET’S SPLIT IT EVENLY 8 WAYS!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'You graciously attend {hisName}’s ({hisAge}M) friend’s birthday dinner. You sip one glass of Sancerre and order branzino, while two of his 23-year-old buddies order **three rounds of Don Julio 1942 shots and twin tomahawk steaks**—then loudly announce as the **$1,120 check** lands: *"Yo let’s just split it evenly 8 ways—everybody Venmo Brody $140 right now, especially since {herName}’s an executive lol!"*',
+    setupHim:
+      'Code-Red Chivalry Test! Your loudmouth buddy Brody ordered four rounds of top-shelf tequila shots nobody asked for, then tries to stick {herName} ({herAge}F) with an "even 8-way split" while making a tacky joke about her career!',
+    choices: [
+      {
+        labelHer: 'Before you even touch your purse, {hisName} shuts Brody down mid-sentence ("{herName} is my guest—her dinner and mine are on my card, and y’all are covering your own 14 shots"), settling both your shares seamlessly!',
+        labelHim: 'Shut Brody down immediately with calm authority ("{herName} is my date—I’ve got both of us covered on a separate check, and the tequila crew covers the shots"), zero awkwardness reaches her!',
+        outcomeHer:
+          'Watching your younger man shut down freeloading bros in 3 seconds flat without flinching?! Attraction skyrockets through the roof!',
+        outcomeHim:
+          'Protecting your date from tacky group-tab freeloading earns instant legend status at the table—and in the car ride home!',
+        toastBanner: 'IRONCLAD GROUP-TAB SHIELD! • CHIVALRY +30 • MATURITY +30',
+        deltas: { maturity: 30, chivalry: 30, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Group-Tab Ambush Bodyguard',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer: 'He sheepishly whispers "Babe can you just Venmo Brody $280 for both of us since you make more than all of us?"',
+        labelHim: 'Nudge your date under the table to subsidize your friends’ tequila binge because she has a great job.',
+        outcomeHer:
+          'Treating your Cougar like Brody’s personal ATM?! You pay exact cash for your one branzino to the server and vanish into the night forever!',
+        outcomeHim:
+          'Letting your friends treat your date like a Sugar-Mama sponsor is an unforgivable instant breakup.',
+        toastBanner: 'RED FLAG! • SUGAR-MAMA GROUP-TAB AMBUSH (-30)',
+        deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Ask the server upfront when sitting down at big group dinners to keep you and your date on a separate two-top tab.',
+        labelHim: 'Quietly tell the server right as you sit down: "Please put me and my date on our own separate check."',
+        outcomeHer:
+          'Veteran group-dinner move—zero bill drama at the end of the night!',
+        outcomeHim:
+          'Pre-splitting your two-top check before drinks arrive is elite grown-up foresight.',
+        toastBanner: 'PROACTIVE TWO-TOP TAB +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
       },
     ],
   },

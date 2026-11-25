@@ -753,6 +753,11 @@ export default function App() {
             onOpenChecklist={() => setChecklistOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
+            onJumpToMapScene={(episodeId) => {
+              setRun(createRun(pairing, selectedVipIds, episodeId));
+              setActiveTab('game');
+              setPhase('episodes');
+            }}
           />
         )}
       </main>

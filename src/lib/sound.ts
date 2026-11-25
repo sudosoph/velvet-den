@@ -6,6 +6,8 @@
 
 let audioCtx: AudioContext | null = null;
 let muted = false;
+let bgmTimer: number | null = null;
+let bgmStep = 0;
 
 function getCtx(): AudioContext | null {
   if (muted || typeof window === 'undefined') return null;
@@ -32,7 +34,48 @@ export function isSoundMuted(): boolean {
 
 export function toggleSoundMute(): boolean {
   muted = !muted;
+  if (muted && bgmTimer !== null && typeof window !== 'undefined') {
+    window.clearInterval(bgmTimer);
+    bgmTimer = null;
+  }
   return muted;
+}
+
+export function isLoungeMusicPlaying(): boolean {
+  return bgmTimer !== null;
+}
+
+/**
+ * Dream Daddy-inspired warm Rhodes / Velvet Cocktail Lounge Major-9th ambient loop.
+ * Pure WebAudio synthesis—zero external MP3 weight, instant toggle.
+ */
+export function toggleLoungeMusic(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (bgmTimer !== null) {
+    window.clearInterval(bgmTimer);
+    bgmTimer = null;
+    return false;
+  }
+  if (muted) {
+    muted = false;
+  }
+  const chords: number[][] = [
+    [261.63, 329.63, 392.0, 493.88], // Cmaj7
+    [220.0, 261.63, 329.63, 392.0],  // Am7
+    [174.61, 220.0, 261.63, 329.63], // Fmaj7
+    [196.0, 246.94, 293.66, 392.0],  // G6
+  ];
+  const playChord = () => {
+    if (muted) return;
+    const chord = chords[bgmStep % chords.length];
+    bgmStep += 1;
+    chord.forEach((freq, i) => {
+      playTone(freq, 1.85, 'sine', 0.022, i * 0.06);
+    });
+  };
+  playChord();
+  bgmTimer = window.setInterval(playChord, 2100);
+  return true;
 }
 
 function playTone(
@@ -118,6 +161,10 @@ export const sfx = {
   cardHoverTick() {
     playTone(480, 0.03, 'sine', 0.025);
   },
+  venmoSwat() {
+    playTone(740, 0.07, 'triangle', 0.08, 0, 310);
+    playTone(980, 0.09, 'sine', 0.06, 0.04, 1180);
+  },
   victoryFanfare() {
     [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
       playTone(f, 0.22, 'triangle', 0.08, idx * 0.08);
@@ -147,11 +194,21 @@ export function playVoiceNotePreview(
   if (synth && typeof window.SpeechSynthesisUtterance === 'function') {
     try {
       synth.cancel();
-      const cleaned = text.replace(/[^\w\s.,?!'’"-]/g, '').slice(0, 210);
+      const cleaned = text.replace(/[^\w\s.,?!'’"-]/g, '').slice(0, 220);
       const utter = new window.SpeechSynthesisUtterance(cleaned);
-      utter.pitch = style === 'her' ? 1.08 : style === 'trap_cub' ? 1.24 : 0.88;
-      utter.rate = style === 'trap_cub' ? 1.18 : 0.98;
-      utter.volume = 0.85;
+      const voices = typeof synth.getVoices === 'function' ? synth.getVoices() : [];
+      if (voices.length > 0) {
+        const preferred =
+          style === 'her'
+            ? voices.find((v) =>
+                /Samantha|Ava|Victoria|Karen|Moira|Google US English|Female/i.test(v.name),
+              )
+            : voices.find((v) => /Daniel|Alex|Aaron|Fred|Google UK English Male|Male/i.test(v.name));
+        if (preferred) utter.voice = preferred;
+      }
+      utter.pitch = style === 'her' ? 1.06 : style === 'trap_cub' ? 1.22 : 0.9;
+      utter.rate = style === 'trap_cub' ? 1.15 : 0.97;
+      utter.volume = 0.88;
       utter.onend = () => onEnd?.();
       utter.onerror = () => onEnd?.();
       synth.speak(utter);

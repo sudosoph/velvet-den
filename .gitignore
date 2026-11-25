@@ -7,3 +7,4 @@ dist-social/
 coverage/
 *.local
 *.tsbuildinfo
+release/
