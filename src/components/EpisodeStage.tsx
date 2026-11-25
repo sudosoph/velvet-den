@@ -31,6 +31,9 @@ import { buildEpisodeChatSpec, EpisodeChatFeed } from './SceneChatInterface';
 interface EpisodeStageProps {
   run: GameRunState;
   credits: number;
+  onBackToRoster?: () => void;
+  onJumpToSwipes?: () => void;
+  onOpenLiveChat?: () => void;
   onSelectChoice: (choiceIndex: number) => void;
   onCompleteMinigame: (episodeId: string, bonus: Partial<Stats>, badge: string) => void;
   onRewindLast: () => boolean;
@@ -221,6 +224,9 @@ function getGreenFlagStreak(history: GameRunState['history']): number {
 export const EpisodeStage: React.FC<EpisodeStageProps> = ({
   run,
   credits,
+  onBackToRoster,
+  onJumpToSwipes,
+  onOpenLiveChat,
   onSelectChoice,
   onCompleteMinigame,
   onRewindLast,
@@ -438,16 +444,43 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
         </div>
       )}
 
-      {/* Aligned Pop-Art Telemetry Bar */}
+      {/* Aligned Studio Telemetry & Quick Mode Switcher Bar */}
       <div className="vice-panel rounded-3xl px-5 py-4 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 text-xs font-extrabold text-[#1E1022]">
+          <div className="flex flex-wrap items-center gap-2">
+            {onBackToRoster && (
+              <button
+                type="button"
+                onClick={onBackToRoster}
+                className="pop-btn h-8 rounded-full bg-white hover:bg-[#FFF5F7] px-3 text-xs font-bold text-[#18101E] cursor-pointer"
+              >
+                ← The Roster
+              </button>
+            )}
+            {onJumpToSwipes && (
+              <button
+                type="button"
+                onClick={onJumpToSwipes}
+                className="pop-btn h-8 rounded-full bg-[#FFF0F5] hover:bg-[#FFE4E6] px-3 text-xs font-bold text-[#E11D48] cursor-pointer"
+              >
+                🔥 Swipe Deck
+              </button>
+            )}
+            {onOpenLiveChat && (
+              <button
+                type="button"
+                onClick={onOpenLiveChat}
+                className="pop-btn h-8 rounded-full bg-[#EFF6FF] hover:bg-[#DBEAFE] px-3 text-xs font-bold text-[#007AFF] cursor-pointer"
+              >
+                💬 Live Chat
+              </button>
+            )}
+            <span className="rounded-full border border-[#F59E0B]/40 bg-[#FEF3C7] px-3 py-1 text-xs font-extrabold text-[#92400E]">
               Scene {Math.min(run.currentEpisodeIndex + 1, run.episodeQueue.length)}/
               {run.episodeQueue.length} • {RELATIONSHIP_STAGE_LABELS[activeStage]}
             </span>
             {streak >= 2 && (
-              <span className="animate-combo-pulse inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FF2E63] px-3 py-0.5 text-xs font-extrabold text-white">
+              <span className="animate-combo-pulse inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#FD267A] to-[#FF6036] px-3 py-1 text-xs font-extrabold text-white">
                 <Flame className="h-3.5 w-3.5" /> {streak}x Streak
               </span>
             )}

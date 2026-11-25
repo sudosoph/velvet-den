@@ -527,8 +527,10 @@ export default function App() {
       <TopHudBar
         wallet={wallet}
         activeTab={activeTab}
+        activePhase={phase}
         levelBadge={`Lv.${getLevelInfo(adventureProgress.xp).level}`}
         onSelectTab={setActiveTab}
+        onOpenSwipeDeck={handleStartGame}
         onOpenFieldGuide={() => setFieldGuideOpen(true)}
         onOpenBoutique={() => setBoutiqueOpen(true)}
         onOpenLiveInbox={() => setActiveTab('inbox')}
@@ -775,6 +777,8 @@ export default function App() {
             credits={wallet.credits}
             isFounderUnlimited={Boolean(wallet.isFounderUnlimited)}
             initialProfileIndex={swipeStartIdx}
+            onBackToRoster={() => setPhase('mixer')}
+            onOpenLiveChat={() => setActiveTab('inbox')}
             onSpendXrayCredit={() => {
               const res = spendCredits(wallet, 1);
               if (!res.ok) {
@@ -796,6 +800,9 @@ export default function App() {
           <EpisodeStage
             run={run}
             credits={wallet.credits}
+            onBackToRoster={() => setPhase('mixer')}
+            onJumpToSwipes={() => setPhase('swipes')}
+            onOpenLiveChat={() => setActiveTab('inbox')}
             onSelectChoice={(choiceIdx) => {
               handleGainAdventureXp(20);
               setRun((prev) => {
@@ -918,7 +925,7 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t-[2.5px] border-[#1E1022] bg-[#FFFDF9] py-5 text-sm font-semibold text-[#5A4664]">
+      <footer className="border-t border-[#18101E]/10 bg-white/85 backdrop-blur-xs py-5 text-sm font-semibold text-[#64748B]">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3">
           <span>
             {BRAND_CONFIG.name} • Cheeky PG-13/R Satire for Adult Age-Gap Relationships (21+)

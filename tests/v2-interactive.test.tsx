@@ -820,4 +820,29 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     );
     expect(screen.getByText(/PINE-POLLEN EXPECTATIONS RESET!/i)).toBeInTheDocument();
   });
+
+  it('launches authentic Tinder 5-button Swipe Deck from TopHudBar without repeating hero slogan, and toggles Tinder Swipe Cards inside Live Chat', () => {
+    render(<App />);
+
+    // Hero uses fresh non-repetitive headline rather than repeating slogan under title
+    expect(screen.getByText(/Draft Your Roster\. Swipe, Text &/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Lower Your Age Slider\. Vet the Red Flags\./i)).not.toBeInTheDocument();
+
+    // 1-click TopHudBar "Swipe" button opens authentic Tinder deck with 5 circular action buttons
+    fireEvent.click(screen.getByRole('button', { name: /^Swipe$/i }));
+    expect(screen.getByRole('button', { name: /Rewind previous profile/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Swipe Left \(Pass\)/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Super Like/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Swipe Right \(Date\)/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Maturity X-Ray Scan/i }).length).toBeGreaterThanOrEqual(1);
+
+    // Clicking Swipe Left (Pass) on Connor (red-flag trap) shows NOPE stamp + Red Flag Dodged banner
+    fireEvent.click(screen.getByRole('button', { name: /Swipe Left \(Pass\)/i }));
+    expect(screen.getByText(/NOPE! Red Flag Dodged/i)).toBeInTheDocument();
+
+    // Jump straight into Live Chat from top bar and toggle Tinder Swipe Cards mode
+    fireEvent.click(screen.getByRole('button', { name: /Live Chat/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Swipe Cards/i }));
+    expect(screen.getByTitle(/Super Like & Chat/i)).toBeInTheDocument();
+  });
 });

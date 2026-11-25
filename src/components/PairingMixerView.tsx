@@ -199,22 +199,26 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
       )}
 
-      {/* BAND 1: ZYNGA COMMAND HERO + UNIFORM 4-BUTTON ARCADE MODE LAUNCHER */}
-      <section className="vice-panel rounded-3xl p-5 sm:p-6 bg-gradient-to-r from-[#FFFDF9] via-[#FFF4F7] to-[#FFFBEB] space-y-4">
+      {/* BAND 1: MODERN EDITORIAL HERO + 4-BUTTON QUICK-PLAY BAR (Zero Slogan Repetition!) */}
+      <section className="vice-panel rounded-3xl p-5 sm:p-6 bg-gradient-to-r from-white via-[#FFF7F9] to-[#FFFDF5] space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex h-7 items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 text-xs font-bold uppercase tracking-wide text-[#1E1022]">
-              <Flame className="h-3.5 w-3.5 text-[#FF2E63]" />
-              <span>Interactive Age-Gap Romance &amp; 8-Bit Arcade</span>
+            <div className="inline-flex h-7 items-center gap-1.5 rounded-full border border-[#FD267A]/25 bg-[#FFF0F5] px-3 text-xs font-extrabold uppercase tracking-wider text-[#E11D48]">
+              <Flame className="h-3.5 w-3.5 fill-[#FD267A] text-[#FD267A]" />
+              <span>Official Club Matchmaker • 56 Playable Profiles</span>
             </div>
 
-            <h1 className="font-display text-2xl sm:text-[32px] text-[#1E1022]">
-              Lower Your Age Slider. Vet the Red Flags.{' '}
-              <span className="text-[#FF2E63]">Win Real Love.</span>
+            <h1 className="font-display text-2xl sm:text-[32px] text-[#18101E] leading-tight">
+              Draft Your Roster. Swipe, Text &amp;{' '}
+              <span className="text-[#E11D48]">Spark Real Chemistry.</span>
             </h1>
+
+            <p className="text-xs sm:text-sm font-medium text-[#475569]">
+              Pick your role, swipe the interactive Tinder deck, jump into live iMessage &amp; Discord DMs, or pair any Cougar (30–64) × Cub (21–33) below.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 shrink-0 lg:w-[476px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 shrink-0 lg:w-[464px]">
             <button
               type="button"
               onClick={() => {
@@ -223,14 +227,14 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               }}
               className={`pop-btn h-14 rounded-2xl px-4 flex flex-col justify-center text-left cursor-pointer ${
                 role === 'her'
-                  ? 'bg-[#FF2E63] text-white'
-                  : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
+                  ? 'bg-gradient-to-r from-[#E11D48] to-[#FF2E63] text-white border-transparent shadow-sm'
+                  : 'bg-white text-[#18101E] hover:bg-[#FFF5F7]'
               }`}
             >
-              <div className="text-sm leading-tight">🐆 Play as Her</div>
+              <div className="text-sm font-bold leading-tight">🐆 Play as Her</div>
               <div
                 className={`font-sans text-[11.5px] font-semibold leading-tight mt-0.5 whitespace-nowrap ${
-                  role === 'her' ? 'text-white/90' : 'text-[#5A4664]'
+                  role === 'her' ? 'text-white/90' : 'text-[#64748B]'
                 }`}
               >
                 Vet &amp; Train • Catch Red Flags
@@ -245,20 +249,37 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               }}
               className={`pop-btn h-14 rounded-2xl px-4 flex flex-col justify-center text-left cursor-pointer ${
                 role === 'him'
-                  ? 'bg-[#FFBE0B] text-[#1E1022]'
-                  : 'bg-white text-[#1E1022] hover:bg-[#FFFBEB]'
+                  ? 'bg-[#F59E0B] text-[#18101E] border-transparent shadow-sm'
+                  : 'bg-white text-[#18101E] hover:bg-[#FFFBEB]'
               }`}
             >
-              <div className="text-sm leading-tight">🥂 Play as Him</div>
-              <div className="font-sans text-[11.5px] font-semibold leading-tight mt-0.5 whitespace-nowrap text-[#5A4664]">
+              <div className="text-sm font-bold leading-tight">🥂 Play as Him</div>
+              <div
+                className={`font-sans text-[11.5px] font-semibold leading-tight mt-0.5 whitespace-nowrap ${
+                  role === 'him' ? 'text-[#18101E]/85' : 'text-[#64748B]'
+                }`}
+              >
                 Impress &amp; Commit • Code-Switch
               </div>
             </button>
           </div>
         </div>
 
-        {/* Strictly Symmetrical 4-Column Equal-Height (48px) Arcade Launcher Bar */}
-        <div className="pt-3.5 border-t border-[#18101E]/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+        {/* Clean 4-Column Quick-Action Bar */}
+        <div className="pt-3.5 border-t border-[#18101E]/8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          <button
+            type="button"
+            aria-label="Live AI Texting Mode — Chat in Tinder, iMessage or Discord"
+            onClick={() => {
+              sfx.messagePop();
+              onOpenLiveInbox();
+            }}
+            className="pop-btn h-11 w-full rounded-xl bg-gradient-to-r from-[#FD267A] to-[#FF6036] hover:opacity-95 px-3 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-white border-transparent whitespace-nowrap cursor-pointer"
+          >
+            <MessageCircle className="h-4 w-4 shrink-0" />
+            <span className="whitespace-nowrap">Tinder · iMessage · Discord</span>
+          </button>
+
           <button
             type="button"
             aria-label="Pop-Culture Quiz (+3 Cr)"
@@ -291,19 +312,6 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
 
           <button
             type="button"
-            aria-label="Live AI Texting Mode — Chat in Tinder, iMessage or Discord"
-            onClick={() => {
-              sfx.messagePop();
-              onOpenLiveInbox();
-            }}
-            className="pop-btn h-11 w-full rounded-xl bg-gradient-to-r from-[#FD267A] to-[#FF6036] hover:opacity-95 px-3 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-white border-transparent whitespace-nowrap cursor-pointer"
-          >
-            <MessageCircle className="h-4 w-4 shrink-0" />
-            <span className="whitespace-nowrap">Tinder · iMessage · Discord</span>
-          </button>
-
-          <button
-            type="button"
             onClick={onQuickCreateAudition}
             className="pop-btn h-11 w-full rounded-xl bg-[#ECFDF5] hover:bg-[#D1FAE5] px-3 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold text-[#065F46] whitespace-nowrap cursor-pointer"
           >
@@ -319,10 +327,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
       {/* BAND 2: ABOVE-THE-FOLD PLAYABLE POP-CULTURE BLITZ & VIRAL IRL CHECK */}
       <section className="grid gap-4 lg:grid-cols-12 items-stretch">
         {/* Left (7 cols): Live Playable Pop-Culture Card */}
-        <div className="lg:col-span-7 vice-panel rounded-3xl p-4 sm:p-5 bg-gradient-to-br from-[#FFFDF9] to-[#FFFBEB] flex flex-col justify-between gap-3">
+        <div className="lg:col-span-7 vice-panel rounded-3xl p-4 sm:p-5 bg-gradient-to-br from-white to-[#FFFDF5] flex flex-col justify-between gap-3">
           <div className="space-y-2.5">
             <div className="flex items-center justify-between gap-2">
-              <span className="inline-flex h-8 items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFBE0B] px-3 text-xs font-bold text-[#1E1022]">
+              <span className="inline-flex h-8 items-center gap-1.5 rounded-full border border-[#F59E0B]/35 bg-[#FEF3C7] px-3 text-xs font-extrabold text-[#92400E]">
                 🎬 Live Pop-Culture Blitz • {currentBlitz.badge}
               </span>
               <button
@@ -332,13 +340,13 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   setBlitzPicked(null);
                   setBlitzIdx((idx) => (idx + 1) % POP_CULTURE_TRIVIA.length);
                 }}
-                className="pop-btn h-8 shrink-0 rounded-xl bg-white px-3 text-xs text-[#1E1022] cursor-pointer"
+                className="pop-btn h-8 shrink-0 rounded-full bg-white px-3 text-xs font-bold text-[#18101E] cursor-pointer"
               >
                 Next Card →
               </button>
             </div>
 
-            <p className="font-display text-base sm:text-lg text-[#1E1022] leading-snug">
+            <p className="font-display text-base sm:text-lg text-[#18101E] leading-snug">
               {currentBlitz.question}
             </p>
           </div>
@@ -347,10 +355,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {currentBlitz.options.map((opt, idx) => {
                 const isCorrect = idx === currentBlitz.correctIndex;
-                let btnColor = 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]';
+                let btnColor = 'bg-white text-[#18101E] hover:bg-[#FFF5F7]';
                 if (blitzPicked !== null) {
-                  if (isCorrect) btnColor = 'bg-[#D1FAE5] text-[#065F46]';
-                  else if (blitzPicked === idx) btnColor = 'bg-[#FFE4E6] text-[#9F1239]';
+                  if (isCorrect) btnColor = 'bg-[#D1FAE5] text-[#065F46] border-[#10B981]';
+                  else if (blitzPicked === idx) btnColor = 'bg-[#FFE4E6] text-[#9F1239] border-[#F43F5E]';
                 }
                 return (
                   <button
@@ -367,7 +375,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                         onGainAdventureXp?.(5);
                       }
                     }}
-                    className={`pop-btn min-h-[44px] w-full rounded-xl px-3 py-2 text-left text-xs sm:text-sm leading-snug flex items-center justify-between gap-2 cursor-pointer ${btnColor}`}
+                    className={`pop-btn min-h-[44px] w-full rounded-xl px-3 py-2 text-left text-xs sm:text-sm font-semibold leading-snug flex items-center justify-between gap-2 cursor-pointer ${btnColor}`}
                   >
                     <span>{opt}</span>
                     {blitzPicked !== null && isCorrect && (
@@ -379,7 +387,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </div>
 
             {blitzPicked !== null && (
-              <div className="rounded-xl border-2 border-[#1E1022] bg-white px-3 py-2 text-xs font-semibold text-[#1E1022]">
+              <div className="rounded-xl border border-[#F59E0B]/35 bg-[#FFFBEB] px-3 py-2 text-xs font-semibold text-[#18101E]">
                 ✨ {currentBlitz.funFact}
               </div>
             )}
@@ -387,10 +395,10 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         </div>
 
         {/* Right (5 cols): Live 25-Point Viral IRL Check */}
-        <div className="lg:col-span-5 vice-panel rounded-3xl p-4 sm:p-5 bg-gradient-to-br from-[#FFFDF9] to-[#FFF4F7] flex flex-col justify-between gap-3">
+        <div className="lg:col-span-5 vice-panel rounded-3xl p-4 sm:p-5 bg-gradient-to-br from-white to-[#FFF5F7] flex flex-col justify-between gap-3">
           <div className="space-y-2.5">
             <div className="flex items-center justify-between gap-2">
-              <span className="inline-flex h-8 items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FF2E63] px-3 text-xs font-bold text-white">
+              <span className="inline-flex h-8 items-center gap-1.5 rounded-full bg-[#FFE4E6] px-3 text-xs font-extrabold text-[#BE123C]">
                 🔥 Viral IRL Check ({viralChecked.length}/25)
               </span>
               <button
@@ -399,32 +407,32 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   sfx.messagePop();
                   setViralIdx((idx) => (idx + 1) % COUGAR_CUB_CHECKLIST_ITEMS.length);
                 }}
-                className="pop-btn h-8 shrink-0 rounded-xl bg-white px-3 text-xs text-[#1E1022] cursor-pointer"
+                className="pop-btn h-8 shrink-0 rounded-full bg-white px-3 text-xs font-bold text-[#18101E] cursor-pointer"
               >
                 Next Dare →
               </button>
             </div>
 
-            <p className="font-display text-base sm:text-lg text-[#1E1022] leading-snug">
+            <p className="font-display text-base sm:text-lg text-[#18101E] leading-snug">
               &ldquo;{currentViral.text}&rdquo;
             </p>
           </div>
 
           <div className="space-y-2.5">
             <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs font-bold text-[#5A4664]">
+              <div className="flex items-center justify-between text-xs font-bold text-[#64748B]">
                 <span>Club Viral Score: {viralChecked.length * 4} pts</span>
                 <button
                   type="button"
                   onClick={() => onJumpToMapScene?.(currentViral.episodeId)}
-                  className="text-[#D90452] hover:underline font-bold cursor-pointer"
+                  className="text-[#E11D48] hover:underline font-bold cursor-pointer"
                 >
                   Play Scene →
                 </button>
               </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full border-2 border-[#1E1022] bg-white">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
                 <div
-                  className="h-full bg-gradient-to-r from-[#FF2E63] to-[#FFBE0B] transition-all duration-300"
+                  className="h-full rounded-full bg-gradient-to-r from-[#FD267A] to-[#F59E0B] transition-all duration-300"
                   style={{ width: `${Math.max(8, viralChecked.length * 4)}%` }}
                 />
               </div>

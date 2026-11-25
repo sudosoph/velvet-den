@@ -45,25 +45,50 @@ export const SwipeOpeningChatCard: React.FC<SwipeOpeningChatCardProps> = ({
   const discordHandle = `match_${profile.age}_${profile.zodiac.split(' ')[0].toLowerCase()}`;
 
   return (
-    <div className="overflow-hidden rounded-3xl border-[2.5px] border-[#1E1022] shadow-[4px_4px_0px_#1E1022]">
-      {/* Mini App Switcher Strip */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-[#1E1022] bg-[#FFF4F7] px-3.5 py-2">
-        <span className="text-xs font-bold uppercase tracking-wide text-[#D90452]">
-          {role === 'her' ? 'Opening DM & Voice Note' : 'Her Opening Challenge'}
-        </span>
+    <div className="overflow-hidden rounded-3xl border border-black/10 shadow-[0_14px_34px_-12px_rgba(15,23,42,0.18)]">
+      {/* Native Window Chrome + App Switcher Strip */}
+      <div
+        className={`flex flex-wrap items-center justify-between gap-2 border-b px-4 py-2.5 ${
+          skin === 'imessage'
+            ? 'border-[#D1D1D6] bg-[#F5F5F7] text-[#1C1C1E]'
+            : 'border-[#1F2023] bg-[#1E1F22] text-[#DBDEE1]'
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 mr-1">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
+          </div>
+          <span className="text-xs font-bold tracking-tight">
+            {skin === 'imessage'
+              ? role === 'her'
+                ? 'Messages • Opening DM & Voice Note'
+                : 'Messages • Her Opening Challenge'
+              : `Discord • @${discordHandle}`}
+          </span>
+        </div>
 
-        <div className="inline-flex rounded-xl border-2 border-[#1E1022] bg-white p-0.5 text-xs font-bold">
+        <div
+          className={`inline-flex rounded-full p-0.5 text-xs font-bold ${
+            skin === 'imessage' ? 'bg-[#E5E5EA]' : 'bg-[#2B2D31]'
+          }`}
+        >
           <button
             type="button"
             onClick={() => {
               sfx.messagePop();
               setSkin('imessage');
             }}
-            className={`h-7 rounded-lg px-2.5 transition cursor-pointer ${
-              skin === 'imessage' ? 'bg-[#007AFF] text-white' : 'text-[#1E1022]'
+            className={`h-7 rounded-full px-3 transition cursor-pointer ${
+              skin === 'imessage'
+                ? 'bg-[#007AFF] text-white shadow-2xs'
+                : skin === 'discord'
+                  ? 'text-[#B5BAC1] hover:text-white'
+                  : 'text-[#1C1C1E]'
             }`}
           >
-            📱 iMessage
+            💬 iMessage
           </button>
           <button
             type="button"
@@ -71,11 +96,13 @@ export const SwipeOpeningChatCard: React.FC<SwipeOpeningChatCardProps> = ({
               sfx.messagePop();
               setSkin('discord');
             }}
-            className={`h-7 rounded-lg px-2.5 transition cursor-pointer ${
-              skin === 'discord' ? 'bg-[#5865F2] text-white' : 'text-[#1E1022]'
+            className={`h-7 rounded-full px-3 transition cursor-pointer ${
+              skin === 'discord'
+                ? 'bg-[#5865F2] text-white shadow-2xs'
+                : 'text-[#636366] hover:text-[#1C1C1E]'
             }`}
           >
-            🎮 Discord
+            # Discord
           </button>
         </div>
       </div>
@@ -533,27 +560,46 @@ export const EpisodeChatFeed: React.FC<{
   };
 
   return (
-    <div className="overflow-hidden rounded-3xl border-[2.5px] border-[#1E1022] shadow-[4px_4px_0px_#1E1022]">
-      {/* App Skin Toggle Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-[#1E1022] bg-[#FFF4F7] px-4 py-2">
-        <span className="text-xs font-bold uppercase tracking-wide text-[#D90452]">
-          {skin === 'imessage'
-            ? '📱 Live iMessage Thread (Tap any bubble to react!)'
-            : `🎮 Discord Server • #${spec.channelTitle}`}
-        </span>
+    <div className="overflow-hidden rounded-3xl border border-black/10 shadow-[0_16px_38px_-12px_rgba(15,23,42,0.2)]">
+      {/* Authentic Native App Window Bar */}
+      <div
+        className={`flex flex-wrap items-center justify-between gap-2 border-b px-4 py-2.5 ${
+          skin === 'imessage'
+            ? 'border-[#D1D1D6] bg-[#F5F5F7] text-[#1C1C1E]'
+            : 'border-[#1F2023] bg-[#1E1F22] text-[#DBDEE1]'
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 mr-1">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
+          </div>
+          <span className="text-xs font-bold tracking-tight">
+            {skin === 'imessage'
+              ? 'Messages • Tap any bubble to send a Tapback'
+              : `Discord • #${spec.channelTitle}`}
+          </span>
+        </div>
 
-        <div className="inline-flex rounded-xl border-2 border-[#1E1022] bg-white p-0.5 text-xs font-bold">
+        <div
+          className={`inline-flex rounded-full p-0.5 text-xs font-bold ${
+            skin === 'imessage' ? 'bg-[#E5E5EA]' : 'bg-[#2B2D31]'
+          }`}
+        >
           <button
             type="button"
             onClick={() => {
               sfx.messagePop();
               setSkin('imessage');
             }}
-            className={`h-7 rounded-lg px-2.5 transition cursor-pointer ${
-              skin === 'imessage' ? 'bg-[#007AFF] text-white' : 'text-[#1E1022]'
+            className={`h-7 rounded-full px-3 transition cursor-pointer ${
+              skin === 'imessage'
+                ? 'bg-[#007AFF] text-white shadow-2xs'
+                : 'text-[#B5BAC1] hover:text-white'
             }`}
           >
-            📱 iMessage
+            💬 iMessage
           </button>
           <button
             type="button"
@@ -561,11 +607,13 @@ export const EpisodeChatFeed: React.FC<{
               sfx.messagePop();
               setSkin('discord');
             }}
-            className={`h-7 rounded-lg px-2.5 transition cursor-pointer ${
-              skin === 'discord' ? 'bg-[#5865F2] text-white' : 'text-[#1E1022]'
+            className={`h-7 rounded-full px-3 transition cursor-pointer ${
+              skin === 'discord'
+                ? 'bg-[#5865F2] text-white shadow-2xs'
+                : 'text-[#636366] hover:text-[#1C1C1E]'
             }`}
           >
-            🎮 Discord
+            # Discord
           </button>
         </div>
       </div>

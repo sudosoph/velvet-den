@@ -26,8 +26,10 @@ import {
 interface TopHudBarProps {
   wallet: WalletState;
   activeTab: 'game' | 'world' | 'journal' | 'inbox';
+  activePhase?: 'mixer' | 'swipes' | 'episodes' | 'outcome' | 'audition';
   levelBadge?: string;
   onSelectTab: (tab: 'game' | 'world' | 'journal' | 'inbox') => void;
+  onOpenSwipeDeck?: () => void;
   onOpenFieldGuide: () => void;
   onOpenBoutique: () => void;
   onOpenLiveInbox: () => void;
@@ -40,8 +42,10 @@ interface TopHudBarProps {
 export const TopHudBar: React.FC<TopHudBarProps> = ({
   wallet,
   activeTab,
+  activePhase = 'mixer',
   levelBadge,
   onSelectTab,
+  onOpenSwipeDeck,
   onOpenFieldGuide,
   onOpenBoutique,
   onOpenLiveInbox,
@@ -72,7 +76,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
   return (
     <header className="sticky top-0 z-30 border-b border-[#18101E]/10 bg-white/95 backdrop-blur-md shadow-2xs">
-      <div className="mx-auto flex w-full max-w-[1380px] flex-col gap-2 px-3 py-2 sm:px-5 xl:flex-row xl:items-center xl:justify-between">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-2 px-3 py-2 sm:px-5 xl:flex-row xl:items-center xl:justify-between">
         {/* Brand Identity + Level Pill */}
         <div className="flex shrink-0 items-center justify-between xl:justify-start gap-2">
           <button
@@ -80,7 +84,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             onClick={handleLogoClick}
             className="group flex shrink-0 items-center gap-2 text-left cursor-pointer"
           >
-            <span className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#E11D48] to-[#FB7185] text-base text-white shadow-xs group-hover:scale-105 transition">
+            <span className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#FD267A] to-[#FF6036] text-base text-white shadow-xs group-hover:scale-105 transition">
               🐆
             </span>
             <span className="font-display text-base sm:text-lg whitespace-nowrap text-[#18101E] group-hover:text-[#E11D48] transition-colors">
@@ -95,13 +99,13 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           )}
         </div>
 
-        {/* Unified Top Navigation Bar: Roster, Live Chat, Pop Quiz (+3 Cr), 25-Pt Test, 8-Bit World, Guides & Wallet */}
+        {/* Unified Top Navigation Bar: Roster, Swipe, Live Chat, Pop Quiz (+3 Cr), 25-Pt Test, 8-Bit World, Guides & Wallet */}
         <nav className="flex w-full xl:w-auto xl:ml-auto overflow-x-auto no-scrollbar items-center justify-start gap-1 pb-0.5 xl:pb-0">
           <button
             type="button"
             onClick={onGoHome}
             className={`pop-btn shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full px-2.5 text-xs font-bold cursor-pointer ${
-              activeTab === 'game'
+              activeTab === 'game' && activePhase === 'mixer'
                 ? 'bg-[#18101E] text-white'
                 : 'bg-white text-[#18101E] hover:bg-[#F8FAFC]'
             }`}
@@ -110,17 +114,33 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             <span>The Roster</span>
           </button>
 
+          {onOpenSwipeDeck && (
+            <button
+              type="button"
+              onClick={onOpenSwipeDeck}
+              title="Open Tinder Swipe Deck"
+              className={`pop-btn shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full px-2.5 text-xs font-bold cursor-pointer ${
+                activeTab === 'game' && activePhase === 'swipes'
+                  ? 'bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white border-transparent'
+                  : 'bg-[#FFF1F2] text-[#E11D48] hover:bg-[#FFE4E6]'
+              }`}
+            >
+              <Flame className="h-3.5 w-3.5 shrink-0 fill-current" />
+              <span>Swipe</span>
+            </button>
+          )}
+
           <button
             type="button"
             title="Live AI Chat on Tinder, iMessage & Discord"
             onClick={() => (activeTab === 'inbox' ? onSelectTab('game') : onOpenLiveInbox())}
             className={`pop-btn shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full px-2.5 text-xs font-bold cursor-pointer ${
               activeTab === 'inbox'
-                ? 'bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white border-transparent'
-                : 'bg-[#FFF1F2] text-[#BE123C] hover:bg-[#FFE4E6]'
+                ? 'bg-[#007AFF] text-white border-transparent'
+                : 'bg-[#EFF6FF] text-[#1D4ED8] hover:bg-[#DBEAFE]'
             }`}
           >
-            <Flame className="h-3.5 w-3.5 shrink-0" />
+            <span className="text-xs leading-none">💬</span>
             <span>Live Chat</span>
           </button>
 
@@ -165,7 +185,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onOpenFieldGuide}
-            className="pop-btn shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full bg-white px-2.5 text-xs font-bold text-[#18101E] hover:bg-[#F8FAFC] cursor-pointer"
+            className="pop-btn shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full bg-white px-2 text-xs font-bold text-[#18101E] hover:bg-[#F8FAFC] cursor-pointer"
           >
             <BookOpen className="h-3.5 w-3.5 text-[#E11D48] shrink-0" />
             <span>Field Guide</span>
@@ -174,7 +194,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab(activeTab === 'journal' ? 'game' : 'journal')}
-            className={`pop-btn shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full px-2.5 text-xs font-bold cursor-pointer ${
+            className={`pop-btn shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full px-2 text-xs font-bold cursor-pointer ${
               activeTab === 'journal'
                 ? 'bg-[#18101E] text-white'
                 : 'bg-white text-[#18101E] hover:bg-[#F8FAFC]'

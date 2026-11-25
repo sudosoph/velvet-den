@@ -1,15 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  ArrowLeft,
+  BadgeCheck,
   ChevronLeft,
   ChevronRight,
   Eye,
+  Flame,
   Heart,
+  MessageCircle,
   Music2,
+  RotateCcw,
   Search,
   Share2,
   SlidersHorizontal,
   Sparkles,
+  Star,
   X,
+  Zap,
 } from 'lucide-react';
 import { getSwipeDeckForRole, type SwipeProfile } from '../data/appProfiles';
 import type { PlayerRole } from '../domain/taxonomy';
@@ -22,6 +29,8 @@ interface AppSwipeStageProps {
   credits: number;
   isFounderUnlimited?: boolean;
   initialProfileIndex?: number;
+  onBackToRoster?: () => void;
+  onOpenLiveChat?: () => void;
   onSwipeProfile: (profileId: string, direction: 'left' | 'right') => void;
   onSpendXrayCredit: () => boolean;
   onShareDilemma: (profileId: string, headline: string) => void;
@@ -35,6 +44,8 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   credits,
   isFounderUnlimited = false,
   initialProfileIndex = 0,
+  onBackToRoster,
+  onOpenLiveChat,
   onSwipeProfile,
   onSpendXrayCredit,
   onShareDilemma,
@@ -51,16 +62,22 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const [clueMagnified, setClueMagnified] = useState(false);
   const [xrayOpen, setXrayOpen] = useState(false);
   const [dragX, setDragX] = useState(0);
+  const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [flyDir, setFlyDir] = useState<'left' | 'right' | null>(null);
+  const [flyDir, setFlyDir] = useState<'left' | 'right' | 'super' | null>(null);
   const [mobileTab, setMobileTab] = useState<'photo' | 'dossier'>('photo');
-  const [swipeFeedback, setSwipeFeedback] = useState<{ text: string; good: boolean } | null>(null);
+  const [swipeFeedback, setSwipeFeedback] = useState<{
+    text: string;
+    good: boolean;
+    matchedName?: string;
+  } | null>(null);
 
   const [agePref, setAgePref] = useState<number>(() => (role === 'her' ? 28 : 48));
   const [sliderBanner, setSliderBanner] = useState<string | null>(null);
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
 
   const startXRef = useRef<number | null>(null);
+  const startYRef = useRef<number | null>(null);
   const lastMoveTimeRef = useRef<number>(0);
   const velocityXRef = useRef<number>(0);
   const stopVoiceRef = useRef<(() => void) | null>(null);
@@ -74,6 +91,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     setClueMagnified(false);
     setXrayOpen(false);
     setDragX(0);
+    setDragY(0);
     setFlyDir(null);
     setMobileTab('photo');
     stopVoiceRef.current?.();
@@ -85,6 +103,80 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
       stopVoiceRef.current?.();
     };
   }, []);
+
+  const commitSwipe = useCallback(
+    (dir: 'left' | 'right' | 'super') => {
+      if (!profile || flyDir) return;
+      stopVoiceRef.current?.();
+      setPlayingVoiceId(null);
+
+      const logicalDir: 'left' | 'right' = dir === 'left' ? 'left' : 'right';
+      const isGreen = profile.isGreenFlagMatch;
+
+      if (dir === 'super' && isGreen) {
+        sfx.victoryFanfare();
+        setSwipeFeedback({
+          text: `⭐ IT'S A SUPER MATCH with ${profile.name}! +Chemistry & Chivalry`,
+          good: true,
+          matchedName: profile.name,
+        });
+      } else if (logicalDir === 'right' && isGreen) {
+        sfx.swipeRight();
+        setSwipeFeedback({
+          text: `🔥 IT'S A MATCH with ${profile.name}! +Chemistry`,
+          good: true,
+          matchedName: profile.name,
+        });
+      } else if (logicalDir === 'left' && !isGreen) {
+        sfx.greenFlag();
+        setSwipeFeedback({
+          text: `🛡️ NOPE! Red Flag Dodged (${profile.name})! +Maturity`,
+          good: true,
+        });
+      } else if (logicalDir === 'right' && !isGreen) {
+        sfx.redFlag();
+        setSwipeFeedback({
+          text: `🚩 Trap Missed! ${profile.name} had hidden red flags`,
+          good: false,
+        });
+      } else {
+        sfx.swipeLeft();
+        setSwipeFeedback({ text: `Passed on ${profile.name}`, good: true });
+      }
+
+      setFlyDir(dir);
+      onSwipeProfile(profile.id, logicalDir);
+
+      window.setTimeout(() => {
+        if (index + 1 >= deck.length) {
+          onCompleteSwipes();
+        } else {
+          setIndex((i) => i + 1);
+        }
+      }, 360);
+    },
+    [profile, flyDir, onSwipeProfile, index, deck.length, onCompleteSwipes],
+  );
+
+  // Desktop keyboard arrow controls (← Nope, → Like, ↑ Super Like)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        commitSwipe('left');
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        commitSwipe('right');
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        commitSwipe('super');
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [commitSwipe]);
 
   if (!profile) {
     return null;
@@ -100,37 +192,11 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     setPhotoIdx(wrapped);
   };
 
-  const commitSwipe = (dir: 'left' | 'right') => {
-    if (flyDir) return;
-    stopVoiceRef.current?.();
-    setPlayingVoiceId(null);
-
-    const isGreen = profile.isGreenFlagMatch;
-    if (dir === 'right' && isGreen) {
-      sfx.swipeRight();
-      setSwipeFeedback({ text: `🔥 Spark Matched with ${profile.name}! +Chemistry`, good: true });
-    } else if (dir === 'left' && !isGreen) {
-      sfx.greenFlag();
-      setSwipeFeedback({ text: `🛡️ Red Flag Dodged (${profile.name})! +Maturity`, good: true });
-    } else if (dir === 'right' && !isGreen) {
-      sfx.redFlag();
-      setSwipeFeedback({ text: `🚩 Trap Missed! ${profile.name} had hidden red flags`, good: false });
-    } else {
-      sfx.swipeLeft();
-      setSwipeFeedback({ text: `Passed on ${profile.name}`, good: true });
-    }
-
-    setFlyDir(dir);
-    onSwipeProfile(profile.id, dir);
-
-    window.setTimeout(() => {
-      setSwipeFeedback(null);
-      if (index + 1 >= deck.length) {
-        onCompleteSwipes();
-      } else {
-        setIndex((i) => i + 1);
-      }
-    }, 340);
+  const handleRewindCard = () => {
+    if (index <= 0 || flyDir) return;
+    sfx.messagePop();
+    setSwipeFeedback({ text: '↺ Rewound previous Tinder card', good: true });
+    setIndex((i) => Math.max(0, i - 1));
   };
 
   const handleUnlockXray = () => {
@@ -145,34 +211,42 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const handlePointerDown = (e: React.PointerEvent) => {
     if ((e.target as HTMLElement).closest('button, input, a')) return;
     startXRef.current = e.clientX;
+    startYRef.current = e.clientY;
     lastMoveTimeRef.current = performance.now();
     velocityXRef.current = 0;
     setIsDragging(true);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (startXRef.current === null) return;
+    if (startXRef.current === null || startYRef.current === null) return;
     const now = performance.now();
     const dt = Math.max(1, now - lastMoveTimeRef.current);
-    const nextDrag = e.clientX - startXRef.current;
-    velocityXRef.current = (nextDrag - dragX) / dt;
+    const nextDragX = e.clientX - startXRef.current;
+    const nextDragY = e.clientY - startYRef.current;
+    velocityXRef.current = (nextDragX - dragX) / dt;
     lastMoveTimeRef.current = now;
-    setDragX(Math.max(-220, Math.min(220, nextDrag)));
+    setDragX(Math.max(-280, Math.min(280, nextDragX)));
+    setDragY(Math.max(-180, Math.min(90, nextDragY)));
   };
 
   const handlePointerUp = () => {
     if (startXRef.current === null) return;
     const finalX = dragX;
+    const finalY = dragY;
     const vx = velocityXRef.current;
     startXRef.current = null;
+    startYRef.current = null;
     setIsDragging(false);
 
-    if (finalX > 85 || vx > 0.6) {
+    if (finalY < -95 && Math.abs(finalX) < 90) {
+      commitSwipe('super');
+    } else if (finalX > 80 || vx > 0.55) {
       commitSwipe('right');
-    } else if (finalX < -85 || vx < -0.6) {
+    } else if (finalX < -80 || vx < -0.55) {
       commitSwipe('left');
     } else {
       setDragX(0);
+      setDragY(0);
     }
   };
 
@@ -200,11 +274,15 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           setPhotoIdx(0);
         }
       } else {
-        setSliderBanner(`Minimum Cub Age set to ${nextVal}+ — Prime Cougars & Cubs Club pool active.`);
+        setSliderBanner(
+          `Minimum Cub Age set to ${nextVal}+ — Prime Cougars & Cubs Club pool active.`,
+        );
       }
     } else {
       if (nextVal >= 60) {
-        setSliderBanner('👑 60+ ICON TIER UNLOCKED! Panthers & Silver-Braids Gallery Icons active!');
+        setSliderBanner(
+          '👑 60+ ICON TIER UNLOCKED! Panthers & Silver-Braids Gallery Icons active!',
+        );
         const vivIdx = deck.findIndex((d) => d.age >= 60);
         if (vivIdx >= 0) {
           setIndex(vivIdx);
@@ -238,40 +316,69 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     });
   };
 
-  const rotationDeg = (dragX / 15).toFixed(1);
-  const dragProgress = Math.min(1, Math.abs(dragX) / 90);
+  const rotationDeg = (dragX / 13).toFixed(1);
+  const dragProgress = Math.min(1, Math.max(Math.abs(dragX) / 85, Math.abs(dragY) / 95));
+  const showLikeStamp = flyDir === 'right' || dragX > 22;
+  const showNopeStamp = flyDir === 'left' || dragX < -22;
+  const showSuperStamp = flyDir === 'super' || (dragY < -35 && Math.abs(dragX) < 70);
 
   return (
     <div className="w-full space-y-5 animate-stage-in">
-      {/* Aligned Age-Preference Slider Bar */}
-      <div className="vice-panel rounded-3xl px-5 py-4 space-y-3">
+      {/* =====================================================================
+       * AUTHENTIC TINDER DISCOVERY BAR + PLAYABLE AGE-PREFERENCE SLIDER
+       * ===================================================================== */}
+      <div className="vice-panel rounded-3xl px-4 py-4 sm:px-6 space-y-3 bg-white">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex h-9 items-center rounded-xl border-2 border-[#1E1022] bg-[#FFBE0B] px-3 text-xs font-bold text-[#1E1022]">
-              Act I • Profile {index + 1} of {deck.length}
+            {onBackToRoster && (
+              <button
+                type="button"
+                onClick={onBackToRoster}
+                className="pop-btn inline-flex h-9 items-center gap-1.5 rounded-full bg-white hover:bg-[#FFF5F7] px-3 text-xs font-bold text-[#18101E] cursor-pointer"
+              >
+                <ArrowLeft className="h-3.5 w-3.5 text-[#FD267A]" />
+                <span>The Roster</span>
+              </button>
+            )}
+
+            <span className="inline-flex h-9 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#FD267A] to-[#FF6036] px-3.5 text-xs font-extrabold tracking-tight text-white shadow-xs">
+              <Flame className="h-3.5 w-3.5 fill-white" />
+              <span>tinder • Card {index + 1}/{deck.length}</span>
             </span>
-            <span className="inline-flex h-9 items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#FFF4F7] px-3 text-xs font-bold text-[#1E1022]">
-              <SlidersHorizontal className="h-3.5 w-3.5 text-[#FF2E63]" />
+
+            <span className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[#FD267A]/25 bg-[#FFF0F5] px-3 text-xs font-bold text-[#BE123C]">
+              <SlidersHorizontal className="h-3.5 w-3.5 text-[#FD267A]" />
               <span>
-                {role === 'her' ? `Age Filter: ${agePref}–45` : `Age Filter: 30–${agePref}`}
+                {role === 'her' ? `Discovery Age: ${agePref}–45` : `Discovery Age: 30–${agePref}`}
               </span>
             </span>
+
+            {onOpenLiveChat && (
+              <button
+                type="button"
+                onClick={onOpenLiveChat}
+                className="pop-btn inline-flex h-9 items-center gap-1.5 rounded-full bg-[#EFF6FF] hover:bg-[#DBEAFE] px-3 text-xs font-bold text-[#007AFF] cursor-pointer"
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                <span>Open DMs</span>
+              </button>
+            )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             {role === 'her' ? (
               <>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(25)}
-                  className="pop-btn h-9 rounded-xl bg-[#FFBE0B] px-3 text-xs text-[#1E1022] cursor-pointer"
+                  className="pop-btn h-8.5 rounded-full bg-[#FEF3C7] hover:bg-[#FDE68A] px-3 text-xs font-bold text-[#92400E] cursor-pointer"
                 >
                   🤠 Drop to 25 (Montana Cowboy)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(21)}
-                  className="pop-btn h-9 rounded-xl bg-[#FF2E63] px-3 text-xs text-white cursor-pointer"
+                  className="pop-btn h-8.5 rounded-full bg-[#FFE4E6] hover:bg-[#FECDD3] px-3 text-xs font-bold text-[#BE123C] cursor-pointer"
                 >
                   🚨 Drop to 21 (Danger Zone)
                 </button>
@@ -289,7 +396,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       setPhotoIdx(0);
                     }
                   }}
-                  className="pop-btn h-9 rounded-xl bg-white px-3 text-xs text-[#1E1022] cursor-pointer"
+                  className="pop-btn h-8.5 rounded-full bg-white hover:bg-[#F8FAFC] px-3 text-xs font-bold text-[#18101E] cursor-pointer"
                 >
                   🌺 21yo Hawaii Timeshare
                 </button>
@@ -299,14 +406,14 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(53)}
-                  className="pop-btn h-9 rounded-xl bg-[#FFBE0B] px-3 text-xs text-[#1E1022] cursor-pointer"
+                  className="pop-btn h-8.5 rounded-full bg-[#FEF3C7] px-3 text-xs font-bold text-[#92400E] cursor-pointer"
                 >
                   🔥 50s Jaguars
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgeSliderChange(64)}
-                  className="pop-btn h-9 rounded-xl bg-[#FF2E63] px-3 text-xs text-white cursor-pointer"
+                  className="pop-btn h-8.5 rounded-full bg-[#FFE4E6] px-3 text-xs font-bold text-[#BE123C] cursor-pointer"
                 >
                   👑 60+ Icons
                 </button>
@@ -316,7 +423,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             <button
               type="button"
               onClick={onCompleteSwipes}
-              className="pop-btn h-9 rounded-xl bg-[#1E1022] px-3 text-xs text-white cursor-pointer"
+              className="pop-btn h-8.5 rounded-full bg-[#18101E] px-3.5 text-xs font-bold text-white cursor-pointer"
             >
               Skip to Date #1 →
             </button>
@@ -331,67 +438,133 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             max={role === 'her' ? 34 : 65}
             value={agePref}
             onChange={(e) => handleAgeSliderChange(Number(e.target.value))}
-            className="w-full accent-[#FF2E63] cursor-pointer h-2 rounded-lg bg-[#FFF4F7]"
+            className="w-full accent-[#FD267A] cursor-pointer h-2 rounded-lg bg-[#FCE7F3]"
           />
           {sliderBanner && (
-            <div className="rounded-xl border-2 border-[#1E1022] bg-[#FFFBEB] px-3.5 py-2 text-xs font-extrabold text-[#1E1022]">
+            <div className="rounded-2xl border border-[#FD267A]/25 bg-[#FFF5F7] px-3.5 py-2 text-xs font-bold text-[#9F1239]">
               {sliderBanner}
             </div>
           )}
         </div>
       </div>
 
-      {/* Post-Swipe Consequence Toast */}
+      {/* =====================================================================
+       * CELEBRATORY "IT'S A MATCH!" / CONSEQUENCE BANNER
+       * ===================================================================== */}
       {swipeFeedback && (
         <div
-          className={`vice-toast rounded-2xl border-2 border-[#1E1022] px-4 py-3 text-center text-sm font-extrabold shadow-[4px_4px_0px_#1E1022] ${
-            swipeFeedback.good ? 'bg-[#D1FAE5] text-[#065F46]' : 'bg-[#FFE4E6] text-[#9F1239]'
+          className={`vice-toast rounded-2xl border px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-sm font-bold shadow-md ${
+            swipeFeedback.matchedName
+              ? 'border-[#21D07C] bg-gradient-to-r from-[#059669] via-[#10B981] to-[#FD267A] text-white'
+              : swipeFeedback.good
+                ? 'border-[#10B981]/40 bg-[#ECFDF5] text-[#065F46]'
+                : 'border-[#F43F5E]/40 bg-[#FFF1F2] text-[#9F1239]'
           }`}
         >
-          {swipeFeedback.text}
+          <span>{swipeFeedback.text}</span>
+          {swipeFeedback.matchedName && onOpenLiveChat && (
+            <button
+              type="button"
+              onClick={onOpenLiveChat}
+              className="rounded-full bg-white px-3.5 py-1 text-xs font-extrabold text-[#18101E] shadow-xs hover:scale-105 transition cursor-pointer"
+            >
+              💬 Text {swipeFeedback.matchedName} Now →
+            </button>
+          )}
         </div>
       )}
 
       {/* Mobile View Switcher */}
-      <div className="flex lg:hidden rounded-2xl border-2 border-[#1E1022] bg-white p-1 text-sm font-extrabold shadow-[3px_3px_0px_#1E1022]">
+      <div className="flex lg:hidden rounded-full border border-[#18101E]/12 bg-white p-1 text-sm font-bold shadow-xs">
         <button
           type="button"
           onClick={() => setMobileTab('photo')}
-          className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
-            mobileTab === 'photo' ? 'bg-[#FF2E63] text-white' : 'text-[#1E1022]'
+          className={`flex-1 rounded-full py-2 transition cursor-pointer ${
+            mobileTab === 'photo'
+              ? 'bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white'
+              : 'text-[#18101E]'
           }`}
         >
-          📸 Photos ({safePhotoIdx + 1}/{totalPhotos})
+          🔥 Swipe Card ({safePhotoIdx + 1}/{totalPhotos})
         </button>
         <button
           type="button"
           onClick={() => setMobileTab('dossier')}
-          className={`flex-1 rounded-xl py-2 transition cursor-pointer ${
-            mobileTab === 'dossier' ? 'bg-[#FFBE0B] text-[#1E1022]' : 'text-[#1E1022]'
+          className={`flex-1 rounded-full py-2 transition cursor-pointer ${
+            mobileTab === 'dossier' ? 'bg-[#18101E] text-white' : 'text-[#18101E]'
           }`}
         >
-          💬 Bio, Prompts &amp; Voice
+          💬 DMs, Bio &amp; Voice
         </button>
       </div>
 
-      {/* STRICTLY ALIGNED TWO-COLUMN SPLIT */}
-      <div className="grid gap-6 lg:grid-cols-[410px_1fr] items-start">
-        {/* LEFT COLUMN: 2-Card Draggable Stack + Swipe Dock */}
-        <div className={`${mobileTab === 'dossier' ? 'hidden lg:block' : 'block'} space-y-3.5`}>
+      {/* =====================================================================
+       * TWO-COLUMN AUTHENTIC TINDER STAGE:
+       * Left: Real Draggable Tinder Stack + 5 Circular Floating Action Buttons
+       * Right: Opening iMessage/Discord DM + Full Profile Prompts & Clues
+       * ===================================================================== */}
+      <div className="grid gap-6 lg:grid-cols-[430px_1fr] items-start">
+        {/* LEFT COLUMN: AUTHENTIC TINDER SWIPE STACK + 5 CIRCULAR BUTTONS */}
+        <div className={`${mobileTab === 'dossier' ? 'hidden lg:block' : 'block'} space-y-4`}>
+          {/* Photo Switcher Pills + Ask Bestie Bar */}
+          <div className="flex items-center justify-between gap-2 px-1">
+            <div className="flex gap-1 overflow-x-auto no-scrollbar rounded-full border border-[#18101E]/12 bg-white p-1 shadow-2xs">
+              {profile.photos.map((ph, idx) => {
+                const defaultLabel =
+                  idx === 0
+                    ? 'Photo 1'
+                    : idx === 1 && ph.isRedFlagPhoto
+                      ? 'Photo 2 👀'
+                      : `Photo ${idx + 1}`;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => selectPhoto(idx)}
+                    className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold transition cursor-pointer ${
+                      safePhotoIdx === idx
+                        ? ph.isRedFlagPhoto
+                          ? 'bg-[#FD267A] text-white'
+                          : 'bg-[#18101E] text-white'
+                        : 'text-[#475569] hover:text-[#18101E]'
+                    }`}
+                  >
+                    {ph.shortTab || defaultLabel}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                onShareDilemma(
+                  profile.id,
+                  `Would you swipe right on ${profile.name} (${profile.age})?!`,
+                )
+              }
+              className="pop-btn shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#18101E] cursor-pointer"
+            >
+              <Share2 className="h-3.5 w-3.5 text-[#FD267A]" />
+              <span>Ask Bestie</span>
+            </button>
+          </div>
+
+          {/* 2-Card Layered Tinder Stack */}
           <div className="relative">
             {nextProfile && (
               <div
                 aria-hidden="true"
                 style={{
-                  transform: `scale(${0.95 + dragProgress * 0.04}) translateY(${8 - dragProgress * 8}px)`,
-                  opacity: 0.5 + dragProgress * 0.4,
+                  transform: `scale(${0.94 + dragProgress * 0.05}) translateY(${12 - dragProgress * 12}px)`,
+                  opacity: 0.55 + dragProgress * 0.45,
                 }}
-                className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-3xl border-2 border-[#1E1022] bg-[#FFF4F7]"
+                className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[28px] border border-black/10 bg-[#18101E] shadow-lg"
               >
                 <img
                   src={nextProfile.photos[0].photoUrl}
                   alt=""
-                  className="h-full w-full object-cover object-top opacity-65"
+                  className="h-full w-full object-cover object-top opacity-75"
                 />
               </div>
             )}
@@ -402,44 +575,80 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
               onPointerUp={handlePointerUp}
               onPointerCancel={() => {
                 startXRef.current = null;
+                startYRef.current = null;
                 setIsDragging(false);
                 setDragX(0);
+                setDragY(0);
               }}
               style={{
                 transform:
-                  flyDir === null ? `translate3d(${dragX}px, 0, 0) rotate(${rotationDeg}deg)` : undefined,
+                  flyDir === null
+                    ? `translate3d(${dragX}px, ${dragY * 0.35}px, 0) rotate(${rotationDeg}deg)`
+                    : undefined,
                 transition: isDragging
                   ? 'none'
-                  : 'transform 0.34s cubic-bezier(0.22, 1, 0.36, 1)',
+                  : 'transform 0.36s cubic-bezier(0.22, 1, 0.36, 1)',
               }}
-              className={`vice-panel relative z-10 select-none touch-pan-y overflow-hidden rounded-3xl p-3.5 space-y-3 ${
+              className={`relative z-10 select-none touch-pan-y overflow-hidden rounded-[28px] border border-black/15 bg-[#111827] shadow-[0_22px_48px_-14px_rgba(15,23,42,0.38)] cursor-grab active:cursor-grabbing ${
                 flyDir === 'left'
                   ? 'animate-swipe-left'
                   : flyDir === 'right'
                     ? 'animate-swipe-right'
-                    : ''
+                    : flyDir === 'super'
+                      ? 'animate-swipe-up'
+                      : ''
               }`}
             >
-              {dragX > 24 && (
+              {/* BIG TILTED NEON TINDER STAMPS (LIKE / NOPE / SUPER LIKE) */}
+              {showLikeStamp && (
                 <div
-                  style={{ opacity: dragProgress, transform: `scale(${0.85 + dragProgress * 0.2}) rotate(-10deg)` }}
-                  className="pointer-events-none absolute top-16 left-5 z-30 rounded-xl border-2 border-[#1E1022] bg-[#D1FAE5] px-4 py-1 font-display text-2xl text-[#065F46] shadow-lg"
+                  style={{
+                    opacity: flyDir === 'right' ? 1 : Math.max(0.35, dragProgress),
+                    transform: 'rotate(-14deg)',
+                  }}
+                  className="pointer-events-none absolute top-14 left-6 z-30 rounded-xl border-4 border-[#21D07C] bg-black/25 backdrop-blur-[2px] px-4 py-1 text-3xl sm:text-4xl font-black tracking-widest text-[#21D07C] uppercase shadow-xl"
                 >
-                  Date 💚
-                </div>
-              )}
-              {dragX < -24 && (
-                <div
-                  style={{ opacity: dragProgress, transform: `scale(${0.85 + dragProgress * 0.2}) rotate(10deg)` }}
-                  className="pointer-events-none absolute top-16 right-5 z-30 rounded-xl border-2 border-[#1E1022] bg-[#FFE4E6] px-4 py-1 font-display text-2xl text-[#9F1239] shadow-lg"
-                >
-                  Pass 🚩
+                  LIKE
                 </div>
               )}
 
-              <div className="space-y-2">
+              {showNopeStamp && (
                 <div
-                  className="grid gap-1.5"
+                  style={{
+                    opacity: flyDir === 'left' ? 1 : Math.max(0.35, dragProgress),
+                    transform: 'rotate(14deg)',
+                  }}
+                  className="pointer-events-none absolute top-14 right-6 z-30 rounded-xl border-4 border-[#FD267A] bg-black/25 backdrop-blur-[2px] px-4 py-1 text-3xl sm:text-4xl font-black tracking-widest text-[#FD267A] uppercase shadow-xl"
+                >
+                  NOPE
+                </div>
+              )}
+
+              {showSuperStamp && (
+                <div
+                  style={{
+                    opacity: flyDir === 'super' ? 1 : Math.max(0.45, dragProgress),
+                    transform: 'rotate(-6deg)',
+                  }}
+                  className="pointer-events-none absolute top-24 left-1/2 -translate-x-1/2 z-30 whitespace-nowrap rounded-xl border-4 border-[#00A8FF] bg-black/35 backdrop-blur-[2px] px-4 py-1 text-2xl sm:text-3xl font-black tracking-widest text-[#38BDF8] uppercase shadow-xl"
+                >
+                  SUPER LIKE ★
+                </div>
+              )}
+
+              {/* Full-Bleed Tinder Portrait Frame */}
+              <div className="relative h-[450px] sm:h-[490px] w-full overflow-hidden">
+                <img
+                  src={currentPhoto.photoUrl}
+                  alt={`${profile.name} ${currentPhoto.caption}`}
+                  draggable={false}
+                  className="h-full w-full object-cover object-top transition-all duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-black/30" />
+
+                {/* Top Tinder Story Progress Bars Inside Card */}
+                <div
+                  className="absolute top-3 left-3.5 right-3.5 z-20 grid gap-1.5"
                   style={{ gridTemplateColumns: `repeat(${totalPhotos}, minmax(0, 1fr))` }}
                 >
                   {profile.photos.map((_, idx) => (
@@ -448,98 +657,47 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       type="button"
                       aria-label={`Slide ${idx + 1}`}
                       onClick={() => selectPhoto(idx)}
-                      className={`h-2 rounded-full border border-[#1E1022] transition-all cursor-pointer ${
-                        safePhotoIdx === idx ? 'bg-[#FF2E63]' : 'bg-[#FFF4F7]'
+                      className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                        safePhotoIdx === idx ? 'bg-white shadow-xs' : 'bg-white/35 hover:bg-white/60'
                       }`}
                     />
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex gap-1 overflow-x-auto no-scrollbar rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] p-1">
-                    {profile.photos.map((ph, idx) => {
-                      const defaultLabel =
-                        idx === 0
-                          ? 'Photo 1'
-                          : idx === 1 && ph.isRedFlagPhoto
-                            ? 'Photo 2 👀'
-                            : `Photo ${idx + 1}`;
-                      return (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => selectPhoto(idx)}
-                          className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-extrabold transition cursor-pointer ${
-                            safePhotoIdx === idx
-                              ? ph.isRedFlagPhoto
-                                ? 'bg-[#FF2E63] text-white'
-                                : 'bg-[#FFBE0B] text-[#1E1022]'
-                              : 'text-[#1E1022] hover:bg-white'
-                          }`}
-                        >
-                          {ph.shortTab || defaultLabel}
-                        </button>
-                      );
-                    })}
+                {/* Top Status Badges Below Story Bars */}
+                <div className="absolute top-7 left-3.5 right-3.5 z-20 flex flex-wrap items-center justify-between gap-1.5">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-black/55 backdrop-blur-md px-2.5 py-1 text-[11px] font-bold text-emerald-300">
+                    <span className="h-2 w-2 rounded-full bg-[#21D07C] animate-pulse" />
+                    <span>{profile.activeAgo}</span>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onShareDilemma(
-                        profile.id,
-                        `Would you swipe right on ${profile.name} (${profile.age})?!`,
-                      )
-                    }
-                    className="pop-btn shrink-0 inline-flex items-center gap-1 rounded-xl bg-white px-2.5 py-1 text-xs font-extrabold text-[#1E1022] cursor-pointer"
-                  >
-                    <Share2 className="h-3.5 w-3.5 text-[#FF2E63]" />
-                    <span>Ask Bestie</span>
-                  </button>
+                  <span className="rounded-full bg-white/90 backdrop-blur-md px-2.5 py-1 text-[11px] font-extrabold text-[#18101E] shadow-xs">
+                    {profile.lookBadge}
+                  </span>
                 </div>
-              </div>
 
-              {/* Portrait Frame */}
-              <div className="relative h-[360px] sm:h-[390px] w-full overflow-hidden rounded-2xl border-2 border-[#1E1022] bg-[#1E1022]">
-                <img
-                  src={currentPhoto.photoUrl}
-                  alt={`${profile.name} ${currentPhoto.caption}`}
-                  draggable={false}
-                  className="h-full w-full object-cover object-top transition-all duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1E1022]/95 via-[#1E1022]/15 to-transparent" />
-
+                {/* Left/Right Photo Navigation Arrows */}
                 {totalPhotos > 1 && (
                   <>
                     <button
                       type="button"
                       aria-label="Previous photo"
                       onClick={() => selectPhoto(safePhotoIdx - 1)}
-                      className="absolute left-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] hover:bg-[#FFBE0B] cursor-pointer"
+                      className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/45 hover:bg-black/70 p-2 text-white backdrop-blur-xs transition cursor-pointer"
                     >
-                      <ChevronLeft className="h-4 w-4" />
+                      <ChevronLeft className="h-5 w-5" />
                     </button>
                     <button
                       type="button"
                       aria-label="Next photo"
                       onClick={() => selectPhoto(safePhotoIdx + 1)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] hover:bg-[#FFBE0B] cursor-pointer"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/45 hover:bg-black/70 p-2 text-white backdrop-blur-xs transition cursor-pointer"
                     >
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="h-5 w-5" />
                     </button>
                   </>
                 )}
 
-                <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-1.5">
-                  <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-white px-2.5 py-1 text-xs font-extrabold text-[#065F46]">
-                    <span className="h-2 w-2 rounded-full bg-[#10B981] animate-pulse" />
-                    <span>{profile.activeAgo}</span>
-                  </div>
-                  <span className="rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-2.5 py-1 text-xs font-extrabold text-[#1E1022]">
-                    {profile.lookBadge}
-                  </span>
-                </div>
-
+                {/* Magnify Red/Green Photo Clue Hotspot */}
                 {safePhotoIdx >= 1 && (
                   <button
                     type="button"
@@ -548,10 +706,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                       else sfx.greenFlag();
                       setClueMagnified((v) => !v);
                     }}
-                    className={`animate-hotspot-ping absolute right-5 top-1/2 -translate-y-1/2 rounded-full border-2 border-[#1E1022] px-3 py-1.5 text-xs font-extrabold shadow-xl cursor-pointer ${
+                    className={`animate-hotspot-ping absolute right-4 top-16 z-20 rounded-full px-3.5 py-1.5 text-xs font-extrabold shadow-xl cursor-pointer ${
                       currentPhoto.isRedFlagPhoto
-                        ? 'bg-[#FF2E63] text-white'
-                        : 'bg-[#FFBE0B] text-[#1E1022]'
+                        ? 'bg-[#FD267A] text-white'
+                        : 'bg-[#21D07C] text-[#052E16]'
                     }`}
                   >
                     {clueMagnified
@@ -562,47 +720,55 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                   </button>
                 )}
 
-                <div className="absolute bottom-3 left-3.5 right-3.5 flex items-end justify-between gap-2">
-                  <div>
-                    <h3 className="font-display text-3xl text-white leading-none">
-                      {profile.name}, <span className="text-[#FFBE0B]">{profile.age}</span>
-                    </h3>
-                    <p className="mt-1 text-xs font-bold text-white/90">
-                      {profile.occupation} • {profile.height} • {profile.zodiac}
-                    </p>
+                {/* Authentic Tinder Bottom Identity Overlay + Caption */}
+                <div className="absolute inset-x-4 bottom-3.5 z-20 space-y-2.5 text-white">
+                  <div className="flex items-end justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-display text-3xl sm:text-[34px] text-white leading-none tracking-tight">
+                          {profile.name}{' '}
+                          <span className="font-semibold text-white/90">{profile.age}</span>
+                        </h3>
+                        <BadgeCheck className="h-6 w-6 fill-[#1786FF] text-white shrink-0" />
+                      </div>
+                      <p className="mt-1 text-xs sm:text-sm font-semibold text-white/90">
+                        {profile.occupation} • {profile.height} • {profile.zodiac}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        sfx.shockZoom();
+                        setAgeZoomed((v) => !v);
+                      }}
+                      className="shrink-0 inline-flex items-center gap-1 rounded-full bg-white/95 hover:bg-[#FEF3C7] px-3 py-1.5 text-xs font-extrabold text-[#18101E] shadow-md cursor-pointer transition"
+                    >
+                      <Search className="h-3.5 w-3.5 text-[#FD267A]" />
+                      <span>Zoom Age: {profile.age}</span>
+                    </button>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      sfx.shockZoom();
-                      setAgeZoomed((v) => !v);
-                    }}
-                    className="pop-btn inline-flex items-center gap-1 rounded-xl bg-[#FFBE0B] px-3 py-1.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                  {/* Photo Caption Pill Right on the Card */}
+                  <div
+                    className={`rounded-2xl px-3.5 py-2 text-xs sm:text-sm font-medium leading-snug backdrop-blur-md ${
+                      currentPhoto.isRedFlagPhoto
+                        ? 'bg-[#FD267A]/90 text-white'
+                        : 'bg-white/15 text-white/95 border border-white/15'
+                    }`}
                   >
-                    <Search className="h-3.5 w-3.5" />
-                    <span>Zoom Age: {profile.age}</span>
-                  </button>
+                    <span className="font-extrabold">{currentPhoto.caption}: </span>
+                    <span>{currentPhoto.vibeNote}</span>
+                  </div>
                 </div>
               </div>
 
-              <div
-                className={`rounded-xl border-2 border-[#1E1022] px-4 py-2.5 text-sm font-bold leading-snug ${
-                  currentPhoto.isRedFlagPhoto
-                    ? 'bg-[#FFE4E6] text-[#9F1239]'
-                    : 'bg-[#FFF7F0] text-[#1E1022]'
-                }`}
-              >
-                <span className="font-extrabold">{currentPhoto.caption}: </span>
-                <span>{currentPhoto.vibeNote}</span>
-              </div>
-
               {ageZoomed && (
-                <div className="animate-shock-zoom rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] p-4 text-[#1E1022]">
-                  <div className="text-xs font-extrabold uppercase tracking-wide">
-                    🔍 Age Check: {profile.age}
+                <div className="animate-shock-zoom border-t border-white/15 bg-[#FEF3C7] p-4 text-[#18101E]">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-[#B45309]">
+                    🔍 Birth-Year Reality Check • Age {profile.age}
                   </div>
-                  <p className="mt-1 text-base font-bold leading-snug">
+                  <p className="mt-1 text-sm sm:text-base font-bold leading-snug">
                     {role === 'her' ? profile.ageShockQuipHer : profile.ageShockQuipHim}
                   </p>
                 </div>
@@ -610,43 +776,101 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             </div>
           </div>
 
-          {/* Docked Swipe Action Bar */}
-          <div className="grid grid-cols-[1fr_auto_1fr] gap-2.5">
-            <button
-              type="button"
-              onClick={() => commitSwipe('left')}
-              className="pop-btn flex h-12 items-center justify-center gap-2 rounded-2xl bg-white text-sm font-extrabold text-[#1E1022] hover:bg-[#FFE4E6] cursor-pointer"
-            >
-              <X className="h-4 w-4 text-[#FF2E63]" />
-              <span>Swipe Left (Pass)</span>
-            </button>
+          {/* =================================================================
+           * ICONIC 5-BUTTON CIRCULAR TINDER FLOATING ACTION BAR
+           * Rewind (↺) • NOPE (✕) • SUPER LIKE (★) • LIKE (♥) • X-RAY (⚡)
+           * ================================================================= */}
+          <div className="pt-1 flex items-center justify-center gap-3 sm:gap-4">
+            {/* 1. Rewind */}
+            <div className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                onClick={handleRewindCard}
+                disabled={index === 0}
+                aria-label="Rewind previous profile"
+                title="Rewind previous card"
+                className="tinder-fab flex h-12 w-12 items-center justify-center rounded-full border border-[#F59E0B]/35 bg-white text-[#F59E0B] shadow-[0_8px_20px_-4px_rgba(245,158,11,0.28)] disabled:opacity-40 cursor-pointer"
+              >
+                <RotateCcw className="h-5 w-5 stroke-[2.5]" />
+              </button>
+              <span className="text-[10px] font-bold text-[#64748B]">Rewind</span>
+            </div>
 
-            <button
-              type="button"
-              onClick={handleUnlockXray}
-              title="Run 1-Credit Maturity X-Ray"
-              className="pop-btn flex h-12 items-center justify-center gap-1.5 rounded-2xl bg-[#FFBE0B] px-3.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
-            >
-              <Eye className="h-4 w-4" />
-              <span>{xrayOpen ? 'X-Ray On' : isFounderUnlimited ? 'X-Ray' : 'X-Ray (1 Cr)'}</span>
-            </button>
+            {/* 2. NOPE (Big Red X) */}
+            <div className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                onClick={() => commitSwipe('left')}
+                aria-label="Swipe Left (Pass)"
+                title="NOPE (Left Arrow)"
+                className="tinder-fab flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#FD267A]/30 bg-white text-[#FD267A] shadow-[0_12px_26px_-6px_rgba(253,38,122,0.35)] hover:bg-[#FFF0F5] cursor-pointer"
+              >
+                <X className="h-8 w-8 stroke-[3]" />
+              </button>
+              <span className="text-[11px] font-extrabold text-[#FD267A]">Nope</span>
+            </div>
 
-            <button
-              type="button"
-              onClick={() => commitSwipe('right')}
-              className="pop-btn flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#FF2E63] text-sm font-extrabold text-white cursor-pointer"
-            >
-              <Heart className="h-4 w-4 fill-white" />
-              <span>Swipe Right (Date)</span>
-            </button>
+            {/* 3. SUPER LIKE (Blue Star) */}
+            <div className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                onClick={() => commitSwipe('super')}
+                aria-label="Super Like"
+                title="SUPER LIKE (Up Arrow)"
+                className="tinder-fab flex h-13.5 w-13.5 items-center justify-center rounded-full border border-[#00A8FF]/35 bg-white text-[#00A8FF] shadow-[0_10px_22px_-5px_rgba(0,168,255,0.34)] hover:bg-[#F0F9FF] cursor-pointer"
+              >
+                <Star className="h-6 w-6 fill-[#00A8FF] stroke-[#00A8FF]" />
+              </button>
+              <span className="text-[10px] font-extrabold text-[#0284C7]">Super Like</span>
+            </div>
+
+            {/* 4. LIKE (Big Emerald Heart) */}
+            <div className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                onClick={() => commitSwipe('right')}
+                aria-label="Swipe Right (Date)"
+                title="LIKE (Right Arrow)"
+                className="tinder-fab flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-tr from-[#10B981] to-[#21D07C] text-white shadow-[0_12px_26px_-6px_rgba(33,208,124,0.45)] cursor-pointer"
+              >
+                <Heart className="h-8 w-8 fill-white stroke-white" />
+              </button>
+              <span className="text-[11px] font-extrabold text-[#059669]">Like</span>
+            </div>
+
+            {/* 5. BOOST / X-RAY SCAN */}
+            <div className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                onClick={handleUnlockXray}
+                aria-label="Maturity X-Ray Scan"
+                title="Run 1-Credit Maturity X-Ray"
+                className={`tinder-fab flex h-12 w-12 items-center justify-center rounded-full border shadow-[0_8px_20px_-4px_rgba(168,85,247,0.32)] cursor-pointer ${
+                  xrayOpen
+                    ? 'border-[#A855F7] bg-[#A855F7] text-white'
+                    : 'border-[#A855F7]/35 bg-white text-[#9333EA] hover:bg-[#FAF5FF]'
+                }`}
+              >
+                <Zap className="h-5 w-5 fill-current" />
+              </button>
+              <span className="text-[10px] font-bold text-[#7E22CE]">
+                {xrayOpen ? 'X-Ray On' : isFounderUnlimited ? 'X-Ray' : 'X-Ray 1Cr'}
+              </span>
+            </div>
           </div>
+
+          <p className="text-center text-[11px] font-semibold text-[#64748B]">
+            Drag card or press <kbd className="rounded bg-white px-1.5 py-0.5 border border-black/10">←</kbd> Nope •{' '}
+            <kbd className="rounded bg-white px-1.5 py-0.5 border border-black/10">↑</kbd> Super Like •{' '}
+            <kbd className="rounded bg-white px-1.5 py-0.5 border border-black/10">→</kbd> Like
+          </p>
         </div>
 
-        {/* RIGHT COLUMN: Large, Scannable Pop-Art Profile Dossier + Embedded Club Aside */}
+        {/* RIGHT COLUMN: Native iMessage/Discord Opening DM + Clean Tinder Profile Prompts */}
         <div
           className={`${
             mobileTab === 'photo' ? 'hidden lg:block' : 'block'
-          } vice-panel rounded-3xl p-6 sm:p-7 space-y-5`}
+          } vice-panel rounded-3xl p-5 sm:p-6 space-y-4 bg-white`}
         >
           <SwipeOpeningChatCard
             profile={profile}
@@ -656,54 +880,58 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           />
 
           {xrayOpen && (
-            <div className="animate-stage-in rounded-2xl border-2 border-[#1E1022] bg-[#D1FAE5] p-4 text-base font-bold text-[#065F46]">
-              <strong>👁️ X-Ray Scan:</strong> {profile.xrayLeak}
+            <div className="animate-stage-in rounded-2xl border border-[#10B981]/40 bg-[#ECFDF5] p-4 text-sm sm:text-base font-semibold text-[#065F46]">
+              <strong>⚡ Maturity X-Ray Scan:</strong> {profile.xrayLeak}
             </div>
           )}
 
-          <div className="rounded-2xl border-2 border-[#1E1022]/20 bg-[#FFF7F0] p-5 space-y-3">
-            <div className="text-xs font-extrabold uppercase tracking-wide text-[#5A4664]">
-              Profile Bio
+          <div className="rounded-2xl border border-[#18101E]/10 bg-[#FAF8F9] p-4 sm:p-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-[#FD267A]">
+                Profile Bio
+              </span>
+              <span className="rounded-full bg-white border border-[#18101E]/10 px-3 py-0.5 text-xs font-bold text-[#18101E]">
+                🎯 {profile.lookingFor}
+              </span>
             </div>
-            <p className="text-base sm:text-lg font-medium leading-relaxed text-[#1E1022]">
+
+            <p className="text-sm sm:text-base font-medium leading-relaxed text-[#18101E]">
               &ldquo;{profile.tinderBio}&rdquo;
             </p>
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-white px-3.5 py-1 text-sm font-bold text-[#1E1022]">
-                <Music2 className="h-4 w-4 text-[#FF2E63]" />
-                <span>{profile.spotifyAnthem}</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFFBEB] px-3.5 py-1 text-sm font-bold text-[#1E1022]">
-                <span>🎯 {profile.lookingFor}</span>
+
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#1DB954]/30 bg-[#F0FDF4] px-3 py-1 text-xs font-bold text-[#15803D]">
+                <Music2 className="h-3.5 w-3.5 text-[#1DB954]" />
+                <span>Spotify Anthem: {profile.spotifyAnthem}</span>
               </span>
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 items-stretch">
-            <div className="rounded-2xl border-2 border-[#1E1022]/20 bg-white p-4 sm:p-5 space-y-1.5">
-              <div className="text-xs font-extrabold uppercase text-[#D90452]">
-                <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#FFBE0B]" />
+          <div className="grid gap-3.5 sm:grid-cols-2 items-stretch">
+            <div className="rounded-2xl border border-[#18101E]/10 bg-white p-4 space-y-1.5 shadow-2xs">
+              <div className="text-xs font-extrabold uppercase tracking-wide text-[#E11D48]">
+                <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#F59E0B]" />
                 {profile.hingePromptQuestion}
               </div>
-              <div className="text-[15px] sm:text-base font-semibold leading-relaxed text-[#1E1022]">
+              <div className="text-sm sm:text-[15px] font-semibold leading-relaxed text-[#18101E]">
                 {profile.hingePromptAnswer}
               </div>
             </div>
 
             {profile.secondPromptQuestion && profile.secondPromptAnswer && (
-              <div className="rounded-2xl border-2 border-[#1E1022]/20 bg-white p-4 sm:p-5 space-y-1.5">
-                <div className="text-xs font-extrabold uppercase text-[#B45309]">
-                  <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#FF2E63]" />
+              <div className="rounded-2xl border border-[#18101E]/10 bg-white p-4 space-y-1.5 shadow-2xs">
+                <div className="text-xs font-extrabold uppercase tracking-wide text-[#B45309]">
+                  <Sparkles className="inline h-3.5 w-3.5 mr-1 text-[#FD267A]" />
                   {profile.secondPromptQuestion}
                 </div>
-                <div className="text-[15px] sm:text-base font-semibold leading-relaxed text-[#1E1022]">
+                <div className="text-sm sm:text-[15px] font-semibold leading-relaxed text-[#18101E]">
                   {profile.secondPromptAnswer}
                 </div>
               </div>
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {profile.interests.map((interest) => {
               const red = [
                 'Nightlife',
@@ -716,12 +944,16 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 'Maui Timeshares',
                 'Mom’s Airline Miles',
                 'Going Dutch',
+                'Pine Pollen',
+                '2 AM Voice Notes',
               ].includes(interest);
               return (
                 <span
                   key={interest}
-                  className={`rounded-full border-2 border-[#1E1022] px-3.5 py-1 text-sm font-extrabold ${
-                    red ? 'bg-[#FFE4E6] text-[#9F1239]' : 'bg-white text-[#1E1022]'
+                  className={`rounded-full border px-3 py-1 text-xs font-bold ${
+                    red
+                      ? 'border-[#F43F5E]/35 bg-[#FFF1F2] text-[#BE123C]'
+                      : 'border-[#18101E]/12 bg-white text-[#18101E]'
                   }`}
                 >
                   {red ? '🚩 ' : '✨ '}
@@ -735,10 +967,11 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             <button
               type="button"
               onClick={handleUnlockXray}
-              className="pop-btn w-full rounded-2xl bg-[#FFBE0B] py-3.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+              className="pop-btn w-full rounded-2xl bg-gradient-to-r from-[#9333EA] to-[#EC4899] py-3 text-xs sm:text-sm font-extrabold text-white border-transparent cursor-pointer"
             >
               <Eye className="inline h-4 w-4 mr-1.5" />
-              Run Maturity X-Ray Scan ({isFounderUnlimited ? 'FREE • ∞ Founder' : `1 Credit • ${credits} left`})
+              Run Maturity X-Ray Scan (
+              {isFounderUnlimited ? 'FREE • ∞ Founder' : `1 Credit • ${credits} left`})
             </button>
           )}
 
