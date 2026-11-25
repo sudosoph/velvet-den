@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(circle at 12% 10%, rgba(244, 63, 94, 0.22), transparent 36%),
+      radial-gradient(circle at 88% 14%, rgba(20, 184, 166, 0.18), transparent 34%),
+      radial-gradient(circle at 50% 92%, rgba(245, 158, 11, 0.14), transparent 44%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.vice-panel {
+  border: 3px solid #09050f;
+  box-shadow: 6px 6px 0px #09050f;
+}
+
+.vice-toast {
+  animation: toastPop 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+}
+
+@keyframes toastPop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.92) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes shockZoom {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.12) rotate(-2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-1deg);
+    opacity: 1;
+  }
+}
+
+.animate-shock-zoom {
+  animation: shockZoom 0.42s cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+}

@@ -1,0 +1,36 @@
+name: Daily Growth Engine (Discord Poll + Social & Affiliate Pack)
+
+on:
+  schedule:
+    - cron: '17 15 * * *' # Daily 15:17 UTC (morning US time)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  daily-drop:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL || 'https://sudosoph.github.io/velvet-den/' }}
+      AMAZON_ASSOCIATE_TAG: ${{ vars.AMAZON_ASSOCIATE_TAG || '' }}
+      PARTNER_SUB_ID: ${{ vars.PARTNER_SUB_ID || '' }}
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate daily dilemma, affiliate link & post to Discord if configured
+        run: node scripts/generate-daily-drop.mjs
+
+      - name: Upload ready-to-post TikTok / Pinterest / Owned-Subreddit pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-social-pack-${{ github.run_number }}
+          path: dist-social/
+          retention-days: 30
