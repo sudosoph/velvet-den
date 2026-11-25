@@ -702,6 +702,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
+        version: 'v15-qigong-mommy-audit',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
