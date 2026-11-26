@@ -25,7 +25,9 @@ The North Star of the game is **winning a real, lasting Chapter-Two relationship
 ## 2. Goals, Non-Goals & Anti-Goals
 
 ### Goals
-- **Clean Two-Door Discovery (`📱 Hinge` + `🗺️ In The Wild`)**: Going *"back to the drawing board"* after cutting an app red-flag loose feels fresh because **half the romanceable cast are *"In The Wild Exclusives"*** who refuse dating apps (like the `5'2"` tenured Literature Professor at Hawthorne University, the M&A Partner at the Downtown Hotel Martini Bar, the Airport-Pickup Younger Zaddy, and the Custom Carpenter).
+- **Editorial Luxury UI/UX (Zero Amateur Website Clutter)**: Retire thick cartoon Neo-Brutalist black borders, neon badge soup, and multi-column clutter. Use **Editorial Hinge Minimalism** (warm ivory alabaster cards, `Playfair Display` serif titles, edge-to-edge `3:4` golden-hour portraits, generous whitespace) for swiping, paired with a **Full-Bleed *Dream Daddy* Sunset Visual-Novel Stage** (lush painted `16:9` backdrops, large multi-expression animated character busts, and one sleek frosted velvet dialogue dock) for Dates & Cub School.
+- **Swipe Variety (`20+` Profiles) + Deep *Dream Daddy* Main Character Arcs (`10` Leads)**: Players enjoy swiping through **20+ hilarious, diverse profiles** (including rapid comedic gag profiles and disguised `🚩 Cut Loose` red-flag traps) while **10 Main Romance Leads** (`5` Men + `5` Women across Hinge and *In The Wild*) feature full 3-Date *Dream Daddy* character arcs, Secret POV text leaks, Blurred Photo Drops, and S-Rank True Romance endings.
+- **"Variety of 10/10 Hot" Casting Rule (More Blondes, Zero Clones, Zero Stock Nerds)**: Purge all low-res Unsplash stock photos (`devon-23m.jpg`, `nadia-41f.jpg`, etc.) and repetitive brown-wavy-haired AI clones. Every single man and woman in the cast must be **10/10 magnetic with unmistakable visual variety**—featuring **multiple gorgeous blondes** (*Søren 26M Nordic Platinum-Blonde Tennis/Architecture Adonis*, *Rory 24M Golden-Blonde Leo Woodall Park Ranger*, *Miles 31M Dirty-Blonde Airport Zaddy*, *Chadwick 24M Sun-Kissed Yacht Blonde*, *Prof. Elena 44F Honey-Blonde Literature Professor*, *Summer 33F California Blonde*), **Julian (`27M` Mediterranean Amalfi Heartthrob)**, **clean-shaven sun-bronzed Brazilian Salsa Craftsman Rafael (`26M`)**, **sculpted Black Beach Paramedic Marcus (`27M`)**, **chiseled East Asian Creative Director Jin (`25M`)**, **copper-haired Mountain Builder Liam (`28M`)**, and glamorous bombshell women (*Claire 46F*, *Sienna 39F*, *Priya 36F*, *Celeste 58F*).
 - **Authentic Hinge Scrolling & ❤️ Prompt-Reply**: Vertical iOS Hinge cards with **6 character-specific slides**, **Vitals Strip** (`Age`, `Height`, `Job`, `School`, `Looking For`, `Kids / Marriage Stance`), and **3 Prompts** where tapping ❤️ on any photo/prompt opens 3 witty openers.
 - **Capped 6-Beat Text & iMessage Vetting -> 3 Animated Visual-Novel Dates**: Structured choices (`2` free + `1 Cr` VIP smooth/spicy + optional `1 Cr` Custom AI Riff), **`2 Cr` Blurred Photo Drops**, active **`🚩 Cut Loose`** discernment button, and **3 Dates** culminating in True Love (S/A), Bittersweet Fling (B), or Roasted Disaster endings.
 - **55+ Question Wikimedia & Official YouTube Trailer Quiz**: Verified `CC-BY`/`PD` portraits + 23 `oembed`-verified official studio YouTube trailers & music videos (`youtube-nocookie.com/embed/...`) across movies (headlined by Jennifer Lawrence's *No Hard Feelings*, *Babygirl*, *The Idea of You*, *Bridget Jones: Mad About the Boy*, *American Pie*, *Prime*, *Good Luck to You, Leo Grande*, *The Graduate*, *How Stella Got Her Groove Back*, and more), TV, books, songs, and 25+ celebrity couples (3-to-40 year woman-older gaps).
@@ -125,29 +127,34 @@ Built directly from the **actual recurring complaints older women post on `r/Cou
 
 ---
 
-## 5. Complete 16-Character Cast (`8` When Playing as Her, `8` When Playing as Him)
+## 5. "Variety of 10/10 Hot" Cast (`10` Deep *Dream Daddy* Main Leads + `10+` Comedic Swipe Gags & Traps)
 
-### 5.1 Playing as Her (`4` True Leads + `4` Disguised Red-Flag Traps)
-- **True Leads (Goal: Win Real S-Rank Relationship)**:
-  1. **Miles (`31M`, Wild Exclusive — ✈️ Airport / 🍸 Velvet Room)**: *The Airport-Luggage "Younger Zaddy" Architect* (`./images/cast/miles-32m.jpg`). Takes your bags at Arrivals, coordinates car + 8:15 dinner; hides workaholic vulnerability beneath flawless control.
-  2. **Julian (`26M`, Hinge) — The Hampstead Literature Post-Grad** (`./images/cast/julian-27m.jpg`). British `"half seven is sorted / xx"` charm; navigating academic stipend/visa pride beside your career.
-  3. **Rafael (`26M`, Wild Exclusive — 💃 Salsa / 🏡 Cul-de-Sac)**: *The Custom Walnut Carpenter* (`./images/cast/rafael-26m.jpg`). Grounded craftsmanship & salsa lead; tested at your snooty corporate black-tie gala.
-  4. **Marcus (`27M`, Wild Exclusive — 🏊 Lap Pool / 🏥 Hospital)** (`./images/cast/marcus-26m.jpg`) & **Leo (`25M`, Hinge — Golden-Retriever Sous-Chef, `./images/cast/leo-25m.jpg`)** *(Note: both playable—`5` True Leads + `3` Disguised Traps = `8` total!)*: Marcus brings the *same-age protective mom Sunday dinner*; Leo brings *Black Cat × Golden Retriever pacing + Date #2 Cub Etiquette Sparring*.
-- **Disguised Red-Flag Traps (Goal: Spot the Tell in Chat/iMessage & Cut Loose!)**:
-  6. **Connor (`"27M"` -> Actually `21M`, Hinge Trap)** (`./images/cast/connor-bait.jpg`): Beat 2 confession *"full disclosure I'm 21 Hinge locked my age lol, let me come cook at your place tonight"*.
-  7. **Graham (`29M`, Hinge & 🍸 Velvet Room Trap)** (`./images/cast/chadwick-24m.jpg`): *Joseph Twist*—impeccable daytime texts, **never free after 7 PM or Sundays**, pale wedding-ring tan line.
-  8. **Devon (`24M`, Hinge Trap — The Tuesday Poet / Friday 4:15 PM Cold-Feet Flake)** (`./images/cast/brandon-24m.jpg`): Gets swept up in the online fantasy writing three-paragraph Tuesday texts, then panics when it's time to meet a real confident woman IRL and drops weak excuses Friday afternoon unless cut loose first!
+Every portrait is `>= 50KB` editorial golden-hour art or bespoke illustration—**zero blurry Unsplash stock headshots, zero gamer-chair nerds, and zero lookalike dark-haired clones**:
 
-### 5.2 Playing as Him (`5` True Leads + `3` Disguised Red-Flag Traps = `8` Total)
-- **True Leads (Goal: Win Real S-Rank Relationship)**:
-  1. **Prof. Elena (`44F`, `5'2"`, Wild Exclusive — 🎓 Hawthorne University)** (`./images/cast/nadia-41f.jpg`). Tenured Comparative Lit professor; requires honoring the **Post-Grades Rule** before unlocking Left Bank Books romance.
-  2. **Claire (`46F`, Wild Exclusive — 🍸 The Velvet Room)** (`./images/cast/claire-45f.jpg`). M&A Partner who divorced a man-child ex and swears *"never marrying again"*; won through consistent Living-Apart-Together partnership.
-  3. **Priya (`36F`, `5'3"`, Wild Exclusive — 🏥 Hospital Coffee Bay)** (`./images/cast/priya-35f.jpg`). Night-shift Trauma RN Puma who teases you at shift change; tests follow-through and boundaries.
-  4. **Sienna (`39F`, `5'4"`, Hinge & 🏡 Backyard BBQ)** (`./images/cast/sienna-38f.jpg`). Friend's-aunt / interior designer; tests public courage when the friend group finds out.
-  5. **Summer (`33F`, `5'4"`, Hinge)** (`./images/cast/summer-32f.jpg`) *(plus **Celeste `58F`** `./images/cast/celeste-62f.jpg` at 📚 Gallery)*: Summer seeks a devoted younger partner ready for marriage & kids; Celeste tests unshakeable poise when waiters mistake you for her son.
-- **Disguised Red-Flag Traps (Goal: Spot the Tell in Chat/iMessage & Cut Loose!)**:
-  6. **Vanessa (`43F`, Hinge Trap — The "Separated" Mirage)** (`./images/cast/valentina-44f.jpg`): Claims *"practically divorced"*, refuses evening phone calls, husband texts mid-martini.
-  7. **Brooke (`42F`, Hinge & 🎾 Racquet Club Trap — The Ex-Husband Pawn)** (`./images/cast/brooke-42f.jpg`): Drops subtle hints in iMessage (*"Wear navy—my ex hates navy"*); uses Date #1 strictly to make her ex jealous across the dining room.
+### 5.1 Playing as Her (`5` Main Romance Leads + `5+` Hot Comedic Gags & Red-Flag Traps)
+- **5 Main Romance Leads (Full 3-Date *Dream Daddy* Arcs + Secret POV + Date #4 Epilogue)**:
+  1. **Julian (`27M`, Hinge — Mediterranean/British Hampstead Post-Grad)** (`./images/cast/julian-27m.jpg`): Amalfi linen shirt & peonies, `"half seven is sorted / xx"` charm; navigating academic stipend/visa pride beside your career.
+  2. **Søren (`26M`, Hinge & 🎾 Racquet Club — Nordic Platinum-Blonde Architecture & Tennis Adonis)** (`./images/cast/soren-26m.jpg`): Ice-blue eyes, tousled platinum-blonde waves, Harris Dickinson / Skarsgård magnetism; slow-burn Scandinavian directness + Date #2 Cub Etiquette Sparring.
+  3. **Miles (`31M`, Wild Exclusive — ✈️ Airport / 🍸 Velvet Room — Dirty-Blonde "Younger Zaddy")** (`./images/cast/miles-zaddy-31m.jpg`): Honey-blonde hair, green eyes, tailored charcoal coat; takes both your bags curbside at Arrivals and coordinates car + 8:15 corner booth.
+  4. **Rafael (`26M`, Wild Exclusive — 💃 Salsa / 🏡 Cul-de-Sac — Clean-Shaven Brazilian Craftsman)** (`./images/cast/rafael-hot-26m.jpg`): Sun-bronzed sharp jawline, rolled black silk sleeves, effortless salsa lead; tested at your snooty corporate gala.
+  5. **Marcus (`27M`, Wild Exclusive — 🏊 Lap Pool / 🏥 Hospital — Sculpted Paramedic)** (`./images/cast/marcus-26m.jpg`): 6'1" beach runner & lap-lane regular; brings the *same-age protective mom Sunday dinner* arc.
+- **Hot Comedic Swipe Gags & Disguised Red-Flag Traps (Fun Swipe Variety + `🚩 Cut Loose` Vetting)**:
+  6. **Rory (`24M`, Hinge — Golden-Blonde Hampstead Park Ranger Cameo)** (`./images/cast/rory-24m.jpg`): Boyish Leo Woodall *Mad About the Boy* golden curls & dimples; sweet whirlwind fling / tree-rescue banter!
+  7. **Jin (`25M`, Hinge — Chiseled Art-Director Bouldering Hunk)** (`./images/cast/jin-25m.jpg`) & **Liam (`28M`, Hinge — Copper-Haired Alpine Builder)** (`./images/cast/liam-28m.jpg`): High-chemistry cameo dates & witty banter.
+  8. **Graham (`29M`, Hinge & 🍸 Velvet Room Trap — Sun-Kissed Blonde Finance Commuter)** (`./images/cast/chadwick-24m.jpg`): Gorgeous yacht-blonde smile, **never free after 7 PM or Sundays** (`secretly married` -> `🚩 Cut Loose` target!).
+  9. **Connor (`"27M"` -> Actually `21M`, Hinge Trap)** (`./images/cast/connor-bait.jpg`): Handsome lacrosse model who confesses on Beat 2 *"Hinge locked my age at 27 lol, let me come straight to your apartment tonight"* (`🚩 Cut Loose` target!).
+  10. **Devon (`24M`, Hinge Trap — Sandy-Blonde Tuesday Poet / Friday 4:15 PM Flake)** (`./images/cast/sam-25m.jpg`): Writes soulmate sonnets Tuesday, chickens out Friday afternoon unless clocked & cut loose first!
+
+### 5.2 Playing as Him (`5` Main Romance Leads + `5+` Hot Comedic Gags & Red-Flag Traps)
+- **5 Main Romance Leads (Full 3-Date *Dream Daddy* Arcs + Secret POV + Date #4 Epilogue)**:
+  1. **Prof. Elena (`44F`, `5'2"`, Wild Exclusive — 🎓 Hawthorne University — Honey-Blonde *Babygirl* Professor)** (`./images/cast/elena-prof-44f.jpg`): Tousled blonde blowout, silk blouse, razor-sharp wit; requires honoring the **Post-Grades Rule**.
+  2. **Claire (`46F`, Wild Exclusive — 🍸 The Velvet Room — Coastal M&A Partner)** (`./images/cast/claire-45f.jpg`): Espresso-martini executive who swears *"never marrying again"*; won through Living-Apart-Together devotion.
+  3. **Sienna (`39F`, `5'4"`, Hinge & 🏡 Backyard BBQ — Sunlit Interior Designer)** (`./images/cast/sienna-38f.jpg`): Friend's hot older aunt; tests public courage when the friend group finds out.
+  4. **Priya (`36F`, `5'3"`, Wild Exclusive — 🏥 Hospital Coffee Bay — Radiant Trauma RN)** (`./images/cast/priya-35f.jpg`): Teases you at 6:45 AM shift change; wants zero mental load off-duty.
+  5. **Summer (`33F`, `5'4"`, Hinge — Sun-Kissed California Blonde Dermatologist)** (`./images/cast/summer-blonde-33f.jpg`) *(plus **Celeste `58F`** `./images/cast/celeste-62f.jpg` Silver-Haired Palm Springs Gallery Icon)*: Seeking a confident younger partner ready for real commitment.
+- **Hot Comedic Swipe Gags & Disguised Red-Flag Traps**:
+  6. **Astrid (`41F`, Hinge — Platinum-Blonde Nordic Founder Cameo)** (`./images/cast/astrid-41f.jpg`), **Camila (`39F`, Hinge — Fiery Restaurateur)** (`./images/cast/camila-39f.jpg`), & **Vivienne (`61F`, Hinge — Continental Film Producer)** (`./images/cast/vivienne-61f.jpg`).
+  7. **Vanessa (`43F`, Hinge Trap — Glamorous `"Practically Divorced"` Mirage)** (`./images/cast/valentina-glam-44f.jpg`) & **Brooke (`42F`, Hinge & 🎾 Racquet Club Trap — Blonde Society Ex-Baiter)** (`./images/cast/brooke-glam-42f.jpg`).
 
 ---
 
