@@ -99,7 +99,7 @@ When you cut a Hinge dud loose (*"Back to the Drawing Board—let's go out in th
 - **Two-Stage Messaging (`Tinder App Chat` -> `Earned Off-App iMessage`)**:
   - **Chat 1 (6 Beats on Tinder — or Direct Off-App iMessage if met In The Wild!)**: Tests initial intent, conversational effort, and subtle tells.
   - **Chat 2 (6 Beats on iMessage — Post-Date #1)**: Tests evening availability (*"why does he vanish every night at 6:45 PM?"*), follow-through, and pacing.
-  - **Beat Options**: `2` Free choices + `1` **💎 VIP Choice (`1 Cr`)** + optional **✍️ Custom AI Riff (`1 Cr`)** + persistent **`🚩 Cut Loose (Back to Drawing Board)`** button.
+  - **Beat Options (Free-Typing Live AI + Curated Choices)**: On every beat, players can **either** tap a curated choice (`2` Free choices + `1` **💎 VIP Power Move (`1 Cr`)**) **or type anything freely in the live chat bar (`0 Cr` via role-aware `/api/inbox-vet`)** + persistent **`🚩 Cut Loose (Back to Drawing Board)`** button. Every free-typed turn or choice advances the 6-beat Spark Meter toward unlocking the Date (`🍸 Go on Date #1 →` button appears at Beat 6 without forcibly cutting off banter if they want to send another line first!).
   - **Beat 4 Blurred Photo Drop (`2 Cr` / Free w/ VIP)**: Unblurs a character-specific candid scene into your permanent **Dateodex**.
   - **Payoff**: Surviving all 6 beats without getting unmatched—and without falling for a disguised trap—unlocks the next **Visual-Novel Date (`Date 1` -> `Date 2` -> `Date 3`)**.
 
