@@ -69,11 +69,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('julian', [
       '',
-      '6 AM river miles—promise I’m much calmer by dinner',
+      'Happiest buried in archive notebooks (glasses come off by dinner)',
+      '6 AM river miles—promise I’m much calmer by half seven',
+      '',
       'Yes I climb library ladders for work, yes I carry allergy pills',
       'Still mourning proper Hampstead cask ale',
-      'My Sunday saffron risotto audition—brutal honesty welcome',
-      '',
     ]),
     prompts: [
       {
@@ -504,8 +504,8 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('graham', [
       '',
-      'Quick nine before markets open (left hand stays in pocket for balance)',
-      'Par-three club championship—please don’t tag me lol',
+      'Quick harbor spin before my Sunday phone blackout kicks in',
+      'Nine holes before markets open—please don’t tag me lol',
       'Hard stop at 6:42 PM sharp for my nightly Tokyo portfolio call',
       '',
       'Strictly cash at hotel bars—keeps corporate expense reports clean',
@@ -590,10 +590,10 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('connor', [
       '',
       '2 AM bathroom mirror check—ignore the bottle of Tito’s on the sink lol',
-      'Swear I wake up before noon at least twice a week',
-      'Who wants to come to "my place in Maui" (it’s my parents’ Week-14 timeshare)',
+      'DJing my four roommates’ rooftop day party—pull up',
+      'Club lacrosse cardio so I survive frat formal',
       '',
-      'Recovery iced coffee walk after frat formal',
+      'Who wants to come to "my place in Maui" (it’s my parents’ Week-14 timeshare)',
     ]),
     prompts: [
       {
@@ -1448,10 +1448,10 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('vanessa', [
       '',
-      'Wednesday 2 PM hotel infinity pool—my favorite quiet window',
-      'Private tasting far away from noisy Bel Air dinner schedules',
-      'Phones go on airplane mode after 6:30 PM, darling',
+      'Sneaking out between Bel Air property-tax meetings',
+      'Wednesday 2 PM hotel pool—my favorite quiet window',
       '',
+      'Phones go on airplane mode after 6:30 PM, darling',
       'Spontaneous afternoon escapes > complicated labels',
     ]),
     prompts: [
@@ -1534,11 +1534,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('brooke', [
       '',
-      'Club patio spritzes—bonus points if you look sharp in a navy blazer',
-      'Museum gala arrival (yes the photographers were right on cue)',
-      'Sunday racquet-club brunch debrief with the girls',
+      'Cabana spritzes—bonus points if you look sharp in a navy blazer',
       '',
-      '8 PM Friday patio reservation is already locked—just bring great posture',
+      'Sunday racquet-club brunch debrief with the girls',
+      'Museum gala arrival (yes the photographers were right on cue)',
+      '8 PM Friday reservation right across from Table 9 is already locked',
     ]),
     prompts: [
       {
@@ -1792,9 +1792,9 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       '',
       'Cellar barrel check before sixty covers walk through the door',
       'Tweezers out on the wood-fired pass—don’t ask me to cook on Mondays',
-      '8 AM Wednesday fig & heirloom tomato raid',
       '',
-      'Rare slow Sunday when someone else finally makes the coffee',
+      '8 AM Wednesday fig & heirloom tomato raid',
+      'Rare slow Sunday when someone else finally orders the pastries',
     ]),
     prompts: [
       {
