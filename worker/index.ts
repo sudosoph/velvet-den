@@ -1337,15 +1337,17 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         `NEVER RECITE YOUR BIO: Keep your background subtle and natural.`,
         `STRICT PUNCTUATION RULE: NEVER use em-dashes, en-dashes, or semicolons.`,
         platformContext,
-        coachPerspectiveRule,
-        `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext}`,
+        platform === 'discord' ? '' : coachPerspectiveRule,
+        platform === 'discord' ? '' : `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext}`,
         buildGenerationalVoiceDirective(
           personaAge,
           personaRole,
           String(body.personaOrigin || '').slice(0, 64),
         ),
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
-        `{"herReply":"ONE short witty sentence (8-16 words max)","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short role-accurate note without em-dashes","passedVibeCheck":boolean}`,
+        platform === 'discord'
+          ? `{"herReply":"1 to 2 sharp, specific insider sentences (15-34 words max) directly answering their question","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short takeaway","passedVibeCheck":boolean}`
+          : `{"herReply":"1 to 2 short witty sentences (10-24 words max) directly answering what they wrote","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short role-accurate note without em-dashes","passedVibeCheck":boolean}`,
       ].join(' ');
 
       const recentTurns = Array.isArray(body.history)
@@ -1389,8 +1391,8 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         const cleanReply = humanizeChatText(parsed.herReply, {
           role: personaRole,
           age: personaAge,
-          singleLine: true,
-        }).slice(0, 240);
+          singleLine: platform !== 'discord',
+        }).slice(0, 280);
         let cleanCoach = humanizeChatText(
           String(parsed.coachNote || 'Chemistry check complete!'),
         ).slice(0, 200);
