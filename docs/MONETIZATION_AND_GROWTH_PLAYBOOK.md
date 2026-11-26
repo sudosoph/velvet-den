@@ -1,61 +1,65 @@
-# Zero-to-Approved Monetization, Affiliate & Growth Playbook
+# Cougars & Cubs Club — Monetization, Curated Affiliates & Authorized Growth Playbook
 
-This guide walks you step by step from **zero affiliate accounts today** to fully automated tips, credit/VIP sales, affiliate commissions, newsletter revenue, and organic search/social growth—all by editing a single config file (`src/config/monetization.ts`) or GitHub Repository Variables.
-
----
-
-## 1. Getting Approved for Amazon Associates & Levanta / Impact (15 Minutes)
-
-Because Amazon Associates and DTC affiliate networks require a **live public website with original editorial content** before approving your application, **The Velvet Den** ships with **5 standalone static HTML dating & gift guides** pre-built under `/guides/<slug>/`:
-
-1. `https://sudosoph.github.io/velvet-den/guides/cougar-vs-puma-vs-jaguar-dating-age-chart/`
-2. `https://sudosoph.github.io/velvet-den/guides/first-time-hosting-older-woman-apartment-checklist/`
-3. `https://sudosoph.github.io/velvet-den/guides/best-gifts-for-older-woman-girlfriend-dating-guide/`
-4. `https://sudosoph.github.io/velvet-den/guides/millennial-vs-gen-z-age-gap-dating-code-switching/`
-5. `https://sudosoph.github.io/velvet-den/guides/older-woman-younger-man-relationship-problems-kids-stigma/`
-
-### Step-by-Step Application Order:
-1. **Amazon Associates (`https://affiliate-program.amazon.com/`)**:
-   - Enter `https://sudosoph.github.io/velvet-den/` as your Website URL.
-   - Describe your site as: *"An interactive relationship game and editorial date-night/gift guide hub for adult age-gap couples, featuring hosting checklists, etiquette articles, and curated home/lifestyle gift picks."*
-   - Choose your Store ID (e.g., `velvetden-20`). Amazon gives you immediate access; once 3 qualifying purchases happen within 180 days, their team reviews your public `/guides/` pages (which already include the required FTC reader disclosure!).
-   - Paste your tag into `src/config/monetization.ts` (`amazonAssociateTag: 'velvetden-20'`) AND add `AMAZON_ASSOCIATE_TAG` under **GitHub Repo → Settings → Secrets and variables → Actions → Variables** so the daily bot + static SEO pages auto-tag every link!
-2. **Higher-Commission DTC Affiliates (`10%–20%` vs Amazon’s `1%–4%`)**:
-   - **Levanta (`https://levanta.io/`)**: Connects publishers directly to Amazon brands paying **15%–25%** commission with a 14-day attribution window instead of Amazon’s 24-hour window.
-   - **Impact.com (`https://impact.com/`) / ShareASale**: Apply to SFW-upscale romance & home brands (*Brooklinen*, *Lunya* washable silk robes, *Uncommon Goods*, *Aesop / Malin+Goetz*, *Tinggly* experience gifts).
-   - **Important Payment-Rail Rule**: Never add explicit adult-toy stores (*Lovehoney*, *Adam & Eve*) to pages linked to your Stripe or Ko-fi account—`src/lib/affiliates.ts` automatically blocks explicit domains so your payment processors stay 100% safe.
+This playbook covers **1-click affiliate activation**, **curated self-referential merch**, **owned community strategy (`r/CougarsAndCubsClub`)**, and **100% authorized, mod-safe distribution channels** for `https://cougarsandcubs.club`.
 
 ---
 
-## 2. Turning On 0%-Fee Donations & Stripe Credit/VIP Unlocks
+## 1. Activating Amazon Associates Across All 32 Curated Picks (60 Seconds, Zero Redeploy)
 
-1. **Ko-fi Tip Jar & $29 Custom Scenario Commissions (0% Fee on Tips)**:
-   - Create a free page at `https://ko-fi.com/` (set your tip metaphor to *"Espresso Martini"* at `$5`).
-   - Enable **Commissions** with a `$29` listing: *"Immortalize Your Inside Joke / Custom Cougar or Cub Archetype in The Velvet Den."*
-   - Update `kofiUrl` and `cameoCommissionUrl` in `src/config/monetization.ts`.
-2. **Stripe Payment Links (Zero Backend Required)**:
-   - In your Stripe Dashboard → **Payment Links**, create two links:
-     - **+15 Velvet Credits ($2.99)** → Set *After payment → Redirect to your website*: `https://sudosoph.github.io/velvet-den/?unlock=credits15`
-     - **VIP Black Card ($6.99)** → Set *After payment → Redirect to your website*: `https://sudosoph.github.io/velvet-den/?unlock=vip`
-   - Paste both URLs into `stripeCreditPackUrl` and `stripeVipPassUrl` in `src/config/monetization.ts` and flip `sandboxPreviewMode: false`.
+`cougarsandcubs.club` ships with **16 standalone crawlable SEO guides** under `/guides/<slug>/` (`sitemap.xml` + `FAQPage` JSON-LD) and **32 curated items** routed through our edge affiliate gateway (`/api/go/:id`):
 
----
+- **Self-Referential Cougar & Cub Merch (7 Picks)**: *"Trophy Husband (In Training)"* pocket chef apron, fierce leopard-print Cougar hostess/sous-chef apron, *"Certified Good Boy"* brass clicker & wrist strap, *"Certified Cougar"* wine glass, *"Golden Retriever Energy"* & *"Black Cat Energy"* mugs, and retro *"Cougar"* lake-day trucker cap.
+- **Cougar & Cub Cinema & Books (4 Picks)**: *The Rebound* (Catherine Zeta-Jones), *Babygirl*, *The Idea of You*, *Bridget Jones: Mad About the Boy*.
+- **Contextual Sanctuary, Wellness & Date-Night Picks (21 Picks)**: Mulberry silk robes & pillowcases, cooling bamboo sheets, lidded bathroom bin + botanical soap, grass-fed ghee & EVOO, copper espresso-martini barware, braided short leash, *"Big Carl"* goblet, and fill-in love coupons.
 
-## 3. Newsletter Monetization ("The Velvet Dispatch")
-
-- Create a free publication on **Beehiiv** (`https://www.beehiiv.com/`) or **Substack**.
-- Paste your subscribe URL into `newsletterActionUrl` in `src/config/monetization.ts`.
-- Players automatically get **+5 Bonus Velvet Credits** for subscribing, while Beehiiv **Boosts** can pay you **$2–$4 per referred subscriber** automatically on signup!
+### Step-by-Step Activation:
+1. Apply at **Amazon Associates (`https://affiliate-program.amazon.com/`)** using `https://cougarsandcubs.club/` and your `/guides/` editorial hub.
+2. Once you receive your Store ID (e.g., `cougarsandcubs-20`), scroll to the footer on `https://cougarsandcubs.club`, click **`Founder`**, enter your private Founder passphrase, and paste your Associate Tag.
+3. Cloudflare KV saves your tag immediately—every `/api/go/:id` link across the Boutique, 2D Cub Academy Graduation Diploma, Apartment X-Ray Scanner, Vibe Receipt, and all 16 SEO guides instantly injects `?tag=yourtag-20&linkCode=ll2` and tracks clicks per item.
+4. **Bonus Double-Dip (Amazon Merch on Demand / Printful)**: Upload 3–4 original zero-inventory designs (*"Certified Good Boy • Cougars & Cubs Club"*, *"Cougar’s Sous-Chef"*, *"Lower Your Age Slider"*) to Amazon Merch on Demand or Printful → Amazon, then point `/api/go/...` to your own ASINs to collect **both** the ~20% creator royalty **and** the 24-hour Amazon Associates cart commission.
 
 ---
 
-## 4. Automated Discord + Owned Community + SEO Growth Engine
+## 2. Should We Create Our Own Subreddit (`r/CougarsAndCubsClub`)?
 
-1. **Submit `sitemap.xml` to Google Search Console**:
-   - Add `https://sudosoph.github.io/velvet-den/` in Google Search Console and submit `sitemap.xml` (auto-generated on every build with dating-specific keywords—never generic cat/wildlife keywords!).
-2. **Turn On the Daily Discord Dilemma Bot (60 Seconds)**:
-   - In your Velvet Den Discord server: **Channel Settings → Integrations → Webhooks → New Webhook → Copy Webhook URL**.
-   - In `sudosoph/velvet-den` on GitHub: **Settings → Secrets and variables → Actions → New repository secret** → Name: `DISCORD_WEBHOOK_URL`.
-   - `.github/workflows/daily-growth-engine.yml` automatically posts a new *"Vet or Ghost?"* dilemma + `?dilemma=` deep link + auto-tagged Affiliate Pick every morning and saves ready-to-post **TikTok/Reels scripts** as workflow artifacts!
-3. **`r/CougarsAndCubs` Etiquette (Never Spam)**:
-   - Never point an automated bot at `r/CougarsAndCubs`. Participate genuinely as a real human (90/10 rule), share organic laughs on **Off Topic Mondays** or ask mods via Modmail first, and let players share their **Wordle-style Emoji Receipts** and **2-Player Partner Audition links** naturally!
+**Verdict: Yes — claim `r/CougarsAndCubsClub` (3 minutes, \$0), treat it as an Owned Brand Lounge + SEO/Profile Hub, and do NOT rely on it alone for cold discovery.**
+
+### Why Owning `r/CougarsAndCubsClub` Works (Even Starting Small):
+1. **Zero-Ban Profile Funnel**: Serious relationship subreddits aggressively remove unsolicited external links. When you own `r/CougarsAndCubsClub`, you can pin your official game link, **Daily Crown Him / Dump Him** poll, and **22-Film Cougar & Cub Movie Master List** inside your own sub and on your Reddit profile—so anyone who enjoys your witty comments elsewhere on Reddit clicks your profile and discovers the game organically within Reddit TOS.
+2. **Google SERP & Brand Authority**: Reddit threads index fast on Google. Seeding 5–8 evergreen threads in `r/CougarsAndCubsClub` (*Movie Master List*, *Vibe Receipt Megathread*, *Funniest Cubsplaining Stories*, *Custom \$29 Archetype Suggestions*) captures searchers looking for playful age-gap comedy.
+3. **Safe Home for Memes, Receipts & Courtroom Polls**: Traditional advice forums often ban games and memes. Your own subreddit gives players a welcoming comedy lounge to post their S-Rank Dateodex stamps, Polaroid unlocks, and real *"Crown Him or Dump Him"* submissions.
+
+### Minimal-Effort Setup (15 Minutes Total):
+- Create **`r/CougarsAndCubsClub`** (PG-13 / SFW comedy & romance gaming community — **keep `18+ NSFW` OFF** so Reddit allows rich images, crossposts, and mainstream search indexing!).
+- Pin **Post #1**: *"Welcome to Cougars & Cubs Club 🐆 Play the Free 2D Cub Training Sim, AI Chat & Swipe Game (`cougarsandcubs.club`) + Drop Your Vibe Receipts Below!"*
+- Pin **Post #2**: *"Weekly Crown Him or Dump Him Courtroom — Submit Real Age-Gap Red/Green Flags to Get Animated Into Next Friday’s Update!"*
+
+---
+
+## 3. Where to Post Right Now (100% Authorized & Mod-Safe Channels)
+
+Never cold-drop links in subreddits that ban self-promotion. Stick strictly to channels where playable games, guides, and outbound links are **explicitly invited**:
+
+### A. Authorized Indie & Browser Game Communities (Reddit + Web)
+- **`r/WebGames`**: Purpose-built for free, instant-play browser games with no signup wall. Follow their exact `[Title] - [Genre]` rule (`Cougars & Cubs Club - Comedic Romance & Dating-App Vetting Sim`).
+- **`r/PlayMyGame` & `r/BrowserGames`**: Explicitly created for indie devs sharing playable builds for player feedback.
+- **`r/indiegames` / `r/IndieDev`**: Share 15-second GIFs of the **60fps PixiJS 2D Cub Obedience Clicker School** and **Apartment X-Ray Scanner** on designated **Screenshot Saturday** / **Feedback Friday** threads.
+- **`r/SideProject`**: Share the builder story (*"Built a Cloudflare Workers AI Tinder/iMessage/Discord dating sim + PixiJS 2D arcade in TypeScript"*).
+- **Itch.io (`itch.io`)**: Upload the web HTML5 build under *Visual Novel / Dating Sim / Comedy* (100% authorized storefront where *Dream Daddy* & *Date Everything!* fans actively browse).
+- **Product Hunt & Hacker News (`Show HN`)**: Authorized launch directories that welcome interactive browser toys and deliver permanent high-authority SEO backlinks.
+
+### B. Zero-Gatekeeper Short-Form Video (Highest Volume Top-of-Funnel)
+- **TikTok, Instagram Reels & YouTube Shorts**: Put `cougarsandcubs.club` in your bio and rotate 3 repeatable 20-second formats:
+  1. **2D Cub Clicker School**: Screen-record clicker-training a 26yo Cub out of *"well actually"* podcast Cubsplaining (`🔔 +25 Obedience`).
+  2. **Daily "Crown Him or Dump Him" Split Bars**: Read the `$19.50` ribeye Venmo or 3 AM cooling-pillow story and reveal the live **🐆 Cougars Voted vs. 🐕 Cubs Guessed** split.
+  3. **Green-Screen 25-Point Viral Score Checklist** & **22-Film Cougar & Cub Movie Tier List** (*Catherine Zeta-Jones’ The Rebound* vs. *Natalie Portman’s Good Sex*).
+
+### C. Evergreen Search & Visual Shopping Engines (Outbound Links Encouraged!)
+- **Google Search Console**: Submit `https://cougarsandcubs.club/sitemap.xml` (`17` canonical URLs including the 22-Film Cougar & Cub Movie Master List and Gift Guides).
+- **Pinterest Business Account (Free)**: Every Pin allows a direct destination URL! Pin vertical graphics for:
+  - *"The Complete Master List of 22 Cougar & Cub Movies"* → `/guides/master-list-cougar-cub-movies-older-woman-younger-man/`
+  - *"Best Gifts for an Older Woman Who Already Has Everything"* → `/guides/best-gifts-for-older-woman-girlfriend-dating-guide/`
+  - *"First-Time Hosting an Older Woman: The Apartment Audit Checklist"* → `/guides/first-time-hosting-older-woman-apartment-checklist/`
+
+### D. Optional Paid Boost Without Mod Risk
+- **Reddit Promoted Posts (\$5–\$10/day test)**: If you want guaranteed visibility across relationship, romance-movie, and dating-app audiences without ever touching community moderation rules, run a single promoted *"Crown Him or Dump Him?"* card with comments enabled.
