@@ -1,4 +1,4 @@
-import { HER_ARCHETYPES, HIS_ARCHETYPES } from './taxonomy';
+import { V35_CAST_PROFILES } from '../data/v35Cast';
 
 export const DATEODEX_STORAGE_KEY = 'cc_dateodex_v1';
 
@@ -33,7 +33,7 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
     id: 'polaroid-obedience-s',
     title: 'Certified Good Boy™ Graduation',
     caption: 'Zero Cubsplaining, off-leash heel mastered & ribeye treat earned.',
-    unlockHint: 'Graduate a Cub in the 2D PixiJS Obedience Sim',
+    unlockHint: 'Graduate all 12 modules in Cub Obedience School',
     imageUrl: './images/cast/dog-park-picnic.jpg',
     rotationClass: '-rotate-1',
   },
@@ -41,7 +41,7 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
     id: 'polaroid-sanctuary-scan',
     title: '4-Pillow Percale Sanctuary',
     caption: 'Lidded trash bin, bergamot soap & zero $41.63 split-tab drafts.',
-    unlockHint: 'Clear all 5 hazards in the 2D Apartment Red-Flag Scanner',
+    unlockHint: 'Complete a Chemistry Cameo at an In The Wild hotspot',
     imageUrl: './images/scenes/luxury-bedroom-sanctuary.jpg',
     rotationClass: 'rotate-1',
   },
@@ -193,5 +193,5 @@ export function recordDateodexCourtVote(prev: DateodexState): DateodexState {
 }
 
 export function getTotalRosterCount(): number {
-  return HER_ARCHETYPES.length + HIS_ARCHETYPES.length;
+  return V35_CAST_PROFILES.length;
 }

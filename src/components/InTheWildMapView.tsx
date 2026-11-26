@@ -48,7 +48,20 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   if (activeSpot) {
     const primaryLeadId =
       role === 'her' ? activeSpot.primaryHerLeadId : activeSpot.primaryHimLeadId;
-    const isAlreadyMatched = activeLeadThreads.includes(primaryLeadId);
+    const secondaryProfile = activeSpot.secondaryCameoLeadId
+      ? getCastProfileById(activeSpot.secondaryCameoLeadId)
+      : undefined;
+    const matchedSecondaryId =
+      secondaryProfile &&
+      secondaryProfile.role !== role &&
+      activeSpot.secondaryCameoLeadId &&
+      activeLeadThreads.includes(activeSpot.secondaryCameoLeadId)
+        ? activeSpot.secondaryCameoLeadId
+        : undefined;
+    const matchedTargetLeadId = activeLeadThreads.includes(primaryLeadId)
+      ? primaryLeadId
+      : matchedSecondaryId;
+    const isAlreadyMatched = Boolean(matchedTargetLeadId);
     const cameoDone = completedCameoVenues.includes(activeSpot.id);
     const cameoSpeaker = getCastProfileById(activeSpot.cameoBeat.speakerId);
     const cameoPortrait = V35_CAST_VISUALS[activeSpot.cameoBeat.speakerId]?.primaryPortrait;
@@ -109,7 +122,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/20 border border-emerald-300/40 px-3 py-1 text-xs font-bold text-emerald-200">
                   <Sparkles className="h-3.5 w-3.5" />
-                  <span>Bonus 3-Beat Chemistry Cameo • {cameoSpeaker?.name}</span>
+                  <span>Bonus Chemistry Cameo • {cameoSpeaker?.name}</span>
                 </div>
                 <p className="font-editorial text-lg sm:text-xl leading-relaxed text-amber-50">
                   {activeSpot.cameoBeat.line}
@@ -124,7 +137,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                     type="button"
                     onClick={() => {
                       sfx.greenFlag();
-                      onCompleteCameo(activeSpot.id, activeSpot.cameoBeat.speakerId, 15);
+                      onCompleteCameo(activeSpot.id, matchedTargetLeadId!, 15);
                     }}
                     className="rounded-full bg-amber-300 px-6 py-3 text-xs sm:text-sm font-extrabold text-[#18101E] hover:bg-amber-200 transition cursor-pointer"
                   >

@@ -352,6 +352,17 @@ export function grantPatronBadge(wallet: WalletState, rewardKey?: string): Walle
   };
 }
 
+export function restoreVerifiedVip(wallet: WalletState): WalletState {
+  const claim = 'stripe_vip_restored';
+  return {
+    ...wallet,
+    isVip: true,
+    claimedRewards: wallet.claimedRewards.includes(claim)
+      ? wallet.claimedRewards
+      : [...wallet.claimedRewards, claim],
+  };
+}
+
 export function unlockContentWithCredits(
   wallet: WalletState,
   bucket: 'unlockedPovIds' | 'unlockedPhotoIds' | 'unlockedEpilogueIds',

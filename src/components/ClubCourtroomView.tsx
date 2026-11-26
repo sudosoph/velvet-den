@@ -267,8 +267,8 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
   }, []);
 
   const { dropNum, idx: dailyIdx } = useMemo(
-    () => getDailyDropNumberAndIndex(SEED_COURTROOM_STORIES.length),
-    [],
+    () => getDailyDropNumberAndIndex(stories.length),
+    [stories.length],
   );
   const dailyStory = stories[dailyIdx] ?? stories[0];
 

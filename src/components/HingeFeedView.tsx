@@ -26,7 +26,7 @@ export interface HingeFeedViewProps {
     cost: number,
     delta: number,
     outcome?: 'instant_match' | 'pending_like' | 'delayed_match',
-  ) => void;
+  ) => boolean | void;
   onSwitchRole: (role: 'her' | 'him') => void;
   onOpenWildMap: () => void;
   onOpenChats?: (leadId?: string) => void;
@@ -76,28 +76,38 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
   const currentProfile: V35CastProfile | undefined = deck[0];
 
-  const advancePendingCounter = () => {
-    setPendingLikes((prev) => {
-      const updated = prev.map((item) => ({ ...item, swipesSince: item.swipesSince + 1 }));
-      const readyPopIn = updated.find((item) => item.swipesSince >= 2);
-      if (readyPopIn) {
-        onSendHingeOpener(
-          readyPopIn.leadId,
-          'Delayed Match Pop-In',
-          'Matched back after reading your note!',
-          0,
-          16,
-          'delayed_match',
-        );
-        setStatusBanner({
-          tone: 'delayed',
-          text: `✨ Surprise Match Pop-In! ${readyPopIn.name} just matched with your earlier Like — open Chats & Dates!`,
-          leadId: readyPopIn.leadId,
-        });
-        return updated.filter((item) => item.leadId !== readyPopIn.leadId);
-      }
-      return updated;
-    });
+  const advancePendingCounter = (extraPending?: { leadId: string; name: string }) => {
+    const updated = pendingLikes.map((item) => ({
+      ...item,
+      swipesSince: item.swipesSince + 1,
+    }));
+    const readyPopIn = updated.find((item) => item.swipesSince >= 2);
+    const remaining = readyPopIn
+      ? updated.filter((item) => item.leadId !== readyPopIn.leadId)
+      : updated;
+    const nextList = extraPending
+      ? [...remaining, { ...extraPending, swipesSince: 0 }]
+      : remaining;
+
+    setPendingLikes(nextList);
+
+    if (readyPopIn) {
+      onSendHingeOpener(
+        readyPopIn.leadId,
+        'Delayed Match Pop-In',
+        'Matched back after reading your note!',
+        0,
+        16,
+        'delayed_match',
+      );
+      setStatusBanner({
+        tone: 'delayed',
+        text: `✨ Surprise Match Pop-In! ${readyPopIn.name} just matched with your earlier Like — open Chats & Dates!`,
+        leadId: readyPopIn.leadId,
+      });
+      return true;
+    }
+    return false;
   };
 
   const handlePass = () => {
@@ -118,8 +128,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
       currentProfile.tier === 'trap';
 
     if (isRoseOrAttuned) {
-      sfx.swipeRight();
-      onSendHingeOpener(
+      const accepted = onSendHingeOpener(
         currentProfile.id,
         replyTarget.label,
         openerText,
@@ -127,11 +136,18 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         delta,
         'instant_match',
       );
-      setStatusBanner({
-        tone: 'match',
-        text: `🥂 It’s a Match with ${currentProfile.name}! Thread added to Chats & Dates.`,
-        leadId: currentProfile.id,
-      });
+      if (accepted === false) {
+        return;
+      }
+      sfx.swipeRight();
+      const poppedDelayed = advancePendingCounter();
+      if (!poppedDelayed) {
+        setStatusBanner({
+          tone: 'match',
+          text: `🥂 It’s a Match with ${currentProfile.name}! Thread added to Chats & Dates.`,
+          leadId: currentProfile.id,
+        });
+      }
     } else {
       sfx.messagePop();
       onSendHingeOpener(
@@ -142,14 +158,16 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         delta,
         'pending_like',
       );
-      setPendingLikes((prev) => [
-        ...prev,
-        { leadId: currentProfile.id, name: currentProfile.name, swipesSince: 0 },
-      ]);
-      setStatusBanner({
-        tone: 'pending',
-        text: `Sent Like • Pending — ${currentProfile.name} is selective! Read prompts closely (or send a 🌹 Standout Rose) to match right away.`,
+      const poppedDelayed = advancePendingCounter({
+        leadId: currentProfile.id,
+        name: currentProfile.name,
       });
+      if (!poppedDelayed) {
+        setStatusBanner({
+          tone: 'pending',
+          text: `Sent Like • Pending — ${currentProfile.name} is selective! Read prompts closely (or send a 🌹 Standout Rose) to match right away.`,
+        });
+      }
     }
 
     setReplyTarget(null);
@@ -587,6 +605,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     <button
                       key={opt.text}
                       type="button"
+                      data-testid="hinge-opener-option"
                       onClick={() => submitLike(opt.text, cost, opt.delta)}
                       className={`w-full rounded-2xl p-4 text-left text-sm whitespace-normal transition cursor-pointer ${
                         isVip

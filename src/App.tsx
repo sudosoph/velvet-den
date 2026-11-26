@@ -42,6 +42,7 @@ import {
   loseFridayHeart,
   recordBulletDodged,
   resetFridayHearts,
+  restoreVerifiedVip,
   revokeFounderAccess,
   saveWallet,
   spendCredits,
@@ -124,7 +125,13 @@ const DILEMMA_SLUG_TO_VENUE: Record<string, string> = {
   'junior-cougar-gatekeeper-tease': 'left-bank-books',
   'trail-run-short-leash': 'palisades-racquet',
   'babysitter-flake-test': 'st-jude-coffee',
-  'connor-bottle-trap': 'velvet-room',
+  'houseboy-sunday-sanctuary': 'velvet-palms-bbq',
+  'fertility-kids-crossroads': 'dawn-lap-pool',
+  'vip-palm-springs-income-gap': 'palisades-racquet',
+  'vip-thanksgiving-double-boss': 'velvet-palms-bbq',
+  'vip-trader-joes-wild-approach': 'cougarmarket',
+  'adult-kid-brunch': 'st-jude-coffee',
+  'hotel-checkin-two-queen-beds-mixup': 'velvet-room',
 };
 
 export function resolveDilemmaRoute(slug: string | null): {
@@ -135,6 +142,10 @@ export function resolveDilemmaRoute(slug: string | null): {
   if (!slug) return null;
   const clean = slug.trim();
   if (!clean) return null;
+
+  if (clean === 'connor-bottle-trap') {
+    return { tab: 'hinge', roleOverride: 'her' };
+  }
 
   if (V35_WILD_VENUES.some((v) => v.id === clean)) {
     return { tab: 'wild', venueId: clean };
@@ -151,9 +162,17 @@ export function resolveDilemmaRoute(slug: string | null): {
 
   const castHit = V35_CAST_PROFILES.find((p) => p.id === clean);
   if (castHit) {
+    const roleOverride: PlayerRole = castHit.role === 'her' ? 'him' : 'her';
+    if (castHit.discoveryDoor === 'wild' && castHit.primaryWildVenueId) {
+      return {
+        tab: 'wild',
+        venueId: castHit.primaryWildVenueId,
+        roleOverride,
+      };
+    }
     return {
       tab: 'hinge',
-      roleOverride: castHit.role === 'her' ? 'him' : 'her',
+      roleOverride,
     };
   }
 
@@ -729,6 +748,7 @@ export default function App() {
               setCompletedCameoVenues((prev) =>
                 prev.includes(venueId) ? prev : [...prev, venueId],
               );
+              setDateodex((prev) => unlockDateodexPolaroid(prev, 'polaroid-sanctuary-scan'));
               setThreads((prev) =>
                 prev.map((t) =>
                   t.leadId === leadId
@@ -748,14 +768,12 @@ export default function App() {
             onSelectLead={setSelectedChatLeadId}
             onUpdateThread={(updated) => {
               const previous = threads.find((t) => t.leadId === updated.leadId);
-              if (previous && updated.datesCompleted > previous.datesCompleted) {
-                const rank = updated.sRankLockedOut
-                  ? 'A'
-                  : updated.chemistry >= 80
-                    ? 'S'
-                    : updated.chemistry >= 65
-                      ? 'A'
-                      : 'B';
+              if (
+                previous &&
+                updated.datesCompleted > previous.datesCompleted &&
+                updated.lastDateRank !== 'F'
+              ) {
+                const rank = updated.lastDateRank ?? (updated.sRankLockedOut ? 'A' : 'S');
                 setDateodex((prev) =>
                   stampDateodexCharacters(
                     prev,
@@ -842,11 +860,11 @@ export default function App() {
                 const spent = spendCredits(wallet, cost);
                 if (!spent.ok) {
                   openBoutiqueWithTab('vip');
-                  return;
+                  return false;
                 }
                 updateWallet(spent.wallet);
               }
-              if (outcome === 'pending_like') return;
+              if (outcome === 'pending_like') return true;
 
               setThreads((prev) => {
                 if (prev.some((t) => t.leadId === leadId)) return prev;
@@ -855,6 +873,7 @@ export default function App() {
                 return [created, ...prev];
               });
               setSelectedChatLeadId(leadId);
+              return true;
             }}
             onSwitchRole={(nextRole) => setRole(nextRole)}
             onOpenWildMap={() => setActiveTab('wild')}
@@ -1196,7 +1215,7 @@ export default function App() {
           return false;
         }}
         onRestoreVipSuccess={() => {
-          updateWallet({ ...wallet, isVip: true });
+          updateWallet(restoreVerifiedVip(wallet));
         }}
         onSandboxGrantCredits={() => {
           updateWallet({ ...wallet, credits: wallet.credits + 15 });

@@ -17,7 +17,7 @@ import {
   V35_CAST_VISUALS,
 } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
-import { V35_DATE_SCRIPTS } from '../data/v35ChatsAndDates';
+import { V35_CHAT_CHAPTERS, V35_DATE_SCRIPTS } from '../data/v35ChatsAndDates';
 import type { WalletState } from '../domain/economy';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { sfx } from '../lib/sound';
@@ -39,6 +39,7 @@ export interface DreamDaddyDateStageProps {
   onSpendCredits: (cost: number) => boolean;
   onUnlockPov: (povId: string, cost: number) => boolean;
   onUnlockEpilogue: (epilogueId: string, cost: number) => boolean;
+  onRecordConspiracyClue?: (clueId: string) => void;
   onLaunchNextDate?: (nextDateNumber: 1 | 2 | 3 | 4) => void;
   onBackToChats: () => void;
 }
@@ -54,6 +55,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
   onSpendCredits,
   onUnlockPov,
   onUnlockEpilogue,
+  onRecordConspiracyClue,
   onLaunchNextDate,
   onBackToChats,
 }) => {
@@ -87,7 +89,9 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
     setFinished(false);
     setPovUnlocked(wallet.unlockedPovIds.includes(`${leadId}-date-${dateNumber}`));
     setCopiedPolaroid(false);
-  }, [leadId, dateNumber, script, initialSRankLockedOut, wallet.unlockedPovIds]);
+    // Intentionally keyed strictly on [leadId, dateNumber] so mid-session wallet/lockout updates never reset finished state
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leadId, dateNumber]);
 
   if (!profile || !script || !visual) {
     return null;
@@ -129,6 +133,12 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
       setSparringToast(true);
     }
 
+    if (choice.triggersTurnTablesRevenge) {
+      const clueId =
+        V35_CHAT_CHAPTERS[leadId]?.cutLooseVerdict.conspiracyClueId || `clue-${leadId}-revenge`;
+      onRecordConspiracyClue?.(clueId);
+    }
+
     if (choice.triggersDisasterHeartLoss) {
       sfx.redFlag();
       setDisasterHit(true);
@@ -166,6 +176,9 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
 
   const rank = computeRank();
   const povId = `${leadId}-date-${script.dateNumber}`;
+  const isPovUnlocked =
+    povUnlocked ||
+    Boolean(wallet.isVip || wallet.isFounderUnlimited || wallet.unlockedPovIds.includes(povId));
   const hasDate4Epilogue = scripts.some((s) => s.dateNumber === 4);
   const epilogueId = `${leadId}-epilogue-4`;
 
@@ -316,7 +329,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/15 pb-4">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-widest text-amber-300">
-                    Dream Daddy Date Verdict
+                    Dream Daddy Date Verdict • Date #{script.dateNumber} Complete
                   </div>
                   <h2 className="mt-1 font-editorial text-3xl sm:text-4xl font-bold text-white">
                     {rank === 'F' ? '🚩 DATE DISASTER' : `${rank}-RANK ROMANCE`}
@@ -353,7 +366,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                     </p>
                   </div>
 
-                  {!povUnlocked && (
+                  {!isPovUnlocked && (
                     <button
                       type="button"
                       onClick={() => {
@@ -372,7 +385,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                   )}
                 </div>
 
-                {povUnlocked && (
+                {isPovUnlocked && (
                   <div className="space-y-2 rounded-xl bg-black/40 p-3.5 text-xs sm:text-sm text-emerald-200">
                     {script.secretBestiePovLeak.messages.map((line) => (
                       <div key={line}>💬 {line}</div>

@@ -18,6 +18,7 @@ import { getCastProfileById } from '../data/v35Cast';
 import {
   type CutLooseVerdict,
   V35_CHAT_CHAPTERS,
+  V35_DATE_SCRIPTS,
   V35_DISCORD_CHANNELS,
   V35_TABLE_9_CONSPIRACY,
 } from '../data/v35ChatsAndDates';
@@ -34,6 +35,7 @@ export interface ActiveMatchThread {
   currentBeat: number;
   chemistry: number;
   datesCompleted: number;
+  lastDateRank?: 'S' | 'A' | 'B' | 'F';
   sRankLockedOut?: boolean;
   messages: { sender: 'match' | 'player' | 'system'; text: string }[];
 }
@@ -151,12 +153,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         role={role}
         wallet={wallet}
         initialSRankLockedOut={dateThread?.sRankLockedOut}
-        onCompleteDate={(leadId, dNum, _rank, lockedOut) => {
+        onCompleteDate={(leadId, dNum, rank, lockedOut) => {
           const existing = threads.find((t) => t.leadId === leadId);
           if (existing) {
             onUpdateThread({
               ...existing,
-              datesCompleted: Math.max(existing.datesCompleted, dNum),
+              datesCompleted:
+                rank === 'F' ? existing.datesCompleted : Math.max(existing.datesCompleted, dNum),
+              lastDateRank: rank,
               sRankLockedOut: lockedOut,
             });
           }
@@ -165,6 +169,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         onSpendCredits={onSpendCredits}
         onUnlockPov={(povId, cost) => onUnlockBucketItem('unlockedPovIds', povId, cost)}
         onUnlockEpilogue={(epId, cost) => onUnlockBucketItem('unlockedEpilogueIds', epId, cost)}
+        onRecordConspiracyClue={onRecordConspiracyClue}
         onLaunchNextDate={(nextNum) => setActiveDateModal({ leadId: activeDateModal.leadId, dateNumber: nextNum })}
         onBackToChats={() => setActiveDateModal(null)}
       />
@@ -253,7 +258,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       setCoachBanner(res.coachNote);
       onUpdateThread({
         ...currentThread,
-        currentBeat: Math.min(7, currentThread.currentBeat + 1),
+        currentBeat: currentThread.currentBeat,
         chemistry: Math.max(0, Math.min(100, currentThread.chemistry + res.chemistryDelta)),
         messages: [
           ...currentThread.messages,
@@ -298,14 +303,34 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     currentThread!.stage === 'app_dm' &&
     currentThread!.currentBeat > 6;
 
+  const availableDates = currentThread ? (V35_DATE_SCRIPTS[currentThread.leadId] ?? []) : [];
+  const nextDateScript = currentThread
+    ? availableDates.find((d) => d.dateNumber === currentThread.datesCompleted + 1)
+    : undefined;
+
   const isDateReady =
     Boolean(currentThread) &&
+    Boolean(nextDateScript) &&
     currentThread!.stage === 'imessage' &&
     (currentThread!.currentBeat >= 4 || currentThread!.originDoor === 'wild');
 
-  const nextDateNumber = currentThread
-    ? (Math.min(4, currentThread.datesCompleted + 1) as 1 | 2 | 3 | 4)
-    : 1;
+  const launchDateWithGate = (leadId: string, scriptToLaunch: NonNullable<typeof nextDateScript>) => {
+    if (scriptToLaunch.dateNumber === 4) {
+      const epId = `${leadId}-epilogue-4`;
+      const unlocked =
+        wallet.isVip ||
+        Boolean(wallet.isFounderUnlimited) ||
+        wallet.unlockedEpilogueIds.includes(epId);
+      if (!unlocked) {
+        const ok = onUnlockBucketItem('unlockedEpilogueIds', epId, 3);
+        if (!ok) return;
+      }
+    }
+    setActiveDateModal({
+      leadId,
+      dateNumber: scriptToLaunch.dateNumber,
+    });
+  };
 
   const activeDiscord =
     V35_DISCORD_CHANNELS.find((c) => c.id === activeDiscordId) ?? V35_DISCORD_CHANNELS[0];
@@ -663,23 +688,29 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               </header>
 
               {/* Non-Blocking Go On Date Banner */}
-              {isDateReady && (
+              {isDateReady && nextDateScript && (
                 <div className="flex flex-wrap items-center justify-between gap-3 bg-emerald-50 border-b border-emerald-200 px-6 py-3">
                   <div className="text-xs sm:text-sm font-bold text-emerald-950">
-                    🍸 Chemistry is high ({currentThread.chemistry}%) — Ready for Date #{nextDateNumber} with{' '}
-                    {currentProfile.name}! (Or keep chatting freely below)
+                    🍸 Chemistry is high ({currentThread.chemistry}%) — Ready for{' '}
+                    {nextDateScript.dateNumber === 4
+                      ? 'Velvet Cut Weekend Epilogue (Date #4)'
+                      : `Date #${nextDateScript.dateNumber}`}{' '}
+                    with {currentProfile.name}! (Or keep chatting freely below)
                   </div>
                   <button
                     type="button"
-                    onClick={() =>
-                      setActiveDateModal({
-                        leadId: currentProfile.id,
-                        dateNumber: nextDateNumber,
-                      })
-                    }
+                    onClick={() => launchDateWithGate(currentProfile.id, nextDateScript)}
                     className="rounded-full bg-[#18101E] px-4 py-2 text-xs font-bold text-white cursor-pointer"
                   >
-                    🍸 Go on Date #{nextDateNumber} →
+                    {nextDateScript.dateNumber === 4
+                      ? `🌙 Velvet Cut Epilogue (${
+                          wallet.isVip ||
+                          wallet.isFounderUnlimited ||
+                          wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
+                            ? 'Ready'
+                            : '3 Cr'
+                        }) →`
+                      : `🍸 Go on Date #${nextDateScript.dateNumber} →`}
                   </button>
                 </div>
               )}
@@ -860,24 +891,37 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       })}
                     </div>
                   </div>
-                ) : (
+                ) : nextDateScript ? (
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white border border-stone-200 p-4">
                     <span className="text-xs sm:text-sm font-semibold text-stone-700">
-                      All 6 vetting beats complete — keep free-chatting below or launch Date #{nextDateNumber}!
+                      All 6 vetting beats complete — keep free-chatting below or launch{' '}
+                      {nextDateScript.dateNumber === 4
+                        ? 'Velvet Cut Epilogue (Date #4)'
+                        : `Date #${nextDateScript.dateNumber}`}
+                      !
                     </span>
                     <button
                       type="button"
-                      onClick={() =>
-                        setActiveDateModal({
-                          leadId: currentProfile.id,
-                          dateNumber: nextDateNumber,
-                        })
-                      }
+                      onClick={() => launchDateWithGate(currentProfile.id, nextDateScript)}
                       className="inline-flex items-center gap-1.5 rounded-full bg-[#B83253] px-5 py-2 text-xs font-bold text-white cursor-pointer"
                     >
                       <Sparkles className="h-3.5 w-3.5" />
-                      <span>Launch Date #{nextDateNumber} →</span>
+                      <span>
+                        {nextDateScript.dateNumber === 4
+                          ? `Launch Velvet Cut Epilogue (${
+                              wallet.isVip ||
+                              wallet.isFounderUnlimited ||
+                              wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
+                                ? 'Unlocked'
+                                : '3 Cr'
+                            }) →`
+                          : `Launch Date #${nextDateScript.dateNumber} →`}
+                      </span>
                     </button>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl bg-white border border-stone-200 p-4 text-xs sm:text-sm font-semibold text-stone-700">
+                    All scripted chapters with {currentProfile.name} complete — keep chatting freely anytime below!
                   </div>
                 )}
 

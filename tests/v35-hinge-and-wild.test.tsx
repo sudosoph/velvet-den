@@ -96,6 +96,6 @@ describe('v35 Editorial Hinge Feed (selective matching, zero clutter) & 10-Spot 
     fireEvent.click(screen.getByRole('button', { name: /Terminal B Arrivals/i }));
     const cameoBtn = screen.getByRole('button', { name: /Claim \+15% Chemistry Cameo/i });
     fireEvent.click(cameoBtn);
-    expect(onCompleteCameo).toHaveBeenCalledWith('terminal-b-airport', 'claire', 15);
+    expect(onCompleteCameo).toHaveBeenCalledWith('terminal-b-airport', 'miles', 15);
   });
 });

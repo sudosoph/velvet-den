@@ -220,7 +220,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'done_with_kids',
     ],
     portraitVariant: 'cougar',
-    photoUrl: './images/cast/sedona-breathwork-46f.jpg',
+    photoUrl: './images/cast/celeste-2.jpg',
     lookBadge: 'Auburn Silver Waves • Serene Studio Founder',
     statusPill: 'Zero-Proof Tea • Sanctuary Studio',
     zodiac: '♍ Virgo Sun • ♏ Scorpio Rising',
@@ -229,7 +229,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     originOrAccent: 'Serene Red-Rock Cadence',
     signatureDrink: 'Warm Jasmine Oolong & Yuzu Botanical Elixir',
     galleryPhotos: [
-      { label: '🧘‍♀️ Dawn Courtyard', url: './images/cast/sedona-breathwork-46f.jpg' },
+      { label: '🧘‍♀️ Dawn Courtyard', url: './images/cast/celeste-2.jpg' },
       { label: '🧖‍♀️ Cedar Sauna', url: './images/scenes/hotel-pool-sauna.jpg' },
       { label: '🐾 Meadow Tea', url: './images/cast/dog-park-picnic.jpg' },
     ],
@@ -242,11 +242,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     ],
   },
   {
-    id: 'sloane-seedoil-golden retriever-mommy',
+    id: 'sloane-coastal-golden-mommy',
     name: 'Sloane',
     age: 42,
     title: 'Clean-Living Holistic Interior Designer • Cougar',
-    shortHook: '5\'4" Santa Monica designer, 100% gluten & chef-crafted, with apricot Mini golden retriever Miso.',
+    shortHook: '5\'4" Santa Monica designer, 100% gluten-free & chef-crafted, with apricot Mini golden retriever Miso.',
     tagline:
       '42F coastal interior designer: bans canola oil at 50 paces, bakes cassava sourdough, and brings her fluffy apricot Mini golden retriever Miso to every farmers market.',
     vibeSummary:
@@ -737,7 +737,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
       'Wonders if a lively 26-year-old Cub will get bored of cozy rainy-Friday nights in, until he asks which chapter of her spicy book he should study.',
     subplotTags: ['black_cat_energy', 'booktok_cat_mom', 'dog_mom_divorced', 'jaded_peer_men', 'done_with_kids', 'solo_sanctuary'],
     portraitVariant: 'cougar',
-    photoUrl: './images/cast/nadia-41f.jpg',
+    photoUrl: './images/cast/claire-2.jpg',
     lookBadge: '5\'2" • Reading Glasses • Cat Mom',
     statusPill: '🐈‍⬛ Black Cat • Orange Cat Mochi',
     zodiac: '♋ Cancer Sun • ♍ Virgo Moon',
@@ -747,7 +747,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     signatureDrink: 'Willamette Pinot Noir',
     petName: 'Mochi',
     galleryPhotos: [
-      { label: '📚 Cozy Glow', url: './images/cast/nadia-41f.jpg' },
+      { label: '📚 Cozy Glow', url: './images/cast/claire-2.jpg' },
       { label: '🌧️ Rainy Suite', url: './images/scenes/cozy-rain-suite.jpg' },
       { label: '🐾 Park Picnic', url: './images/cast/dog-park-picnic.jpg' },
     ],
@@ -1514,7 +1514,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       'Building his freelance studio from the ground up, wins hearts with unforgettable 35mm film walks and gallery nights.',
     subplotTags: ['modest_accent_gentleman', 'spontaneous_getaway'],
     portraitVariant: 'oldsoul',
-    photoUrl: './images/cast/devon-23m.jpg',
+    photoUrl: './images/cast/sam-25m.jpg',
     lookBadge: 'Dark Curls & Glasses • 35mm Film',
     statusPill: 'Darkroom Loft • Old Soul',
     zodiac: '♒ Aquarius Sun • ♎ Libra Moon',
@@ -2106,7 +2106,7 @@ const DELIGHT_DETAILS: Record<string, { idealSunday: string; softSpot: string; e
     softSpot: 'Dropping your shoulders, skipping podcast lectures, and enjoying quiet cedar steam',
     extraInterests: ['Breathwork & morning stretch', 'Jasmine Oolong', 'Cedar Sauna', 'Canyon Stargazing', 'Acoustic Vinyl'],
   },
-  'sloane-seedoil-golden retriever-mommy': {
+  'sloane-coastal-golden-mommy': {
     idealSunday: 'Baking warm cassava sourdough and walking the Montecito farmers market',
     softSpot: 'Showing up with a chew toy for her incoming puppy Miso',
     extraInterests: ['Farmers Markets', 'Cassava Baking', 'Mini golden retrievers', 'Infrared Sauna', 'Morning Walks'],
@@ -2495,7 +2495,7 @@ const CURATED_HINGE_META: Record<
     memoryKeyword: 'oolong',
     memoryRewardLine: 'You remembered the jasmine oolong clay canisters. Shoulders dropped already.',
   },
-  'sloane-seedoil-golden retriever-mommy': {
+  'sloane-coastal-golden-mommy': {
     schoolAndMajor: 'RISD • Interior Architecture',
     fieldOfWork: 'Holistic Coastal Design',
     funFacts: [

@@ -10,12 +10,18 @@ const PUBLIC_BASE = (
 ).replace(/\/?$/, '/');
 
 const monetizationSource = readFileSync(join(ROOT, 'src/config/monetization.ts'), 'utf8');
-const configAmazonTag =
-  monetizationSource.match(/amazonAssociateTag:\s*'([^']*)'/)?.[1] || '';
+const affiliatesSource = readFileSync(join(ROOT, 'src/lib/affiliates.ts'), 'utf8');
 const configSubId = monetizationSource.match(/partnerSubId:\s*'([^']*)'/)?.[1] || '';
 
-const AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG ?? configAmazonTag).trim();
+// Only emit direct Amazon URLs when AMAZON_ASSOCIATE_TAG is explicitly passed in env;
+// otherwise route static SEO links through /api/go/:id for KV tag rotation & PostHog click tracking.
+const EXPLICIT_AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG ?? '').trim();
 const PARTNER_SUB_ID = (process.env.PARTNER_SUB_ID ?? configSubId).trim();
+
+const CANONICAL_URLS_BY_ID = {};
+for (const m of affiliatesSource.matchAll(/\{\s*id:\s*'([^']+)',[\s\S]*?merchantUrl:\s*'([^']+)'/g)) {
+  CANONICAL_URLS_BY_ID[m[1]] = m[2];
+}
 
 const PROHIBITED_ADULT_DOMAINS = [
   'lovehoney.com',
@@ -168,18 +174,19 @@ const PRODUCT_CATALOG_MAP = {
 
 function tagAmazon(productId, slug) {
   const prod = PRODUCT_CATALOG_MAP[productId] || PRODUCT_CATALOG_MAP['espresso-martini-barware'];
-  const u = new URL(prod.url);
+  const canonicalUrl = CANONICAL_URLS_BY_ID[productId] || prod.url;
+  const u = new URL(canonicalUrl);
   const host = u.hostname.toLowerCase();
   for (const banned of PROHIBITED_ADULT_DOMAINS) {
     if (host === banned || host.endsWith(`.${banned}`)) {
       throw new Error(`Blocked prohibited adult domain (${host})`);
     }
   }
-  if (!AMAZON_TAG) {
+  if (!EXPLICIT_AMAZON_TAG) {
     return `${PUBLIC_BASE}api/go/${encodeURIComponent(productId)}?src=${encodeURIComponent(`seo_${slug}`)}`;
   }
   if (host.includes('amazon.')) {
-    u.searchParams.set('tag', AMAZON_TAG);
+    u.searchParams.set('tag', EXPLICIT_AMAZON_TAG);
     u.searchParams.set('linkCode', 'll2');
   }
   if (PARTNER_SUB_ID) {

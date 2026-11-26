@@ -11,6 +11,7 @@ const PUBLIC_BASE_URL = (
 ).replace(/\/?$/, '/');
 
 const monetizationSource = readFileSync(join(ROOT, 'src/config/monetization.ts'), 'utf8');
+const affiliatesSource = readFileSync(join(ROOT, 'src/lib/affiliates.ts'), 'utf8');
 const configAmazonTag =
   monetizationSource.match(/amazonAssociateTag:\s*'([^']*)'/)?.[1] || '';
 const configSubId = monetizationSource.match(/partnerSubId:\s*'([^']*)'/)?.[1] || '';
@@ -18,6 +19,11 @@ const configSubId = monetizationSource.match(/partnerSubId:\s*'([^']*)'/)?.[1] |
 const AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG ?? configAmazonTag).trim();
 const PARTNER_SUB_ID = (process.env.PARTNER_SUB_ID ?? configSubId).trim();
 const DISCORD_WEBHOOK_URL = (process.env.DISCORD_WEBHOOK_URL || '').trim();
+
+const CANONICAL_URLS_BY_ID = {};
+for (const m of affiliatesSource.matchAll(/\{\s*id:\s*'([^']+)',[\s\S]*?merchantUrl:\s*'([^']+)'/g)) {
+  CANONICAL_URLS_BY_ID[m[1]] = m[2];
+}
 
 const PROHIBITED_ADULT_DOMAINS = [
   'lovehoney.com',
@@ -86,7 +92,8 @@ const AFFILIATE_URLS = {
   },
 };
 
-function decorateAffiliateLink(productId, rawUrl, campaign) {
+function decorateAffiliateLink(productId, fallbackUrl, campaign) {
+  const rawUrl = CANONICAL_URLS_BY_ID[productId] || fallbackUrl;
   const parsed = new URL(rawUrl);
   const host = parsed.hostname.toLowerCase();
   for (const banned of PROHIBITED_ADULT_DOMAINS) {
