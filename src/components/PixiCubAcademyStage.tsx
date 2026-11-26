@@ -309,7 +309,10 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
         puppyGfx.circle(-13, -17, 2.5).fill({ color: 0xffffff });
         puppyRig.addChild(puppyGfx);
         const puppyTag = new PIXI.Text({
-          text: '🐶 Miso (Referee)',
+          text:
+            her.id === 'sloane-seedoil-bernedoodle-mommy'
+              ? '🐶 Miso (Referee)'
+              : '🐕 Barnaby (Referee)',
           style: {
             fontFamily: 'Plus Jakarta Sans, sans-serif',
             fontSize: 11,
@@ -718,7 +721,9 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
                 <div className="text-center">
                   <div className="text-2xl">{isGraduated ? '🦮💖👑' : '🔔〰️🦮'}</div>
                   <div className="text-[11px] font-bold text-[#FDE68A] mt-1">
-                    🐶 Miso Refereeing Live
+                    {her.id === 'sloane-seedoil-bernedoodle-mommy'
+                      ? '🐶 Miso Refereeing Live'
+                      : '🐕 Barnaby Refereeing Live'}
                   </div>
                 </div>
 

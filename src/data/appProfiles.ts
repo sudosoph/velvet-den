@@ -187,7 +187,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       '28, oatmeal cashmere, vintage watch, and allergic to startup talk after 8 PM? Intriguing.',
     ageShockQuipHim:
       'Quiet confidence blueprint: zero net-worth bragging, real manners, and genuine admiration.',
-    lookingFor: 'Long-term partnership with an accomplished woman (38, 60)',
+    lookingFor: 'Long-term partnership with an accomplished woman (38-60)',
     lookingForSubtext: 'Financially independent at 28; dates for intellectual and emotional warmth.',
     interests: ['Cortados', 'Burgundy Pinot', 'Brown-Butter Halibut', 'Art Bookstores', 'Big Sur Drives'],
     openingDm:
@@ -1150,7 +1150,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     activeAgo: 'Active 7m ago',
     spotifyAnthem: 'Frank Ocean • Pink + White',
     tinderBio:
-      '5\'3" night-shift trauma RN + golden retriever Rani 🐕 After 7 PM, 7 AM saving lives, I want sunlit canyon hikes, 7:30 AM street tacos, and zero mansplaining.',
+      '5\'3" night-shift trauma RN + golden retriever Rani 🐕 After 7 PM to 7 AM saving lives, I want sunlit canyon hikes, 7:30 AM street tacos, and zero mansplaining.',
     hingePromptQuestion: 'Veto power belongs to',
     hingePromptAnswer: 'Rani (my 65-lb golden retriever). Bring trail treats and you’re top 1%.',
     ageShockZoom: false,
@@ -1403,7 +1403,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     activeAgo: 'Active 3m ago',
     spotifyAnthem: 'LCD Soundsystem • All My Friends',
     tinderBio:
-      'Seeking my 6-year-gap match (31, 33M): old enough to remember burning CDs, young enough that I still tease you about 10th-grade geometry while I was ordering martinis.',
+      'Seeking my 6-year-gap match (31-33M): old enough to remember burning CDs, young enough that I still tease you about 10th-grade geometry while I was ordering martinis.',
     hingePromptQuestion: 'Sweet spot of a 6-year Junior Cougar gap',
     hingePromptAnswer:
       'Zero waiter side-eyes, 100% playful older-woman spark + Le Creuset dinner parties.',

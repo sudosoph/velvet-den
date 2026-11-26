@@ -47,7 +47,7 @@ import {
 } from '../domain/taxonomy';
 import { trackEvent } from '../lib/analytics';
 import { sfx } from '../lib/sound';
-import { buildDilemmaShareLink, encodeChallengeLink } from '../lib/viral';
+import { buildDilemmaShareLink, encodeChallengeLink, shareOrCopy } from '../lib/viral';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 interface PairingMixerViewProps {
@@ -232,6 +232,11 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
         ? `${window.location.origin}${window.location.pathname}`
         : BRAND_CONFIG.publicBaseUrl;
     const link = buildDilemmaShareLink(person.id, baseUrl);
+    void shareOrCopy({
+      title: `Send ${person.name} (${person.age}) to Bestie`,
+      text: link,
+      url: link,
+    });
     setSharePayload({
       title: `Send ${person.name} (${person.age}) to Bestie`,
       message: `👀 Group-chat check on ${person.name}, ${person.age} (${person.title}): "${person.shortHook}", Match or Pass?!`,

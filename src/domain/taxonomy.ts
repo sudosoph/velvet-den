@@ -469,7 +469,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     interests: ['Espresso Martinis', 'Coastal Drives', 'Architecture', 'Pilates', 'Palm Springs'],
   },
 
-  // === COMPLETE EVERY-YEAR ROSTER: 30s PUMAS & JUNIOR COUGARS (30, 39) ===
+  // === COMPLETE EVERY-YEAR ROSTER: 30s PUMAS & JUNIOR COUGARS (30-39) ===
   {
     id: 'tessa-somm-puma',
     name: 'Tessa',
@@ -479,7 +479,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     tagline:
       'Turned 30, opened her own candlelit wine bar, and immediately banned bare-mattress situationships.',
     vibeSummary:
-      '30F blonde hospitality founder who pairs orange wines by candlelight and loves confident 24, 27 Cubs who actually make reservations.',
+      '30F blonde hospitality founder who pairs orange wines by candlelight and loves confident 24-27 Cubs who actually make reservations.',
     secretInsecurity:
       'Freshly 30 and pouring everything into her first business, hopes he brings calm support instead of 2 AM bar-crawl drama.',
     subplotTags: ['junior_cougar_gap', 'princess_treatment', 'solo_sanctuary'],
@@ -1100,7 +1100,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     interests: ['Design Museums', 'Tailored Coats', 'Jazz Vinyl', 'Espresso'],
   },
 
-  // === COMPLETE EVERY-YEAR ROSTER: 60s+ PANTHERS (60, 64) ===
+  // === COMPLETE EVERY-YEAR ROSTER: 60s+ PANTHERS (60-64) ===
   {
     id: 'blythe-cabaret-panther',
     name: 'Blythe',
@@ -1110,7 +1110,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     tagline:
       'Entered her 60s directing sold-out shows and breaking necks in sharp black suiting.',
     vibeSummary:
-      '60F stage director with a bold platinum pixie cut and mischievous eyes. Treats society’s double standards like comedy material and rewards confident 28, 35 Cubs.',
+      '60F stage director with a bold platinum pixie cut and mischievous eyes. Treats society’s double standards like comedy material and rewards confident 28-35 Cubs.',
     secretInsecurity:
       'Zero shame about 60, only checks that her Cub walks into opening-night parties proud beside her.',
     subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
@@ -1243,7 +1243,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     tagline:
       '6\'3" former small-college wide receiver raised on a Montana cattle ranch: Stetson hat, country-boy manners, and zero fear of public headlines.',
     vibeSummary:
-      'The exact reason thousands of 37, 48 women lowered their age slider! Accidentally commented "I love you" from his buddies’ shared ranch account before sliding in properly, flies out on 12 hours’ notice, and carries both suitcases in one hand.',
+      'The exact reason thousands of 37-48 women lowered their age slider! Accidentally commented "I love you" from his buddies’ shared ranch account before sliding in properly, flies out on 12 hours’ notice, and carries both suitcases in one hand.',
     secretInsecurity:
       'Every comment section yells "He’s 25 from Montana!!", so he proves with steady actions, yes-ma’am chivalry, and ranch-hand grit that he isn’t chasing clout.',
     subplotTags: ['golden_retriever_energy', 'montana_cowboy_slider', 'spontaneous_getaway', 'princess_treatment', 'trail_leash_boss'],
@@ -1269,7 +1269,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     age: 28,
     title: 'Early-Anthropic AI Researcher • Vested SF/NYC Cub',
     shortHook:
-      'Joined Anthropic early, quietly vested at 28, zero tech-bro flash, exclusively courts accomplished women 38, 60.',
+      'Joined Anthropic early, quietly vested at 28, zero tech-bro flash, exclusively courts accomplished women 38-60.',
     tagline:
       'Early frontier-AI safety researcher with vested equity, oatmeal cashmere, and zero patience for 23-year-old clout chasers.',
     vibeSummary:
@@ -1338,7 +1338,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     shortHook: '32yo architect who takes 100% of the Friday planning lead for Cougars & Jaguars 45+.',
     tagline: '30s "Cub Daddy" architect who solely dates Jaguars & Cougars 45+, books every table, and lets her turn her brain off.',
     vibeSummary:
-      'Proof that 30+ men are top-tier Cubs when paired with a 45, 64 Cougar/Jaguar/Panther. Zero roommate drama, calm baritone authority, and maximum princess-treatment game.',
+      'Proof that 30+ men are top-tier Cubs when paired with a 45-64 Cougar/Jaguar/Panther. Zero roommate drama, calm baritone authority, and maximum princess-treatment game.',
     secretInsecurity:
       'Wonders if her adult kids (nearly his age) will treat Sunday brunch like a hostile deposition.',
     subplotTags: ['cub_daddy_zaddy', 'princess_treatment', 'adult_children'],
@@ -1661,7 +1661,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     tagline:
       'Old enough to remember CD binders, young enough to carry every case of Barolo up two flights.',
     vibeSummary:
-      '31M wine director who exclusively dates women 37, 62 because conversation, confidence, and palate actually match.',
+      '31M wine director who exclusively dates women 37-62 because conversation, confidence, and palate actually match.',
     secretInsecurity:
       'Hopes she sees him as long-term partner material, not just the fun wine guy.',
     subplotTags: ['princess_treatment', 'houseboy_eager'],
@@ -1681,7 +1681,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     name: 'Grant',
     age: 33,
     title: '33M Cardiothoracic Fellow • Jaguar Specialist',
-    shortHook: '33M silver-fox-in-training who exclusively courts 45, 64 Cougars, Jaguars & Panthers.',
+    shortHook: '33M silver-fox-in-training who exclusively courts 45-64 Cougars, Jaguars & Panthers.',
     tagline:
       'Zero roommates, zero games, 6\'2" in tailored wool, built specifically for powerhouse women in their 40s, 50s, and 60s.',
     vibeSummary:
@@ -1692,7 +1692,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     portraitVariant: 'architect',
     photoUrl: './images/cast/grant-33m.jpg',
     lookBadge: 'Tailored Collar • Dark Eyes • 6\'2"',
-    statusPill: 'MD Fellow • Dates 43, 64 Only',
+    statusPill: 'MD Fellow • Dates 43-64 Only',
     zodiac: '♏ Scorpio Sun • ♑ Capricorn Mars',
     height: '6\'2"',
     loveLanguage: 'Phone-Off Weekends & Total Devotion',
@@ -1706,7 +1706,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'lynx',
     label: 'Lynx',
-    ageRange: 'Ages 22, 29',
+    ageRange: 'Ages 22-29',
     category: 'feline_scale',
     headline: 'Pre-Puma Apprentice',
     insiderLore:
@@ -1716,7 +1716,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'junior_cougar',
     label: 'Junior Cougar',
-    ageRange: '5, 9 Year Age Gap (e.g. 6 Yrs)',
+    ageRange: '5-9 Year Age Gap (e.g. 6 Yrs)',
     category: 'feline_scale',
     headline: 'The Sub-10-Year Sweet-Spot Contender',
     insiderLore:
@@ -1726,7 +1726,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'puma',
     label: 'Puma',
-    ageRange: 'Ages 30, 39',
+    ageRange: 'Ages 30-39',
     category: 'feline_scale',
     headline: 'Official Under-40 Age-Gap Contender',
     insiderLore:
@@ -1736,7 +1736,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'cougar',
     label: 'Cougar',
-    ageRange: 'Ages 40, 49 (10+ Yr Gap)',
+    ageRange: 'Ages 40-49 (10+ Yr Gap)',
     category: 'feline_scale',
     headline: 'The Benchmark Standard of The Cougar Den',
     insiderLore:
@@ -1746,7 +1746,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'princess_cougar',
     label: 'Princess Cougar',
-    ageRange: 'Any Age • Pure Sweeping Romance (30s, 60s+)',
+    ageRange: 'Any Age • Pure Sweeping Romance (30s to 60s+)',
     category: 'crossover_lore',
     headline: 'Pure Old-School Courtship, Flowers & Hand-Kissing at Any Age',
     insiderLore:
@@ -1756,7 +1756,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'jaguar',
     label: 'Jaguar',
-    ageRange: 'Ages 50, 59',
+    ageRange: 'Ages 50-59',
     category: 'feline_scale',
     headline: 'Sleek Gen-X Apex',
     insiderLore:
@@ -1786,7 +1786,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'cub_daddy_zaddy_lore',
     label: '🥂 "Cub Daddy" / Junior Zaddy',
-    ageRange: 'Ages 25, 35 • Decisive Lead',
+    ageRange: 'Ages 25-35 • Decisive Lead',
     category: 'cub_taxonomy',
     headline: 'Younger in Birth Year, Full Grown-Man Authority at the Table',
     insiderLore:
@@ -1796,7 +1796,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'soft_mommy_domme_lore',
     label: '👑 Soft Mommy-Domme & "Good Boy" Praise',
-    ageRange: 'Consensual Polarity • Ages 35, 64+',
+    ageRange: 'Consensual Polarity • Ages 35-64+',
     category: 'crossover_lore',
     headline: 'Velvet Romantic Command & Praise (Never an ATM!)',
     insiderLore:
@@ -2016,7 +2016,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'pop_stella_cinema',
     label: 'How Stella Got Her Groove Back & The Cinema Canon',
-    ageRange: '1967, 2026 Age-Gap Film Hall of Fame',
+    ageRange: '1967-2026 Age-Gap Film Hall of Fame',
     category: 'pop_culture',
     headline: 'Stella, The Graduate, Babygirl, The Idea of You, Bridget Jones, The Rebound & Good Sex',
     insiderLore:
@@ -2086,7 +2086,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'pop_cougar_town',
     label: '"Cougar Town" & Jules Cobb’s Big Carl',
-    ageRange: '2009, 2015 Sitcom Royalty',
+    ageRange: '2009-2015 Sitcom Royalty',
     category: 'pop_culture',
     headline: 'Giant Wine Glasses, Florida Sunshine & Post-Divorce Joy',
     insiderLore:
@@ -2392,18 +2392,18 @@ export function getProfileDetails(profile: HerArchetype | HisArchetype) {
     'Weekend Escapes',
   ];
   return {
-    zodiac: (profile.zodiac ?? '♏ Scorpio Sun • ♌ Leo Rising').replace(/\s*[, , ]\s*/g, ' • '),
+    zodiac: (profile.zodiac ?? '♏ Scorpio Sun • ♌ Leo Rising').replace(/\s*[—–]+\s*/g, ' • '),
     height: profile.height ?? '5\'8"',
-    loveLanguage: (profile.loveLanguage ?? 'Intentional Effort & Touch').replace(/\s*[, , ]\s*/g, ', '),
+    loveLanguage: (profile.loveLanguage ?? 'Intentional Effort & Touch').replace(/\s*[—–]+\s*/g, ', '),
     originOrAccent: profile.originOrAccent ?? 'Cosmopolitan Charm',
-    signatureDrink: (profile.signatureDrink ?? 'Espresso Martini').replace(/\s*[, , ]\s*/g, ', '),
-    statusPill: (profile.statusPill ?? 'Solo Sanctuary').replace(/\s*[, , ]\s*/g, ' • '),
+    signatureDrink: (profile.signatureDrink ?? 'Espresso Martini').replace(/\s*[—–]+\s*/g, ', '),
+    statusPill: (profile.statusPill ?? 'Solo Sanctuary').replace(/\s*[—–]+\s*/g, ' • '),
     interests: rawInterests.map((s) => s.trim()),
     idealSunday:
       delight?.idealSunday ?? 'Slow morning coffee, farmers market stroll, and unhurried dinner',
     softSpot:
       delight?.softSpot ?? 'Thoughtful plans, real curiosity, and keeping phones off the table',
-    petName: 'petName' in profile && profile.petName ? profile.petName.replace(/\s*[, , ]\s*/g, ' • ') : undefined,
+    petName: 'petName' in profile && profile.petName ? profile.petName.replace(/\s*[—–]+\s*/g, ' • ') : undefined,
   };
 }
 

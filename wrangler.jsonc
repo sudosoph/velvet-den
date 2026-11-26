@@ -24,7 +24,7 @@
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*", "/", "/index.html", "/guides", "/guides/*"]
+    "run_worker_first": ["/api/*", "/ingest", "/ingest/*", "/", "/index.html", "/guides", "/guides/*"]
   },
   "kv_namespaces": [
     {

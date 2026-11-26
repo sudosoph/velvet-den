@@ -535,7 +535,7 @@ function humanizeChatText(
   options?: { role?: 'her' | 'him'; age?: number; singleLine?: boolean },
 ): string {
   let cleaned = raw
-    .replace(/\s*[, , ]\s*/g, ', ')
+    .replace(/\s*[—–]+\s*/g, ', ')
     .replace(/\s*;\s*/g, '. ')
     // Strip bio-reciting openers like "As a 41-year-old Malibu surfer, ..."
     .replace(/^\s*as\s+a\s+\d{2}(?:-year-old|yo)?\s+[^,.!?]+,\s*/i, '');

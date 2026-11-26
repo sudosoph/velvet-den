@@ -1,6 +1,7 @@
 import type { PairingAnalysis } from './taxonomy';
 import { APP_SWIPE_PROFILES, HER_SWIPE_PROFILES } from '../data/appProfiles';
 import { EPISODES, type Episode, type StatDeltas } from '../data/episodes';
+import { DEFAULT_MATCH_STATS, loadMatchCareer } from './matchCareer';
 
 export interface Stats {
   maturity: number;
@@ -515,42 +516,45 @@ export function createCharacterDateRun(
   const stageWindow =
     dateStage === 0 ? [1, 2] : dateStage === 1 ? [3, 4] : [5, 6];
   const inWindow = fullQueue.filter((ep) => stageWindow.includes(ep.stage));
+  const houseboyEp =
+    dateStage === 1 ? inWindow.find((ep) => ep.id === 'houseboy-sunday-sanctuary') : undefined;
 
   const prioritized = [
-    ...inWindow.filter((ep) => PRIORITY_CUSTOM_EPISODE_IDS.has(ep.id)),
+    ...inWindow.filter(
+      (ep) => PRIORITY_CUSTOM_EPISODE_IDS.has(ep.id) && ep.id !== 'houseboy-sunday-sanctuary',
+    ),
     ...inWindow.filter(
       (ep) =>
         ep.id === 'princess-soft-life' ||
         ep.id === 'soft-mommy-domme-good-boy-command' ||
         ep.id === 'cub-daddy-zaddy-dinner-takeover' ||
-        ep.id === 'houseboy-sunday-sanctuary' ||
         ep.id.startsWith('milestone-'),
     ),
-    ...inWindow,
-    ...fullQueue,
+    ...inWindow.filter((ep) => ep.id !== 'houseboy-sunday-sanctuary'),
+    ...fullQueue.filter((ep) => ep.id !== 'houseboy-sunday-sanctuary'),
   ];
 
   const picked: Episode[] = [];
+  const targetBeforeCap = houseboyEp ? 2 : 3;
   for (const ep of prioritized) {
-    if (picked.length >= 3) break;
+    if (picked.length >= targetBeforeCap) break;
     if (!picked.some((p) => p.id === ep.id)) {
       picked.push(ep);
     }
   }
+  if (houseboyEp && !picked.some((p) => p.id === houseboyEp.id)) {
+    picked.push(houseboyEp);
+  }
 
-  const initialStats: Stats = priorStats
-    ? {
-        maturity: clampStat(priorStats.maturity),
-        chivalry: clampStat(priorStats.chivalry),
-        eq: clampStat(priorStats.eq),
-        chemistry: clampStat(priorStats.chemistry),
-      }
-    : {
-        maturity: 50,
-        chivalry: 50,
-        eq: 50,
-        chemistry: 50,
-      };
+  const targetMatchId = pairing.role === 'her' ? pairing.his.id : pairing.her.id;
+  const careerStats = priorStats ?? loadMatchCareer().statsByMatchId[targetMatchId] ?? DEFAULT_MATCH_STATS;
+
+  const initialStats: Stats = {
+    maturity: clampStat(careerStats.maturity),
+    chivalry: clampStat(careerStats.chivalry),
+    eq: clampStat(careerStats.eq),
+    chemistry: clampStat(careerStats.chemistry),
+  };
 
   return {
     pairing,

@@ -668,7 +668,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     🐆 Puma / Cougar / Jaguar
                   </option>
                   <option value="cub" className="text-[#18101E]">
-                    🐕 Vetted Cub (21, 35)
+                    🐕 Vetted Cub (21-35)
                   </option>
                 </select>
                 <input

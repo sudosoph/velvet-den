@@ -710,7 +710,7 @@ export const EPISODES: Episode[] = [
     setupHer:
       'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: with **Sienna Miller & Oli Green** and **Ellie Goulding & Beau Minniear** welcoming babies with their 20s Cubs all over the headlines, everyone assumes you’re either rushing a baby clock or playing casual, when you actually want real intentionality.',
     setupHim:
-      '{herName} is {herAge}, radiant, thriving, and crystal clear: whether a couple goes the **Sienna Miller / Ellie Goulding** Cougar-Cub baby route or stays one-and-done, she refuses to spend ages 36, 41 in vague "let’s see where things go" situationship limbo.',
+      '{herName} is {herAge}, radiant, thriving, and crystal clear: whether a couple goes the **Sienna Miller / Ellie Goulding** Cougar-Cub baby route or stays one-and-done, she refuses to spend ages 36 to 41 in vague "let’s see where things go" situationship limbo.',
     choices: [
       {
         labelHer: 'Align on an intentional 1-to-2 year partnership roadmap, exclusive, proud, and crystal clear on family goals.',
@@ -1143,7 +1143,7 @@ export const EPISODES: Episode[] = [
     stage: 6,
     allowedTiers: ['panther'],
     title: 'Stage 6 Finale: "When I’m 75 and You’re 45..."',
-    loreQuote: 'Real-World Quote • "25, 35 year gaps, talking honestly about aging timelines and choosing real love today"',
+    loreQuote: 'Real-World Quote • "25-35 year gaps, talking honestly about aging timelines and choosing real love today"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'fertility_talk',
@@ -1896,7 +1896,7 @@ export const EPISODES: Episode[] = [
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
-        labelHer: 'Put concrete numbers on the table together, discovering that meeting in the middle (12, 18 months, zero vague drifting) excites both of you.',
+        labelHer: 'Put concrete numbers on the table together, discovering that meeting in the middle (12 to 18 months, zero vague drifting) excites both of you.',
         labelHim: 'Replace vague "someday" talk with a real shared timeline: "I don’t need six extra years, when you find the right person, you sync watches together."',
         outcomeHer:
           'All the 2 AM math anxiety vanished the moment he put real dates on the calendar willingly. Synced watches beat identical birth years every time.',
@@ -4395,7 +4395,7 @@ export const EPISODES: Episode[] = [
     recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     title: '🧠 The Early-Anthropic AI Cub: Quiet Liquidity, Cashmere & Why He Filters 38+',
     loreQuote:
-      'Modern SF/NYC Twist • "He joined Anthropic at 24, quietly vested at 28, wears unbranded cashmere, and only dates women 38, 58 because 23-year-olds treat him like a startup ATM."',
+      'Modern SF/NYC Twist • "He joined Anthropic at 24, quietly vested at 28, wears unbranded cashmere, and only dates women 38-58 because 23-year-olds treat him like a startup ATM."',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',

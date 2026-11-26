@@ -221,9 +221,8 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
     );
 
     if (storyId === dailyStory.id) {
-      if (onGrantBonusCredits(`daily_drop_${dropNum}`, 2)) {
-        setCreditToast('🎉 +2 Bonus Credits for voting in Today’s Daily Red Flag Drop!');
-      }
+      onGrantBonusCredits(`daily_drop_${dropNum}`, 0);
+      setCreditToast('🎉 +15 Club XP & Dateodex stamp recorded for Today’s Daily Red Flag Drop!');
     }
 
     if (isLiveHttpRuntime()) {
@@ -292,9 +291,8 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
     setStoryInput('');
     setPitchStatus('Submitted to the Live Courtroom! Top-voted Friday stories get animated into playable scenes.');
 
-    if (onGrantBonusCredits('courtroom_story_pitch', 2)) {
-      setCreditToast('🎉 +2 Bonus Credits added for pitching a real scenario!');
-    }
+    onGrantBonusCredits('courtroom_story_pitch', 0);
+    setCreditToast('🎉 +15 Club XP earned for pitching a real scenario to the Greenlight Board!');
 
     if (isLiveHttpRuntime()) {
       try {
@@ -330,7 +328,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
 
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
-            <span>🐆 Cougars (35, 65F) Voted:</span>
+            <span>🐆 Cougars (35-65F) Voted:</span>
             <span>
               <strong className="text-[#059669]">{herCrownPct}% 👑 Crown</strong> •{' '}
               <strong className="text-[#E11D48]">{herDumpPct}% 🚩 Dump</strong>
@@ -344,7 +342,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
 
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
-            <span>🐕 Cubs (21, 34M) Guessed:</span>
+            <span>🐕 Cubs (21-34M) Guessed:</span>
             <span>
               <strong className="text-[#059669]">{himCrownPct}% 👑 Crown</strong> •{' '}
               <strong className="text-[#E11D48]">{himDumpPct}% 🚩 Dump</strong>
@@ -404,7 +402,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold uppercase text-[#18101E]">
               <Flame className="h-3.5 w-3.5 fill-[#E11D48] text-[#E11D48]" />
-              <span>Today’s Daily Drop #{dropNum} • +2 Cr</span>
+              <span>Today’s Daily Drop #{dropNum} • +15 XP</span>
             </span>
             <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-bold text-[#FDE68A]">
               {dailyStory.aslTag} • {dailyStory.vibeBadge}
@@ -530,7 +528,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
         <aside className="vice-panel rounded-3xl p-5 bg-[#FFFDF9] space-y-3.5 lg:sticky lg:top-20">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-[#FEF3C7] px-3 py-1 text-[11px] font-extrabold uppercase text-[#92400E]">
             <Sparkles className="h-3.5 w-3.5 text-[#D97706]" />
-            <span>Greenlight Board • +2 Free Credits</span>
+            <span>Greenlight Board • +15 XP &amp; Dateodex</span>
           </div>
 
           <h3 className="font-display text-xl text-[#18101E]">
@@ -590,7 +588,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
               className="pop-btn w-full h-11 rounded-2xl bg-gradient-to-r from-[#E11D48] to-[#FF6036] text-xs sm:text-sm font-extrabold text-white border-transparent inline-flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Send className="h-3.5 w-3.5" />
-              <span>Submit Case to Courtroom (+2 Cr)</span>
+              <span>Submit Case to Courtroom (+15 XP)</span>
             </button>
           </form>
 

@@ -305,22 +305,28 @@ function getTinderQuickChips(
     ];
   }
 
-  const isQigongMommy =
-    contact.id === 'sedona-qigong-mommy' || contact.id === 'sloane-seedoil-bernedoodle-mommy';
+  const isSedona = contact.id === 'sedona-qigong-mommy';
+  const isSloane = contact.id === 'sloane-seedoil-bernedoodle-mommy';
 
   if (steamyMode) {
     return turnCount === 0
-      ? isQigongMommy
+      ? isSedona
         ? [
-            'Yes, Mommy. Tea steeped and shoulders relaxed for eight sharp 🍵',
-            'Still thinking about this morning. When can I see you tonight?',
-            'Wait can Mommy put my gym membership on her AmEx?? 😂',
+            'Jasmine oolong steeped and shoulders relaxed for eight sharp tonight 🍵',
+            'Still thinking about dawn Cloud Hands. When can I see you tonight?',
+            'Wait can you put my gym membership on your AmEx?? 😂',
           ]
-        : [
-            'Still thinking about last night. Let me cook for you at eight 🍷',
-            'Cleared my whole evening for you. Name the time ✨',
-            'Wait is your little sister cute too?? 😂',
-          ]
+        : isSloane
+          ? [
+              'Grass-fed ghee ribeye sizzling for eight sharp tonight (plus a treat for Miso) 🍷',
+              'Cleared my whole evening for you and Miso. Name the time ✨',
+              'Wait is your little sister cute too?? 😂',
+            ]
+          : [
+              'Still thinking about last night. Let me cook for you at eight 🍷',
+              'Cleared my whole evening for you. Name the time ✨',
+              'Wait is your little sister cute too?? 😂',
+            ]
       : [
           'Picking up ribeye and flowers on my way over.',
           'Phone’s going on Do Not Disturb the second I walk in 🥂',
@@ -337,11 +343,18 @@ function getTinderQuickChips(
   }
 
   if (turnCount === 0) {
-    if (isQigongMommy) {
+    if (isSedona) {
       return [
-        'Yes, Mommy. Courtyard at 6:30 AM sharp, zero podcast lectures 🍵',
-        'Booked a seed-oil-free corner table Friday at 7:30 for us ✨',
+        'Courtyard Tai Chi at 6:30 AM sharp, zero podcast lectures 🍵',
+        'Steeping jasmine oolong after dinner if you are free Friday at 7:30 ✨',
         'Well actually let me explain breathwork from a podcast I heard',
+      ];
+    }
+    if (isSloane) {
+      return [
+        'Booked a 100% seed-oil-free corner table Friday at 7:30 (plus a treat for Miso) ✨',
+        'Grass-fed ghee ribeye at my place Sunday if Miso approves 🐾',
+        'hey can we grab drive-thru canola fries & add my snap??',
       ];
     }
     return [
@@ -744,9 +757,17 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const [memoryBonusByThread, setMemoryBonusByThread] = useState<Record<string, string>>({});
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
-  const [progression, setProgression] = useState<PersistedInboxProgression>(() =>
-    loadInboxProgression(),
-  );
+  const [progression, setProgression] = useState<PersistedInboxProgression>(() => {
+    const base = loadInboxProgression();
+    const career = loadMatchCareer();
+    const mergedUnlocked = Array.from(
+      new Set([...base.unlockedImessageIds, ...career.unlockedImessageIds]),
+    );
+    return {
+      ...base,
+      unlockedImessageIds: mergedUnlocked,
+    };
+  });
   const [subplotGuessFeedback, setSubplotGuessFeedback] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -838,9 +859,15 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
   const filteredContacts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    const earnedSet = new Set(careerState.matchedIds);
-    return INBOX_CONTACTS.filter((c) => {
+    const earnedSet = new Set([
+      ...careerState.matchedIds,
+      ...careerState.unlockedImessageIds,
+      ...progression.unlockedImessageIds,
+      ...(preferredContactId ? [preferredContactId] : []),
+    ]);
+    const matchedOnly = INBOX_CONTACTS.filter((c) => {
       if (c.role !== matchRole) return false;
+      if (!earnedSet.has(c.id)) return false;
       if (!q) return true;
       return (
         c.name.toLowerCase().includes(q) ||
@@ -849,8 +876,19 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         c.zodiac.toLowerCase().includes(q) ||
         c.interests.some((i) => i.toLowerCase().includes(q))
       );
-    }).sort((a, b) => Number(earnedSet.has(b.id)) - Number(earnedSet.has(a.id)));
-  }, [matchRole, searchQuery, careerState.matchedIds]);
+    });
+    if (matchedOnly.length > 0) return matchedOnly;
+    if (!q && selected.role === matchRole) return [selected];
+    return [];
+  }, [
+    matchRole,
+    searchQuery,
+    careerState.matchedIds,
+    careerState.unlockedImessageIds,
+    progression.unlockedImessageIds,
+    preferredContactId,
+    selected,
+  ]);
 
   const memoryBonusHitCount = (contactId: string): number =>
     memoryBonusByThread[contactId] ? 1 : 0;
@@ -897,11 +935,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   }, [selected.id, selected.role, selected.age]);
 
   const sparksForSelected = getSparksForContact(selected.id);
-  const isNumberEarnedForSelected = progression.unlockedImessageIds.includes(selected.id);
+  const isNumberEarnedForSelected =
+    progression.unlockedImessageIds.includes(selected.id) ||
+    careerState.unlockedImessageIds.includes(selected.id);
   const isFlirtEarnedForSelected =
-    progression.flirtUnlockedIds.includes(selected.id) ||
-    isNumberEarnedForSelected ||
-    sparksForSelected >= 2;
+    progression.flirtUnlockedIds.includes(selected.id) || isNumberEarnedForSelected;
 
   const earnedImessageContacts = useMemo(
     () => filteredContacts.filter((c) => progression.unlockedImessageIds.includes(c.id)),
@@ -1020,16 +1058,18 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     return onSpendCreditOrOpenBoutique();
   };
 
-  const unlockContactOffApp = (contactId: string, grantRewardKey?: string) => {
+  const unlockContactOffApp = (contactId: string, grantRewardKey?: string): boolean => {
+    const alreadyUnlockedIds = Array.from(
+      new Set([...progression.unlockedImessageIds, ...careerState.unlockedImessageIds]),
+    );
     const isSecondOrLaterMatch =
-      progression.unlockedImessageIds.length >= 1 &&
-      !progression.unlockedImessageIds.includes(contactId);
+      alreadyUnlockedIds.length >= 1 && !alreadyUnlockedIds.includes(contactId);
     if (isSecondOrLaterMatch && !wallet.isVip && !wallet.isFounderUnlimited) {
       if (!spendTwoCredits()) {
         setCallBanner(
           '🔒 Match #1 Off-App iMessage is free! Unlocking a 2nd+ Off-App number uses 2 Credits (or Unlimited w/ VIP).',
         );
-        return;
+        return false;
       }
     }
     updateProgression((prev) => ({
@@ -1041,6 +1081,16 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         ? prev.flirtUnlockedIds
         : [...prev.flirtUnlockedIds, contactId],
     }));
+    setCareerState((prev) => {
+      const next: MatchCareerState = {
+        ...prev,
+        unlockedImessageIds: prev.unlockedImessageIds.includes(contactId)
+          ? prev.unlockedImessageIds
+          : [...prev.unlockedImessageIds, contactId],
+      };
+      saveMatchCareer(next);
+      return next;
+    });
     trackEvent('imessage_unlocked', {
       contact_id: contactId,
       second_or_later: isSecondOrLaterMatch,
@@ -1048,6 +1098,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     if (grantRewardKey) {
       onGrantBonusCredits?.(grantRewardKey, 0);
     }
+    return true;
   };
 
   const handleGuessMysterySuspect = (suspect: InboxContact) => {
@@ -1065,9 +1116,21 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           [activePlayerRole]: 3,
         },
       }));
-      onGrantBonusCredits?.(`discord_subplot_${activePlayerRole}`, 3);
+      setCareerState((prev) => {
+        const next: MatchCareerState = {
+          ...prev,
+          matchedIds: prev.matchedIds.includes(mysteryTargetContact.id)
+            ? prev.matchedIds
+            : [mysteryTargetContact.id, ...prev.matchedIds],
+          unlockedImessageIds: prev.unlockedImessageIds.includes(mysteryTargetContact.id)
+            ? prev.unlockedImessageIds
+            : [...prev.unlockedImessageIds, mysteryTargetContact.id],
+        };
+        saveMatchCareer(next);
+        return next;
+      });
       setSubplotGuessFeedback(
-        `🎭 BUSTED! ${mysteryHandle} is ${mysteryTargetContact.name}, ${mysteryTargetContact.age}! +3 Bonus Credits & real iMessage number unlocked!`,
+        `🎭 BUSTED! ${mysteryHandle} is ${mysteryTargetContact.name}, ${mysteryTargetContact.age}! Real Off-App iMessage number unlocked!`,
       );
     } else {
       sfx.redFlag();
@@ -1289,9 +1352,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         !isNumberEarnedForSelected &&
         (newSparkTotal >= 2 || (askedOffApp && sparksForSelected >= 1))
       ) {
-        justEarnedOffApp = true;
-        sfx.victoryFanfare();
-        unlockContactOffApp(selected.id, 'first_off_app_win');
+        justEarnedOffApp = unlockContactOffApp(selected.id, 'first_off_app_win');
+        if (justEarnedOffApp) {
+          sfx.victoryFanfare();
+        }
       } else {
         sfx.greenFlag();
       }
@@ -1317,7 +1381,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           }));
           if (nextStage >= 3 && subplotStage < 3) {
             sfx.victoryFanfare();
-            onGrantBonusCredits?.(`discord_subplot_${activePlayerRole}`, 3);
           }
         } else if (subplotStage === 0) {
           updateProgression((prev) => ({
@@ -1423,7 +1486,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       note: clean,
       optionalContact: teaContact.trim().slice(0, 120) || undefined,
     });
-    onGrantBonusCredits?.('tea_story_submitted', 3);
     setTeaStory('');
     setTeaContact('');
     setTeaSubmitted(true);
@@ -1512,7 +1574,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 ? 'Land 2 green-flag lines to earn Flirt Mode & move off-app to iMessage'
                 : platform === 'imessage'
                   ? 'Personal numbers you earned off Tinder with separate off-app threads'
-                  : 'Anonymous community chat + unmask the Mystery Regular (+3 Cr)'}
+                  : 'Anonymous community chat + unmask the Mystery Regular for a free Off-App #'}
             </div>
           </div>
         </div>
@@ -1630,6 +1692,26 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     : `Flirt Mode (${sparksForSelected}/2)`}
                 </span>
               </button>
+              {!isFlirtEarnedForSelected && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!spendTwoCredits()) return;
+                    sfx.victoryFanfare();
+                    updateProgression((prev) => ({
+                      ...prev,
+                      flirtUnlockedIds: prev.flirtUnlockedIds.includes(selected.id)
+                        ? prev.flirtUnlockedIds
+                        : [...prev.flirtUnlockedIds, selected.id],
+                    }));
+                    setSteamyMode(true);
+                    setCallBanner(`🔥 Early Flirt Mode boosted for ${selected.name}!`);
+                  }}
+                  className="inline-flex h-8 items-center gap-1 rounded-full bg-[#FFF0F5] px-2.5 text-[11px] font-extrabold text-[#E11D48] hover:bg-[#FFE4E6] cursor-pointer"
+                >
+                  <span>🔥 Boost Flirt (2 Cr)</span>
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -1952,7 +2034,14 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   <span>tinder</span>
                 </div>
                 <span className="rounded-full bg-black/20 px-2.5 py-0.5 text-[11px] font-bold text-white/95">
-                  {filteredContacts.length} {matchRole === 'him' ? 'Cubs' : 'Matches'}
+                  {filteredContacts.length}{' '}
+                  {filteredContacts.length === 1
+                    ? matchRole === 'him'
+                      ? 'Cub'
+                      : 'Match'
+                    : matchRole === 'him'
+                      ? 'Cubs'
+                      : 'Matches'}
                 </span>
               </div>
 
@@ -1967,6 +2056,19 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 />
               </div>
             </div>
+
+            {filteredContacts.length <= 1 && !searchQuery && (
+              <div className="bg-[#FFFBEB] border-b border-[#FDE68A] px-3.5 py-2 flex items-center justify-between gap-2 text-[11px] font-extrabold text-[#92400E]">
+                <span>1 Starter Match • Swipe to Match With More!</span>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="shrink-0 underline text-[#E11D48] cursor-pointer"
+                >
+                  Swipe →
+                </button>
+              </div>
+            )}
 
             <div className="border-b border-[#E5E7EB] px-3.5 py-2.5 bg-white">
               <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#FD267A] mb-2">
@@ -2540,11 +2642,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         {onOpenCubAcademyRehab && (
                           <button
                             type="button"
-                            onClick={() =>
-                              onOpenCubAcademyRehab(
-                                selected.role === 'him' ? selected.id : 'leo-golden-cub',
-                              )
-                            }
+                            onClick={() => onOpenCubAcademyRehab(selected.id)}
                             className="pop-btn rounded-xl bg-[#7C3AED] px-4 py-2 text-xs font-extrabold text-white border-transparent cursor-pointer"
                           >
                             🦮 Enroll in Cub Obedience School (Rehab) →
@@ -3349,9 +3447,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </div>
                 <p className="text-xs text-[#B5BAC1] leading-relaxed">
                   One cast member from the Roster is posting undercover as{' '}
-                  <strong className="text-white">{mysteryHandle}</strong>. Unmask them to win{' '}
-                  <strong className="text-[#57F287]">+3 Credits</strong> and unlock their real
-                  iMessage number!
+                  <strong className="text-white">{mysteryHandle}</strong>. Unmask them to unlock{' '}
+                  <strong className="text-[#57F287]">their real iMessage number</strong> for free!
                 </p>
 
                 {subplotStage === 0 ? (
@@ -3414,11 +3511,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               className="rounded-2xl border border-dashed border-[#3F4147] bg-[#2B2D31] p-3 space-y-2"
             >
               <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#FEE75C]">
-                🫖 Spill Anon Dating Tea (+3 Cr)
+                🫖 Spill Anon Dating Tea (Writers’ Vault)
               </div>
               {teaSubmitted ? (
                 <p className="text-xs font-bold text-[#10B981]">
-                  ✓ Sent to the Club Writers’ Vault (+3 Credits)!
+                  ✓ Sent to the Club Writers’ Vault!
                 </p>
               ) : (
                 <div className="flex gap-1.5">
@@ -3586,6 +3683,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         ? `${window.location.origin}${window.location.pathname}`
                         : BRAND_CONFIG.publicBaseUrl;
                     const link = buildDilemmaShareLink(selected.id, baseUrl);
+                    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+                      void navigator.clipboard.writeText(link).catch(() => {});
+                    }
                     setSharePayload({
                       title: `Send ${selected.name} (${selected.age}) to Bestie`,
                       message: `👀 Bestie check on ${selected.name}, ${selected.age} (${selected.title}): "${selected.tagline}"`,

@@ -101,7 +101,7 @@ const STATIC_GUIDES = [
     faqs: [
       {
         q: 'What age qualifies as a Cougar versus a Puma in dating?',
-        a: 'In age-gap dating etiquette, a Puma is a woman aged 30, 39 dating a younger partner, while a Cougar is a woman aged 40+ who is at least 10 years older than her partner.',
+        a: 'In age-gap dating etiquette, a Puma is a woman aged 30 to 39 dating a younger partner, while a Cougar is a woman aged 40+ who is at least 10 years older than her partner.',
       },
       {
         q: 'What does Cub mean in an older-woman younger-man relationship?',
@@ -190,7 +190,7 @@ const STATIC_GUIDES = [
     episodeId: 'code-switch-texting',
     paragraphs: [
       'Younger men who thrive in age-gap relationships master generational code-switching: keeping Gen-Z emotional literacy and consent awareness while dropping Snapchat requests, skull emojis, and vague "u tryna link" texts.',
-      'Calibrate to her cohort: Elder Millennial women (34, 45) love a quick text before a phone call plus a calendar dinner invite, while Gen-X women (46, 60) prefer a direct 6 PM phone call over all-day work texting.',
+      'Calibrate to her cohort: Elder Millennial women (34-45) love a quick text before a phone call plus a calendar dinner invite, while Gen-X women (46-60) prefer a direct 6 PM phone call over all-day work texting.',
     ],
     faqs: [
       {
@@ -272,7 +272,7 @@ const STATIC_GUIDES = [
     episodeId: 'cougar-perimenopause-surge-nightsweats',
     paragraphs: [
       'One of the best-kept secrets of 40s, 50s, and 60+ Cougar, Jaguar, and Panther relationships is how liberating intimacy becomes once communication replaces guesswork, including zero pregnancy scares in menopause.',
-      'In perimenopause (often ages 40, 51), women frequently experience dramatic 10 PM desire surges paired with 3 AM night sweats and temperature swings. High-EQ Cubs keep bedrooms at 62°F, upgrade to 100% bamboo viscose cooling sheets, and treat estradiol patches and unhurried foreplay as normal adult teamwork.',
+      'In perimenopause (often ages 40-51), women frequently experience dramatic 10 PM desire surges paired with 3 AM night sweats and temperature swings. High-EQ Cubs keep bedrooms at 62°F, upgrade to 100% bamboo viscose cooling sheets, and treat estradiol patches and unhurried foreplay as normal adult teamwork.',
     ],
     faqs: [
       {
@@ -442,7 +442,7 @@ const STATIC_GUIDES = [
       'The complete older-woman / younger-man movie master list: Catherine Zeta-Jones in The Rebound, Natalie Portman’s upcoming Netflix rom-com Good Sex, Babygirl, The Idea of You, Bridget Jones, How Stella Got Her Groove Back & Bull Durham.',
     episodeId: 'babygirl-hotel-bar-milk-or-martini',
     paragraphs: [
-      'From foundational Hollywood classics to the 2024, 2026 streaming explosion, older-woman / younger-man ("Cougar & Cub") cinema has evolved into one of the sharpest, funniest, and highest-grossing romance genres on earth.',
+      'From foundational Hollywood classics to the 2024-2026 streaming explosion, older-woman / younger-man ("Cougar & Cub") cinema has evolved into one of the sharpest, funniest, and highest-grossing romance genres on earth.',
       'Upcoming & New Wave: Natalie Portman leads Lena Dunham’s Netflix rom-com Good Sex as Ally, a 40-year-old NYC couples therapist torn between a 20-something Brooklyn creative (Tucker Pillsbury / Role Model) and a 50-something executive (Mark Ruffalo), right alongside Renée Zellweger & Leo Woodall in Bridget Jones: Mad About the Boy (2025), Nicole Kidman & Harris Dickinson in Babygirl (2024), Anne Hathaway & Nicholas Galitzine in The Idea of You (2024), Laura Dern & Liam Hemsworth in Lonely Planet (2024), and Nicole Kidman & Zac Efron in A Family Affair (2024).',
       '2000s, 2020s Rom-Com & Indie Favorites: Catherine Zeta-Jones set the modern post-divorce rom-com blueprint in The Rebound (2009) opposite 25-year-old coffee-shop barista Justin Bartha, joined by Good Luck to You, Leo Grande (Emma Thompson & Daryl McCormack), Cha Cha Real Smooth (Dakota Johnson & Cooper Raiff), Home Again (Reese Witherspoon & Pico Alexander), Hello I Must Be Going (Melanie Lynskey & Christopher Abbott), I Could Never Be Your Woman (Michelle Pfeiffer & Paul Rudd), Prime (Uma Thurman & Bryan Greenberg), and Keanu Reeves swooning over Diane Keaton in Something’s Gotta Give.',
       'Foundational Icons: Angela Bassett & Taye Diggs in How Stella Got Her Groove Back (1998), Susan Sarandon in both White Palace (1990, with James Spader) and Bull Durham (1988, mentoring rookie pitcher Tim Robbins), Harold and Maude (1971), The Graduate (1967), and All That Heaven Allows (1955).',

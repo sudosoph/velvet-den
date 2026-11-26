@@ -152,6 +152,21 @@ export default function App() {
   const initialSwipeProfileIdx =
     initialCubDeckIdx >= 0 ? initialCubDeckIdx : initialHerDeckIdx;
 
+  const initialArchetypeHer = useMemo(
+    () =>
+      initialUrl.dilemmaId
+        ? HER_ARCHETYPES.find((h) => h.id === initialUrl.dilemmaId)
+        : undefined,
+    [initialUrl.dilemmaId],
+  );
+  const initialArchetypeHis = useMemo(
+    () =>
+      initialUrl.dilemmaId
+        ? HIS_ARCHETYPES.find((c) => c.id === initialUrl.dilemmaId)
+        : undefined,
+    [initialUrl.dilemmaId],
+  );
+
   const [wallet, setWallet] = useState<WalletState>(() => {
     const base = loadWallet();
     if (initialUrl.unlockQuery) {
@@ -165,6 +180,8 @@ export default function App() {
   const [role, setRoleState] = useState<PlayerRole>(() => {
     if (initialHerDeckIdx >= 0) return 'him';
     if (initialCubDeckIdx >= 0) return 'her';
+    if (initialArchetypeHer) return 'him';
+    if (initialArchetypeHis) return 'her';
     if (!import.meta.env.VITEST && typeof window !== 'undefined') {
       try {
         const saved = window.localStorage.getItem('velvet_player_role_v1');
@@ -185,8 +202,9 @@ export default function App() {
       }
     }
   };
-  const [her, setHer] = useState<HerArchetype>(HER_ARCHETYPES[0]);
-  const [his, setHis] = useState<HisArchetype>(HIS_ARCHETYPES[0]);
+  const [her, setHer] = useState<HerArchetype>(() => initialArchetypeHer ?? HER_ARCHETYPES[0]);
+  const [his, setHis] = useState<HisArchetype>(() => initialArchetypeHis ?? HIS_ARCHETYPES[0]);
+  const [rehabTargetId, setRehabTargetId] = useState<string | null>(null);
   const [pacingMode, setPacingMode] = useState<RunPacingMode>('curated');
   const [customEditCount, setCustomEditCount] = useState<number>(0);
   const [selectedVipIds, setSelectedVipIds] = useState<string[]>([]);
@@ -915,9 +933,12 @@ export default function App() {
             initialPlatform={inboxInitialPlatform}
             onClose={() => setActiveTab('game')}
             onJumpToWorld={() => setActiveTab('world')}
-            onOpenCubAcademyRehab={(cubId) => {
-              const found = HIS_ARCHETYPES.find((c) => c.id === cubId);
-              if (found) setHis(found);
+            onOpenCubAcademyRehab={(targetId) => {
+              setRehabTargetId(targetId);
+              const foundHis = HIS_ARCHETYPES.find((c) => c.id === targetId);
+              const foundHer = HER_ARCHETYPES.find((h) => h.id === targetId);
+              if (foundHis) setHis(foundHis);
+              if (foundHer) setHer(foundHer);
               setAcademySubTab('obedience');
               setActiveTab('academy');
             }}
@@ -959,11 +980,21 @@ export default function App() {
             onGraduateCub={(hisId, herId) => {
               handleGainAdventureXp(45);
               const career = loadMatchCareer();
-              if (!career.rehabbedIds.includes(hisId)) {
-                career.rehabbedIds = [...career.rehabbedIds, hisId];
+              const idsToRehab = Array.from(
+                new Set([
+                  hisId,
+                  ...(rehabTargetId ? [rehabTargetId] : []),
+                  ...(role === 'him' ? [herId] : []),
+                ]),
+              );
+              for (const rid of idsToRehab) {
+                if (!career.rehabbedIds.includes(rid)) {
+                  career.rehabbedIds = [...career.rehabbedIds, rid];
+                }
+                career.unmatchedIds = career.unmatchedIds.filter((id) => id !== rid);
               }
-              career.unmatchedIds = career.unmatchedIds.filter((id) => id !== hisId);
               saveMatchCareer(career);
+              setRehabTargetId(null);
               trackEvent('cub_rehab_graduated', { cub_id: hisId });
               setDateodex((prev) =>
                 stampDateodexCharacters(

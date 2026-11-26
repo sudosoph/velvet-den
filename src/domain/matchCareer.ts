@@ -12,6 +12,13 @@ export type RelationshipStats = Stats;
 
 export const MATCH_CAREER_STORAGE_KEY = 'velvet_match_career_v34';
 
+export const DEFAULT_MATCH_STATS: RelationshipStats = {
+  maturity: 55,
+  chivalry: 55,
+  eq: 55,
+  chemistry: 55,
+};
+
 export interface VelvetDadbookProfile {
   fridayVibe: 'candlelit_bistro' | 'home_cooking' | 'spontaneous_escape';
   polarityStyle: 'princess_romance' | 'soft_good_boy' | 'witty_equal';
@@ -122,6 +129,10 @@ export function ensureStarterMatchForRole(
     dateStageByMatchId: {
       ...state.dateStageByMatchId,
       [starterId]: state.dateStageByMatchId[starterId] ?? 0,
+    },
+    statsByMatchId: {
+      ...state.statsByMatchId,
+      [starterId]: state.statsByMatchId[starterId] ?? { ...DEFAULT_MATCH_STATS },
     },
   };
   saveMatchCareer(next);
