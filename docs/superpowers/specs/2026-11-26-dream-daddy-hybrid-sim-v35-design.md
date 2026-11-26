@@ -63,9 +63,9 @@ The North Star of the game is **winning a real, lasting Chapter-Two relationship
   - `🗺️ In The Wild` (10 Illustrated City Hotspots)
   - `💬 Chats & Dates` (Active Tinder / Earned iMessage threads + Bestie SMS)
   - `🎓 Cub School` (**Cub Obedience School** — 12 Interactive Drills built from real `r/CougarsAndCubs` complaints!)
-- **Right (Always-Visible Monetization + Club Menu)**:
-  - **`☕ Tip $5`** (rose-gold pill wired directly to live `tipJarUrl`, visible on mobile & desktop)
-  - **`🛍️ Shop`** (32-item External Affiliate Boutique + `$29` Custom Cameo)
+- **Right (Friendly Creator Support + Monetization + Club Menu)**:
+  - **`💛 Support This Project`** (warm, welcoming indie-creator pill wired to live `$5` `tipJarUrl` + friendly thank-you popover: *"Having a laugh? Support this indie project ☕💛"* — visible in top HUD & on ending/diploma cards)
+  - **`🛍️ Date-Night Shop`** (32+ Amazon Associates Affiliate Boutique via `/api/go/:id` + `$29` Custom Scenario/Cameo)
   - **`💎 3 Cr • VIP`** (`$2.99 / 15 Cr` & `$6.99 VIP Black Card`)
   - **`☰ Club Extras`** drawer: `🎬 55-Q Trailer & Pop Quiz` | `👑 Crown or Dump (30 Cases)` | `✅ 25-Pt Experience Test` | `📖 16 Guides & Zodiac Matcher` | `📸 Dateodex` | `ℹ️ About`.
 
@@ -212,17 +212,45 @@ Fountains of Wayne *"Stacy's Mom"* (`dZLfasMPOU4`), Simon & Garfunkel *"Mrs. Rob
 
 ---
 
-## 7. Economy, Live Stripe Links, Tip Jar & Legacy SEO Mapping (Builder Calls Included)
+## 7. Dating-Sim Monetization Psychology, Live Amazon Affiliate Cash Flow & Stripe Fulfillment
 
-1. **Preserving Live Stripe Links (`Builder Call`)**:
-   - Retains all 4 live `buy.stripe.com` Payment Links already configured in `src/config/monetization.ts`:
-     - **`$2.99` Credit Pack (`15 Credits`)** (`stripeCreditPackUrl`)
-     - **`$6.99` VIP Club Black Card** (`stripeVipPassUrl` — unlimited VIP choices, Photo Drops, Custom AI Riffs, Heart Rewinds, & `"Turn the Tables"` trap revenge endings)
-     - **`$5.00` Creator Tip Jar** (`tipJarUrl` — pure creator tip + supporter badge, `0` free credit inflation; `/api/verify-checkout` updated to inspect `tier` query/metadata cleanly)
-     - **`$29.00` Custom Character Cameo** (`cameoCommissionUrl` — preserved inside `BoutiqueAndVipModal`).
-2. **Strict One-Time `3` Starter Credits (`Builder Call`)**:
-   - New `velvet_wallet_v35` starts with **`3 Credits` once** (`no` daily UTC auto-refill, `0` credits from newsletter, waitlist, referrals, courtroom, quizzes, or shares).
-   - Smart players preserve their 3 Friday Hearts for free by **spotting red flags in Text/iMessage and hitting `🚩 Cut Loose`**; reckless players who ignore red flags or want `2 Cr` Blurred Photo Drops, `1 Cr` Spicy VIP lines, `1 Cr` Custom AI Riffs, or `2 Cr` Heart Rewinds convert to `$2.99` Credits or `$6.99` VIP.
-3. **Clean Retirement + Zero-404 SEO & Audition Compatibility (`Builder Call`)**:
-   - Retires `PairingMixerView` (57-card dump), `PixiCubAcademyStage` (stick figures), `EightBitAdventureWorld` (8-bit boxes), and wellness-tainted `EPISODES`.
-   - Preserves `PartnerAuditionView` (`?challenge=`) mapped onto `v35` date dilemmas, and maps all 16 `/guides/*/` static SEO `?dilemma=<slug>` links cleanly into their corresponding `v35` Lead or *In The Wild* hotspot so zero inbound links break.
+### 7.1 Friendly, Welcoming Creator Support (`💛 Support This Project`)
+- Framed warmly as **supporting an independent comedy/romance project** (*"💛 Support This Project"* in the top bar and *"Made you smile? Support this indie effort ☕💛"* on Ending Polaroids, Bullet-Dodged Receipts, and Cub School Diplomas) rather than a cold paywall button.
+- Clicking opens your live `$5` Stripe link (`tipJarUrl`) and awards a **💛 Founding Patron Crown** badge (`0` free credit inflation so credit packs retain full value).
+
+### 7.2 What Romance & Dating-Sim Players Actually Pay For (`$2.99` Credits, `$6.99` VIP, `$29` Custom Experience)
+Modeled on proven conversion drivers from *Dream Daddy: Dadrector's Cut*, *Choices*, *MeChat*, and *Monster Prom*—where **free choices are always witty and dignified** (never punishing free players with cringe lines), and paid unlocks deliver **irresistible emotional/comedic payoffs**:
+1. **🔓 "Unlock Their Private POV / Bestie Text Leak" (`2 Cr` or Free w/ VIP)**: Right after Date #1 or Date #2, read what Miles, Julian, Rafael, Claire, or Prof. Elena secretly texted *their* best friend about you two minutes after getting in the cab (#1 highest-converting micro-unlock in romance sims).
+2. **📸 Candid iMessage Photo Drops (`2 Cr` or Free w/ VIP)**: Unblur character-specific candid snapshots mid-chat into your permanent Dateodex.
+3. **✨ Iconic "Cinematic Power Move" Dialogue & Custom AI Riffs (`1 Cr` or Free w/ VIP)**: Pull off unforgettable scene-stealers (*sending a glass of milk across the hotel bar, turning the tables publicly on a married liar*).
+4. **⏪ "Time-Turner" Beat Rewind & Friday Heart Restore (`2 Cr` or Unlimited w/ VIP)**: Save-scum past *The Robert Night-1 Pacing Trap* or recover a lost Friday Heart on the spot to clinch the S-Rank ending.
+5. **🌙 Bonus "6-Month Getaway Epilogue" (`Date #4`, `3 Cr` or Free w/ VIP)**: After earning an S-Rank True Relationship, unlock the romantic weekend-away epilogue chapter.
+6. **🎬 `$29` "Put Your Inside Joke / Archetype in the Game" Commission (`cameoCommissionUrl`)**: Players or couples sponsor a custom playable scenario, courtroom case, or character cameo, paired with the in-app brief submission form (`/api/cameo-brief`).
+
+### 7.3 Day-One Amazon Associates Cash Flow & Live Stripe Checkout Reliability
+- **Amazon Affiliate Boutique (`/api/go/:id`, `GET` + `HEAD` supported)**:
+  - Purges `seed-oil-free-ghee-evoo-set` and adds ***No Hard Feelings* (Prime Video)** + ***Part of Your World* by Abby Jimenez** alongside top-clicked real props (*Lidded Bathroom Bin + Botanical Soap*, *600TC Percale Sheets*, *Mulberry Silk Pillowcase + Claw Clip*, *Big Carl 750ml Wine Goblet*, *Brass Obedience Clicker*, *Cedar & Bergamot Parfum*).
+  - Contextual affiliate cards appear naturally inside **Cub Obedience School** (*"Send Him the Fix"* links on the Bathroom Lid & Flat Pillow drills!), **Pre-Date #2 Prep**, and the **🛍️ Date-Night Shop**—all injecting `?tag=<AMAZON_ASSOCIATE_TAG>&linkCode=ll2` at the Worker edge (`VELVET_KV` `config:amazon_associate_tag` / `env.AMAZON_ASSOCIATE_TAG`).
+- **Live Stripe Fulfillment**:
+  - Preserves all 4 live `buy.stripe.com` links (`$2.99` `15 Cr`, `$6.99` `VIP Black Card`, `$5` `Support`, `$29` `Custom Cameo`).
+  - Strict **one-time `3` starter credits** (`velvet_wallet_v35`, `0` daily refill, `0` free credit giveaways).
+  - `/api/verify-checkout` verifies `cs_live_...` via `env.STRIPE_SECRET_KEY` (restricted read-only `rk_live_...` Checkout Sessions Read key) + `tier` metadata/hint so buyers immediately receive their `+15 Credits` or `VIP Black Card` on redirect back to `https://cougarsandcubs.club/?session_id={CHECKOUT_SESSION_ID}`.
+- **Clean Retirement & Zero-404 SEO**:
+  - Retires `PairingMixerView`, `PixiCubAcademyStage` stick figures, `EightBitAdventureWorld` 8-bit boxes, and wellness-tainted `EPISODES`, while preserving `PartnerAuditionView` (`?challenge=`) and mapping all 16 `/guides/*/` `?dilemma=<slug>` links cleanly into `v35` routes.
+
+---
+
+## 8. Written Animation Strategy: How *Dream Daddy* Actually Did It (`v35` Now vs. `v36` Next)
+
+### 8.1 The Secret Behind *Dream Daddy*'s Visual Charm (Shipped in `v35`)
+*Dream Daddy* did **not** use 3D engines or full-body walk cycles. Its entire visual appeal came from **expressive 2D character busts + juicy UI motion choreography**:
+- **What `v35` implements immediately (60fps, zero heavy WASM bundle)**:
+  1. **Spring-Physics Character Entrances & Idle Breathing**: Smooth cubic-bezier slide-ins + subtle `1.0 -> 1.015` breathing motion so characters feel alive rather than pasted JPEGs.
+  2. **5 Emotional Expression Transitions + Particle Cues**: State-driven swaps/overlays (`neutral`, `smirk`, `laugh`, `blush`, `icked`) with warm rose-blush vignettes, comedic micro-shake on red-flag blunders, floating `❤️ / ✨ / 🚩 / 💦` reaction bursts, and typewriter dialogue pacing.
+  3. **Tactile App & School Micro-Animations**: Spring-scroll Hinge cards with floating ❤️ prompt-reply ripples, realistic iOS typing-indicator bubbles + blurred-to-crisp photo drop reveals, and animated Gold Star / Detention rubber-stamps in **Cub Obedience School**.
+
+### 8.2 What `v36` ("Animated Deluxe") Should Add Next (Post-Launch Roadmap)
+Once `v35` PostHog funnel telemetry shows which **4–6 characters** drive 80% of matches and credit spend, `v36` can upgrade portraits without re-architecting the engine:
+1. **Layered Rive (`.riv`) or Live2D Bust Rigs (~50 KB per character)**: Separate eye-blink, eyebrow-raise, head-tilt, and mouth-talk layers driven directly by the exact `expression: 'neutral' | 'smirk' | 'laugh' | 'blush' | 'icked'` state prop we introduce in `v35`.
+2. **3-Second Looping "Living Hinge Videos" on Slide #1**: Subtle cinemagraph loops (clinking a martini glass at The Velvet Room, turning a page at Hawthorne University, taking luggage curbside at Terminal B) generated via Gemini Veo / Omni Flash and served as lightweight `<video autoplay muted loop playsinline>` MP4/WebM assets.
+3. **Ambient Venue Shaders**: Soft drifting candle-glow particles in The Velvet Room, dappled sunlight in the Cul-de-Sac, and rain streaks on evening date windows.
