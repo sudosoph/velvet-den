@@ -538,7 +538,13 @@ function humanizeChatText(
     }
   }
 
-  cleaned = cleaned.replace(/\s{2,}/g, ' ').trim();
+  cleaned = cleaned
+    .replace(/(\p{Extended_Pictographic})\s*\./gu, '$1')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  if (cleaned.length > 0 && /^[a-z]/.test(cleaned)) {
+    cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+  }
 
   if (options?.singleLine) {
     const words = cleaned.split(/\s+/);
@@ -1398,7 +1404,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           `The human member posting right now is ${memberDesc}.`,
           `Primary responder: ${personaName} (${personaAge}, ${personaTitle}). Optional second responder chiming in right after: ${secondSpeakerName}.`,
           `CRITICAL READING COMPREHENSION: Read every word of the member's message accurately!`,
-          `- If someone invited her out on Date #1 and offered to SPLIT the bill 50/50, NEVER call splitting generous! In this Club, whoever initiates the invite hosts and pays the check cleanly (splitting on Date #1 is a rookie fumble—tell her to pay her half cleanly so she owes him zero second date, or contrast it with alternating whole dates).`,
+          `- If someone invited her out on Date #1 and asked to SPLIT the bill 50/50, NEVER call splitting generous! In this Club, whoever initiates the invite hosts the check cleanly (if a man asks to split Date #1, tell her to calmly put down her card for her half so she owes him nothing, then delete his number before Date #2).`,
           `- If they ask about moving in together vs Living-Apart-Together (separate places/keys): give concrete, witty Velvet Palms perspective (protecting your sanctuary, keeping two sets of keys, doing a Friday-to-Monday weekend test first, never merging leases out of pressure).`,
           `- If they ask whether a younger guy or older woman is serious vs just curious: point to concrete tells (locking in Friday reservations by Wednesday, proud public hand-holding in front of friends, weekday consistency, zero 6:45 PM mystery curfews).`,
           `- If they ask about income gaps: whoever invites plans squarely inside their real budget and pays cleanly; alternate turns hosting without mothering or ego.`,
