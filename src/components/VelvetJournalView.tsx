@@ -1711,7 +1711,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         }
                         className="inline-flex items-center justify-center gap-1.5 rounded-full bg-rose-600 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-rose-700 transition"
                       >
-                        <span>Shop Protected Pick</span>
+                        <span>Shop on Amazon</span>
                         <ExternalLink className="h-4 w-4" />
                       </a>
                     </div>

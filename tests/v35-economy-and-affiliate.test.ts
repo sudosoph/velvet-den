@@ -214,4 +214,35 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     expect(vetJson.passedVibeCheck).toBe(true);
     expect(vetJson.coachNote).not.toMatch(/cub obedience|enroll|earn his number/i);
   });
+
+  it('routes localhost/127.0.0.1 preview environments directly to tagged Amazon /dp/ URLs while routing live cougarsandcubs.club through /api/go/:id', () => {
+    const sample = AFFILIATE_CATALOG.find((i) => i.id === 'hosting-lidded-bin-soap')!;
+    vi.spyOn(window.navigator, 'userAgent', 'get').mockReturnValue(
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36',
+    );
+
+    const origLocation = window.location;
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: new URL('http://127.0.0.1:4173/'),
+    });
+    try {
+      const localUrl = buildAffiliateUrl(sample, 'cub_school_m1');
+      expect(localUrl).toContain('https://www.amazon.com/dp/B0FHH85CXQ');
+      expect(localUrl).toContain('tag=cougarsandcub-20');
+      expect(localUrl).not.toContain('/api/go/');
+
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: new URL('https://cougarsandcubs.club/'),
+      });
+      const prodUrl = buildAffiliateUrl(sample, 'cub_school_m1');
+      expect(prodUrl).toBe('/api/go/hosting-lidded-bin-soap?src=cub_school_m1');
+    } finally {
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        value: origLocation,
+      });
+    }
+  });
 });

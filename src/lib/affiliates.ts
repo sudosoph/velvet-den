@@ -706,6 +706,16 @@ function isLiveBrowserEdgeRuntime(): boolean {
   if (typeof window === 'undefined') return false;
   const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
   if (ua.toLowerCase().includes('jsdom')) return false;
+  const host = (window.location.hostname || '').toLowerCase();
+  if (
+    !host ||
+    host === 'localhost' ||
+    host === '127.0.0.1' ||
+    host === '[::1]' ||
+    host.endsWith('.local')
+  ) {
+    return false;
+  }
   return window.location.protocol === 'https:' || window.location.protocol === 'http:';
 }
 
