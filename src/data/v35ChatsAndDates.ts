@@ -12,7 +12,9 @@ export interface ChatBeat {
     id: string;
     previewCaption: string;
     imageUrl: string;
-    unlockCost: 2;
+    unlockCost: 1;
+    exifClue: string;
+    secretNote: string;
   };
   choices: [
     { text: string; reply: string; delta: number },
@@ -378,9 +380,11 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
           ],
           photoDrop: {
             id: 'photo-julian-scull',
-            previewCaption: 'Candid golden-hour river snapshot from Julian',
-            imageUrl: photos[3],
-            unlockCost: 2,
+            previewCaption: 'Private camera-roll evening portrait from Julian',
+            imageUrl: photos[5],
+            unlockCost: 1,
+            exifClue: '📍 Live Photo • Taken 4 min ago near Westwood • Zero filters, real pub-garden grin.',
+            secretNote: '“Didn’t put this one at the top of Hinge—practicing my Thursday toast to you xx”',
           },
           choices: [
             {
@@ -643,9 +647,11 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         ],
         photoDrop: {
           id: `photo-${profile.id}-candid`,
-          previewCaption: `Candid golden-hour check-in from ${profile.name}`,
-          imageUrl: photos[4],
-          unlockCost: 2,
+          previewCaption: `Private evening camera-roll check-in from ${profile.name}`,
+          imageUrl: photos[5],
+          unlockCost: 1,
+          exifClue: `📍 Live Camera Roll • Taken 6 min ago • Authentic portrait, zero app retouching.`,
+          secretNote: `“Saved this dressed-up look for Friday night—fair warning, I clean up well for you.”`,
         },
         choices: [
           {
@@ -867,9 +873,11 @@ function buildImessageFollowup(
       ],
       photoDrop: {
         id: `photo-${name.toLowerCase()}-imessage`,
-        previewCaption: `Private iMessage evening mirror/terrace check from ${name}`,
+        previewCaption: `Private iMessage pre-date outfit check from ${name}`,
         imageUrl: candidUrl,
-        unlockCost: 2,
+        unlockCost: 1,
+        exifClue: `📍 Personal iMessage Live Photo • Sent just now • Dressed for tonight’s reservation.`,
+        secretNote: `“Private eyes only before 7:45—tell me honestly if this wins the corner booth.”`,
       },
       choices: [
         {
@@ -1041,9 +1049,11 @@ function buildTrapChapter(
           ],
           photoDrop: {
             id: 'photo-graham-watch',
-            previewCaption: 'Graham’s 6:30 PM bar check (spot the left-hand tan line)',
+            previewCaption: 'Graham’s 6:30 PM bar check (inspect the wrist & ring-finger tan line)',
             imageUrl: photos[3],
-            unlockCost: 2,
+            unlockCost: 1,
+            exifClue: '📍 EXIF Alert: Geotagged 6:41 PM near Montecito Commuter Lot — shared family calendar alert visible on watch face!',
+            secretNote: '🚨 SMOKING GUN: Zooming in reveals a pale wedding-band tan line on his left ring finger and “Carpool 7:15 AM” on his watch!',
           },
           choices: [
             {
@@ -1249,9 +1259,25 @@ function buildTrapChapter(
         incomingMessages: ['Anyway here’s a photo so you forget all those pesky details!'],
         photoDrop: {
           id: `photo-trap-${profile.id}`,
-          previewCaption: `Distraction snapshot from ${profile.name}`,
-          imageUrl: photos[2],
-          unlockCost: 2,
+          previewCaption: `Suspicious camera-roll snapshot from ${profile.name}`,
+          imageUrl: photos[5],
+          unlockCost: 1,
+          exifClue:
+            profile.id === 'connor'
+              ? '📍 EXIF Alert: Shot at 1:48 AM on Fraternity Row — four red solo cups cropped right out of frame!'
+              : profile.id === 'devon'
+                ? '📍 EXIF Alert: Saved from a two-year-old camera roll folder — definitely not taken tonight!'
+                : profile.id === 'vanessa'
+                  ? '📍 EXIF Alert: Geotagged inside the Bel Air main residence — framed wedding portrait blurred behind her!'
+                  : '📍 EXIF Alert: Shot on ring-light timer #14 aimed directly across at Table 9!',
+          secretNote:
+            profile.id === 'connor'
+              ? '🚨 SMOKING GUN: Sophomores in fraternity hoodies photobombing the mirror reflection—hit Block & Cut Loose for +25 XP!'
+              : profile.id === 'devon'
+                ? '🚨 SMOKING GUN: Recycled thirst trap while stalling on Friday plans—hit Block & Cut Loose for +25 XP!'
+                : profile.id === 'vanessa'
+                  ? '🚨 SMOKING GUN: Husband’s golf bag sitting right by the front door—hit Block & Cut Loose for +25 XP!'
+                  : '🚨 SMOKING GUN: Ex-husband Richard is literally circled in the background booth—hit Block & Cut Loose for +25 XP!',
         },
         choices: [
           {

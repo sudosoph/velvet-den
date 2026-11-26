@@ -302,7 +302,7 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
     expect(htmlTagged).toContain(canonicalSilkUrl);
   });
 
-  it('Important #6: Free-typing live AI message in ChatsAndDatesView keeps currentBeat unchanged so scripted story beats are never skipped', async () => {
+  it('Important #6: Free-typing live AI message in ChatsAndDatesView advances currentBeat so players are never stuck behind pre-built choices', async () => {
     let latestThread = createInitialThread('julian', 'hinge', 'Loved your prompt!');
     render(
       <ChatsAndDatesView
@@ -329,8 +329,8 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
 
     await waitFor(() => {
       expect(latestThread.messages.some((m) => m.text.includes('Half seven on Friday'))).toBe(true);
+      expect(latestThread.currentBeat).toBe(2);
     });
-    expect(latestThread.currentBeat).toBe(1);
   });
 
   it('Important #7: Every photoUrl in taxonomy.ts exists on disk, archetype IDs contain zero spaces, and Dateodex getTotalRosterCount() equals 22 with v35 Polaroid hints', () => {

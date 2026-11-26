@@ -1433,8 +1433,8 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
         const coachPerspectiveRule =
           personaRole === 'him'
-            ? 'AUDIENCE FOR coachNote: The player is HER. Write 1 playful Bestie whisper to HER about how he just responded (never tell her to go to Cub School).'
-            : 'AUDIENCE FOR coachNote: The player is HIM. Write 1 playful wingwoman tip to HIM about how his line landed with her.';
+            ? 'AUDIENCE FOR coachNote: Speak directly to the player in SECOND PERSON ("You..."). Example: "You caught him dodging—press harder or block him!" or "Great chemistry—he matched your energy right away." STRICT BAN: NEVER write third-person narrator lines like "He overstepped and she bolted" or "She walked away", and NEVER tell her to attend Cub School.'
+            : 'AUDIENCE FOR coachNote: Speak directly to the player in SECOND PERSON ("You..."). Example: "Smooth move—you kept her intrigued without over-explaining." STRICT BAN: NEVER write third-person narrator lines like "He overstepped and she bolted".';
 
         systemPrompt = [
           `You are texting 1-on-1 in first person as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club".`,
@@ -1508,13 +1508,18 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
                 .replace(/^[A-Za-z0-9_&]+:\s*/, '')
                 .slice(0, 220)
             : undefined;
-        let cleanCoach = humanizeChatText(
-          String(parsed.coachNote || 'Chemistry check complete!'),
-        ).slice(0, 200);
-        if (personaRole === 'him' && /cub\s*obedience|cub\s*school|earn\s*his\s*number/i.test(cleanCoach)) {
-          cleanCoach = `${personaName} is leaning in—decide at Beat 6 whether he gets your number.`;
-        }
         const passed = Boolean(parsed.passedVibeCheck);
+        let cleanCoach = humanizeChatText(
+          String(parsed.coachNote || 'Vibe check logged—decide your next move!'),
+        ).slice(0, 200);
+        if (
+          /\b(she\s+bolted|he\s+overstepped|she\s+walked|the\s+player)\b/i.test(cleanCoach) ||
+          (personaRole === 'him' && /cub\s*obedience|cub\s*school|earn\s*his\s*number/i.test(cleanCoach))
+        ) {
+          cleanCoach = passed
+            ? `Strong spark with ${personaName}—keep testing their consistency.`
+            : `Sharp instinct—if the red flags pile up, hit Block & Cut Loose anytime!`;
+        }
         await appendAnonymizedAiLog(env, {
           persona: `${personaName} (${personaAge})`,
           platform,

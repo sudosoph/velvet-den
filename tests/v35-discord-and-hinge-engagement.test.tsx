@@ -109,5 +109,33 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
         /two peaceful sanctuaries|merge leases/i,
       );
     });
+
+    // 4. Open Chat with Julian, advance to Beat 4 to verify 1-Cr portrait drop + 0-Cr EXIF clue, then Beat 6 -> Clean Fresh iMessage!
+    fireEvent.click(within(celebration).getByRole('button', { name: /Text Julian Now/i }));
+
+    for (let b = 1; b <= 3; b++) {
+      fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
+    }
+
+    // Now on Beat 4: verify 1 Cr cost + Free 0 Cr EXIF inspection!
+    const photoCard = screen.getByTestId('chat-photo-drop-card');
+    expect(photoCard.textContent).toContain('1 Cr');
+    fireEvent.click(within(photoCard).getByRole('button', { name: /Inspect Photo Metadata/i }));
+    expect(screen.getByTestId('photo-exif-clue').textContent).toContain('Live Photo');
+
+    // Finish Beats 4, 5, 6 and graduate to Personal iMessage -> old Hinge messages archived cleanly!
+    for (let b = 4; b <= 6; b++) {
+      fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
+    }
+
+    fireEvent.click(screen.getByRole('button', { name: /Give Him My Number/i }));
+    expect(screen.getByTestId('chat-stage-imessage')).toBeInTheDocument();
+    // Old Hinge opener/messages are archived cleanly out of the fresh iMessage feed!
+    expect(
+      screen.queryByText(/What do you think about keeping our own apartments long-term/i),
+    ).toBeNull();
+    expect(
+      screen.getByRole('button', { name: /Earlier Hinge App Messages/i }),
+    ).toBeInTheDocument();
   });
 });

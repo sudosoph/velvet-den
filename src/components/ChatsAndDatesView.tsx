@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
+  Ban,
+  Check,
+  ChevronDown,
   Flame,
   Flag,
   GraduationCap,
@@ -8,11 +11,15 @@ import {
   Heart,
   Lock,
   MessageCircle,
+  Phone,
+  Search,
   Send,
   Share2,
   Smartphone,
   Sparkles,
   Unlock,
+  Video,
+  X,
 } from 'lucide-react';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
@@ -40,6 +47,7 @@ export interface ActiveMatchThread {
   lastDateRank?: 'S' | 'A' | 'B' | 'F';
   sRankLockedOut?: boolean;
   messages: { sender: 'match' | 'player' | 'system'; text: string }[];
+  archivedAppMessages?: { sender: 'match' | 'player' | 'system'; text: string }[];
 }
 
 export function createInitialThread(
@@ -147,7 +155,18 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [dmTypingLabel, setDmTypingLabel] = useState<string | null>(null);
   const [dmReactions, setDmReactions] = useState<Record<string, string>>({});
   const [sparkToast, setSparkToast] = useState<{ delta: number; nonce: number } | null>(null);
-  const [coachBanner, setCoachBanner] = useState<string | null>(null);
+  const [coachBanner, setCoachBanner] = useState<{ leadId: string; text: string } | null>(null);
+  const [inspectedExifIds, setInspectedExifIds] = useState<string[]>([]);
+  const [calloutPromptLeadId, setCalloutPromptLeadId] = useState<string | null>(null);
+  const [showArchivedHinge, setShowArchivedHinge] = useState(false);
+  const [imessageGradSplash, setImessageGradSplash] = useState<{
+    leadId: string;
+    name: string;
+    age: number;
+    job: string;
+    portrait: string;
+    openingLine: string;
+  } | null>(null);
 
   const dmFeedRef = useRef<HTMLDivElement | null>(null);
   const discordFeedRef = useRef<HTMLDivElement | null>(null);
@@ -208,7 +227,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const latestThreadRef = useRef<ActiveMatchThread | undefined>(currentThread);
   latestThreadRef.current = currentThread;
 
-  // Always auto-scroll 1-on-1 DM feed to the newest message / typing bubble so replies are never hidden off-screen
+  // Clear transient banners/drawers whenever switching active match
+  useEffect(() => {
+    setCoachBanner(null);
+    setShowArchivedHinge(false);
+    setDmTypingLabel(null);
+  }, [activeLeadId]);
   useEffect(() => {
     const el = dmFeedRef.current;
     if (!el) return;
@@ -276,6 +300,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
     const newChemistry = Math.max(0, Math.min(100, currentThread.chemistry + boostedDelta));
 
+    setCoachBanner(null);
     setSparkToast({ delta: boostedDelta, nonce: Date.now() });
 
     if (isTestEnv) {
@@ -348,24 +373,43 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   };
 
   const handleGraduateToImessage = () => {
-    if (!currentThread || !currentChapter) return;
+    if (!currentThread || !currentChapter || !currentProfile) return;
     sfx.victoryFanfare();
+    setCoachBanner(null);
+    setCalloutPromptLeadId(null);
+    setShowArchivedHinge(false);
+
     const firstImessage = currentChapter.imessage[0];
-    const gradMsg =
-      role === 'her'
-        ? '📱 You shared your personal number — thread upgraded to iMessage.'
-        : '📱 Number earned — thread upgraded to off-app iMessage.';
+    const openingLine =
+      firstImessage?.incomingMessages[0] ?? 'Made it off the app—so much easier texting you here.';
+    const vis = V35_CAST_VISUALS[currentProfile.id];
+
+    // Archive old Hinge App DM messages cleanly so personal iMessage opens as a fresh, authentic iOS thread!
     onUpdateThread({
       ...currentThread,
       stage: 'imessage',
       currentBeat: 1,
       chemistry: Math.min(100, currentThread.chemistry + 10),
-      messages: [
+      archivedAppMessages: [
+        ...(currentThread.archivedAppMessages ?? []),
         ...currentThread.messages,
-        { sender: 'system', text: gradMsg },
+      ],
+      messages: [
+        { sender: 'system', text: 'iMessage • Today 6:14 PM' },
         ...(firstImessage?.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })) ?? []),
       ],
     });
+
+    if (vis && !isTestEnv) {
+      setImessageGradSplash({
+        leadId: currentProfile.id,
+        name: currentProfile.name,
+        age: currentProfile.age,
+        job: currentProfile.vitals.job,
+        portrait: vis.primaryPortrait,
+        openingLine,
+      });
+    }
   };
 
   const handleFreeTextSubmit = async (e: React.FormEvent) => {
@@ -374,6 +418,25 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     if (!trimmed || !currentThread || !currentProfile || sendingAi || dmTypingLabel) return;
 
     const targetLeadId = currentThread.leadId;
+    const matchName = currentProfile.name;
+    const chapterForLead = V35_CHAT_CHAPTERS[targetLeadId];
+    const beatsForStage =
+      currentThread.stage === 'imessage'
+        ? (chapterForLead?.imessage ?? [])
+        : (chapterForLead?.tinder ?? []);
+    const shouldAdvanceBeat = currentThread.currentBeat <= 6;
+    const nextBeatNum = shouldAdvanceBeat
+      ? currentThread.currentBeat + 1
+      : currentThread.currentBeat;
+    const nextBeatObj = shouldAdvanceBeat
+      ? beatsForStage.find((b) => b.beatNumber === nextBeatNum)
+      : undefined;
+
+    const isCalloutOrBreakupIntent =
+      /\b(block|unmatch|cut\s+loose|bye|we.?re\s+done|lose\s+my\s+number|married|liar|sus|shady|red\s+flag|6:?45|table\s*9)\b/i.test(
+        trimmed,
+      );
+
     const historySnapshot = currentThread.messages
       .filter((m) => m.sender !== 'system')
       .map((m) => ({
@@ -392,7 +455,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     };
     onUpdateThread(withPlayerMsg);
     if (!isTestEnv) {
-      setDmTypingLabel(`${currentProfile.name} is typing`);
+      setDmTypingLabel(`${matchName} is typing`);
     }
 
     try {
@@ -417,19 +480,74 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       ]);
 
       sfx.messagePop();
-      setCoachBanner(res.coachNote);
+      setCoachBanner({ leadId: targetLeadId, text: res.coachNote });
       setSparkToast({ delta: res.chemistryDelta, nonce: Date.now() });
+      if (isCalloutOrBreakupIntent || !res.passedVibeCheck) {
+        setCalloutPromptLeadId(targetLeadId);
+      }
 
+      const refCandidate = latestThreadRef.current;
       const latest =
-        latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : withPlayerMsg;
-      onUpdateThread({
+        refCandidate?.leadId === targetLeadId &&
+        refCandidate.messages.length >= withPlayerMsg.messages.length
+          ? refCandidate
+          : withPlayerMsg;
+      const updatedChemistry = Math.max(0, Math.min(100, latest.chemistry + res.chemistryDelta));
+
+      if (isTestEnv) {
+        const nextMsgs: ActiveMatchThread['messages'] = [
+          ...latest.messages,
+          { sender: 'match', text: res.herReply },
+          ...(nextBeatObj && !isCalloutOrBreakupIntent
+            ? nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m }))
+            : []),
+        ];
+        onUpdateThread({
+          ...latest,
+          currentBeat: nextBeatNum,
+          chemistry: updatedChemistry,
+          messages: nextMsgs,
+        });
+        return;
+      }
+
+      // Browser: land their direct AI reply first, then advance the story beat so you are NEVER stuck on stale pre-built choices!
+      const withDirectReply: ActiveMatchThread = {
         ...latest,
-        currentBeat: latest.currentBeat,
-        chemistry: Math.max(0, Math.min(100, latest.chemistry + res.chemistryDelta)),
+        currentBeat:
+          nextBeatObj && nextBeatObj.incomingMessages.length > 0 && !isCalloutOrBreakupIntent
+            ? latest.currentBeat
+            : nextBeatNum,
+        chemistry: updatedChemistry,
         messages: [...latest.messages, { sender: 'match', text: res.herReply }],
-      });
-    } finally {
+      };
+      onUpdateThread(withDirectReply);
+
+      if (nextBeatObj && nextBeatObj.incomingMessages.length > 0 && !isCalloutOrBreakupIntent) {
+        setDmTypingLabel(`${matchName} is typing`);
+        const tNext = window.setTimeout(() => {
+          const latestStep2 =
+            latestThreadRef.current?.leadId === targetLeadId
+              ? latestThreadRef.current
+              : withDirectReply;
+          sfx.messagePop();
+          onUpdateThread({
+            ...latestStep2,
+            currentBeat: nextBeatNum,
+            messages: [
+              ...latestStep2.messages,
+              ...nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })),
+            ],
+          });
+          setDmTypingLabel(null);
+        }, 820);
+        pendingTimersRef.current.push(tNext);
+      } else {
+        setDmTypingLabel(null);
+      }
+    } catch {
       setDmTypingLabel(null);
+    } finally {
       setSendingAi(false);
     }
   };
@@ -1112,113 +1230,191 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             })}
           </aside>
 
-          {/* Single Evolving Thread Stage */}
+          {/* Single Evolving Thread Stage (Distinct Hinge App DM vs Fresh Apple iMessage Interface) */}
           {currentThread && currentProfile && currentChapter && (
-            <section className="editorial-hinge-card rounded-3xl overflow-hidden">
-              {/* Thread Header with Stage Badge & Persistent Cut-Loose Button */}
-              <header
-                className={`flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b ${
-                  currentThread.stage === 'imessage'
-                    ? 'bg-gradient-to-r from-blue-50/90 to-sky-50/60 border-blue-100'
-                    : 'bg-stone-50/80 border-stone-200/70'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
-                    alt={currentProfile.name}
-                    className="h-12 w-12 rounded-full object-cover"
-                  />
-                  <div>
+            <section
+              data-testid={`chat-stage-${currentThread.stage}`}
+              className={`rounded-3xl overflow-hidden border shadow-xs transition-all ${
+                currentThread.stage === 'imessage'
+                  ? 'border-sky-200 bg-[#F8FAFC]'
+                  : 'editorial-hinge-card border-zinc-200 bg-white'
+              }`}
+            >
+              {/* Distinct Header: Authentic Apple iOS Contact Bar in iMessage vs Hinge App DM Header */}
+              {currentThread.stage === 'imessage' ? (
+                <header className="border-b border-slate-200/90 bg-gradient-to-b from-[#F1F5F9] to-[#F8FAFC] px-6 py-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-3.5">
+                      <div className="relative">
+                        <img
+                          src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
+                          alt={currentProfile.name}
+                          className="h-13 w-13 rounded-full object-cover ring-2 ring-[#007AFF] shadow-xs"
+                        />
+                        <span className="absolute -right-0.5 -bottom-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#007AFF] text-[9px] font-bold text-white">
+                          ✓
+                        </span>
+                      </div>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h2 className="text-lg font-bold tracking-tight text-slate-950">
+                            {currentProfile.name}, {currentProfile.age}
+                          </h2>
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#007AFF] px-2.5 py-0.5 text-[11px] font-bold text-white">
+                            <Smartphone className="h-3 w-3" />
+                            <span>Earned iMessage</span>
+                          </span>
+                          <span className="rounded-full bg-white border border-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">
+                            {currentThread.chemistry}% Spark
+                          </span>
+                          {sparkToast && (
+                            <span
+                              key={sparkToast.nonce}
+                              className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold animate-bounce ${
+                                sparkToast.delta >= 0
+                                  ? 'bg-emerald-100 text-emerald-900'
+                                  : 'bg-rose-100 text-rose-900'
+                              }`}
+                            >
+                              {sparkToast.delta >= 0
+                                ? `+${sparkToast.delta}% Spark ✨`
+                                : `${sparkToast.delta}% Vibe`}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs font-medium text-[#007AFF]">
+                          Personal Cell Unlocked • Off-App Blue Bubbles Active
+                        </p>
+                      </div>
+                    </div>
+
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="font-editorial text-xl font-bold text-[#18101E]">
-                        {currentProfile.name}, {currentProfile.age}
-                      </h2>
+                      {etiquetteBonusActive ? (
+                        <span
+                          data-testid="etiquette-perk-pill"
+                          className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-1 text-[11px] font-extrabold text-emerald-900"
+                        >
+                          <GraduationCap className="h-3.5 w-3.5" />
+                          <span>+8% Spark Perk</span>
+                        </span>
+                      ) : onOpenCubSchool ? (
+                        <button
+                          type="button"
+                          onClick={onOpenCubSchool}
+                          className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-950 hover:bg-amber-100 cursor-pointer"
+                        >
+                          <GraduationCap className="h-3.5 w-3.5" />
+                          <span>Cub School (+8% Spark)</span>
+                        </button>
+                      ) : null}
+
                       <span
-                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
-                          currentThread.stage === 'imessage'
-                            ? 'bg-[#007AFF] text-white'
-                            : 'bg-rose-100 text-rose-900'
+                        aria-hidden="true"
+                        className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white border border-slate-200 px-2.5 py-1.5 text-[#007AFF]"
+                        title="iOS Audio & FaceTime Connected"
+                      >
+                        <Phone className="h-3.5 w-3.5" />
+                        <Video className="h-3.5 w-3.5" />
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={() => setSpicyMode((s) => !s)}
+                        className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+                          spicyMode
+                            ? 'bg-rose-600 text-white shadow-xs'
+                            : 'bg-white border border-slate-200 text-slate-700 hover:border-rose-300'
                         }`}
                       >
-                        <Smartphone className="h-3 w-3" />
-                        <span>
-                          {currentThread.stage === 'imessage'
-                            ? 'Earned iMessage'
-                            : 'Hinge App DM'}
-                        </span>
-                      </span>
-                      <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-700">
-                        {currentThread.chemistry}% Spark
-                      </span>
-                      {sparkToast && (
-                        <span
-                          key={sparkToast.nonce}
-                          className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold animate-bounce ${
-                            sparkToast.delta >= 0
-                              ? 'bg-emerald-100 text-emerald-900'
-                              : 'bg-rose-100 text-rose-900'
-                          }`}
-                        >
-                          {sparkToast.delta >= 0
-                            ? `+${sparkToast.delta}% Spark ✨`
-                            : `${sparkToast.delta}% Vibe`}
-                        </span>
-                      )}
+                        <Flame className="h-3.5 w-3.5 text-rose-500" />
+                        <span>After-Dark Mode</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleTriggerCutLoose}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-300 px-3.5 py-1.5 text-xs font-bold text-rose-900 hover:bg-rose-100 cursor-pointer"
+                      >
+                        <Ban className="h-3.5 w-3.5 text-rose-700" />
+                        <span>🚫 Block / Cut Loose</span>
+                      </button>
                     </div>
-                    <p className="text-xs text-stone-500">
-                      {role === 'her'
-                        ? 'He is courting your interest — vet his consistency or cut him loose.'
-                        : 'Build genuine spark to earn her personal number & Friday date.'}
-                    </p>
                   </div>
-                </div>
+                </header>
+              ) : (
+                <header className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b bg-stone-50/80 border-stone-200/70">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
+                      alt={currentProfile.name}
+                      className="h-12 w-12 rounded-full object-cover"
+                    />
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+                          {currentProfile.name}, {currentProfile.age}
+                        </h2>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-900">
+                          <Smartphone className="h-3 w-3" />
+                          <span>Hinge App DM</span>
+                        </span>
+                        <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-700">
+                          {currentThread.chemistry}% Spark
+                        </span>
+                        {sparkToast && (
+                          <span
+                            key={sparkToast.nonce}
+                            className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold animate-bounce ${
+                              sparkToast.delta >= 0
+                                ? 'bg-emerald-100 text-emerald-900'
+                                : 'bg-rose-100 text-rose-900'
+                            }`}
+                          >
+                            {sparkToast.delta >= 0
+                              ? `+${sparkToast.delta}% Spark ✨`
+                              : `${sparkToast.delta}% Vibe`}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-stone-500">
+                        {role === 'her'
+                          ? 'He is courting your interest — vet his consistency or block him anytime.'
+                          : 'Build genuine spark across 6 beats to earn her personal iMessage.'}
+                      </p>
+                    </div>
+                  </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  {etiquetteBonusActive ? (
-                    <span
-                      data-testid="etiquette-perk-pill"
-                      className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-1 text-[11px] font-extrabold text-emerald-900"
-                    >
-                      <GraduationCap className="h-3.5 w-3.5" />
-                      <span>+8% Spark Perk</span>
-                    </span>
-                  ) : onOpenCubSchool ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    {etiquetteBonusActive ? (
+                      <span
+                        data-testid="etiquette-perk-pill"
+                        className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-1 text-[11px] font-extrabold text-emerald-900"
+                      >
+                        <GraduationCap className="h-3.5 w-3.5" />
+                        <span>+8% Spark Perk</span>
+                      </span>
+                    ) : onOpenCubSchool ? (
+                      <button
+                        type="button"
+                        onClick={onOpenCubSchool}
+                        className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-950 hover:bg-amber-100 cursor-pointer"
+                      >
+                        <GraduationCap className="h-3.5 w-3.5" />
+                        <span>Cub School (+8% Spark)</span>
+                      </button>
+                    ) : null}
+
                     <button
                       type="button"
-                      onClick={onOpenCubSchool}
-                      className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-950 hover:bg-amber-100 cursor-pointer"
+                      onClick={handleTriggerCutLoose}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-300 px-3.5 py-1.5 text-xs font-bold text-rose-900 hover:bg-rose-100 cursor-pointer"
                     >
-                      <GraduationCap className="h-3.5 w-3.5" />
-                      <span>Cub School (+8% Spark)</span>
+                      <Flag className="h-3.5 w-3.5 text-rose-700" />
+                      <span>🚩 Block / Cut Loose</span>
                     </button>
-                  ) : null}
-
-                  {currentThread.stage === 'imessage' && (
-                    <button
-                      type="button"
-                      onClick={() => setSpicyMode((s) => !s)}
-                      className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
-                        spicyMode
-                          ? 'bg-rose-600 text-white'
-                          : 'bg-white border border-stone-200 text-stone-700'
-                      }`}
-                    >
-                      <Flame className="h-3.5 w-3.5" />
-                      <span>After-Dark Mode</span>
-                    </button>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={handleTriggerCutLoose}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-300 px-3.5 py-1.5 text-xs font-bold text-rose-900 hover:bg-rose-100 cursor-pointer"
-                  >
-                    <Flag className="h-3.5 w-3.5 text-rose-700" />
-                    <span>🚩 Cut Loose</span>
-                  </button>
-                </div>
-              </header>
+                  </div>
+                </header>
+              )}
 
               {/* Non-Blocking Go On Date Banner */}
               {isDateReady && nextDateScript && (
@@ -1248,26 +1444,81 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 </div>
               )}
 
-              {/* Message Stream (Auto-Scrolls to Latest Message + Live Typing Indicator + iMessage Tapbacks) */}
+              {/* Message Stream (Clean Fresh iMessage Slate w/ Optional Archived Hinge Toggle + 1-Cr Camera-Roll Drops) */}
               <div
                 ref={dmFeedRef}
                 data-testid="dm-message-feed"
-                className="max-h-[440px] overflow-y-auto scroll-smooth p-6 space-y-3.5 bg-white"
+                className={`max-h-[450px] overflow-y-auto scroll-smooth p-6 space-y-3.5 ${
+                  currentThread.stage === 'imessage' ? 'bg-white' : 'bg-white'
+                }`}
               >
+                {currentThread.stage === 'imessage' &&
+                  currentThread.archivedAppMessages &&
+                  currentThread.archivedAppMessages.length > 0 && (
+                    <div className="space-y-2 pb-2 border-b border-slate-100">
+                      <button
+                        type="button"
+                        onClick={() => setShowArchivedHinge((v) => !v)}
+                        className="mx-auto flex items-center gap-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 px-3.5 py-1 text-[11px] font-semibold text-slate-600 transition cursor-pointer"
+                      >
+                        <span>
+                          {showArchivedHinge
+                            ? 'Hide Earlier Hinge App Messages'
+                            : `View ${currentThread.archivedAppMessages.filter((m) => m.sender !== 'system').length} Earlier Hinge App Messages`}
+                        </span>
+                        <ChevronDown
+                          className={`h-3 w-3 transition-transform ${
+                            showArchivedHinge ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {showArchivedHinge && (
+                        <div className="rounded-2xl bg-stone-50 border border-stone-200/70 p-3.5 space-y-2 opacity-80">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
+                            Archived Hinge App Thread
+                          </div>
+                          {currentThread.archivedAppMessages
+                            .filter((m) => m.sender !== 'system')
+                            .map((am, aIdx) => (
+                              <div
+                                key={`arch-${aIdx}`}
+                                className="text-xs text-stone-600 leading-snug"
+                              >
+                                <span className="font-bold text-stone-800">
+                                  {am.sender === 'player' ? 'You: ' : `${currentProfile.name}: `}
+                                </span>
+                                {am.text}
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                 {currentThread.messages.map((m, idx) => {
                   if (m.sender === 'system') {
                     return (
                       <div
                         key={`sys-${idx}`}
-                        className="mx-auto max-w-md rounded-full bg-stone-100 px-4 py-1.5 text-center text-xs font-semibold text-stone-600"
+                        className="mx-auto max-w-md py-1 text-center text-[11px] font-semibold tracking-wide text-slate-400"
                       >
                         {m.text}
                       </div>
                     );
                   }
                   const isPlayer = m.sender === 'player';
-                  const msgKey = `${currentThread.leadId}-${idx}`;
+                  const msgKey = `${currentThread.leadId}-${currentThread.stage}-${idx}`;
                   const activeTapback = dmReactions[msgKey];
+                  const isLastPlayerBubble =
+                    isPlayer &&
+                    currentThread.stage === 'imessage' &&
+                    idx ===
+                      currentThread.messages.reduce(
+                        (last, item, i) => (item.sender === 'player' ? i : last),
+                        -1,
+                      );
+
                   return (
                     <div
                       key={`msg-${idx}`}
@@ -1275,12 +1526,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     >
                       <div className="relative max-w-[82%]">
                         <div
-                          className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                          className={`px-4 py-2.5 text-sm leading-relaxed ${
                             isPlayer
                               ? currentThread.stage === 'imessage'
-                                ? 'bg-[#007AFF] text-white'
-                                : 'bg-[#18101E] text-white'
-                              : 'bg-zinc-100 text-zinc-900 border border-zinc-200/60'
+                                ? 'rounded-2xl rounded-br-xs bg-[#007AFF] text-white shadow-2xs'
+                                : 'rounded-2xl bg-[#18101E] text-white'
+                              : currentThread.stage === 'imessage'
+                                ? 'rounded-2xl rounded-bl-xs bg-[#E9E9EB] text-slate-950'
+                                : 'rounded-2xl bg-zinc-100 text-zinc-900 border border-zinc-200/60'
                           }`}
                         >
                           {m.text}
@@ -1291,6 +1544,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           </span>
                         )}
                       </div>
+
+                      {isLastPlayerBubble && (
+                        <span className="mt-0.5 pr-1 text-[10px] font-semibold text-slate-400">
+                          Delivered
+                        </span>
+                      )}
 
                       {!isPlayer && (
                         <div className="mt-1 flex items-center gap-1 opacity-70 group-hover:opacity-100 transition">
@@ -1305,6 +1564,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                                   ...prev,
                                   [msgKey]: prev[msgKey] === emo ? '' : emo,
                                 }));
+                                if (emo === '🚩') {
+                                  setCalloutPromptLeadId(currentThread.leadId);
+                                }
                               }}
                               className={`rounded-full px-1.5 py-0.5 text-[11px] transition cursor-pointer ${
                                 activeTapback === emo
@@ -1326,7 +1588,13 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     data-testid="dm-typing-indicator"
                     className="flex justify-start"
                   >
-                    <div className="inline-flex items-center gap-2 rounded-2xl bg-zinc-100 border border-zinc-200 px-4 py-2.5 text-xs font-semibold text-zinc-600">
+                    <div
+                      className={`inline-flex items-center gap-2 rounded-2xl px-4 py-2.5 text-xs font-semibold ${
+                        currentThread.stage === 'imessage'
+                          ? 'bg-[#E9E9EB] text-slate-600'
+                          : 'bg-zinc-100 border border-zinc-200 text-zinc-600'
+                      }`}
+                    >
                       <span className="inline-flex items-center gap-1">
                         <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce" />
                         <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce [animation-delay:120ms]" />
@@ -1337,51 +1605,145 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
-                {/* Blurred Off-App / Candid Photo Drop on Beat 4 */}
+                {/* Beat 4 Private Camera-Roll Portrait Drop (Free Metadata Clue + 1-Cr Unblur w/ Secret Note) */}
                 {activeBeat?.photoDrop && (
-                  <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4 space-y-2.5 max-w-sm">
-                    <div className="text-xs font-bold text-stone-700">
-                      📸 {activeBeat.photoDrop.previewCaption}
+                  <div
+                    data-testid="chat-photo-drop-card"
+                    className="rounded-2xl border border-zinc-200 bg-zinc-50/90 p-4 space-y-3 max-w-md shadow-2xs"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-xs font-bold text-zinc-900">
+                        📸 {activeBeat.photoDrop.previewCaption}
+                      </div>
+                      <span className="rounded-full bg-white border border-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-600">
+                        Camera Roll
+                      </span>
                     </div>
+
                     {wallet.isVip ||
+                    wallet.isFounderUnlimited ||
                     wallet.unlockedPhotoIds.includes(activeBeat.photoDrop.id) ? (
-                      <img
-                        src={activeBeat.photoDrop.imageUrl}
-                        alt={activeBeat.photoDrop.previewCaption}
-                        className="h-56 w-full rounded-xl object-cover"
-                      />
-                    ) : (
-                      <div className="relative overflow-hidden rounded-xl">
+                      <div className="space-y-2.5">
                         <img
                           src={activeBeat.photoDrop.imageUrl}
-                          alt="Blurred candid"
-                          className="h-48 w-full object-cover blur-lg scale-105"
+                          alt={activeBeat.photoDrop.previewCaption}
+                          className="h-64 w-full rounded-xl object-cover object-top"
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/35">
+                        <div className="rounded-xl bg-white border border-zinc-200 p-3 text-xs font-medium text-zinc-800 leading-relaxed">
+                          {activeBeat.photoDrop.secretNote}
+                        </div>
+                        {currentChapter.cutLooseVerdict.isActualTrap && (
                           <button
                             type="button"
-                            onClick={() => {
-                              onUnlockBucketItem(
-                                'unlockedPhotoIds',
-                                activeBeat.photoDrop!.id,
-                                activeBeat.photoDrop!.unlockCost,
-                              );
-                            }}
-                            className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-extrabold text-[#18101E] shadow-md cursor-pointer"
+                            onClick={handleTriggerCutLoose}
+                            className="w-full rounded-xl bg-rose-600 hover:bg-rose-700 px-4 py-2.5 text-xs font-extrabold text-white transition cursor-pointer"
                           >
-                            <Lock className="h-3.5 w-3.5 text-rose-700" />
-                            <span>Unblur Candid Photo (2 Cr)</span>
+                            🚫 Block Number &amp; Claim +25 XP Receipt →
                           </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2.5">
+                        <div className="relative overflow-hidden rounded-xl">
+                          <img
+                            src={activeBeat.photoDrop.imageUrl}
+                            alt="Private camera roll preview"
+                            className="h-52 w-full object-cover object-top blur-md scale-105 brightness-95"
+                          />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-zinc-950/35 p-3 text-center">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const unlocked = onUnlockBucketItem(
+                                  'unlockedPhotoIds',
+                                  activeBeat.photoDrop!.id,
+                                  activeBeat.photoDrop!.unlockCost,
+                                );
+                                if (unlocked) {
+                                  sfx.greenFlag();
+                                  if (!currentChapter.cutLooseVerdict.isActualTrap) {
+                                    setSparkToast({ delta: 10, nonce: Date.now() });
+                                    onUpdateThread({
+                                      ...currentThread,
+                                      chemistry: Math.min(100, currentThread.chemistry + 10),
+                                    });
+                                  }
+                                }
+                              }}
+                              className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-zinc-100 px-4 py-2 text-xs font-extrabold text-zinc-950 shadow-md transition cursor-pointer"
+                            >
+                              <Lock className="h-3.5 w-3.5 text-rose-600" />
+                              <span>
+                                Unblur Portrait + Secret Note ({activeBeat.photoDrop.unlockCost} Cr)
+                              </span>
+                            </button>
+
+                            {!inspectedExifIds.includes(activeBeat.photoDrop.id) && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  sfx.messagePop();
+                                  setInspectedExifIds((prev) => [
+                                    ...prev,
+                                    activeBeat.photoDrop!.id,
+                                  ]);
+                                }}
+                                className="inline-flex items-center gap-1 rounded-full bg-zinc-950/80 hover:bg-zinc-950 px-3 py-1 text-[11px] font-semibold text-white transition cursor-pointer"
+                              >
+                                <Search className="h-3 w-3" />
+                                <span>Inspect Photo Metadata (Free • 0 Cr)</span>
+                              </button>
+                            )}
+                          </div>
                         </div>
+
+                        {inspectedExifIds.includes(activeBeat.photoDrop.id) && (
+                          <div
+                            data-testid="photo-exif-clue"
+                            className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-950 leading-snug"
+                          >
+                            {activeBeat.photoDrop.exifClue}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
                 )}
+
+                {/* Inline Comedy Dating-Sim Block / Red-Flag Decision Card */}
+                {(calloutPromptLeadId === currentThread.leadId || Boolean(activeBeat?.trapClueHint)) && (
+                  <div
+                    data-testid="inline-block-action-card"
+                    className="flex flex-wrap items-center justify-between gap-2.5 rounded-2xl border border-rose-200 bg-rose-50/80 px-4 py-3"
+                  >
+                    <div className="text-xs font-semibold text-rose-950">
+                      {activeBeat?.trapClueHint
+                        ? `🕵️ ${activeBeat.trapClueHint}`
+                        : `🚨 Feeling shady vibes from ${currentProfile.name}? You can block their number right now or keep grilling them.`}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleTriggerCutLoose}
+                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-rose-600 hover:bg-rose-700 px-3.5 py-1.5 text-xs font-bold text-white shadow-2xs transition cursor-pointer"
+                    >
+                      <Ban className="h-3.5 w-3.5" />
+                      <span>🚫 Block Number Now</span>
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {coachBanner && (
-                <div className="bg-amber-50/90 border-t border-amber-200 px-6 py-2 text-xs font-semibold text-amber-950">
-                  💡 {coachBanner}
+              {coachBanner && coachBanner.leadId === currentThread.leadId && (
+                <div className="flex items-center justify-between gap-2 bg-amber-50/90 border-t border-amber-200 px-6 py-2 text-xs font-semibold text-amber-950">
+                  <span>💡 Bestie Read: {coachBanner.text}</span>
+                  <button
+                    type="button"
+                    aria-label="Dismiss Bestie tip"
+                    onClick={() => setCoachBanner(null)}
+                    className="rounded-full p-0.5 text-amber-800 hover:bg-amber-200/60 cursor-pointer"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               )}
 
@@ -1556,18 +1918,129 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         </div>
       )}
 
-      {/* Cut-Loose Bullet-Dodged Receipt OR Bestie Self-Sabotage Check Modal */}
+      {/* Dramatic iOS Contact Poster Celebration Splash on Graduating to Personal iMessage */}
+      {imessageGradSplash &&
+        createPortal(
+          <div
+            data-testid="imessage-graduation-splash"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Unlocked iMessage with ${imessageGradSplash.name}`}
+            onClick={() => setImessageGradSplash(null)}
+          >
+            <div
+              className="w-full max-w-md overflow-hidden rounded-3xl bg-gradient-to-b from-[#0F172A] via-[#1E293B] to-[#0F172A] p-6 text-center text-white shadow-2xl space-y-4 animate-stage-in"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-white shadow-sm">
+                <Smartphone className="h-3.5 w-3.5" />
+                <span>Moved Off Hinge • Personal Cell Unlocked</span>
+              </span>
+
+              <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-[#007AFF] shadow-xl">
+                <img
+                  src={imessageGradSplash.portrait}
+                  alt={imessageGradSplash.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-widest text-sky-300">
+                  New iOS Contact Poster Saved
+                </div>
+                <h3 className="mt-0.5 text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                  {imessageGradSplash.name}, {imessageGradSplash.age}
+                </h3>
+                <p className="text-xs text-slate-300">{imessageGradSplash.job}</p>
+              </div>
+
+              <div className="rounded-2xl bg-white/10 border border-white/15 p-3.5 text-left space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-sky-300">
+                  <span>💬 First Off-App iMessage Just Landed</span>
+                  <span>Now</span>
+                </div>
+                <p className="text-xs sm:text-sm text-white leading-snug">
+                  “{imessageGradSplash.openingLine}”
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] font-bold text-emerald-300">
+                <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3 py-1">
+                  <Check className="inline h-3 w-3 mr-1" />
+                  +10% Spark Boost
+                </span>
+                <span className="rounded-full bg-rose-500/15 border border-rose-400/30 px-3 py-1 text-rose-200">
+                  🔥 After-Dark Mode Ready
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setImessageGradSplash(null)}
+                className="w-full rounded-full bg-[#007AFF] hover:bg-blue-500 px-6 py-3 text-sm font-extrabold text-white shadow-lg transition cursor-pointer"
+              >
+                Open Clean iMessage Thread →
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )}
+
+      {/* Comedy Dating-Sim Block Receipt / Bestie Self-Sabotage Check Modal (Crisp Scrim, Zero Blur Glitch) */}
       {cutLooseModal &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/65 p-4"
             role="dialog"
             aria-modal="true"
+            onClick={() => setCutLooseModal(null)}
           >
-            <div className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-7 shadow-2xl space-y-4">
+            <div
+              className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-7 shadow-2xl space-y-4 animate-stage-in"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-wider ${
+                    cutLooseModal.verdict.isActualTrap
+                      ? 'bg-rose-100 text-rose-900'
+                      : 'bg-amber-100 text-amber-950'
+                  }`}
+                >
+                  <Ban className="h-3.5 w-3.5" />
+                  <span>
+                    {cutLooseModal.verdict.isActualTrap
+                      ? 'Number Blocked • Receipt Saved'
+                      : 'Bestie Gut-Check Before Blocking'}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  aria-label="Close block modal"
+                  onClick={() => setCutLooseModal(null)}
+                  className="rounded-full p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800 cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
               <h3 className="font-editorial text-2xl font-bold text-[#18101E]">
                 {cutLooseModal.verdict.headline}
               </h3>
+
+              {cutLooseModal.verdict.isActualTrap && (
+                <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-1.5">
+                  <div className="inline-block rounded-2xl rounded-bl-xs bg-[#E9E9EB] px-3.5 py-2 text-xs font-medium text-zinc-700">
+                    Wait hold on—let me explain that last part!!
+                  </div>
+                  <div className="text-[11px] font-bold text-rose-600">
+                    ❗ Not Delivered — Number Blocked by You
+                  </div>
+                </div>
+              )}
+
               <p className="text-sm text-stone-700 leading-relaxed">
                 {cutLooseModal.verdict.bestieNote}
               </p>
@@ -1576,6 +2049,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 <div className="space-y-4">
                   <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-xs font-bold text-emerald-900">
                     +25 Discernment XP Awarded • ❤️ Friday Night Heart Preserved!
+                    {cutLooseModal.verdict.conspiracyClueId
+                      ? ' • 🕵️ Table 9 Conspiracy Clue Logged!'
+                      : ''}
                   </div>
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex gap-2">
@@ -1608,7 +2084,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:underline"
                     >
                       <Heart className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                      <span>💛 Support This Project</span>
+                      <span>Support This Project</span>
                     </a>
                   </div>
                 </div>
@@ -1627,9 +2103,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       onConfirmCutGenuine(cutLooseModal.leadId);
                       setCutLooseModal(null);
                     }}
-                    className="rounded-full border border-stone-300 px-4 py-2.5 text-xs font-bold text-stone-600 cursor-pointer"
+                    className="rounded-full border border-rose-300 bg-rose-50 px-4 py-2.5 text-xs font-bold text-rose-900 hover:bg-rose-100 cursor-pointer"
                   >
-                    Unmatch Anyway
+                    🚫 Block &amp; Unmatch Anyway
                   </button>
                 </div>
               )}
