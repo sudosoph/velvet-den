@@ -422,15 +422,58 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
     return buildTrapChapter(profile, photos);
   }
 
+  const bespokeBeat1OpenerById: Record<string, string> = {
+    soren:
+      'Rarely open this app after clay-court mornings, yet your profile stopped me cold. Tell me you despise overhead restaurant lighting as much as I do.',
+    miles:
+      'Still smiling from our Terminal B curbside handoff—my calendar is cleared for Friday at 8:15 so you don’t have to make a single decision.',
+    rafael:
+      'Just brushed the walnut sawdust off my sleeves in Silver Lake—still thinking about spinning you under those courtyard string lights.',
+    marcus:
+      'Off a quiet morning swim after shift at Station 14—your directness already lowered my resting heart rate to forty-six.',
+    elena:
+      'Grades are officially posted and my office door is locked—congratulations on writing an actual complete sentence without a seminar cliché.',
+    claire:
+      'Ninety seconds between board calls on the 34th floor, and your note actually made me laugh out loud. Good start.',
+    sienna:
+      'Taking five minutes in the olive-tree courtyard with fabric samples—love that you didn’t open with a generic "hey."',
+    priya:
+      'Just clocked off three twelve-hour trauma nights with a cardamom cold brew—your message beat hospital coffee by a mile.',
+    summer:
+      'Wrapped my last Malibu consult before sunset—bonus points right away if you remembered mineral SPF 50 on your neck today.',
+  };
+
+  const bespokeBeat2IncomingById: Record<string, string> = {
+    soren:
+      'In Copenhagen we skip two weeks of coy texting—I have two quiet spots shortlisted for Thursday: coastal raw bar or dim timber wine room?',
+    miles:
+      'Most guys my age ask "idk what do you feel like"—I held two acoustic-friendly corner booths so you just pick seafood or steak.',
+    rafael:
+      'Fair warning before Friday: if there is music within two blocks of dinner, I am claiming at least one slow courtyard dance.',
+    marcus:
+      'Station schedule is locked all month so I never flake—prefer sunset bluff seafood or a tucked-away vinyl jazz lounge Friday?',
+    elena:
+      'Quick litmus test: if my seminar day runs silent until six and I reply "Sounds good." with a period, do you panic or hold steady?',
+    claire:
+      'Fair ground rule before Thursday: my workday runs wall-to-wall until 6:30 PM, and I never babysit fragile egos.',
+    sienna:
+      'Real question before I clear Friday night: are you completely comfortable holding hands in public when my Velvet Palms friends walk by?',
+    priya:
+      'Quick shift-worker check: when blackout curtains are drawn until 2 PM after nights, do you guard the peace or blow up my phone?',
+    summer:
+      'Honest filter up front: I’ve watched too many 38-year-old men stall on commitment—how do you feel about dating with real intention?',
+  };
+
   // Clean role-accurate 6-beat arc for all other Genuine Main Leads & Cameos
   return {
     tinder: [
       {
         beatNumber: 1,
         incomingMessages: [
-          isHimMatch
-            ? `Best surprise in my likes all week—glad you stopped scrolling and said hi.`
-            : `Well, you already beat ninety percent of this app by writing an actual sentence.`,
+          bespokeBeat1OpenerById[profile.id] ||
+            (isHimMatch
+              ? `Best surprise in my likes all week, ${profile.name} here—glad you stopped scrolling and said hi.`
+              : `Well, you already beat ninety percent of this app by writing an actual sentence.`),
         ],
         choices: [
           {
@@ -467,9 +510,10 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       {
         beatNumber: 2,
         incomingMessages: [
-          isHimMatch
-            ? `I know most guys my age say "whatever you want"—I’d much rather pick two great spots and let you choose the mood.`
-            : `Quick test before we go further: how do you handle it when my workday runs silent until 6 PM?`,
+          bespokeBeat2IncomingById[profile.id] ||
+            (isHimMatch
+              ? `I know most guys my age say "whatever you want"—I’d much rather pick two great spots and let you choose the mood.`
+              : `Quick test before we go further: how do you handle it when my workday runs silent until 6 PM?`),
         ],
         choices: [
           {
@@ -1248,36 +1292,382 @@ export const V35_CHAT_CHAPTERS: Record<
   V35_CAST_PROFILES.map((profile) => [profile.id, buildLeadOrCameoChapter(profile)]),
 );
 
+interface BespokeLeadStoryPack {
+  date1Title: string;
+  date1Beat1Dialogue: string;
+  date1Beat2Dialogue: string;
+  date2Title: string;
+  date2Backdrop: string;
+  date2Beat1Dialogue: string;
+  date2Beat1GoodLabel: string;
+  date2Beat1GoodResponse: string;
+  date2Beat1BadLabel: string;
+  date2Beat1BadResponse: string;
+  date2Beat2Dialogue: string;
+  date2Beat2GoodLabel: string;
+  date2Beat2GoodResponse: string;
+  date2Beat2VipLabel: string;
+  date2Beat2VipResponse: string;
+  date3Title: string;
+  date3Backdrop: string;
+  date3Beat1Dialogue: string;
+  date3Beat1GoodLabel: string;
+  date3Beat1GoodResponse: string;
+}
+
+const BESPOKE_MAIN_LEAD_STORIES: Record<string, BespokeLeadStoryPack> = {
+  julian: {
+    date1Title: 'Half Seven at Left Bank’s Candlelit Courtyard',
+    date1Beat1Dialogue:
+      'Julian rises five minutes ahead of half seven in rolled white linen, peonies resting beside two proper Barolo stems: "Zero phones on the table all evening, darling—and I already vetted the courtyard acoustics."',
+    date1Beat2Dialogue:
+      'When the leather check presenter lands, Julian smoothly places his fellowship debit card down without performative bluster: "Tonight was my invitation—you can spoil me at your favorite coastal bistro next week if I earn Date Two."',
+    date2Title: 'Date #2: Westwood Gallery Opening & Catching Himself "Cubsplaining"',
+    date2Backdrop: V35_SCENE_BACKDROPS['left-bank-books'],
+    date2Beat1Dialogue:
+      'At a 1990s London photography & Britpop exhibit, Julian starts enthusiastically lecturing on 1995 Camden vinyl pressings—then freezes mid-sentence, blushes crimson, and laughs: "Oh God, I was three seconds away from Cubsplaining Pulp to a woman who actually lived nineties London. Shutting up immediately xx."',
+    date2Beat1GoodLabel:
+      'Tease him warmly for catching his own Cubsplaining in record time and trade real 1995 stories.',
+    date2Beat1GoodResponse:
+      'Julian grins with pure relief, kissing your knuckles right in front of the curator.',
+    date2Beat1BadLabel: 'Roll your eyes coldly and leave him squirming by the gallery wall.',
+    date2Beat1BadResponse: 'Julian apologizes politely, though the playful spark dims.',
+    date2Beat2Dialogue:
+      'Over post-gallery espresso, your snooty acquaintance arches an eyebrow at your twenty-seven-year-old British date and asks if he is "interning nearby."',
+    date2Beat2GoodLabel:
+      'Introduce Julian proudly by his UCL fellowship and laugh effortlessly together.',
+    date2Beat2GoodResponse:
+      '"Bloody hell, the way you backed me just then made my whole month," Julian murmurs.',
+    date2Beat2VipLabel:
+      '💎 Slip your arm through Julian’s: "Visiting architectural historian—and spoken for all Friday."',
+    date2Beat2VipResponse:
+      'Julian’s ears turn pink with delight: "Consider me utterly yours, darling xx."',
+    date3Title: 'Date #3: Sunday Saffron Risotto & The Morning-Light Mirror Truth',
+    date3Backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+    date3Beat1Dialogue:
+      'Bright Sunday morning light pours across the kitchen island after saffron risotto night. Julian wraps his arms around your waist and confesses the symmetric age-gap truth: while you briefly wondered how bright daylight compares to twenty-four-year-olds on Instagram, he spent all week praying he had enough presence to keep an extraordinary woman interested.',
+    date3Beat1GoodLabel:
+      'Meet his honesty head-on: trade perfection myths for real intimacy and plan his post-fellowship chapter on the coast.',
+    date3Beat1GoodResponse:
+      'Julian exhales against your neck: "Best decision I ever made was saying hello at half seven."',
+  },
+  soren: {
+    date1Title: 'Clay-Court Twilight & The Boutique "Two Queen Beds?" Mix-Up',
+    date1Beat1Dialogue:
+      'Stopping at the coastal boutique inn lounge after twilight tennis, a flustered twenty-two-year-old desk clerk glances between you and 6\'3" Søren and blurts: "Checking in—did you need me to switch the room to two Queen beds?" Søren doesn’t blink: "Just two dry martinis by the fireplace tonight, tack—and one King would be plenty."',
+    date1Beat2Dialogue:
+      'Away from the mortified clerk, Søren admits in quiet Nordic candor that people sometimes misread his calm silence as aloofness when in truth he dates once every few years and commits all the way.',
+    date2Title: 'Date #2: 62°F Timber Sanctuary, Lamp Glow & Two Linen Duvets',
+    date2Backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+    date2Beat1Dialogue:
+      'Søren cooks lemon sole in his Santa Monica Canyon timber studio: every harsh overhead bulb is banned in favor of warm 2700K lamps, the bedroom thermostat is pre-set to a crisp 62°F, and the oak bed holds two separate Scandinavian linen duvets so nobody ever fights over covers.',
+    date2Beat1GoodLabel:
+      'Praise his 62°F two-duvet Scandinavian sleep setup and toast to elite adult hosting.',
+    date2Beat1GoodResponse:
+      'Søren breaks into a rare, boyish grin as lemon butter sizzles on the stove.',
+    date2Beat1BadLabel: 'Complain that 62°F is freezing and flip on the overhead ceiling light.',
+    date2Beat1BadResponse: 'Søren winces playfully at the ceiling glare while adjusting the dimmer.',
+    date2Beat2Dialogue:
+      'On the canyon deck afterward, Søren proposes his favorite relationship rule: honest silence where neither partner has to perform small talk after a long week.',
+    date2Beat2GoodLabel:
+      'Embrace comfortable silence, phones on airplane mode, and ocean swims before eight.',
+    date2Beat2GoodResponse: '"In Denmark we call that finding harbor," Søren says softly.',
+    date2Beat2VipLabel:
+      '💎 Claim your own linen duvet on the left side and lock in Thursday mixed-doubles rematches.',
+    date2Beat2VipResponse: 'Søren pulls you into his chest: "Left duvet is officially yours."',
+    date3Title: 'Date #3: Coastal Bluff Fog & Intentional Child-Free Horizon',
+    date3Backdrop: './images/scenes/cozy-rain-suite.jpg',
+    date3Beat1Dialogue:
+      'Morning fog rolls past the canyon glass as Søren pours two cortados and lays out his multi-year vision: zero ambiguity, zero pressure for kids neither of you wants, and building a calm coastal life side by side.',
+    date3Beat1GoodLabel:
+      'Say yes with full clarity: choose intentional partnership, travel, and unhurried mornings together.',
+    date3Beat1GoodResponse:
+      'Søren rests his forehead against yours: "Good. Because I was done looking the night we met."',
+  },
+  miles: {
+    date1Title: 'The 8:15 Corner Banquette Zero-Decision Takeover',
+    date1Beat1Dialogue:
+      'Miles opens the passenger door with your seat warmer already set to level two and ushers you into a cedar-lined corner banquette whose acoustics he designed himself: "You made forty executive calls since Monday—tonight your decision count is officially zero."',
+    date1Beat2Dialogue:
+      'Over aged bourbon and raw oysters, the man everyone leans on admits he almost forgot what it feels like when someone asks how *his* week actually went instead of handing him a blueprint crisis.',
+    date2Title: 'Date #2: The Sommelier "Will Your Son Be Tasting?" Hand-Kiss Takedown',
+    date2Backdrop: V35_SCENE_BACKDROPS['velvet-room'],
+    date2Beat1Dialogue:
+      'At a white-tablecloth chef’s tasting counter, a nervous rookie sommelier approaches from behind your shoulder and asks, "Good evening, ma’am—will your son be joining the reserve pairing tonight?" Without missing half a beat, Miles lifts your hand, kisses your knuckles across the table, and smiles deadpan: "Definitely not her son, mate—though we’ll gladly accept two comped pours of vintage Champagne while you recover."',
+    date2Beat1GoodLabel:
+      'Laugh right alongside Miles as the sommelier turns scarlet and sends over complimentary Champagne and dessert.',
+    date2Beat1GoodResponse:
+      'The entire chef’s counter applauds softly while Miles winks over crystal flutes.',
+    date2Beat1BadLabel: 'Get mortified and ask to pack up dinner early.',
+    date2Beat1BadResponse: 'Miles handles the exit smoothly, wishing you knew how radiant you look.',
+    date2Beat2Dialogue:
+      'Strolling the marina dock with comped tiramisu boxed in his hand, Miles asks your golden rule for weekend pacing when both of your careers run high-stakes.',
+    date2Beat2GoodLabel:
+      'Lock in Friday passenger-seat handoffs paired with protected Sunday solo recharge hours.',
+    date2Beat2GoodResponse: '"Spoken like a woman who knows her worth," Miles grins.',
+    date2Beat2VipLabel:
+      '💎 Reward his sommelier save: invite him aboard for one slow bourbon nightcap under canvas.',
+    date2Beat2VipResponse: 'Miles’s voice drops an octave: "Best save of my career."',
+    date3Title: 'Date #3: Respecting Her Paid-Off Sanctuary & True Partner Keys',
+    date3Backdrop: './images/scenes/palm-springs-resort.jpg',
+    date3Beat1Dialogue:
+      'Out past the breakwater at sunset, Miles names what makes you two work: he never tries to redecorate or take over the sanctuary you built, and in your arms he finally gets to stop playing invincible.',
+    date3Beat1GoodLabel:
+      'Choose full partnership: let the rock exhale with you while keeping both your sanctuaries thriving.',
+    date3Beat1GoodResponse:
+      'Miles wraps you inside his wool coat against the sea breeze: "Home port found."',
+  },
+  rafael: {
+    date1Title: 'Havana & Vine Courtyard Salsa & Midnight Garlic Oil',
+    date1Beat1Dialogue:
+      'Under warm Havana & Vine string lights, Rafael guides you through an effortless salsa cross-body turn before your Rioja even touches the table: "Relax your shoulders—I’ve got the frame, nobody bumps into you on my watch."',
+    date1Beat2Dialogue:
+      'Between brass numbers, Rafael shows the calluses on his palms from hand-planing twelve-foot black walnut slabs, proud of building every inch of his Silver Lake studio without family money.',
+    date2Title: 'Date #2: Your Industry Black-Tie Gala & The +1 Whisper Test',
+    date2Backdrop: V35_SCENE_BACKDROPS['velvet-room'],
+    date2Beat1Dialogue:
+      'Rafael arrives at your industry black-tie gala in a razor-sharp tuxedo. Near the champagne tower, two nosy VPs whisper loudly enough to hear: "Wait, is that her twenty-six-year-old woodworker?" Rafael stays composed beside you, watching quietly to see whether you shrink back or claim him.',
+    date2Beat1GoodLabel:
+      'Introduce Rafael by full name and studio title with radiant pride—then let him spin you across the ballroom.',
+    date2Beat1GoodResponse:
+      'Jaws drop across Table 1 as Rafael leads the smoothest slow dance of the night.',
+    date2Beat1BadLabel: 'Drop his hand awkwardly and steer him away from your colleagues.',
+    date2Beat1BadResponse: 'Rafael stays polite, though hurt flickers behind his dark eyes.',
+    date2Beat2Dialogue:
+      'Back on the gala terrace after out-dancing every stiff executive in the room, Rafael laughs and asks what domestic superpower wins permanent brownie points at your house.',
+    date2Beat2GoodLabel:
+      'Tell him acts of service beat empty poetry every day of the week.',
+    date2Beat2GoodResponse: '"Just wait until Sunday morning," Rafael grins mysteriously.',
+    date2Beat2VipLabel:
+      '💎 Loosen his black silk bow tie yourself: "Take me back to Silver Lake and play the seven-string."',
+    date2Beat2VipResponse: 'Rafael’s breath catches against your palm: "Car is already out front."',
+    date3Title: 'Date #3: Warm Pão de Queijo & Fixing Every Sticky Patio Latch Unasked',
+    date3Backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+    date3Beat1Dialogue:
+      'You wake up Sunday to stovetop Brazilian espresso, warm pão de queijo, and a miraculous discovery: Rafael woke up at seven and quietly planed, oiled, and aligned the sticky backyard patio latch that annoyed you for two straight years.',
+    date3Beat1GoodLabel:
+      'Pull the sawdust-and-bergamot woodworker into your arms and lock in real commitment.',
+    date3Beat1GoodResponse:
+      'Rafael laughs against your lips: "Every door in this house opens smoothly from now on."',
+  },
+  marcus: {
+    date1Title: 'Jazz-Lounge Velvet Rope & The UV-Flashlight Bouncer ID Check',
+    date1Beat1Dialogue:
+      'At the jazz club velvet rope, the burly doorman shines a purple UV flashlight across 27-year-old Marcus’s driver’s license for twelve full seconds—then waves you straight inside without glancing at your clutch! Marcus grins without a shred of ego: "Hey, means I absorb all the carding delays and you get the best booth by the saxophonist."',
+    date1Beat2Dialogue:
+      'Over charred lemon mahi-mahi, Marcus talks openly about twenty-four-hour ocean-rescue shifts—and mentions warmly that his mom Denise is forty-nine, promising you will never walk into an unprepped family ambush.',
+    date2Title: 'Date #2: Vinyl Grill Sunday & Meeting His 49-Year-Old Mom Denise',
+    date2Backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+    date2Beat1Dialogue:
+      'True to his word, Marcus briefed his 49-year-old mom Denise a full week ahead ("Mom, she’s brilliant, hilarious, and makes me happier than anyone I’ve dated"). Five minutes into backyard grilling with Marvin Gaye spinning, Denise hands you chilled Pinot Grigio and offers to show you Marcus’s braces photos.',
+    date2Beat1GoodLabel:
+      'Bond effortlessly with Denise over 90s R&B concerts and roast Marcus’s rookie academy haircut together.',
+    date2Beat1GoodResponse:
+      'Marcus groans laughing at the grill while Denise whispers: "Keep him—he hasn’t smiled like this in years."',
+    date2Beat1BadLabel: 'Act stiff and defensive about being close to Denise’s age.',
+    date2Beat1BadResponse: 'Marcus smooths things over kindly, though the afternoon stays formal.',
+    date2Beat2Dialogue:
+      'After Denise hugs you goodbye at the gate, Marcus checks in on how you like handling his 24-hour station shifts.',
+    date2Beat2GoodLabel:
+      'Celebrate built-in solo nights during his shifts followed by undivided 48-hour off-duty weekends.',
+    date2Beat2GoodResponse: '"Dream rhythm," Marcus smiles, lifting you effortlessly onto the counter.',
+    date2Beat2VipLabel:
+      '💎 Test whether his famous 48-BPM resting heart rate survives five minutes alone on the patio.',
+    date2Beat2VipResponse: 'Marcus checks his watch laughing: "Officially up to ninety-two."',
+    date3Title: 'Date #3: Post-Shift Harbor & Choosing Your Steady Anchor',
+    date3Backdrop: './images/scenes/cozy-rain-suite.jpg',
+    date3Beat1Dialogue:
+      'After a chaotic week on both ends, Marcus shows up at eight with homemade lemon pasta and calm arms—proving a grounded twenty-seven-year-old paramedic outclasses every jaded peer in town.',
+    date3Beat1GoodLabel:
+      'Go all in together: claim the calmest, steadiest heart on the coast as your real partner.',
+    date3Beat1GoodResponse:
+      'Marcus holds you close: "Never canceling, never running—you’ve got me."',
+  },
+  elena: {
+    date1Title: 'Post-Grades Sancerre & The Sixty-Second Embargo Test',
+    date1Beat1Dialogue:
+      'Elena tucks a stray honey-blonde curl behind her ear over chilled Sancerre at Left Bank’s gallery courtyard: "Alright, sixty seconds on the clock—make me laugh without mentioning seminars, footnotes, or my height."',
+    date1Beat2Dialogue:
+      'Once her shoulders drop out of Department Chair armor, Elena admits she spent years watching insecure men her own age treat her books like competition instead of foreplay.',
+    date2Title: 'Date #2: Decoding Gen-X "Sounds good." Punctuation & The Dean’s Dinner',
+    date2Backdrop: V35_SCENE_BACKDROPS['left-bank-books'],
+    date2Beat1Dialogue:
+      'Arriving for the Faculty Dean’s salon dinner, Elena raises her glass with an impressed smirk: "First, thank heaven you didn’t spiral at 3 PM when I replied \'Sounds good.\' with a period and a thumbs-up between committee votes. Second—brace yourself, my pompous 52-year-old rival from Philosophy is walking straight toward us."',
+    date2Beat1GoodLabel:
+      'Charm the Dean effortlessly, back Elena’s latest essay with wit, and never compete for her spotlight.',
+    date2Beat1GoodResponse:
+      'Her rival retreats defeated while Elena squeezes your thigh under the linen tablecloth.',
+    date2Beat1BadLabel: 'Try to out-lecture two tenured professors on French theory you skimmed on Wikipedia.',
+    date2Beat1BadResponse: 'Elena rescues the topic gracefully while giving your ankle a warning tap.',
+    date2Beat2Dialogue:
+      'Walking back across the moonlit quad in your jacket, Elena quizzes you on Sunday morning house law during book-deadline season.',
+    date2Beat2GoodLabel:
+      'Deliver tea silently before ten, keep phones silent, and take full charge of Sunday dinner.',
+    date2Beat2GoodResponse: '"A+ with distinction," Elena purrs, pulling you by your lapel.',
+    date2Beat2VipLabel:
+      '💎 Carry her stack of hardcovers in one hand and steal a slow kiss under the north-quad arches.',
+    date2Beat2VipResponse: 'Elena’s breath hitches into a delighted laugh: "Forget office hours."',
+    date3Title: 'Date #3: Rainy Westwood Hills Tea & Dropping the Armor for Good',
+    date3Backdrop: './images/scenes/cozy-rain-suite.jpg',
+    date3Beat1Dialogue:
+      'Rain streaks her Westwood Hills study windows after a top-down Highway 1 coastal run. Elena sets down her teacup and asks whether you want an exhilarating semester story or a real equal partnership.',
+    date3Beat1GoodLabel:
+      'Choose the real partnership: delight in her brilliance and build a lasting life together.',
+    date3Beat1GoodResponse:
+      'Elena steps onto the rung of your chair to kiss you deeply: "Best Plot Twist of my forties."',
+  },
+  claire: {
+    date1Title: 'Three-Olive Gibsons at The Velvet Room & The Smooth Check-Drop',
+    date1Beat1Dialogue:
+      'Claire studies you across The Velvet Room’s corner leather booth over a three-olive Gibson martini: "Five minutes early, crisp collar, phone face-down in your coat. You just survived the ninety-second M&A audit."',
+    date1Beat2Dialogue:
+      'When the server sets down the checkbook, Claire glances down out of twenty-year habit—only to discover you already tapped Apple Pay cleanly on your way back from washing your hands, zero awkwardness, zero income-gap speech.',
+    date2Title: 'Date #2: Manhattan Beach Brunch & Meeting Her 22-Year-Old College Son Leo',
+    date2Backdrop: V35_SCENE_BACKDROPS['st-jude-coffee'],
+    date2Beat1Dialogue:
+      'Halfway through coastal brunch in Manhattan Beach, Claire’s 22-year-old Stanford senior son Leo swings by the patio table in surf shorts—realizing in three seconds flat that his mom’s date is barely four years older than him!',
+    date2Beat1GoodLabel:
+      'Stand up with easy peer-level warmth, zero fake "stepdad" authority, and ask genuinely about his finals.',
+    date2Beat1GoodResponse:
+      'Leo relaxes immediately, fist-bumps you on the way out, and texts Claire: "Okay Mom, he’s actually cool."',
+    date2Beat1BadLabel: 'Posture awkwardly like a stern stepdad offering unsolicited career lectures.',
+    date2Beat1BadResponse: 'Claire shoots you a razor-sharp boardroom look as Leo excuses himself.',
+    date2Beat2Dialogue:
+      'Barefoot on the strand afterward, Claire tests whether you truly understand why she loves her post-divorce independence.',
+    date2Beat2GoodLabel:
+      'Honor her peace: zero pressure to merge houses, high romance every Friday through Sunday.',
+    date2Beat2GoodResponse: '"God, where were you ten years ago?" Claire laughs into the ocean wind.',
+    date2Beat2VipLabel:
+      '💎 Book next Friday’s coastal inn yourself so the woman who runs every deal gets spoiled.',
+    date2Beat2VipResponse: 'Claire’s eyes darken warmly: "Keep leading like that and I’m hooked."',
+    date3Title: 'Date #3: Oceanfront Deck & The Living-Apart-Together Two-Keys Pact',
+    date3Backdrop: './images/scenes/palm-springs-resort.jpg',
+    date3Beat1Dialogue:
+      'On her Manhattan Beach deck over Sunday Pinot, Claire slides a brass spare key across the teak table alongside a clear boundary: committed Living-Apart-Together devotion—two separate sets of keys, zero remarriage paperwork, choosing each other intentionally.',
+    date3Beat1GoodLabel:
+      'Accept the brass key joyfully: commit to loyal Living-Apart-Together partnership on purpose.',
+    date3Beat1GoodResponse:
+      'Claire pulls you down onto the daybed in the sunset glow: "Every Friday is yours."',
+  },
+  sienna: {
+    date1Title: 'Olive-Tree Courtyard Rosé & The 2009 "Junior Cougar" Math Tease',
+    date1Beat1Dialogue:
+      'Under terracotta lanterns, 39-year-old Sienna clinks chilled rosé against yours and bursts out laughing: "Wait—do the 2009 Junior-Cougar math with me: while I was parallel-parking into UCLA design critiques, you were surviving high-school geometry!"',
+    date1Beat2Dialogue:
+      'Behind the playful six-year-gap banter, Sienna shares candidly that the last younger guy she dated acted weird whenever friends walked past—so secrecy is an instant dealbreaker.',
+    date2Title: 'Date #2: Cul-de-Sac Lantern Party & Claiming Her in Front of Nephew Sam’s Crew',
+    date2Backdrop: V35_SCENE_BACKDROPS['velvet-palms-bbq'],
+    date2Beat1Dialogue:
+      'At a twenty-person Velvet Palms courtyard dinner, your twenty-something rec-league teammates walk in right beside Sienna’s 27-year-old nephew Sam! Every eye turns to see how you introduce the stunning designer beside you.',
+    date2Beat1GoodLabel:
+      'Rest your hand warmly at the small of Sienna’s back and claim her proudly in front of Sam and your whole crew.',
+    date2Beat1GoodResponse:
+      'Sam raises a beer grinning—"Approved, Aunt Sienna!"—while Sienna beams up at you all night.',
+    date2Beat1BadLabel: 'Step two feet sideways and pretend you’re just chatting about patio tile.',
+    date2Beat1BadResponse: 'Sienna’s smile freezes instantly—secrecy never flies in Velvet Palms.',
+    date2Beat2Dialogue:
+      'While Al Green spins in her Spanish-revival kitchen after guests leave, Sienna challenges you on Sunday 7 AM Pasadena antique-market stamina.',
+    date2Beat2GoodLabel:
+      'Promise 6:45 AM cortados in the cupholders and heavy vintage-brass hauling duty.',
+    date2Beat2GoodResponse: '"Officially hired for life," Sienna laughs, kissing your jaw.',
+    date2Beat2VipLabel:
+      '💎 Spin her across the warm terracotta kitchen tile before loading a single dishwasher rack.',
+    date2Beat2VipResponse: 'Sienna melts into your shoulder as Al Green plays on.',
+    date3Title: 'Date #3: 7 AM Rose Bowl Brass & Sunlit Velvet Palms Future',
+    date3Backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+    date3Beat1Dialogue:
+      'Fresh figs and antique brass sconces sit on her courtyard table after dawn treasure-hunting. Sienna looks at you steadily: "Six years apart turned out to be the exact sweet spot—are you ready to do this for real?"',
+    date3Beat1GoodLabel:
+      'Say yes wholeheartedly: build a proud, open-door life together under the olive trees.',
+    date3Beat1GoodResponse:
+      'Sienna kisses you in full morning sun: "Best find in Pasadena."',
+  },
+  priya: {
+    date1Title: '7:30 AM Off-Shift Coastal Croissants & Cardamom Cold Brew',
+    date1Beat1Dialogue:
+      'Instead of forcing a stiff 8 PM dinner on her hospital flip day, you meet Priya at 7:30 AM overlooking the bluffs with warm almond croissants and cardamom cold brew. She exhales deeply: "Twenty peaceful minutes watching the waves with zero menu decisions—you actually listened."',
+    date1Beat2Dialogue:
+      'Once her trauma-bay adrenaline fades, Priya admits her ex-husband resented her nursing schedule while still expecting her to manage every grocery run and bill at home.',
+    date2Title: 'Date #2: Blackout-Curtain Sleep Law & Cutthroat Lamb-Chop Scrabble',
+    date2Backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+    date2Beat1Dialogue:
+      'After guarding Priya’s blackout-curtain sleep until 3 PM with zero noisy texts, you greet her in a linen apron with seared lamb chops, homemade garlic naan, and a Scrabble board—just as her ER bestie FaceTimes in to inspect the younger chef!',
+    date2Beat1GoodLabel:
+      'Charm her ER bestie on FaceTime, then take Priya’s ruthless triple-word-score trash talk like a champ.',
+    date2Beat1GoodResponse:
+      'Priya cackles triumphantly over a 64-point play while her bestie yells "MARRY HIM!" through the speaker.',
+    date2Beat1BadLabel: 'Sulk over losing at Scrabble and complain about her night-shift sleep hours.',
+    date2Beat1BadResponse: 'Priya packs up the letter tiles with charge-nurse efficiency.',
+    date2Beat2Dialogue:
+      'Curled on the sofa after demolishing you by forty points, Priya tests your banter reflexes with a dry hospital-grade tease.',
+    date2Beat2GoodLabel:
+      'Volley her tease right back with a confident grin and pull her feet into your lap.',
+    date2Beat2GoodResponse: '"Thank God—a man who doesn’t fold AND rubs my feet," Priya sighs happily.',
+    date2Beat2VipLabel:
+      '💎 Pack tomorrow night’s shift tiffin box with leftover lamb and a cheeky sticky note.',
+    date2Beat2VipResponse: 'Priya goes unexpectedly misty-eyed: "Nobody has ever packed my shift meal before."',
+    date3Title: 'Date #3: Caring for the Caretaker at Culver Bluff Sunset',
+    date3Backdrop: './images/scenes/cozy-rain-suite.jpg',
+    date3Beat1Dialogue:
+      'Silk dress replacing navy scrubs, Priya leans against your chest on the bluff overlook and asks if you’re truly ready to be the safe harbor for a woman who spends all week saving everyone else.',
+    date3Beat1GoodLabel:
+      'Commit completely: off-duty, she gets taken care of with zero scorekeeping.',
+    date3Beat1GoodResponse:
+      'Priya kisses you fiercely: "Consider my off-shift calendar permanently yours."',
+  },
+  summer: {
+    date1Title: 'Malibu First Point Dawn Surf & The Mineral SPF 50 Neck Check',
+    date1Beat1Dialogue:
+      'Golden pier sunlight hits your collar after paddling First Point as 33-year-old dermatologist Summer runs two warm fingers along your jawline: "Mineral SPF 50 all the way down your neck, zero whining about 58-degree water, AND pink peonies in the trunk? Dangerous start."',
+    date1Beat2Dialogue:
+      'Over oceanfront fish tacos in wet hair, Summer is refreshingly candid: she lowered her Hinge age slider because every 38-year-old man in Brentwood wanted endless situationships while she wants real marriage and surfer kids.',
+    date2Title: 'Date #2: Beverly Hills Friends Dinner & Outclassing Stalling 38M Peers',
+    date2Backdrop: V35_SCENE_BACKDROPS['velvet-room'],
+    date2Beat1Dialogue:
+      'At a Beverly Hills rooftop dinner with Summer’s med-school girlfriends, a 39-year-old hedge-fund date across the table jokes about "still figuring out if he’s ready to settle down by forty-five"—then smirks at you: "Must be nice having zero timeline pressure in your twenties, kid."',
+    date2Beat1GoodLabel:
+      'Hold eye contact calmly: state with zero hesitation that knowing what you want to build isn’t an age, it’s character.',
+    date2Beat1GoodResponse:
+      'Every woman at the table exchanges wide-eyed applause glances while Summer beams beside you.',
+    date2Beat1BadLabel: 'Laugh nervously and agree that marriage sounds way off in the distant future.',
+    date2Beat1BadResponse: 'Summer’s expression cools instantly—she didn’t lower her age slider for another staller.',
+    date2Beat2Dialogue:
+      'Walking barefoot along Carbon Beach under moonlight, Summer checks your morning-after weekend rhythm.',
+    date2Beat2GoodLabel:
+      'Dawn longboard sessions, farmer’s-market matcha, and proactive date planning every week.',
+    date2Beat2GoodResponse: '"Energy AND follow-through—the exact combo I prayed existed," Summer laughs.',
+    date2Beat2VipLabel:
+      '💎 Lift her over an incoming Malibu tide surge so her heels stay bone-dry.',
+    date2Beat2VipResponse: 'Summer wraps both arms around your neck laughing: "Ten out of ten reflexes."',
+    date3Title: 'Date #3: Malibu Terrace Sunrise & Real Family Timeline Alignment',
+    date3Backdrop: './images/scenes/palm-springs-resort.jpg',
+    date3Beat1Dialogue:
+      'Peonies catch the morning ocean breeze on her Malibu kitchen island as Summer asks the real chapter-one question: aligning whole-heartedly on building a marriage, a home, and a future family together in the next few years.',
+    date3Beat1GoodLabel:
+      'Say yes with clear eyes and full heart: build the sunlit Malibu future together.',
+    date3Beat1GoodResponse:
+      'Summer kisses you radiant in the sunrise: "Thank God I lowered that age slider."',
+  },
+};
+
 function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
   const isHimMatch = profile.role === 'him';
   const bestie = isHimMatch ? 'Jade' : 'Sam';
-
-  const date1TitleByLead: Record<string, string> = {
-    julian: 'Half Seven at Left Bank’s Candlelit Courtyard',
-    soren: 'Clay-Court Twilight & Minimalist Martinis',
-    miles: 'The 8:15 Corner Table Curbside Takeover',
-    rafael: 'String-Light Salsa & Midnight Espresso',
-    marcus: 'Sunset Bluff Walk & Vinyl Grill Night',
-    elena: 'Post-Grades Sancerre at the Faculty Gallery',
-    claire: 'Three-Olive Gibsons at The Velvet Room',
-    sienna: 'Olive-Tree Courtyard Wine & Public Poise',
-    priya: 'Off-Shift Sunset Tacos & Zero Decisions',
-    summer: 'Malibu Pier Golden Hour & Oceanfront Toast',
-  };
+  const pack = BESPOKE_MAIN_LEAD_STORIES[profile.id];
 
   return [
     {
       dateNumber: 1,
-      title: date1TitleByLead[profile.id] || `Date #1 with ${profile.name}`,
+      title: pack ? pack.date1Title : `Date #1 with ${profile.name}`,
       venueBackdrop:
         V35_SCENE_BACKDROPS[profile.primaryWildVenueId || 'velvet-room'] ||
         V35_SCENE_BACKDROPS['velvet-room'],
       beats: [
         {
           speakerExpression: 'smirk',
-          dialogue: isHimMatch
-            ? `${profile.name} stands up the moment you arrive, pulling out your chair smoothly: "Even better than your photos—I ordered your drink two minutes ago so it wouldn't melt."`
-            : `${profile.name} looks up over candlelit crystal with an unhurried smile: "Right on the dot, and dressed like you actually respect a Friday evening. Sit down."`,
+          dialogue: pack
+            ? pack.date1Beat1Dialogue
+            : `${profile.name} looks up over candlelit crystal with an unhurried smile.`,
           bestiePopIn: `${bestie}: Just walked past the window—chemistry is already off the charts. Pace Night 1 smartly!`,
           choices: [
             {
@@ -1293,7 +1683,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
               chemistryDelta: -12,
             },
             {
-              label: '💎 Lean in with a slow smile: "You set a high bar in the first thirty seconds—let’s see if Act Two keeps up."',
+              label: `💎 Lean in with a slow smile: "You set a high bar in the first thirty seconds, ${profile.name}—let’s see if Act Two keeps up."`,
               response: `A flush of delighted heat crosses ${profile.name}'s face: "Gladly."`,
               nextExpression: 'blush',
               chemistryDelta: 26,
@@ -1303,9 +1693,10 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
         },
         {
           speakerExpression: 'neutral',
-          dialogue:
-            profile.vulnerabilityNote ||
-            `${profile.name} shares a candid story about navigating ambition and wanting real connection over surface flash.`,
+          dialogue: pack
+            ? pack.date1Beat2Dialogue
+            : profile.vulnerabilityNote ||
+              `${profile.name} shares a candid story about wanting real connection over surface flash.`,
           choices: [
             {
               label: 'Listen attentively and respond to the real person underneath the polish.',
@@ -1347,7 +1738,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
           ? [
               `${profile.name}: Mate, I am completely done for.`,
               `${profile.name}: Didn't rush Night 1 either—composed, funny as hell, and smelled incredible.`,
-              `Søren: Don't fumble Date 2. Cook properly or book the good terrace.`,
+              `Group Chat: Don't fumble Date 2. Bring your absolute A-game.`,
             ]
           : [
               `${profile.name}: Okay, you were right—zero rookie fumbles all night.`,
@@ -1359,30 +1750,36 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
     },
     {
       dateNumber: 2,
-      title: `Date #2: Real-World Collision & Etiquette Sparring with ${profile.name}`,
-      venueBackdrop: V35_SCENE_BACKDROPS['havana-salsa'],
+      title: pack ? pack.date2Title : `Date #2 with ${profile.name}`,
+      venueBackdrop: pack ? pack.date2Backdrop : V35_SCENE_BACKDROPS['havana-salsa'],
       prepAffiliateIds: isHimMatch
         ? ['princess-mulberry-silk-robe', 'chic-candlelit-menu-readers', 'espresso-martini-barware']
         : ['date-night-oud-bergamot', 'houseboy-linen-apron', 'silk-pillowcase-sleepover-duo'],
       beats: [
         {
           speakerExpression: 'laugh',
-          dialogue: `Halfway through Date #2, real worlds collide: ${
-            isHimMatch
-              ? `your skeptical brunch acquaintance spots you two across the room and raises both eyebrows at the age gap.`
-              : `${profile.name}'s sharpest friend stops by the table to size you up in thirty seconds flat.`
-          }`,
+          dialogue: pack
+            ? pack.date2Beat1Dialogue
+            : `Halfway through Date #2 with ${profile.name}, real worlds collide.`,
           choices: [
             {
-              label: 'Introduce each other with effortless pride, warm humor, and zero defensiveness.',
-              response: `The table melts into genuine laughter—${profile.name} squeezes your hand under the linen tablecloth.`,
+              label: pack
+                ? pack.date2Beat1GoodLabel
+                : 'Introduce each other with effortless pride, warm humor, and zero defensiveness.',
+              response: pack
+                ? pack.date2Beat1GoodResponse
+                : `${profile.name} squeezes your hand under the linen tablecloth.`,
               nextExpression: 'blush',
               chemistryDelta: 24,
               triggersCubSparring: true,
             },
             {
-              label: 'Freeze up and act awkward until they walk away.',
-              response: `${profile.name} covers the silence gracefully, though you feel the hesitation.`,
+              label: pack
+                ? pack.date2Beat1BadLabel
+                : 'Freeze up and act awkward until they walk away.',
+              response: pack
+                ? pack.date2Beat1BadResponse
+                : `${profile.name} covers the silence gracefully, though you feel the hesitation.`,
               nextExpression: 'icked',
               chemistryDelta: -14,
             },
@@ -1390,17 +1787,27 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
         },
         {
           speakerExpression: 'smirk',
-          dialogue: `Back on the terrace over espresso, ${profile.name} challenges you to a playful lightning etiquette round on shared weekend rules.`,
+          dialogue: pack
+            ? pack.date2Beat2Dialogue
+            : `Back on the terrace over espresso, ${profile.name} challenges you on shared weekend rules.`,
           choices: [
             {
-              label: 'Pass with flying colors: phones silent after nine, honest communication, and zero surprise houseguests.',
-              response: `"Certified S-Rank manners," ${profile.name} grins, pulling you closer.`,
+              label: pack
+                ? pack.date2Beat2GoodLabel
+                : 'Pass with flying colors: phones silent after nine and honest communication.',
+              response: pack
+                ? pack.date2Beat2GoodResponse
+                : `"Certified S-Rank manners," ${profile.name} grins.`,
               nextExpression: 'laugh',
               chemistryDelta: 24,
             },
             {
-              label: '💎 Add a custom weekend ritual: Sunday morning farmers-market coffee runs with zero alarms.',
-              response: `${profile.name}'s eyes shine: "Consider every Sunday morning officially spoken for."`,
+              label: pack
+                ? pack.date2Beat2VipLabel
+                : '💎 Add a custom weekend ritual: Sunday morning farmers-market coffee runs.',
+              response: pack
+                ? pack.date2Beat2VipResponse
+                : `${profile.name}'s eyes shine: "Consider every Sunday morning officially spoken for."`,
               nextExpression: 'blush',
               chemistryDelta: 28,
               cost: 1,
@@ -1409,9 +1816,9 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
         },
       ],
       secretBestiePovLeak: {
-        friendName: isHimMatch ? 'Miles' : 'Claire',
+        friendName: isHimMatch ? 'Miles (Club Group Chat)' : 'Claire (Her Group Chat)',
         messages: [
-          `${profile.name}: Passed the friend collision without blinking an eye.`,
+          `${profile.name}: Passed Date #2 without blinking an eye.`,
           `${profile.name}: Honestly haven't felt this safe and excited with someone in years.`,
         ],
         cost: 2,
@@ -1419,23 +1826,29 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
     },
     {
       dateNumber: 3,
-      title: `Date #3: Midnight Sanctuary & True Chapter-Two Verdict`,
-      venueBackdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+      title: pack ? pack.date3Title : `Date #3: Midnight Sanctuary with ${profile.name}`,
+      venueBackdrop: pack ? pack.date3Backdrop : './images/scenes/sunday-kitchen-sanctuary.jpg',
       beats: [
         {
           speakerExpression: 'blush',
-          dialogue: `Rain taps softly against the patio glass as handmade dinner simmers. ${profile.name} sets down two glasses and asks the real Month-Three question about your future together.`,
+          dialogue: pack
+            ? pack.date3Beat1Dialogue
+            : `${profile.name} sets down two glasses and asks the real Month-Three question about your future together.`,
           bestiePopIn: `${bestie}: Deep breath—honesty + emotional courage right here locks in True Romance!`,
           choices: [
             {
-              label: 'Speak from the heart: align openly on your shared rhythm, public pride, and choosing each other past every skeptic.',
-              response: `${profile.name} steps into your arms, resting their forehead against yours: "Then I’m all in with you."`,
+              label: pack
+                ? pack.date3Beat1GoodLabel
+                : 'Speak from the heart: align openly on your shared rhythm, public pride, and choosing each other.',
+              response: pack
+                ? pack.date3Beat1GoodResponse
+                : `${profile.name} steps into your arms: "Then I’m all in with you."`,
               nextExpression: 'blush',
               chemistryDelta: 30,
             },
             {
               label: 'Keep things vague and noncommittal so nobody risks getting hurt.',
-              response: `A bittersweet smile: "It’s been a lovely chapter, even if we stay right here."`,
+              response: `A bittersweet smile from ${profile.name}: "It’s been a lovely chapter, even if we stay right here."`,
               nextExpression: 'neutral',
               chemistryDelta: -5,
             },
@@ -1464,7 +1877,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
           choices: [
             {
               label: 'Clink mugs overlooking the waves and plan your one-year trip abroad together.',
-              response: `"Best chapter two in Velvet Palms history," ${profile.name} whispers, kissing your shoulder in the morning sun.`,
+              response: `"Best chapter in Velvet Palms history," ${profile.name} whispers, kissing your shoulder in the morning sun.`,
               nextExpression: 'blush',
               chemistryDelta: 30,
             },

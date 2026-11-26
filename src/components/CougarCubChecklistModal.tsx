@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CheckSquare, Play, RotateCcw, Share2, Sparkles, Square, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { trackEvent } from '../lib/analytics';
@@ -152,7 +153,7 @@ function rankForScore(score: number): { title: string; subtitle: string; recomme
   if (score >= 48) {
     return {
       title: '🔥 CERTIFIED SHORT-LEASH & LINEN-APRON PRO',
-      subtitle: 'Battle-tested across 1900s jokes, UV bouncers, and midnight hotel saunas.',
+      subtitle: 'Battle-tested across 1990s references, UV bouncers, and midnight hotel saunas.',
       recommendedEp: 'spontaneous-18h-pool-sauna-getaway',
     };
   }
@@ -253,24 +254,24 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
     });
   };
 
-  return (
+  const modalNode = (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-5 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-5 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
         aria-label="Have You Ever? 25-Point Cougars & Cubs Experience Test"
       >
-        <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl p-5 sm:p-7 space-y-4">
-          <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/12 pb-3">
+        <div className="editorial-hinge-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-7 space-y-4 shadow-2xl">
+          <div className="flex items-start justify-between gap-3 border-b border-stone-200 pb-4">
             <div>
-              <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-rose-700">
                 <Sparkles className="h-3.5 w-3.5" /> Have You Ever? • 0 to 100 Club Score
               </span>
-              <h2 className="mt-1.5 font-display text-2xl sm:text-3xl text-[#1E1022] leading-tight">
+              <h2 className="mt-1.5 font-editorial text-2xl sm:text-3xl font-bold text-[#18101E] leading-tight">
                 The 25-Point Cougars &amp; Cubs Experience Test
               </h2>
-              <p className="mt-1 text-xs sm:text-sm font-medium text-[#5A4664]">
+              <p className="mt-1 text-xs sm:text-sm font-medium text-stone-600">
                 Check every moment you’ve lived (or would survive) and compare your 0 to 100 score with your group chat!
               </p>
             </div>
@@ -278,29 +279,35 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               type="button"
               onClick={onClose}
               aria-label="Close Checklist"
-              className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
+              className="rounded-full border border-stone-200 bg-white p-2.5 text-stone-700 hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
           {/* Live Score Banner */}
-          <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] px-4 py-3 shadow-[3px_3px_0px_#1E1022]">
+          <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-300/80 bg-gradient-to-r from-amber-50 via-[#FFFDF9] to-rose-50/70 px-4 py-3.5 shadow-sm">
             <div>
-              <div className="text-xs font-extrabold uppercase text-[#1E1022]">{rank.title}</div>
-              <div className="text-xs font-semibold text-[#34223B]">{rank.subtitle}</div>
+              <div className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
+                {rank.title}
+              </div>
+              <div className="text-xs font-medium text-stone-600">{rank.subtitle}</div>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <div className="font-display text-4xl leading-none text-[#1E1022]">{score}/100</div>
-                <div className="text-xs font-extrabold text-[#1E1022]">{checkedIds.length}/25 Checked</div>
+                <div className="font-editorial text-3xl sm:text-4xl font-bold leading-none text-[#18101E]">
+                  {score}/100
+                </div>
+                <div className="text-[11px] font-extrabold text-stone-600">
+                  {checkedIds.length}/25 Checked
+                </div>
               </div>
               {checkedIds.length > 0 && (
                 <button
                   type="button"
                   onClick={resetAll}
                   title="Reset checkboxes"
-                  className="rounded-lg border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] cursor-pointer"
+                  className="rounded-full border border-stone-300 bg-white p-2 text-stone-700 hover:bg-stone-50 cursor-pointer"
                 >
                   <RotateCcw className="h-4 w-4" />
                 </button>
@@ -317,19 +324,19 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
                   key={item.id}
                   type="button"
                   onClick={() => toggleItem(item.id)}
-                  className={`flex items-start gap-2.5 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm transition cursor-pointer ${
+                  className={`flex items-start gap-2.5 rounded-2xl border px-4 py-3 text-left text-sm transition cursor-pointer ${
                     checked
-                      ? 'border-[#1E1022] bg-[#FFF4F7] text-[#1E1022] font-extrabold'
-                      : 'border-[#1E1022]/15 bg-white text-[#1E1022] font-medium hover:border-[#1E1022]'
+                      ? 'border-rose-400 bg-rose-50/70 text-[#18101E] font-bold shadow-2xs'
+                      : 'border-stone-200 bg-white text-[#18101E] font-medium hover:border-stone-400 hover:bg-stone-50/60'
                   }`}
                 >
                   {checked ? (
-                    <CheckSquare className="h-4 w-4 shrink-0 text-[#FF2E63] mt-0.5" />
+                    <CheckSquare className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
                   ) : (
-                    <Square className="h-4 w-4 shrink-0 text-[#5A4664] mt-0.5" />
+                    <Square className="h-4 w-4 shrink-0 text-stone-400 mt-0.5" />
                   )}
-                  <span>
-                    <strong className="text-[#FF2E63] mr-1">#{idx + 1}.</strong>
+                  <span className="leading-relaxed">
+                    <strong className="text-rose-600 mr-1.5">#{idx + 1}.</strong>
                     {item.text}
                   </span>
                 </button>
@@ -338,11 +345,11 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
           </div>
 
           {/* Bottom Share + Play Matched Scenario Funnel */}
-          <div className="flex flex-wrap items-center justify-between gap-2.5 border-t-2 border-[#1E1022]/12 pt-3">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-stone-200 pt-4">
             <button
               type="button"
               onClick={handleShareScore}
-              className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FFBE0B] px-4 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-100 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-amber-950 hover:bg-amber-200/80 transition cursor-pointer"
             >
               <Share2 className="h-4 w-4" />
               <span>Share 25-Pt Score ({score}/100)</span>
@@ -354,7 +361,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
                 onClose();
                 onPlayMatchedScenario(rank.recommendedEp);
               }}
-              className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-5 py-2.5 font-display text-lg text-white cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-white hover:bg-rose-700 transition cursor-pointer"
             >
               <Play className="h-4 w-4 fill-white" />
               <span>Play Matched Scenario →</span>
@@ -369,4 +376,6 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
       />
     </>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalNode, document.body) : modalNode;
 };
