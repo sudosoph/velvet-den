@@ -29,6 +29,7 @@ export interface WorkersAiBinding {
       messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
       max_tokens?: number;
       temperature?: number;
+      response_format?: { type: string };
     },
   ): Promise<{ response?: string | Record<string, unknown> }>;
 }
@@ -1463,7 +1464,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           pacingDirective,
           `LENGTH & VOICE: 1 to 2 lively, natural texting sentences (12-30 words) ending with a fun hook or playful question so the player wants to reply! NEVER sound robotic or corporate.`,
           `ADAPTIVE NEXT-TURN SUGGESTIONS (CRITICAL!): Also generate "suggestedReplies": an array of 3 distinct, fun first-person responses (8-16 words each) written from the PLAYER'S voice (${playerVoiceDesc}) that directly answer or riff on YOUR new "herReply"! Option 1: witty/playful banter; Option 2: curious/skeptical tease or question back; Option 3: bold, high-spark flirty line.`,
-          `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons, and ALWAYS use single quotes ('...') instead of double quotes inside string values so your JSON stays 100% valid.`,
+          `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons, and avoid inner quotation marks inside string text so your JSON keys and strings stay 100% valid RFC-8259 JSON.`,
           platformContext,
           coachPerspectiveRule,
           buildGenerationalVoiceDirective(
@@ -1499,7 +1500,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
       try {
         rawResult = await env.AI.run(
           '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
-          chatPayload,
+          { ...chatPayload, response_format: { type: 'json_object' } },
         );
       } catch {
         rawResult = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', chatPayload);
