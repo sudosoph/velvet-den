@@ -66,8 +66,9 @@ The North Star of the game is **winning a real, lasting Chapter-Two relationship
 
 ## 4. Core Game Loop & Progression Mechanics
 
-### 4.1 Campaign HUD & "Friday Night Hearts" (`TopHudBar.tsx`)
-- **Left**: `🐆 Cougars & Cubs` + Discernment Rank (`Lv.1 Sharp Eye`) + **3 Friday Hearts (`❤️❤️❤️`)** (protecting your peace—walking into a Date Disaster with a red-flag trap costs `1 Heart`; cutting a trap loose in Text/iMessage *saves* your Heart and grants `+25 Discernment XP`!).
+### 4.1 Quick Persona Setup ("Cougar-sona / Cub-sona") + Campaign HUD (`TopHudBar.tsx`)
+- **15-Second Persona Card (Like *Dream Daddy*'s Dadsona)**: Optional instant first-name + Chapter-Two vibe tag (*Corner-Office Icon*, *Post-Divorce Glow-Up*, *Sabbatical Romantic* — or *Old-Soul Craftsman*, *Post-Grad Gentleman*, *Culinary Charmer*) so matches and Bestie Jade/Sam address you by name.
+- **Left**: `🐆 Cougars & Cubs` + Discernment Rank (`Lv.1 Sharp Eye`) + **3 Friday Hearts (`❤️❤️❤️`)** (walking into a Date Disaster with a red-flag trap costs `1 Heart`, while spotting red flags in chat via `🚩 Cut Loose` saves your Heart, awards `+25 Discernment XP`, and drops a **🕵️ Velvet Conspiracy Clue**!). Replaying any Date to optimize for **S-Rank** is **100% free**—we **retire punitive `"Smooth Rewind"` credit taxes completely**.
 - **Center (4 Clean Primary Play Modes)**:
   - `📱 Hinge` (App Feed)
   - `🗺️ In The Wild` (10 Illustrated City Hotspots)
@@ -121,7 +122,7 @@ When you cut a Hinge dud loose (*"Back to the Drawing Board—let's go out in th
 - **3-Date *Dream Daddy* Arc**:
   - **Date 1 (`Vibe & Pacing Test`)**: Includes **The Robert Night-1 Trap** (trying to rush straight to the bedroom on Night 1 with guarded leads locks out their S-Rank True Romance!).
   - **Date 2 (`Real-Life Collision & Cub Training`)**: Meeting same-age parents, skeptical friends, or adult kids—plus an **animated dialogue-and-clicker *Cub Etiquette Sparring* scene** (replacing geometric stick figures!).
-  - **Date 3 (`Vulnerability & True Relationship Verdict`)**: Navigating LAT vs. marriage, family timelines, and public hand-holding -> **S-Rank True Partnership**, **Bittersweet Fling**, or **Trap Explosion** (for players who ignored Text/iMessage red flags, with a `VIP / 2 Cr "Turn the Tables"` secret revenge climax on Wildcard Traps!).
+  - **Date 3 (`Vulnerability & True Relationship Verdict`)**: Navigating LAT vs. marriage, family timelines, and public hand-holding -> **S-Rank True Partnership**, **A/B-Rank Romance**, or **🕵️ Secret "Table 9 / 6:45 Alibi Club" Conspiracy Ending** (modeled on *Dream Daddy*'s viral Joseph/Robert mystery box: piecing together clues across Graham's 6:45 PM disappearances, Brooke's Racquet Club ex-husband, The Velvet Room booth, and `#blind-velvet-dm` unlocks a hilarious multi-character takedown episode!).
 
 ### 4.6 🎓 Cub Obedience School (`CubSchoolView.tsx`) — 12 Real `r/CougarsAndCubs` Complaint Drills
 Built directly from the **actual recurring complaints older women post on `r/CougarsAndCubs` and `r/Cougars_Den`**—and strictly quarantined to *Cub Obedience School* so none of these 12 gags ever repeat on Hinge cards, Chat traps, or Courtroom cases:
@@ -239,14 +240,13 @@ Fountains of Wayne *"Stacy's Mom"* (`dZLfasMPOU4`), Simon & Garfunkel *"Mrs. Rob
 - Framed warmly as **supporting an independent comedy/romance project** (*"💛 Support This Project"* in the top bar and *"Made you smile? Support this indie effort ☕💛"* on Ending Polaroids, Bullet-Dodged Receipts, and Cub School Diplomas) rather than a cold paywall button.
 - Clicking opens your live `$5` Stripe link (`tipJarUrl`) and awards a **💛 Founding Patron Crown** badge (`0` free credit inflation so credit packs retain full value).
 
-### 7.2 What Romance & Dating-Sim Players Actually Pay For (`$2.99` Credits, `$6.99` VIP, `$29` Custom Experience)
-Modeled on proven conversion drivers from *Dream Daddy: Dadrector's Cut*, *Choices*, *MeChat*, and *Monster Prom*—where **free choices are always witty and dignified** (never punishing free players with cringe lines), and paid unlocks deliver **irresistible emotional/comedic payoffs**:
-1. **🔓 "Unlock Their Private POV / Bestie Text Leak" (`2 Cr` or Free w/ VIP)**: Right after Date #1 or Date #2, read what Miles, Julian, Rafael, Claire, or Prof. Elena secretly texted *their* best friend about you two minutes after getting in the cab (#1 highest-converting micro-unlock in romance sims).
-2. **📸 Candid iMessage Photo Drops (`2 Cr` or Free w/ VIP)**: Unblur character-specific candid snapshots mid-chat into your permanent Dateodex.
-3. **✨ Iconic "Cinematic Power Move" Dialogue & Custom AI Riffs (`1 Cr` or Free w/ VIP)**: Pull off unforgettable scene-stealers (*sending a glass of milk across the hotel bar, turning the tables publicly on a married liar*).
-4. **⏪ "Time-Turner" Beat Rewind & Friday Heart Restore (`2 Cr` or Unlimited w/ VIP)**: Save-scum past *The Robert Night-1 Pacing Trap* or recover a lost Friday Heart on the spot to clinch the S-Rank ending.
-5. **🌙 Bonus "6-Month Getaway Epilogue" (`Date #4`, `3 Cr` or Free w/ VIP)**: After earning an S-Rank True Relationship, unlock the romantic weekend-away epilogue chapter.
-6. **🎬 `$29` "Put Your Inside Joke / Archetype in the Game" Commission (`cameoCommissionUrl`)**: Players or couples sponsor a custom playable scenario, courtroom case, or character cameo, paired with the in-app brief submission form (`/api/cameo-brief`).
+### 7.2 Desire-Driven *Dream Daddy: Dadrector's Cut* Monetization (Zero Punitive `"Rewind"` Tax!)
+Nobody wants to waste credits undoing a typo or bad line—**replaying Dates to chase S-Ranks is free**, and `"Smooth Rewind (2 Cr)"` is **retired**. Instead, players spend their `3` starter credits, `$2.99` (`+15 Cr`), `$6.99` (`VIP Velvet Cut Pass`), or `$29` (`Custom Scenario`) on **irresistible secret & bonus content**:
+1. **🌹 Hinge Standout Rose (`1 Cr` / Free w/ VIP)**: Jump straight to the top of a selective Standout's Likes queue (`Søren`, `Julian`, `Elena`, `Summer`) when normal likes don't auto-match.
+2. **🔓 "Unlock Their Private Group-Chat Leak" (`2 Cr` / Free w/ VIP)**: Right after Date #1 or Date #2, read the secret screenshot of what Søren, Miles, Julian, Claire, or Prof. Elena just texted *their* best friend about you in the cab home.
+3. **📸 Candid Off-App Photo Drops (`2 Cr` / Free w/ VIP)**: Unblur character-specific candid snapshots in iMessage into your permanent Dateodex Polaroid wall.
+4. **🌙 "Velvet Cut" After-Dark Weekend Epilogues & Secret Table 9 Conspiracy Climax (`3 Cr` / Free w/ VIP)**: Just like *Dream Daddy: Dadrector's Cut*, unlock Date #4 6-month getaway episodes (*Montauk beach house, Hampstead bookshop Sunday, Palm Springs midnight cedar sauna*) and the hidden multi-character **Table 9 Alibi Club Takedown** episode.
+5. **🎬 `$29` "Put Your Inside Joke / Archetype in the Game" Commission (`cameoCommissionUrl`)**: Sponsor a custom playable scenario, courtroom case, or character cameo (`/api/cameo-brief`).
 
 ### 7.3 Day-One Amazon Associates Cash Flow & Live Stripe Checkout Reliability
 - **Amazon Affiliate Boutique (`/api/go/:id`, `GET` + `HEAD` supported)**:
