@@ -190,7 +190,7 @@ const STREET_NODES: StreetApproachNode[] = [
     prompt:
       'In The Wild: Sudden 7 PM rain outside the gallery. Valet is backed up ten minutes.',
     smoothOption: 'Offer the dry half of your umbrella and keep the banter light while cars pull up.',
-    fumbleOption: 'Brag that your mom Linda owns a timeshare condo in Maui.',
+    fumbleOption: 'Brag that your mom Linda owns a guest condo condo in Maui.',
     winOutcome: '+35 XP! Effortless chivalry under one umbrella sparked instant chemistry.',
   },
 ];
@@ -221,10 +221,10 @@ const PATROL_GOBLINS: PatrolGoblin[] = [
     speed: 0.036,
   },
   {
-    id: 'goblin_venmo',
-    name: '$19.50 Ribeye Venmo Splitter',
+    id: 'goblin_split-tab',
+    name: '$19.50 Ribeye split-tab Splitter',
     emoji: '💸',
-    taunt: '"had so much fun!! just requested $19.50 + $1.14 salt tax on Venmo 😊"',
+    taunt: '"had so much fun!! just requested $19.50 + $1.14 salt tax on split-tab 😊"',
     roastLine: 'Swatted into orbit! Never invite someone out and itemize four edamame pods.',
     baseX: 795,
     baseY: 252,
@@ -299,7 +299,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
 
   const levelInfo = getLevelInfo(progress.xp);
   const avatarName = role === 'her' ? herName : hisName;
-  const isBarnabyFollowing = Boolean(progress.companionAdopted || progress.bernedoodleAdopted);
+  const isBarnabyFollowing = Boolean(progress.companionAdopted || progress.puppyAdopted);
 
   const pushPopup = (x: number, y: number, text: string, color = '#FFBE0B') => {
     popupsRef.current.push({
@@ -563,7 +563,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         ctx.fillRect(gx - 11, gy - 11, 22, 22);
       }
 
-      if (prog.companionAdopted || prog.bernedoodleAdopted) {
+      if (prog.companionAdopted || prog.puppyAdopted) {
         const crumb = trailRef.current[Math.min(12, trailRef.current.length - 1)] ?? {
           x: p.x - 26,
           y: p.y + 6,
@@ -645,7 +645,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
             onClick={() => {
               sfx.puppyBark();
               if (!isBarnabyFollowing) {
-                onGainXp(35, { companionAdopted: true, bernedoodleAdopted: true });
+                onGainXp(35, { companionAdopted: true, puppyAdopted: true });
                 setToastLine(
                   '🐕 Rescue Golden "Barnaby" joined your walk! Watch him trot right behind you.',
                 );

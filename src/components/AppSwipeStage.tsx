@@ -269,9 +269,9 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
     if (role === 'her') {
       if (nextVal <= 22) {
         setSliderBanner(
-          '🚨 SUB-23 DANGER ZONE UNLOCKED! Brace for declined campus Dining Dollars & $41.63 Venmo calculators!',
+          '🚨 SUB-23 DANGER ZONE UNLOCKED! Brace for declined campus Dining Dollars & $41.63 split-tab calculators!',
         );
-        const brokeIdx = deck.findIndex((d) => d.id === 'kayden-dutch-venmo-trap');
+        const brokeIdx = deck.findIndex((d) => d.id === 'kayden-dutch-split-tab-trap');
         if (brokeIdx >= 0) {
           setIndex(brokeIdx);
           setPhotoIdx(0);
@@ -400,9 +400,9 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                     setAgePref(21);
                     sfx.shockZoom();
                     setSliderBanner(
-                      '🌺 MOM’S HAWAII TIMESHARE ALERT! Trevor (21M) just invited you to "his place in Maui"!',
+                      '🌺 MOM’S HAWAII guest condo ALERT! Trevor (21M) just invited you to "his place in Maui"!',
                     );
-                    const idx = deck.findIndex((d) => d.id === 'trevor-hawaii-timeshare-trap');
+                    const idx = deck.findIndex((d) => d.id === 'trevor-hawaii-guest condo-trap');
                     if (idx >= 0) {
                       setIndex(idx);
                       setPhotoIdx(0);
@@ -410,7 +410,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                   }}
                   className="pop-btn h-8.5 rounded-full bg-white hover:bg-[#F8FAFC] px-3 text-xs font-bold text-[#18101E] cursor-pointer"
                 >
-                  🌺 21yo Hawaii Timeshare
+                  🌺 21yo Hawaii guest condo
                 </button>
               </>
             ) : (
@@ -962,10 +962,10 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 'Crypto',
                 'VIP Tables',
                 'Yachts',
-                'Maui Timeshares',
+                'Maui guest condo',
                 'Mom’s Airline Miles',
                 'Going Dutch',
-                'Pine Pollen',
+                'midnight caffeine',
                 '2 AM Voice Notes',
               ].includes(interest);
               return (
@@ -1001,8 +1001,8 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             key={profile.id}
             seedKey={profile.id}
             matchedEpisodeId={
-              profile.id === 'trevor-hawaii-timeshare-trap'
-                ? 'parents-hawaii-timeshare-flex-trap'
+              profile.id === 'trevor-hawaii-guest condo-trap'
+                ? 'parents-hawaii-guest condo-flex-trap'
                 : undefined
             }
             onOpenFullTrivia={onOpenPopTrivia}

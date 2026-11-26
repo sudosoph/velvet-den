@@ -199,7 +199,7 @@ export function evaluateDmLocally(params: {
     lower,
   );
   const hasSisterFumble = /little\s+sister\s+cute|sister\s+single/.test(lower);
-  const hasPinePollenFeelsSpiral =
+  const hasMidnightPanicSpiral =
     /pine\s*pollen|all\s+up\s+in\s+(my|his)\s+feels|up\s+in\s+my\s+feels\s+rn/.test(lower);
   const hasCubsplaining =
     /\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(
@@ -208,10 +208,10 @@ export function evaluateDmLocally(params: {
   const hasSugarFreeloader =
     /\b(sugar\s*mama|allowance|spoil\s*me|amex|pay\s*my|cougar\s*bucket|bucket\s*list)\b/.test(lower) ||
     /^(hey+|yo+|sup)\s+(mommy|mummy)[!?.🔥😍👀]*$/i.test(msg);
-  const hasPlayfulMommyOrQigong =
+  const hasPlayfulMommyCadence =
     !hasSugarFreeloader &&
     !hasCubsplaining &&
-    /\b(mommy-domme|yes,?\s*mommy|yes,?\s*mummy|whatever\s+you\s+say,?\s*mummy|sorted,?\s*mummy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(
+    /\b(mommy-domme|yes,?\s*mommy|yes,?\s*mummy|whatever\s+you\s+say,?\s*mummy|sorted,?\s*mummy|breathe\s+with\s+mommy|breathwork|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|golden retriever)\b/.test(
       lower,
     );
   const hasNirvanaOrGenXTouchstone =
@@ -265,15 +265,15 @@ export function evaluateDmLocally(params: {
         source: 'local-heuristic',
       };
     }
-    if (/\bvenmo\b/.test(lower) || /\blinda\b/.test(lower)) {
+    if (/\bsplit-tab\b/.test(lower) || /\blinda\b/.test(lower)) {
       return {
         maturityDelta: 16,
         chivalryDelta: 18,
         chemistryDelta: 20,
         herReply:
           age < 24
-            ? `okay fair roast 😅 zero Venmo requests ever, dinner's 100% on me!`
-            : `Zero Venmo math on my watch. Check is handled before you blink 🍷`,
+            ? `okay fair roast 😅 zero split-tab requests ever, dinner's 100% on me!`
+            : `Zero split-tab math on my watch. Check is handled before you blink 🍷`,
         coachNote: 'Smart test! Vetting his check etiquette early saves a Friday night.',
         passedVibeCheck: true,
         source: 'local-heuristic',
@@ -357,21 +357,21 @@ export function evaluateDmLocally(params: {
     };
   }
 
-  if (hasPinePollenFeelsSpiral) {
+  if (hasMidnightPanicSpiral) {
     return {
       maturityDelta: -24,
       chivalryDelta: -16,
       chemistryDelta: -24,
       herReply:
         age >= 60
-          ? `Kindly set the pine-pollen dropper aside. Adults do not panic after one quiet hour.`
+          ? `Kindly set the midnight caffeine dropper aside. Adults do not panic after one quiet hour.`
           : age >= 50
-            ? `Put the pine-pollen dropper down. My phone goes on silent at nine.`
+            ? `Put the midnight caffeine dropper down. My phone goes on silent at nine.`
             : age >= 40
-              ? `Step away from the pine-pollen dropper. Reading after 9:30 PM isn't ghosting.`
-              : `Put the pine-pollen dropper down. One quiet hour isn't ghosting 🍷`,
+              ? `Step away from the midnight caffeine dropper. Reading after 9:30 PM isn't ghosting.`
+              : `Put the midnight caffeine dropper down. One quiet hour isn't ghosting 🍷`,
       coachNote:
-        'Skip the pine-pollen jitters and 24/7 texting panic. One calm sentence wins.',
+        'Skip the midnight caffeine jitters and 24/7 texting panic. One calm sentence wins.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -430,7 +430,7 @@ export function evaluateDmLocally(params: {
     };
   }
 
-  if (hasPlayfulMommyOrQigong && !hasSnap && !hasForYourAge) {
+  if (hasPlayfulMommyCadence && !hasSnap && !hasForYourAge) {
     const isUkMummy = /\bmummy\b/i.test(lower);
     return {
       maturityDelta: 22,

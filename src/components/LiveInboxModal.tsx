@@ -115,7 +115,7 @@ type DiscordChannelId =
   | 'cub-training-101'
   | 'general-lounge'
   | 'vetting-hotline'
-  | 'boys-roblox-vc'
+  | 'boys-arcade games-vc'
   | 'mystery-subplot';
 
 const DISCORD_ADVICE_PILLS: string[] = [
@@ -176,7 +176,7 @@ const TAPBACK_OPTIONS = ['❤️', '😂', '‼️', '👍', '👎', '❓'] as c
 const QUICK_EMOJIS = ['😏', '🍸', '😍', '😭', '💀', '🔥', '👀', '✨', '🥂', '🚩'] as const;
 
 const BOLD_FIRST_MOVE_WOMEN: Record<string, { opening: string; steamy: string }> = {
-  'sedona-qigong-mommy': {
+  'sedona-breathwork-mommy': {
     opening: 'Drop your shoulders. You get one line to earn Friday.',
     steamy: 'Shoulders still relaxed from this morning, good boy?',
   },
@@ -191,7 +191,7 @@ const BOLD_FIRST_MOVE_WOMEN: Record<string, { opening: string; steamy: string }>
 };
 
 const CUB_ONE_LINE_OPENERS: Record<string, string> = {
-  'kayden-broke-dutch-cub': 'yo down for happy hour sushi tn if we split 50/50 on venmo?? 😅',
+  'kayden-broke-dutch-cub': 'yo down for happy hour sushi tn if we split 50/50 on split-tab?? 😅',
   'kieran-anthropic-ai-cub': 'Quick poll before I book Thursday: cozy wine bar or corner sushi?',
   'colton-montana-cowboy-cub': 'Okay busted, that accidental like from the ranch account was me 🤠 Friday?',
   'leo-golden-cub': 'Be honest: if I cook Friday, how tough of a critic are you?',
@@ -248,7 +248,7 @@ function buildOffAppOpeningText(contact: InboxContact, steamyMode: boolean): str
     return `Officially off Tinder 🙌 Saved your number, any food allergies before I plan Friday?`;
   }
 
-  if (contact.id === 'sedona-qigong-mommy') {
+  if (contact.id === 'sedona-breathwork-mommy') {
     return `Good boy, you earned my real cell. Tea is steeping for Friday, don't be late.`;
   }
   if (contact.age >= 60) {
@@ -288,7 +288,7 @@ function getTinderQuickChips(
       return [
         '📱 Ready to get off this app? Text my real cell to lock in Friday.',
         'Phone stays face-down at dinner, deal?',
-        'Only if Maui isn’t your mother Linda’s timeshare.',
+        'Only if Maui isn’t your mother Linda’s guest condo.',
       ];
     }
     if (turnCount === 0) {
@@ -305,8 +305,8 @@ function getTinderQuickChips(
     ];
   }
 
-  const isSedona = contact.id === 'sedona-qigong-mommy';
-  const isSloane = contact.id === 'sloane-seedoil-bernedoodle-mommy';
+  const isSedona = contact.id === 'sedona-breathwork-mommy';
+  const isSloane = contact.id === 'sloane-seedoil-golden retriever-mommy';
 
   if (steamyMode) {
     return turnCount === 0
@@ -345,14 +345,14 @@ function getTinderQuickChips(
   if (turnCount === 0) {
     if (isSedona) {
       return [
-        'Courtyard Tai Chi at 6:30 AM sharp, zero podcast lectures 🍵',
+        'Courtyard morning stretch at 6:30 AM sharp, zero podcast lectures 🍵',
         'Steeping jasmine oolong after dinner if you are free Friday at 7:30 ✨',
         'Well actually let me explain breathwork from a podcast I heard',
       ];
     }
     if (isSloane) {
       return [
-        'Booked a 100% seed-oil-free corner table Friday at 7:30 (plus a treat for Miso) ✨',
+        'Booked a 100% chef-crafted corner table Friday at 7:30 (plus a treat for Miso) ✨',
         'Grass-fed ghee ribeye at my place Sunday if Miso approves 🐾',
         'hey can we grab drive-thru canola fries & add my snap??',
       ];
@@ -367,7 +367,7 @@ function getTinderQuickChips(
   return [
     'Deal. Friday at 7:30 is officially my favorite plan all week ✨',
     'I’ll call you at six sharp Thursday to confirm, zero texting spam.',
-    'brooo took 2 droppers of pine pollen and im all up in my feels rn 😭🌲',
+    'brooo took 2 droppers of midnight caffeine and im all up in my feels rn 😭🌲',
   ];
 }
 
@@ -391,7 +391,7 @@ function getOffAppImessageChips(
           'Fair warning, my phone goes on silent at 9:30 PM on weeknights.',
         ]
       : [
-          'Pick me up at 7:15 sharp, and zero Venmo math after dinner.',
+          'Pick me up at 7:15 sharp, and zero split-tab math after dinner.',
           'What are you cooking if you earn a Sunday invite?',
           'Good answer. Looking forward to Friday night 🥂',
         ];
@@ -464,7 +464,7 @@ function getDiscordChips(
         ];
   }
 
-  if (channel === 'boys-roblox-vc') {
+  if (channel === 'boys-arcade games-vc') {
     return [
       'Booked a quiet corner table Friday at 7:30, peonies included 🍸',
       'Four percale pillows on the bed and cast-iron ribeye ready for Friday.',
@@ -494,7 +494,7 @@ function buildInterestIcebreaker(contact: InboxContact, interest: string): strin
   if (/surf|ocean|swim|sailing/.test(lower)) {
     return `Think I could keep up with you in the water this weekend?`;
   }
-  if (/dog|bernedoodle|mochi|cat|puppy|otis/.test(lower)) {
+  if (/dog|golden retriever|mochi|cat|puppy|otis/.test(lower)) {
     const pet = contact.petName ? contact.petName.split(/[•(]/)[0].trim() : 'your pet';
     return `Fair warning, winning over ${pet} is my top priority this week.`;
   }
@@ -659,7 +659,7 @@ function getDiscordSeeds(
     {
       id: 'rblx-1',
       handle: 'Kyle_DTI_RunwayKing',
-      badge: 'ROBLOX DTI',
+      badge: 'arcade games DTI',
       color: '#57F287',
       time: 'Today at 9:34 PM',
       text: 'Drop your best Friday opener in here and the Dress to Impress lobby will score your rizz live 🫡',
@@ -674,8 +674,8 @@ const ANON_ONLINE_ROSTER = [
   { handle: '@pilates_noir_43', role: '🐆 Anon Cougar', status: 'Judging restaurant acoustics' },
   { handle: '@sourdough_alignment_28', role: '🥂 Anon Cub', status: 'Baking focaccia in SF' },
   { handle: '@cast_iron_cub_26', role: '🥂 Anon Cub', status: 'Seasoning ribeye skillet' },
-  { handle: 'Kyle_DTI_RunwayKing', role: '🎮 Roblox VC', status: 'Playing Dress to Impress' },
-  { handle: 'BrodyLifts225', role: '🎮 Roblox VC', status: 'Bulgarian split squats' },
+  { handle: 'Kyle_DTI_RunwayKing', role: '🎮 arcade games VC', status: 'Playing Dress to Impress' },
+  { handle: 'BrodyLifts225', role: '🎮 arcade games VC', status: 'Bulgarian split squats' },
 ] as const;
 
 async function sendAiFeedbackPing(payload: {
@@ -1156,7 +1156,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       return {
         author: 'Kyle_DTI_RunwayKing',
         color: '#57F287',
-        badge: 'ROBLOX DTI',
+        badge: 'arcade games DTI',
         text: `🫡 W RIZZ IN #${discordChannel.toUpperCase()}!! write that down boys, ${label} approved that line!!`,
       };
     }
@@ -1749,8 +1749,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               <div className="h-0.5 w-7 rounded-full bg-[#35363C]" />
               <button
                 type="button"
-                onClick={() => setDiscordChannel('boys-roblox-vc')}
-                title="#boys-roblox-vc"
+                onClick={() => setDiscordChannel('boys-arcade games-vc')}
+                title="#boys-arcade games-vc"
                 className="flex h-11 w-11 items-center justify-center rounded-3xl hover:rounded-2xl bg-[#313338] hover:bg-[#23A55A] text-base transition-all cursor-pointer"
               >
                 🎮
@@ -1786,7 +1786,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       ['in-the-wild-help', 'Gym & Bar Meet-Cute Help'],
                       ['cub-training-101', 'Cub Training & Polarity'],
                       ['general-lounge', 'Cougar & Cub Lounge'],
-                      ['boys-roblox-vc', 'Roblox DTI Locker Room'],
+                      ['boys-arcade games-vc', 'arcade games DTI Locker Room'],
                     ] as const
                   ).map(([id, subtitle]) => {
                     const active = discordChannel === id;
@@ -3123,8 +3123,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </span>
                 <span className="hidden sm:inline text-[#3F4147]">|</span>
                 <span className="hidden sm:inline truncate text-xs text-[#949BA4]">
-                  {discordChannel === 'boys-roblox-vc'
-                    ? 'Live Roblox Dress to Impress VC • Boys react to your lines in real time'
+                  {discordChannel === 'boys-arcade games-vc'
+                    ? 'Live arcade games Dress to Impress VC • Boys react to your lines in real time'
                     : discordChannel === 'mystery-subplot'
                       ? 'Encrypted Anon DM • Spot the clues to unmask their real identity'
                       : discordChannel === 'vetting-hotline'
@@ -3265,7 +3265,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       </div>
                     )}
 
-                    {discordChannel === 'boys-roblox-vc' && turn.buddy && (
+                    {discordChannel === 'boys-arcade games-vc' && turn.buddy && (
                       <div className="flex items-start gap-3 rounded-lg bg-[#2B2D31]/80 px-2.5 py-1.5 animate-stage-in">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1E1F22] text-sm">
                           🎮

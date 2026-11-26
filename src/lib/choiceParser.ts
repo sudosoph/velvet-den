@@ -29,7 +29,7 @@ export function parseChoiceCardSpec(fullLabel: string, role: 'her' | 'him'): Par
   } else if (/(boundary|rule|calm|honest|ask|listen|pace|phone-free|quiet)/i.test(lower)) {
     toneIcon = '💬';
     toneLabel = 'Grounded Frame';
-  } else if (/(late|venmo|calculator|tiktok|ps5|shot|whine|lecture|pout|sulk|snap)/i.test(lower)) {
+  } else if (/(late|split-tab|calculator|tiktok|ps5|shot|whine|lecture|pout|sulk|snap)/i.test(lower)) {
     toneIcon = '⚡';
     toneLabel = 'Bold / Wildcard';
   }

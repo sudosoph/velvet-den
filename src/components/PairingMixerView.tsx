@@ -558,7 +558,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                     className="w-full rounded-xl border border-[#18101E]/15 bg-white px-2.5 py-1.5 font-bold text-[#18101E]"
                   >
                     <option value="snapchat_streaks">📵 Snapchat Streaks</option>
-                    <option value="venmo_math">💸 $3.19 Venmo Math</option>
+                    <option value="split-tab_math">💸 $3.19 split-tab Math</option>
                     <option value="bucket_list_tourists">🪣 Bucket-List Tourists</option>
                   </select>
                 </div>

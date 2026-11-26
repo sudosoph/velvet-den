@@ -437,7 +437,7 @@ const CheckDropReflexGame: React.FC<{
       onWin({ chivalry: 8, chemistry: 6 }, 'Quick-Draw Check Master');
     } else if (cursor < 34) {
       sfx.redFlag();
-      setResultMsg('😅 Too early, almost pulled out the Venmo tax calculator! Tap Retry.');
+      setResultMsg('😅 Too early, almost pulled out the split-tab tax calculator! Tap Retry.');
     } else {
       sfx.redFlag();
       setResultMsg('😬 Hesitated too long, she almost reached for her Amex! Tap Retry.');
@@ -455,7 +455,7 @@ const CheckDropReflexGame: React.FC<{
 
       <div className="relative h-9 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0C0910]">
         <div className="absolute inset-y-0 left-0 w-[34%] bg-rose-950/75 flex items-center justify-center text-xs font-medium text-rose-300">
-          Venmo Math
+          split-tab Math
         </div>
         <div className="absolute inset-y-0 left-[34%] w-[34%] bg-emerald-500/25 border-x border-emerald-400 flex items-center justify-center text-xs font-semibold text-emerald-200">
           🎯 Smooth Grab
@@ -1101,45 +1101,45 @@ const BlackCatPaceGame: React.FC<{
 };
 
 /**
- * 10. VenmoCalculatorBlockGame: Swat all 4 petty itemized Venmo popups!
+ * 10. SplitTabCalculatorBlockGame: Swat all 4 petty itemized split-tab popups!
  */
-const VENMO_POPUPS = [
+const SplitTab_POPUPS = [
   { id: 'edamame', amount: '$4.12', note: '4/7ths of Shared Edamame Pods 🫛' },
   { id: 'ginger', amount: '$1.85', note: 'Extra Pickled Ginger & Wasabi Side' },
   { id: 'roll', amount: '$11.40', note: '2 Pieces of Dragon Roll + 8.75% Tax' },
   { id: 'parking', amount: '$24.26', note: 'Half Valet + "Campus Card Declined Fee"' },
 ];
 
-const VenmoCalculatorBlockGame: React.FC<{
+const SplitTabCalculatorBlockGame: React.FC<{
   completed: boolean;
   onWin: (bonus: Partial<Stats>, badge: string) => void;
 }> = ({ completed, onWin }) => {
-  const [blocked, setBlocked] = useState<string[]>(completed ? VENMO_POPUPS.map((p) => p.id) : []);
+  const [blocked, setBlocked] = useState<string[]>(completed ? SplitTab_POPUPS.map((p) => p.id) : []);
 
   const handleSwat = (id: string) => {
     if (completed || blocked.includes(id)) return;
-    sfx.venmoSwat();
+    sfx.redFlagSwat();
     const next = [...blocked, id];
     setBlocked(next);
-    if (next.length === VENMO_POPUPS.length) {
+    if (next.length === SplitTab_POPUPS.length) {
       sfx.victoryFanfare();
-      onWin({ maturity: 8, chivalry: 8 }, 'Blocked the $41.63 Venmo Calculator');
+      onWin({ maturity: 8, chivalry: 8 }, 'Blocked the $41.63 split-tab Calculator');
     }
   };
 
-  const done = completed || blocked.length === VENMO_POPUPS.length;
+  const done = completed || blocked.length === SplitTab_POPUPS.length;
 
   return (
     <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FDE68A]">
-          <CreditCard className="h-3.5 w-3.5 text-rose-400" /> Obstacle Arcade • Swat All 4 Petty Venmo Requests! ({blocked.length}/4)
+          <CreditCard className="h-3.5 w-3.5 text-rose-400" /> Obstacle Arcade • Swat All 4 Petty split-tab Requests! ({blocked.length}/4)
         </span>
         <span className="text-xs font-medium text-stone-300">+8 Maturity · +8 Chivalry</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {VENMO_POPUPS.map((item, idx) => {
+        {SplitTab_POPUPS.map((item, idx) => {
           const isSwatted = done || blocked.includes(item.id);
           return (
             <button
@@ -1172,7 +1172,7 @@ const VenmoCalculatorBlockGame: React.FC<{
 
       {done && (
         <div className="text-xs font-semibold text-emerald-300">
-          🛡️ All 4 itemized Venmo popups swatted into orbit! Zero edamame math tolerated (+16 stats)!
+          🛡️ All 4 itemized split-tab popups swatted into orbit! Zero edamame math tolerated (+16 stats)!
         </div>
       )}
     </div>
@@ -1347,11 +1347,11 @@ const HobosexualBagInterceptGame: React.FC<{
   );
 };
 
-const TIMESHARE_QUESTIONS = [
+const GuestCondo_QUESTIONS = [
   {
     id: 'deed',
     prompt: '🤨 Ask: "Wait, is Hawaii YOUR home, or your parents’?"',
-    reveal: '💦 Confession #1: "Okay yeah… technically my parents have a Maui timeshare!"',
+    reveal: '💦 Confession #1: "Okay yeah… technically my parents have a Maui guest condo!"',
   },
   {
     id: 'master',
@@ -1365,13 +1365,13 @@ const TIMESHARE_QUESTIONS = [
   },
 ] as const;
 
-const TimeshareInterrogationGame: React.FC<{
+const GuestCondoInterrogationGame: React.FC<{
   completed: boolean;
   hisName: string;
   onWin: (bonus: Partial<Stats>, badge: string) => void;
 }> = ({ completed, hisName, onWin }) => {
   const [exposedIds, setExposedIds] = useState<string[]>(
-    completed ? TIMESHARE_QUESTIONS.map((q) => q.id) : [],
+    completed ? GuestCondo_QUESTIONS.map((q) => q.id) : [],
   );
 
   const handlePress = (id: string) => {
@@ -1379,13 +1379,13 @@ const TimeshareInterrogationGame: React.FC<{
     sfx.shockZoom();
     const next = [...exposedIds, id];
     setExposedIds(next);
-    if (next.length === TIMESHARE_QUESTIONS.length) {
+    if (next.length === GuestCondo_QUESTIONS.length) {
       sfx.greenFlag();
-      onWin({ maturity: 10, eq: 10 }, 'Exposed Mom’s Maui Timeshare Flex');
+      onWin({ maturity: 10, eq: 10 }, 'Exposed Mom’s Maui guest condo Flex');
     }
   };
 
-  const done = completed || exposedIds.length === TIMESHARE_QUESTIONS.length;
+  const done = completed || exposedIds.length === GuestCondo_QUESTIONS.length;
 
   return (
     <div className={FRAME_CLASS}>
@@ -1397,7 +1397,7 @@ const TimeshareInterrogationGame: React.FC<{
       </div>
 
       <div className="grid gap-2">
-        {TIMESHARE_QUESTIONS.map((q) => {
+        {GuestCondo_QUESTIONS.map((q) => {
           const exposed = completed || exposedIds.includes(q.id);
           return (
             <button
@@ -1421,14 +1421,14 @@ const TimeshareInterrogationGame: React.FC<{
 
       {done && (
         <div className="text-sm font-bold text-emerald-300">
-          🌺 Mom’s Maui Timeshare Exposed in 4K! Zero pull-out couches next to Linda, now deliver your verdict below!
+          🌺 Mom’s Maui guest condo Exposed in 4K! Zero pull-out couches next to Linda, now deliver your verdict below!
         </div>
       )}
     </div>
   );
 };
 
-const QIGONG_MOMMY_BEATS = [
+const BREATHWORK_MOMMY_BEATS = [
   {
     id: 'posture',
     prompt: '🧘‍♀️ Beat 1: Drop Shoulders & Unclench Jaw ("Breathe with Mommy")',
@@ -1441,18 +1441,18 @@ const QIGONG_MOMMY_BEATS = [
   },
   {
     id: 'cloud_hands',
-    prompt: '🌊 Beat 3: Mirror Her Slow Tai Chi Cloud Hands ("Yes, Mommy" Flow)',
+    prompt: '🌊 Beat 3: Mirror Her Slow morning stretch Cloud Hands ("Yes, Mommy" Flow)',
     doneLabel: '✓ Cloud-Hands Qi synced • Nervous system melted',
   },
 ] as const;
 
-const QigongMommyBreathGame: React.FC<{
+const BreathworkMommyBreathGame: React.FC<{
   completed: boolean;
   herName: string;
   onWin: (bonus: Partial<Stats>, badge: string) => void;
 }> = ({ completed, herName, onWin }) => {
   const [syncedIds, setSyncedIds] = useState<string[]>(
-    completed ? QIGONG_MOMMY_BEATS.map((b) => b.id) : [],
+    completed ? BREATHWORK_MOMMY_BEATS.map((b) => b.id) : [],
   );
   const [cubsplainWarning, setCubsplainWarning] = useState(false);
 
@@ -1462,25 +1462,25 @@ const QigongMommyBreathGame: React.FC<{
     sfx.crystalClink();
     const next = [...syncedIds, id];
     setSyncedIds(next);
-    if (next.length === QIGONG_MOMMY_BEATS.length) {
+    if (next.length === BREATHWORK_MOMMY_BEATS.length) {
       sfx.greenFlag();
-      onWin({ eq: 10, chemistry: 10 }, 'Mommy’s Grounded Qigong Cub');
+      onWin({ eq: 10, chemistry: 10 }, 'Mommy’s Grounded Breathwork Cub');
     }
   };
 
-  const done = completed || syncedIds.length === QIGONG_MOMMY_BEATS.length;
+  const done = completed || syncedIds.length === BREATHWORK_MOMMY_BEATS.length;
 
   return (
     <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#FFBE0B]">
-          <Sparkles className="h-4 w-4 text-[#FF2E63]" /> {herName}’s Dawn Qigong &amp; Mommy-Domme Breath Sync ({syncedIds.length}/3)
+          <Sparkles className="h-4 w-4 text-[#FF2E63]" /> {herName}’s Dawn Breathwork &amp; Mommy-Domme Breath Sync ({syncedIds.length}/3)
         </span>
         <span className="text-xs font-bold text-stone-200">+10 EQ · +10 Chemistry</span>
       </div>
 
       <div className="grid gap-2">
-        {QIGONG_MOMMY_BEATS.map((b) => {
+        {BREATHWORK_MOMMY_BEATS.map((b) => {
           const isSynced = done || syncedIds.includes(b.id);
           return (
             <button
@@ -1517,13 +1517,13 @@ const QigongMommyBreathGame: React.FC<{
 
       {cubsplainWarning && !done && (
         <div className="text-xs font-bold text-amber-300">
-          😼 Mommy-Domme Eyebrow Raise! Never Cubsplain 20 years of Qigong mastery, sweet boy, drop your shoulders and tap all 3 sync beats!
+          😼 Mommy-Domme Eyebrow Raise! Never Cubsplain 20 years of Breathwork mastery, sweet boy, drop your shoulders and tap all 3 sync beats!
         </div>
       )}
 
       {done && (
         <div className="text-sm font-bold text-emerald-300">
-          🧘‍♀️ "Good boy." Full Tai Chi Cloud-Hands harmony unlocked (+10 EQ, +10 Chemistry)!
+          🧘‍♀️ "Good boy." Full morning stretch Cloud-Hands harmony unlocked (+10 EQ, +10 Chemistry)!
         </div>
       )}
     </div>
@@ -1534,7 +1534,7 @@ const SEED_OIL_SWAPS = [
   {
     id: 'canola',
     bad: '🛢️ Ditch Canola & Soybean Oil → Swap to Cold-Pressed EVOO & Grass-Fed Ghee',
-    good: '✓ 100% Seed-Oil-Free Kitchen (EVOO, Tallow & Grass-Fed Ghee Only!)',
+    good: '✓ 100% chef-crafted Kitchen (EVOO, Tallow & Grass-Fed Ghee Only!)',
   },
   {
     id: 'gluten',
@@ -1542,9 +1542,9 @@ const SEED_OIL_SWAPS = [
     good: '✓ Certified 100% Gluten-Free Dinner Prep',
   },
   {
-    id: 'bernedoodle',
-    bad: '🐶 Prep Corner Crate & Organic Treats for Incoming Tricolor Mini Bernedoodle',
-    good: '✓ Tricolor Mini Bernedoodle "Miso" Waitlist Corner Ready!',
+    id: 'golden retriever',
+    bad: '🐶 Prep Corner Crate & Organic Treats for Incoming Tricolor Mini golden retriever',
+    good: '✓ Tricolor Mini golden retriever "Miso" Waitlist Corner Ready!',
   },
   {
     id: 'castiron',
@@ -1553,7 +1553,7 @@ const SEED_OIL_SWAPS = [
   },
 ] as const;
 
-const SeedOilBernedoodleAuditGame: React.FC<{
+const CleanPantryRetrieverAuditGame: React.FC<{
   completed: boolean;
   herName: string;
   onWin: (bonus: Partial<Stats>, badge: string) => void;
@@ -1569,7 +1569,7 @@ const SeedOilBernedoodleAuditGame: React.FC<{
     setSwappedIds(next);
     if (next.length === SEED_OIL_SWAPS.length) {
       sfx.greenFlag();
-      onWin({ chivalry: 10, chemistry: 10 }, 'Seed-Oil-Free & Bernedoodle Ready');
+      onWin({ chivalry: 10, chemistry: 10 }, 'chef-crafted & golden retriever Ready');
     }
   };
 
@@ -1579,7 +1579,7 @@ const SeedOilBernedoodleAuditGame: React.FC<{
     <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#FFBE0B]">
-          <Sparkles className="h-4 w-4 text-[#FF2E63]" /> {herName}’s Gluten/Seed-Oil-Free &amp; Mini Bernedoodle Audit ({swappedIds.length}/4)
+          <Sparkles className="h-4 w-4 text-[#FF2E63]" /> {herName}’s Gluten/chef-crafted &amp; Mini golden retriever Audit ({swappedIds.length}/4)
         </span>
         <span className="text-xs font-bold text-stone-200">+10 Chivalry · +10 Chemistry</span>
       </div>
@@ -1609,7 +1609,7 @@ const SeedOilBernedoodleAuditGame: React.FC<{
 
       {done && (
         <div className="text-sm font-bold text-emerald-300">
-          🥑🐶 Zero seed oils, zero gluten, AND puppy-ready for her Tricolor Mini Bernedoodle (+20 stats)!
+          🥑🐶 Zero cheap frying oil, zero gluten, AND puppy-ready for her Tricolor Mini golden retriever (+20 stats)!
         </div>
       )}
     </div>
@@ -1619,7 +1619,7 @@ const SeedOilBernedoodleAuditGame: React.FC<{
 const PINE_POLLEN_MISHAPS = [
   {
     id: 'tincture',
-    raw: '🌲 Incoherent Bubble #1: "took 2 droppers of pine pollen for T and im all up in my feels rn idk wyd"',
+    raw: '🌲 Incoherent Bubble #1: "took 2 droppers of midnight caffeine for T and im all up in my feels rn idk wyd"',
     decoded: '✓ Decoded: Biohacker tincture jitters ≠ relationship crisis. Cap the dropper & use punctuation!',
   },
   {
@@ -1634,7 +1634,7 @@ const PINE_POLLEN_MISHAPS = [
   },
 ] as const;
 
-const PinePollenFeelsDecoderGame: React.FC<{
+const LateSpiralFeelsDecoderGame: React.FC<{
   completed: boolean;
   herName: string;
   hisName: string;
@@ -1653,7 +1653,7 @@ const PinePollenFeelsDecoderGame: React.FC<{
     setDecodedIds(next);
     if (next.length === PINE_POLLEN_MISHAPS.length) {
       sfx.greenFlag();
-      onWin({ maturity: 10, eq: 10 }, 'Pine-Pollen Expectations Whisperer');
+      onWin({ maturity: 10, eq: 10 }, 'midnight caffeine Expectations Whisperer');
     }
   };
 
@@ -1663,7 +1663,7 @@ const PinePollenFeelsDecoderGame: React.FC<{
     <div className={FRAME_CLASS}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#FFBE0B]">
-          <Radar className="h-4 w-4 text-[#FF2E63]" /> Decode {hisName}’s Pine-Pollen "All Up in My Feels" Spiral &amp; Align {herName}’s Pace ({decodedIds.length}/3)
+          <Radar className="h-4 w-4 text-[#FF2E63]" /> Decode {hisName}’s midnight caffeine "All Up in My Feels" Spiral &amp; Align {herName}’s Pace ({decodedIds.length}/3)
         </span>
         <span className="text-xs font-bold text-stone-200">+10 Maturity · +10 EQ</span>
       </div>
@@ -1699,20 +1699,20 @@ const PinePollenFeelsDecoderGame: React.FC<{
             }}
             className="rounded-xl border border-rose-400/50 bg-rose-950/40 px-3.5 py-2 text-left text-xs font-bold text-rose-200 hover:bg-rose-900/50 cursor-pointer"
           >
-            🌲 Temptation Trap: Take 3rd dropper of Pine Pollen &amp; double-text "guess ur too busy for me lol"
+            🌲 Temptation Trap: Take 3rd dropper of midnight caffeine &amp; double-text "guess ur too busy for me lol"
           </button>
         )}
       </div>
 
       {dropperTrapWarning && !done && (
         <div className="text-xs font-bold text-amber-300">
-          🚨 Step away from the pine-pollen tincture! Mismatched texting speed isn’t ghosting, tap all 3 DECODE buttons to reset expectations cleanly!
+          🚨 Step away from the midnight caffeine tincture! Mismatched texting speed isn’t ghosting, tap all 3 DECODE buttons to reset expectations cleanly!
         </div>
       )}
 
       {done && (
         <div className="text-sm font-bold text-emerald-300">
-          🌲✓ Pine-pollen spiral neutralized &amp; communication expectations aligned (+10 Maturity, +10 EQ)!
+          🌲✓ midnight caffeine spiral neutralized &amp; communication expectations aligned (+10 Maturity, +10 EQ)!
         </div>
       )}
     </div>
@@ -1730,7 +1730,7 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
   switch (type) {
     case 'pine_pollen_decoder':
       return (
-        <PinePollenFeelsDecoderGame
+        <LateSpiralFeelsDecoderGame
           completed={alreadyCompleted}
           herName={herName}
           hisName={hisName}
@@ -1739,23 +1739,23 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
       );
     case 'seed_oil_audit':
       return (
-        <SeedOilBernedoodleAuditGame
+        <CleanPantryRetrieverAuditGame
           completed={alreadyCompleted}
           herName={herName}
           onWin={onWinBonus}
         />
       );
-    case 'qigong_breath_sync':
+    case 'breathwork_breath_sync':
       return (
-        <QigongMommyBreathGame
+        <BreathworkMommyBreathGame
           completed={alreadyCompleted}
           herName={herName}
           onWin={onWinBonus}
         />
       );
-    case 'timeshare_interrogation':
+    case 'guest condo_interrogation':
       return (
-        <TimeshareInterrogationGame
+        <GuestCondoInterrogationGame
           completed={alreadyCompleted}
           hisName={hisName}
           onWin={onWinBonus}
@@ -1789,8 +1789,8 @@ export const MinigameWidget: React.FC<MinigameWidgetProps> = ({
       return (
         <BlackCatPaceGame completed={alreadyCompleted} herName={herName} onWin={onWinBonus} />
       );
-    case 'venmo_calculator_block':
-      return <VenmoCalculatorBlockGame completed={alreadyCompleted} onWin={onWinBonus} />;
+    case 'split-tab_calculator_block':
+      return <SplitTabCalculatorBlockGame completed={alreadyCompleted} onWin={onWinBonus} />;
     case 'roommate_kitchen_escape':
       return <RoommateKitchenEscapeGame completed={alreadyCompleted} onWin={onWinBonus} />;
     case 'hobosexual_bag_intercept':

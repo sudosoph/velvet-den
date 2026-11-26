@@ -104,18 +104,18 @@ export function buildEpisodeQueue(
     if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
       pushById('black-cat-pushback-golden-retriever-test');
     }
-    if (tags.has('seed_oil_bernedoodle_mommy')) {
-      pushById('seed-oil-gluten-free-bernedoodle-mommy');
+    if (tags.has('coastal_dog_mommy')) {
+      pushById('cheap frying oil-gluten-free-golden retriever-mommy');
     }
-    if (tags.has('qigong_mommy_domme')) {
-      pushById('qigong-tai-chi-wellness-mommy-domme');
+    if (tags.has('calm_sanctuary_domme')) {
+      pushById('breathwork-tai-chi-wellness-mommy-domme');
     }
     if (tags.has('zero_proof_wellness')) {
       pushById('zero-proof-mocktail-smoothie-date');
     }
     if (tags.has('broke_dutch_obstacle') || pairing.his.age <= 23) {
       pushById('broke-college-dutch-calculator-horror');
-      pushById('parents-hawaii-timeshare-flex-trap');
+      pushById('parents-hawaii-guest condo-flex-trap');
     }
     if (tags.has('montana_cowboy_slider')) {
       pushById('montana-cowboy-age-slider-dare');
@@ -191,7 +191,7 @@ export function buildEpisodeQueue(
       pushById('check-drop');
       pushCustomDateSpecials();
       pushById('code-switch-texting');
-      pushById('pine-pollen-feels-incoherent-text-spiral');
+      pushById('midnight caffeine-feels-incoherent-text-spiral');
       pushById('cub-bench-press-cougar-training');
       pushById('puma-weaponized-incompetence-test');
       pushById('silk-pillowcase-clawclip-drawer');
@@ -207,7 +207,7 @@ export function buildEpisodeQueue(
 
       pushById('houseboy-sunday-sanctuary');
       pushById('pop-culture-cougar-renaissance');
-      pushById('cub-friends-memes-roblox-shock');
+      pushById('cub-friends-memes-arcade games-shock');
       pushById('younger-sibling-same-birth-year');
       pushById('puma-brunch-cynical-peers');
       pushById('doubt-puma-peer-cynicism');
@@ -239,7 +239,7 @@ export function buildEpisodeQueue(
 
       pushById('houseboy-sunday-sanctuary');
       pushById('pop-culture-cougar-renaissance');
-      pushById('cub-friends-memes-roblox-shock');
+      pushById('cub-friends-memes-arcade games-shock');
       pushById('first-wedding-plus-one-debut');
       pushById('puma-boys-groupchat-kid');
       pushById('doubt-puma-divorce-scar');
@@ -264,8 +264,8 @@ export function buildEpisodeQueue(
       pushById('forum-redflag-pocket-secret-test');
     pushById('cubsplaining-and-bouncer-id-check');
     pushById('code-switch-texting');
-    pushById('pine-pollen-feels-incoherent-text-spiral');
-    pushById('generational-1900s-venmo-whiplash');
+    pushById('midnight caffeine-feels-incoherent-text-spiral');
+    pushById('generational-1900s-split-tab-whiplash');
     if (tags.has('princess_treatment')) {
       pushById('princess-soft-life');
     } else {
@@ -296,7 +296,7 @@ export function buildEpisodeQueue(
 
     pushById('houseboy-sunday-sanctuary');
     pushById('pop-culture-cougar-renaissance');
-    pushById('cub-friends-memes-roblox-shock');
+    pushById('cub-friends-memes-arcade games-shock');
     pushById('younger-sibling-same-birth-year');
     pushById('first-wedding-plus-one-debut');
     pushById('meeting-his-parents-same-age-mom');
@@ -344,7 +344,7 @@ export function buildEpisodeQueue(
 
     pushById('houseboy-sunday-sanctuary');
     pushById('pop-culture-cougar-renaissance');
-    pushById('cub-friends-memes-roblox-shock');
+    pushById('cub-friends-memes-arcade games-shock');
     pushById('first-wedding-plus-one-debut');
     pushById('meeting-his-parents-same-age-mom');
     pushById('waiter-son-incident');
@@ -592,10 +592,10 @@ export function recordAppSwipe(
       badges.push('Caught the Tito’s Bottle');
     }
     if (
-      profile.id === 'kayden-dutch-venmo-trap' &&
-      !badges.includes('Dodged the Broke Venmo Calculator')
+      profile.id === 'kayden-dutch-split-tab-trap' &&
+      !badges.includes('Dodged the Broke split-tab Calculator')
     ) {
-      badges.push('Dodged the Broke Venmo Calculator');
+      badges.push('Dodged the Broke split-tab Calculator');
     }
   } else if (!profile.isGreenFlagMatch && direction === 'right') {
     redFlags += 1;

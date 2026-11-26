@@ -26,8 +26,8 @@ export type SubplotTag =
   | 'black_cat_energy'
   | 'golden_retriever_energy'
   | 'zero_proof_wellness'
-  | 'qigong_mommy_domme'
-  | 'seed_oil_bernedoodle_mommy'
+  | 'calm_sanctuary_domme'
+  | 'coastal_dog_mommy'
   | 'frontier_ai_cub'
   | 'soft_mommy_domme'
   | 'cub_daddy_zaddy'
@@ -201,26 +201,26 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     interests: ['Dawn Surfing', 'Cold Plunge & Sauna', 'Ocean Bikinis', 'Clean Wine', 'Coastal Runs'],
   },
   {
-    id: 'sedona-qigong-mommy',
+    id: 'sedona-breathwork-mommy',
     name: 'Sedona',
     age: 46,
-    title: 'Qigong & Nervous-System Studio Founder • Cougar',
-    shortHook: '6:30 AM bamboo-courtyard Qigong, Tai Chi Cloud Hands & warm jasmine oolong.',
+    title: 'Breathwork & Nervous-System Studio Founder • Cougar',
+    shortHook: '6:30 AM bamboo-courtyard Breathwork, morning stretch Cloud Hands & warm jasmine oolong.',
     tagline:
-      '46F Qigong & Tai Chi studio founder in Sedona: unhurried nervous-system calm, cedar sauna evenings, and zero tolerance for podcast Cubsplaining.',
+      '46F Breathwork & morning stretch studio founder in Sedona: unhurried nervous-system calm, cedar sauna evenings, and zero tolerance for podcast Cubsplaining.',
     vibeSummary:
-      'Guides dawn Qigong and slow Tai Chi Cloud Hands in a sunlit courtyard, steep-brews single-estate jasmine oolong, and spots performative wellness bros in two seconds flat. Appreciates a grounded younger man who drops his shoulders, listens without lecturing, and enjoys quiet canyon stargazing.',
+      'Guides dawn Breathwork and slow morning stretch Cloud Hands in a sunlit courtyard, steep-brews single-estate jasmine oolong, and spots performative wellness bros in two seconds flat. Appreciates a grounded younger man who drops his shoulders, listens without lecturing, and enjoys quiet canyon stargazing.',
     secretInsecurity:
       'Everyone comes to her studio to be grounded and regulated; privately melts when an attentive Cub brews her evening tea and lets her rest.',
     subplotTags: [
-      'qigong_mommy_domme',
+      'calm_sanctuary_domme',
       'zero_proof_wellness',
       'black_cat_energy',
       'solo_sanctuary',
       'done_with_kids',
     ],
     portraitVariant: 'cougar',
-    photoUrl: './images/cast/sedona-qigong-46f.jpg',
+    photoUrl: './images/cast/sedona-breathwork-46f.jpg',
     lookBadge: 'Auburn Silver Waves • Serene Studio Founder',
     statusPill: 'Zero-Proof Tea • Sanctuary Studio',
     zodiac: '♍ Virgo Sun • ♏ Scorpio Rising',
@@ -229,12 +229,12 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     originOrAccent: 'Serene Red-Rock Cadence',
     signatureDrink: 'Warm Jasmine Oolong & Yuzu Botanical Elixir',
     galleryPhotos: [
-      { label: '🧘‍♀️ Dawn Courtyard', url: './images/cast/sedona-qigong-46f.jpg' },
+      { label: '🧘‍♀️ Dawn Courtyard', url: './images/cast/sedona-breathwork-46f.jpg' },
       { label: '🧖‍♀️ Cedar Sauna', url: './images/scenes/hotel-pool-sauna.jpg' },
       { label: '🐾 Meadow Tea', url: './images/cast/dog-park-picnic.jpg' },
     ],
     interests: [
-      'Qigong & Tai Chi',
+      'Breathwork & morning stretch',
       'Jasmine Oolong Tea',
       'Cedar Sauna & Cold Plunge',
       'Canyon Stargazing',
@@ -242,42 +242,42 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     ],
   },
   {
-    id: 'sloane-seedoil-bernedoodle-mommy',
+    id: 'sloane-seedoil-golden retriever-mommy',
     name: 'Sloane',
     age: 42,
     title: 'Clean-Living Holistic Interior Designer • Cougar',
-    shortHook: '5\'4" Santa Monica designer, 100% gluten & seed-oil free, with apricot Mini Bernedoodle Miso.',
+    shortHook: '5\'4" Santa Monica designer, 100% gluten & chef-crafted, with apricot Mini golden retriever Miso.',
     tagline:
-      '42F coastal interior designer: bans canola oil at 50 paces, bakes cassava sourdough, and brings her fluffy apricot Mini Bernedoodle Miso to every farmers market.',
+      '42F coastal interior designer: bans canola oil at 50 paces, bakes cassava sourdough, and brings her fluffy apricot Mini golden retriever Miso to every farmers market.',
     vibeSummary:
-      'Reads every restaurant oil label in 1.4 seconds, cooks exclusively in grass-fed ghee, beef tallow & cold-pressed olive oil, and designs sunlit linen homes with her Mini Bernedoodle Miso curled beside her.',
+      'Reads every restaurant oil label in 1.4 seconds, cooks exclusively in grass-fed ghee, beef tallow & cold-pressed olive oil, and designs sunlit linen homes with her Mini golden retriever Miso curled beside her.',
     secretInsecurity:
       'Tired of grumpy 44-year-old dates rolling their eyes when she asks the waiter about canola oil; adores an enthusiastic Cub who calls the restaurant ahead so she never has to ask.',
     subplotTags: [
-      'seed_oil_bernedoodle_mommy',
+      'coastal_dog_mommy',
       'zero_proof_wellness',
       'princess_treatment',
       'solo_sanctuary',
     ],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/sloane-42f.jpg',
-    lookBadge: 'Sunlit Brunette Waves • 5\'4" • Mini Bernedoodle Miso',
-    statusPill: '100% GF & Seed-Oil Free • Dog Mom',
+    lookBadge: 'Sunlit Brunette Waves • 5\'4" • Mini golden retriever Miso',
+    statusPill: '100% GF & chef-crafted • Dog Mom',
     zodiac: '♉ Taurus Sun • ♍ Virgo Rising',
     height: '5\'4"',
-    loveLanguage: 'Seed-Oil-Free Home Cooking & Farmers-Market Walks w/ Miso',
+    loveLanguage: 'chef-crafted Home Cooking & Farmers-Market Walks w/ Miso',
     originOrAccent: 'Santa Monica Farmers-Market Warmth',
     signatureDrink: 'Iced Ceremonial Matcha & Tart-Cherry Spritz',
-    petName: 'Miso (Apricot Mini Bernedoodle)',
+    petName: 'Miso (Apricot Mini golden retriever)',
     galleryPhotos: [
       { label: '🐶 Matcha & Miso', url: './images/cast/sloane-42f.jpg' },
       { label: '🥑 Sunday Kitchen', url: './images/scenes/sunday-kitchen-sanctuary.jpg' },
       { label: '🐾 Puppy Lawn', url: './images/cast/dog-park-picnic.jpg' },
     ],
     interests: [
-      'Zero Seed Oils',
+      'Zero cheap frying oil',
       '100% Gluten-Free',
-      'Mini Bernedoodle Miso',
+      'Mini golden retriever Miso',
       'Grass-Fed Tallow & Ghee',
       'Coastal Interior Design',
     ],
@@ -1271,7 +1271,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     shortHook:
       'Joined Anthropic early, quietly vested at 28, zero tech-bro flash, exclusively courts accomplished women 38-60.',
     tagline:
-      'Early frontier-AI safety researcher with vested equity, oatmeal cashmere, and zero patience for 23-year-old clout chasers.',
+      'Early frontier-AI safety researcher with vested equity, tailored knitwear, and zero patience for 23-year-old clout chasers.',
     vibeSummary:
       'Joined Anthropic in the early pre-hype days and quietly hit financial independence before 28. Allergic to crypto/Lambo flexing and exhausted by 23-year-olds asking about his cap table on Date #1, he melts for a self-made Cougar with her own career, sharp wit, and calm presence who lets him power down his brain at 8 PM and cook her brown-butter halibut.',
     secretInsecurity:
@@ -1286,7 +1286,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     ],
     portraitVariant: 'architect',
     photoUrl: './images/cast/kieran-28m.jpg',
-    lookBadge: 'Oatmeal Cashmere • Vintage Watch • Early AI',
+    lookBadge: 'tailored knitwear • Vintage Watch • Early AI',
     statusPill: '🧠 Early Anthropic • Quietly Vested',
     zodiac: '♍ Virgo Sun • ♉ Taurus Rising',
     height: '6\'1"',
@@ -1835,12 +1835,12 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   },
   {
     id: 'dm_goblin',
-    label: 'The "hey" / Venmo-Math Goblin',
+    label: 'The "hey" / split-tab-Math Goblin',
     ageRange: 'Rehab or Block',
     category: 'cub_taxonomy',
     headline: 'Cautionary Club Specimen',
     insiderLore:
-      'Either opens with "hey" + purple LED Tito’s selfies OR invites you out on a campus meal plan and pulls out a spreadsheet to Venmo-request $3.19 for four edamame pods.',
+      'Either opens with "hey" + purple LED Tito’s selfies OR invites you out on a campus meal plan and pulls out a spreadsheet to split-tab-request $3.19 for four edamame pods.',
     signatureTell: 'Asks for your Snapchat or itemizes half the appetizer.',
   },
   {
@@ -2101,15 +2101,15 @@ const DELIGHT_DETAILS: Record<string, { idealSunday: string; softSpot: string; e
     softSpot: 'Warm shoulder rubs after cold ocean water',
     extraInterests: ['Dawn Surfing', 'Cedar Sauna', 'Cold Plunge', 'Coastal Runs', 'Ocean Swims'],
   },
-  'sedona-qigong-mommy': {
-    idealSunday: 'Sunrise courtyard Qigong, steep-brewed jasmine oolong, and canyon stargazing',
+  'sedona-breathwork-mommy': {
+    idealSunday: 'Sunrise courtyard Breathwork, steep-brewed jasmine oolong, and canyon stargazing',
     softSpot: 'Dropping your shoulders, skipping podcast lectures, and enjoying quiet cedar steam',
-    extraInterests: ['Qigong & Tai Chi', 'Jasmine Oolong', 'Cedar Sauna', 'Canyon Stargazing', 'Acoustic Vinyl'],
+    extraInterests: ['Breathwork & morning stretch', 'Jasmine Oolong', 'Cedar Sauna', 'Canyon Stargazing', 'Acoustic Vinyl'],
   },
-  'sloane-seedoil-bernedoodle-mommy': {
+  'sloane-seedoil-golden retriever-mommy': {
     idealSunday: 'Baking warm cassava sourdough and walking the Montecito farmers market',
     softSpot: 'Showing up with a chew toy for her incoming puppy Miso',
-    extraInterests: ['Farmers Markets', 'Cassava Baking', 'Mini Bernedoodles', 'Infrared Sauna', 'Morning Walks'],
+    extraInterests: ['Farmers Markets', 'Cassava Baking', 'Mini golden retrievers', 'Infrared Sauna', 'Morning Walks'],
   },
   'scarlett-redhead-jaguar': {
     idealSunday: 'Sleeping in late, vinyl soul records, and handmade truffle pasta at home',
@@ -2308,7 +2308,7 @@ const DELIGHT_DETAILS: Record<string, { idealSunday: string; softSpot: string; e
   },
   'kayden-broke-dutch-cub': {
     idealSunday: '3 AM Valorant with his three roommates and hunting 4:30 PM happy-hour coupons',
-    softSpot: 'Splitting seven edamame pods down to the exact $0.38 cent on Venmo',
+    softSpot: 'Splitting seven edamame pods down to the exact $0.38 cent on split-tab',
     extraInterests: ['Going Dutch', '3 AM Valorant', 'Happy Hour Deals', 'Campus Coupons', 'Roommate Chaos'],
   },
   'miles-millennial-cub': {
@@ -2485,7 +2485,7 @@ const CURATED_HINGE_META: Record<
     memoryKeyword: 'sauna',
     memoryRewardLine: 'Wait, you remembered my Sunday 190°F cedar sauna ritual? Top of the stack.',
   },
-  'sedona-qigong-mommy': {
+  'sedona-breathwork-mommy': {
     schoolAndMajor: 'UC Berkeley • Integrative Physiology',
     fieldOfWork: 'Somatic Studio & Breathwork',
     funFacts: [
@@ -2495,12 +2495,12 @@ const CURATED_HINGE_META: Record<
     memoryKeyword: 'oolong',
     memoryRewardLine: 'You remembered the jasmine oolong clay canisters. Shoulders dropped already.',
   },
-  'sloane-seedoil-bernedoodle-mommy': {
+  'sloane-seedoil-golden retriever-mommy': {
     schoolAndMajor: 'RISD • Interior Architecture',
     fieldOfWork: 'Holistic Coastal Design',
     funFacts: [
       'Can spot hidden soybean oil on a restaurant menu from across the patio.',
-      'My apricot Mini Bernedoodle Miso judges every throw pillow sample first.',
+      'My apricot Mini golden retriever Miso judges every throw pillow sample first.',
     ],
     memoryKeyword: 'miso',
     memoryRewardLine: 'Mentioning Miso on message one? Both of us are officially wagging.',
@@ -2729,7 +2729,7 @@ const CURATED_HINGE_META: Record<
     schoolAndMajor: 'State University • 5th-Yr Corporate Finance',
     fieldOfWork: 'Campus Consulting & Budget Optimization',
     funFacts: [
-      'Built an automated Venmo macro that splits tax down to half an edamame pod.',
+      'Built an automated split-tab macro that splits tax down to half an edamame pod.',
       'Waiting on my bedframe delivery, gaming chair works great as a nightstand!',
     ],
     memoryKeyword: 'spreadsheet',
@@ -2955,7 +2955,7 @@ export function analyzePairing(
 
   let trackTitle: string;
   if (his.subplotTags.includes('broke_dutch_obstacle')) {
-    trackTitle = `${ageGap}-Year Sub-23 Danger-Zone Run: Broke College Dutch-Splitter, 3-Roommate Kitchen & Venmo Horror`;
+    trackTitle = `${ageGap}-Year Sub-23 Danger-Zone Run: Broke College Dutch-Splitter, 3-Roommate Kitchen & split-tab Horror`;
   } else if (ageGap > 0 && (her.subplotTags.includes('junior_cougar_gap') || ageGap <= 8)) {
     trackTitle = `${ageGap}-Year Junior Cougar Storyline: 2008 High-School Math, Micro-Gen Teasing, Pace-Sync Doubt & Sweet-Spot Love`;
   } else if (felineTier === 'puma' || felineTier === 'lynx') {

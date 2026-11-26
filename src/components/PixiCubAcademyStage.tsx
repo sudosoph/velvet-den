@@ -150,22 +150,22 @@ const ROOM_HAZARDS: RoomHazard[] = [
     roastLine: 'Banished the 5-in-1 neon gel for real cedar skincare!',
   },
   {
-    id: 'haz-venmo',
+    id: 'haz-split-tab',
     emoji: '💸',
     xPct: 45,
     yPct: 72,
-    redLabel: 'Draft $19.50 Ribeye Venmo Request',
+    redLabel: 'Draft $19.50 Ribeye split-tab Request',
     greenUpgrade: 'Handwritten Love Coupon & Wine Menu',
-    roastLine: 'Deleted the petty Venmo draft before she ever saw it!',
+    roastLine: 'Deleted the petty split-tab draft before she ever saw it!',
   },
   {
     id: 'haz-pollen',
     emoji: '🌲',
     xPct: 83,
     yPct: 28,
-    redLabel: '11:47 PM Pine-Pollen Tincture',
+    redLabel: '11:47 PM midnight caffeine Tincture',
     greenUpgrade: 'Chilled Zero-Proof Botanical Spritz',
-    roastLine: 'Swapped midnight pine-pollen spirals for calm botanical spritzes!',
+    roastLine: 'Swapped midnight midnight caffeine spirals for calm botanical spritzes!',
   },
 ];
 
@@ -298,7 +298,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
         herRig.addChild(herLabel);
         app.stage.addChild(herRig);
 
-        // Center Companion: Miso the Tricolor Mini Bernedoodle!
+        // Center Companion: Miso the Tricolor Mini golden retriever!
         const puppyRig = new PIXI.Container();
         puppyRig.x = 430;
         puppyRig.y = 212;
@@ -310,7 +310,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
         puppyRig.addChild(puppyGfx);
         const puppyTag = new PIXI.Text({
           text:
-            her.id === 'sloane-seedoil-bernedoodle-mommy'
+            her.id === 'sloane-seedoil-golden retriever-mommy'
               ? '🐶 Miso (Referee)'
               : '🐕 Barnaby (Referee)',
           style: {
@@ -721,7 +721,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
                 <div className="text-center">
                   <div className="text-2xl">{isGraduated ? '🦮💖👑' : '🔔〰️🦮'}</div>
                   <div className="text-[11px] font-bold text-[#FDE68A] mt-1">
-                    {her.id === 'sloane-seedoil-bernedoodle-mommy'
+                    {her.id === 'sloane-seedoil-golden retriever-mommy'
                       ? '🐶 Miso Refereeing Live'
                       : '🐕 Barnaby Refereeing Live'}
                   </div>

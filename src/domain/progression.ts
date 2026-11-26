@@ -6,7 +6,7 @@ export interface AdventureProgressState {
   defeatedGoblinIds: string[];
   solvedNodeIds: string[];
   companionAdopted: boolean;
-  bernedoodleAdopted?: boolean;
+  puppyAdopted?: boolean;
   triviaIndex: number;
 }
 
@@ -61,7 +61,7 @@ export function createDefaultAdventureProgress(): AdventureProgressState {
     defeatedGoblinIds: [],
     solvedNodeIds: [],
     companionAdopted: false,
-    bernedoodleAdopted: false,
+    puppyAdopted: false,
     triviaIndex: 0,
   };
 }
@@ -74,14 +74,14 @@ export function loadAdventureProgress(): AdventureProgressState {
     const raw = window.localStorage.getItem(ADVENTURE_STORAGE_KEY);
     if (!raw) return createDefaultAdventureProgress();
     const parsed = JSON.parse(raw) as Partial<AdventureProgressState>;
-    const adopted = Boolean(parsed.companionAdopted ?? parsed.bernedoodleAdopted);
+    const adopted = Boolean(parsed.companionAdopted ?? parsed.puppyAdopted);
     return {
       xp: typeof parsed.xp === 'number' && Number.isFinite(parsed.xp) ? Math.max(0, parsed.xp) : 20,
       collectedItemIds: Array.isArray(parsed.collectedItemIds) ? parsed.collectedItemIds : [],
       defeatedGoblinIds: Array.isArray(parsed.defeatedGoblinIds) ? parsed.defeatedGoblinIds : [],
       solvedNodeIds: Array.isArray(parsed.solvedNodeIds) ? parsed.solvedNodeIds : [],
       companionAdopted: adopted,
-      bernedoodleAdopted: adopted,
+      puppyAdopted: adopted,
       triviaIndex: typeof parsed.triviaIndex === 'number' ? parsed.triviaIndex : 0,
     };
   } catch {
@@ -106,12 +106,12 @@ export function grantAdventureXp(
 ): { next: AdventureProgressState; leveledUp: boolean; levelInfo: LevelInfo } {
   const prevLvl = getLevelInfo(prev.xp).level;
   const nextAdopted =
-    patch?.companionAdopted ?? patch?.bernedoodleAdopted ?? prev.companionAdopted;
+    patch?.companionAdopted ?? patch?.puppyAdopted ?? prev.companionAdopted;
   const next: AdventureProgressState = {
     ...prev,
     ...patch,
     companionAdopted: nextAdopted,
-    bernedoodleAdopted: nextAdopted,
+    puppyAdopted: nextAdopted,
     xp: Math.max(0, prev.xp + deltaXp),
   };
   const levelInfo = getLevelInfo(next.xp);

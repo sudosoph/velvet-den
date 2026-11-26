@@ -40,7 +40,7 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
   {
     id: 'polaroid-sanctuary-scan',
     title: '4-Pillow Percale Sanctuary',
-    caption: 'Lidded trash bin, bergamot soap & zero $41.63 Venmo drafts.',
+    caption: 'Lidded trash bin, bergamot soap & zero $41.63 split-tab drafts.',
     unlockHint: 'Clear all 5 hazards in the 2D Apartment Red-Flag Scanner',
     imageUrl: './images/scenes/luxury-bedroom-sanctuary.jpg',
     rotationClass: 'rotate-1',
@@ -70,7 +70,7 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
     rotationClass: '-rotate-1',
   },
   {
-    id: 'polaroid-bernedoodle-club',
+    id: 'polaroid-cabana-club',
     title: 'Palm Springs VIP Cabana Club',
     caption: '5+ Roster legends vetted in your Club Dateodex.',
     unlockHint: 'Collect 4+ character stamps in your Dateodex',
@@ -155,7 +155,7 @@ export function stampDateodexCharacters(
 
   const unlockedSet = new Set([...prev.unlockedPolaroidIds, ...extraPolaroidIds]);
   if (Object.keys(nextStamps).length >= 4) {
-    unlockedSet.add('polaroid-bernedoodle-club');
+    unlockedSet.add('polaroid-cabana-club');
   }
 
   const next: DateodexState = {

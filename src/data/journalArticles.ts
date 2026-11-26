@@ -479,7 +479,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
       {
         heading: '2. Early-Career Budget Magic: Linen-Blanket Picnics & Retro Neon Bowling',
-        body: 'You never need trust-fund flash (and never pretend your parents’ Hawaii timeshare is "your place"!). Packing fresh figs, Brie, and crusty baguette in an insulated linen tote followed by competitive retro bowling beats pretentious posturing ten times out of ten.',
+        body: 'You never need trust-fund flash (and never pretend your parents’ beach rental is "your place"!). Packing fresh figs, Brie, and crusty baguette in an insulated linen tote followed by competitive retro bowling beats pretentious posturing ten times out of ten.',
       },
       {
         heading: '3. Twilight Campus Strolls, Omakase Counters & Gallery Openings',

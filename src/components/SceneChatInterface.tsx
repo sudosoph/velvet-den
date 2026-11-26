@@ -143,18 +143,18 @@ export function buildEpisodeChatSpec(
   const herAge = pairing.her.age;
   const hisAge = pairing.his.age;
 
-  if (id === 'cub-friends-memes-roblox-shock') {
+  if (id === 'cub-friends-memes-arcade games-shock') {
     return {
       defaultSkin: 'discord',
-      channelTitle: '🎮-roblox-dti-and-boys-vc',
-      channelTopic: 'Playing Roblox: Dress to Impress • 4 in Voice Channel',
+      channelTitle: '🎮-arcade games-dti-and-boys-vc',
+      channelTopic: 'Playing arcade games: Dress to Impress • 4 in Voice Channel',
       messages: [
         {
           id: 'm1',
           sender: 'buddy1',
           authorLabel: 'Kyle_DTI_RunwayKing',
           roleColor: '#57F287',
-          badge: 'ROBLOX VIP',
+          badge: 'arcade games VIP',
           text: `BRO @${hisName} actually brought ${herName} to pre-game!! quick hide the empty White Claw pyramid 💀`,
           timestamp: 'Today at 9:58 PM',
         },
@@ -220,7 +220,7 @@ export function buildEpisodeChatSpec(
     };
   }
 
-  if (id === 'pine-pollen-feels-incoherent-text-spiral') {
+  if (id === 'midnight caffeine-feels-incoherent-text-spiral') {
     return {
       defaultSkin: 'imessage',
       channelTitle: `${herName} & ${hisName}`,
@@ -230,7 +230,7 @@ export function buildEpisodeChatSpec(
           id: 'pp1',
           sender: 'him',
           authorLabel: hisName,
-          text: `brooo took 2 droppers of wild pine pollen under my tongue for testosterone pre legs and ngl my mind is racing rn`,
+          text: `brooo took 2 droppers of wild midnight caffeine under my tongue for testosterone pre legs and ngl my mind is racing rn`,
           timestamp: '11:44 PM',
         },
         {
@@ -244,7 +244,7 @@ export function buildEpisodeChatSpec(
           id: 'pp3',
           sender: 'him',
           authorLabel: hisName,
-          text: `sorry ignore that pine pollen got my T crazy lol unless u wanna talk rn??`,
+          text: `sorry ignore that midnight caffeine got my T crazy lol unless u wanna talk rn??`,
           timestamp: '11:47 PM',
         },
         {
@@ -253,10 +253,10 @@ export function buildEpisodeChatSpec(
           authorLabel: herName,
           text:
             herAge >= 50
-              ? `Good morning, ${hisName}. Two ground rules if we are going to see each other: I turn my phone off at 10:00 PM on weeknights, and you will need to retire the pine-pollen dropper before texting me again.`
+              ? `Good morning, ${hisName}. Two ground rules if we are going to see each other: I turn my phone off at 10:00 PM on weeknights, and you will need to retire the midnight caffeine dropper before texting me again.`
               : herAge >= 40
-                ? `Good morning, ${hisName} ☕ Two quick ground rules: quiet weeknights after 10:00 PM aren't ghosting, and please step away from the pine-pollen dropper and use full sentences.`
-                : `Morning, ${hisName} ☕ Two quick rules: I'm asleep by 10:00 PM on weeknights so quiet evenings aren't ghosting, and please put the pine-pollen dropper down and text in normal sentences.`,
+                ? `Good morning, ${hisName} ☕ Two quick ground rules: quiet weeknights after 10:00 PM aren't ghosting, and please step away from the midnight caffeine dropper and use full sentences.`
+                : `Morning, ${hisName} ☕ Two quick rules: I'm asleep by 10:00 PM on weeknights so quiet evenings aren't ghosting, and please put the midnight caffeine dropper down and text in normal sentences.`,
           timestamp: '8:15 AM',
         },
       ],
@@ -268,7 +268,7 @@ export function buildEpisodeChatSpec(
     episode.sceneArt === 'code_switch_phone' ||
     id === 'steamy-texts-sister-age-shock' ||
     id === 'jaguar-genx-phone-call' ||
-    id === 'generational-1900s-venmo-whiplash' ||
+    id === 'generational-1900s-split-tab-whiplash' ||
     id === 'broke-college-dutch-calculator-horror'
   ) {
     const messages: SceneChatMessage[] =
@@ -313,13 +313,13 @@ export function buildEpisodeChatSpec(
               },
             ]
           : id === 'broke-college-dutch-calculator-horror' ||
-              id === 'generational-1900s-venmo-whiplash'
+              id === 'generational-1900s-split-tab-whiplash'
             ? [
                 {
                   id: 'v1',
                   sender: 'him',
                   authorLabel: hisName,
-                  text: `had sm fun!! just sent u a $41.63 Venmo request for ur half + 4/7ths of the edamame pods 🫛✨`,
+                  text: `had sm fun!! just sent u a $41.63 split-tab request for ur half + 4/7ths of the edamame pods 🫛✨`,
                   timestamp: '10:42 PM',
                 },
                 {
@@ -328,7 +328,7 @@ export function buildEpisodeChatSpec(
                   authorLabel: herName,
                   text:
                     herAge >= 50
-                      ? `Did you genuinely just send an itemized Venmo request for four-sevenths of an edamame appetizer? Delete my number immediately.`
+                      ? `Did you genuinely just send an itemized split-tab request for four-sevenths of an edamame appetizer? Delete my number immediately.`
                       : herAge >= 40
                         ? `Did you seriously just itemize four-sevenths of an edamame bowl in my messages? I’ll cover the full $41.63 as a parting gift. Take care.`
                         : `Did you seriously just itemize four-sevenths of an edamame bowl in my iMessages? Lose my number immediately 🚩`,

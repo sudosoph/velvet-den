@@ -78,7 +78,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
           </span>
           <h2 className="font-display text-xl text-[#18101E]">6-Slide Hinge &amp; Tinder Vetting</h2>
           <p className="text-sm font-medium text-[#475569] leading-relaxed">
-            Inspect full uncropped portraits, majors, careers, fun facts, and Photo #2 clues. Spot Tito’s mirror bottles, Mom’s Maui timeshares, and Venmo spreadsheets before swiping right.
+            Inspect full uncropped portraits, Vitals, and first-person Hinge prompts. Spot 6:45 PM commuter curfews, age-filter fibs, and Table 9 setups before Friday night.
           </p>
         </div>
 

@@ -11,11 +11,11 @@ export type MinigameType =
   | 'thermostat_dial'
   | 'big_carl_pour'
   | 'black_cat_pace'
-  | 'venmo_calculator_block'
+  | 'split-tab_calculator_block'
   | 'roommate_kitchen_escape'
   | 'hobosexual_bag_intercept'
-  | 'timeshare_interrogation'
-  | 'qigong_breath_sync'
+  | 'guest condo_interrogation'
+  | 'breathwork_breath_sync'
   | 'seed_oil_audit'
   | 'pine_pollen_decoder';
 
@@ -110,7 +110,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Watch him smoothly slide his card in before you even reach, then offer dessert next door.',
         labelHim: 'Pick up the check cleanly ("I invited you out, you’ve got gelato next door if you want Round 2").',
         outcomeHer:
-          'Zero awkward Venmo math, zero performative flexing. He handled dinner within the spot he chose, and grinned when you claimed the gelato tab.',
+          'Zero awkward split-tab math, zero performative flexing. He handled dinner within the spot he chose, and grinned when you claimed the gelato tab.',
         outcomeHim:
           'Her eyebrows lift with genuine delight. You picked a spot in your budget, covered it smoothly, and left room for playful reciprocity.',
         toastBanner: 'CHIVALRY +20 • SUGAR-BABY MYTH CRUSHED',
@@ -129,7 +129,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'He pulls out a phone calculator to split tax and tip down to $0.37.',
-        labelHim: 'Open Venmo at the table to itemize who ate four croquetas versus three.',
+        labelHim: 'Open split-tab at the table to itemize who ate four croquetas versus three.',
         outcomeHer:
           'Fairness is fine, spreadsheet energy on Date #1 kills the romance, though at least he pays his own way.',
         outcomeHim:
@@ -2448,7 +2448,7 @@ export const EPISODES: Episode[] = [
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
-    recommendedAffiliateId: 'seed-oil-free-ghee-evoo-set',
+    recommendedAffiliateId: 'chef-crafted-ghee-evoo-set',
     setupHer:
       '11:30 PM Saturday after a very active evening. {hisName} ({hisAge}M) casually inhales half a pepperoni pizza straight from the box and will wake up tomorrow with visible lower abs, whereas if you touch late-night sodium or cheap tequila at {herAge}, you wake up puffy with rings stuck on your fingers and acid reflux.',
     setupHim:
@@ -2536,7 +2536,7 @@ export const EPISODES: Episode[] = [
     ],
   },
 
-  // --- 7 FORUM RED-FLAG, GROWN-SON / SIBLING SAME-AGE, PARENTS, WEDDING +1 & ROBLOX EPISODES ---
+  // --- 7 FORUM RED-FLAG, GROWN-SON / SIBLING SAME-AGE, PARENTS, WEDDING +1 & arcade games EPISODES ---
   {
     id: 'forum-redflag-pocket-secret-test',
     act: 2,
@@ -2586,17 +2586,17 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'generational-1900s-venmo-whiplash',
+    id: 'generational-1900s-split-tab-whiplash',
     act: 2,
     stage: 2,
-    title: '"Back in the Late 1900s?!", Voicemail Panic & Public Venmo Emojis',
+    title: '"Back in the Late 1900s?!", Voicemail Panic & Public split-tab Emojis',
     loreQuote: 'Real-World Quote • "My 25yo cub innocently asked what concerts were like \'in the late 1900s\', right after panicking because I left him a voicemail"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     recommendedAffiliateId: 'chic-candlelit-menu-readers',
     setupHer:
-      'Three generational micro-collisions happen in ten minutes: first, you left {hisName} ({hisAge}M) a normal 20-second voicemail and he called back breathless thinking someone was in the ER (*"Nobody under 30 leaves voicemails unless a meteor hit!!"*). Second, you see his friends’ unhinged public Venmo feed. Third, while talking 1999 music, he earnestly says: *"Wait, tickets were $30 back in the **late 1900s**?!"*',
+      'Three generational micro-collisions happen in ten minutes: first, you left {hisName} ({hisAge}M) a normal 20-second voicemail and he called back breathless thinking someone was in the ER (*"Nobody under 30 leaves voicemails unless a meteor hit!!"*). Second, you see his friends’ unhinged public split-tab feed. Third, while talking 1999 music, he earnestly says: *"Wait, tickets were $30 back in the **late 1900s**?!"*',
     setupHim:
       'Generational culture clash alert with {herName} ({herAge}F): her voicemail notification nearly gave you a heart attack, she prints hotel confirmations as PDFs just in case, and you accidentally referred to 1998 as **"the late 1900s"** out loud.',
     codeSwitchRawImpulse: {
@@ -2606,8 +2606,8 @@ export const EPISODES: Episode[] = [
     },
     choices: [
       {
-        labelHer: 'He catches himself mid-"1900s" horrified, flips his Venmo privacy to Private immediately, queues 1998 Lauryn Hill on vinyl to atone, and kisses you laughing.',
-        labelHim: 'Apologize laughing for the "late 1900s" slip, switch your Venmo default to Private like an adult, and put on *The Miseducation of Lauryn Hill* as peace offering.',
+        labelHer: 'He catches himself mid-"1900s" horrified, flips his split-tab privacy to Private immediately, queues 1998 Lauryn Hill on vinyl to atone, and kisses you laughing.',
+        labelHim: 'Apologize laughing for the "late 1900s" slip, switch your split-tab default to Private like an adult, and put on *The Miseducation of Lauryn Hill* as peace offering.',
         outcomeHer:
           'You throw one velvet sofa pillow at his head, burst out laughing, and forgive the 21st-century baby immediately.',
         outcomeHim:
@@ -2617,13 +2617,13 @@ export const EPISODES: Episode[] = [
         badgeUnlocked: 'Survived Calling 1998 "The 1900s"',
       },
       {
-        labelHer: 'He doubles down calling you a "20th-century historical artifact" AND posts a public Venmo memo with 🐆🍼 emojis.',
-        labelHim: 'Make five more "20th-century relic" jokes and send a public Venmo request with cougar emojis.',
+        labelHer: 'He doubles down calling you a "20th-century historical artifact" AND posts a public split-tab memo with 🐆🍼 emojis.',
+        labelHim: 'Make five more "20th-century relic" jokes and send a public split-tab request with cougar emojis.',
         outcomeHer:
-          'Public Venmo cougar emojis?! Enjoy singlehood in the 2020s!',
+          'Public split-tab cougar emojis?! Enjoy singlehood in the 2020s!',
         outcomeHim:
-          'Broadcasting private relationship jokes on public Venmo is peak immaturity.',
-        toastBanner: 'RED FLAG! • PUBLIC VENMO CRINGE (-20)',
+          'Broadcasting private relationship jokes on public split-tab is peak immaturity.',
+        toastBanner: 'RED FLAG! • PUBLIC split-tab CRINGE (-20)',
         deltas: { maturity: -25, chivalry: -15, eq: -20, chemistry: -20, redFlags: 1 },
       },
       {
@@ -2639,39 +2639,39 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'cub-friends-memes-roblox-shock',
+    id: 'cub-friends-memes-arcade games-shock',
     act: 3,
     stage: 4,
-    title: 'Meeting His Younger Friends: Brainrot Memes & Playing Roblox at 10 PM?!',
-    loreQuote: 'Real-World Quote • "My 25yo cub is a gentleman alone, then I met his friends and realized they just AirDrop unhinged memes and play Roblox Dress to Impress!"',
+    title: 'Meeting His Younger Friends: Brainrot Memes & Playing arcade games at 10 PM?!',
+    loreQuote: 'Real-World Quote • "My 25yo cub is a gentleman alone, then I met his friends and realized they just AirDrop unhinged memes and play arcade games Dress to Impress!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
-      'One-on-one, {hisName} ({hisAge}M) cooks ribeye and reads hardcovers. Tonight you stop by his college buddies’ apartment for a quick pre-game drink, and experience pure anthropological shock: four 24-year-old men communicating entirely in deep-fried Discord memes, arguing passionately over **Roblox *Dress to Impress*** runway scores on a 75-inch TV, and asking if you want a lukewarm White Claw or "wanna hop in our Roblox server?!"',
+      'One-on-one, {hisName} ({hisAge}M) cooks ribeye and reads hardcovers. Tonight you stop by his college buddies’ apartment for a quick pre-game drink, and experience pure anthropological shock: four 24-year-old men communicating entirely in deep-fried Discord memes, arguing passionately over **arcade games *Dress to Impress*** runway scores on a 75-inch TV, and asking if you want a lukewarm White Claw or "wanna hop in our arcade games server?!"',
     setupHim:
-      'Worlds collide: you brought sophisticated {herName} ({herAge}F) to say hi to your boys for 40 minutes before dinner, right as Bro #1 AirDrops cursed memes and Bro #2 boots up **Roblox** on the living-room TV yelling about obby checkpoints.',
+      'Worlds collide: you brought sophisticated {herName} ({herAge}F) to say hi to your boys for 40 minutes before dinner, right as Bro #1 AirDrops cursed memes and Bro #2 boots up **arcade games** on the living-room TV yelling about obby checkpoints.',
     choices: [
       {
-        labelHer: 'He pours your wine into a real glass he brought, playfully roasts his Roblox-obsessed roommates, wins a 2-minute round *for* you laughing, and whisks you out at minute 40 to your candlelit reservation!',
-        labelHim: 'Pour her chilled wine in real glassware, keep her right at the center of warm conversation, laugh off your boys’ Roblox chaos without regressing into it, and head out right on schedule at 8 PM.',
+        labelHer: 'He pours your wine into a real glass he brought, playfully roasts his arcade games-obsessed roommates, wins a 2-minute round *for* you laughing, and whisks you out at minute 40 to your candlelit reservation!',
+        labelHim: 'Pour her chilled wine in real glassware, keep her right at the center of warm conversation, laugh off your boys’ arcade games chaos without regressing into it, and head out right on schedule at 8 PM.',
         outcomeHer:
-          'Seeing the hilarious contrast between his Roblox-playing buddies and how grown, attentive, and protective {hisName} is with you actually makes him look *ten times* hotter!',
+          'Seeing the hilarious contrast between his arcade games-playing buddies and how grown, attentive, and protective {hisName} is with you actually makes him look *ten times* hotter!',
         outcomeHim:
-          'In the Uber to dinner she’s crying laughing: "Your friends are literally 12-year-olds on Roblox, how on earth did YOU turn out so smooth?!"',
-        toastBanner: 'ROBLOX PRE-GAME SURVIVED! • MATURITY +25 • CHEMISTRY +25',
+          'In the Uber to dinner she’s crying laughing: "Your friends are literally 12-year-olds on arcade games, how on earth did YOU turn out so smooth?!"',
+        toastBanner: 'arcade games PRE-GAME SURVIVED! • MATURITY +25 • CHEMISTRY +25',
         deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
-        badgeUnlocked: 'Escaped the Boys’ Roblox Lobby',
+        badgeUnlocked: 'Escaped the Boys’ arcade games Lobby',
       },
       {
-        labelHer: 'He flops onto a beanbag chair screaming into a headset on Roblox for three hours while you sit stranded beside an empty White Claw box.',
-        labelHim: 'Grab a controller, ignore her on the futon for two hours, and scream at a Roblox obby with the boys.',
+        labelHer: 'He flops onto a beanbag chair screaming into a headset on arcade games for three hours while you sit stranded beside an empty White Claw box.',
+        labelHim: 'Grab a controller, ignore her on the futon for two hours, and scream at a arcade games obby with the boys.',
         outcomeHer:
-          'Watching a man scream over virtual Roblox shoes at 10:30 PM cures attraction permanently.',
+          'Watching a man scream over virtual arcade games shoes at 10:30 PM cures attraction permanently.',
         outcomeHim:
-          'By the time you look up from Roblox, she’s already home in silk pajamas blocking your number.',
-        toastBanner: 'RED FLAG! • 3-HOUR ROBLOX REGRESSION (-25)',
+          'By the time you look up from arcade games, she’s already home in silk pajamas blocking your number.',
+        toastBanner: 'RED FLAG! • 3-HOUR arcade games REGRESSION (-25)',
         deltas: { maturity: -30, chivalry: -25, eq: -20, chemistry: -25, redFlags: 1 },
       },
       {
@@ -3571,38 +3571,38 @@ export const EPISODES: Episode[] = [
     id: 'broke-college-dutch-calculator-horror',
     act: 2,
     stage: 1,
-    minigame: 'venmo_calculator_block',
+    minigame: 'split-tab_calculator_block',
     recommendedAffiliateId: 'after-dark-couples-deck',
-    title: '🚨 Broke College "Go-Dutch" Horror: Declined Campus Card & The $41.63 Venmo Calculator',
-    loreQuote: 'Sub-23 Danger Zone • "Declined campus Dining Dollars + itemizing 4 edamame pods for $41.63 on Venmo!"',
+    title: '🚨 Broke College "Go-Dutch" Horror: Declined Campus Card & The $41.63 split-tab Calculator',
+    loreQuote: 'Sub-23 Danger Zone • "Declined campus Dining Dollars + itemizing 4 edamame pods for $41.63 on split-tab!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
     setupHer:
-      'You dared to drag your app age slider into the **Sub-23 Danger Zone**! {hisName} ({hisAge}M) begged to take you out for sushi, ordered two dragon rolls + hot sake for himself while you had one salmon roll, watched his university Meal-Plan card decline off-campus, and now has his iPhone calculator open at the table muttering: *"Okay if we go Dutch plus 8.75% tax and you ate four of the seven edamame pods… can you Venmo me $41.63 right now?"*',
+      'You dared to drag your app age slider into the **Sub-23 Danger Zone**! {hisName} ({hisAge}M) begged to take you out for sushi, ordered two dragon rolls + hot sake for himself while you had one salmon roll, watched his university Meal-Plan card decline off-campus, and now has his iPhone calculator open at the table muttering: *"Okay if we go Dutch plus 8.75% tax and you ate four of the seven edamame pods… can you split-tab me $41.63 right now?"*',
     setupHim:
       'Budget Reality Test! You’re {hisAge} on a tight student/early-career budget taking {herName} ({herAge}F) out. Your roommate swore you should *"make her go 50/50 Dutch down to the penny with your phone calculator so you don’t get used"*, while every Cougar on earth is watching how you date on a starter budget with real class.',
     choices: [
       {
-        labelHer: 'Pay the whole check once with icy grace so the waiter isn’t stiffed, politely tell him why inviting someone out and itemizing edamame on Venmo is a crime, and raise your age slider back to 25+ before reaching your car!',
-        labelHim: 'NEVER invite her to a spot you can’t host or pull out a penny-splitting calculator, plan a charming date squarely inside your real budget (hand-packed park picnic, taco stand, or coffee + sunset walk) and cover it proudly with zero Venmo math!',
+        labelHer: 'Pay the whole check once with icy grace so the waiter isn’t stiffed, politely tell him why inviting someone out and itemizing edamame on split-tab is a crime, and raise your age slider back to 25+ before reaching your car!',
+        labelHim: 'NEVER invite her to a spot you can’t host or pull out a penny-splitting calculator, plan a charming date squarely inside your real budget (hand-packed park picnic, taco stand, or coffee + sunset walk) and cover it proudly with zero split-tab math!',
         outcomeHer:
-          'Lesson immortalized! You escape with your dignity, block the Venmo request mid-notification, and set your Cougars & Cubs Club age slider firmly above campus meal-plan territory!',
+          'Lesson immortalized! You escape with your dignity, block the split-tab request mid-notification, and set your Cougars & Cubs Club age slider firmly above campus meal-plan territory!',
         outcomeHim:
-          'Planning an imaginative $28 date you can genuinely treat her to beats a $90 sushi bill with a petty Venmo calculator 1,000 times out of 1,000!',
-        toastBanner: 'DODGED THE VENMO CALCULATOR! • MATURITY +25 • CHIVALRY +25',
+          'Planning an imaginative $28 date you can genuinely treat her to beats a $90 sushi bill with a petty split-tab calculator 1,000 times out of 1,000!',
+        toastBanner: 'DODGED THE split-tab CALCULATOR! • MATURITY +25 • CHIVALRY +25',
         deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 20, redFlags: 0 },
         badgeUnlocked: 'Survived the Broke College Dutch-Splitter',
         triggerTipPrompt: true,
       },
       {
-        labelHer: 'He sends you a public Venmo request for "$41.63 🍣 + 4 edamames" BEFORE the waiter even brings mints, and asks if you validate his parking.',
-        labelHim: 'Order double her food, whip out your iPhone calculator at the table, and send her a public Venmo request for $41.63 including 4/7ths of the edamame.',
+        labelHer: 'He sends you a public split-tab request for "$41.63 🍣 + 4 edamames" BEFORE the waiter even brings mints, and asks if you validate his parking.',
+        labelHim: 'Order double her food, whip out your iPhone calculator at the table, and send her a public split-tab request for $41.63 including 4/7ths of the edamame.',
         outcomeHer:
-          'FOUR-SEVENTHS OF THE EDAMAME?! Every woman in the group chat is screenshotting this Venmo notification for the Smithsonian!',
+          'FOUR-SEVENTHS OF THE EDAMAME?! Every woman in the group chat is screenshotting this split-tab notification for the Smithsonian!',
         outcomeHim:
-          'Nothing evaporates attraction across all five continents faster than inviting someone out and itemizing three dollars of soybeans on Venmo.',
-        toastBanner: 'RED FLAG! • ITEMIZED EDAMAME VENMO HORROR (-30)',
+          'Nothing evaporates attraction across all five continents faster than inviting someone out and itemizing three dollars of soybeans on split-tab.',
+        toastBanner: 'RED FLAG! • ITEMIZED EDAMAME split-tab HORROR (-30)',
         deltas: { maturity: -30, chivalry: -30, eq: -25, chemistry: -30, redFlags: 1 },
       },
       {
@@ -3965,10 +3965,10 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'birthday-dinner-group-venmo-ambush',
+    id: 'birthday-dinner-group-split-tab-ambush',
     act: 2,
     stage: 4,
-    minigame: 'venmo_calculator_block',
+    minigame: 'split-tab_calculator_block',
     title: '🧾 Group-Dinner Obstacle: His 23yo Friends Order 14 Tequila Shots & Demand an "Even Split"',
     loreQuote: 'Public Group Horror • "You ordered one $19 salad + sparkling water, his bros ordered wagyu + 14 Don Julio shots, and someone yells LET’S SPLIT IT EVENLY 8 WAYS!"',
     isVip: false,
@@ -3976,7 +3976,7 @@ export const EPISODES: Episode[] = [
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
-      'You graciously attend {hisName}’s ({hisAge}M) friend’s birthday dinner. You sip one glass of Sancerre and order branzino, while two of his 23-year-old buddies order **three rounds of Don Julio 1942 shots and twin tomahawk steaks**, then loudly announce as the **$1,120 check** lands: *"Yo let’s just split it evenly 8 ways, everybody Venmo Brody $140 right now, especially since {herName}’s an executive lol!"*',
+      'You graciously attend {hisName}’s ({hisAge}M) friend’s birthday dinner. You sip one glass of Sancerre and order branzino, while two of his 23-year-old buddies order **three rounds of Don Julio 1942 shots and twin tomahawk steaks**, then loudly announce as the **$1,120 check** lands: *"Yo let’s just split it evenly 8 ways, everybody split-tab Brody $140 right now, especially since {herName}’s an executive lol!"*',
     setupHim:
       'Code-Red Chivalry Test! Your loudmouth buddy Brody ordered four rounds of top-shelf tequila shots nobody asked for, then tries to stick {herName} ({herAge}F) with an "even 8-way split" while making a tacky joke about her career!',
     choices: [
@@ -3993,7 +3993,7 @@ export const EPISODES: Episode[] = [
         triggerTipPrompt: true,
       },
       {
-        labelHer: 'He sheepishly whispers "Babe can you just Venmo Brody $280 for both of us since you make more than all of us?"',
+        labelHer: 'He sheepishly whispers "Babe can you just split-tab Brody $280 for both of us since you make more than all of us?"',
         labelHim: 'Nudge your date under the table to subsidize your friends’ tequila binge because she has a great job.',
         outcomeHer:
           'Treating your Cougar like Brody’s personal ATM?! You pay exact cash for your one branzino to the server and vanish into the night forever!',
@@ -4015,42 +4015,42 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'parents-hawaii-timeshare-flex-trap',
+    id: 'parents-hawaii-guest condo-flex-trap',
     act: 2,
     stage: 1,
-    minigame: 'timeshare_interrogation',
+    minigame: 'guest condo_interrogation',
     recommendedAffiliateId: 'linen-picnic-insulated-tote',
-    title: '🌺 College-Cub Red Flag: "Come to My Place in Hawaii" (Spoiler: It’s His Mom’s Timeshare)',
+    title: '🌺 College-Cub Red Flag: "Come to My Place in Hawaii" (Spoiler: It’s His Mom’s guest condo)',
     loreQuote:
-      'Sub-23 College Flex Horror • "Skeptical he’s in undergrad → he invites you to \'my place in Hawaii\' → admits it’s his parents’ Maui timeshare!"',
+      'Sub-23 College Flex Horror • "Skeptical he’s in undergrad → he invites you to \'my place in Hawaii\' → admits it’s his parents’ Maui guest condo!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     setupHer:
-      'You raise a skeptical eyebrow when {hisName} ({hisAge}M) mentions mid-drink that he still has two semesters of undergrad left. Trying to act like an international high-roller, he leans back and says smoothly: *"Come to my place in Hawaii with me next month."* You pause, look him dead in the eye, and ask: **"Wait, that’s not your home, it’s your parents’, right?"** He blinks twice and grins: *"Yeah… they have a timeshare! My mom Linda’s only using the master bedroom till Thursday!"*',
+      'You raise a skeptical eyebrow when {hisName} ({hisAge}M) mentions mid-drink that he still has two semesters of undergrad left. Trying to act like an international high-roller, he leans back and says smoothly: *"Come to my place in Hawaii with me next month."* You pause, look him dead in the eye, and ask: **"Wait, that’s not your home, it’s your parents’, right?"** He blinks twice and grins: *"Yeah… they have a guest condo! My mom Linda’s only using the master bedroom till Thursday!"*',
     setupHim:
-      '{herName} ({herAge}F) expresses totally fair skepticism that you’re {hisAge} and still finishing college. Your frat roommate told you to flex *"Come to my place in Maui"* using your parents’ Marriott Vacation Club timeshare week, hoping she won’t ask whose name is on the deed or why your mom Linda is down the hall. How do you play this?',
+      '{herName} ({herAge}F) expresses totally fair skepticism that you’re {hisAge} and still finishing college. Your frat roommate told you to flex *"Come to my place in Maui"* using your parents’ Marriott Vacation Club guest condo week, hoping she won’t ask whose name is on the deed or why your mom Linda is down the hall. How do you play this?',
     choices: [
       {
-        labelHer: 'Burst out laughing at the sheer audacity of a college junior trying to pimp himself out with his mom’s Maui timeshare points, decline the pull-out kitchenette sofa next to Linda, and send him back to study hall!',
-        labelHim: 'NEVER pretend your parents’ timeshare, boat, or lake house is "my place", own where you actually are in life with humor and plan a real weekend getaway you booked and paid for yourself!',
+        labelHer: 'Burst out laughing at the sheer audacity of a college junior trying to pimp himself out with his mom’s Maui guest condo points, decline the pull-out kitchenette sofa next to Linda, and send him back to study hall!',
+        labelHim: 'NEVER pretend your parents’ guest condo, boat, or lake house is "my place", own where you actually are in life with humor and plan a real weekend getaway you booked and paid for yourself!',
         outcomeHer:
-          'Crisis averted! You dodge a 90-minute 8 AM lobby timeshare seminar AND awkward continental-breakfast waffle-iron small talk with his mom Linda!',
+          'Crisis averted! You dodge a 90-minute 8 AM lobby guest condo seminar AND awkward continental-breakfast waffle-iron small talk with his mom Linda!',
         outcomeHim:
           'Owning your real stage of life with honesty and self-funded effort beats fake trust-fund flexing on your mom’s Marriott points every single time!',
-        toastBanner: '🌺 MOM’S TIMESHARE EXPOSED! • MATURITY +30 • EQ +25',
+        toastBanner: '🌺 MOM’S guest condo EXPOSED! • MATURITY +30 • EQ +25',
         deltas: { maturity: 30, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
-        badgeUnlocked: 'Spotted Mom’s Hawaii Timeshare Flex',
+        badgeUnlocked: 'Spotted Mom’s Hawaii guest condo Flex',
         triggerTipPrompt: true,
       },
       {
         labelHer: 'He doubles down: "C’mon my mom’s super chill, we just have to sit through one 90-minute Tuesday condo presentation for the luau buffet wristbands!!"',
-        labelHim: 'Try to sell an accomplished grown woman on sleeping on a timeshare pull-out couch down the hall from your parents for free buffet wristbands.',
+        labelHim: 'Try to sell an accomplished grown woman on sleeping on a guest condo pull-out couch down the hall from your parents for free buffet wristbands.',
         outcomeHer:
           'PIMPIN’ HIMSELF OUT ON LINDA’S MARRIOTT POINTS?! You pay for your drink, block his number before the valet brings your car, and dine out on this story for six months!',
         outcomeHim:
-          'Nothing dries up attraction across the Pacific faster than pitching a romantic getaway funded by your mom’s timeshare binder.',
-        toastBanner: 'RED FLAG! • MOM’S TIMESHARE WRISTBAND HORROR (-30)',
+          'Nothing dries up attraction across the Pacific faster than pitching a romantic getaway funded by your mom’s guest condo binder.',
+        toastBanner: 'RED FLAG! • MOM’S guest condo WRISTBAND HORROR (-30)',
         deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
       },
       {
@@ -4066,26 +4066,26 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'qigong-tai-chi-wellness-mommy-domme',
+    id: 'breathwork-tai-chi-wellness-mommy-domme',
     act: 2,
     stage: 2,
-    minigame: 'qigong_breath_sync',
+    minigame: 'breathwork_breath_sync',
     recommendedAffiliateId: 'zero-proof-botanical-mocktail-set',
-    requiredAnyTags: ['qigong_mommy_domme'],
-    title: '🧘‍♀️ Dawn Bamboo-Courtyard Qigong & Tai Chi Cloud Hands',
+    requiredAnyTags: ['calm_sanctuary_domme'],
+    title: '🧘‍♀️ Dawn Bamboo-Courtyard Breathwork & morning stretch Cloud Hands',
     loreQuote:
-      'Sedona Studio Lore • "6:30 AM bamboo-courtyard Qigong: unhurried breathwork, warm jasmine oolong, and zero podcast Cubsplaining."',
+      'Sedona Studio Lore • "6:30 AM bamboo-courtyard Breathwork: unhurried breathwork, warm jasmine oolong, and zero podcast Cubsplaining."',
     isVip: false,
     creditCost: 0,
     sceneArt: 'ridge_trail_leash',
     setupHer:
-      '6:30 AM in your sunlit bamboo courtyard: you are gliding through Eight Brocades Qigong and Yang-style Tai Chi Cloud Hands. {hisName} ({hisAge}M) arrives buzzing on cold brew and five seconds in starts to Cubsplain a biohacking clip he saw on Tuesday. You adjust his posture calmly and invite him to match your slow breathing rhythm.',
+      '6:30 AM in your sunlit bamboo courtyard: you are gliding through Eight Brocades Breathwork and Yang-style morning stretch Cloud Hands. {hisName} ({hisAge}M) arrives buzzing on cold brew and five seconds in starts to Cubsplain a biohacking clip he saw on Tuesday. You adjust his posture calmly and invite him to match your slow breathing rhythm.',
     setupHim:
-      '6:30 AM Courtyard Practice! {herName} ({herAge}F) has practiced Qigong and Tai Chi for twenty years. Halfway through opening your mouth to recite a 90-second breathwork podcast clip, she smiles serenely and invites you to drop your shoulders and mirror her Cloud Hands in silence.',
+      '6:30 AM Courtyard Practice! {herName} ({herAge}F) has practiced Breathwork and morning stretch for twenty years. Halfway through opening your mouth to recite a 90-second breathwork podcast clip, she smiles serenely and invites you to drop your shoulders and mirror her Cloud Hands in silence.',
     choices: [
       {
         labelHer: 'He laughs at himself, mutes the podcast impulse immediately, mirrors your slow Cloud Hands for 20 peaceful minutes, and pours warm jasmine oolong afterward.',
-        labelHim: 'Catch the Cubsplain immediately with a grin, sink into her slow Tai Chi Cloud-Hands pace, and pour warm jasmine oolong for two afterward.',
+        labelHim: 'Catch the Cubsplain immediately with a grin, sink into her slow morning stretch Cloud-Hands pace, and pour warm jasmine oolong for two afterward.',
         outcomeHer:
           'Watching a jittery twenty-something settle into calm, grounded presence without lecturing is pure sanctuary bliss.',
         outcomeHim:
@@ -4099,7 +4099,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He interrupts your form three more times to lecture you on breathwork off YouTube shorts.',
         labelHim: 'Keep lecturing the studio founder off Wikipedia clips instead of following her lead.',
         outcomeHer:
-          'Cubsplaining Qigong to the woman who owns the studio? You calmly bow him out the courtyard gate.',
+          'Cubsplaining Breathwork to the woman who owns the studio? You calmly bow him out the courtyard gate.',
         outcomeHim:
           'Lecturing an expert instead of listening closes the sanctuary doors fast.',
         toastBanner: 'RED FLAG! • PODCAST CUBSPLAINING (-30)',
@@ -4118,22 +4118,22 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'seed-oil-gluten-free-bernedoodle-mommy',
+    id: 'cheap frying oil-gluten-free-golden retriever-mommy',
     act: 2,
     stage: 2,
     minigame: 'seed_oil_audit',
-    recommendedAffiliateId: 'seed-oil-free-ghee-evoo-set',
-    requiredAnyTags: ['seed_oil_bernedoodle_mommy'],
-    title: '🥑 Santa Monica Clean Kitchen & Mini Bernedoodle Miso Check',
+    recommendedAffiliateId: 'chef-crafted-ghee-evoo-set',
+    requiredAnyTags: ['coastal_dog_mommy'],
+    title: '🥑 Santa Monica Clean Kitchen & Mini golden retriever Miso Check',
     loreQuote:
-      'Sloane’s Kitchen Rule • "100% gluten-free, grass-fed ghee & olive oil only, and apricot Mini Bernedoodle Miso approves every guest!"',
+      'Sloane’s Kitchen Rule • "100% gluten-free, grass-fed ghee & olive oil only, and apricot Mini golden retriever Miso approves every guest!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     setupHer:
-      'You cook strictly 100% gluten-free and seed-oil-free (grass-fed ghee, tallow & cold-pressed olive oil only), and your fluffy apricot Mini Bernedoodle Miso trots right to the front door to inspect {hisName} ({hisAge}M) before Friday dinner.',
+      'You cook strictly 100% gluten-free and chef-crafted (grass-fed ghee, tallow & cold-pressed olive oil only), and your fluffy apricot Mini golden retriever Miso trots right to the front door to inspect {hisName} ({hisAge}M) before Friday dinner.',
     setupHim:
-      '{herName} ({herAge}F) eats strictly gluten-free and seed-oil-free, and her apricot Mini Bernedoodle Miso is watching your every move in the kitchen. How do you handle dinner tonight?',
+      '{herName} ({herAge}F) eats strictly gluten-free and chef-crafted, and her apricot Mini golden retriever Miso is watching your every move in the kitchen. How do you handle dinner tonight?',
     choices: [
       {
         labelHer: 'He banished canola oil, sears ribeye in grass-fed ghee with cassava sourdough, and brings a natural chew toy for Miso.',
@@ -4199,7 +4199,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'He immediately ruins it by asking if you will pay his rent or buy him sneakers.',
-        labelHim: 'Confuse romantic Mommy-Domme banter with asking her to venmo your car payment.',
+        labelHim: 'Confuse romantic Mommy-Domme banter with asking her to split-tab your car payment.',
         outcomeHer:
           'Rule #1 violated in four seconds flat: romantic authority NEVER means Sugar Mama ATM.',
         outcomeHim:
@@ -4319,59 +4319,59 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'pine-pollen-feels-incoherent-text-spiral',
+    id: 'midnight caffeine-feels-incoherent-text-spiral',
     act: 2,
     stage: 2,
     minigame: 'pine_pollen_decoder',
     recommendedAffiliateId: 'zero-proof-botanical-mocktail-set',
     title:
-      '🌲 Cub Red Flag: Pine-Pollen Testosterone & The 11:47 PM "All Up in My Feels" Text Spiral',
+      '🌲 Cub Red Flag: midnight caffeine Testosterone & The 11:47 PM "All Up in My Feels" Text Spiral',
     loreQuote:
-      'Communication Mishaps & Differing Expectations • "Takes raw Pine Pollen for testosterone → blasts 6 incoherent midnight texts that he’s \'all up in his feels\' after 2 hours of silence!"',
+      'Communication Mishaps & Differing Expectations • "Takes raw midnight caffeine for testosterone → blasts 6 incoherent midnight texts that he’s \'all up in his feels\' after 2 hours of silence!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     setupHer:
-      'You stated your communication rhythm clearly on Date #1: *"I run full workdays, put my phone on Do Not Disturb at 9:30 PM, and love an unhurried, steady pace, not 24/7 texting."* Unfortunately, {hisName} ({hisAge}M) just started mega-dosing wildcrafted **Pine Pollen tincture** under his tongue for *"ancestral testosterone optimization,"* mistook two quiet evening hours for abandonment, and at 11:47 PM blasted six unpunctuated run-on bubbles confessing he’s **"all up in his feels rn idk what were even doing tbh."**',
+      'You stated your communication rhythm clearly on Date #1: *"I run full workdays, put my phone on Do Not Disturb at 9:30 PM, and love an unhurried, steady pace, not 24/7 texting."* Unfortunately, {hisName} ({hisAge}M) just started mega-dosing wildcrafted **midnight caffeine tincture** under his tongue for *"ancestral testosterone optimization,"* mistook two quiet evening hours for abandonment, and at 11:47 PM blasted six unpunctuated run-on bubbles confessing he’s **"all up in his feels rn idk what were even doing tbh."**',
     setupHim:
-      'Expectations & Communication Collision! {herName} ({herAge}F) told you upfront she unplugs in the evenings and prefers calm, intentional courtship over all-day texting. Meanwhile, your gym bro talked you into taking two droppers of raw **Pine Pollen** for testosterone before leg day, and now at 11:47 PM your pulse is humming, she hasn’t replied since 9 PM, and your thumbs are hovering over a six-bubble *"all up in my feels"* meltdown!',
+      'Expectations & Communication Collision! {herName} ({herAge}F) told you upfront she unplugs in the evenings and prefers calm, intentional courtship over all-day texting. Meanwhile, your gym bro talked you into taking two droppers of raw **midnight caffeine** for testosterone before leg day, and now at 11:47 PM your pulse is humming, she hasn’t replied since 9 PM, and your thumbs are hovering over a six-bubble *"all up in my feels"* meltdown!',
     codeSwitchRawImpulse: {
       rawThought:
-        'brooo took 2 droppers of raw pine pollen for testosterone pre lift and ngl im all up in my feels rn bc u havent texted since 9 what are we even doing here r u losing interest or...',
+        'brooo took 2 droppers of raw midnight caffeine for testosterone pre lift and ngl im all up in my feels rn bc u havent texted since 9 what are we even doing here r u losing interest or...',
       warningNote:
-        '🚨 COMMUNICATION MISHAP ALERT: She told you upfront she unplugs at 9:30 PM! Put down the pine-pollen dropper and send one punctuated sentence tomorrow morning.',
+        '🚨 COMMUNICATION MISHAP ALERT: She told you upfront she unplugs at 9:30 PM! Put down the midnight caffeine dropper and send one punctuated sentence tomorrow morning.',
     },
     innerInsecurityBubble: {
       herDoubt:
         'Her 8:15 AM coffee thought: "I literally told him Tuesday I turn my phone off at 9:30 PM. How does taking tree pollen for \'alpha testosterone\' immediately turn a 24-year-old man into an incoherent midnight Victorian poet?!"',
       hisDoubt:
-        'His racing 11:47 PM brain: "Wait, she already told me her evening pace is quiet! Are our expectations actually mismatched, or is double-dosing pine pollen inventing a fake crisis?!"',
+        'His racing 11:47 PM brain: "Wait, she already told me her evening pace is quiet! Are our expectations actually mismatched, or is double-dosing midnight caffeine inventing a fake crisis?!"',
     },
     choices: [
       {
         labelHer:
-          'Refuse to decode midnight hieroglyphics at 11:47 PM, reply calmly at 8:30 AM with one crystal-clear expectation reset: "I enjoy seeing you, {hisName}, AND quiet evenings aren’t rejection. Step away from the pine-pollen dropper and call me at 6 PM in full sentences."',
+          'Refuse to decode midnight hieroglyphics at 11:47 PM, reply calmly at 8:30 AM with one crystal-clear expectation reset: "I enjoy seeing you, {hisName}, AND quiet evenings aren’t rejection. Step away from the midnight caffeine dropper and call me at 6 PM in full sentences."',
         labelHim:
-          'Delete the incoherent "all up in my feels" draft immediately, cap the pine-pollen bottle, respect the quiet evening pace she already communicated, and send ONE grounded, punctuated morning text locking in Thursday dinner at 7:30!',
+          'Delete the incoherent "all up in my feels" draft immediately, cap the midnight caffeine bottle, respect the quiet evening pace she already communicated, and send ONE grounded, punctuated morning text locking in Thursday dinner at 7:30!',
         outcomeHer:
           'Boundary perfection! Either he laughs at himself, puts down the tincture, and steps up to grown-up communication, or he weeds himself out before Friday!',
         outcomeHim:
           'Catching your own anxious texting spiral before hitting send, and honoring her stated communication rhythm, saves the spark and proves real emotional regulation!',
-        toastBanner: 'PINE-POLLEN EXPECTATIONS RESET! • MATURITY +30 • EQ +30',
+        toastBanner: 'midnight caffeine EXPECTATIONS RESET! • MATURITY +30 • EQ +30',
         deltas: { maturity: 30, chivalry: 20, eq: 30, chemistry: 20, redFlags: 0 },
-        badgeUnlocked: 'Decoded the Pine-Pollen Feels Spiral',
+        badgeUnlocked: 'Decoded the midnight caffeine Feels Spiral',
         triggerTipPrompt: true,
       },
       {
         labelHer:
-          'He triples down at 12:19 AM with four more unpunctuated voice-to-text paragraphs blaming "raw pine-pollen T-spikes" while accusing you of "playing games" because you went to sleep at 10 PM!',
+          'He triples down at 12:19 AM with four more unpunctuated voice-to-text paragraphs blaming "raw midnight caffeine T-spikes" while accusing you of "playing games" because you went to sleep at 10 PM!',
         labelHim:
-          'Take a third dropper of pine pollen at midnight and fire off six incoherent run-on texts saying you’re "all up in your feels rn" because she doesn’t text like a 22-year-old on Snap.',
+          'Take a third dropper of midnight caffeine at midnight and fire off six incoherent run-on texts saying you’re "all up in your feels rn" because she doesn’t text like a 22-year-old on Snap.',
         outcomeHer:
           'BLAMING TREE POLLEN FOR AN INCOHERENT MIDNIGHT MELTDOWN?! Blocked before your morning espresso finishes brewing!',
         outcomeHim:
           'Nothing tanks age-gap attraction faster than biohacker supplement jitters colliding with needy 24/7 texting expectations.',
-        toastBanner: 'RED FLAG! • PINE-POLLEN FEELS SPIRAL (-30)',
+        toastBanner: 'RED FLAG! • midnight caffeine FEELS SPIRAL (-30)',
         deltas: { maturity: -30, chivalry: -20, eq: -30, chemistry: -30, redFlags: 1 },
       },
       {
@@ -4426,7 +4426,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer:
-          'Interrogate his cap table for 30 minutes like a quarterly audit, or insist on Venmoing him half the omakase out of pride.',
+          'Interrogate his cap table for 30 minutes like a quarterly audit, or insist on split-tabing him half the omakase out of pride.',
         labelHim:
           'Ruin the mood by spending 35 minutes bragging about GPU clusters, secondary-market valuations, and "how AI will replace her industry."',
         outcomeHer:
@@ -4451,25 +4451,25 @@ export const EPISODES: Episode[] = [
     ],
   },
   {
-    id: 'sheryl-crow-cold-plunge-impress-incident',
+    id: 'Alanis-cold-plunge-impress-incident',
     act: 2,
     stage: 2,
-    title: 'Sheryl Crow "When I Was 4!", 37°F Cold Plunges & Eager Cub Overdrive',
+    title: 'Alanis "When I Was 4!", 37°F Cold Plunges & Eager Cub Overdrive',
     loreQuote:
-      'Real-World Quote • "Sheryl Crow’s Soak Up the Sun came on and he beamed: Oh yeah, that was my favorite song when I was 4!"',
+      'Real-World Quote • "Alanis’s Soak Up the Sun came on and he beamed: Oh yeah, that was my favorite song when I was 4!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     recommendedAffiliateId: 'trophy-boyfriend-cooking-apron',
     setupHer:
-      'Cruising the coast with {hisName} ({hisAge}M), **Sheryl Crow’s *"Soak Up the Sun"*** comes on the stereo and he grins ear-to-ear: **"Oh yeah, turn this up! That was my favorite song when I was 4!"** Before your soul returns to your body, he realizes the math and scrambles adorably to prove how mature and impressive he is: telling you about his **6 AM 37°F cold plunge**, briefing you on **James Webb deep-space exoplanet news**, and clarifying unprompted that he thinks **Andrew Tate manosphere podcasts** are pure clownery.',
+      'Cruising the coast with {hisName} ({hisAge}M), **Alanis’s *"Soak Up the Sun"*** comes on the stereo and he grins ear-to-ear: **"Oh yeah, turn this up! That was my favorite song when I was 4!"** Before your soul returns to your body, he realizes the math and scrambles adorably to prove how mature and impressive he is: telling you about his **6 AM 37°F cold plunge**, briefing you on **deep-space telescope deep-space exoplanet news**, and clarifying unprompted that he thinks **Andrew Tate manosphere podcasts** are pure clownery.',
     setupHim:
-      'Top-down drive with {herName} ({herAge}F): **Sheryl Crow’s *"Soak Up the Sun"*** plays and before your brain catches your mouth, you beam: **"Oh yeah, that was my favorite song when I was 4!"** She lowers her sunglasses in stunned silence. Now you’re in full eager-Cub overdrive trying to impress her with your **6 AM 37°F ice plunge**, **James Webb space-telescope news**, and passing her anti-manosphere vibe check!',
+      'Top-down drive with {herName} ({herAge}F): **Alanis’s *"Soak Up the Sun"*** plays and before your brain catches your mouth, you beam: **"Oh yeah, that was my favorite song when I was 4!"** She lowers her sunglasses in stunned silence. Now you’re in full eager-Cub overdrive trying to impress her with your **6 AM 37°F ice plunge**, **deep-space telescope space-telescope news**, and passing her anti-manosphere vibe check!',
     innerInsecurityBubble: {
       herDoubt:
         'Her half-horrified, half-charmed thought: "When he was FOUR?! I wore low-rise jeans to college when this song dropped... though watching him nervously recite NASA space news to impress me is unfairly cute."',
       hisDoubt:
-        'His panicked recovery: "Why did I say four out loud?! Quick, talk about the James Webb telescope and volunteer to fold her laundry!"',
+        'His panicked recovery: "Why did I say four out loud?! Quick, talk about the deep-space telescope telescope and volunteer to fold her laundry!"',
     },
     choices: [
       {
@@ -4481,7 +4481,7 @@ export const EPISODES: Episode[] = [
           'His earnest desire to impress you without an ounce of toxic podcast ego turns a generational shock into your favorite inside joke.',
         outcomeHim:
           'She laughs so hard she nearly misses the exit, squeezes your knee, and puts you on kitchen and laundry duty back at her place.',
-        toastBanner: 'SHERYL CROW SURVIVED! • EARNEST CUB CHARM +25',
+        toastBanner: 'Alanis SURVIVED! • EARNEST CUB CHARM +25',
         deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Soak Up the Sun Survivor',
       },
@@ -4499,7 +4499,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer:
-          'Turn it into a 2002 vs 2020s car-stereo swap: one Sheryl Crow classic per space fact.',
+          'Turn it into a 2002 vs 2020s car-stereo swap: one Alanis classic per space fact.',
         labelHim:
           'Hand her full DJ control for 2002 summer hits while you keep eyes on the road and coffee hot.',
         outcomeHer:

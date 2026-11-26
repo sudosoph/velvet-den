@@ -22,7 +22,7 @@ export const DEFAULT_MATCH_STATS: RelationshipStats = {
 export interface VelvetDadbookProfile {
   fridayVibe: 'candlelit_bistro' | 'home_cooking' | 'spontaneous_escape';
   polarityStyle: 'princess_romance' | 'soft_good_boy' | 'witty_equal';
-  dealbreaker: 'snapchat_streaks' | 'venmo_math' | 'bucket_list_tourists';
+  dealbreaker: 'snapchat_streaks' | 'split-tab_math' | 'bucket_list_tourists';
 }
 
 export interface MatchCareerState {

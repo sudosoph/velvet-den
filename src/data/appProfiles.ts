@@ -73,35 +73,35 @@ const DEFAULT_EXTRA_SCENES = [
   {
     url: './images/scenes/sunday-kitchen-sanctuary.jpg',
     tab: '🍝 Kitchen',
-    caption: 'Photo 3 of 6 • Sunday Marble Kitchen Prep',
+    caption: 'Profile Moment • Sunday Marble Kitchen Prep',
     note: 'Warm kitchen lighting, music queued, and zero rush.',
     variant: 'home_chef_linen' as AppPhotoVariant,
   },
   {
     url: './images/scenes/candlelit-cocktails.jpg',
     tab: '🍸 7:30 Booth',
-    caption: 'Photo 4 of 6 • Tucked-Away Corner Cocktail Booth',
+    caption: 'Profile Moment • Tucked-Away Corner Cocktail Booth',
     note: 'Prefers dim booths where conversation actually lands.',
     variant: 'tailored_linen' as AppPhotoVariant,
   },
   {
     url: './images/scenes/palm-springs-resort.jpg',
     tab: '🌴 Escape',
-    caption: 'Photo 5 of 6 • Weekend Poolside Recharge',
+    caption: 'Profile Moment • Weekend Poolside Recharge',
     note: 'Carry-on packed whenever a sunny weekend opens up.',
     variant: 'golden_trail_stud' as AppPhotoVariant,
   },
   {
     url: './images/scenes/coastal-convertible.jpg',
     tab: '🚗 Coast',
-    caption: 'Photo 6 of 6 • Golden-Hour Coastal Drive',
+    caption: 'Profile Moment • Golden-Hour Coastal Drive',
     note: 'Windows down up the coast before dinner.',
     variant: 'tailored_linen' as AppPhotoVariant,
   },
   {
     url: './images/cast/dog-park-picnic.jpg',
     tab: '🐾 Picnic',
-    caption: 'Photo 6 of 6 • Saturday Park Meadow Blanket',
+    caption: 'Profile Moment • Saturday Park Meadow Blanket',
     note: 'Fresh berries, crusty bread, and dog-friendly grass.',
     variant: 'dog_park_coffee' as AppPhotoVariant,
   },
@@ -142,14 +142,14 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Golden-Hour Coastal Cliff',
+          caption: 'Profile Moment • Golden-Hour Coastal Cliff',
           shortTab: '☀️ Cliffside',
           vibeNote: 'Sunlit jawline, fitted henley, killer smile. Keep scrolling through his camera roll.',
           variant: 'golden_trail_stud',
           photoUrl: './images/cast/connor-bait.jpg',
         },
         {
-          caption: 'Photo 2 of 6 • 2 AM Purple LED Bathroom Mirror',
+          caption: 'Profile Moment • 2 AM Purple LED Bathroom Mirror',
           shortTab: '🍾 2 AM Mirror',
           vibeNote:
             'Board shorts under purple LEDs clutching a 1.75L handle of Tito’s at 2 AM.',
@@ -167,7 +167,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     age: 28,
     height: '6\'1"',
     zodiac: 'Virgo',
-    lookBadge: '6\'1" • Oatmeal Cashmere • Frontier AI',
+    lookBadge: '6\'1" • tailored knitwear • Frontier AI',
     occupation: 'Early Frontier-AI Researcher',
     schoolAndMajor: 'MIT • Computer Science & Math',
     fieldOfWork: 'AI Safety Infrastructure',
@@ -178,13 +178,13 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Joined Anthropic early, built safety infra, and realized my favorite evenings have zero startup talk ☕🍷 Age filter set 38+ because self-made women with full lives, dry wit, and real standards beat 23yo clout-chasing every single time.',
     hingePromptQuestion: 'What I bring to the table',
     hingePromptAnswer:
-      'Zero Venmo math ever, phone stays face-down all through dinner, and I will never "Cubsplain" AI or mortgages to you.',
+      'Zero split-tab math ever, phone stays face-down all through dinner, and I will never "Cubsplain" AI or mortgages to you.',
     secondPromptQuestion: 'Ideal Sunday with you',
     secondPromptAnswer:
       'Farmers-market figs, morning cortados by the window, cooking brown-butter halibut in your kitchen, and 9:30 PM reading.',
     ageShockZoom: false,
     ageShockQuipHer:
-      '28, oatmeal cashmere, vintage watch, and allergic to startup talk after 8 PM? Intriguing.',
+      '28, tailored knitwear, vintage watch, and allergic to startup talk after 8 PM? Intriguing.',
     ageShockQuipHim:
       'Quiet confidence blueprint: zero net-worth bragging, real manners, and genuine admiration.',
     lookingFor: 'Long-term partnership with an accomplished woman (38-60)',
@@ -198,7 +198,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunlit Window Cortado & Cashmere',
+          caption: 'Profile Moment • Sunlit Window Cortado & Cashmere',
           shortTab: '☕ Cortado',
           vibeNote: 'Warm eye contact, vintage leather watch, zero mirror flexing.',
           variant: 'tailored_linen',
@@ -210,7 +210,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/luxury-bedroom-sanctuary.jpg',
           tab: '🛏️ Loft',
-          caption: 'Photo 6 of 6 • Four-Pillow Percale Sanctuary',
+          caption: 'Profile Moment • Four-Pillow Percale Sanctuary',
           note: 'Screens power off at 8 PM sharp.',
           variant: 'tailored_linen',
         },
@@ -260,7 +260,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunset Beach Jog With Rescue Pup Otis',
+          caption: 'Profile Moment • Sunset Beach Jog With Rescue Pup Otis',
           shortTab: '🏖️ Otis Run',
           vibeNote: 'Ocean mile with his scruffy rescue dog Otis at golden hour.',
           variant: 'golden_trail_stud',
@@ -310,7 +310,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • New Place Mirror Check ("Minimalist Setup")',
+          caption: 'Profile Moment • New Place Mirror Check ("Minimalist Setup")',
           shortTab: '🪞 New Spot',
           vibeNote: 'Wait... inspect the background: bare floor mattress, power strip, and folding chair nightstand.',
           variant: 'crew_socks_mirror',
@@ -322,7 +322,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/neon-bowling-lounge.jpg',
           tab: '🎳 1 AM Lanes',
-          caption: 'Photo 2 of 6 • Midnight Pre-Game With the Boys',
+          caption: 'Profile Moment • Midnight Pre-Game With the Boys',
           note: 'Usually starts texting around 12:45 AM.',
           variant: 'liquor_bottle_trap',
         },
@@ -365,7 +365,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunrise Pine Ridge Trail',
+          caption: 'Profile Moment • Sunrise Pine Ridge Trail',
           shortTab: '🏔️ Trail Hike',
           vibeNote: 'Copper curls, emerald eyes, rolled flannel sleeves & trail coffee.',
           variant: 'golden_trail_stud',
@@ -379,7 +379,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/cozy-rain-suite.jpg',
           tab: '🪵 Cabin',
-          caption: 'Photo 5 of 6 • Rainy Cabin Fireplace & Vinyl',
+          caption: 'Profile Moment • Rainy Cabin Fireplace & Vinyl',
           note: 'Hand-mortised walnut bookshelves.',
           variant: 'tailored_linen',
         },
@@ -422,7 +422,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Palm Springs Poolside Laps',
+          caption: 'Profile Moment • Palm Springs Poolside Laps',
           shortTab: '🏊‍♂️ Poolside',
           vibeNote: 'Sunlit blonde, ocean-blue eyes, natural poolside grin.',
           variant: 'golden_trail_stud',
@@ -433,7 +433,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/hotel-pool-sauna.jpg',
           tab: '🧖‍♂️ Sauna',
-          caption: 'Photo 2 of 6 • Post-Swim Cedar Sauna Recovery',
+          caption: 'Profile Moment • Post-Swim Cedar Sauna Recovery',
           note: 'Swears by cold plunge + sauna contrast.',
           variant: 'golden_trail_stud',
         },
@@ -476,7 +476,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Morning Granite Bouldering Session',
+          caption: 'Profile Moment • Morning Granite Bouldering Session',
           shortTab: '🧗‍♂️ Climbing',
           vibeNote: 'Sunlit granite boulder, subtle forearm tattoo, relaxed athletic focus.',
           variant: 'golden_trail_stud',
@@ -488,7 +488,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/campus-autumn-sushi.jpg',
           tab: '🍣 Late Bite',
-          caption: 'Photo 3 of 6 • Post-Service Midnight Omakase Walk',
+          caption: 'Profile Moment • Post-Service Midnight Omakase Walk',
           note: 'Knows every chef counter open past 11 PM.',
           variant: 'tailored_linen',
         },
@@ -531,7 +531,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • 6:15 AM Coastal Ridge Summit',
+          caption: 'Profile Moment • 6:15 AM Coastal Ridge Summit',
           shortTab: '🏔️ Summit',
           vibeNote: 'Hydration vest, genuine sunlit smile, zero frat-bathroom flexing.',
           variant: 'golden_trail_stud',
@@ -582,7 +582,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Golden-Hour Terrace With Fresh Peonies',
+          caption: 'Profile Moment • Golden-Hour Terrace With Fresh Peonies',
           shortTab: '💐 Peonies',
           vibeNote: 'Pressed olive linen button-down, Hampstead charm, genuine romance.',
           variant: 'tailored_linen',
@@ -595,7 +595,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/wedding-gala-cheers.jpg',
           tab: '🥂 Black Tie',
-          caption: 'Photo 4 of 6 • London Architecture Gala',
+          caption: 'Profile Moment • London Architecture Gala',
           note: 'Owns a proper tailored dinner jacket.',
           variant: 'tailored_linen',
         },
@@ -633,12 +633,12 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     interests: ['Nightlife', 'VIP Tables', 'Marina Days', 'Tequila', 'Cabo'],
     openingDm: 'hey mommy when are u taking me shopping 👀💳',
     xrayLeak:
-      'CLUE CHECK: Negative $42 Venmo balance, sleeps until 1:30 PM, fishing for a free Cabo flight.',
+      'CLUE CHECK: Negative $42 split-tab balance, sleeps until 1:30 PM, fishing for a free Cabo flight.',
     isGreenFlagMatch: false,
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Afternoon Marina Dock (Friend’s Uncle’s Boat)',
+          caption: 'Profile Moment • Afternoon Marina Dock (Friend’s Uncle’s Boat)',
           shortTab: '⛵ Marina',
           vibeNote: 'Pastel pink linen on the dock... read his first-round prompt carefully.',
           variant: 'golden_trail_stud',
@@ -650,7 +650,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     ),
   },
   {
-    id: 'brandon-roblox-dl-trap',
+    id: 'brandon-arcade games-dl-trap',
     name: 'Brandon "Brando"',
     age: 24,
     height: '5\'10"',
@@ -663,7 +663,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     activeAgo: 'Active 1m ago',
     spotifyAnthem: '100 gecs • money machine',
     tinderBio:
-      'Looking for something discrete / lowkey after 10 PM 👀 Never dated someone born in the late 1900s before lol kinda wild!! Catch me on Roblox w the boys till 4 AM 🎮',
+      'Looking for something discrete / lowkey after 10 PM 👀 Never dated someone born in the late 1900s before lol kinda wild!! Catch me on arcade games w the boys till 4 AM 🎮',
     hingePromptQuestion: 'Ideal first linkup',
     hingePromptAnswer: 'Come thru after 10:30 PM once my roommates hop on Discord, keep it private 🤫',
     secondPromptQuestion: 'Underrated perk about me',
@@ -675,7 +675,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Writing "discrete/lowkey" + calling 1984 "the late 1900s" is a legendary self-own.',
     lookingFor: 'Something casual & discrete',
     lookingForSubtext: '"Discrete" (spelled wrong) means he hides dates from daylight.',
-    interests: ['Streaming', 'Roblox', 'Discord VC', 'Late Nights', 'Energy Drinks'],
+    interests: ['Streaming', 'arcade games', 'Discord VC', 'Late Nights', 'Energy Drinks'],
     openingDm: 'yo 👀 crazy ur from the 1900s lol u down for a discrete late night link tn??',
     xrayLeak:
       'CLUE CHECK: Spells discreet wrong, only meets after 10:30 PM, and games till 4 AM.',
@@ -683,7 +683,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • 2:30 AM Dual-Monitor Stream Setup',
+          caption: 'Profile Moment • 2:30 AM Dual-Monitor Stream Setup',
           shortTab: '🎮 Desk Glow',
           vibeNote: 'Oversized hoodie and RGB glow, check his bio for "late 1900s" and "discrete".',
           variant: 'crew_socks_mirror',
@@ -695,7 +695,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/neon-bowling-lounge.jpg',
           tab: '🕹️ Arcade',
-          caption: 'Photo 2 of 6 • Midnight Arcade Run',
+          caption: 'Profile Moment • Midnight Arcade Run',
           note: 'Allergic to daylight brunch before 2 PM.',
           variant: 'liquor_bottle_trap',
         },
@@ -739,7 +739,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Golden-Hour Ranch Portrait',
+          caption: 'Profile Moment • Golden-Hour Ranch Portrait',
           shortTab: '🤠 Ranch',
           vibeNote: '6\'3", sunlit grin, pure Bozeman ranch energy.',
           variant: 'golden_trail_stud',
@@ -750,7 +750,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     ),
   },
   {
-    id: 'kayden-dutch-venmo-trap',
+    id: 'kayden-dutch-split-tab-trap',
     name: 'Kayden',
     age: 21,
     height: '5\'9"',
@@ -766,28 +766,28 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       '21 & fiscally disciplined 📊 Big believer in exact 50/50 split checks down to the cent so everything stays fair! Let’s hit sushi during the 4:30 PM early-bird window.',
     hingePromptQuestion: 'First date non-negotiable',
     hingePromptAnswer:
-      'Separate checks + my Venmo macro splits appetizers by exact edamame pod ratio 🧮',
+      'Separate checks + my split-tab macro splits appetizers by exact edamame pod ratio 🧮',
     secondPromptQuestion: 'My living situation',
     secondPromptAnswer: 'Four guys in a 2-bedroom, Kyle’s cereal mixing bowls stay in the sink mostly.',
     ageShockZoom: true,
     ageShockQuipHer:
-      '21 AND AN EDAMAME-POD VENMO SPREADSHEET?! Look closely at Prompt #1!',
+      '21 AND AN EDAMAME-POD split-tab SPREADSHEET?! Look closely at Prompt #1!',
     ageShockQuipHim:
-      'Never invite a woman out and pull out an iPhone spreadsheet to Venmo-split $0.38 tax.',
+      'Never invite a woman out and pull out an iPhone spreadsheet to split-tab-split $0.38 tax.',
     lookingFor: '50/50 Dutch casual vibes',
-    lookingForSubtext: 'Orders two dragon rolls, then divides the total onto your Venmo.',
+    lookingForSubtext: 'Orders two dragon rolls, then divides the total onto your split-tab.',
     interests: ['Spreadsheet Macros', '4:30 PM Early Bird', 'Coupons', 'Campus Coffee', 'Valorant'],
     openingDm:
-      'yo!! down to grab sushi at 4:45 PM happy hour tn if we go dutch?? bring ur Venmo ready lol 🍣🧮',
+      'yo!! down to grab sushi at 4:45 PM happy hour tn if we go dutch?? bring ur split-tab ready lol 🍣🧮',
     xrayLeak:
-      'CLUE CHECK: $11.40 checking balance, three roommates sharing one towel, itemizes Venmo before leaving the booth.',
+      'CLUE CHECK: $11.40 checking balance, three roommates sharing one towel, itemizes split-tab before leaving the booth.',
     isGreenFlagMatch: false,
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Campus Quad Hoodie Walk',
+          caption: 'Profile Moment • Campus Quad Hoodie Walk',
           shortTab: '🎓 Quad',
-          vibeNote: 'Harmless-looking finance senior... until you read his edamame Venmo prompt.',
+          vibeNote: 'Harmless-looking finance senior... until you read his edamame split-tab prompt.',
           variant: 'dog_park_coffee',
           photoUrl: './images/cast/kayden-21m.jpg',
           isRedFlagPhoto: true,
@@ -797,7 +797,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/campus-autumn-sushi.jpg',
           tab: '🍣 4:30 Deal',
-          caption: 'Photo 2 of 6 • 4:30 PM Early-Bird Sushi Counter',
+          caption: 'Profile Moment • 4:30 PM Early-Bird Sushi Counter',
           note: 'Tries swiping campus Dining Dollars first.',
           variant: 'tailored_linen',
         },
@@ -806,7 +806,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     ),
   },
   {
-    id: 'trevor-hawaii-timeshare-trap',
+    id: 'trevor-hawaii-guest condo-trap',
     name: 'Trevor',
     age: 21,
     height: '6\'0"',
@@ -822,27 +822,27 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       '21 in undergrad 📚 Whenever women hesitate about my age I invite them to "my place in Maui" for Week 14 🌺✈️ Oceanfront lanai, pineapple drinks, zero stress!',
     hingePromptQuestion: 'Wait… whose name is on the Maui deed?',
     hingePromptAnswer:
-      'Haha okay technically my mom Linda & stepdad Greg own the biennial Marriott timeshare week, they’re right down the hall!',
+      'Haha okay technically my mom Linda & stepdad Greg own the biennial Marriott guest condo week, they’re right down the hall!',
     secondPromptQuestion: 'Only catch on Tuesday morning',
     secondPromptAnswer:
-      'Mom says we have to attend a 90-minute 8 AM timeshare presentation for the free luau buffet wristbands 🌺',
+      'Mom says we have to attend a 90-minute 8 AM guest condo presentation for the free luau buffet wristbands 🌺',
     ageShockZoom: true,
     ageShockQuipHer:
-      '"MY PLACE IN MAUI" IS MOM LINDA’S WEEK-14 TIMESHARE DOWN THE HALL?!',
+      '"MY PLACE IN MAUI" IS MOM LINDA’S WEEK-14 guest condo DOWN THE HALL?!',
     ageShockQuipHim:
       'Never flex "my place in Hawaii" when your mom Linda is making waffles in the kitchenette.',
     lookingFor: 'Maui Week-14 plus-one',
     lookingForSubtext: 'Introduces you to his mom at the continental waffle iron at 7:45 AM.',
     interests: ['Resort Pools', 'Maui Week 14', 'Puka Shells', 'Spring Break', 'Airline Miles'],
     openingDm:
-      'i know ur skeptical bc im 21 lol… let me take u to my place in Maui next month! (ok yeah technically my parents have a timeshare there haha) 🌺✈️',
+      'i know ur skeptical bc im 21 lol… let me take u to my place in Maui next month! (ok yeah technically my parents have a guest condo there haha) 🌺✈️',
     xrayLeak:
       'CLUE CHECK: Zero deed, Linda & Greg own Week 14 and sleep on the other side of the kitchenette wall.',
     isGreenFlagMatch: false,
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • "My Place in Maui" Poolside Pineapple',
+          caption: 'Profile Moment • "My Place in Maui" Poolside Pineapple',
           shortTab: '🍍 Resort Pool',
           vibeNote: 'Puka shells and umbrella drink, check Prompt #1 to see who booked the room.',
           variant: 'golden_trail_stud',
@@ -890,7 +890,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Morning Pour-Over on the Cedar Patio',
+          caption: 'Profile Moment • Morning Pour-Over on the Cedar Patio',
           shortTab: '☕ Patio',
           vibeNote: 'Waffle-knit henley, ceramic mug, potted succulents, calm warmth.',
           variant: 'dog_park_coffee',
@@ -901,7 +901,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     ),
   },
   {
-    id: 'jaxon-pine-pollen-feels-trap',
+    id: 'jaxon-midnight caffeine-feels-trap',
     name: 'Jaxon',
     age: 24,
     height: '6\'0"',
@@ -914,30 +914,30 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     activeAgo: 'Active now (Typing…)',
     spotifyAnthem: 'Drake • Marvin’s Room',
     tinderBio:
-      '24M optimizing ancestral protocols w/ raw wildcrafted Pine Pollen tincture & 37°F ice baths 🌲💪 Big communicator (if you go quiet for 45 mins after 9 PM I WILL get all up in my feels and send 6 paragraphs).',
+      '24M optimizing ancestral protocols w/ raw wildcrafted midnight caffeine tincture & 37°F ice baths 🌲💪 Big communicator (if you go quiet for 45 mins after 9 PM I WILL get all up in my feels and send 6 paragraphs).',
     hingePromptQuestion: 'Communication style & expectations',
     hingePromptAnswer:
-      'Need 24/7 texting reassurance, Do Not Disturb at 9:30 PM turns my pine-pollen spike into midnight poetry 😭🌲',
+      'Need 24/7 texting reassurance, Do Not Disturb at 9:30 PM turns my midnight caffeine spike into midnight poetry 😭🌲',
     secondPromptQuestion: 'Currently in my gym bag',
     secondPromptAnswer:
-      'Three amber droppers of raw pine pollen, mouth tape, and a 9-screen Notes-app text draft.',
+      'Three amber droppers of raw midnight caffeine, mouth tape, and a 9-screen Notes-app text draft.',
     ageShockZoom: true,
     ageShockQuipHer:
-      'PINE POLLEN TINCTURES AND 6-PARAGRAPH MIDNIGHT TEXT SPIRALS?! Read Prompt #1!',
+      'midnight caffeine TINCTURES AND 6-PARAGRAPH MIDNIGHT TEXT SPIRALS?! Read Prompt #1!',
     ageShockQuipHim:
       'Panicking when an accomplished woman unplugs at 9:30 PM = instant exile.',
     lookingFor: '24/7 text reassurance + podcast co-listener',
     lookingForSubtext: 'Blames tree pollen after sending nine texts at 11:47 PM.',
-    interests: ['Pine Pollen', '37°F Ice Baths', 'Podcast Clips', 'Voice Notes', 'Late-Night Feels'],
+    interests: ['midnight caffeine', '37°F Ice Baths', 'Podcast Clips', 'Voice Notes', 'Late-Night Feels'],
     openingDm:
-      'took 2 droppers of raw pine pollen before my ice bath and ngl im already all up in my feels bc u matched 20 mins ago and didnt say hi yet 😭🌲',
+      'took 2 droppers of raw midnight caffeine before my ice bath and ngl im already all up in my feels bc u matched 20 mins ago and didnt say hi yet 😭🌲',
     xrayLeak:
       'CLUE CHECK: Ignores unplugged evening boundaries and lectures from 10-minute podcast clips.',
     isGreenFlagMatch: false,
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • 6:05 AM Cedar Ice-Bath & Green Elixir',
+          caption: 'Profile Moment • 6:05 AM Cedar Ice-Bath & Green Elixir',
           shortTab: '🧊 Ice Bath',
           vibeNote: 'Intense eye contact beside the plunge tub, read his 9:30 PM texting prompt.',
           variant: 'golden_trail_stud',
@@ -985,7 +985,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunset Rooftop Espresso Martini',
+          caption: 'Profile Moment • Sunset Rooftop Espresso Martini',
           shortTab: '🍸 Rooftop',
           vibeNote: 'Champagne silk, effortless confidence, zero games.',
           variant: 'tailored_linen',
@@ -1029,7 +1029,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Palm Springs Cabana & Iced Espresso',
+          caption: 'Profile Moment • Palm Springs Cabana & Iced Espresso',
           shortTab: '👙 Cabana',
           vibeNote: 'Emerald resort bikini, honey braids, effortless poise.',
           variant: 'golden_trail_stud',
@@ -1073,7 +1073,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Golden-Hour Malibu Surf',
+          caption: 'Profile Moment • Golden-Hour Malibu Surf',
           shortTab: '🏄‍♀️ Surf',
           vibeNote: 'Sunlit blonde waves, barefoot with her board at First Point.',
           variant: 'golden_trail_stud',
@@ -1084,7 +1084,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
         {
           url: './images/scenes/hotel-pool-sauna.jpg',
           tab: '🧖‍♀️ Sauna',
-          caption: 'Photo 2 of 6 • 190°F Cedar Sauna Steam',
+          caption: 'Profile Moment • 190°F Cedar Sauna Steam',
           note: 'Post-surf recovery ritual.',
           variant: 'golden_trail_stud',
         },
@@ -1126,7 +1126,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunset Stone-Terrace Barolo',
+          caption: 'Profile Moment • Sunset Stone-Terrace Barolo',
           shortTab: '🍷 Terrace',
           vibeNote: 'Copper-red waves, emerald eyes, golden coastal sunset.',
           variant: 'tailored_linen',
@@ -1168,7 +1168,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Coastal Canyon Hike With Golden Retriever Rani',
+          caption: 'Profile Moment • Coastal Canyon Hike With Golden Retriever Rani',
           shortTab: '🏔️ Rani Hike',
           vibeNote: 'Sunlit trail grin with golden retriever Rani.',
           variant: 'golden_trail_stud',
@@ -1210,7 +1210,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunset Ocean-View Infinity Pool',
+          caption: 'Profile Moment • Sunset Ocean-View Infinity Pool',
           shortTab: '🏖️ Big Sur',
           vibeNote: 'Crisp white linen shorts, minimalist Big Sur glamour.',
           variant: 'tailored_linen',
@@ -1252,7 +1252,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Mediterranean Balcony Swimsuit & Ivory Kaftan',
+          caption: 'Profile Moment • Mediterranean Balcony Swimsuit & Ivory Kaftan',
           shortTab: '🏖️ Coast',
           vibeNote: 'Silver braids, bronze swimwear, gold hoops.',
           variant: 'tailored_linen',
@@ -1294,7 +1294,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunset Convertible & Fresh Peonies',
+          caption: 'Profile Moment • Sunset Convertible & Fresh Peonies',
           shortTab: '💐 Peonies',
           vibeNote: '5\'2" soft-life Cougar glow.',
           variant: 'tailored_linen',
@@ -1336,7 +1336,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Sunrise Canyon Ridge Overlook',
+          caption: 'Profile Moment • Sunrise Canyon Ridge Overlook',
           shortTab: '🏔️ Ridge',
           vibeNote: 'Out-climbs men half her age before 7 AM.',
           variant: 'golden_trail_stud',
@@ -1379,7 +1379,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Patio Rosé With Rescue Pup Barnaby',
+          caption: 'Profile Moment • Patio Rosé With Rescue Pup Barnaby',
           shortTab: '🐾 Barnaby',
           vibeNote: '5\'2" child-free jet-setter with Barnaby on watch.',
           variant: 'dog_park_coffee',
@@ -1422,7 +1422,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Golden-Hour Wine & Vinyl Lounge',
+          caption: 'Profile Moment • Golden-Hour Wine & Vinyl Lounge',
           shortTab: '🍸 Vinyl Bar',
           vibeNote: '6-year Junior Cougar charm.',
           variant: 'tailored_linen',
@@ -1433,30 +1433,30 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ),
   },
   {
-    id: 'her-sedona-qigong-mommy',
+    id: 'her-sedona-breathwork-mommy',
     name: 'Sedona',
     age: 46,
     height: '5\'8"',
     zodiac: 'Virgo',
-    lookBadge: 'Auburn Silver Waves • Qigong Studio Founder',
-    occupation: 'Qigong & Nervous-System Studio Founder',
+    lookBadge: 'Auburn Silver Waves • Breathwork Studio Founder',
+    occupation: 'Breathwork & Nervous-System Studio Founder',
     schoolAndMajor: 'UC Berkeley • Integrative Physiology',
     fieldOfWork: 'Somatic Movement & Breathwork',
     distance: '3 miles away',
     activeAgo: 'Active 2m ago',
     spotifyAnthem: 'Khruangbin •White Gloves',
     tinderBio:
-      '6:30 AM bamboo-courtyard Qigong, slow Tai Chi Cloud Hands, and single-estate jasmine oolong 🧘‍♀️🍵 Appreciates a grounded Cub who drops his shoulders and skips podcast Cubsplaining.',
+      '6:30 AM bamboo-courtyard Breathwork, slow morning stretch Cloud Hands, and single-estate jasmine oolong 🧘‍♀️🍵 Appreciates a grounded Cub who drops his shoulders and skips podcast Cubsplaining.',
     hingePromptQuestion: 'Quickest way to win my courtyard invite',
     hingePromptAnswer:
       'Match my unhurried breathwork pace, leave the podcast lectures at the door, and enjoy cedar sauna steam.',
     ageShockZoom: false,
-    ageShockQuipHer: 'Serene Qigong Studio Founder.',
+    ageShockQuipHer: 'Serene Breathwork Studio Founder.',
     ageShockQuipHim:
-      '46F Qigong & Tai Chi founder, unhurried calm that melts overthinking.',
+      '46F Breathwork & morning stretch founder, unhurried calm that melts overthinking.',
     lookingFor: 'Grounded presence & quiet canyon evenings',
     lookingForSubtext: 'Zero tolerance for Cubsplaining or jittery double-texting.',
-    interests: ['Qigong & Tai Chi', 'Jasmine Oolong', 'Cedar Sauna', 'Canyon Stargazing', 'Vinyl'],
+    interests: ['Breathwork & morning stretch', 'Jasmine Oolong', 'Cedar Sauna', 'Canyon Stargazing', 'Vinyl'],
     initiatesFirst: true,
     openingDm: 'Drop your shoulders. You get one calm line to earn Friday.',
     xrayLeak:
@@ -1465,18 +1465,18 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     photos: buildSixSlideGallery(
       [
         {
-          caption: 'Photo 1 of 6 • Dawn Bamboo-Courtyard Qigong & Cloud Hands',
+          caption: 'Profile Moment • Dawn Bamboo-Courtyard Breathwork & Cloud Hands',
           shortTab: '🧘‍♀️ Courtyard',
-          vibeNote: 'Twenty years of Tai Chi mastery and red-rock calm.',
+          vibeNote: 'Twenty years of morning stretch mastery and red-rock calm.',
           variant: 'golden_trail_stud',
-          photoUrl: './images/cast/sedona-qigong-46f.jpg',
+          photoUrl: './images/cast/sedona-breathwork-46f.jpg',
         },
       ],
       [
         {
           url: './images/scenes/hotel-pool-sauna.jpg',
           tab: '🧖‍♀️ Sauna',
-          caption: 'Photo 2 of 6 • Evening Cedar Sauna & Cold Plunge',
+          caption: 'Profile Moment • Evening Cedar Sauna & Cold Plunge',
           note: 'Phones stay in the locker.',
           variant: 'golden_trail_stud',
         },
