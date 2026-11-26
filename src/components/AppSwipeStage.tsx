@@ -18,11 +18,15 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { BRAND_CONFIG } from '../config/brand';
 import { getSwipeDeckForRole, type SwipeProfile } from '../data/appProfiles';
 import type { PlayerRole } from '../domain/taxonomy';
+import { trackEvent } from '../lib/analytics';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
+import { buildDilemmaShareLink } from '../lib/viral';
 import { InGameClubAside } from './InGameClubAside';
 import { SwipeOpeningChatCard } from './SceneChatInterface';
+import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 interface AppSwipeStageProps {
   role: PlayerRole;
@@ -75,6 +79,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
   const [agePref, setAgePref] = useState<number>(() => (role === 'her' ? 28 : 48));
   const [sliderBanner, setSliderBanner] = useState<string | null>(null);
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
+  const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   const startXRef = useRef<number | null>(null);
   const startYRef = useRef<number | null>(null);
@@ -134,15 +139,22 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           good: true,
         });
       } else if (logicalDir === 'right' && !isGreen) {
-        sfx.redFlag();
+        sfx.swipeRight();
         setSwipeFeedback({
-          text: `🚩 Trap Missed! ${profile.name} had hidden red flags`,
-          good: false,
+          text: `🔥 Matched with ${profile.name}! Watch how their story unfolds on Date #1...`,
+          good: true,
+          matchedName: profile.name,
         });
       } else {
         sfx.swipeLeft();
         setSwipeFeedback({ text: `Passed on ${profile.name}`, good: true });
       }
+
+      trackEvent('profile_swiped', {
+        profile_id: profile.id,
+        direction: dir,
+        surface: 'trap_spotter_deck',
+      });
 
       setFlyDir(dir);
       onSwipeProfile(profile.id, logicalDir);
@@ -349,7 +361,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             <span className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[#FD267A]/25 bg-[#FFF0F5] px-3 text-xs font-bold text-[#BE123C]">
               <SlidersHorizontal className="h-3.5 w-3.5 text-[#FD267A]" />
               <span>
-                {role === 'her' ? `Discovery Age: ${agePref}–45` : `Discovery Age: 30–${agePref}`}
+                {role === 'her' ? `Discovery Age: ${agePref}, 45` : `Discovery Age: 30, ${agePref}`}
               </span>
             </span>
 
@@ -537,12 +549,21 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
 
             <button
               type="button"
-              onClick={() =>
-                onShareDilemma(
-                  profile.id,
-                  `Would you swipe right on ${profile.name} (${profile.age})?!`,
-                )
-              }
+              onClick={() => {
+                const baseUrl =
+                  typeof window !== 'undefined' && window.location.origin.startsWith('http')
+                    ? `${window.location.origin}${window.location.pathname}`
+                    : BRAND_CONFIG.publicBaseUrl;
+                const link = buildDilemmaShareLink(profile.id, baseUrl);
+                const headline = `Would you swipe right on ${profile.name} (${profile.age})?!`;
+                onShareDilemma(profile.id, headline);
+                setSharePayload({
+                  title: `Ask Bestie About ${profile.name} (${profile.age})`,
+                  message: `👀 Group-chat check: "${headline}"`,
+                  url: link,
+                  shareSurface: 'bestie_profile',
+                });
+              }}
               className="pop-btn shrink-0 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#18101E] cursor-pointer"
             >
               <Share2 className="h-3.5 w-3.5 text-[#FD267A]" />
@@ -636,8 +657,8 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
                 </div>
               )}
 
-              {/* Full-Bleed Tinder Portrait Frame */}
-              <div className="relative h-[450px] sm:h-[490px] w-full overflow-hidden">
+              {/* Uncropped 3:4 Tinder Portrait Frame */}
+              <div className="relative mx-auto w-full aspect-[3/4] overflow-hidden">
                 <img
                   src={currentPhoto.photoUrl}
                   alt={`${profile.name} ${currentPhoto.caption}`}
@@ -975,7 +996,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
             </button>
           )}
 
-          {/* Embedded In-Game Viral & Pop-Culture Aside */}
+          {/* Embedded In-Game Club Aside */}
           <InGameClubAside
             key={profile.id}
             seedKey={profile.id}
@@ -989,6 +1010,11 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           />
         </div>
       </div>
+
+      <SocialShareSheetModal
+        payload={sharePayload}
+        onClose={() => setSharePayload(null)}
+      />
     </div>
   );
 };

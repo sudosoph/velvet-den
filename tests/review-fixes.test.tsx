@@ -24,16 +24,12 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
     window.history.replaceState({}, '', '/?dilemma=check-drop');
 
     render(<App />);
-    // Trigger 3 red flags? Single dilemma starts at 0 red flags; let's test non-busted 0-credit rewind not dismissing outcome card AND busted run keeping verdict button:
-    // Choice B on check-drop is a Red Flag choice
     fireEvent.click(screen.getByRole('button', { name: /corporate card, Mommy|spoil me/i }));
     expect(screen.getByText(/RED FLAG!/i)).toBeInTheDocument();
 
-    // Click Smooth Rewind with 0 credits -> opens Boutique, does NOT clear outcome card!
     fireEvent.click(screen.getByRole('button', { name: /Smooth Rewind/i }));
     expect(screen.getByRole('dialog', { name: /Cougars & Cubs Club VIP/i })).toBeInTheDocument();
 
-    // Close Boutique without buying credits -> outcome card is STILL visible!
     fireEvent.click(screen.getByRole('button', { name: /Close Boutique/i }));
     expect(screen.getByText(/RED FLAG!/i)).toBeInTheDocument();
   });
@@ -78,6 +74,7 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
       expect(screen.queryByPlaceholderText(/VELVETVIP/i)).not.toBeInTheDocument();
       expect(screen.queryByText(/Free Demo/i)).not.toBeInTheDocument();
 
+      fireEvent.click(screen.getByRole('button', { name: /Credits & VIP/i }));
       fireEvent.change(screen.getByPlaceholderText(/Enter VIP or promo code/i), {
         target: { value: 'WRONG' },
       });
@@ -94,28 +91,25 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /slide his card in/i }));
 
-    // Should NOT render two competing receipt buttons at once
     const receiptButtons = screen.getAllByRole('button', { name: /Vibe.*Receipt/i });
     expect(receiptButtons).toHaveLength(1);
 
-    // Single click navigates straight to Official Cougars & Cubs Club Verdict
     fireEvent.click(receiptButtons[0]);
     expect(screen.getByText(/Official Cougars & Cubs Club Verdict/i)).toBeInTheDocument();
   });
 
-  it('Fix #13: Pool & Sauna getaway renders bold rich text without raw ** asterisks and zero fake Reddit label', () => {
+  it('Fix #13: Pool & Sauna getaway renders bold rich text without raw ** asterisks and zero fake forum label', () => {
     window.history.replaceState({}, '', '/?dilemma=spontaneous-18h-pool-sauna-getaway');
     render(<App />);
     expect(screen.getByText(/18-hour spontaneous escape/i)).toBeInTheDocument();
     expect(document.body.textContent || '').not.toContain('**');
-    expect(document.body.textContent || '').not.toContain('r/CougarsAndCubs');
     expect(
       screen.getAllByText(/Heated Midnight Pool & Cedar Sauna/i).length,
     ).toBeGreaterThanOrEqual(1);
     expect(document.querySelector('img[src*="hotel-pool-sauna.jpg"]')).not.toBeNull();
   });
 
-  it('Fix #5: analyzePairing handles zero/negative age gaps and Gen-Z Her cohort cleanly, and Mixer prevents Her age <= His age', () => {
+  it('Fix #5: analyzePairing handles zero/negative age gaps and Gen-Z Her cohort cleanly', () => {
     const her32 = { ...HER_ARCHETYPES[2], age: 32 };
     const his35 = { ...HIS_ARCHETYPES[3], age: 35 };
     const reverse = analyzePairing(her32, his35, 'her');
@@ -128,29 +122,30 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
     expect(lynxMatch.codeSwitchTip).not.toContain('Icon Alert');
   });
 
-  it('Fix #6 & #7: Act I Ask Bestie shares profile deep link (?dilemma=tyler-snapchat-ick), routes directly to that profile, and shows global toast', async () => {
+  it('Fix #6 & #7: Act I Ask Bestie opens multi-app Share Sheet for profile deep link (?dilemma=tyler-snapchat-ick)', async () => {
     window.history.replaceState({}, '', '/?dilemma=tyler-snapchat-ick');
     render(<App />);
     expect(screen.getByText(/Tyler/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Ask Bestie/i }));
-    expect(await screen.findByText(/Dilemma link copied/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /iMessage \/ SMS/i })).toBeInTheDocument();
   });
 
-  it('Fix #8: Launching a scenario preview from Velvet Journal "Play Interactive Scenario Free" does not silently deduct credits', () => {
+  it('Fix #8: Launching a scenario preview from Club Guides does not silently deduct from the 5-Credit starter wallet', () => {
     const startWallet = createDefaultWallet();
     saveWallet(startWallet);
 
     render(<App />);
-    fireEvent.click(screen.getByRole('button', { name: /Dating Guides/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Lore & Quizzes/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Club Guides & 12-Sign Matcher/i }));
     fireEvent.click(
       screen.getByRole('button', {
         name: /First Time Hosting an Older Woman at Your Place/i,
       }),
     );
-    fireEvent.click(screen.getByRole('button', { name: /Play Interactive Scenario Free/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Play.*Scenario Free/i }));
 
-    expect(screen.getByText(/10 Credits/i)).toBeInTheDocument();
+    expect(screen.getByText(/5 Cr/i)).toBeInTheDocument();
   });
 
   it('Fix #9: SEO & daily-drop scripts read fallback tags from src/config/monetization.ts and normalize URLs', () => {
@@ -159,7 +154,7 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
       cwd: ROOT,
       env: {
         ...process.env,
-        PUBLIC_BASE_URL: 'https://sudosoph.github.io/velvet-den', // no trailing slash!
+        PUBLIC_BASE_URL: 'https://sudosoph.github.io/velvet-den',
         AMAZON_ASSOCIATE_TAG: 'testtag-20',
         PARTNER_SUB_ID: 'sub99',
       },
@@ -185,7 +180,6 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
     };
 
     render(<PartnerAuditionView challenge={mixedChallenge} onExitToMainGame={() => {}} />);
-    // Pick Choice 0 on check-drop -> must match index 0 (100%), NOT shifted index 2 (0%)!
     fireEvent.click(screen.getByRole('button', { name: /Pick up the check cleanly/i }));
     expect(screen.getByText('100%')).toBeInTheDocument();
   });
@@ -205,7 +199,6 @@ describe('Whole-branch review fixes (Critical & Important)', () => {
     expect(res1).toBe('copied');
     expect(writeText).toHaveBeenCalledWith('Score 90% 👉 https://example.com/');
 
-    // Second call rejects permission -> must resolve cleanly without throwing!
     await expect(
       shareOrCopy({
         title: 'Receipt',

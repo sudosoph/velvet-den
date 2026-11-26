@@ -173,6 +173,7 @@ export const localCrowdStatsService: CrowdStatsService = {
 };
 
 export function evaluateDmLocally(params: {
+  personaId?: string;
   personaName: string;
   personaAge: number;
   personaRole: 'her' | 'him';
@@ -184,7 +185,10 @@ export function evaluateDmLocally(params: {
   const msg = params.playerMessage.trim();
   const lower = msg.toLowerCase();
   const age = params.personaAge;
-  const isBritish = /\b(london|british|hampstead|uk)\b/i.test(params.personaOrigin || '');
+  const isBritish =
+    params.personaId === 'julian-oldsoul-cub' ||
+    /\bjulian\b/i.test(params.personaName) ||
+    /\b(london|british|hampstead|uk)\b/i.test(params.personaOrigin || '');
   const turnIdx = Array.isArray(params.history)
     ? Math.max(0, params.history.filter((t) => t.sender === 'player').length - 1)
     : 0;
@@ -248,6 +252,19 @@ export function evaluateDmLocally(params: {
   }
 
   if (params.personaRole === 'him') {
+    if (hasSnap || hasSugarFreeloader || hasForYourAge || hasPushyWhine || hasSisterFumble) {
+      return {
+        maturityDelta: -18,
+        chivalryDelta: -15,
+        chemistryDelta: -18,
+        herReply: hasSnap
+          ? `I deleted Snapchat in sophomore year. Text me when you want an actual dinner reservation.`
+          : `Yeah, hard pass on the weird energy. Looking for real chemistry, not a gimmick 👋`,
+        coachNote: 'Even a Golden Retriever Cub has standards! Drop the red-flag gimmicks.',
+        passedVibeCheck: false,
+        source: 'local-heuristic',
+      };
+    }
     if (/\bvenmo\b/.test(lower) || /\blinda\b/.test(lower)) {
       return {
         maturityDelta: 16,

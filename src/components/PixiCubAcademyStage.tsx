@@ -549,7 +549,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
             className="pop-btn inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-3.5 text-xs font-extrabold text-[#18101E] cursor-pointer"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            <span>Back to Roster</span>
+            <span>Back to Phone Feed</span>
           </button>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -617,7 +617,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
             }`}
           >
             <Bell className="h-4 w-4 shrink-0" />
-            <span>1. 2D Cub Clicker School (+3 Cr)</span>
+            <span>1. 2D Cub Clicker School (S-Rank)</span>
           </button>
 
           <button

@@ -1,17 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Award, Compass, Flame, Gamepad2, Maximize2, Minimize2, Sparkles, Zap } from 'lucide-react';
-import { POP_CULTURE_TRIVIA } from '../data/popCultureTrivia';
+import { Compass, Gamepad2, Maximize2, Minimize2, Sparkles, Zap } from 'lucide-react';
 import type { PlayerRole } from '../domain/taxonomy';
 import {
   getLevelInfo,
   type AdventureProgressState,
 } from '../domain/progression';
 import { sfx } from '../lib/sound';
-import {
-  COUGAR_CUB_CHECKLIST_ITEMS,
-  loadChecklistCheckedIds,
-  toggleChecklistItemInStorage,
-} from './CougarCubChecklistModal';
 
 interface EightBitAdventureWorldProps {
   role: PlayerRole;
@@ -21,6 +15,7 @@ interface EightBitAdventureWorldProps {
   defaultExpanded?: boolean;
   onGainXp: (deltaXp: number, patch?: Partial<AdventureProgressState>, rewardKey?: string) => void;
   onEnterEpisode: (episodeId: string) => void;
+  onOpenBoutique?: () => void;
   onOpenFullTrivia?: () => void;
   onOpenFullChecklist?: () => void;
 }
@@ -36,17 +31,19 @@ interface WorldBuilding {
   roofColor: string;
   wallColor: string;
   episodeId: string;
-  isPuppyLounge?: boolean;
+  opensBoutique?: boolean;
 }
 
-interface WorldNode {
+interface StreetApproachNode {
   id: string;
   x: number;
   y: number;
-  kind: 'trivia' | 'viral';
   label: string;
   emoji: string;
-  triviaOffset: number;
+  prompt: string;
+  smoothOption: string;
+  fumbleOption: string;
+  winOutcome: string;
 }
 
 interface PatrolGoblin {
@@ -85,117 +82,126 @@ const CANVAS_H = 500;
 
 const BUILDINGS: WorldBuilding[] = [
   {
-    id: 'b_qigong',
+    id: 'b_wine',
     x: 165,
     y: 86,
-    title: 'Qigong & Seed-Oil-Free Sanctuary',
-    shortLabel: 'QIGONG CAFE',
-    buttonName: 'Qigong & Tai Chi Cloud Hands ("Yes, Mommy")',
-    emoji: '🧘‍♀️',
-    roofColor: '#059669',
-    wallColor: '#ECFDF5',
-    episodeId: 'qigong-tai-chi-wellness-mommy-domme',
-  },
-  {
-    id: 'b_puppy',
-    x: 480,
-    y: 86,
-    title: 'Tricolor Mini Bernedoodle Waitlist #1',
-    shortLabel: 'PUPPY & GHEE',
-    buttonName: 'Seed-Oil-Free & Tricolor Mini Bernedoodle Mommy',
-    emoji: '🐶',
-    roofColor: '#FF2E63',
-    wallColor: '#FFF4F7',
-    episodeId: 'seed-oil-gluten-free-bernedoodle-mommy',
-    isPuppyLounge: true,
-  },
-  {
-    id: 'b_hawaii',
-    x: 795,
-    y: 86,
-    title: 'Mom’s Maui Timeshare Cabana',
-    shortLabel: 'MAUI TRAP',
-    buttonName: '"Come to My Place in Hawaii" (Mom’s Timeshare)',
-    emoji: '🌺',
-    roofColor: '#F59E0B',
-    wallColor: '#FFFBEB',
-    episodeId: 'parents-hawaii-timeshare-flex-trap',
-  },
-  {
-    id: 'b_venmo',
-    x: 165,
-    y: 414,
-    title: '$41.63 Edamame Venmo Sushi',
-    shortLabel: 'VENMO SUSHI',
-    buttonName: 'Swat the $41.63 Edamame Venmo',
-    emoji: '🚨',
+    title: '6 PM Wine Shop & Farmers CSA',
+    shortLabel: '6 PM WINE & CSA',
+    buttonName: '6 PM Wine Shop & CSA Meet-Cute',
+    emoji: '🍷',
     roofColor: '#E11D48',
     wallColor: '#FFF1F2',
-    episodeId: 'broke-college-dutch-calculator-horror',
+    episodeId: 'puma-dog-park-vetting',
   },
   {
-    id: 'b_velvet',
+    id: 'b_gym',
     x: 480,
-    y: 414,
-    title: 'Hotel Bar ("Babygirl" Lounge)',
-    shortLabel: 'HOTEL LOUNGE',
-    buttonName: '18-Hour Pool & Cedar Sauna',
+    y: 86,
+    title: 'Sculpt Gym & Smoothie Counter',
+    shortLabel: 'GYM & SMOOTHIE',
+    buttonName: 'Sacred Gym Headphone Law & Smoothie Nod',
+    emoji: '🏋️‍♀️',
+    roofColor: '#059669',
+    wallColor: '#ECFDF5',
+    episodeId: 'gym-headphones-vs-three-week-nod',
+  },
+  {
+    id: 'b_hotel',
+    x: 795,
+    y: 86,
+    title: 'Velvet Hotel Lobby Bar',
+    shortLabel: 'HOTEL LOBBY BAR',
+    buttonName: '"Babygirl" Hotel Bar Milk or Dirty Martini',
     emoji: '🍸',
     roofColor: '#7C3AED',
     wallColor: '#F5F3FF',
-    episodeId: 'spontaneous-18h-pool-sauna-getaway',
+    episodeId: 'babygirl-hotel-bar-milk-or-martini',
+  },
+  {
+    id: 'b_bistro',
+    x: 165,
+    y: 414,
+    title: 'UV Bouncer & Candlelit Bistro',
+    shortLabel: 'UV BOUNCER & BISTRO',
+    buttonName: '45-Second UV Bouncer ID Scan & Check Drop',
+    emoji: '🪪',
+    roofColor: '#F59E0B',
+    wallColor: '#FFFBEB',
+    episodeId: 'cubsplaining-and-bouncer-id-check',
   },
   {
     id: 'b_sanctuary',
-    x: 795,
+    x: 480,
     y: 414,
-    title: 'Sanctuary Door & 4-Roommate Escape',
-    shortLabel: 'DOOR BOUNCER',
-    buttonName: 'Hobosexual PS5 & Laundry Bouncer',
-    emoji: '🎮',
+    title: 'Linen-Apron Sunday Sanctuary',
+    shortLabel: 'SUNDAY SANCTUARY',
+    buttonName: '4-Pillow Sanctuary & Linen-Apron Sunday',
+    emoji: '🏡',
     roofColor: '#2563EB',
     wallColor: '#EFF6FF',
-    episodeId: 'hobosexual-ps5-suitcase-creep',
+    episodeId: 'houseboy-sunday-sanctuary',
+  },
+  {
+    id: 'b_shop',
+    x: 795,
+    y: 414,
+    title: 'Club Gift & Apron Boutique',
+    shortLabel: 'CLUB GIFT SHOP',
+    buttonName: 'Club Gift & Apron Boutique (32 Picks)',
+    emoji: '🛍️',
+    roofColor: '#18101E',
+    wallColor: '#FFFDF9',
+    episodeId: 'cub-grooming-red-carpet-glowup',
+    opensBoutique: true,
   },
 ];
 
-const WORLD_NODES: WorldNode[] = [
+const STREET_NODES: StreetApproachNode[] = [
   {
-    id: 'jukebox_west',
+    id: 'approach_bookstore',
     x: 245,
     y: 252,
-    kind: 'trivia',
-    label: 'POP QUIZ #1',
-    emoji: '🕹️',
-    triviaOffset: 0,
+    label: 'BOOKSTORE NOD',
+    emoji: '📚',
+    prompt:
+      'In The Wild: You both reach for the same architecture monograph at 6:15 PM. What is your move?',
+    smoothOption: 'Smile warmly, ask what caught her eye, and hand her your number with zero hovering.',
+    fumbleOption: 'Launch into a 12-minute podcast lecture on mid-century concrete.',
+    winOutcome: '+35 XP! Unhurried bookstore curiosity beats Cubsplaining every single day.',
   },
   {
-    id: 'totem_viral',
+    id: 'approach_market',
     x: 480,
     y: 175,
-    kind: 'viral',
-    label: 'VIRAL SHRINE',
-    emoji: '🔥',
-    triviaOffset: 3,
+    label: 'PEACH STAND',
+    emoji: '🍑',
+    prompt:
+      'In The Wild: Saturday farmers market line. She laughs when the vendor drops an heirloom peach.',
+    smoothOption: '"Save me a good peach while I grab coffee next door? I’m Leo."',
+    fumbleOption: '"Wow you look insane for your age, do you have Snapchat?"',
+    winOutcome: '+35 XP! Daylight farmers-market banter unlocked a Thursday wine date!',
   },
   {
-    id: 'jukebox_east',
+    id: 'approach_valet',
     x: 715,
     y: 252,
-    kind: 'trivia',
-    label: 'CINEMA QUIZ',
-    emoji: '🎬',
-    triviaOffset: 7,
+    label: 'VALET RAIN',
+    emoji: '☔',
+    prompt:
+      'In The Wild: Sudden 7 PM rain outside the gallery. Valet is backed up ten minutes.',
+    smoothOption: 'Offer the dry half of your umbrella and keep the banter light while cars pull up.',
+    fumbleOption: 'Brag that your mom Linda owns a timeshare condo in Maui.',
+    winOutcome: '+35 XP! Effortless chivalry under one umbrella sparked instant chemistry.',
   },
 ];
 
 const PATROL_GOBLINS: PatrolGoblin[] = [
   {
-    id: 'goblin_canola',
-    name: 'Seed-Oil & Wheat Fry-Cook',
-    emoji: '🛢️',
-    taunt: '"Everything is deep-fried in soybean oil & wheat flour!!"',
-    roastLine: 'Zapped with Cold-Pressed EVOO, Grass-Fed Ghee & Cassava Sourdough!',
+    id: 'goblin_snap',
+    name: '"What’s Ur Snap?" Streak Goblin',
+    emoji: '👻',
+    taunt: '"yo u look crazy good for ur age 🔥 whats ur snap so we streak??"',
+    roastLine: 'Exiled back to homeroom! Grown courtship happens on real calendars and real numbers.',
     baseX: 315,
     baseY: 168,
     axis: 'x',
@@ -203,11 +209,11 @@ const PATROL_GOBLINS: PatrolGoblin[] = [
     speed: 0.032,
   },
   {
-    id: 'goblin_cubsplain',
-    name: 'Podcast Cubsplainer Bro',
-    emoji: '🤓',
-    taunt: '"Well actually, let me explain Qigong & mortgages to you..."',
-    roastLine: 'Silenced with two fingers under his chin: "Breathe with Mommy, good boy."',
+    id: 'goblin_tourist',
+    name: '"Discrete Bucket-List" Tourist',
+    emoji: '🪣',
+    taunt: '"ngl never been with a cougar before, bucket list!! discrete link after 11pm??"',
+    roastLine: 'Blocked in 0.3 seconds AND handed a dictionary for "discreet" vs. "discrete"!',
     baseX: 645,
     baseY: 336,
     axis: 'x',
@@ -215,11 +221,11 @@ const PATROL_GOBLINS: PatrolGoblin[] = [
     speed: 0.036,
   },
   {
-    id: 'goblin_timeshare',
-    name: 'Linda’s Maui Timeshare Son',
-    emoji: '🌺',
-    taunt: '"Come to MY place in Hawaii (Mom’s in the master suite)!"',
-    roastLine: 'Exposed the 8 AM condo seminar & sent him back to study hall!',
+    id: 'goblin_venmo',
+    name: '$19.50 Ribeye Venmo Splitter',
+    emoji: '💸',
+    taunt: '"had so much fun!! just requested $19.50 + $1.14 salt tax on Venmo 😊"',
+    roastLine: 'Swatted into orbit! Never invite someone out and itemize four edamame pods.',
     baseX: 795,
     baseY: 252,
     axis: 'y',
@@ -229,12 +235,12 @@ const PATROL_GOBLINS: PatrolGoblin[] = [
 ];
 
 const WORLD_PICKUPS: WorldPickup[] = [
-  { id: 'evoo_bottle', x: 165, y: 168, label: '+20 XP Cold-Pressed EVOO', color: '#10B981', accent: '#FEF08A' },
-  { id: 'ghee_jar', x: 350, y: 336, label: '+20 XP Grass-Fed Ghee', color: '#F59E0B', accent: '#FFFBEB' },
-  { id: 'bernedoodle_bone', x: 615, y: 168, label: '+20 XP Bernedoodle Treat', color: '#FF2E63', accent: '#FFFFFF' },
-  { id: 'oolong_tea', x: 165, y: 336, label: '+20 XP Jasmine Oolong', color: '#14B8A6', accent: '#CCFBF1' },
-  { id: 'gluten_free_tart', x: 565, y: 336, label: '+20 XP GF Cassava Tart', color: '#EC4899', accent: '#FCE7F3' },
-  { id: 'martini_star', x: 795, y: 168, label: '+20 XP Zero-Proof Elixir', color: '#8B5CF6', accent: '#EDE9FE' },
+  { id: 'pink_peonies', x: 165, y: 168, label: '+20 XP Fresh Pink Peonies', color: '#EC4899', accent: '#FCE7F3' },
+  { id: 'sancerre_chill', x: 350, y: 336, label: '+20 XP Chilled Sancerre', color: '#F59E0B', accent: '#FFFBEB' },
+  { id: 'brass_clicker', x: 615, y: 168, label: '+20 XP Good-Boy Clicker', color: '#10B981', accent: '#D1FAE5' },
+  { id: 'linen_apron', x: 165, y: 336, label: '+20 XP Heavyweight Linen Apron', color: '#14B8A6', accent: '#CCFBF1' },
+  { id: 'silk_pillow', x: 565, y: 336, label: '+20 XP 22-Momme Silk Pillow', color: '#8B5CF6', accent: '#EDE9FE' },
+  { id: 'dirty_martini', x: 795, y: 168, label: '+20 XP Olive Dirty Martini', color: '#EF4444', accent: '#FEE2E2' },
 ];
 
 export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
@@ -245,22 +251,29 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
   defaultExpanded = false,
   onGainXp,
   onEnterEpisode,
-  onOpenFullTrivia,
-  onOpenFullChecklist,
+  onOpenBoutique,
 }) => {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const [activeEncounter, setActiveEncounter] = useState<
-    | { type: 'trivia'; nodeId: string; qIdx: number; picked: number | null }
-    | { type: 'viral'; nodeId: string; itemIdx: number; voted: 'lived' | 'dodged' | null }
+    | { type: 'approach'; node: StreetApproachNode; picked: 'smooth' | 'fumble' | null }
     | { type: 'goblin'; goblin: PatrolGoblin }
     | { type: 'building'; building: WorldBuilding }
     | null
   >(null);
-  const [nearbyHint, setNearbyHint] = useState<string>('Walk with WASD / Arrows or Tap anywhere on the 8-Bit Resort!');
+  const [nearbyHint, setNearbyHint] = useState<string>(
+    'Walk with WASD / Arrows or Tap any "In The Wild" Neighborhood Hotspot!',
+  );
   const [toastLine, setToastLine] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const playerRef = useRef<{ x: number; y: number; dir: number; frame: number; targetX: number | null; targetY: number | null }>({
+  const playerRef = useRef<{
+    x: number;
+    y: number;
+    dir: number;
+    frame: number;
+    targetX: number | null;
+    targetY: number | null;
+  }>({
     x: 480,
     y: 312,
     dir: 1,
@@ -279,13 +292,14 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
 
   const pendingTargetActionRef = useRef<
     | { kind: 'building'; building: WorldBuilding }
-    | { kind: 'node'; node: WorldNode }
+    | { kind: 'node'; node: StreetApproachNode }
     | { kind: 'goblin'; goblin: PatrolGoblin }
     | null
   >(null);
 
   const levelInfo = getLevelInfo(progress.xp);
   const avatarName = role === 'her' ? herName : hisName;
+  const isBarnabyFollowing = Boolean(progress.companionAdopted || progress.bernedoodleAdopted);
 
   const pushPopup = (x: number, y: number, text: string, color = '#FFBE0B') => {
     popupsRef.current.push({
@@ -298,39 +312,12 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
     });
   };
 
-  const showWorldToast = (msg: string) => {
-    setToastLine(msg);
-  };
-
-  const triggerNodeEncounter = (node: WorldNode) => {
+  const triggerNodeEncounter = (node: StreetApproachNode) => {
     sfx.messagePop();
-    if (node.kind === 'trivia') {
-      const qIdx = (progressRef.current.triviaIndex + node.triviaOffset) % POP_CULTURE_TRIVIA.length;
-      setActiveEncounter({ type: 'trivia', nodeId: node.id, qIdx, picked: null });
-    } else {
-      const itemIdx =
-        (progressRef.current.triviaIndex + node.triviaOffset) % COUGAR_CUB_CHECKLIST_ITEMS.length;
-      const item = COUGAR_CUB_CHECKLIST_ITEMS[itemIdx];
-      const already = loadChecklistCheckedIds().includes(item.id) ? 'lived' : null;
-      setActiveEncounter({ type: 'viral', nodeId: node.id, itemIdx, voted: already });
-    }
+    setActiveEncounter({ type: 'approach', node, picked: null });
   };
 
   const triggerBuildingAction = (b: WorldBuilding) => {
-    if (b.isPuppyLounge && !progressRef.current.bernedoodleAdopted) {
-      sfx.puppyBark();
-      pushPopup(b.x, b.y - 24, '🐶 MISO ADOPTED! +35 XP', '#FF2E63');
-      onGainXp(
-        35,
-        { bernedoodleAdopted: true },
-        'world_bernedoodle_adopt',
-      );
-      showWorldToast(
-        '🐶 Waitlist #1 Unlocked! Miso the Tricolor Mini Bernedoodle is now trotting right behind you!',
-      );
-      setActiveEncounter({ type: 'building', building: b });
-      return;
-    }
     sfx.crystalClink();
     setActiveEncounter({ type: 'building', building: b });
   };
@@ -339,7 +326,6 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
     const p = playerRef.current;
     const tick = performance.now() * 0.06;
 
-    // 1. Check undefeated goblins
     for (const g of PATROL_GOBLINS) {
       if (progressRef.current.defeatedGoblinIds.includes(g.id)) continue;
       const gx = g.axis === 'x' ? g.baseX + Math.sin(tick * g.speed) * g.range : g.baseX;
@@ -351,15 +337,13 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
       }
     }
 
-    // 2. Check Trivia / Viral Jukeboxes
-    for (const n of WORLD_NODES) {
+    for (const n of STREET_NODES) {
       if (Math.hypot(p.x - n.x, p.y - n.y) < 62) {
         triggerNodeEncounter(n);
         return;
       }
     }
 
-    // 3. Check Buildings
     for (const b of BUILDINGS) {
       if (Math.hypot(p.x - b.x, p.y - b.y) < 76) {
         triggerBuildingAction(b);
@@ -367,8 +351,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
       }
     }
 
-    // Fallback: open nearest jukebox so pressing Interact always feels responsive!
-    triggerNodeEncounter(WORLD_NODES[0]);
+    triggerNodeEncounter(STREET_NODES[0]);
   };
 
   useEffect(() => {
@@ -416,65 +399,26 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
     let tick = 0;
     let stepSoundTick = 0;
 
-    const drawPixelPalm = (cx: number, cy: number, sway: number) => {
-      if (!ctx) return;
-      // Trunk
-      ctx.fillStyle = '#8D5524';
-      for (let i = 0; i < 6; i += 1) {
-        ctx.fillRect(Math.round(cx + i * sway * 0.4), cy - i * 5, 6, 6);
-      }
-      // Fronds
-      const topX = Math.round(cx + sway * 2);
-      const topY = cy - 30;
-      ctx.fillStyle = '#16A34A';
-      ctx.fillRect(topX - 16, topY, 38, 6);
-      ctx.fillRect(topX - 10, topY - 6, 26, 6);
-      ctx.fillRect(topX - 20, topY + 6, 12, 5);
-      ctx.fillRect(topX + 16, topY + 6, 12, 5);
-      // Coconuts
-      ctx.fillStyle = '#582F0E';
-      ctx.fillRect(topX - 2, topY + 5, 4, 4);
-      ctx.fillRect(topX + 5, topY + 5, 4, 4);
-    };
-
-    const drawBernedoodleSprite = (bx: number, by: number, wagTick: number) => {
+    const drawGoldenRetrieverSprite = (bx: number, by: number, wagTick: number) => {
       if (!ctx) return;
       const x = Math.round(bx);
       const y = Math.round(by);
       const bounce = Math.round(Math.abs(Math.sin(wagTick * 0.22)) * 2);
-      // Shadow
       ctx.fillStyle = 'rgba(30,16,34,0.28)';
       ctx.fillRect(x - 9, y + 8, 18, 4);
-      // Espresso/Jet-Dark Body (Tricolor coat #1)
-      ctx.fillStyle = '#1E1420';
+      ctx.fillStyle = '#F59E0B';
       ctx.fillRect(x - 8, y - 4 - bounce, 16, 10);
-      // Snowy White Chest Blaze & Paws (Tricolor coat #2)
-      ctx.fillStyle = '#FFFDF9';
+      ctx.fillStyle = '#FEF3C7';
       ctx.fillRect(x - 3, y - 1 - bounce, 7, 7);
-      ctx.fillRect(x - 7, y + 5 - bounce, 4, 4);
-      ctx.fillRect(x + 4, y + 5 - bounce, 4, 4);
-      // Fluffy Head + Floppy Ears
-      ctx.fillStyle = '#1E1420';
+      ctx.fillStyle = '#D97706';
       ctx.fillRect(x - 7, y - 13 - bounce, 14, 10);
       ctx.fillRect(x - 10, y - 11 - bounce, 4, 8);
       ctx.fillRect(x + 6, y - 11 - bounce, 4, 8);
-      // Caramel/Tan Eyebrows & Cheeks (Tricolor coat #3!)
-      ctx.fillStyle = '#D97706';
-      ctx.fillRect(x - 5, y - 11 - bounce, 3, 2);
-      ctx.fillRect(x + 2, y - 11 - bounce, 3, 2);
-      ctx.fillRect(x - 6, y - 6 - bounce, 3, 3);
-      ctx.fillRect(x + 3, y - 6 - bounce, 3, 3);
-      // White Muzzle + Pink Tongue
-      ctx.fillStyle = '#FFFDF9';
-      ctx.fillRect(x - 3, y - 7 - bounce, 6, 4);
       ctx.fillStyle = '#FF2E63';
       ctx.fillRect(x - 1, y - 3 - bounce, 2, 2);
-      // Wagging White-Tipped Tail
       const wag = Math.sin(wagTick * 0.45) > 0 ? -3 : 1;
-      ctx.fillStyle = '#1E1420';
-      ctx.fillRect(x - 11, y - 6 - bounce + wag, 4, 4);
-      ctx.fillStyle = '#FFFDF9';
-      ctx.fillRect(x - 13, y - 8 - bounce + wag, 3, 3);
+      ctx.fillStyle = '#F59E0B';
+      ctx.fillRect(x - 12, y - 6 - bounce + wag, 5, 4);
     };
 
     const drawAvatarSprite = (px: number, py: number, walkFrame: number, isHer: boolean) => {
@@ -482,39 +426,20 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
       const x = Math.round(px);
       const y = Math.round(py);
       const stepOffset = walkFrame % 2 === 0 ? 0 : 2;
-
-      // Ground Shadow
       ctx.fillStyle = 'rgba(30,16,34,0.32)';
       ctx.fillRect(x - 10, y + 12, 20, 5);
-
-      // Legs / Stride
       ctx.fillStyle = '#1E1022';
       ctx.fillRect(x - 6, y + 5 - stepOffset, 5, 8);
       ctx.fillRect(x + 2, y + 5 + (stepOffset ? 0 : -2), 5, 8);
-
-      // Outfit Torso (Coral Resort Silk for Her / Mango Linen Apron-Collar for Him)
       ctx.fillStyle = isHer ? '#FF2E63' : '#FFBE0B';
       ctx.fillRect(x - 9, y - 8, 18, 14);
-      ctx.fillStyle = '#1E1022';
-      ctx.fillRect(x - 9, y + 4, 18, 2);
-
-      // Head & Hair
       ctx.fillStyle = '#FDBA74';
       ctx.fillRect(x - 7, y - 20, 14, 12);
-
-      // Hair Style
       ctx.fillStyle = isHer ? '#7C2D12' : '#291D2E';
       ctx.fillRect(x - 9, y - 24, 18, 6);
-      if (isHer) {
-        ctx.fillRect(x - 10, y - 20, 4, 12);
-        ctx.fillRect(x + 6, y - 20, 4, 12);
-      }
-
-      // Cool Palm-Springs Shades
       ctx.fillStyle = '#1E1022';
       ctx.fillRect(x - 6, y - 16, 5, 3);
       ctx.fillRect(x + 1, y - 16, 5, 3);
-      ctx.fillRect(x - 1, y - 15, 2, 1);
     };
 
     const loop = () => {
@@ -523,7 +448,6 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
       const p = playerRef.current;
       const prog = progressRef.current;
 
-      // Movement calculation
       let vx = dpadRef.current.dx;
       let vy = dpadRef.current.dy;
       if (keysRef.current.has('a') || keysRef.current.has('arrowleft')) vx -= 1;
@@ -566,7 +490,6 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         if (stepSoundTick % 16 === 0) sfx.pixelStep(p.frame);
       }
 
-      // Auto-collect pickups on overlap
       for (const item of WORLD_PICKUPS) {
         if (prog.collectedItemIds.includes(item.id)) continue;
         if (Math.hypot(p.x - item.x, p.y - item.y) < 28) {
@@ -575,143 +498,59 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
           onGainXp(20, {
             collectedItemIds: [...prog.collectedItemIds, item.id],
           });
-          showWorldToast(`✨ Collected ${item.label}!`);
+          setToastLine(`✨ Collected ${item.label}!`);
           break;
         }
       }
 
-      // Update contextual prompt
       if (tick % 12 === 0) {
-        let foundHint = '';
         for (const b of BUILDINGS) {
           if (Math.hypot(p.x - b.x, p.y - b.y) < 76) {
-            foundHint = `${b.emoji} Near ${b.title} • Press INTERACT (or Tap) to Enter!`;
+            setNearbyHint(`${b.emoji} Near ${b.title} • Press INTERACT (or Tap) to Enter!`);
             break;
           }
         }
-        if (!foundHint) {
-          for (const n of WORLD_NODES) {
-            if (Math.hypot(p.x - n.x, n.y - n.y) < 62) {
-              foundHint = `${n.emoji} Near ${n.label} • Press INTERACT for +35 XP Bonus!`;
-              break;
-            }
-          }
-        }
-        if (foundHint) setNearbyHint(foundHint);
       }
 
-      // === RENDER 8-BIT RESORT TILEMAP ===
       ctx.imageSmoothingEnabled = false;
       ctx.fillStyle = '#4ADE80';
       ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
-      // Decorative pixel grass checker tufts
-      ctx.fillStyle = '#22C55E';
-      for (let gx = 16; gx < CANVAS_W; gx += 48) {
-        for (let gy = 16; gy < CANVAS_H; gy += 48) {
-          ctx.fillRect(gx, gy, 8, 4);
-          ctx.fillRect(gx + 20, gy + 22, 6, 4);
-        }
-      }
-
-      // Sandstone Resort Boardwalk Roads (Spacious 960x500 Grid — Zero Overlaps!)
       ctx.fillStyle = '#FDE68A';
-      ctx.fillRect(115, 146, 730, 44); // North boulevard
-      ctx.fillRect(115, 314, 730, 44); // South boulevard
-      ctx.fillRect(143, 86, 44, 328);  // West avenue
-      ctx.fillRect(458, 86, 44, 328);  // Center avenue
-      ctx.fillRect(773, 86, 44, 328);  // East avenue
-      ctx.strokeStyle = '#1E1022';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(115, 146, 730, 44);
-      ctx.strokeRect(115, 314, 730, 44);
+      ctx.fillRect(115, 146, 730, 44);
+      ctx.fillRect(115, 314, 730, 44);
+      ctx.fillRect(143, 86, 44, 328);
+      ctx.fillRect(458, 86, 44, 328);
+      ctx.fillRect(773, 86, 44, 328);
 
-      // Central Shimmering Palm Springs Tiki Pool (Cleanly Isolated!)
+      // Central Neighborhood Fountain Plaza
       ctx.fillStyle = '#1E1022';
       ctx.fillRect(352, 214, 256, 78);
       ctx.fillStyle = '#06B6D4';
       ctx.fillRect(356, 218, 248, 70);
-      ctx.fillStyle = '#67E8F9';
-      for (let wx = 372; wx < 584; wx += 32) {
-        const waveX = wx + Math.round(Math.sin(tick * 0.07 + wx) * 5);
-        ctx.fillRect(waveX, 238, 16, 4);
-        ctx.fillRect(waveX + 8, 264, 14, 4);
-      }
 
-      // Swaying Palm Trees
-      const sway = Math.sin(tick * 0.045) * 2.2;
-      drawPixelPalm(54, 118, sway);
-      drawPixelPalm(902, 118, -sway);
-      drawPixelPalm(54, 424, sway);
-      drawPixelPalm(902, 424, -sway);
-      drawPixelPalm(322, 118, sway * 0.7);
-      drawPixelPalm(638, 118, -sway * 0.7);
-
-      // Draw 6 Enterable Pixel Buildings
       for (const b of BUILDINGS) {
-        const isNear = Math.hypot(p.x - b.x, p.y - b.y) < 76;
-        if (isNear) {
-          ctx.strokeStyle = '#FF2E63';
-          ctx.lineWidth = 3;
-          ctx.strokeRect(b.x - 62, b.y - 42, 124, 78);
-        }
-        ctx.fillStyle = '#1E1022';
-        ctx.fillRect(b.x - 54, b.y - 34, 112, 64);
         ctx.fillStyle = b.wallColor;
-        ctx.fillRect(b.x - 56, b.y - 36, 108, 60);
+        ctx.fillRect(b.x - 56, b.y - 36, 112, 60);
         ctx.strokeStyle = '#1E1022';
         ctx.lineWidth = 2.5;
-        ctx.strokeRect(b.x - 56, b.y - 36, 108, 60);
+        ctx.strokeRect(b.x - 56, b.y - 36, 112, 60);
         ctx.fillStyle = b.roofColor;
-        ctx.fillRect(b.x - 58, b.y - 38, 112, 18);
-        ctx.strokeRect(b.x - 58, b.y - 38, 112, 18);
+        ctx.fillRect(b.x - 58, b.y - 38, 116, 18);
         ctx.fillStyle = '#1E1022';
-        ctx.fillRect(b.x - 9, b.y + 4, 18, 20);
-        ctx.fillStyle = '#FFBE0B';
-        ctx.fillRect(b.x + 4, b.y + 13, 3, 3);
-
-        ctx.font = '13px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(b.emoji, b.x, b.y - 24);
-        ctx.fillStyle = '#1E1022';
-        ctx.fillRect(b.x - 56, b.y + 27, 112, 16);
+        ctx.fillRect(b.x - 58, b.y + 26, 116, 16);
         ctx.fillStyle = '#FFFDF9';
-        ctx.font = '700 9px "Silkscreen", monospace';
-        ctx.fillText(b.shortLabel, b.x, b.y + 38);
-      }
-
-      // Draw Pickups
-      for (const item of WORLD_PICKUPS) {
-        if (prog.collectedItemIds.includes(item.id)) continue;
-        const bob = Math.round(Math.sin(tick * 0.1 + item.x) * 3);
-        ctx.fillStyle = '#1E1022';
-        ctx.fillRect(item.x - 9, item.y - 9 + bob, 18, 18);
-        ctx.fillStyle = item.color;
-        ctx.fillRect(item.x - 7, item.y - 7 + bob, 14, 14);
-        ctx.fillStyle = item.accent;
-        ctx.fillRect(item.x - 3, item.y - 3 + bob, 6, 6);
-      }
-
-      // Draw 3 Embedded Pop-Culture & Viral Jukeboxes
-      for (const n of WORLD_NODES) {
-        const solved = prog.solvedNodeIds.includes(n.id);
-        const pulse = Math.round(Math.sin(tick * 0.12) * 2);
-        ctx.fillStyle = '#1E1022';
-        ctx.fillRect(n.x - 16, n.y - 18 + pulse, 32, 34);
-        ctx.fillStyle = solved ? '#10B981' : '#FFBE0B';
-        ctx.fillRect(n.x - 14, n.y - 16 + pulse, 28, 30);
-        ctx.font = '13px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(n.emoji, n.x, n.y + 4 + pulse);
-
-        ctx.fillStyle = '#1E1022';
-        ctx.fillRect(n.x - 46, n.y - 33 + pulse, 92, 13);
-        ctx.fillStyle = '#FFBE0B';
         ctx.font = '700 8px "Silkscreen", monospace';
-        ctx.fillText(n.label, n.x, n.y - 24 + pulse);
+        ctx.textAlign = 'center';
+        ctx.fillText(b.shortLabel, b.x, b.y + 37);
       }
 
-      // Draw Roaming Red-Flag Patrol Goblins (Compact non-overlapping badge!)
+      for (const n of STREET_NODES) {
+        const solved = prog.solvedNodeIds.includes(n.id);
+        ctx.fillStyle = solved ? '#10B981' : '#FFBE0B';
+        ctx.fillRect(n.x - 14, n.y - 16, 28, 30);
+      }
+
       for (const g of PATROL_GOBLINS) {
         if (prog.defeatedGoblinIds.includes(g.id)) continue;
         const gx = Math.round(
@@ -720,57 +559,26 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         const gy = Math.round(
           g.axis === 'y' ? g.baseY + Math.cos(tick * 0.06 * (g.speed * 28)) * g.range : g.baseY,
         );
-        ctx.fillStyle = '#1E1022';
-        ctx.fillRect(gx - 13, gy - 13, 26, 26);
         ctx.fillStyle = '#FB7185';
         ctx.fillRect(gx - 11, gy - 11, 22, 22);
-        ctx.font = '13px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(g.emoji, gx, gy + 5);
-
-        ctx.fillStyle = '#9F1239';
-        ctx.fillRect(gx - 18, gy - 26, 36, 12);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '700 8px "Silkscreen", monospace';
-        ctx.fillText('ROAST', gx, gy - 17);
       }
 
-      // Target click reticle
-      if (p.targetX !== null && p.targetY !== null) {
-        ctx.strokeStyle = '#FF2E63';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(p.targetX - 8, p.targetY - 8, 16, 16);
-      }
-
-      // Draw Tricolor Mini Bernedoodle Follower ("Miso") if adopted!
-      if (prog.bernedoodleAdopted) {
+      if (prog.companionAdopted || prog.bernedoodleAdopted) {
         const crumb = trailRef.current[Math.min(12, trailRef.current.length - 1)] ?? {
           x: p.x - 26,
           y: p.y + 6,
         };
-        drawBernedoodleSprite(crumb.x - 18, crumb.y + 4, tick);
+        drawGoldenRetrieverSprite(crumb.x - 18, crumb.y + 4, tick);
       }
 
-      // Draw Player Sprite
       drawAvatarSprite(p.x, p.y, p.frame, role === 'her');
 
-      // Player Overhead Tag
-      ctx.fillStyle = '#1E1022';
-      ctx.fillRect(p.x - 34, p.y - 39, 68, 13);
-      ctx.fillStyle = '#FFBE0B';
-      ctx.font = '700 8px "Silkscreen", monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(`★ ${avatarName.slice(0, 9)}`, p.x, p.y - 29);
-
-      // Draw Floating XP Popups
       popupsRef.current = popupsRef.current.filter((pop) => pop.ttl > 0);
       for (const pop of popupsRef.current) {
         pop.y -= 0.55;
         pop.ttl -= 1;
-        ctx.fillStyle = '#1E1022';
-        ctx.font = '700 11px "Fredoka", sans-serif';
-        ctx.fillText(pop.text, pop.x + 1, pop.y + 1);
         ctx.fillStyle = pop.color;
+        ctx.font = '700 11px "Fredoka", sans-serif';
         ctx.fillText(pop.text, pop.x, pop.y);
       }
 
@@ -800,7 +608,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         return;
       }
     }
-    for (const n of WORLD_NODES) {
+    for (const n of STREET_NODES) {
       if (Math.hypot(cx - n.x, cy - n.y) < 38) {
         pendingTargetActionRef.current = { kind: 'node', node: n };
         return;
@@ -816,19 +624,18 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
 
   return (
     <section className="vice-panel rounded-3xl p-4 sm:p-6 space-y-4 bg-gradient-to-b from-[#FFFDF9] to-[#FFF4F7]">
-      {/* Top 8-Bit Arcade & Progression Header • Strictly Single-Row Aligned on Desktop */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-pixel inline-flex h-7 items-center gap-1.5 rounded-lg border-2 border-[#1E1022] bg-[#FF2E63] px-2.5 text-[11px] font-bold uppercase text-white shadow-[2px_2px_0px_#1E1022]">
-              <Gamepad2 className="h-3.5 w-3.5" /> Live 8-Bit Adventure World
+              <Gamepad2 className="h-3.5 w-3.5" /> In The Wild • 8-Bit Neighborhood Date Map
             </span>
             <span className="font-pixel inline-flex h-7 items-center gap-1 rounded-lg border-2 border-[#1E1022] bg-[#FFBE0B] px-2.5 text-[11px] font-bold text-[#1E1022]">
               {levelInfo.badgeEmoji} Lv.{levelInfo.level} • {progress.xp} XP
             </span>
           </div>
           <h2 className="font-display text-xl sm:text-2xl text-[#1E1022]">
-            Walk the 8-Bit Club Resort: Pop-Culture Jukeboxes, Seed-Oil Goblins &amp; Date Venues!
+            Walk 6 Real-World &ldquo;In The Wild&rdquo; Date Venues, Street Meet-Cutes &amp; Subculture Goblins!
           </h2>
         </div>
 
@@ -836,45 +643,44 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
           <button
             type="button"
             onClick={() => {
-              if (!progress.bernedoodleAdopted) {
-                sfx.puppyBark();
-                onGainXp(35, { bernedoodleAdopted: true }, 'world_bernedoodle_adopt');
-                showWorldToast(
-                  '🐶 Tricolor Mini Bernedoodle "Miso" adopted from Waitlist #1, watch him trot behind you!',
+              sfx.puppyBark();
+              if (!isBarnabyFollowing) {
+                onGainXp(35, { companionAdopted: true, bernedoodleAdopted: true });
+                setToastLine(
+                  '🐕 Rescue Golden "Barnaby" joined your walk! Watch him trot right behind you.',
                 );
               } else {
-                sfx.puppyBark();
-                showWorldToast('🐶 Miso gave two happy barks! Walk around the map to watch him follow.');
+                setToastLine('🐕 Barnaby gave two happy Golden-Retriever barks!');
               }
             }}
-            className={`pop-btn h-11 rounded-xl px-4 text-sm cursor-pointer ${
-              progress.bernedoodleAdopted
+            className={`pop-btn h-11 rounded-xl px-4 text-sm font-bold cursor-pointer ${
+              isBarnabyFollowing
                 ? 'bg-[#D1FAE5] text-[#065F46]'
                 : 'bg-[#FFBE0B] text-[#1E1022]'
             }`}
           >
-            {progress.bernedoodleAdopted
-              ? '🐶 Miso (Tricolor Bernedoodle) Following ✓'
-              : '🐶 Adopt Tricolor Mini Bernedoodle (+35 XP)'}
+            {isBarnabyFollowing
+              ? '🐕 Barnaby Following ✓'
+              : '🐕 Adopt Rescue Golden "Barnaby" (+35 XP)'}
           </button>
 
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="pop-btn h-11 inline-flex items-center gap-1.5 rounded-xl bg-white px-4 text-sm text-[#1E1022] cursor-pointer"
+            className="pop-btn h-11 inline-flex items-center gap-1.5 rounded-xl bg-white px-4 text-sm font-bold text-[#1E1022] cursor-pointer"
           >
             {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-            <span>{expanded ? 'Compact View' : 'Expand Arcade'}</span>
+            <span>{expanded ? 'Compact View' : 'Expand Map'}</span>
           </button>
         </div>
       </div>
 
-      {/* Live XP Progress Bar + Collectibles Counter */}
+      {/* Live XP Progress Bar + Counters */}
       <div className="rounded-2xl border-2 border-[#1E1022] bg-white px-4 py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <div className="flex-1 space-y-1">
           <div className="flex items-center justify-between text-xs font-extrabold text-[#1E1022]">
             <span>
-              {levelInfo.badgeEmoji} Adventure Rank: Lv.{levelInfo.level} {levelInfo.title}
+              {levelInfo.badgeEmoji} Club Rank: Lv.{levelInfo.level} {levelInfo.title}
             </span>
             <span className="text-[#D90452]">
               {progress.xp} / {levelInfo.nextThreshold} XP ({levelInfo.progressPct}%)
@@ -890,215 +696,96 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
 
         <div className="flex flex-wrap items-center gap-2 text-xs font-extrabold text-[#1E1022]">
           <span className="rounded-lg border border-[#1E1022] bg-[#FFFBEB] px-2.5 py-1">
-            🥑 Pickups: {progress.collectedItemIds.length}/{WORLD_PICKUPS.length}
+            💐 Gifts: {progress.collectedItemIds.length}/{WORLD_PICKUPS.length}
           </span>
           <span className="rounded-lg border border-[#1E1022] bg-[#FFE4E6] px-2.5 py-1">
             ⚡ Goblins Roasted: {progress.defeatedGoblinIds.length}/{PATROL_GOBLINS.length}
           </span>
           <span className="rounded-lg border border-[#1E1022] bg-[#ECFDF5] px-2.5 py-1">
-            🕹️ Jukeboxes: {progress.solvedNodeIds.length}/{WORLD_NODES.length}
+            🥂 Street Approaches: {progress.solvedNodeIds.length}/{STREET_NODES.length}
           </span>
         </div>
       </div>
 
-      {/* 60FPS MOVING 8-BIT PIXEL CANVAS + RETRO ENCOUNTER OVERLAY */}
+      {/* 8-BIT PIXEL CANVAS + ENCOUNTER DRAWER */}
       <div className="relative overflow-hidden rounded-2xl border-[3px] border-[#1E1022] bg-[#1E1022] shadow-[5px_5px_0px_#1E1022]">
         <canvas
           ref={canvasRef}
           width={CANVAS_W}
           height={CANVAS_H}
           onClick={handleCanvasClick}
-          aria-label="Interactive 8-Bit Cougars and Cubs Club Resort Overworld"
+          aria-label="In The Wild 8-Bit Neighborhood Date Map"
           className={`w-full cursor-crosshair block ${
             expanded ? 'max-h-[540px]' : 'max-h-[410px]'
           } object-contain bg-[#22C55E]`}
           style={{ imageRendering: 'pixelated' }}
         />
 
-        {/* Top-Left Live Proximity Ticker */}
         <div className="pointer-events-none absolute left-3 top-3 rounded-xl border-2 border-[#1E1022] bg-[#FFFDF9]/95 px-3 py-1 text-xs font-extrabold text-[#1E1022] shadow">
           <Compass className="inline h-3.5 w-3.5 mr-1 text-[#FF2E63]" />
           {toastLine || nearbyHint}
         </div>
 
-        {/* Embedded 8-Bit RPG Encounter Drawer (Pop-Culture Trivia, Viral Check, Goblin Roast, or Venue Entry) */}
         {activeEncounter && (
           <div className="absolute inset-x-3 bottom-3 z-20 rounded-2xl border-[3px] border-[#1E1022] bg-[#FFFDF9] p-4 shadow-[5px_5px_0px_#1E1022] space-y-3 animate-stage-in">
-            {activeEncounter.type === 'trivia' && (() => {
-              const q = POP_CULTURE_TRIVIA[activeEncounter.qIdx];
-              return (
-                <div className="space-y-2.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1 rounded-full border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-xs font-extrabold text-[#1E1022]">
-                      <Award className="h-3.5 w-3.5" /> 8-Bit Jukebox Trivia • {q.badge}
-                    </span>
+            {activeEncounter.type === 'approach' && (
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="rounded-full border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-xs font-extrabold text-[#1E1022]">
+                    {activeEncounter.node.emoji} Street Meet-Cute • {activeEncounter.node.label}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setActiveEncounter(null)}
+                    className="rounded-lg border border-[#1E1022] bg-white px-2.5 py-0.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                  >
+                    Keep Walking ✕
+                  </button>
+                </div>
+                <p className="text-sm font-extrabold text-[#1E1022]">{activeEncounter.node.prompt}</p>
+                {activeEncounter.picked === null ? (
+                  <div className="grid gap-2 sm:grid-cols-2">
                     <button
                       type="button"
-                      onClick={() => setActiveEncounter(null)}
-                      className="rounded-lg border border-[#1E1022] bg-white px-2.5 py-0.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                      onClick={() => {
+                        sfx.levelUp8Bit();
+                        const solved = Array.from(
+                          new Set([...progress.solvedNodeIds, activeEncounter.node.id]),
+                        );
+                        onGainXp(35, { solvedNodeIds: solved });
+                        setToastLine(activeEncounter.node.winOutcome);
+                        setActiveEncounter({ ...activeEncounter, picked: 'smooth' });
+                      }}
+                      className="rounded-xl border-2 border-[#1E1022] bg-white hover:bg-[#ECFDF5] p-3 text-left text-xs font-bold text-[#1E1022] cursor-pointer"
                     >
-                      Continue Walking ✕
+                      ✨ {activeEncounter.node.smoothOption}
                     </button>
-                  </div>
-                  <div className="text-sm sm:text-base font-extrabold text-[#1E1022]">{q.question}</div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {q.options.map((opt, idx) => {
-                      const picked = activeEncounter.picked;
-                      const isCorrect = idx === q.correctIndex;
-                      let cls = 'bg-white text-[#1E1022] hover:bg-[#FFFBEB]';
-                      if (picked !== null) {
-                        if (isCorrect) cls = 'bg-[#D1FAE5] text-[#065F46]';
-                        else if (picked === idx) cls = 'bg-[#FFE4E6] text-[#9F1239]';
-                      }
-                      return (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => {
-                            if (activeEncounter.picked !== null) return;
-                            const won = idx === q.correctIndex;
-                            if (won) {
-                              sfx.levelUp8Bit();
-                              const solved = Array.from(
-                                new Set([...progress.solvedNodeIds, activeEncounter.nodeId]),
-                              );
-                              onGainXp(
-                                35,
-                                { solvedNodeIds: solved, triviaIndex: progress.triviaIndex + 1 },
-                                `world_trivia_${activeEncounter.nodeId}`,
-                              );
-                              showWorldToast('🎉 +35 XP! Jukebox High Score Unlocked!');
-                            } else {
-                              sfx.redFlag();
-                              onGainXp(10, { triviaIndex: progress.triviaIndex + 1 });
-                            }
-                            setActiveEncounter({ ...activeEncounter, picked: idx });
-                          }}
-                          className={`rounded-xl border-2 border-[#1E1022] px-3 py-2 text-left text-xs sm:text-sm font-bold cursor-pointer ${cls}`}
-                        >
-                          {opt}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {activeEncounter.picked !== null && (
-                    <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-xs font-bold text-[#1E1022]">
-                      <span>{q.funFact}</span>
-                      {onOpenFullTrivia && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveEncounter(null);
-                            onOpenFullTrivia();
-                          }}
-                          className="text-[#FF2E63] underline font-extrabold cursor-pointer"
-                        >
-                          Full Quiz (+3 Cr) →
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
-
-            {activeEncounter.type === 'viral' && (() => {
-              const item = COUGAR_CUB_CHECKLIST_ITEMS[activeEncounter.itemIdx];
-              return (
-                <div className="space-y-2.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1 rounded-full border border-[#1E1022] bg-[#FF2E63] px-2.5 py-0.5 text-xs font-extrabold text-white">
-                      <Flame className="h-3.5 w-3.5" /> Overworld Viral IRL Shrine (+25 XP)
-                    </span>
                     <button
                       type="button"
-                      onClick={() => setActiveEncounter(null)}
-                      className="rounded-lg border border-[#1E1022] bg-white px-2.5 py-0.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                      onClick={() => {
+                        sfx.redFlag();
+                        setActiveEncounter({ ...activeEncounter, picked: 'fumble' });
+                      }}
+                      className="rounded-xl border-2 border-[#1E1022] bg-white hover:bg-[#FFF1F2] p-3 text-left text-xs font-bold text-[#1E1022] cursor-pointer"
                     >
-                      Keep Exploring ✕
+                      💀 {activeEncounter.node.fumbleOption}
                     </button>
                   </div>
-                  <div className="text-sm sm:text-base font-extrabold text-[#1E1022]">
-                    &ldquo;{item.text}&rdquo;
+                ) : (
+                  <div className="rounded-xl border border-[#1E1022] bg-[#ECFDF5] px-3 py-2 text-xs font-extrabold text-[#065F46]">
+                    {activeEncounter.picked === 'smooth'
+                      ? activeEncounter.node.winOutcome
+                      : '🚩 Instant side-eye! Try the unhurried high-EQ approach next time.'}
                   </div>
-                  {activeEncounter.voted === null ? (
-                    <div className="flex flex-wrap gap-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          sfx.pixelCoin();
-                          if (!loadChecklistCheckedIds().includes(item.id)) {
-                            toggleChecklistItemInStorage(item.id);
-                          }
-                          const solved = Array.from(
-                            new Set([...progress.solvedNodeIds, activeEncounter.nodeId]),
-                          );
-                          onGainXp(25, {
-                            solvedNodeIds: solved,
-                            triviaIndex: progress.triviaIndex + 1,
-                          });
-                          setActiveEncounter({ ...activeEncounter, voted: 'lived' });
-                        }}
-                        className="pop-btn rounded-xl bg-[#FF2E63] px-4 py-2 text-xs font-extrabold text-white cursor-pointer"
-                      >
-                        🙋‍♀️ Lived This IRL! (+25 XP)
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          sfx.pixelCoin();
-                          const solved = Array.from(
-                            new Set([...progress.solvedNodeIds, activeEncounter.nodeId]),
-                          );
-                          onGainXp(20, {
-                            solvedNodeIds: solved,
-                            triviaIndex: progress.triviaIndex + 1,
-                          });
-                          setActiveEncounter({ ...activeEncounter, voted: 'dodged' });
-                        }}
-                        className="pop-btn rounded-xl bg-white px-4 py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
-                      >
-                        🛡️ Dodged So Far (+20 XP)
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold text-[#065F46]">
-                      <span>✓ Stamped onto your 25-Point Viral Score (+XP earned)!</span>
-                      <div className="flex gap-3">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveEncounter(null);
-                            onEnterEpisode(item.episodeId);
-                          }}
-                          className="text-[#FF2E63] underline cursor-pointer"
-                        >
-                          Play This Scene →
-                        </button>
-                        {onOpenFullChecklist && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setActiveEncounter(null);
-                              onOpenFullChecklist();
-                            }}
-                            className="text-[#1E1022] underline cursor-pointer"
-                          >
-                            All 25 Boxes →
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
+                )}
+              </div>
+            )}
 
             {activeEncounter.type === 'goblin' && (
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="rounded-full border border-[#1E1022] bg-[#FFE4E6] px-3 py-0.5 text-xs font-extrabold text-[#9F1239]">
-                    {activeEncounter.goblin.emoji} Wild Red-Flag Goblin Ambush: {activeEncounter.goblin.name}
+                    {activeEncounter.goblin.emoji} Wild Red-Flag Goblin: {activeEncounter.goblin.name}
                   </span>
                   <button
                     type="button"
@@ -1117,7 +804,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
                       new Set([...progress.defeatedGoblinIds, activeEncounter.goblin.id]),
                     );
                     onGainXp(30, { defeatedGoblinIds: defeated });
-                    showWorldToast(`⚡ +30 XP! ${activeEncounter.goblin.roastLine}`);
+                    setToastLine(`⚡ +30 XP! ${activeEncounter.goblin.roastLine}`);
                     setActiveEncounter(null);
                   }}
                   className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-4 py-2 text-xs sm:text-sm font-extrabold text-white cursor-pointer"
@@ -1135,7 +822,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
                     {activeEncounter.building.emoji} Arrived at {activeEncounter.building.title}
                   </div>
                   <div className="text-sm font-bold text-[#1E1022]">
-                    Step inside to play the interactive animated episode &amp; arcade minigame (+XP)!
+                    Step inside to play this neighborhood venue!
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -1149,14 +836,18 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
                   <button
                     type="button"
                     onClick={() => {
-                      const epId = activeEncounter.building.episodeId;
+                      const b = activeEncounter.building;
                       setActiveEncounter(null);
                       onGainXp(15);
-                      onEnterEpisode(epId);
+                      if (b.opensBoutique && onOpenBoutique) {
+                        onOpenBoutique();
+                      } else {
+                        onEnterEpisode(b.episodeId);
+                      }
                     }}
                     className="pop-btn rounded-xl bg-[#FF2E63] px-4 py-2 text-xs font-extrabold text-white cursor-pointer"
                   >
-                    Enter Scene →
+                    Enter Venue →
                   </button>
                 </div>
               </div>
@@ -1165,7 +856,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         )}
       </div>
 
-      {/* Symmetrical 44px-Height Arcade Controls + Equal-Width Encounter Buttons */}
+      {/* Controls + Quick Encounters */}
       <div className="grid gap-3 lg:grid-cols-[auto_1fr] items-center rounded-2xl border-2 border-[#1E1022] bg-white p-3">
         <div className="flex items-center gap-2">
           {(
@@ -1180,22 +871,6 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
               key={label}
               type="button"
               aria-label={label}
-              onMouseDown={() => {
-                dpadRef.current = { dx, dy };
-              }}
-              onMouseUp={() => {
-                dpadRef.current = { dx: 0, dy: 0 };
-              }}
-              onMouseLeave={() => {
-                dpadRef.current = { dx: 0, dy: 0 };
-              }}
-              onTouchStart={(e) => {
-                e.preventDefault();
-                dpadRef.current = { dx, dy };
-              }}
-              onTouchEnd={() => {
-                dpadRef.current = { dx: 0, dy: 0 };
-              }}
               onClick={() => {
                 playerRef.current.x = Math.max(
                   36,
@@ -1217,33 +892,20 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
           <button
             type="button"
             onClick={handleInteractNearest}
-            className="pop-btn h-11 inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-4 text-sm text-white cursor-pointer"
+            className="pop-btn h-11 inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-4 text-sm font-bold text-white cursor-pointer"
           >
             <Sparkles className="h-4 w-4" />
             <span>A • INTERACT</span>
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <button
             type="button"
-            onClick={() => triggerNodeEncounter(WORLD_NODES[0])}
-            className="pop-btn h-11 w-full rounded-xl bg-[#FFFBEB] hover:bg-[#FEF3C7] px-3 text-xs sm:text-sm font-bold text-[#92400E] inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
+            onClick={() => triggerNodeEncounter(STREET_NODES[0])}
+            className="pop-btn h-11 w-full rounded-xl bg-[#FFFBEB] hover:bg-[#FEF3C7] px-3 text-xs sm:text-sm font-bold text-[#92400E] inline-flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <span>🕹️ Jukebox Trivia</span>
-            <span className="rounded-full bg-[#FDE68A] px-2 py-0.5 text-[11px] font-extrabold text-[#78350F] whitespace-nowrap">
-              +35 XP
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => triggerNodeEncounter(WORLD_NODES[1])}
-            className="pop-btn h-11 w-full rounded-xl bg-[#FFF1F2] hover:bg-[#FFE4E6] px-3 text-xs sm:text-sm font-bold text-[#BE123C] inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
-          >
-            <span>🔥 Viral Shrine</span>
-            <span className="rounded-full bg-[#FECDD3] px-2 py-0.5 text-[11px] font-extrabold text-[#9F1239] whitespace-nowrap">
-              +25 XP
-            </span>
+            <span>📚 Practice &ldquo;In The Wild&rdquo; Approach (+35 XP)</span>
           </button>
           <button
             type="button"
@@ -1254,70 +916,44 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
               sfx.shockZoom();
               setActiveEncounter({ type: 'goblin', goblin: nextGoblin });
             }}
-            className="pop-btn h-11 w-full rounded-xl bg-[#18101E] hover:bg-[#2E1F38] px-3 text-xs sm:text-sm font-bold text-white inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
+            className="pop-btn h-11 w-full rounded-xl bg-[#18101E] hover:bg-[#2E1F38] px-3 text-xs sm:text-sm font-bold text-white inline-flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <span>⚡ Intercept Red-Flag Goblin</span>
+            <span>⚡ Intercept Red-Flag Goblin (+30 XP)</span>
           </button>
         </div>
       </div>
 
-      {/* Equal-Height 3x2 Fast-Travel Hotspot Grid (Full Readable Titles • Zero Cutoff!) */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between px-1">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-[#64748B]">
-            🗺️ 6 Fast-Travel Story &amp; Minigame Hotspots (Click any venue or walk to its door)
-          </span>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
-          {BUILDINGS.map((b) => (
-            <button
-              key={b.id}
-              type="button"
-              onClick={() => {
-                sfx.crystalClink();
-                onGainXp(15);
+      {/* 6 Fast-Travel In The Wild Venues */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+        {BUILDINGS.map((b) => (
+          <button
+            key={b.id}
+            type="button"
+            onClick={() => {
+              sfx.crystalClink();
+              onGainXp(15);
+              if (b.opensBoutique && onOpenBoutique) {
+                onOpenBoutique();
+              } else {
                 onEnterEpisode(b.episodeId);
-              }}
-              className="pop-btn min-h-[86px] rounded-2xl bg-white p-4 text-left hover:bg-[#FFFBEB] cursor-pointer flex items-center justify-between gap-3"
-            >
-              <div className="min-w-0 space-y-1">
-                <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#E11D48]">
-                  {b.emoji} Hotspot • {b.shortLabel}
-                </div>
-                <div className="font-display text-sm sm:text-[15px] text-[#18101E] leading-snug">
-                  {b.buttonName}
-                </div>
+              }
+            }}
+            className="pop-btn min-h-[84px] rounded-2xl bg-white p-4 text-left hover:bg-[#FFFBEB] cursor-pointer flex items-center justify-between gap-3"
+          >
+            <div className="min-w-0 space-y-1">
+              <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#E11D48]">
+                {b.emoji} {b.shortLabel}
               </div>
-              <span className="shrink-0 inline-flex h-8.5 items-center rounded-full bg-[#FEF3C7] border border-[#F59E0B]/40 px-3 text-xs font-extrabold text-[#92400E] whitespace-nowrap">
-                Play →
-              </span>
-            </button>
-          ))}
-        </div>
+              <div className="font-display text-sm sm:text-[15px] text-[#18101E] leading-snug">
+                {b.buttonName}
+              </div>
+            </div>
+            <span className="shrink-0 inline-flex h-8 items-center rounded-full bg-[#FEF3C7] border border-[#F59E0B]/40 px-3 text-xs font-extrabold text-[#92400E] whitespace-nowrap">
+              Enter →
+            </span>
+          </button>
+        ))}
       </div>
-
-      {/* Featured New Red-Flag Spotlight Banner */}
-      <button
-        type="button"
-        onClick={() => {
-          sfx.shockZoom();
-          onGainXp(20);
-          onEnterEpisode('pine-pollen-feels-incoherent-text-spiral');
-        }}
-        className="pop-btn w-full rounded-2xl bg-gradient-to-r from-[#FFF4F7] via-[#FFFBEB] to-[#ECFDF5] px-4 py-3 text-left hover:brightness-98 cursor-pointer flex flex-wrap sm:flex-nowrap items-center justify-between gap-3"
-      >
-        <div className="min-w-0">
-          <div className="text-xs font-bold uppercase tracking-wide text-[#D90452]">
-            🌲 New Cub Red-Flag Scene • Communication Mishaps &amp; Differing Expectations
-          </div>
-          <div className="font-display text-base text-[#1E1022] leading-snug">
-            Pine-Pollen Testosterone &amp; The 11:47 PM &ldquo;All Up in My Feels&rdquo; Text Spiral
-          </div>
-        </div>
-        <span className="shrink-0 inline-flex h-10 items-center rounded-xl border-2 border-[#1E1022] bg-[#FF2E63] px-3.5 text-xs font-bold text-white">
-          Decode Texts →
-        </span>
-      </button>
     </section>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Check, Lock, ShieldCheck, Wrench, X } from 'lucide-react';
 import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
+import { AboutClubView } from './components/AboutClubView';
 import { AppSwipeStage } from './components/AppSwipeStage';
 import { BoutiqueAndVipModal } from './components/BoutiqueAndVipModal';
 import { ClubCourtroomView } from './components/ClubCourtroomView';
@@ -9,13 +10,13 @@ import { CougarCubChecklistModal } from './components/CougarCubChecklistModal';
 import { EightBitAdventureWorld } from './components/EightBitAdventureWorld';
 import { EpisodeStage } from './components/EpisodeStage';
 import { FieldGuideModal } from './components/FieldGuideModal';
-import { LiveInboxModal } from './components/LiveInboxModal';
+import { LiveInboxModal, type InboxAppPlatform } from './components/LiveInboxModal';
 import { OutcomeAndViralView } from './components/OutcomeAndViralView';
 import { PairingMixerView } from './components/PairingMixerView';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
 import { PixiCubAcademyStage } from './components/PixiCubAcademyStage';
 import { PopCultureTriviaModal } from './components/PopCultureTriviaModal';
-import { TopHudBar } from './components/TopHudBar';
+import { TopHudBar, type ClubTopTab } from './components/TopHudBar';
 import { VelvetJournalView } from './components/VelvetJournalView';
 import { APP_SWIPE_PROFILES, HER_SWIPE_PROFILES } from './data/appProfiles';
 import { EPISODES } from './data/episodes';
@@ -45,12 +46,14 @@ import {
   applyEpisodeChoice,
   applyMinigameBonus,
   computeRunSummary,
+  createCharacterDateRun,
   createRun,
   recordAppSwipe,
   rewindLastChoice,
   type GameRunState,
   type RunPacingMode,
 } from './domain/gameEngine';
+import { loadMatchCareer, saveMatchCareer } from './domain/matchCareer';
 import {
   getLevelInfo,
   grantAdventureXp,
@@ -65,6 +68,7 @@ import {
   type HisArchetype,
   type PlayerRole,
 } from './domain/taxonomy';
+import { trackEvent } from './lib/analytics';
 import {
   buildDilemmaShareLink,
   decodeChallengeParam,
@@ -92,9 +96,11 @@ function readInitialUrlState() {
       stripeSessionId: null as string | null,
       refCode: null as string | null,
       openChecklist: false,
+      openQuiz: false,
       openWorld: false,
       openAcademy: false,
       openCourt: false,
+      openAbout: false,
     };
   }
   const params = new URLSearchParams(window.location.search);
@@ -107,9 +113,11 @@ function readInitialUrlState() {
   const stripeSessionId = params.get('session_id');
   const refCode = params.get('ref');
   const openChecklist = params.get('checklist') === '1';
+  const openQuiz = params.get('quiz') === '1';
   const openWorld = params.get('world') === '1';
   const openAcademy = params.get('academy') === '1';
   const openCourt = params.get('court') === '1';
+  const openAbout = params.get('about') === '1';
 
   return {
     challenge: decoded,
@@ -120,9 +128,11 @@ function readInitialUrlState() {
     stripeSessionId,
     refCode,
     openChecklist,
+    openQuiz,
     openWorld,
     openAcademy,
     openCourt,
+    openAbout,
   };
 }
 
@@ -187,22 +197,27 @@ export default function App() {
   const [academySubTab, setAcademySubTab] = useState<'obedience' | 'scanner' | 'dateodex'>(
     'obedience',
   );
-  const [activeTab, setActiveTab] = useState<
-    'game' | 'world' | 'journal' | 'inbox' | 'academy' | 'courtroom'
-  >(
+  const [activeTab, setActiveTab] = useState<ClubTopTab>(
     initialUrl.journalSlug
       ? 'journal'
-      : initialUrl.openWorld
-        ? 'world'
-        : initialUrl.openAcademy
-          ? 'academy'
-          : initialUrl.openCourt
-            ? 'courtroom'
-            : 'game',
+      : initialUrl.openAbout
+        ? 'about'
+        : initialUrl.openWorld
+          ? 'world'
+          : initialUrl.openAcademy
+            ? 'academy'
+            : initialUrl.openCourt
+              ? 'courtroom'
+              : 'game',
   );
+  const [preferredInboxContactId, setPreferredInboxContactId] = useState<string | null>(null);
+  const [inboxInitialPlatform, setInboxInitialPlatform] = useState<InboxAppPlatform>('tinder');
+  const [activeCareerMatchId, setActiveCareerMatchId] = useState<string | null>(null);
+  const [completedDateNum, setCompletedDateNum] = useState<1 | 2 | 3 | undefined>(undefined);
+
   const [fieldGuideOpen, setFieldGuideOpen] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
-  const [popTriviaOpen, setPopTriviaOpen] = useState(false);
+  const [popTriviaOpen, setPopTriviaOpen] = useState(initialUrl.openQuiz);
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
   const [founderModalOpen, setFounderModalOpen] = useState(false);
   const [founderPassInput, setFounderPassInput] = useState('');
@@ -243,7 +258,7 @@ export default function App() {
   >([]);
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
-      ? 'Heads up: that audition link looked truncated or expired—mix your own Cougar & Cub run below!'
+      ? 'Heads up: that audition link looked truncated or expired, pick your match on the phone below!'
       : null,
   );
   const [activeChallenge, setActiveChallenge] = useState<ChallengePayload | null>(
@@ -284,7 +299,6 @@ export default function App() {
   const handleGainAdventureXp = (
     deltaXp: number,
     patch?: Partial<AdventureProgressState>,
-    rewardKey?: string,
   ) => {
     setAdventureProgress((prev) => {
       const res = grantAdventureXp(prev, deltaXp, patch);
@@ -295,15 +309,8 @@ export default function App() {
       }
       return res.next;
     });
-    if (rewardKey) {
-      const bonus = grantRewardCredits(wallet, rewardKey, 1);
-      if (bonus.granted) {
-        updateWallet(bonus.wallet);
-      }
-    }
   };
 
-  // Restore Founder Mode ONLY on this specific browser if it holds a server-verified KV Founder Seal
   useEffect(() => {
     if (!founderDeviceSeal || import.meta.env.VITEST || typeof fetch !== 'function') return;
     let cancelled = false;
@@ -360,15 +367,9 @@ export default function App() {
           ) {
             setFounderApronClicks(data.sampleClicks['houseboy-linen-apron']);
           }
-          if (Array.isArray(data.recentAiLogs)) {
-            setFounderAiLogs(data.recentAiLogs);
-          }
-          if (Array.isArray(data.recentFeedback)) {
-            setFounderFeedbackLogs(data.recentFeedback);
-          }
-          if (Array.isArray(data.waitlistEntries)) {
-            setFounderWaitlistLogs(data.waitlistEntries);
-          }
+          if (Array.isArray(data.recentAiLogs)) setFounderAiLogs(data.recentAiLogs);
+          if (Array.isArray(data.recentFeedback)) setFounderFeedbackLogs(data.recentFeedback);
+          if (Array.isArray(data.waitlistEntries)) setFounderWaitlistLogs(data.waitlistEntries);
         }
       })
       .catch(() => {});
@@ -410,13 +411,17 @@ export default function App() {
         const next: WalletState = {
           ...prev,
           isVip: result.grantType === 'vip' ? true : prev.isVip,
-          credits: prev.credits + (result.credits ?? (result.grantType === 'vip' ? 15 : 15)),
+          credits: prev.credits + (result.credits ?? 15),
           claimedRewards: [...prev.claimedRewards, sessionKey],
         };
         saveWallet(next);
         return next;
       });
-      setNoticeBanner('🎉 Stripe Checkout verified! Your VIP / Den Credits are live.');
+      trackEvent('purchase_verified', {
+        tier: result.grantType ?? tierHint,
+        credits: result.credits ?? 15,
+      });
+      setNoticeBanner('🎉 Stripe Checkout verified! Your VIP / Club Credits are live.');
     });
   }, [initialUrl.stripeSessionId, wallet.claimedRewards]);
 
@@ -443,26 +448,6 @@ export default function App() {
             amazonAssociateTag?: string;
             affiliateProtected?: boolean;
             sampleClicks?: Record<string, number>;
-            recentAiLogs?: {
-              persona?: string;
-              platform?: string;
-              playerMsg?: string;
-              aiReply?: string;
-              passed?: boolean;
-            }[];
-            recentFeedback?: {
-              persona?: string;
-              reaction?: string;
-              aiReply?: string;
-              note?: string;
-              optInContact?: string;
-            }[];
-            waitlistEntries?: {
-              role?: string;
-              city?: string;
-              vibe?: string;
-              contact?: string;
-            }[];
           };
           if (data.authorized === true) {
             authorized = true;
@@ -481,15 +466,6 @@ export default function App() {
               typeof data.sampleClicks['houseboy-linen-apron'] === 'number'
             ) {
               setFounderApronClicks(data.sampleClicks['houseboy-linen-apron']);
-            }
-            if (Array.isArray(data.recentAiLogs)) {
-              setFounderAiLogs(data.recentAiLogs);
-            }
-            if (Array.isArray(data.recentFeedback)) {
-              setFounderFeedbackLogs(data.recentFeedback);
-            }
-            if (Array.isArray(data.waitlistEntries)) {
-              setFounderWaitlistLogs(data.waitlistEntries);
             }
           }
         } else if (res.status === 401 || res.status === 400) {
@@ -516,7 +492,7 @@ export default function App() {
     setFounderAuthError(null);
     setFounderModalOpen(false);
     setNoticeBanner(
-      '👑 Founder Vault unlocked & remembered on THIS browser only (every other visitor stays in normal 10-Credit player mode).',
+      '👑 Founder Vault unlocked on THIS browser only (every other visitor stays in normal 5-Credit player mode).',
     );
   };
 
@@ -540,7 +516,6 @@ export default function App() {
       });
       const data = (await res.json()) as {
         ok?: boolean;
-        amazonAssociateTag?: string;
         affiliateProtected?: boolean;
         error?: string;
       };
@@ -567,7 +542,7 @@ export default function App() {
       window.localStorage.removeItem(FOUNDER_DEVICE_SEAL_KEY);
     } catch {}
     setFounderTagStatus(null);
-    setNoticeBanner('🔒 Founder Mode locked — viewing exact normal player wallet & VIP state.');
+    setNoticeBanner('🔒 Founder Mode locked: viewing exact normal 5-Credit player mode.');
   };
 
   const handleFounderPlaytestJump = (target: 'mixer' | 'swipes' | 'episodes' | 'outcome') => {
@@ -616,8 +591,6 @@ export default function App() {
   };
 
   const handleStartGame = () => {
-    // Monetized Custom Fantasy Builder: 1st custom tweak & zero-proof drink swaps are free;
-    // stacking 2+ custom plot twists/names uses 1 Den Credit (or is unlimited with VIP Black Card!)
     let activeWallet = wallet;
     if (customEditCount >= 2 && !wallet.isVip && !wallet.isFounderUnlimited) {
       const spent = spendCredits(wallet, 1);
@@ -630,6 +603,8 @@ export default function App() {
     const stamped = unlockStamp(activeWallet, pairing.felineTier);
     updateWallet(stamped);
     setSwipeStartIdx(0);
+    setActiveCareerMatchId(null);
+    setCompletedDateNum(undefined);
     setNoticeBanner(null);
     const freshRun = createRun(pairing, selectedVipIds, undefined, pacingMode);
     setRun(freshRun);
@@ -637,24 +612,63 @@ export default function App() {
     setActiveTab('game');
   };
 
+  const handleStartCharacterDate = (contactId: string, contactRole: 'her' | 'him') => {
+    const career = loadMatchCareer();
+    const rawStage = career.dateStageByMatchId[contactId] ?? 0;
+    const boundedStage = Math.min(2, rawStage) as 0 | 1 | 2;
+    const priorStats = career.statsByMatchId[contactId];
+
+    let freshPairing: ReturnType<typeof analyzePairing>;
+    if (contactRole === 'her') {
+      const pickedHer = HER_ARCHETYPES.find((h) => h.id === contactId) ?? her;
+      setHer(pickedHer);
+      setRole('him');
+      freshPairing = analyzePairing(pickedHer, his, 'him');
+    } else {
+      const pickedHis = HIS_ARCHETYPES.find((c) => c.id === contactId) ?? his;
+      setHis(pickedHis);
+      setRole('her');
+      freshPairing = analyzePairing(her, pickedHis, 'her');
+    }
+
+    if (!career.matchedIds.includes(contactId)) {
+      career.matchedIds = [contactId, ...career.matchedIds];
+      saveMatchCareer(career);
+    }
+
+    setActiveCareerMatchId(contactId);
+    setCompletedDateNum((boundedStage + 1) as 1 | 2 | 3);
+    setRun(createCharacterDateRun(freshPairing, boundedStage, priorStats));
+    trackEvent('date_stage_started', {
+      contact_id: contactId,
+      date_number: boundedStage + 1,
+    });
+    setActiveTab('game');
+    setPhase('episodes');
+  };
+
+  const handleShareDilemma = async (id: string, title: string) => {
+    const baseUrl =
+      typeof window !== 'undefined' && window.location.origin.startsWith('http')
+        ? `${window.location.origin}${window.location.pathname}`
+        : BRAND_CONFIG.publicBaseUrl;
+    const link = buildDilemmaShareLink(id, baseUrl);
+    await shareOrCopy({
+      title: 'Ghost or Train? • Cougars & Cubs Club',
+      text: `👀 Group-chat verdict needed: "${title}"`,
+      url: link,
+    });
+    setNoticeBanner('📤 Dilemma link copied, drop it in the group chat!');
+  };
+
   const handleQuickCreateAudition = async () => {
     const baseUrl =
       typeof window !== 'undefined' && window.location.origin.startsWith('http')
         ? `${window.location.origin}${window.location.pathname}`
         : BRAND_CONFIG.publicBaseUrl;
-
-    const previewQueue = createRun(pairing, selectedVipIds).episodeQueue.slice(0, 5);
-    const episodeIds =
-      previewQueue.length > 0
-        ? previewQueue.map((e) => e.id)
-        : [
-            'check-drop',
-            'code-switch-texting',
-            'trail-run-short-leash',
-            'mirror-game-insecurities',
-            'houseboy-sunday-sanctuary',
-          ];
-
+    const episodeIds = createRun(pairing, selectedVipIds)
+      .episodeQueue.slice(0, 5)
+      .map((e) => e.id);
     const link = encodeChallengeLink(
       {
         v: 1,
@@ -667,40 +681,12 @@ export default function App() {
       },
       baseUrl,
     );
-
     await shareOrCopy({
       title: 'Pass My 60-Second Cougars & Cubs Vetting Audition',
       text: 'Think you’d survive dating me? Take my 60-second Cougars & Cubs Vetting Audition 👀',
       url: link,
     });
-
-    const bonus = grantRewardCredits(
-      wallet,
-      'first_share',
-      MONETIZATION_CONFIG.shareRewardCredits,
-    );
-    if (bonus.granted) {
-      updateWallet(bonus.wallet);
-      setNoticeBanner(
-        '🔗 2-Player Vetting Audition link copied to clipboard (+3 Bonus Credits added)! Text it to your Cougar or Cub.',
-      );
-    } else {
-      setNoticeBanner('🔗 2-Player Vetting Audition link copied! Text it to your Cougar or Cub.');
-    }
-  };
-
-  const handleShareDilemma = async (id: string, title: string) => {
-    const baseUrl =
-      typeof window !== 'undefined' && window.location.origin.startsWith('http')
-        ? `${window.location.origin}${window.location.pathname}`
-        : BRAND_CONFIG.publicBaseUrl;
-    const link = buildDilemmaShareLink(id, baseUrl);
-    await shareOrCopy({
-      title: 'Ghost or Train? — Cougars & Cubs Club',
-      text: `👀 Brunch group-chat verdict needed: "${title}" — Ghost or Train?`,
-      url: link,
-    });
-    setNoticeBanner('📤 Dilemma link copied—drop it in the group chat!');
+    setNoticeBanner('🔗 2-Player Vetting Audition link copied! Text it to your Cougar or Cub.');
   };
 
   return (
@@ -714,7 +700,10 @@ export default function App() {
         onOpenSwipeDeck={handleStartGame}
         onOpenFieldGuide={() => setFieldGuideOpen(true)}
         onOpenBoutique={() => setBoutiqueOpen(true)}
-        onOpenLiveInbox={() => setActiveTab('inbox')}
+        onOpenLiveInbox={() => {
+          setInboxInitialPlatform('tinder');
+          setActiveTab('inbox');
+        }}
         onOpenPopTrivia={() => setPopTriviaOpen(true)}
         onOpenChecklist={() => setChecklistOpen(true)}
         onRequestFounderModal={() => {
@@ -739,11 +728,10 @@ export default function App() {
                 👑 Founder Playtest Vault • ∞ Credits &amp; All VIP Unlocked
               </span>
 
-              {/* 1-Click Whole-Game Screen Switchers */}
               <div className="flex flex-wrap items-center gap-2">
                 {(
                   [
-                    ['mixer', '1. Matchmaker'],
+                    ['mixer', '1. Phone Landing'],
                     ['swipes', '2. Swipe Deck'],
                     ['episodes', '3. Scene Stage'],
                     ['outcome', '4. Verdict & 9:16 Card'],
@@ -797,7 +785,6 @@ export default function App() {
                 ))}
               </select>
 
-              {/* Protected Amazon Affiliate Tag Vault */}
               <form
                 onSubmit={handleSaveFounderAmazonTag}
                 className="flex flex-wrap items-center gap-2"
@@ -821,7 +808,7 @@ export default function App() {
                   placeholder="yourtag-20"
                   value={founderTagInput}
                   onChange={(e) => setFounderTagInput(e.target.value)}
-                  className="w-36 rounded-xl border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-bold text-[#1E1022] placeholder:text-[#5A4664]/60"
+                  className="w-36 rounded-xl border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-bold text-[#1E1022]"
                 />
                 <button
                   type="submit"
@@ -842,7 +829,7 @@ export default function App() {
               <div className="border-t border-[#1E1022]/15 pt-2.5 space-y-2">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="font-extrabold text-[#1E1022]">
-                    📊 Live Idea &amp; Player Telemetry Vault (PII-Scrubbed by Default; Contacts Strictly Opt-In)
+                    📊 Live Idea &amp; Player Telemetry Vault
                   </div>
                   <div className="inline-flex gap-1">
                     <button
@@ -865,7 +852,7 @@ export default function App() {
                           : 'bg-white text-[#18101E]'
                       }`}
                     >
-                      🫖 Spills &amp; Tapbacks ({founderFeedbackLogs.length})
+                      🫖 Spills ({founderFeedbackLogs.length})
                     </button>
                     <button
                       type="button"
@@ -876,60 +863,9 @@ export default function App() {
                           : 'bg-white text-[#18101E]'
                       }`}
                     >
-                      🗝️ Raya Waitlist ({founderWaitlistLogs.length})
+                      🗝️ Waitlist ({founderWaitlistLogs.length})
                     </button>
                   </div>
-                </div>
-
-                <div className="max-h-32 overflow-y-auto space-y-1">
-                  {founderVaultTab === 'chats' &&
-                    founderAiLogs.slice(0, 6).map((log, idx) => (
-                      <div
-                        key={idx}
-                        className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E101E]"
-                      >
-                        <strong>
-                          [{log.platform || 'chat'} • {log.persona}]
-                        </strong>{' '}
-                        “{log.playerMsg}” → <em>“{log.aiReply}”</em>{' '}
-                        {log.passed ? '💚' : '🚩'}
-                      </div>
-                    ))}
-
-                  {founderVaultTab === 'spills' &&
-                    founderFeedbackLogs.slice(0, 8).map((fb, idx) => (
-                      <div
-                        key={idx}
-                        className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E1022]"
-                      >
-                        <strong>
-                          [{fb.reaction || 'NOTE'} • {fb.persona || 'Club'}]
-                        </strong>{' '}
-                        {fb.note ? `“${fb.note}” ` : ''}
-                        {fb.aiReply ? <em>(on: “{fb.aiReply}”) </em> : null}
-                        {fb.optInContact ? (
-                          <span className="rounded bg-[#D1FAE5] px-1.5 py-0.5 font-bold text-[#065F46]">
-                            Opt-In Follow-Up: {fb.optInContact}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">(Anonymous)</span>
-                        )}
-                      </div>
-                    ))}
-
-                  {founderVaultTab === 'waitlist' &&
-                    founderWaitlistLogs.slice(0, 10).map((wl, idx) => (
-                      <div
-                        key={idx}
-                        className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E1022]"
-                      >
-                        <strong>
-                          [{wl.role === 'cub' ? '🐕 Cub' : '🐆 Cougar'} • {wl.city || 'Virtual'}]
-                        </strong>{' '}
-                        {wl.vibe ? `“${wl.vibe}” — ` : ''}
-                        <span className="font-bold text-[#D90452]">{wl.contact}</span>
-                      </div>
-                    ))}
                 </div>
               </div>
             )}
@@ -952,7 +888,22 @@ export default function App() {
           </div>
         )}
 
-        {activeTab === 'inbox' ? (
+        {activeTab === 'about' ? (
+          <AboutClubView
+            onGoToPhoneLanding={() => {
+              setActiveTab('game');
+              setPhase('mixer');
+            }}
+            onOpenChats={() => setActiveTab('inbox')}
+            onOpenCubAcademy={() => {
+              setAcademySubTab('obedience');
+              setActiveTab('academy');
+            }}
+            onOpenWorldMap={() => setActiveTab('world')}
+            onOpenBoutique={() => setBoutiqueOpen(true)}
+            onOpenGuides={() => setActiveTab('journal')}
+          />
+        ) : activeTab === 'inbox' ? (
           <LiveInboxModal
             open={true}
             wallet={wallet}
@@ -960,29 +911,30 @@ export default function App() {
             onChangePlayerRole={setRole}
             preferredHerId={her.id}
             preferredHisId={his.id}
+            preferredContactId={preferredInboxContactId}
+            initialPlatform={inboxInitialPlatform}
             onClose={() => setActiveTab('game')}
             onJumpToWorld={() => setActiveTab('world')}
-            onStartDateWithContact={(contactId, contactRole) => {
-              if (contactRole === 'her') {
-                const pickedHer = HER_ARCHETYPES.find((h) => h.id === contactId) ?? her;
-                setHer(pickedHer);
-                setRole('him');
-                const freshPairing = analyzePairing(pickedHer, his, 'him');
-                setRun(createRun(freshPairing, selectedVipIds, undefined, pacingMode));
-              } else {
-                const pickedHis = HIS_ARCHETYPES.find((c) => c.id === contactId) ?? his;
-                setHis(pickedHis);
-                setRole('her');
-                const freshPairing = analyzePairing(her, pickedHis, 'her');
-                setRun(createRun(freshPairing, selectedVipIds, undefined, pacingMode));
-              }
-              setActiveTab('game');
-              setPhase('episodes');
+            onOpenCubAcademyRehab={(cubId) => {
+              const found = HIS_ARCHETYPES.find((c) => c.id === cubId);
+              if (found) setHis(found);
+              setAcademySubTab('obedience');
+              setActiveTab('academy');
             }}
+            onStartDateWithContact={handleStartCharacterDate}
             onGrantBonusCredits={(key, amt) => {
               const res = grantRewardCredits(wallet, key, amt);
               if (res.granted) updateWallet(res.wallet);
               return res.granted;
+            }}
+            onSpendCredits={(amt) => {
+              const res = spendCredits(wallet, amt);
+              if (!res.ok) {
+                setBoutiqueOpen(true);
+                return false;
+              }
+              updateWallet(res.wallet);
+              return true;
             }}
             onSpendCreditOrOpenBoutique={() => {
               const res = spendCredits(wallet, 1);
@@ -1006,6 +958,13 @@ export default function App() {
             onSelectHer={setHer}
             onGraduateCub={(hisId, herId) => {
               handleGainAdventureXp(45);
+              const career = loadMatchCareer();
+              if (!career.rehabbedIds.includes(hisId)) {
+                career.rehabbedIds = [...career.rehabbedIds, hisId];
+              }
+              career.unmatchedIds = career.unmatchedIds.filter((id) => id !== hisId);
+              saveMatchCareer(career);
+              trackEvent('cub_rehab_graduated', { cub_id: hisId });
               setDateodex((prev) =>
                 stampDateodexCharacters(
                   prev,
@@ -1026,9 +985,7 @@ export default function App() {
                   ['polaroid-obedience-s'],
                 ),
               );
-              const res = grantRewardCredits(wallet, 'cub_academy_grad', 3);
-              if (res.granted) updateWallet(res.wallet);
-              return res.granted;
+              return false;
             }}
             onCompleteRoomScan={(hisId) => {
               handleGainAdventureXp(30);
@@ -1058,10 +1015,10 @@ export default function App() {
               handleGainAdventureXp(15);
               setDateodex((prev) => recordDateodexCourtVote(prev));
             }}
-            onGrantBonusCredits={(key, amt) => {
-              const res = grantRewardCredits(wallet, key, amt);
+            onGrantBonusCredits={(key) => {
+              const res = grantRewardCredits(wallet, key, 0);
               if (res.granted) updateWallet(res.wallet);
-              return res.granted;
+              return false;
             }}
           />
         ) : activeTab === 'journal' ? (
@@ -1086,6 +1043,7 @@ export default function App() {
               setActiveTab('game');
               setPhase('episodes');
             }}
+            onOpenBoutique={() => setBoutiqueOpen(true)}
             onOpenFullTrivia={() => setPopTriviaOpen(true)}
             onOpenFullChecklist={() => setChecklistOpen(true)}
           />
@@ -1189,6 +1147,25 @@ export default function App() {
                     extraPols,
                   ),
                 );
+
+                if (activeCareerMatchId && !busted) {
+                  const career = loadMatchCareer();
+                  const prevStage = career.dateStageByMatchId[activeCareerMatchId] ?? 0;
+                  career.dateStageByMatchId[activeCareerMatchId] = Math.min(3, prevStage + 1) as
+                    | 0
+                    | 1
+                    | 2
+                    | 3;
+                  career.statsByMatchId[activeCareerMatchId] = { ...run.stats };
+                  saveMatchCareer(career);
+                }
+
+                trackEvent('date_stage_completed', {
+                  busted,
+                  rank,
+                  overall_score: avg,
+                  date_number: completedDateNum ?? 1,
+                });
               }
               setPhase('outcome');
             }}
@@ -1199,6 +1176,16 @@ export default function App() {
           <OutcomeAndViralView
             run={run}
             summary={computeRunSummary(run)}
+            completedDateNumber={completedDateNum}
+            onReturnToImessage={
+              activeCareerMatchId
+                ? () => {
+                    setPreferredInboxContactId(activeCareerMatchId);
+                    setInboxInitialPlatform('imessage');
+                    setActiveTab('inbox');
+                  }
+                : undefined
+            }
             onClaimShareBonus={() => {
               const res = grantRewardCredits(
                 wallet,
@@ -1273,8 +1260,13 @@ export default function App() {
             }
             onToggleVipEpisode={handleToggleVipEpisode}
             onStartGame={handleStartGame}
+            onStartCharacterDate={handleStartCharacterDate}
             onOpenBoutique={() => setBoutiqueOpen(true)}
-            onOpenLiveInbox={() => setActiveTab('inbox')}
+            onOpenLiveInbox={(matchId) => {
+              if (matchId) setPreferredInboxContactId(matchId);
+              setInboxInitialPlatform('tinder');
+              setActiveTab('inbox');
+            }}
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
             onQuickCreateAudition={handleQuickCreateAudition}
@@ -1285,6 +1277,7 @@ export default function App() {
               setActiveTab('academy');
             }}
             onOpenCourtroom={() => setActiveTab('courtroom')}
+            onOpenAbout={() => setActiveTab('about')}
             dateodexStampedCount={Object.keys(dateodex.stamps).length}
             adventureProgress={adventureProgress}
             onGainAdventureXp={handleGainAdventureXp}
@@ -1324,21 +1317,21 @@ export default function App() {
                 }}
                 className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
               >
-                The Roster
+                Phone Feed
               </button>
               <button
                 type="button"
                 onClick={handleStartGame}
                 className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
               >
-                Tinder Swipe
+                Trap-Spotter Deck
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('inbox')}
                 className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
               >
-                Live AI Texting
+                Live Chats &amp; Discord
               </button>
               <button
                 type="button"
@@ -1348,28 +1341,28 @@ export default function App() {
                 }}
                 className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] hover:bg-[#EDE9FE] px-3 py-1 text-[#5B21B6] cursor-pointer"
               >
-                2D Cub Training Sim
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('courtroom')}
-                className="rounded-full border border-[#FDE68A] bg-[#FFFBEB] hover:bg-[#FEF3C7] px-3 py-1 text-[#92400E] cursor-pointer"
-              >
-                Crown Him / Dump Him
+                2D Cub Obedience Sim
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('world')}
                 className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
               >
-                8-Bit Map (6 Hotspots)
+                In-The-Wild 8-Bit Map
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('about')}
+                className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
+              >
+                About the Club
               </button>
             </div>
           </div>
 
           <div className="space-y-2">
             <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#94A3B8]">
-              Quizzes, Guides &amp; VIP
+              Quizzes, Guides &amp; Shop
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
               <button
@@ -1384,21 +1377,21 @@ export default function App() {
                 onClick={() => setChecklistOpen(true)}
                 className="rounded-full border border-slate-200 bg-white hover:bg-[#FFF1F2] px-3 py-1 text-[#18101E] cursor-pointer"
               >
-                25-Pt Viral Test
+                Have You Ever? 25-Pt Test
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('journal')}
                 className="rounded-full border border-slate-200 bg-white hover:bg-slate-50 px-3 py-1 text-[#18101E] cursor-pointer"
               >
-                Age-Gap Dating &amp; Gift Guides
+                Complete Club Guides
               </button>
               <button
                 type="button"
                 onClick={() => setBoutiqueOpen(true)}
                 className="rounded-full bg-[#18101E] hover:bg-[#2E1F38] px-3 py-1 text-white cursor-pointer"
               >
-                🛍️ Cougar &amp; Cub Merch &amp; VIP
+                🛍️ Visual Gift Shop &amp; VIP
               </button>
               <button
                 type="button"
@@ -1440,22 +1433,22 @@ export default function App() {
                 <h2 className="mt-2 font-display text-2xl text-[#1E1022]">
                   Founder Playtest &amp; Affiliate Vault
                 </h2>
-                <p className="mt-1 text-sm font-medium text-[#5A4664]">
-                  Enter your private Founder passphrase to unlock unlimited credits, 1-click stage playtesting, and live Amazon Associate Tag configuration.
-                </p>
               </div>
               <button
                 type="button"
                 onClick={() => setFounderModalOpen(false)}
                 aria-label="Close Founder Vault"
-                className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
+                className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="founder-passphrase-input" className="block text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
+              <label
+                htmlFor="founder-passphrase-input"
+                className="block text-xs font-extrabold uppercase tracking-wide text-[#1E1022]"
+              >
                 Private Vault Passphrase
               </label>
               <input
@@ -1469,7 +1462,7 @@ export default function App() {
                   setFounderPassInput(e.target.value);
                   if (founderAuthError) setFounderAuthError(null);
                 }}
-                className="w-full rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-sm font-bold text-[#1E1022] placeholder:text-[#5A4664]/60 focus:border-[#FF2E63] focus:outline-none"
+                className="min-w-0 w-full rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-sm font-bold text-[#1E1022] focus:border-[#FF2E63] focus:outline-none"
               />
               {founderAuthError && (
                 <p className="text-xs font-extrabold text-[#D90452]">{founderAuthError}</p>
@@ -1503,6 +1496,7 @@ export default function App() {
 
       <PopCultureTriviaModal
         open={popTriviaOpen}
+        referralCode={wallet.referralCode}
         onClose={() => setPopTriviaOpen(false)}
         onEarnTriviaReward={(key, amount) => {
           const res = grantRewardCredits(wallet, key, amount);

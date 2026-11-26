@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Check,
   Coffee,
   Copy,
   Crown,

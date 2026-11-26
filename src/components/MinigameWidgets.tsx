@@ -176,7 +176,7 @@ const EyeContactHoldGame: React.FC<{
         if (next > 97) {
           setHolding(false);
           sfx.redFlag();
-          setBlinkMsg('Blinked! Hold & release right inside the 70–95% Gold Tension Zone.');
+          setBlinkMsg('Blinked! Hold & release right inside the 70, 95% Gold Tension Zone.');
           return 18;
         }
         return next;

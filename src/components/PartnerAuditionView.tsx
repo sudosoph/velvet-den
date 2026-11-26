@@ -10,6 +10,7 @@ import {
   shareOrCopy,
   type ChallengePayload,
 } from '../lib/viral';
+import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 function getAuditionPermutation(epId: string): [number, number, number] {
   let h = 2166136261;
@@ -40,6 +41,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [copiedReply, setCopiedReply] = useState(false);
+  const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   const alignedPairs = challenge.episodeIds
     .map((id, idx) => ({
@@ -95,59 +97,76 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
         typeof window !== 'undefined' && window.location.origin.startsWith('http')
           ? `${window.location.origin}${window.location.pathname}`
           : BRAND_CONFIG.publicBaseUrl;
+      const msg = `🐆 I just took ${challenge.senderName}’s Cougars & Cubs Club Audition: ${result.matchPercent}% Match (${result.verdictTitle})!`;
       await shareOrCopy({
         title: `My Cougars & Cubs Club Audition Score for ${challenge.senderName}`,
-        text: `🐆 I just took ${challenge.senderName}’s Cougars & Cubs Club Audition: ${result.matchPercent}% Match (${result.verdictTitle})!`,
+        text: msg,
         url,
       });
       setCopiedReply(true);
+      setSharePayload({
+        title: `Send Audition Score (${result.matchPercent}%)`,
+        message: msg,
+        url,
+        shareSurface: 'audition',
+      });
     };
 
     return (
-      <div className="mx-auto max-w-2xl vice-panel rounded-3xl p-6 sm:p-8 space-y-5 animate-stage-in">
-        <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold uppercase text-[#1E1022]">
-          Audition Complete for {challenge.senderName}
-        </span>
-
-        <div className="flex flex-wrap items-baseline gap-4">
-          <span className="font-display text-5xl sm:text-6xl text-[#FF2E63]">
-            {result.matchPercent}%
+      <>
+        <div className="mx-auto max-w-2xl vice-panel rounded-3xl p-6 sm:p-8 space-y-5 animate-stage-in">
+          <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold uppercase text-[#1E1022]">
+            Audition Complete for {challenge.senderName}
           </span>
-          <span className="font-display text-2xl sm:text-3xl text-[#1E1022]">
-            {result.verdictTitle}
-          </span>
-        </div>
 
-        <ul className="space-y-2.5 text-sm sm:text-base font-semibold text-[#1E1022]">
-          {result.roastNotes.map((note, idx) => (
-            <li key={idx} className="rounded-2xl border-2 border-[#1E1022]/15 bg-[#FFF7F0] px-4 py-3">
-              {note}
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex flex-col sm:flex-row gap-3 pt-2">
-          <button
-            type="button"
-            onClick={handleSendBack}
-            className="pop-btn flex-1 flex items-center justify-center gap-2 rounded-2xl bg-[#FF2E63] py-3.5 font-display text-lg text-white cursor-pointer"
-          >
-            {copiedReply ? <Check className="h-5 w-5" /> : <Send className="h-5 w-5" />}
-            <span>
-              {copiedReply
-                ? `Score Copied • Text ${challenge.senderName}!`
-                : `Send My Score Back to ${challenge.senderName}`}
+          <div className="flex flex-wrap items-baseline gap-4">
+            <span className="font-display text-5xl sm:text-6xl text-[#FF2E63]">
+              {result.matchPercent}%
             </span>
-          </button>
-          <button
-            type="button"
-            onClick={onExitToMainGame}
-            className="pop-btn rounded-2xl bg-white px-6 py-3.5 font-display text-lg text-[#1E1022] cursor-pointer"
-          >
-            Play Full Game →
-          </button>
+            <span className="font-display text-2xl sm:text-3xl text-[#1E1022]">
+              {result.verdictTitle}
+            </span>
+          </div>
+
+          <ul className="space-y-2.5 text-sm sm:text-base font-semibold text-[#1E1022]">
+            {result.roastNotes.map((note, idx) => (
+              <li
+                key={idx}
+                className="rounded-2xl border-2 border-[#1E1022]/15 bg-[#FFF7F0] px-4 py-3"
+              >
+                {note}
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <button
+              type="button"
+              onClick={handleSendBack}
+              className="pop-btn flex-1 flex items-center justify-center gap-2 rounded-2xl bg-[#FF2E63] py-3.5 font-display text-lg text-white cursor-pointer"
+            >
+              {copiedReply ? <Check className="h-5 w-5" /> : <Send className="h-5 w-5" />}
+              <span>
+                {copiedReply
+                  ? `Score Ready • Text ${challenge.senderName}!`
+                  : `Send My Score Back to ${challenge.senderName}`}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={onExitToMainGame}
+              className="pop-btn rounded-2xl bg-white px-6 py-3.5 font-display text-lg text-[#1E1022] cursor-pointer"
+            >
+              Play Full Game →
+            </button>
+          </div>
         </div>
-      </div>
+
+        <SocialShareSheetModal
+          payload={sharePayload}
+          onClose={() => setSharePayload(null)}
+        />
+      </>
     );
   }
 

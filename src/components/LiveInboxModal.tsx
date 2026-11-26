@@ -17,6 +17,8 @@ import {
   RotateCcw,
   Search,
   Send,
+  Share2,
+  ShoppingBag,
   Sparkles,
   Star,
   Unlock,
@@ -25,14 +27,27 @@ import {
   VolumeX,
   X,
 } from 'lucide-react';
+import { BRAND_CONFIG } from '../config/brand';
 import type { WalletState } from '../domain/economy';
+import {
+  checkProfileMemoryHit,
+  ensureStarterMatchForRole,
+  loadMatchCareer,
+  saveMatchCareer,
+  type MatchCareerState,
+} from '../domain/matchCareer';
 import {
   getProfileDetails,
   HER_ARCHETYPES,
   HIS_ARCHETYPES,
 } from '../domain/taxonomy';
+import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
+import { trackEvent } from '../lib/analytics';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
+import { buildDilemmaShareLink } from '../lib/viral';
 import { liveAiInboxService, type LiveInboxTurn } from '../services/adapters';
+import { ProductVisualThumbnail } from './ProductVisualThumbnail';
+import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 export type InboxAppPlatform = 'tinder' | 'imessage' | 'discord';
 
@@ -43,11 +58,14 @@ interface LiveInboxModalProps {
   onChangePlayerRole?: (role: 'her' | 'him') => void;
   preferredHerId?: string;
   preferredHisId?: string;
+  preferredContactId?: string | null;
   initialPlatform?: InboxAppPlatform;
   onClose: () => void;
   onJumpToWorld?: () => void;
+  onOpenCubAcademyRehab?: (cubId: string) => void;
   onStartDateWithContact?: (contactId: string, role: 'her' | 'him') => void;
   onGrantBonusCredits?: (rewardKey: string, amount: number) => boolean;
+  onSpendCredits?: (amount: number) => boolean;
   onSpendCreditOrOpenBoutique: () => boolean;
 }
 
@@ -92,10 +110,21 @@ interface DiscordSeedPost {
 }
 
 type DiscordChannelId =
+  | 'ask-the-den'
+  | 'in-the-wild-help'
+  | 'cub-training-101'
   | 'general-lounge'
   | 'vetting-hotline'
   | 'boys-roblox-vc'
   | 'mystery-subplot';
+
+const DISCORD_ADVICE_PILLS: string[] = [
+  "She replied 'Sounds good.' with a period and a 👍 emoji... is a 52F Gen-X woman mad at me?!",
+  'Spotted a 25M in a vintage Nirvana In Utero tee at the coffee shop. Quiz him on 3 songs or spare him?',
+  "British 27M London engineer texted 'Table for half seven is sorted, Mummy xx'... green flag or danger?!",
+  'Saw a gorgeous 44F at the gym for 3 weeks with headphones on. Wait for the smoothie bar to say hi?',
+  "24M bio says 'never been with a cougar, bucket list, discrete'... instant block right?!",
+];
 
 const PROGRESSION_STORAGE_KEY = 'velvet_inbox_progression_v32';
 
@@ -685,11 +714,14 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   onChangePlayerRole,
   preferredHerId,
   preferredHisId,
+  preferredContactId,
   initialPlatform = 'tinder',
   onClose,
   onJumpToWorld,
+  onOpenCubAcademyRehab,
   onStartDateWithContact,
   onGrantBonusCredits,
+  onSpendCredits,
   onSpendCreditOrOpenBoutique,
 }) => {
   const [platform, setPlatform] = useState<InboxAppPlatform>(initialPlatform);
@@ -704,15 +736,31 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const activePlayerRole: 'her' | 'him' = playerRole ?? localPlayerRole;
   const matchRole: 'her' | 'him' = activePlayerRole === 'her' ? 'him' : 'her';
 
+  const [careerState, setCareerState] = useState<MatchCareerState>(() => {
+    const seeded = ensureStarterMatchForRole(loadMatchCareer(), activePlayerRole);
+    saveMatchCareer(seeded);
+    return seeded;
+  });
+  const [memoryBonusByThread, setMemoryBonusByThread] = useState<Record<string, string>>({});
+  const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
+
   const [progression, setProgression] = useState<PersistedInboxProgression>(() =>
     loadInboxProgression(),
   );
   const [subplotGuessFeedback, setSubplotGuessFeedback] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selected, setSelected] = useState<InboxContact>(() =>
-    pickDefaultContactForPlayerRole(activePlayerRole, preferredHerId, preferredHisId),
-  );
+  const [selected, setSelected] = useState<InboxContact>(() => {
+    if (preferredContactId) {
+      const found = INBOX_CONTACTS.find((c) => c.id === preferredContactId);
+      if (found && found.role === matchRole) return found;
+    }
+    const starterId = activePlayerRole === 'her' ? 'leo-golden-cub' : 'claire-cougar-exec';
+    return (
+      INBOX_CONTACTS.find((c) => c.id === starterId) ??
+      pickDefaultContactForPlayerRole(activePlayerRole, preferredHerId, preferredHisId)
+    );
+  });
   const [steamyMode, setSteamyMode] = useState(false);
   const [superLikedIds, setSuperLikedIds] = useState<string[]>([]);
   const [turnsByThread, setTurnsByThread] = useState<
@@ -736,7 +784,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const [callBanner, setCallBanner] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
-  const [freeMessagesSent, setFreeMessagesSent] = useState(0);
   const [speakingTurnIdx, setSpeakingTurnIdx] = useState<number | null>(null);
   const [teaStory, setTeaStory] = useState('');
   const [teaContact, setTeaContact] = useState('');
@@ -772,14 +819,26 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   }, [open, onClose]);
 
   useEffect(() => {
+    const seeded = ensureStarterMatchForRole(loadMatchCareer(), activePlayerRole);
+    saveMatchCareer(seeded);
+    setCareerState(seeded);
     setSelected((curr) => {
+      if (preferredContactId) {
+        const found = INBOX_CONTACTS.find((c) => c.id === preferredContactId);
+        if (found && found.role === matchRole) return found;
+      }
       if (curr.role === matchRole) return curr;
-      return pickDefaultContactForPlayerRole(activePlayerRole, preferredHerId, preferredHisId);
+      const starterId = activePlayerRole === 'her' ? 'leo-golden-cub' : 'claire-cougar-exec';
+      return (
+        INBOX_CONTACTS.find((c) => c.id === starterId) ??
+        pickDefaultContactForPlayerRole(activePlayerRole, preferredHerId, preferredHisId)
+      );
     });
-  }, [matchRole, activePlayerRole, preferredHerId, preferredHisId]);
+  }, [matchRole, activePlayerRole, preferredHerId, preferredHisId, preferredContactId]);
 
   const filteredContacts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
+    const earnedSet = new Set(careerState.matchedIds);
     return INBOX_CONTACTS.filter((c) => {
       if (c.role !== matchRole) return false;
       if (!q) return true;
@@ -790,17 +849,52 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         c.zodiac.toLowerCase().includes(q) ||
         c.interests.some((i) => i.toLowerCase().includes(q))
       );
-    });
-  }, [matchRole, searchQuery]);
+    }).sort((a, b) => Number(earnedSet.has(b.id)) - Number(earnedSet.has(a.id)));
+  }, [matchRole, searchQuery, careerState.matchedIds]);
+
+  const memoryBonusHitCount = (contactId: string): number =>
+    memoryBonusByThread[contactId] ? 1 : 0;
 
   const getSparksForContact = (contactId: string): number => {
     const vetTurns = turnsByThread[`tinder:${contactId}:vet`] ?? [];
     const flirtTurns = turnsByThread[`tinder:${contactId}:flirt`] ?? [];
     return (
       vetTurns.filter((t) => t.sender === 'match' && t.passed).length +
-      flirtTurns.filter((t) => t.sender === 'match' && t.passed).length
+      flirtTurns.filter((t) => t.sender === 'match' && t.passed).length +
+      memoryBonusHitCount(contactId)
     );
   };
+
+  const redStrikesForSelected = useMemo(() => {
+    const vetTurns = turnsByThread[`tinder:${selected.id}:vet`] ?? [];
+    return vetTurns.filter((t) => t.sender === 'match' && t.passed === false).length;
+  }, [turnsByThread, selected.id]);
+
+  const isUnmatchedForSelected =
+    redStrikesForSelected >= 2 && !careerState.rehabbedIds.includes(selected.id);
+
+  const imessageGreenTurnsForSelected = useMemo(() => {
+    const offTurns = turnsByThread[`imessage:${selected.id}:offapp`] ?? [];
+    const flirtTurns = turnsByThread[`imessage:${selected.id}:flirt`] ?? [];
+    return (
+      offTurns.filter((t) => t.sender === 'match' && t.passed).length +
+      flirtTurns.filter((t) => t.sender === 'match' && t.passed).length
+    );
+  }, [turnsByThread, selected.id]);
+
+  const nextDateStageNum = Math.min(3, (careerState.dateStageByMatchId[selected.id] ?? 0) + 1);
+
+  const matchedGiftItem = useMemo(() => {
+    const id =
+      selected.role === 'him'
+        ? selected.id === 'leo-golden-cub'
+          ? 'trophy-boyfriend-cooking-apron'
+          : 'good-boy-brass-training-clicker'
+        : selected.age >= 50
+          ? 'cooling-bamboo-sheets'
+          : 'princess-mulberry-silk-robe';
+    return getAffiliateById(id);
+  }, [selected.id, selected.role, selected.age]);
 
   const sparksForSelected = getSparksForContact(selected.id);
   const isNumberEarnedForSelected = progression.unlockedImessageIds.includes(selected.id);
@@ -920,7 +1014,24 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     setSubplotGuessFeedback(null);
   };
 
+  const spendTwoCredits = (): boolean => {
+    if (wallet.isVip || wallet.isFounderUnlimited) return true;
+    if (onSpendCredits) return onSpendCredits(2);
+    return onSpendCreditOrOpenBoutique();
+  };
+
   const unlockContactOffApp = (contactId: string, grantRewardKey?: string) => {
+    const isSecondOrLaterMatch =
+      progression.unlockedImessageIds.length >= 1 &&
+      !progression.unlockedImessageIds.includes(contactId);
+    if (isSecondOrLaterMatch && !wallet.isVip && !wallet.isFounderUnlimited) {
+      if (!spendTwoCredits()) {
+        setCallBanner(
+          '🔒 Match #1 Off-App iMessage is free! Unlocking a 2nd+ Off-App number uses 2 Credits (or Unlimited w/ VIP).',
+        );
+        return;
+      }
+    }
     updateProgression((prev) => ({
       ...prev,
       unlockedImessageIds: prev.unlockedImessageIds.includes(contactId)
@@ -930,8 +1041,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         ? prev.flirtUnlockedIds
         : [...prev.flirtUnlockedIds, contactId],
     }));
+    trackEvent('imessage_unlocked', {
+      contact_id: contactId,
+      second_or_later: isSecondOrLaterMatch,
+    });
     if (grantRewardKey) {
-      onGrantBonusCredits?.(grantRewardKey, 2);
+      onGrantBonusCredits?.(grantRewardKey, 0);
     }
   };
 
@@ -1100,16 +1215,24 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       return;
     }
 
-    if (
-      freeMessagesSent >= 3 &&
-      (freeMessagesSent - 3) % 3 === 0 &&
-      !wallet.isVip &&
-      !wallet.isFounderUnlimited
-    ) {
-      const ok = onSpendCreditOrOpenBoutique();
-      if (!ok) return;
+    if (platform === 'tinder' && isUnmatchedForSelected) {
+      return;
     }
-    setFreeMessagesSent((n) => n + 1);
+
+    // Check Dream Daddy-style Profile Memory Bonus on 1-on-1 chats!
+    if (platform !== 'discord' && !memoryBonusByThread[selected.id]) {
+      const rawPerson =
+        HER_ARCHETYPES.find((h) => h.id === selected.id) ??
+        HIS_ARCHETYPES.find((c) => c.id === selected.id);
+      if (rawPerson) {
+        const mem = checkProfileMemoryHit(rawPerson, trimmed);
+        if (mem.hit) {
+          sfx.victoryFanfare();
+          setMemoryBonusByThread((prev) => ({ ...prev, [selected.id]: mem.bonusLine }));
+          trackEvent('profile_memory_bonus', { contact_id: selected.id });
+        }
+      }
+    }
 
     sfx.messagePop();
     const activeThreadKey = threadKey;
@@ -1577,8 +1700,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   </div>
                   {(
                     [
+                      ['ask-the-den', 'Ask the Den • Advice Pills'],
+                      ['in-the-wild-help', 'Gym & Bar Meet-Cute Help'],
+                      ['cub-training-101', 'Cub Training & Polarity'],
                       ['general-lounge', 'Cougar & Cub Lounge'],
-                      ['vetting-hotline', 'Anon Advice & Roasts'],
                       ['boys-roblox-vc', 'Roblox DTI Locker Room'],
                     ] as const
                   ).map(([id, subtitle]) => {
@@ -2361,6 +2486,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     </div>
                   )}
 
+                  {memoryBonusByThread[selected.id] && (
+                    <div className="animate-stage-in rounded-2xl border-2 border-[#FFBE0B] bg-[#FFFBEB] p-3.5 text-xs font-extrabold text-[#92400E] shadow-xs">
+                      ✨ Profile Memory Bonus! 💖 {memoryBonusByThread[selected.id]}
+                    </div>
+                  )}
+
                   {lastCoach && (
                     <div
                       className={`rounded-2xl border p-3.5 text-xs shadow-2xs ${
@@ -2380,6 +2511,46 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         </span>
                       </div>
                       <p className="mt-1 font-medium">{lastCoach.note}</p>
+                    </div>
+                  )}
+
+                  {isUnmatchedForSelected && (
+                    <div className="animate-stage-in rounded-3xl border-2 border-[#E11D48] bg-[#FFF1F2] p-4 space-y-3 shadow-md">
+                      <div className="font-display text-xl text-[#BE123C]">
+                        💔 UNMATCHED! Two Red-Flag Strikes with {selected.name}
+                      </div>
+                      <p className="text-xs font-semibold text-[#881337] leading-relaxed">
+                        Two back-to-back fumbles got you unmatched! Rewind your last message (2 Cr) or enroll in <strong>2D Cub Obedience School</strong> to graduate back into {selected.name}’s good graces for free.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!spendTwoCredits()) return;
+                            sfx.messagePop();
+                            setTurnsByThread((prev) => ({
+                              ...prev,
+                              [threadKey]: (prev[threadKey] ?? []).slice(0, -2),
+                            }));
+                          }}
+                          className="pop-btn rounded-xl bg-white px-3.5 py-2 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                        >
+                          ↺ Rewind Last Line (2 Cr)
+                        </button>
+                        {onOpenCubAcademyRehab && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              onOpenCubAcademyRehab(
+                                selected.role === 'him' ? selected.id : 'leo-golden-cub',
+                              )
+                            }
+                            className="pop-btn rounded-xl bg-[#7C3AED] px-4 py-2 text-xs font-extrabold text-white border-transparent cursor-pointer"
+                          >
+                            🦮 Enroll in Cub Obedience School (Rehab) →
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -2775,6 +2946,24 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     <p className="mt-1 font-medium">{lastCoach.note}</p>
                   </div>
                 )}
+
+                {imessageGreenTurnsForSelected >= 3 && onStartDateWithContact && (
+                  <div className="animate-stage-in rounded-2xl border-2 border-[#007AFF] bg-[#EFF6FF] p-4 space-y-2.5 shadow-sm">
+                    <div className="text-xs font-extrabold uppercase tracking-wide text-[#007AFF]">
+                      🍸 Friday 7:30 Locked In • Date #{nextDateStageNum} of 3 Ready!
+                    </div>
+                    <p className="text-xs font-semibold text-[#1C1C1E]">
+                      Three smooth off-app texts sealed the reservation with {selected.name}. Step out of iMessage and play your focused 3-scene Date #{nextDateStageNum}!
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => onStartDateWithContact(selected.id, selected.role)}
+                      className="pop-btn w-full rounded-xl bg-[#007AFF] py-2.5 text-xs font-extrabold text-white border-transparent cursor-pointer"
+                    >
+                      💘 Go on Date #{nextDateStageNum} with {selected.name} →
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="border-t border-[#D1D1D6] bg-[#F9F9FB] px-3.5 py-2.5 space-y-2">
@@ -3065,6 +3254,32 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </div>
               )}
 
+              {(discordChannel === 'ask-the-den' ||
+                discordChannel === 'in-the-wild-help' ||
+                discordChannel === 'cub-training-101') && (
+                <div className="space-y-1.5 rounded-xl border border-[#5865F2]/35 bg-[#2B2D31] p-2.5">
+                  <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#FEE75C]">
+                    💬 Ask the Den • Tap a Question Pill to Get Live Advice
+                  </div>
+                  <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
+                    {DISCORD_ADVICE_PILLS.map((pill, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          sfx.messagePop();
+                          setInput(pill);
+                        }}
+                        className="shrink-0 max-w-xs truncate rounded-full border border-[#5865F2]/40 bg-[#1E1F22] px-3 py-1 text-xs font-semibold text-[#DEE0FC] hover:border-[#FEE75C] cursor-pointer"
+                        title={pill}
+                      >
+                        🙋 {pill}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
                 {activeChips.map((chip, idx) => (
                   <button
@@ -3176,7 +3391,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               {/* Online Anonymous Members */}
               <div className="rounded-2xl bg-[#111214] p-3.5 space-y-2.5">
                 <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#949BA4]">
-                  Online Anonymous Regulars — 8
+                  Online Anonymous Regulars, 8
                 </div>
                 <div className="space-y-2">
                   {ANON_ONLINE_ROSTER.map((member) => (
@@ -3236,11 +3451,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           >
             <div className="space-y-3.5">
               <div className="flex flex-col sm:flex-row lg:flex-col gap-4 items-center sm:items-start lg:items-stretch">
-                <div className="relative w-full max-w-[260px] sm:w-56 lg:w-full lg:max-w-none shrink-0 aspect-[4/5] lg:aspect-[4/4.3] overflow-hidden rounded-2xl border border-black/10 bg-[#18101E] shadow-xs">
+                <div className="relative mx-auto w-full max-w-[240px] shrink-0 aspect-[3/4] overflow-hidden rounded-2xl border border-black/10 bg-[#18101E] shadow-xs">
                   <img
                     src={selected.photoUrl}
                     alt={selected.name}
-                    className="h-full w-full object-cover object-[50%_15%]"
+                    className="h-full w-full object-cover object-top"
                   />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-3.5 text-white">
                     <div className="flex items-center gap-1.5 font-display text-xl">
@@ -3359,10 +3574,65 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         : 'bg-gradient-to-r from-[#FD267A] to-[#FF6036]'
                     }`}
                   >
-                    💘 Play Full Date Run w/ {selected.name} →
+                    💘 Play Date #{nextDateStageNum} of 3 w/ {selected.name} →
                   </button>
                 )}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const baseUrl =
+                      typeof window !== 'undefined' && window.location.origin.startsWith('http')
+                        ? `${window.location.origin}${window.location.pathname}`
+                        : BRAND_CONFIG.publicBaseUrl;
+                    const link = buildDilemmaShareLink(selected.id, baseUrl);
+                    setSharePayload({
+                      title: `Send ${selected.name} (${selected.age}) to Bestie`,
+                      message: `👀 Bestie check on ${selected.name}, ${selected.age} (${selected.title}): "${selected.tagline}"`,
+                      url: link,
+                      shareSurface: 'bestie_profile',
+                    });
+                  }}
+                  className="pop-btn w-full h-9 rounded-xl bg-[#FFF1F2] text-xs font-extrabold text-[#BE123C] inline-flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <Share2 className="h-3.5 w-3.5" />
+                  <span>Send Profile to Bestie</span>
+                </button>
               </div>
+
+              {matchedGiftItem && (
+                <div className="rounded-2xl border border-black/10 bg-white p-3 space-y-2 text-[#18101E]">
+                  <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide text-[#E11D48]">
+                    <ShoppingBag className="h-3.5 w-3.5" />
+                    <span>Send a Thoughtful Date Gift</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <ProductVisualThumbnail item={matchedGiftItem} compact />
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <div className="text-xs font-extrabold leading-snug">
+                        {matchedGiftItem.name}
+                      </div>
+                      <div className="text-[11px] font-bold text-[#059669]">
+                        {matchedGiftItem.priceDisplay}
+                      </div>
+                      <a
+                        href={buildAffiliateUrl(matchedGiftItem, 'live_inbox_gift')}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        onClick={() =>
+                          trackEvent('affiliate_clicked', {
+                            item_id: matchedGiftItem.id,
+                            surface: 'live_inbox_dossier',
+                          })
+                        }
+                        className="inline-block rounded-lg bg-[#18101E] px-2.5 py-1 text-[11px] font-extrabold text-white"
+                      >
+                        Shop Gift →
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <form
@@ -3370,11 +3640,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               className="rounded-2xl border border-dashed border-[#F59E0B]/45 bg-[#FFFBEB] p-3 space-y-2"
             >
               <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#B45309]">
-                🫖 Spill a Real-Life Texting Red Flag (+3 Cr)
+                🫖 Spill a Real-Life Texting Red Flag
               </div>
               {teaSubmitted ? (
                 <p className="text-xs font-bold text-[#10B981]">
-                  ✓ Sent to the Club Writers’ Vault (+3 Credits)! Thank you for the tea 🥂
+                  ✓ Sent to the Club Writers’ Vault! Thank you for the tea 🥂
                 </p>
               ) : (
                 <div className="space-y-1.5">
@@ -3408,6 +3678,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           </aside>
         )}
       </div>
+
+      <SocialShareSheetModal
+        payload={sharePayload}
+        onClose={() => setSharePayload(null)}
+      />
     </section>
   );
 };

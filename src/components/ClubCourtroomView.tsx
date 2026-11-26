@@ -330,7 +330,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
 
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
-            <span>🐆 Cougars (35–65F) Voted:</span>
+            <span>🐆 Cougars (35, 65F) Voted:</span>
             <span>
               <strong className="text-[#059669]">{herCrownPct}% 👑 Crown</strong> •{' '}
               <strong className="text-[#E11D48]">{herDumpPct}% 🚩 Dump</strong>
@@ -344,7 +344,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
 
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
-            <span>🐕 Cubs (21–34M) Guessed:</span>
+            <span>🐕 Cubs (21, 34M) Guessed:</span>
             <span>
               <strong className="text-[#059669]">{himCrownPct}% 👑 Crown</strong> •{' '}
               <strong className="text-[#E11D48]">{himDumpPct}% 🚩 Dump</strong>

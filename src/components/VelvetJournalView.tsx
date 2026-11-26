@@ -148,7 +148,7 @@ function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
     rating = '98% Sanctuary & Linen-Apron Soulmate Tier';
     polarity = `${her.element} × ${him.element} Grounded Devotion`;
     dateIdea = 'Farmers-market haul + handmade Sunday pasta in a 64°F lamp-lit apartment';
-    vettingTip = 'Consistency is oxygen here: follow through on every small promise.',
+    vettingTip = 'Consistency is oxygen here: follow through on every small promise.';
   } else if (
     (her.element === 'Fire' && him.element === 'Earth') ||
     (her.element === 'Earth' && him.element === 'Fire')
