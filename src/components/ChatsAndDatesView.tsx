@@ -594,8 +594,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       ) : surface === 'discord' ? (
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-5">
           {/* 5 Distinct Discord Channels */}
-          <aside className="editorial-hinge-card rounded-3xl p-4 space-y-1.5 bg-[#1E1F22] text-stone-200">
-            <div className="px-3 py-2 text-[11px] font-extrabold uppercase tracking-wider text-stone-400">
+          <aside className="rounded-2xl border border-zinc-200 bg-white p-4 space-y-1.5 shadow-2xs">
+            <div className="px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
               Velvet Palms Server
             </div>
             {V35_DISCORD_CHANNELS.map((ch) => (
@@ -603,10 +603,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 key={ch.id}
                 type="button"
                 onClick={() => setActiveDiscordId(ch.id)}
-                className={`w-full rounded-xl px-3 py-2.5 text-left text-xs font-bold transition cursor-pointer ${
+                className={`w-full rounded-xl px-3 py-2.5 text-left text-xs font-semibold transition cursor-pointer ${
                   activeDiscord.id === ch.id
-                    ? 'bg-[#5865F2] text-white'
-                    : 'text-stone-300 hover:bg-white/10'
+                    ? 'bg-[#5865F2] text-white shadow-2xs'
+                    : 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950'
                 }`}
               >
                 <div>{ch.handleLabel}</div>
