@@ -3,7 +3,6 @@ import {
   Award,
   CheckCircle2,
   ExternalLink,
-  GraduationCap,
   Heart,
   MessageCircle,
   Share2,
@@ -31,6 +30,8 @@ export interface CubSchoolViewProps {
   onGoToHinge?: () => void;
 }
 
+const OPTION_LETTERS = ['A', 'B', 'C'] as const;
+
 export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   role,
   initialGoldStars = 0,
@@ -46,6 +47,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   const [drillIdx, setDrillIdx] = useState(0);
   const [pickedIdx, setPickedIdx] = useState<number | null>(null);
   const [goldStars, setGoldStars] = useState(0);
+  const [results, setResults] = useState<Record<number, boolean>>({});
   const [graduated, setGraduated] = useState(false);
   const [copiedDiploma, setCopiedDiploma] = useState(false);
 
@@ -54,6 +56,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
     setDrillIdx(0);
     setPickedIdx(null);
     setGoldStars(0);
+    setResults({});
     setGraduated(false);
   }, [role]);
 
@@ -71,7 +74,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
 
   if (graduated) {
     return (
-      <div className="mx-auto w-full max-w-3xl animate-stage-in">
+      <div className="mx-auto w-full max-w-2xl animate-stage-in">
         <section className="editorial-hinge-card rounded-3xl p-8 sm:p-10 text-center bg-gradient-to-b from-[#FFFDF9] to-amber-50/50 border-2 border-amber-300/70 space-y-5">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-amber-900">
             <Award className="h-8 w-8" />
@@ -82,10 +85,9 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           <h1 className="font-editorial text-3xl sm:text-4xl font-bold text-[#18101E]">
             📜 Certified Housebroken Cub Diploma
           </h1>
-          <p className="text-sm sm:text-base text-stone-700 max-w-xl mx-auto leading-relaxed">
-            Completed all 12 real-world courtship drills with{' '}
-            <strong>{goldStars}/12 Gold Stars</strong> — Bathroom Lid Certified, Four-Pillow
-            Approved, Zero Mental-Load Dumping, and Sidewalk Hand-Hold Verified.
+          <p className="text-sm sm:text-base text-stone-700 max-w-lg mx-auto leading-relaxed">
+            Passed with <strong>{goldStars}/12 Gold Stars</strong> — Bathroom Lid Certified,
+            Four-Pillow Approved, Zero Mental-Load Dumping, and Sidewalk Hand-Hold Verified.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -111,11 +113,12 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                 setDrillIdx(0);
                 setPickedIdx(null);
                 setGoldStars(0);
+                setResults({});
                 setGraduated(false);
               }}
               className="rounded-full border border-stone-300 bg-white px-5 py-3 text-xs font-bold text-stone-800 cursor-pointer"
             >
-              Run All 12 Drills Again
+              Play Again
             </button>
 
             {onReturnToActiveMatch && activeMatchName ? (
@@ -145,7 +148,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
               className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300 px-5 py-3 text-xs font-extrabold text-amber-950"
             >
               <Heart className="h-3.5 w-3.5 fill-amber-600 text-amber-600" />
-              <span>💛 Support This Project</span>
+              <span>Support This Project</span>
             </a>
           </div>
         </section>
@@ -154,224 +157,267 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   }
 
   return (
-    <div className="mx-auto w-full max-w-4xl space-y-5 animate-stage-in">
-      {/* Role-Aware Header */}
-      <section className="editorial-hinge-card rounded-3xl p-6 bg-gradient-to-r from-white via-amber-50/40 to-rose-50/40 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-extrabold text-amber-950">
-            <GraduationCap className="h-3.5 w-3.5" />
-            <span>
-              {mode === 'headmistress'
-                ? '🐆 Headmistress Grading Mode'
-                : '🎓 Cub Candidate Exam'}
-            </span>
-          </span>
-          <h1 className="mt-2 font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
-            Cub Obedience School • Module {drill.moduleNumber} of {V35_CUB_SCHOOL_DRILLS.length}
-          </h1>
-          <p className="mt-0.5 text-xs sm:text-sm text-stone-600">
-            {mode === 'headmistress'
-              ? 'Grade real complaints straight from older women & send rookie offenders the exact fix.'
-              : 'Pass all 12 real-world courtship drills to earn your shareable Certified Housebroken Diploma.'}
-          </p>
-        </div>
-
-        <div className="inline-flex rounded-full bg-stone-100 p-1">
-          <button
-            type="button"
-            onClick={() => setMode('headmistress')}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-bold cursor-pointer ${
-              mode === 'headmistress' ? 'bg-[#18101E] text-white' : 'text-stone-600'
-            }`}
-          >
-            🐆 Headmistress
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode('candidate')}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-bold cursor-pointer ${
-              mode === 'candidate' ? 'bg-[#18101E] text-white' : 'text-stone-600'
-            }`}
-          >
-            🎓 Candidate
-          </button>
-        </div>
-      </section>
-
-      {/* Live Campaign Perk Bridge Bar */}
-      <div
-        data-testid="cub-school-perk-banner"
-        className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-xs font-bold ${
-          perkUnlocked
-            ? 'border-emerald-300 bg-emerald-50 text-emerald-950'
-            : 'border-amber-200 bg-amber-50/80 text-amber-950'
-        }`}
-      >
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 shrink-0 text-rose-600" />
+    <div className="mx-auto w-full max-w-2xl space-y-3.5 animate-stage-in">
+      {/* Compact Single-Row HUD: Mode Pill + +8% Spark Progress + Active Match Return */}
+      <div className="flex flex-wrap items-center justify-between gap-2.5">
+        <div
+          data-testid="cub-school-perk-banner"
+          className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold ${
+            perkUnlocked
+              ? 'border-emerald-300 bg-emerald-50 text-emerald-950'
+              : 'border-amber-200 bg-amber-50/90 text-amber-950'
+          }`}
+        >
           <span>
             {perkUnlocked
-              ? `✨ +8% Etiquette Spark Active across Hinge, Chats & Dates (${bestStars}/12 Gold Stars Earned!)`
-              : `🎯 Campaign Perk: Earn 4+ Gold Stars (${bestStars}/4 so far) to unlock a permanent +8% Chemistry Spark in Chats & Dates!`}
+              ? `✨ +8% Etiquette Spark Active (${bestStars}/12 ⭐)`
+              : `⭐ ${bestStars}/4 Stars for +8% Chat Spark`}
           </span>
         </div>
 
-        {onReturnToActiveMatch && activeMatchName && (
-          <button
-            type="button"
-            onClick={onReturnToActiveMatch}
-            className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-1.5 text-xs font-extrabold text-white cursor-pointer"
-          >
-            <MessageCircle className="h-3.5 w-3.5 text-amber-300" />
-            <span>Return to Active Match ({activeMatchName}) →</span>
-          </button>
-        )}
-      </div>
-
-      {/* Main Animated Drill Card */}
-      <section className="editorial-hinge-card rounded-3xl p-6 sm:p-8 space-y-5">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-100 pb-5">
-          <div className="space-y-2">
-            <div className="text-xs font-extrabold uppercase tracking-wider text-rose-800">
-              Module #{drill.moduleNumber} • Gold Stars: {goldStars}/{V35_CUB_SCHOOL_DRILLS.length}
-            </div>
-            <h2 className="font-editorial text-2xl font-bold text-[#18101E]">{drill.title}</h2>
-            <blockquote className="rounded-2xl bg-stone-50 border-l-4 border-rose-500 px-4 py-2.5 text-xs sm:text-sm italic text-stone-700">
-              {drill.redditComplaintQuote}
-            </blockquote>
-          </div>
-
-          <div className="relative shrink-0 self-center">
-            <img
-              src={mode === 'headmistress' ? headmistressPortrait : candidatePortrait}
-              alt="Academy reactions"
-              className={`h-32 w-24 rounded-2xl object-cover ring-2 shadow-md ${preset.tintClass} ${preset.motionClass}`}
-            />
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18101E] px-2.5 py-0.5 text-[10px] font-bold text-amber-200">
-              {preset.particle} {preset.badge}
-            </span>
-          </div>
-        </div>
-
-        <p className="text-sm sm:text-base font-medium text-stone-800 leading-relaxed">
-          {drill.scenarioSetup}
-        </p>
-
-        <div className="grid gap-3">
-          {drill.options.map((opt, idx) => {
-            const isPicked = pickedIdx === idx;
-            return (
-              <button
-                key={opt.label}
-                type="button"
-                data-testid={opt.isGoldStar ? 'gold-star-option' : `rookie-option-${idx}`}
-                disabled={pickedIdx !== null}
-                onClick={() => {
-                  setPickedIdx(idx);
-                  if (opt.isGoldStar) {
-                    sfx.greenFlag();
-                    const nextStars = goldStars + 1;
-                    setGoldStars(nextStars);
-                    onUpdateGoldStars?.(Math.max(initialGoldStars, nextStars));
-                  } else {
-                    sfx.redFlag();
-                  }
-                }}
-                className={`w-full rounded-2xl p-4 text-left text-sm sm:text-base font-medium whitespace-normal transition cursor-pointer ${
-                  pickedIdx === null
-                    ? 'border border-stone-200 bg-stone-50/70 text-stone-900 hover:border-stone-400 hover:bg-white'
-                    : opt.isGoldStar
-                      ? 'border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold'
-                      : isPicked
-                        ? 'border-2 border-rose-500 bg-rose-50 text-rose-950'
-                        : 'border border-stone-200 bg-white/50 text-stone-400'
-                }`}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {pickedOption && (
-          <div
-            className={`rounded-2xl p-5 space-y-3 ${
-              pickedOption.isGoldStar
-                ? 'bg-emerald-50 border border-emerald-200 text-emerald-950'
-                : 'bg-rose-50 border border-rose-200 text-rose-950'
-            }`}
-          >
-            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider">
-              <CheckCircle2 className="h-4 w-4" />
-              <span>
-                {pickedOption.isGoldStar ? '⭐ Gold Star Ruling' : '🚩 Headmistress Detention'}
-              </span>
-            </div>
-            <p className="text-sm font-semibold leading-relaxed">
-              {pickedOption.headmistressVerdict}
-            </p>
-
+        <div className="flex flex-wrap items-center gap-2">
+          {onReturnToActiveMatch && activeMatchName && (
             <button
               type="button"
-              onClick={() => {
-                if (drillIdx + 1 < V35_CUB_SCHOOL_DRILLS.length) {
-                  setDrillIdx(drillIdx + 1);
-                  setPickedIdx(null);
-                } else {
-                  sfx.victoryFanfare();
-                  setGraduated(true);
-                  onEarnDiploma?.();
-                }
-              }}
-              className="rounded-full bg-[#18101E] px-6 py-2.5 text-xs font-bold text-white cursor-pointer"
+              onClick={onReturnToActiveMatch}
+              className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-3.5 py-1.5 text-xs font-extrabold text-white cursor-pointer"
             >
-              {drillIdx + 1 < V35_CUB_SCHOOL_DRILLS.length
-                ? `Next Module (#${drillIdx + 2}) →`
-                : 'Claim Official Diploma →'}
+              <MessageCircle className="h-3.5 w-3.5" />
+              <span>Return to Active Match ({activeMatchName}) →</span>
+            </button>
+          )}
+
+          <div className="inline-flex rounded-full bg-stone-200/75 p-1">
+            <button
+              type="button"
+              onClick={() => setMode('headmistress')}
+              className={`rounded-full px-3 py-1 text-xs font-bold cursor-pointer transition ${
+                mode === 'headmistress' ? 'bg-[#18101E] text-white shadow-xs' : 'text-stone-600'
+              }`}
+            >
+              {mode === 'headmistress' ? '🐆 Headmistress Grading Mode' : '🐆 Headmistress'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('candidate')}
+              className={`rounded-full px-3 py-1 text-xs font-bold cursor-pointer transition ${
+                mode === 'candidate' ? 'bg-[#18101E] text-white shadow-xs' : 'text-stone-600'
+              }`}
+            >
+              {mode === 'candidate' ? '🎓 Cub Candidate Exam' : '🎓 Candidate'}
             </button>
           </div>
-        )}
+        </div>
+      </div>
 
-        {/* Contextual Amazon "Send Him the Fix" Card — Entire Card Clickable */}
-        {fixProduct && (
-          <a
-            href={buildAffiliateUrl(fixProduct, `cub_school_m${drill.moduleNumber}`)}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            onClick={() =>
-              trackEvent('affiliate_clicked', {
-                item_id: fixProduct.id,
-                surface: 'cub_school',
-                module: drill.moduleNumber,
-              })
-            }
-            className="group flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-amber-200 bg-amber-50/60 p-4 hover:border-amber-400 hover:bg-amber-50 transition cursor-pointer"
-          >
-            <div className="flex items-center gap-3.5">
+      {/* Visual 12-Dot Progress Strip */}
+      <div className="flex items-center gap-1.5 px-1" aria-label="Drill progress">
+        {V35_CUB_SCHOOL_DRILLS.map((d, i) => {
+          const passed = results[i];
+          const isCurrent = i === drillIdx;
+          return (
+            <div
+              key={d.id}
+              className={`h-2 flex-1 rounded-full transition-all ${
+                isCurrent
+                  ? 'bg-[#18101E] scale-y-125'
+                  : passed === true
+                    ? 'bg-emerald-500'
+                    : passed === false
+                      ? 'bg-rose-400'
+                      : 'bg-stone-200'
+              }`}
+            />
+          );
+        })}
+      </div>
+
+      {/* Visual Scene Quiz Card — Question First, Zero Text Wall! */}
+      <section className="editorial-hinge-card overflow-hidden rounded-3xl bg-white">
+        {/* Illustrated Scene Banner + Live Reaction Avatar */}
+        <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-[#18101E]">
+          <img
+            data-testid="cub-school-scene-img"
+            src={drill.sceneImage}
+            alt={drill.topicTag}
+            className="h-full w-full object-cover opacity-85"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#18101E] via-[#18101E]/45 to-transparent" />
+
+          {/* Top-Left Topic Pill */}
+          <div className="absolute top-3.5 left-4 flex items-center gap-2">
+            <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#18101E] shadow-xs">
+              Drill {drill.moduleNumber}/12 • {drill.topicTag}
+            </span>
+          </div>
+
+          {/* Right Reaction Portrait */}
+          <div className="absolute right-4 bottom-3.5 shrink-0">
+            <div className="relative">
               <img
-                src={fixProduct.photoUrl}
-                alt={fixProduct.name}
-                className="h-14 w-14 rounded-xl object-cover shrink-0 ring-1 ring-amber-200/80"
+                src={mode === 'headmistress' ? headmistressPortrait : candidatePortrait}
+                alt="Academy reaction"
+                className={`h-24 w-20 sm:h-28 sm:w-22 rounded-2xl object-cover ring-2 border-2 border-white/80 shadow-xl ${preset.tintClass} ${preset.motionClass}`}
               />
-              <div>
-                <div className="text-[11px] font-extrabold uppercase tracking-wider text-amber-900">
-                  {fixProduct.badge}
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18101E] border border-amber-300/50 px-2 py-0.5 text-[10px] font-bold text-amber-200 shadow-sm">
+                {preset.particle} {preset.badge}
+              </span>
+            </div>
+          </div>
+
+          {/* Bold 1-Line Question Directly Over Bottom Gradient */}
+          <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 pr-28 sm:pr-32">
+            <h1
+              data-testid="cub-school-question"
+              className="font-editorial text-lg sm:text-2xl font-bold leading-snug text-white drop-shadow-xs"
+            >
+              {drill.punchyQuestion}
+            </h1>
+          </div>
+        </div>
+
+        {/* Crisp A / B / C 1-Tap Choices */}
+        <div className="p-5 sm:p-6 space-y-4">
+          <div className="grid gap-2.5">
+            {drill.options.map((opt, idx) => {
+              const isPicked = pickedIdx === idx;
+              const letter = OPTION_LETTERS[idx] ?? String(idx + 1);
+              return (
+                <button
+                  key={opt.label}
+                  type="button"
+                  data-testid={opt.isGoldStar ? 'gold-star-option' : `rookie-option-${idx}`}
+                  disabled={pickedIdx !== null}
+                  onClick={() => {
+                    setPickedIdx(idx);
+                    setResults((prev) => ({ ...prev, [drillIdx]: opt.isGoldStar }));
+                    if (opt.isGoldStar) {
+                      sfx.greenFlag();
+                      const nextStars = goldStars + 1;
+                      setGoldStars(nextStars);
+                      onUpdateGoldStars?.(Math.max(initialGoldStars, nextStars));
+                    } else {
+                      sfx.redFlag();
+                    }
+                  }}
+                  className={`group flex w-full items-center gap-3.5 rounded-2xl p-3.5 sm:p-4 text-left text-sm sm:text-base transition cursor-pointer ${
+                    pickedIdx === null
+                      ? 'border border-stone-200 bg-stone-50/75 font-semibold text-[#18101E] hover:border-[#18101E] hover:bg-white hover:shadow-xs'
+                      : opt.isGoldStar
+                        ? 'border-2 border-emerald-500 bg-emerald-50 font-bold text-emerald-950'
+                        : isPicked
+                          ? 'border-2 border-rose-500 bg-rose-50 font-semibold text-rose-950'
+                          : 'border border-stone-200/70 bg-white/60 text-stone-400'
+                  }`}
+                >
+                  <span
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-extrabold transition ${
+                      pickedIdx === null
+                        ? 'bg-white border border-stone-300 text-[#18101E] group-hover:bg-[#18101E] group-hover:text-white group-hover:border-[#18101E]'
+                        : opt.isGoldStar
+                          ? 'bg-emerald-600 text-white'
+                          : isPicked
+                            ? 'bg-rose-600 text-white'
+                            : 'bg-stone-100 text-stone-400'
+                    }`}
+                  >
+                    {pickedIdx !== null && opt.isGoldStar
+                      ? '⭐'
+                      : pickedIdx !== null && isPicked
+                        ? '🚩'
+                        : letter}
+                  </span>
+                  <span className="leading-snug">{opt.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Instant Verdict + Post-Answer Real Receipt + Next Button */}
+          {pickedOption && (
+            <div
+              className={`rounded-2xl p-4 sm:p-5 space-y-2.5 animate-stage-in ${
+                pickedOption.isGoldStar
+                  ? 'bg-emerald-50 border border-emerald-200 text-emerald-950'
+                  : 'bg-rose-50 border border-rose-200 text-rose-950'
+              }`}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-1 flex-1 min-w-[220px]">
+                  <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider">
+                    <CheckCircle2 className="h-4 w-4 shrink-0" />
+                    <span>
+                      {pickedOption.isGoldStar ? 'Gold Star Ruling' : 'Headmistress Detention'}
+                    </span>
+                  </div>
+                  <p className="text-sm font-bold leading-snug">
+                    {pickedOption.headmistressVerdict}
+                  </p>
+                  <p className="text-xs opacity-80 italic">
+                    💬 Real club receipt: {drill.redditComplaintQuote}
+                  </p>
                 </div>
-                <div className="text-sm font-bold text-[#18101E] group-hover:underline">
-                  {fixProduct.name}
-                </div>
-                <div className="text-xs text-stone-600">
-                  {fixProduct.priceDisplay} • Opens on Amazon
-                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (drillIdx + 1 < V35_CUB_SCHOOL_DRILLS.length) {
+                      setDrillIdx(drillIdx + 1);
+                      setPickedIdx(null);
+                    } else {
+                      sfx.victoryFanfare();
+                      setGraduated(true);
+                      onEarnDiploma?.();
+                    }
+                  }}
+                  className="shrink-0 rounded-full bg-[#18101E] hover:bg-stone-800 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-white shadow-xs transition cursor-pointer"
+                >
+                  {drillIdx + 1 < V35_CUB_SCHOOL_DRILLS.length
+                    ? `Next Module (#${drillIdx + 2}) →`
+                    : 'Claim Official Diploma →'}
+                </button>
               </div>
             </div>
+          )}
 
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-2.5 text-xs font-bold text-white group-hover:bg-stone-800 transition">
-              <span>Shop the Fix on Amazon</span>
-              <ExternalLink className="h-3.5 w-3.5" />
-            </span>
-          </a>
-        )}
+          {/* Compact Full-Card Clickable Contextual Amazon Fix */}
+          {fixProduct && (
+            <a
+              href={buildAffiliateUrl(fixProduct, `cub_school_m${drill.moduleNumber}`)}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              onClick={() =>
+                trackEvent('affiliate_clicked', {
+                  item_id: fixProduct.id,
+                  surface: 'cub_school',
+                  module: drill.moduleNumber,
+                })
+              }
+              className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200/90 bg-amber-50/50 px-3.5 py-2.5 hover:border-amber-400 hover:bg-amber-50 transition cursor-pointer"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <img
+                  src={fixProduct.photoUrl}
+                  alt={fixProduct.name}
+                  className="h-11 w-11 rounded-xl object-cover shrink-0 ring-1 ring-amber-200/80"
+                />
+                <div className="min-w-0">
+                  <div className="text-xs font-bold text-[#18101E] truncate group-hover:underline">
+                    {fixProduct.name}
+                  </div>
+                  <div className="text-[11px] text-stone-600">
+                    {fixProduct.priceDisplay} • Opens on Amazon
+                  </div>
+                </div>
+              </div>
+
+              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-3.5 py-2 text-xs font-bold text-white group-hover:bg-stone-800 transition">
+                <span>Shop the Fix on Amazon</span>
+                <ExternalLink className="h-3.5 w-3.5" />
+              </span>
+            </a>
+          )}
+        </div>
       </section>
     </div>
   );

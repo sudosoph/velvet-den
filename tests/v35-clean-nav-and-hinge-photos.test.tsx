@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import App from '../src/App';
+import { CubSchoolView } from '../src/components/CubSchoolView';
+import { V35_CUB_SCHOOL_DRILLS } from '../src/data/v35CubSchool';
 
 describe('v35 Clean Consumer Nav Bar (Zero Overflow/Pill Soup) & Unobstructed Real Hinge Photos', () => {
   beforeEach(() => {
@@ -91,5 +93,24 @@ describe('v35 Clean Consumer Nav Bar (Zero Overflow/Pill Soup) & Unobstructed Re
     fireEvent.click(sendLikeBtn);
     expect(screen.queryByRole('dialog', { name: /Reply to Julian/i })).toBeNull();
     expect(screen.getByRole('heading', { name: /Søren/i })).toBeInTheDocument();
+  });
+
+  it('renders Cub School as a punchy visual scene quiz (question first, zero pre-question blockquote, concise A/B/C options)', () => {
+    for (const drill of V35_CUB_SCHOOL_DRILLS) {
+      expect((drill as { sceneImage?: string }).sceneImage).toMatch(/^\.\/images\/scenes\/.+\.jpg$/);
+      const q = (drill as { punchyQuestion?: string }).punchyQuestion || '';
+      expect(q.endsWith('?')).toBe(true);
+      expect(q.length).toBeLessThanOrEqual(95);
+      for (const opt of drill.options) {
+        expect(opt.label.length).toBeLessThanOrEqual(95);
+      }
+    }
+
+    const { container } = render(<CubSchoolView role="her" />);
+    // Zero blockquote clutter before picking an option!
+    expect(container.querySelectorAll('blockquote').length).toBe(0);
+    // Scene illustration + bold question ending in ? immediately visible
+    expect(screen.getByTestId('cub-school-scene-img')).toBeInTheDocument();
+    expect(screen.getByTestId('cub-school-question').textContent?.trim().endsWith('?')).toBe(true);
   });
 });
