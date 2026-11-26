@@ -7,6 +7,7 @@ import {
   BoutiqueAndVipModal,
   type BoutiqueSectionTab,
 } from './components/BoutiqueAndVipModal';
+import { CampaignCompassBar } from './components/CampaignCompassBar';
 import {
   type ActiveMatchThread,
   ChatsAndDatesView,
@@ -72,15 +73,16 @@ interface PersistedSimState {
   threads: ActiveMatchThread[];
   cutLooseIds: string[];
   completedCameoVenues: string[];
+  cubSchoolStars: number;
 }
 
 function loadSimState(): PersistedSimState {
   try {
     if (typeof window === 'undefined' || !window.localStorage) {
-      return { threads: [], cutLooseIds: [], completedCameoVenues: [] };
+      return { threads: [], cutLooseIds: [], completedCameoVenues: [], cubSchoolStars: 0 };
     }
     const raw = window.localStorage.getItem(SIM_STORAGE_KEY);
-    if (!raw) return { threads: [], cutLooseIds: [], completedCameoVenues: [] };
+    if (!raw) return { threads: [], cutLooseIds: [], completedCameoVenues: [], cubSchoolStars: 0 };
     const parsed = JSON.parse(raw) as Partial<PersistedSimState>;
     return {
       threads: Array.isArray(parsed.threads) ? parsed.threads : [],
@@ -88,9 +90,13 @@ function loadSimState(): PersistedSimState {
       completedCameoVenues: Array.isArray(parsed.completedCameoVenues)
         ? parsed.completedCameoVenues
         : [],
+      cubSchoolStars:
+        typeof parsed.cubSchoolStars === 'number' && Number.isFinite(parsed.cubSchoolStars)
+          ? Math.max(0, Math.min(12, Math.floor(parsed.cubSchoolStars)))
+          : 0,
     };
   } catch {
-    return { threads: [], cutLooseIds: [], completedCameoVenues: [] };
+    return { threads: [], cutLooseIds: [], completedCameoVenues: [], cubSchoolStars: 0 };
   }
 }
 
@@ -283,6 +289,13 @@ export default function App() {
   const [completedCameoVenues, setCompletedCameoVenues] = useState<string[]>(
     initialSim.completedCameoVenues,
   );
+  const [cubSchoolStars, setCubSchoolStars] = useState<number>(initialSim.cubSchoolStars);
+  const [openConspiracyDirectly, setOpenConspiracyDirectly] = useState(false);
+  const [autoLaunchDateRequest, setAutoLaunchDateRequest] = useState<{
+    leadId: string;
+    dateNumber: 1 | 2 | 3;
+    nonce: number;
+  } | null>(null);
   const [selectedChatLeadId, setSelectedChatLeadId] = useState<string | null>(
     initialSim.threads[0]?.leadId ?? null,
   );
@@ -345,8 +358,19 @@ export default function App() {
   const [founderTagStatus, setFounderTagStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    saveSimState({ threads, cutLooseIds, completedCameoVenues });
-  }, [threads, cutLooseIds, completedCameoVenues]);
+    saveSimState({ threads, cutLooseIds, completedCameoVenues, cubSchoolStars });
+  }, [threads, cutLooseIds, completedCameoVenues, cubSchoolStars]);
+
+  useEffect(() => {
+    if (import.meta.env.VITEST) return;
+    try {
+      if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+        window.scrollTo(0, 0);
+      }
+    } catch {
+      // Ignore scroll error
+    }
+  }, [activeTab]);
 
   const updateWallet = (next: WalletState) => {
     setWallet(next);
@@ -675,7 +699,44 @@ export default function App() {
         </div>
       )}
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-6">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-5">
+        {!activeChallenge &&
+          (activeTab === 'hinge' ||
+            activeTab === 'wild' ||
+            activeTab === 'chats' ||
+            activeTab === 'school') && (
+            <CampaignCompassBar
+              wallet={wallet}
+              threads={threads}
+              cutLooseIds={cutLooseIds}
+              cubSchoolStars={cubSchoolStars}
+              completedCameoCount={completedCameoVenues.length}
+              role={role}
+              activeTab={activeTab}
+              onNavigateStep={(step) => {
+                if (step.leadId) setSelectedChatLeadId(step.leadId);
+                setOpenConspiracyDirectly(Boolean(step.openConspiracy));
+                if (step.leadId && step.launchDateNumber) {
+                  setAutoLaunchDateRequest({
+                    leadId: step.leadId,
+                    dateNumber: step.launchDateNumber,
+                    nonce: Date.now(),
+                  });
+                } else {
+                  setAutoLaunchDateRequest(null);
+                }
+                setActiveTab(step.targetTab);
+              }}
+              onSelectMatchChat={(leadId) => {
+                setSelectedChatLeadId(leadId);
+                setOpenConspiracyDirectly(false);
+                setActiveTab('chats');
+              }}
+              onOpenCubSchool={() => setActiveTab('school')}
+              onOpenWildMap={() => setActiveTab('wild')}
+            />
+          )}
+
         {noticeBanner && (
           <div className="editorial-hinge-card flex items-center justify-between gap-3 rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-xs sm:text-sm font-bold text-amber-950">
             <span>{noticeBanner}</span>
@@ -757,6 +818,11 @@ export default function App() {
                 ),
               );
             }}
+            onOpenChatWithLead={(leadId) => {
+              setSelectedChatLeadId(leadId);
+              setOpenConspiracyDirectly(false);
+              setActiveTab('chats');
+            }}
           />
         ) : activeTab === 'chats' ? (
           <ChatsAndDatesView
@@ -765,7 +831,14 @@ export default function App() {
             threads={threads}
             selectedLeadId={selectedChatLeadId}
             cutLooseIds={cutLooseIds}
-            onSelectLead={setSelectedChatLeadId}
+            cubSchoolStars={cubSchoolStars}
+            initialOpenConspiracy={openConspiracyDirectly}
+            autoLaunchDateRequest={autoLaunchDateRequest}
+            onSelectLead={(id) => {
+              setOpenConspiracyDirectly(false);
+              setAutoLaunchDateRequest(null);
+              setSelectedChatLeadId(id);
+            }}
             onUpdateThread={(updated) => {
               const previous = threads.find((t) => t.leadId === updated.leadId);
               if (
@@ -840,14 +913,34 @@ export default function App() {
             }}
             onOpenHinge={() => setActiveTab('hinge')}
             onOpenBoutique={() => openBoutiqueWithTab('vip')}
+            onOpenCubSchool={() => setActiveTab('school')}
           />
         ) : activeTab === 'school' ? (
           <CubSchoolView
             role={role}
+            initialGoldStars={cubSchoolStars}
+            activeMatchName={
+              (() => {
+                const activeMatch = threads.find((t) => !cutLooseIds.includes(t.leadId));
+                return activeMatch
+                  ? (getCastProfileById(activeMatch.leadId)?.name ?? null)
+                  : null;
+              })()
+            }
+            onUpdateGoldStars={(stars) =>
+              setCubSchoolStars((prev) => Math.max(prev, stars))
+            }
             onEarnDiploma={() => {
               updateWallet(unlockStamp(wallet, 'golden_cub'));
               setDateodex((prev) => unlockDateodexPolaroid(prev, 'polaroid-obedience-s'));
             }}
+            onReturnToActiveMatch={() => {
+              const activeMatch = threads.find((t) => !cutLooseIds.includes(t.leadId));
+              if (activeMatch) setSelectedChatLeadId(activeMatch.leadId);
+              setOpenConspiracyDirectly(false);
+              setActiveTab('chats');
+            }}
+            onGoToHinge={() => setActiveTab('hinge')}
           />
         ) : (
           <HingeFeedView
@@ -855,6 +948,7 @@ export default function App() {
             wallet={wallet}
             matchedLeadIds={threads.map((t) => t.leadId)}
             cutLooseIds={cutLooseIds}
+            etiquetteBonusActive={cubSchoolStars >= 4}
             onSendHingeOpener={(leadId, _label, openerText, cost, delta, outcome) => {
               if (cost > 0) {
                 const spent = spendCredits(wallet, cost);

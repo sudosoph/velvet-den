@@ -171,14 +171,14 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'princess-mulberry-silk-robe',
-    name: 'LILYSILK 100% Grade-6A Mulberry Silk Kimono Lounge Robe',
+    name: 'LILYSILK Women’s 100% Grade-6A Mulberry Silk Kimono Lounge Robe',
     category: 'princess_luxury',
     priceDisplay: '$169 Luxury Pick',
     badge: '👑 Chapter-Two Soft-Life Icon',
     cheekyPitch:
       'She ran everyone else’s meetings all week. Pour a chilled Pinot, run the bath, and wrap her in pure Grade-6A mulberry silk charmeuse.',
     whyItConverts: 'High-ticket anniversary and weekend getaway gift.',
-    merchantUrl: 'https://www.amazon.com/dp/B0CBM94V8P',
+    merchantUrl: 'https://www.amazon.com/dp/B0FD3H89H5',
   },
   {
     id: 'hosting-lidded-bin-soap',
@@ -271,7 +271,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   {
     id: 'cub-grooming-beard-skincare-kit',
     name: 'Every Man Jack 5-Piece Sandalwood Beard, Face Lotion & Wood Comb Kit',
-    category: 'princess_luxury',
+    category: 'date_night',
     priceDisplay: '$32 Grooming Set',
     badge: '💈 Zero Scratchy-Stubble Kit',
     cheekyPitch:
@@ -347,14 +347,14 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'no-hard-feelings-jlaw-prime',
-    name: 'No Hard Feelings (Jennifer Lawrence & Andrew Barth Feldman • Prime Video)',
+    name: 'No Hard Feelings (Jennifer Lawrence & Andrew Barth Feldman • Blu-ray + Digital)',
     category: 'cinema_pop_culture',
-    priceDisplay: 'Prime Video',
+    priceDisplay: '$14 Blu-ray + Digital',
     badge: '🎬 Montauk Rom-Com Watch Night',
     cheekyPitch:
-      'Stream Jennifer Lawrence and Andrew Barth Feldman’s hilarious Montauk summer comedy—featuring that unforgettable piano bar rendition of "Maneater."',
-    whyItConverts: 'Instant digital rental/purchase straight from the Trailer Quiz.',
-    merchantUrl: 'https://www.amazon.com/dp/B0C5Q7QMH3',
+      'Queue up Jennifer Lawrence and Andrew Barth Feldman’s hilarious Montauk summer comedy—featuring that unforgettable piano bar rendition of "Maneater."',
+    whyItConverts: 'Instant movie-night pickup straight from the Trailer Quiz.',
+    merchantUrl: 'https://www.amazon.com/dp/B0C8BTYH4M',
   },
   {
     id: 'part-of-your-world-book',
@@ -391,25 +391,25 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'bridget-jones-cougar-town-watch',
-    name: 'Bridget Jones: Mad About the Boy (Renée Zellweger & Leo Woodall • Prime)',
+    name: 'Bridget Jones: Mad About the Boy — Helen Fielding Novel',
     category: 'cinema_pop_culture',
-    priceDisplay: 'Prime Video',
+    priceDisplay: '$16 Paperback',
     badge: '🌳 Hampstead Park-Ranger Swooner',
     cheekyPitch:
-      'Watch Leo Woodall’s charming 29-year-old park ranger rescue Bridget from an oak tree in Hampstead Heath and spark a joyful Chapter-Two romance.',
+      'Read Helen Fielding’s hilarious London diary behind Renée Zellweger and Leo Woodall’s Hampstead Heath Chapter-Two romance.',
     whyItConverts: 'Direct companion to Rory’s Hampstead park-ranger cameo.',
-    merchantUrl: 'https://www.amazon.com/dp/B0DVF8H46V',
+    merchantUrl: 'https://www.amazon.com/dp/0099584433',
   },
   {
     id: 'the-rebound-zeta-jones-prime',
-    name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Prime Video)',
+    name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Blu-ray)',
     category: 'cinema_pop_culture',
-    priceDisplay: 'Prime Video',
+    priceDisplay: '$14 Rom-Com Pick',
     badge: '🎞️ Manhattan Coffee-Shop Classic',
     cheekyPitch:
       'Catherine Zeta-Jones moves above a NYC coffeehouse after her divorce and falls for 25-year-old charmer Justin Bartha in this underrated gem.',
-    whyItConverts: 'Feel-good Friday night rom-com stream.',
-    merchantUrl: 'https://www.amazon.com/dp/B00J2J0V92',
+    whyItConverts: 'Feel-good Friday night rom-com watch.',
+    merchantUrl: 'https://www.amazon.com/dp/B006JIL0AG',
   },
   {
     id: 'linen-picnic-insulated-tote',
@@ -680,7 +680,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = RAW_AFFILIATE_CATALOG.map((
   return {
     ...item,
     visualSpec,
-    photoUrl: resolveProductPhotoUrl(visualSpec.motif),
+    photoUrl: resolveProductPhotoUrl(item.id),
   };
 });
 

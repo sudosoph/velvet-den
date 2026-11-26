@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Flame,
   Flag,
+  GraduationCap,
   Hash,
   Heart,
   Lock,
@@ -75,6 +77,9 @@ export interface ChatsAndDatesViewProps {
   threads: ActiveMatchThread[];
   selectedLeadId?: string | null;
   cutLooseIds: string[];
+  cubSchoolStars?: number;
+  initialOpenConspiracy?: boolean;
+  autoLaunchDateRequest?: { leadId: string; dateNumber: 1 | 2 | 3; nonce: number } | null;
   onSelectLead?: (leadId: string) => void;
   onUpdateThread: (updated: ActiveMatchThread) => void;
   onSpendCredits: (cost: number) => boolean;
@@ -89,6 +94,7 @@ export interface ChatsAndDatesViewProps {
   onRecordConspiracyClue?: (clueId: string) => void;
   onOpenHinge: () => void;
   onOpenBoutique: () => void;
+  onOpenCubSchool?: () => void;
 }
 
 export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
@@ -97,6 +103,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   threads,
   selectedLeadId,
   cutLooseIds,
+  cubSchoolStars = 0,
+  initialOpenConspiracy = false,
+  autoLaunchDateRequest = null,
   onSelectLead,
   onUpdateThread,
   onSpendCredits,
@@ -106,10 +115,17 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   onLoseHeart,
   onRecordConspiracyClue,
   onOpenHinge,
+  onOpenCubSchool,
 }) => {
-  const visibleThreads = threads.filter((t) => !cutLooseIds.includes(t.leadId));
+  const visibleThreads = useMemo(
+    () => threads.filter((t) => !cutLooseIds.includes(t.leadId)),
+    [threads, cutLooseIds],
+  );
+  const etiquetteBonusActive = cubSchoolStars >= 4;
 
-  const [surface, setSurface] = useState<'dm' | 'discord' | 'conspiracy'>('dm');
+  const [surface, setSurface] = useState<'dm' | 'discord' | 'conspiracy'>(
+    initialOpenConspiracy ? 'conspiracy' : 'dm',
+  );
   const [activeLeadId, setActiveLeadId] = useState<string>(
     selectedLeadId || visibleThreads[0]?.leadId || '',
   );
@@ -132,13 +148,33 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [conspiracyOutcome, setConspiracyOutcome] = useState<string | null>(null);
 
   useEffect(() => {
-    if (selectedLeadId && visibleThreads.some((t) => t.leadId === selectedLeadId)) {
+    if (initialOpenConspiracy) {
+      setSurface('conspiracy');
+    }
+  }, [initialOpenConspiracy]);
+
+  useEffect(() => {
+    if (autoLaunchDateRequest) {
+      setActiveLeadId(autoLaunchDateRequest.leadId);
+      setActiveDateModal({
+        leadId: autoLaunchDateRequest.leadId,
+        dateNumber: autoLaunchDateRequest.dateNumber,
+      });
+    }
+  }, [autoLaunchDateRequest]);
+
+  useEffect(() => {
+    if (selectedLeadId) {
       setActiveLeadId(selectedLeadId);
-      setSurface('dm');
-    } else if (!visibleThreads.some((t) => t.leadId === activeLeadId)) {
+      if (!initialOpenConspiracy) setSurface('dm');
+    }
+  }, [selectedLeadId, initialOpenConspiracy]);
+
+  useEffect(() => {
+    if (!visibleThreads.some((t) => t.leadId === activeLeadId)) {
       setActiveLeadId(visibleThreads[0]?.leadId || '');
     }
-  }, [selectedLeadId, visibleThreads, activeLeadId]);
+  }, [visibleThreads, activeLeadId]);
 
   const currentThread = visibleThreads.find((t) => t.leadId === activeLeadId) ?? visibleThreads[0];
   const currentProfile = currentThread ? getCastProfileById(currentThread.leadId) : undefined;
@@ -202,10 +238,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       }
     }
 
+    const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
     onUpdateThread({
       ...currentThread,
       currentBeat: nextBeatNum,
-      chemistry: Math.max(0, Math.min(100, currentThread.chemistry + delta)),
+      chemistry: Math.max(0, Math.min(100, currentThread.chemistry + boostedDelta)),
       messages: appended,
     });
   };
@@ -602,6 +639,23 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         {thread.stage === 'imessage' ? 'iMessage' : 'App DM'}
                       </span>
                     </div>
+                    <div className="mt-0.5 flex items-center justify-between gap-1 text-[11px]">
+                      <span
+                        data-testid={`lead-date-hearts-${thread.leadId}`}
+                        className={`font-bold tracking-tight ${
+                          isSelected ? 'text-rose-300' : 'text-rose-600'
+                        }`}
+                      >
+                        {'♥'.repeat(Math.min(3, thread.datesCompleted)) +
+                          '♡'.repeat(Math.max(0, 3 - Math.min(3, thread.datesCompleted)))}
+                        {thread.lastDateRank && thread.lastDateRank !== 'F'
+                          ? ` • ${thread.lastDateRank}-Rank`
+                          : ''}
+                      </span>
+                      <span className={isSelected ? 'text-amber-200' : 'text-stone-400'}>
+                        {thread.chemistry}% Spark
+                      </span>
+                    </div>
                     <p
                       className={`mt-0.5 text-xs line-clamp-1 ${
                         isSelected ? 'text-stone-300' : 'text-stone-500'
@@ -660,7 +714,26 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  {etiquetteBonusActive ? (
+                    <span
+                      data-testid="etiquette-perk-pill"
+                      className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-1 text-[11px] font-extrabold text-emerald-900"
+                    >
+                      <GraduationCap className="h-3.5 w-3.5" />
+                      <span>+8% Spark Perk</span>
+                    </span>
+                  ) : onOpenCubSchool ? (
+                    <button
+                      type="button"
+                      onClick={onOpenCubSchool}
+                      className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-950 hover:bg-amber-100 cursor-pointer"
+                    >
+                      <GraduationCap className="h-3.5 w-3.5" />
+                      <span>Cub School (+8% Spark)</span>
+                    </button>
+                  ) : null}
+
                   {currentThread.stage === 'imessage' && (
                     <button
                       type="button"
@@ -855,12 +928,29 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     </div>
                   </div>
                 ) : activeBeat ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs font-semibold text-stone-500">
-                      <span>
-                        Beat {currentThread.currentBeat} of 6 • Tap a reply or type anything freely
-                        below
-                      </span>
+                  <div className="space-y-2.5">
+                    <div
+                      data-testid="chat-beat-progress"
+                      className="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-stone-600"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center gap-1">
+                          {[1, 2, 3, 4, 5, 6].map((dot) => (
+                            <span
+                              key={dot}
+                              className={`h-2 w-2 rounded-full ${
+                                dot <= currentThread.currentBeat ? 'bg-rose-600' : 'bg-stone-300'
+                              }`}
+                            />
+                          ))}
+                        </span>
+                        <span>
+                          Beat {currentThread.currentBeat} of 6 →{' '}
+                          {currentThread.stage === 'app_dm'
+                            ? 'Graduate to iMessage'
+                            : 'Unlock Friday Date'}
+                        </span>
+                      </div>
                       {activeBeat.trapClueHint && (
                         <span className="text-rose-700 font-bold">🕵️ Intuition Alert</span>
                       )}
@@ -950,84 +1040,86 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       )}
 
       {/* Cut-Loose Bullet-Dodged Receipt OR Bestie Self-Sabotage Check Modal */}
-      {cutLooseModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-7 shadow-2xl space-y-4">
-            <h3 className="font-editorial text-2xl font-bold text-[#18101E]">
-              {cutLooseModal.verdict.headline}
-            </h3>
-            <p className="text-sm text-stone-700 leading-relaxed">
-              {cutLooseModal.verdict.bestieNote}
-            </p>
+      {cutLooseModal &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-7 shadow-2xl space-y-4">
+              <h3 className="font-editorial text-2xl font-bold text-[#18101E]">
+                {cutLooseModal.verdict.headline}
+              </h3>
+              <p className="text-sm text-stone-700 leading-relaxed">
+                {cutLooseModal.verdict.bestieNote}
+              </p>
 
-            {cutLooseModal.verdict.isActualTrap ? (
-              <div className="space-y-4">
-                <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-xs font-bold text-emerald-900">
-                  +25 Discernment XP Awarded • ❤️ Friday Night Heart Preserved!
-                </div>
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        shareOrCopy({
-                          title: 'Bullet Dodged Receipt',
-                          text: cutLooseModal.verdict.receiptShareLine,
-                          url: 'https://cougarsandcubs.club',
-                        })
-                      }
-                      className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-2 text-xs font-bold text-white cursor-pointer"
-                    >
-                      <Share2 className="h-3.5 w-3.5" />
-                      <span>Share Receipt</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCutLooseModal(null)}
-                      className="rounded-full border border-stone-300 px-4 py-2 text-xs font-bold text-stone-800 cursor-pointer"
-                    >
-                      Back to Connections
-                    </button>
+              {cutLooseModal.verdict.isActualTrap ? (
+                <div className="space-y-4">
+                  <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-xs font-bold text-emerald-900">
+                    +25 Discernment XP Awarded • ❤️ Friday Night Heart Preserved!
                   </div>
-                  <a
-                    href={MONETIZATION_CONFIG.tipJarUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:underline"
-                  >
-                    <Heart className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                    <span>💛 Support This Project</span>
-                  </a>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          shareOrCopy({
+                            title: 'Bullet Dodged Receipt',
+                            text: cutLooseModal.verdict.receiptShareLine,
+                            url: 'https://cougarsandcubs.club',
+                          })
+                        }
+                        className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-2 text-xs font-bold text-white cursor-pointer"
+                      >
+                        <Share2 className="h-3.5 w-3.5" />
+                        <span>Share Receipt</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCutLooseModal(null)}
+                        className="rounded-full border border-stone-300 px-4 py-2 text-xs font-bold text-stone-800 cursor-pointer"
+                      >
+                        Back to Connections
+                      </button>
+                    </div>
+                    <a
+                      href={MONETIZATION_CONFIG.tipJarUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:underline"
+                    >
+                      <Heart className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                      <span>💛 Support This Project</span>
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setCutLooseModal(null)}
-                  className="rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
-                >
-                  Keep Chatting (Listen to Bestie!)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onConfirmCutGenuine(cutLooseModal.leadId);
-                    setCutLooseModal(null);
-                  }}
-                  className="rounded-full border border-stone-300 px-4 py-2.5 text-xs font-bold text-stone-600 cursor-pointer"
-                >
-                  Unmatch Anyway
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+              ) : (
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setCutLooseModal(null)}
+                    className="rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
+                  >
+                    Keep Chatting (Listen to Bestie!)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onConfirmCutGenuine(cutLooseModal.leadId);
+                      setCutLooseModal(null);
+                    }}
+                    className="rounded-full border border-stone-300 px-4 py-2.5 text-xs font-bold text-stone-600 cursor-pointer"
+                  >
+                    Unmatch Anyway
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 };

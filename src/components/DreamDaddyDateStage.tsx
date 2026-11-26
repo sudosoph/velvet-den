@@ -284,6 +284,23 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
         <div className="velvet-stage-dock p-6 sm:p-8 space-y-5">
           {!finished ? (
             <>
+              <div className="flex items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider text-amber-200/90">
+                <span className="inline-flex items-center gap-1.5">
+                  {script.beats.map((_, i) => (
+                    <span
+                      key={i}
+                      className={`h-2 w-5 rounded-full transition-all ${
+                        i <= beatIdx ? 'bg-amber-300' : 'bg-white/20'
+                      }`}
+                    />
+                  ))}
+                  <span className="ml-1">
+                    Scene {beatIdx + 1} of {script.beats.length}
+                  </span>
+                </span>
+                <span>Chase S-Rank ♥♥♥</span>
+              </div>
+
               {currentBeat.bestiePopIn && (
                 <div className="rounded-2xl bg-white/10 border border-amber-200/30 px-4 py-2.5 text-xs sm:text-sm font-medium text-amber-200">
                   📱 {currentBeat.bestiePopIn}

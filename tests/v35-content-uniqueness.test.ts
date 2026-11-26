@@ -14,8 +14,21 @@ import {
 import { V35_CUB_SCHOOL_DRILLS } from '../src/data/v35CubSchool';
 import { V35_WILD_VENUES } from '../src/data/v35WildVenues';
 
-const HARD_BAN_REGEX =
-  /pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle|timeshare|sheryl\s*crow|james\s*webb|roblox|1\.75l\s+bottle\s+of\s+tito|venmo|oatmeal\s+cashmere|photo\s+\d+\s+of\s+\d+/i;
+const ZERO_TOLERANCE_BAN_REGEX =
+  /pine\s*pollen|bernedoodle|james\s*webb|oatmeal\s+cashmere|photo\s+\d+\s+of\s+\d+/i;
+
+const ICONIC_SINGLE_USE_JOKES: {
+  name: string;
+  regex: RegExp;
+  expectedOwnerId: string;
+}[] = [
+  { name: "Tito's mirror bottle", regex: /\btito['’]?s\b/i, expectedOwnerId: 'connor' },
+  { name: 'Venmo split math', regex: /\bvenmo\b/i, expectedOwnerId: 'devon' },
+  { name: 'Roblox stay-home excuse', regex: /\broblox\b/i, expectedOwnerId: 'devon' },
+  { name: 'Parents Maui timeshare flex', regex: /\btimeshare\b/i, expectedOwnerId: 'graham' },
+  { name: 'Sheryl Crow coastal stereo', regex: /sheryl\s*crow/i, expectedOwnerId: 'elena' },
+  { name: 'Qigong / Tai Chi / Seed-Oil wellness', regex: /qigong|tai\s*chi|seed[- ]oil/i, expectedOwnerId: 'astrid' },
+];
 
 const VERIFIED_YOUTUBE_IDS = new Set([
   'kIcLb0KAJAs',
@@ -71,7 +84,7 @@ function extractFiveWordNgrams(text: string): Set<string> {
 }
 
 describe('v35 7-bucket non-overlapping content vault, banned-trope purge & 55-Q trailer quiz', () => {
-  it('purges all banned wellness & recycled v34 tropes across src/ and worker/', () => {
+  it('purges zero-tolerance narrator/filler clutter everywhere and restricts each iconic joke to strictly 1 rightful character owner', () => {
     const files = [
       ...collectCodeFiles(path.resolve(process.cwd(), 'src')),
       ...collectCodeFiles(path.resolve(process.cwd(), 'worker')),
@@ -79,12 +92,43 @@ describe('v35 7-bucket non-overlapping content vault, banned-trope purge & 55-Q 
     const violations: string[] = [];
     for (const file of files) {
       const content = fs.readFileSync(file, 'utf8');
-      const match = content.match(HARD_BAN_REGEX);
+      const match = content.match(ZERO_TOLERANCE_BAN_REGEX);
       if (match) {
         violations.push(`${path.relative(process.cwd(), file)}: "${match[0]}"`);
       }
     }
     expect(violations).toEqual([]);
+
+    // Non-character buckets must have 0 occurrences of any single-use iconic joke
+    const nonCharacterFiles = files.filter(
+      (f) => !f.endsWith('v35Cast.ts') && !f.endsWith('v35ChatsAndDates.ts'),
+    );
+    for (const file of nonCharacterFiles) {
+      const content = fs.readFileSync(file, 'utf8');
+      for (const joke of ICONIC_SINGLE_USE_JOKES) {
+        expect(
+          joke.regex.test(content),
+          `Iconic joke "${joke.name}" leaked into ${path.relative(process.cwd(), file)}`,
+        ).toBe(false);
+      }
+    }
+
+    // Across all 22 characters (profile + chat + dates), each iconic joke belongs to strictly 1 owner
+    for (const joke of ICONIC_SINGLE_USE_JOKES) {
+      const matchingOwners = V35_CAST_PROFILES.filter((profile) => {
+        const blob = JSON.stringify({
+          profile,
+          chat: V35_CHAT_CHAPTERS[profile.id],
+          dates: V35_DATE_SCRIPTS[profile.id],
+        });
+        return joke.regex.test(blob);
+      }).map((p) => p.id);
+
+      expect(
+        matchingOwners,
+        `Expected "${joke.name}" to appear once on ${joke.expectedOwnerId}, got [${matchingOwners.join(', ')}]`,
+      ).toEqual([joke.expectedOwnerId]);
+    }
   });
 
   it('delivers 22 authentic first-person Hinge cast profiles, 10 main leads with 3+ dates, and 5 distinct Discord channels', () => {

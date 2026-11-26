@@ -551,7 +551,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'graham-p3',
         question: 'Unusual skills',
         answer:
-          'Knowing every back booth in town where nobody from the yacht club ever wanders in.',
+          'Knowing every back booth in town—plus casually mentioning "my place in Maui" before admitting it’s my parents’ Week-14 timeshare.',
         openers: [
           { text: 'Love a quiet booth!', delta: 14 },
           {
@@ -589,7 +589,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('connor', [
       'Golden hour after training',
-      'Late night pregame at the frat annex',
+      '2 AM bathroom mirror check—ignore the bottle of Tito’s on the sink',
       'Turf sprints before noon',
       'Malibu sunset session',
       'Rooftop nights',
@@ -1019,7 +1019,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       'Left Bank sidewalk espresso—sunglasses stay on before ten',
       'Faculty contemporary opening',
       'Rainy Sunday reading corner—do not disturb without tea',
-      'Sabbatical month above the Tyrrhenian Sea',
+      'Coastal Highway 1 drive with Sheryl Crow turned all the way up',
     ]),
     prompts: [
       {
@@ -1735,7 +1735,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'astrid-p2',
         question: 'My simple pleasures',
         answer:
-          'Cardamom buns, honest conversation without American small-talk filler, and long barefoot beach walks.',
+          'Dawn qigong and tai chi on the bluff, a strictly seed-oil-free kitchen, and honest conversation without small-talk filler.',
         openers: [
           { text: 'Hey how are you!', delta: -8 },
           {

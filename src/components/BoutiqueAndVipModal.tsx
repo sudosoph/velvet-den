@@ -664,7 +664,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   ['houseboy', '🥂 Kitchen & Aprons'],
                   ['princess_luxury', '👑 Soft-Life Silk'],
                   ['hosting_upgrade', '🛏️ Hosting & Bedding'],
-                  ['date_night', '🍸 Barware & Scent'],
+                  ['date_night', '🍸 Date Night & Grooming'],
                   ['trail_wellness', '🏔️ Trail & Gym'],
                 ] as const
               ).map(([cat, label]) => (

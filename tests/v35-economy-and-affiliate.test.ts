@@ -109,9 +109,10 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
         item.merchantUrl,
         `${item.id} must point to a specific /dp/<ASIN> page, not /s?k=`,
       ).toMatch(/^https:\/\/www\.amazon\.com\/dp\/[A-Z0-9]{10}$/);
-      expect(item.photoUrl).toMatch(/^\.\/images\/products\/[a-z0-9-]+\.jpg$/);
+      expect(item.photoUrl).toBe(`./images/products/${item.id}.jpg`);
       const diskPath = path.resolve(process.cwd(), 'public', item.photoUrl.replace(/^\.\//, ''));
-      expect(fs.existsSync(diskPath), `Missing product photo ${diskPath}`).toBe(true);
+      expect(fs.existsSync(diskPath), `Missing specific product photo ${diskPath}`).toBe(true);
+      expect(fs.statSync(diskPath).size, `Empty/tiny photo ${diskPath}`).toBeGreaterThan(8_000);
 
       const tagged = buildAffiliateUrl(item, 'test_card', {
         amazonAssociateTag: 'cougarsandcub-20',
@@ -122,6 +123,24 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
         /seed[- ]oil|timeshare|pine\s*pollen|qigong|tai\s*chi|bernedoodle|venmo/i,
       );
     }
+
+    // Every product in AFFILIATE_CATALOG must have its own unique image path (zero shared category placeholders)
+    const uniquePhotos = new Set(AFFILIATE_CATALOG.map((item) => item.photoUrl));
+    expect(uniquePhotos.size).toBe(AFFILIATE_CATALOG.length);
+
+    // Verified live 200 OK replacements for the 4 previously broken/mismatched ASINs
+    expect(
+      AFFILIATE_CATALOG.find((i) => i.id === 'princess-mulberry-silk-robe')?.merchantUrl,
+    ).toBe('https://www.amazon.com/dp/B0FD3H89H5');
+    expect(
+      AFFILIATE_CATALOG.find((i) => i.id === 'no-hard-feelings-jlaw-prime')?.merchantUrl,
+    ).toBe('https://www.amazon.com/dp/B0C8BTYH4M');
+    expect(
+      AFFILIATE_CATALOG.find((i) => i.id === 'bridget-jones-cougar-town-watch')?.merchantUrl,
+    ).toBe('https://www.amazon.com/dp/0099584433');
+    expect(
+      AFFILIATE_CATALOG.find((i) => i.id === 'the-rebound-zeta-jones-prime')?.merchantUrl,
+    ).toBe('https://www.amazon.com/dp/B006JIL0AG');
   });
 
   it('supports HEAD and GET on /api/go/:id with specific /dp/<ASIN> redirect and grants patron badge (0 credits) on $5 tip checkout', async () => {
@@ -133,7 +152,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     );
     expect(headRes.status).toBe(302);
     const loc = headRes.headers.get('Location') ?? '';
-    expect(loc).toContain('https://www.amazon.com/dp/B0C5Q7QMH3');
+    expect(loc).toContain('https://www.amazon.com/dp/B0C8BTYH4M');
     expect(loc).toContain('tag=sophia-20');
     expect(loc).toContain('linkCode=ll2');
 

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Briefcase,
   Compass,
@@ -10,7 +11,13 @@ import {
   Sparkles,
   X,
 } from 'lucide-react';
-import { V35_CAST_PROFILES, type HingePromptItem, type V35CastProfile } from '../data/v35Cast';
+import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
+import {
+  getCastProfileById,
+  V35_CAST_PROFILES,
+  type HingePromptItem,
+  type V35CastProfile,
+} from '../data/v35Cast';
 import type { WalletState } from '../domain/economy';
 import { sfx } from '../lib/sound';
 
@@ -19,6 +26,7 @@ export interface HingeFeedViewProps {
   wallet: WalletState;
   matchedLeadIds: string[];
   cutLooseIds: string[];
+  etiquetteBonusActive?: boolean;
   onSendHingeOpener: (
     leadId: string,
     promptOrSlideLabel: string,
@@ -44,6 +52,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   wallet,
   matchedLeadIds,
   cutLooseIds,
+  etiquetteBonusActive = false,
   onSendHingeOpener,
   onSwitchRole,
   onOpenWildMap,
@@ -59,6 +68,14 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     tone: 'match' | 'pending' | 'delayed';
     text: string;
     leadId?: string;
+  } | null>(null);
+  const [matchCelebration, setMatchCelebration] = useState<{
+    leadId: string;
+    name: string;
+    age: number;
+    job: string;
+    portrait: string;
+    isDelayed?: boolean;
   } | null>(null);
 
   const deck = useMemo(() => {
@@ -92,12 +109,14 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     setPendingLikes(nextList);
 
     if (readyPopIn) {
+      const delayedPerson = getCastProfileById(readyPopIn.leadId);
+      const delayedVis = V35_CAST_VISUALS[readyPopIn.leadId];
       onSendHingeOpener(
         readyPopIn.leadId,
         'Delayed Match Pop-In',
         'Matched back after reading your note!',
         0,
-        16,
+        16 + (etiquetteBonusActive ? 4 : 0),
         'delayed_match',
       );
       setStatusBanner({
@@ -105,6 +124,16 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         text: `✨ Surprise Match Pop-In! ${readyPopIn.name} just matched with your earlier Like — open Chats & Dates!`,
         leadId: readyPopIn.leadId,
       });
+      if (delayedPerson && delayedVis) {
+        setMatchCelebration({
+          leadId: delayedPerson.id,
+          name: delayedPerson.name,
+          age: delayedPerson.age,
+          job: delayedPerson.vitals.job,
+          portrait: delayedVis.primaryPortrait,
+          isDelayed: true,
+        });
+      }
       return true;
     }
     return false;
@@ -121,9 +150,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   const submitLike = (openerText: string, cost: number, delta: number) => {
     if (!currentProfile || !replyTarget) return;
 
+    const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
     const isRoseOrAttuned =
       cost > 0 ||
-      delta >= 14 ||
+      boostedDelta >= 14 ||
       currentProfile.matchSelectivity === 'warm' ||
       currentProfile.tier === 'trap';
 
@@ -133,13 +163,14 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         replyTarget.label,
         openerText,
         cost,
-        delta,
+        boostedDelta,
         'instant_match',
       );
       if (accepted === false) {
         return;
       }
       sfx.swipeRight();
+      const matchedVis = V35_CAST_VISUALS[currentProfile.id];
       const poppedDelayed = advancePendingCounter();
       if (!poppedDelayed) {
         setStatusBanner({
@@ -147,6 +178,15 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           text: `🥂 It’s a Match with ${currentProfile.name}! Thread added to Chats & Dates.`,
           leadId: currentProfile.id,
         });
+        if (matchedVis) {
+          setMatchCelebration({
+            leadId: currentProfile.id,
+            name: currentProfile.name,
+            age: currentProfile.age,
+            job: currentProfile.vitals.job,
+            portrait: matchedVis.primaryPortrait,
+          });
+        }
       }
     } else {
       sfx.messagePop();
@@ -185,6 +225,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               setPassedIds([]);
               setPendingLikes([]);
               setStatusBanner(null);
+              setMatchCelebration(null);
               onSwitchRole('her');
             }}
             className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer ${
@@ -201,6 +242,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               setPassedIds([]);
               setPendingLikes([]);
               setStatusBanner(null);
+              setMatchCelebration(null);
               onSwitchRole('him');
             }}
             className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer ${
@@ -568,91 +610,162 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         </article>
       )}
 
-      {/* Hinge Opener & Standout Rose Modal Sheet */}
-      {replyTarget && currentProfile && (
-        <div
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/55 p-3 sm:p-5 backdrop-blur-xs"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Reply to ${currentProfile.name}`}
-        >
-          <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl space-y-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                  Replying to {currentProfile.name}
+      {/* Hinge Opener & Standout Rose Modal Sheet (Portaled to document.body for true viewport centering) */}
+      {replyTarget &&
+        currentProfile &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/55 p-3 sm:p-5 backdrop-blur-xs"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Reply to ${currentProfile.name}`}
+          >
+            <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl space-y-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                    Replying to {currentProfile.name}
+                  </div>
+                  <p className="mt-1 font-editorial text-lg text-[#18101E]">
+                    &ldquo;{replyTarget.previewText}&rdquo;
+                  </p>
                 </div>
-                <p className="mt-1 font-editorial text-lg text-[#18101E]">
-                  &ldquo;{replyTarget.previewText}&rdquo;
+                <button
+                  type="button"
+                  aria-label="Close reply sheet"
+                  onClick={() => setReplyTarget(null)}
+                  className="rounded-full p-1.5 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {replyTarget.prompt && (
+                <div className="space-y-2.5">
+                  {replyTarget.prompt.openers.map((opt) => {
+                    const isVip = 'isVipSmooth' in opt && Boolean(opt.isVipSmooth);
+                    const cost = isVip ? 1 : 0;
+                    return (
+                      <button
+                        key={opt.text}
+                        type="button"
+                        data-testid="hinge-opener-option"
+                        onClick={() => submitLike(opt.text, cost, opt.delta)}
+                        className={`w-full rounded-2xl p-4 text-left text-sm whitespace-normal transition cursor-pointer ${
+                          isVip
+                            ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E] hover:border-amber-400'
+                            : 'border border-stone-200 bg-stone-50/70 font-medium text-stone-800 hover:border-stone-400 hover:bg-white'
+                        }`}
+                      >
+                        <div className="leading-relaxed">{opt.text}</div>
+                        {isVip && (
+                          <div className="mt-1.5 text-xs font-bold text-rose-800">
+                            🌹 Send a Standout Rose ({wallet.isVip ? 'Included w/ VIP' : '1 Cr'}) • Instant Top-of-Queue Match
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Free Custom Opener Input */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const trimmed = customNote.trim();
+                  if (!trimmed) return;
+                  const earnedDelta = trimmed.length >= 24 ? 16 : -4;
+                  submitLike(trimmed, 0, earnedDelta);
+                }}
+                className="flex gap-2 pt-1"
+              >
+                <input
+                  type="text"
+                  value={customNote}
+                  onChange={(e) => setCustomNote(e.target.value)}
+                  placeholder={`Or write your own note to ${currentProfile.name}...`}
+                  className="flex-1 rounded-full border border-stone-300 px-4 py-2.5 text-sm text-[#18101E]"
+                />
+                <button
+                  type="submit"
+                  className="rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
+                >
+                  Send Like
+                </button>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
+
+      {/* Celebratory Dream Daddy / Hinge Match Splash Overlay */}
+      {matchCelebration &&
+        createPortal(
+          <div
+            data-testid="hinge-match-celebration"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/70 p-4 backdrop-blur-xs"
+            role="dialog"
+            aria-label={`Matched with ${matchCelebration.name}`}
+          >
+            <div className="editorial-hinge-card w-full max-w-md rounded-3xl bg-[#FFFDF9] p-6 text-center shadow-2xl space-y-4">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-rose-900">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>
+                  {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : 'It’s a Match!'}
+                </span>
+              </span>
+
+              <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-amber-300 shadow-lg">
+                <img
+                  src={matchCelebration.portrait}
+                  alt={matchCelebration.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+
+              <div>
+                <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
+                  {matchCelebration.name}, {matchCelebration.age}
+                </h2>
+                <p className="mt-0.5 text-xs font-semibold text-stone-500">
+                  {matchCelebration.job}
+                </p>
+                <p className="mt-2 text-xs sm:text-sm text-stone-700 leading-relaxed">
+                  Act 2 Unlocked: Vet {matchCelebration.name} across 6 punchy Hinge DM beats to
+                  graduate to personal iMessage &amp; unlock Date #1 (or hit 🚩 Cut Loose if red
+                  flags drop!).
                 </p>
               </div>
-              <button
-                type="button"
-                aria-label="Close reply sheet"
-                onClick={() => setReplyTarget(null)}
-                className="rounded-full p-1.5 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
 
-            {replyTarget.prompt && (
-              <div className="space-y-2.5">
-                {replyTarget.prompt.openers.map((opt) => {
-                  const isVip = 'isVipSmooth' in opt && Boolean(opt.isVipSmooth);
-                  const cost = isVip ? 1 : 0;
-                  return (
-                    <button
-                      key={opt.text}
-                      type="button"
-                      data-testid="hinge-opener-option"
-                      onClick={() => submitLike(opt.text, cost, opt.delta)}
-                      className={`w-full rounded-2xl p-4 text-left text-sm whitespace-normal transition cursor-pointer ${
-                        isVip
-                          ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E] hover:border-amber-400'
-                          : 'border border-stone-200 bg-stone-50/70 font-medium text-stone-800 hover:border-stone-400 hover:bg-white'
-                      }`}
-                    >
-                      <div className="leading-relaxed">{opt.text}</div>
-                      {isVip && (
-                        <div className="mt-1.5 text-xs font-bold text-rose-800">
-                          🌹 Send a Standout Rose ({wallet.isVip ? 'Included w/ VIP' : '1 Cr'}) • Instant Top-of-Queue Match
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">
+                {onOpenChats && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const targetId = matchCelebration.leadId;
+                      setMatchCelebration(null);
+                      onOpenChats(targetId);
+                    }}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#18101E] hover:bg-stone-800 px-6 py-3 text-xs sm:text-sm font-extrabold text-white cursor-pointer"
+                  >
+                    <MessageCircle className="h-4 w-4 text-amber-300" />
+                    <span>Text {matchCelebration.name} Now →</span>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setMatchCelebration(null)}
+                  className="w-full sm:w-auto rounded-full border border-stone-300 bg-white px-5 py-3 text-xs font-bold text-stone-700 hover:bg-stone-50 cursor-pointer"
+                >
+                  Keep Browsing Hinge
+                </button>
               </div>
-            )}
-
-            {/* Free Custom Opener Input */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const trimmed = customNote.trim();
-                if (!trimmed) return;
-                const earnedDelta = trimmed.length >= 24 ? 16 : -4;
-                submitLike(trimmed, 0, earnedDelta);
-              }}
-              className="flex gap-2 pt-1"
-            >
-              <input
-                type="text"
-                value={customNote}
-                onChange={(e) => setCustomNote(e.target.value)}
-                placeholder={`Or write your own note to ${currentProfile.name}...`}
-                className="flex-1 rounded-full border border-stone-300 px-4 py-2.5 text-sm text-[#18101E]"
-              />
-              <button
-                type="submit"
-                className="rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
-              >
-                Send Like
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 };

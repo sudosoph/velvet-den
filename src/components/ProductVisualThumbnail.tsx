@@ -12,12 +12,12 @@ export const ProductVisualThumbnail: React.FC<ProductVisualThumbnailProps> = ({
   compact = false,
 }) => {
   const { visualSpec } = item;
-  const photoSrc = item.photoUrl || resolveProductPhotoUrl(visualSpec.motif);
+  const photoSrc = item.photoUrl || resolveProductPhotoUrl(item.id);
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border border-stone-200 bg-stone-100 select-none ${
-        compact ? 'h-20 w-20 shrink-0' : 'h-40 w-full'
+      className={`relative overflow-hidden rounded-2xl border border-stone-200 bg-[#FDFBF7] select-none ${
+        compact ? 'h-20 w-20 shrink-0' : 'h-44 w-full'
       }`}
       data-testid={`product-visual-${item.id}`}
     >
@@ -25,7 +25,7 @@ export const ProductVisualThumbnail: React.FC<ProductVisualThumbnailProps> = ({
         src={photoSrc}
         alt={item.name}
         loading="lazy"
-        className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+        className="h-full w-full object-contain p-1.5 transition-transform duration-300 hover:scale-105"
       />
       <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-white/95 backdrop-blur-xs border border-stone-200/80 px-2.5 py-0.5 text-[10px] font-extrabold text-[#18101E] shadow-xs">
         <span>{visualSpec.emoji}</span>

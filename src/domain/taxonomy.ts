@@ -1840,7 +1840,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'cub_taxonomy',
     headline: 'Cautionary Club Specimen',
     insiderLore:
-      'Either opens with "hey" + purple LED Tito’s selfies OR invites you out on a campus meal plan and pulls out a spreadsheet to split-tab-request $3.19 for four edamame pods.',
+      'Either opens with "hey" + purple LED dorm selfies OR invites you out on a campus meal plan and pulls out a spreadsheet to split-tab-request $3.19 for four edamame pods.',
     signatureTell: 'Asks for your Snapchat or itemizes half the appetizer.',
   },
   {

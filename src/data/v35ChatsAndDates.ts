@@ -1051,7 +1051,7 @@ function buildTrapChapter(
     devon: {
       m1: 'I haven’t stopped staring at your photos—I already started writing a chorus about us driving up to Big Sur next month.',
       m2: 'Is it crazy that after ten minutes I feel like you understand me better than anyone I’ve ever met?',
-      m3: 'Wait... Friday night at a real restaurant is suddenly making me super anxious, maybe we just keep texting for a few weeks until the stars align?',
+      m3: 'Wait... Friday dinner is stressing me out—also if we grab coffee first do you mind splitting the $6.50 meter on Venmo? Staying home on Roblox tonight to clear my head.',
       headline: '🏆 BULLET DODGED: Tuesday Poet / Friday 4 PM Flake Clocked!',
       note: 'Jade nodding: Classic 48-hour love-bomber! Writes Big Sur sonnets on Tuesday and panics before Friday appetizers. You just saved your whole evening!',
     },

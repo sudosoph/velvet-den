@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Award, CheckCircle2, ExternalLink, GraduationCap, Heart, Share2 } from 'lucide-react';
+import {
+  Award,
+  CheckCircle2,
+  ExternalLink,
+  GraduationCap,
+  Heart,
+  MessageCircle,
+  Share2,
+  Sparkles,
+} from 'lucide-react';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import {
   EXPRESSION_MOTION_PRESETS,
@@ -13,10 +22,23 @@ import { shareOrCopy } from '../lib/viral';
 
 export interface CubSchoolViewProps {
   role: 'her' | 'him';
+  initialGoldStars?: number;
+  activeMatchName?: string | null;
+  onUpdateGoldStars?: (stars: number) => void;
   onEarnDiploma?: () => void;
+  onReturnToActiveMatch?: () => void;
+  onGoToHinge?: () => void;
 }
 
-export const CubSchoolView: React.FC<CubSchoolViewProps> = ({ role, onEarnDiploma }) => {
+export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
+  role,
+  initialGoldStars = 0,
+  activeMatchName,
+  onUpdateGoldStars,
+  onEarnDiploma,
+  onReturnToActiveMatch,
+  onGoToHinge,
+}) => {
   const [mode, setMode] = useState<'headmistress' | 'candidate'>(
     role === 'her' ? 'headmistress' : 'candidate',
   );
@@ -33,6 +55,9 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({ role, onEarnDiplom
     setGoldStars(0);
     setGraduated(false);
   }, [role]);
+
+  const bestStars = Math.max(goldStars, initialGoldStars);
+  const perkUnlocked = bestStars >= 4;
 
   const drill = V35_CUB_SCHOOL_DRILLS[drillIdx];
   const pickedOption = pickedIdx !== null ? drill.options[pickedIdx] : null;
@@ -91,6 +116,26 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({ role, onEarnDiplom
             >
               Run All 12 Drills Again
             </button>
+
+            {onReturnToActiveMatch && activeMatchName ? (
+              <button
+                type="button"
+                onClick={onReturnToActiveMatch}
+                className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-5 py-3 text-xs font-extrabold text-white cursor-pointer"
+              >
+                <MessageCircle className="h-4 w-4" />
+                <span>Return to Active Match ({activeMatchName}) →</span>
+              </button>
+            ) : onGoToHinge ? (
+              <button
+                type="button"
+                onClick={onGoToHinge}
+                className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-5 py-3 text-xs font-extrabold text-white cursor-pointer"
+              >
+                <Sparkles className="h-4 w-4" />
+                <span>Use +8% Spark on Hinge →</span>
+              </button>
+            ) : null}
 
             <a
               href={MONETIZATION_CONFIG.tipJarUrl}
@@ -152,6 +197,36 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({ role, onEarnDiplom
         </div>
       </section>
 
+      {/* Live Campaign Perk Bridge Bar */}
+      <div
+        data-testid="cub-school-perk-banner"
+        className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-xs font-bold ${
+          perkUnlocked
+            ? 'border-emerald-300 bg-emerald-50 text-emerald-950'
+            : 'border-amber-200 bg-amber-50/80 text-amber-950'
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-4 w-4 shrink-0 text-rose-600" />
+          <span>
+            {perkUnlocked
+              ? `✨ +8% Etiquette Spark Active across Hinge, Chats & Dates (${bestStars}/12 Gold Stars Earned!)`
+              : `🎯 Campaign Perk: Earn 4+ Gold Stars (${bestStars}/4 so far) to unlock a permanent +8% Chemistry Spark in Chats & Dates!`}
+          </span>
+        </div>
+
+        {onReturnToActiveMatch && activeMatchName && (
+          <button
+            type="button"
+            onClick={onReturnToActiveMatch}
+            className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-1.5 text-xs font-extrabold text-white cursor-pointer"
+          >
+            <MessageCircle className="h-3.5 w-3.5 text-amber-300" />
+            <span>Return to Active Match ({activeMatchName}) →</span>
+          </button>
+        )}
+      </div>
+
       {/* Main Animated Drill Card */}
       <section className="editorial-hinge-card rounded-3xl p-6 sm:p-8 space-y-5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-100 pb-5">
@@ -194,7 +269,9 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({ role, onEarnDiplom
                   setPickedIdx(idx);
                   if (opt.isGoldStar) {
                     sfx.greenFlag();
-                    setGoldStars((g) => g + 1);
+                    const nextStars = goldStars + 1;
+                    setGoldStars(nextStars);
+                    onUpdateGoldStars?.(Math.max(initialGoldStars, nextStars));
                   } else {
                     sfx.redFlag();
                   }

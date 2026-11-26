@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle2, MapPin, Sparkles } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, MapPin, MessageCircle, Sparkles } from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
 import { V35_WILD_VENUES, type WildVenueSpot } from '../data/v35WildVenues';
@@ -17,6 +17,7 @@ export interface InTheWildMapViewProps {
     clueId?: string,
   ) => void;
   onCompleteCameo: (venueId: string, leadId: string, bonus: number) => void;
+  onOpenChatWithLead?: (leadId: string) => void;
 }
 
 export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
@@ -26,6 +27,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   initialVenueId,
   onUnlockWildLead,
   onCompleteCameo,
+  onOpenChatWithLead,
 }) => {
   const [selectedSpotId, setSelectedSpotId] = useState<string | null>(initialVenueId ?? null);
   const [outcomeCard, setOutcomeCard] = useState<{
@@ -61,7 +63,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
     const matchedTargetLeadId = activeLeadThreads.includes(primaryLeadId)
       ? primaryLeadId
       : matchedSecondaryId;
-    const isAlreadyMatched = Boolean(matchedTargetLeadId);
+    const isAlreadyMatched = Boolean(matchedTargetLeadId) && !outcomeCard;
     const cameoDone = completedCameoVenues.includes(activeSpot.id);
     const cameoSpeaker = getCastProfileById(activeSpot.cameoBeat.speakerId);
     const cameoPortrait = V35_CAST_VISUALS[activeSpot.cameoBeat.speakerId]?.primaryPortrait;
@@ -128,9 +130,24 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                   {activeSpot.cameoBeat.line}
                 </p>
                 {cameoDone ? (
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold text-emerald-200">
-                    <CheckCircle2 className="h-4 w-4" />
-                    <span>Cameo Completed ✓ ({activeSpot.cameoBeat.boostText})</span>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold text-emerald-200">
+                      <CheckCircle2 className="h-4 w-4" />
+                      <span>Cameo Completed ✓ ({activeSpot.cameoBeat.boostText})</span>
+                    </div>
+                    {matchedTargetLeadId && onOpenChatWithLead && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenChatWithLead(matchedTargetLeadId)}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 px-5 py-2 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                      >
+                        <MessageCircle className="h-3.5 w-3.5" />
+                        <span>
+                          Return to {getCastProfileById(matchedTargetLeadId)?.name ?? 'Match'}’s
+                          Chat →
+                        </span>
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <button
@@ -170,6 +187,19 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                       {outcomeCard.text}
                     </p>
                     <div className="flex flex-wrap gap-3">
+                      {outcomeCard.unlockedLeadId && onOpenChatWithLead && (
+                        <button
+                          type="button"
+                          onClick={() => onOpenChatWithLead(outcomeCard.unlockedLeadId!)}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 hover:bg-amber-200 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-[#18101E] shadow-md cursor-pointer"
+                        >
+                          <MessageCircle className="h-4 w-4" />
+                          <span>
+                            Open iMessage with{' '}
+                            {getCastProfileById(outcomeCard.unlockedLeadId)?.name ?? 'Match'} Now →
+                          </span>
+                        </button>
+                      )}
                       {outcomeCard.isMemeFail && (
                         <button
                           type="button"

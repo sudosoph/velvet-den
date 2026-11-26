@@ -18,9 +18,17 @@ const configSubId = monetizationSource.match(/partnerSubId:\s*'([^']*)'/)?.[1] |
 const EXPLICIT_AMAZON_TAG = (process.env.AMAZON_ASSOCIATE_TAG ?? '').trim();
 const PARTNER_SUB_ID = (process.env.PARTNER_SUB_ID ?? configSubId).trim();
 
-const CANONICAL_URLS_BY_ID = {};
-for (const m of affiliatesSource.matchAll(/\{\s*id:\s*'([^']+)',[\s\S]*?merchantUrl:\s*'([^']+)'/g)) {
-  CANONICAL_URLS_BY_ID[m[1]] = m[2];
+const CANONICAL_ITEMS_BY_ID = {};
+for (const m of affiliatesSource.matchAll(
+  /\{\s*id:\s*'([^']+)',\s*name:\s*(?:'([^']+)'|"([^"]+)"),[\s\S]*?priceDisplay:\s*'([^']+)',[\s\S]*?merchantUrl:\s*'([^']+)'/g,
+)) {
+  const id = m[1];
+  CANONICAL_ITEMS_BY_ID[id] = {
+    name: m[2] || m[3],
+    price: m[4],
+    url: m[5],
+    img: `../../images/products/${id}.jpg`,
+  };
 }
 
 const PROHIBITED_ADULT_DOMAINS = [
@@ -31,150 +39,25 @@ const PROHIBITED_ADULT_DOMAINS = [
   'lelo.com',
 ];
 
-const PRODUCT_CATALOG_MAP = {
-  'trophy-boyfriend-cooking-apron': {
-    name: '"Trophy Husband (In Training)" Pocket Chef Apron',
-    price: '$18 Amazon Pick',
-    url: 'https://www.amazon.com/dp/B0BXXDBB8F',
-    img: '../../images/products/aprons-kitchen.jpg',
+const PRODUCT_CATALOG_MAP = new Proxy(CANONICAL_ITEMS_BY_ID, {
+  get(target, prop) {
+    if (typeof prop === 'string' && prop in target) {
+      return target[prop];
+    }
+    return (
+      target['espresso-martini-barware'] || {
+        name: 'Mint & Mortar Copper Cocktail Shaker Set',
+        price: '$38 Barware Set',
+        url: 'https://www.amazon.com/dp/B08KQCX9Z9',
+        img: '../../images/products/espresso-martini-barware.jpg',
+      }
+    );
   },
-  'leopard-print-cougar-apron': {
-    name: 'Classic Leopard-Print Hostess & Chef Apron',
-    price: '$16 Signature Pick',
-    url: 'https://www.amazon.com/dp/B0GLPF6K39',
-    img: '../../images/products/aprons-kitchen.jpg',
-  },
-  'houseboy-linen-apron': {
-    name: 'Japanese Cross-Back Washed Linen Chef Apron',
-    price: '$22 Kitchen Pick',
-    url: 'https://www.amazon.com/dp/B093GJW13K',
-    img: '../../images/products/aprons-kitchen.jpg',
-  },
-  'princess-mulberry-silk-robe': {
-    name: '22-Momme Mulberry Silk Kimono Lounge Robe',
-    price: '$118 Luxury Pick',
-    url: 'https://www.amazon.com/dp/B08CDKTWDP',
-    img: '../../images/products/silk-robe-pillowcase.jpg',
-  },
-  'silk-pillowcase-sleepover-duo': {
-    name: '22-Momme Mulberry Silk Pillowcase & Claw-Clip Set',
-    price: '$39 Hosting Pick',
-    url: 'https://www.amazon.com/dp/B0CLXZ5LW7',
-    img: '../../images/products/silk-robe-pillowcase.jpg',
-  },
-  'hosting-lidded-bin-soap': {
-    name: 'Matte-Black Lidded Bathroom Bin + Botanical Hand Soap',
-    price: '$42 Essential Pick',
-    url: 'https://www.amazon.com/dp/B0C7CWK533',
-    img: '../../images/products/bathroom-bin-soap.jpg',
-  },
-  'percale-hosting-sheets': {
-    name: '600-Thread-Count Cotton Percale Hosting Sheet Set',
-    price: '$79 Bedroom Pick',
-    url: 'https://www.amazon.com/dp/B0D2W3ZRVQ',
-    img: '../../images/products/percale-bamboo-bedding.jpg',
-  },
-  'cooling-bamboo-sheets': {
-    name: '100% Organic Bamboo Viscose Cooling Sheet Set',
-    price: '$89 Sleep Pick',
-    url: 'https://www.amazon.com/dp/B0851BPRN9',
-    img: '../../images/products/percale-bamboo-bedding.jpg',
-  },
-  'date-night-oud-bergamot': {
-    name: 'Warm Cedar, Bergamot & Amber Eau de Parfum',
-    price: '$68 Date-Night Scent',
-    url: 'https://www.amazon.com/dp/B0987VCM34',
-    img: '../../images/products/parfum-grooming.jpg',
-  },
-  'cub-grooming-beard-skincare-kit': {
-    name: 'Sandalwood Beard Oil & Men’s Skincare Kit',
-    price: '$46 Grooming Pick',
-    url: 'https://www.amazon.com/dp/B07CGMT4FB',
-    img: '../../images/products/parfum-grooming.jpg',
-  },
-  'espresso-martini-barware': {
-    name: 'Weighted Copper Cocktail Shaker & Coupe Set',
-    price: '$54 Barware Pick',
-    url: 'https://www.amazon.com/dp/B091D8N1DF',
-    img: '../../images/products/martini-barware-goblet.jpg',
-  },
-  'big-carl-giant-wine-glass': {
-    name: 'Oversized "Big Carl" XL Full-Bottle Red-Wine Goblet',
-    price: '$24 Pop-Culture Pick',
-    url: 'https://www.amazon.com/dp/B005FP6EEA',
-    img: '../../images/products/martini-barware-goblet.jpg',
-  },
-  'after-dark-couples-deck': {
-    name: 'After-Dark Couples Conversation Card Deck',
-    price: '$26 Date-Night Deck',
-    url: 'https://www.amazon.com/dp/B097N3W56F',
-    img: '../../images/products/mocktail-card-deck.jpg',
-  },
-  'fill-in-love-coupon-cards': {
-    name: 'Fill-in-the-Blank Romantic Love Coupon Cards',
-    price: '$14 Sweet Gift',
-    url: 'https://www.amazon.com/dp/B08L9P9V17',
-    img: '../../images/products/mugs-love-coupons.jpg',
-  },
-  'short-leash-leather-dog-leash': {
-    name: 'Braided Leather Short-Traffic Dog Leash',
-    price: '$28 Walk Pick',
-    url: 'https://www.amazon.com/dp/B07C1QXQ9N',
-    img: '../../images/products/clicker-leather-leash.jpg',
-  },
-  'chic-candlelit-menu-readers': {
-    name: 'Oversized Tortoiseshell Bistro Menu Reading Glasses',
-    price: '$19 Chic Pick',
-    url: 'https://www.amazon.com/dp/B07W4R1Y4B',
-    img: '../../images/products/menu-readers.jpg',
-  },
-  'trail-hydration-vest': {
-    name: 'Ultralight Ridge-Run Hydration Vest',
-    price: '$48 Trail Pick',
-    url: 'https://www.amazon.com/dp/B0CS6BG78C',
-    img: '../../images/products/trail-fitness.jpg',
-  },
-  'cast-iron-steak-skillet': {
-    name: '12-Inch Pre-Seasoned Cast-Iron Ribeye Skillet',
-    price: '$44 Kitchen Classic',
-    url: 'https://www.amazon.com/dp/B00006JSUB',
-    img: '../../images/products/cast-iron-skillet.jpg',
-  },
-  'no-hard-feelings-jlaw-prime': {
-    name: 'No Hard Feelings (Jennifer Lawrence • Prime Video)',
-    price: 'Prime Video Watch',
-    url: 'https://www.amazon.com/dp/B0C8V5T4F9',
-    img: '../../images/products/cinema-books.jpg',
-  },
-  'babygirl-movie-prime': {
-    name: 'Babygirl (Nicole Kidman • Prime Video 4K)',
-    price: 'Prime Video Watch',
-    url: 'https://www.amazon.com/dp/B0DQJ8X72V',
-    img: '../../images/products/cinema-books.jpg',
-  },
-  'idea-of-you-movie-book': {
-    name: 'The Idea of You — Robinne Lee Novel & Film',
-    price: '$17 Book & Watch',
-    url: 'https://www.amazon.com/dp/1250125901',
-    img: '../../images/products/cinema-books.jpg',
-  },
-  'bridget-jones-cougar-town-watch': {
-    name: 'Bridget Jones: Mad About the Boy Collection',
-    price: '$16 Book & Watch',
-    url: 'https://www.amazon.com/dp/0804172404',
-    img: '../../images/products/cinema-books.jpg',
-  },
-  'the-rebound-zeta-jones-prime': {
-    name: 'The Rebound (Catherine Zeta-Jones • Prime Video)',
-    price: 'Prime Video Watch',
-    url: 'https://www.amazon.com/dp/B0047WJ19S',
-    img: '../../images/products/cinema-books.jpg',
-  },
-};
+});
 
 function tagAmazon(productId, slug) {
-  const prod = PRODUCT_CATALOG_MAP[productId] || PRODUCT_CATALOG_MAP['espresso-martini-barware'];
-  const canonicalUrl = CANONICAL_URLS_BY_ID[productId] || prod.url;
+  const prod = PRODUCT_CATALOG_MAP[productId];
+  const canonicalUrl = prod.url;
   const u = new URL(canonicalUrl);
   const host = u.hostname.toLowerCase();
   for (const banned of PROHIBITED_ADULT_DOMAINS) {

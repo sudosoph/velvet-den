@@ -135,7 +135,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
           <div
             data-testid="hud-friday-hearts"
-            className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2.5 py-1 text-[11px] font-bold text-stone-700"
+            className="hidden 2xl:inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2.5 py-1 text-[11px] font-bold text-stone-700 whitespace-nowrap"
             title="Friday Date Energy (3 Hearts)"
           >
             <span>{heartsDisplay}</span>
@@ -151,6 +151,15 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               </button>
             )}
           </div>
+          {wallet.fridayHearts === 0 && onResetHearts && (
+            <button
+              type="button"
+              onClick={onResetHearts}
+              className="2xl:hidden rounded-full bg-rose-600 px-2.5 py-1 text-[10px] font-extrabold text-white whitespace-nowrap cursor-pointer"
+            >
+              💔 New Friday
+            </button>
+          )}
 
           <button
             type="button"
@@ -165,12 +174,12 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
         {/* ZONE 2: Uncluttered 4-Tab Primary Sim Nav + Club Extras Drawer */}
         <nav
           aria-label="Primary Club Navigation"
-          className="hidden xl:flex items-center justify-center gap-1.5"
+          className="hidden xl:flex items-center justify-center gap-1 shrink-0"
         >
           <button
             type="button"
             onClick={() => onSelectTab('hinge')}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+            className={`inline-flex h-8.5 shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
               activeTab === 'hinge'
                 ? 'bg-[#18101E] text-white shadow-xs'
                 : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
@@ -182,7 +191,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab('wild')}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+            className={`inline-flex h-8.5 shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
               activeTab === 'wild'
                 ? 'bg-[#18101E] text-white shadow-xs'
                 : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
@@ -194,7 +203,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab('chats')}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+            className={`inline-flex h-8.5 shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
               activeTab === 'chats'
                 ? 'bg-[#007AFF] text-white shadow-xs'
                 : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
@@ -217,7 +226,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab('school')}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+            className={`inline-flex h-8.5 shrink-0 items-center justify-center gap-1.5 rounded-full px-3 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
               activeTab === 'school'
                 ? 'bg-[#18101E] text-white shadow-xs'
                 : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
@@ -226,12 +235,12 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             <span>🎓 Cub School</span>
           </button>
 
-          <div ref={extrasRef} className="relative">
+          <div ref={extrasRef} className="relative shrink-0">
             <button
               type="button"
               onClick={() => setExtrasOpen((v) => !v)}
               aria-expanded={extrasOpen}
-              className={`inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-3 text-xs font-bold transition cursor-pointer ${
+              className={`inline-flex h-8.5 shrink-0 items-center justify-center gap-1 rounded-full border px-2.5 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
                 extrasOpen ||
                 activeTab === 'journal' ||
                 activeTab === 'courtroom' ||
@@ -358,18 +367,21 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               href={liveTipUrl}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Support This Project"
               onClick={() => trackEvent('tip_jar_clicked', { surface: 'top_hud' })}
-              className="hidden sm:inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-amber-300 bg-amber-50 hover:bg-amber-100 px-3 text-xs font-extrabold text-amber-950 transition"
+              className="hidden sm:inline-flex h-8.5 shrink-0 items-center justify-center gap-1 rounded-full border border-amber-300 bg-amber-50 hover:bg-amber-100 px-2.5 text-xs font-extrabold whitespace-nowrap text-amber-950 transition"
             >
               <Heart className="h-3.5 w-3.5 fill-amber-500 text-amber-600 shrink-0" />
-              <span>💛 Support This Project</span>
+              <span>
+                💛 Support<span className="hidden 2xl:inline"> This Project</span>
+              </span>
             </a>
           )}
 
           <button
             type="button"
             onClick={() => onOpenBoutique('shop')}
-            className="inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-stone-200 bg-white hover:bg-stone-50 px-2.5 text-xs font-bold text-[#18101E] transition cursor-pointer"
+            className="inline-flex h-8.5 shrink-0 items-center justify-center gap-1 rounded-full border border-stone-200 bg-white hover:bg-stone-50 px-2.5 text-xs font-bold whitespace-nowrap text-[#18101E] transition cursor-pointer"
           >
             <ShoppingBag className="h-3.5 w-3.5 text-rose-600 shrink-0" />
             <span>Shop</span>
@@ -378,7 +390,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onOpenBoutique('vip')}
-            className="inline-flex h-8.5 items-center justify-center gap-1 rounded-full bg-[#18101E] hover:bg-stone-800 px-3 text-xs font-extrabold text-white transition cursor-pointer"
+            className="inline-flex h-8.5 shrink-0 items-center justify-center gap-1 rounded-full bg-[#18101E] hover:bg-stone-800 px-3 text-xs font-extrabold whitespace-nowrap text-white transition cursor-pointer"
           >
             {wallet.isFounderUnlimited ? (
               <Wrench className="h-3.5 w-3.5 text-amber-300 shrink-0" />
@@ -401,7 +413,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               setBgmOn(playing);
               if (playing) setMuted(false);
             }}
-            className={`hidden sm:inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border transition cursor-pointer ${
+            className={`hidden 2xl:inline-flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-full border transition cursor-pointer ${
               bgmOn
                 ? 'border-rose-600 bg-rose-600 text-white'
                 : 'border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
