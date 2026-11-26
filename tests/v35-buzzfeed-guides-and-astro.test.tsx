@@ -30,12 +30,18 @@ describe('v35 BuzzFeed & Top-Reddit Style Visual Club Guides, Illustrated Astro 
     fireEvent.click(pollButtons[0]);
     expect(poll.textContent).toMatch(/%/);
 
-    // Every single one of the 16 guides has bespoke "Text This, Not That" copy (zero generic fallback!)
+    // Every single one of the 16 guides has a widescreen ./images/scenes/ hero banner, bespoke iMessage copy, and zero weird emerald/rose traffic-light cards!
     const seenDoTexts = new Set<string>();
     for (const art of JOURNAL_ARTICLES) {
       fireEvent.click(screen.getByRole('button', { name: new RegExp(art.seoTitle.slice(0, 24), 'i') }));
+      const heroSrc = screen.getByTestId('guide-hero-photo').getAttribute('src') || '';
+      expect(heroSrc, `Guide ${art.slug} hero must be a widescreen scene`).toMatch(
+        /^\.\/images\/scenes\/.+\.jpg$/,
+      );
       const bubbleBox = screen.getByTestId('guide-text-this-not-that');
       expect(bubbleBox.textContent).not.toContain('idk what do u wanna do tonight?? u pick');
+      expect(bubbleBox.innerHTML).not.toContain('bg-rose-50');
+      expect(screen.queryByTestId('guide-green-red-flags')).toBeNull();
       seenDoTexts.add(bubbleBox.textContent || '');
     }
     expect(seenDoTexts.size).toBe(16);

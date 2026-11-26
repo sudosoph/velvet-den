@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import {
   ArrowBigUp,
-  CheckCircle2,
   CheckSquare,
   ExternalLink,
-  Flag,
   MessageCircle,
   Play,
   Share2,
@@ -185,10 +183,10 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
 ];
 
 const ELEMENT_BADGE_STYLE: Record<ZodiacSignInfo['element'], string> = {
-  Fire: 'bg-rose-100 text-rose-800 border-rose-200',
-  Earth: 'bg-emerald-100 text-emerald-900 border-emerald-200',
+  Fire: 'bg-amber-100 text-amber-950 border-amber-200',
+  Earth: 'bg-stone-100 text-stone-800 border-stone-200',
   Air: 'bg-sky-100 text-sky-900 border-sky-200',
-  Water: 'bg-purple-100 text-purple-900 border-purple-200',
+  Water: 'bg-indigo-100 text-indigo-900 border-indigo-200',
 };
 
 function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
@@ -385,9 +383,9 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '🎁 Gift & Soft-Life Playbook',
     heroPhoto: './images/scenes/palm-springs-resort.jpg',
     sectionPhotos: [
-      './images/products/princess-mulberry-silk-robe.jpg',
+      './images/scenes/sunday-kitchen-sanctuary.jpg',
       './images/cast/rafael-2.jpg',
-      './images/products/date-night-oud-bergamot.jpg',
+      './images/cast/sienna-2.jpg',
       './images/scenes/candlelit-cocktails.jpg',
     ],
     dontText: 'i didnt know what to get u since u already buy everything lol',
@@ -499,7 +497,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   },
   'celebrity-cougars-and-cubs-pop-culture-guide': {
     categoryPill: '✨ Red-Carpet Hall of Fame',
-    heroPhoto: './images/icons/pop_priyanka_nick.jpg',
+    heroPhoto: './images/scenes/coastal-convertible.jpg',
     sectionPhotos: [
       './images/icons/pop_tina_erwin.jpg',
       './images/icons/pop_cher_icons.jpg',
@@ -528,12 +526,12 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   },
   'dating-younger-man-perimenopause-menopause-intimacy': {
     categoryPill: '🌙 62°F Sleep & Candid Intimacy Guide',
-    heroPhoto: './images/scenes/hotel-pool-sauna.jpg',
+    heroPhoto: './images/scenes/luxury-bedroom-sanctuary.jpg',
     sectionPhotos: [
-      './images/scenes/luxury-bedroom-sanctuary.jpg',
-      './images/products/cooling-bamboo-sheets.jpg',
+      './images/scenes/hotel-pool-sauna.jpg',
+      './images/cast/brooke-glam-42f.jpg',
       './images/cast/marcus-26m.jpg',
-      './images/products/silk-pillowcase-sleepover-duo.jpg',
+      './images/scenes/cozy-rain-suite.jpg',
     ],
     dontText: 'why do u have the bedroom AC cranked so cold lol',
     doText: 'Bedroom is pre-chilled to 62°F, cooling bamboo sheets are on, and ice water is on your side.',
@@ -644,12 +642,12 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   },
   'cougar-town-pop-culture-age-gap-dating-history': {
     categoryPill: '🍷 Big Carl & Sitcom History',
-    heroPhoto: './images/icons/pop_cougar_town.jpg',
+    heroPhoto: './images/scenes/canyon-sunrise-trail.jpg',
     sectionPhotos: [
-      './images/products/big-carl-giant-wine-glass.jpg',
+      './images/icons/pop_cougar_town.jpg',
       './images/scenes/cougarmarket-wine.jpg',
       './images/scenes/wedding-gala-cheers.jpg',
-      './images/products/bridget-jones-cougar-town-watch.jpg',
+      './images/cast/elena-6.jpg',
     ],
     dontText: 'arent divorced women in their 40s supposed to stay home quietly??',
     doText: 'Brought Pinot Noir and an oversized Big Carl goblet to toast our six-month mark.',
@@ -702,11 +700,11 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   },
   'master-list-cougar-cub-movies-older-woman-younger-man': {
     categoryPill: '🎬 Definitive 22-Film Watchlist',
-    heroPhoto: './images/products/no-hard-feelings-jlaw-prime.jpg',
+    heroPhoto: './images/scenes/neon-bowling-lounge.jpg',
     sectionPhotos: [
-      './images/products/bridget-jones-cougar-town-watch.jpg',
-      './images/products/babygirl-movie-prime.jpg',
-      './images/products/the-rebound-zeta-jones-prime.jpg',
+      './images/scenes/velvet-room-bar.jpg',
+      './images/scenes/cozy-rain-suite.jpg',
+      './images/scenes/palm-springs-resort.jpg',
       './images/icons/pop_stella_cinema.jpg',
     ],
     dontText: 'never heard of any of those movies lol put on sports highlights',
@@ -731,11 +729,11 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   },
   'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man': {
     categoryPill: '🍿 Friday Watch-Night Pairing Guide',
-    heroPhoto: './images/products/babygirl-movie-prime.jpg',
+    heroPhoto: './images/scenes/hotel-pool-sauna.jpg',
     sectionPhotos: [
       './images/scenes/velvet-room-bar.jpg',
-      './images/products/idea-of-you-movie-book.jpg',
-      './images/products/the-rebound-zeta-jones-prime.jpg',
+      './images/scenes/candlelit-cocktails.jpg',
+      './images/scenes/wine-bar-booth.jpg',
       './images/scenes/cozy-rain-suite.jpg',
     ],
     dontText: 'idk pick whatever movie u want i guess',
@@ -1047,21 +1045,21 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
           </aside>
 
           <article className="editorial-hinge-card rounded-3xl bg-white p-5 sm:p-8 space-y-6">
-            {/* Hero Editorial Photo */}
-            <div className="relative overflow-hidden rounded-3xl border border-stone-200 aspect-[21/9] bg-stone-900">
+            {/* True 16:9 Widescreen Hero Editorial Photo (Zero Cropped Headshots or DVD Boxes!) */}
+            <div className="relative overflow-hidden rounded-3xl border border-stone-200 aspect-[16/9] bg-stone-900">
               <img
                 src={visualMeta.heroPhoto}
                 alt={active.headline}
                 data-testid="guide-hero-photo"
-                className="h-full w-full object-cover object-center opacity-90"
+                className="h-full w-full object-cover object-center opacity-95"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/90 via-[#18101E]/30 to-transparent flex flex-col justify-end p-5 sm:p-7">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/90 via-[#18101E]/25 to-transparent flex flex-col justify-end p-5 sm:p-7">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="inline-block rounded-full bg-amber-300 px-3 py-1 text-xs font-extrabold text-[#18101E]">
                       {visualMeta.categoryPill}
                     </span>
-                    <span className="inline-block rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-rose-700">
+                    <span className="inline-block rounded-full bg-white/95 px-3 py-1 text-xs font-extrabold text-[#18101E]">
                       ⏱️ {active.readTime}
                     </span>
                   </div>
@@ -1080,13 +1078,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             </div>
 
-            {/* TL;DR Hook Strip */}
-            <div className="rounded-2xl border-l-4 border-rose-500 bg-rose-50/45 px-4 py-3.5 text-sm sm:text-base font-semibold leading-relaxed text-[#18101E]">
-              <span className="font-extrabold text-rose-700 uppercase text-xs tracking-wider block mb-0.5">
-                ✨ 10-Second Club TL;DR
-              </span>
+            {/* Clean Magazine Standfirst (Zero Pink/Red Callout Box!) */}
+            <p className="font-editorial italic text-base sm:text-xl leading-relaxed text-stone-700 border-b border-stone-200/80 pb-5">
               {active.intro}
-            </div>
+            </p>
 
             {/* Interactive 12-Sign Her x Him Illustrated Astro Toy (Placed right at top when selected!) */}
             {active.slug === 'astrology-zodiac-compatibility-older-woman-younger-man' && (
@@ -1313,49 +1308,32 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
-            {/* "Text This, Not That" iMessage Bubbles + Green/Red Flag Visual Split */}
-            <div className="grid gap-4 md:grid-cols-2">
-              <div
-                data-testid="guide-text-this-not-that"
-                className="rounded-3xl border border-stone-200 bg-stone-50/70 p-5 space-y-3"
-              >
-                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-stone-700">
+            {/* Authentic iPhone iMessage Mockup (Grey Bubble vs. Blue Bubble — Zero Red/Green Cards!) */}
+            <div
+              data-testid="guide-text-this-not-that"
+              className="rounded-3xl border border-stone-200 bg-stone-50/60 p-5 space-y-3.5"
+            >
+              <div className="flex items-center justify-between gap-2 border-b border-stone-200/70 pb-2.5">
+                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#18101E]">
                   <MessageCircle className="h-3.5 w-3.5 text-[#007AFF]" />
-                  <span>📱 Text This, Not That</span>
+                  <span>💬 Real DM Translation: Left-on-Read vs. Friday Yes</span>
                 </div>
-                <div className="rounded-2xl bg-rose-50 border border-rose-200 px-3.5 py-2.5 text-xs font-medium text-rose-950">
-                  <div className="font-extrabold uppercase text-[10px] text-rose-700 mb-0.5">
-                    ❌ Instant Left-on-Read
+                <span className="text-[11px] font-semibold text-stone-400">iMessage</span>
+              </div>
+
+              <div className="flex flex-col gap-2.5">
+                <div className="self-start max-w-[88%] rounded-2xl rounded-bl-sm bg-[#E9E9EB] px-4 py-2.5 text-xs sm:text-sm font-medium text-[#18101E]">
+                  <div className="text-[10px] font-bold uppercase tracking-wide text-stone-500 mb-0.5">
+                    Gets Left on Read
                   </div>
                   &ldquo;{visualMeta.dontText}&rdquo;
                 </div>
-                <div className="rounded-2xl bg-[#007AFF] px-3.5 py-2.5 text-xs font-medium text-white shadow-xs">
-                  <div className="font-extrabold uppercase text-[10px] text-sky-100 mb-0.5">
-                    ✅ S-Rank Blue Bubble
+
+                <div className="self-end max-w-[88%] rounded-2xl rounded-br-sm bg-[#007AFF] px-4 py-2.5 text-xs sm:text-sm font-medium text-white shadow-2xs">
+                  <div className="text-[10px] font-bold uppercase tracking-wide text-sky-100 mb-0.5">
+                    Gets the Friday 7:30 Table ✓
                   </div>
                   &ldquo;{visualMeta.doText}&rdquo;
-                </div>
-              </div>
-
-              <div
-                data-testid="guide-green-red-flags"
-                className="rounded-3xl border border-stone-200 bg-stone-50/70 p-5 space-y-3"
-              >
-                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-stone-700">
-                  <Flag className="h-3.5 w-3.5 text-emerald-600" />
-                  <span>🚦 Green Flag vs. Dealbreaker</span>
-                </div>
-                <div className="rounded-2xl bg-emerald-50 border border-emerald-200 px-3.5 py-2.5 text-xs text-emerald-950">
-                  <div className="inline-flex items-center gap-1 font-extrabold text-[11px] text-emerald-800 mb-0.5">
-                    <CheckCircle2 className="h-3.5 w-3.5" /> Certified Green Flag
-                  </div>
-                  <p className="leading-relaxed">{visualMeta.greenFlag}</p>
-                </div>
-                <div className="rounded-2xl bg-rose-50 border border-rose-200 px-3.5 py-2.5 text-xs text-rose-950">
-                  <div className="inline-flex items-center gap-1 font-extrabold text-[11px] text-rose-800 mb-0.5">
-                    <Flag className="h-3.5 w-3.5" /> Instant Cut-Loose Tell
-                  </div>
-                  <p className="leading-relaxed">{visualMeta.redFlag}</p>
                 </div>
               </div>
             </div>
@@ -1441,7 +1419,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         key={itemText}
                         className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-2xl border px-3.5 py-2.5 text-sm transition ${
                           checked
-                            ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-bold'
+                            ? 'border-[#18101E] bg-amber-50/70 text-[#18101E] font-bold'
                             : 'border-stone-200 bg-white text-[#18101E] font-medium'
                         }`}
                       >
@@ -1451,7 +1429,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           className="flex items-start gap-2.5 text-left whitespace-normal cursor-pointer flex-1"
                         >
                           {checked ? (
-                            <CheckSquare className="h-4 w-4 shrink-0 text-emerald-700 mt-0.5" />
+                            <CheckSquare className="h-4 w-4 shrink-0 text-[#18101E] mt-0.5" />
                           ) : (
                             <Square className="h-4 w-4 shrink-0 text-stone-400 mt-0.5" />
                           )}
@@ -1498,7 +1476,6 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           <img
                             src={photoUrl}
                             alt={cleanHeading}
-                            loading="lazy"
                             className="h-full w-full object-cover object-top"
                           />
                           <div className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-[#18101E]/90 px-3 py-1 text-xs font-extrabold text-amber-300 shadow-sm">

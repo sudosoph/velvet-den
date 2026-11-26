@@ -69,15 +69,15 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
     expect(screen.getByRole('button', { name: /\b3 Cr\b/i })).toBeInTheDocument();
   });
 
-  it('renders VelvetJournalView with hero photo, above-the-fold real product photography (zero SVG motif boxes), Text This Not That bubbles, Green/Red Flag cards, and inline checklist links', () => {
+  it('renders VelvetJournalView with widescreen scene hero photos, above-the-fold real product photography, authentic iMessage bubbles (zero weird red/green cards), and inline checklist links', () => {
     render(<App />);
 
     fireEvent.click(screen.getByRole('button', { name: /Club Extras/i }));
     fireEvent.click(screen.getByRole('button', { name: /Guides & Zodiac/i }));
 
-    // Hero editorial photo + above-the-fold shoppable strip with real ./images/products/*.jpg photos
+    // Hero editorial photo uses widescreen ./images/scenes/*.jpg + above-the-fold shoppable strip
     expect(screen.getByTestId('guide-hero-photo').getAttribute('src')).toMatch(
-      /images\/(scenes|cast)\//,
+      /images\/scenes\//,
     );
     const aboveFoldShop = screen.getByTestId('guide-above-fold-shop');
     const shopImgs = aboveFoldShop.querySelectorAll('img');
@@ -85,9 +85,9 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
     expect(shopImgs[0].getAttribute('src')).toContain('/images/products/');
     expect(aboveFoldShop.querySelector('svg[viewBox="0 0 96 96"]')).toBeNull();
 
-    // Text This, Not That callout + Green Flag vs Red Flag split card
+    // Authentic iMessage bubbles present, and ZERO weird traffic-light red/green flag cards!
     expect(screen.getByTestId('guide-text-this-not-that')).toBeInTheDocument();
-    expect(screen.getByTestId('guide-green-red-flags')).toBeInTheDocument();
+    expect(screen.queryByTestId('guide-green-red-flags')).toBeNull();
 
     // Switch to 10-Point Apartment Hosting Checklist -> verify inline shoppable product links
     fireEvent.click(

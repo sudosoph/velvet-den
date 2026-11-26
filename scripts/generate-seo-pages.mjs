@@ -504,9 +504,9 @@ for (const g of STATIC_GUIDES) {
     .pick-body { padding: 14px; display: flex; flex-direction: column; gap: 6px; }
     .pick-price { font-size: 11px; font-weight: 800; color: #BE123C; text-transform: uppercase; }
     .pick-cta { font-size: 12px; font-weight: 800; color: #18101E; margin-top: 4px; }
-    .bubbles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 22px 0; }
-    .bubble-bad { background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 18px; padding: 14px; font-size: 14px; color: #881337; }
-    .bubble-good { background: #007AFF; border-radius: 18px; padding: 14px; font-size: 14px; color: #FFFFFF; }
+    .bubbles { display: flex; flex-direction: column; gap: 10px; margin: 22px 0; padding: 18px; border-radius: 22px; background: #F8F7F5; border: 1px solid #E7E5E4; }
+    .bubble-bad { align-self: flex-start; max-width: 86%; background: #E9E9EB; border-radius: 18px 18px 18px 4px; padding: 12px 16px; font-size: 14px; color: #18101E; }
+    .bubble-good { align-self: flex-end; max-width: 86%; background: #007AFF; border-radius: 18px 18px 4px 18px; padding: 12px 16px; font-size: 14px; color: #FFFFFF; }
     .cta { margin: 28px 0; padding: 24px; border-radius: 22px; background: #FFFBEB; border: 1px solid #FDE68A; }
     .btn { display: inline-block; margin-top: 12px; background: #E11D48; color: #FFFFFF; font-weight: 800; padding: 12px 24px; border-radius: 999px; text-decoration: none; }
   </style>
