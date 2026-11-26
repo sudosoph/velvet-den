@@ -63,8 +63,10 @@ export const SwipeOpeningChatCard: React.FC<SwipeOpeningChatCardProps> = ({
           <span className="text-xs font-bold tracking-tight">
             {skin === 'imessage'
               ? role === 'her'
-                ? 'Messages • Opening DM & Voice Note'
-                : 'Messages • Her Opening Challenge'
+                ? 'Messages • His Opening Line'
+                : profile.initiatesFirst
+                  ? 'Messages • Bold First Move'
+                  : 'Messages • New Match (Your Move)'
               : `Discord • @${discordHandle}`}
           </span>
         </div>
@@ -134,72 +136,80 @@ export const SwipeOpeningChatCard: React.FC<SwipeOpeningChatCardProps> = ({
 
           {/* iMessage Bubble Stage */}
           <div className="p-4 space-y-3 bg-white">
-            <div className="relative inline-block max-w-[92%]">
-              {tapback && (
-                <span className="absolute -top-2.5 -right-2 z-10 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#007AFF] px-1.5 text-xs text-white shadow">
-                  {tapback}
-                </span>
-              )}
-              <div className="rounded-[20px] rounded-bl-[4px] bg-[#E9E9EB] px-4 py-2.5 text-[15px] font-medium leading-snug text-[#1C1C1E]">
-                {profile.openingDm}
+            {role === 'him' && profile.initiatesFirst === false ? (
+              <div className="rounded-2xl border border-[#E5E5EA] bg-[#F2F2F7] px-4 py-3 text-center text-xs font-semibold text-[#636366]">
+                ✨ {profile.openingDm}
               </div>
-            </div>
-
-            {/* Authentic iOS Audio Voice-Note Pill + Tapback Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
-              <button
-                type="button"
-                onClick={onToggleVoice}
-                className={`inline-flex h-9 items-center gap-2 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
-                  isPlayingVoice
-                    ? 'bg-[#007AFF] text-white'
-                    : 'bg-[#E9E9EB] text-[#1C1C1E] hover:bg-[#D1D1D6]'
-                }`}
-              >
-                <Volume2 className="h-3.5 w-3.5" />
-                <span className="inline-flex items-center gap-0.5 h-3">
-                  {[4, 9, 6, 11, 8, 12, 5, 10, 7, 4].map((h, i) => (
-                    <span
-                      key={i}
-                      style={{ height: `${h}px` }}
-                      className={`w-0.5 rounded-full ${
-                        isPlayingVoice ? 'bg-white animate-pulse' : 'bg-[#007AFF]'
-                      }`}
-                    />
-                  ))}
-                </span>
-                <span>{isPlayingVoice ? 'Playing Voice Note…' : '🔊 Hear Voice Note'}</span>
-              </button>
-
-              <div className="flex items-center gap-1">
-                {pickerOpen ? (
-                  <div className="inline-flex items-center gap-1 rounded-full border border-[#C6C6C8] bg-[#F2F2F7] px-2 py-0.5 shadow-sm">
-                    {IMESSAGE_TAPBACKS.map((emoji) => (
-                      <button
-                        key={emoji}
-                        type="button"
-                        onClick={() => {
-                          sfx.messagePop();
-                          setTapback((curr) => (curr === emoji ? null : emoji));
-                          setPickerOpen(false);
-                        }}
-                        className="hover:scale-125 transition px-0.5 text-sm cursor-pointer"
-                      >
-                        {emoji}
-                      </button>
-                    ))}
+            ) : (
+              <>
+                <div className="relative inline-block max-w-[92%]">
+                  {tapback && (
+                    <span className="absolute -top-2.5 -right-2 z-10 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#007AFF] px-1.5 text-xs text-white shadow">
+                      {tapback}
+                    </span>
+                  )}
+                  <div className="rounded-[20px] rounded-bl-[4px] bg-[#E9E9EB] px-4 py-2.5 text-[15px] font-medium leading-snug text-[#1C1C1E]">
+                    {profile.openingDm}
                   </div>
-                ) : (
+                </div>
+
+                {/* Authentic iOS Audio Voice-Note Pill + Tapback Bar */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
                   <button
                     type="button"
-                    onClick={() => setPickerOpen(true)}
-                    className="rounded-full border border-[#C6C6C8] bg-[#F2F2F7] px-2.5 py-1 text-[11px] font-semibold text-[#007AFF] hover:bg-[#E5E5EA] cursor-pointer"
+                    onClick={onToggleVoice}
+                    className={`inline-flex h-9 items-center gap-2 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+                      isPlayingVoice
+                        ? 'bg-[#007AFF] text-white'
+                        : 'bg-[#E9E9EB] text-[#1C1C1E] hover:bg-[#D1D1D6]'
+                    }`}
                   >
-                    {tapback ? `Tapback ${tapback}` : 'Tapback ❤️ 😂 ‼️'}
+                    <Volume2 className="h-3.5 w-3.5" />
+                    <span className="inline-flex items-center gap-0.5 h-3">
+                      {[4, 9, 6, 11, 8, 12, 5, 10, 7, 4].map((h, i) => (
+                        <span
+                          key={i}
+                          style={{ height: `${h}px` }}
+                          className={`w-0.5 rounded-full ${
+                            isPlayingVoice ? 'bg-white animate-pulse' : 'bg-[#007AFF]'
+                          }`}
+                        />
+                      ))}
+                    </span>
+                    <span>{isPlayingVoice ? 'Playing Voice Note…' : '🔊 Hear Voice Note'}</span>
                   </button>
-                )}
-              </div>
-            </div>
+
+                  <div className="flex items-center gap-1">
+                    {pickerOpen ? (
+                      <div className="inline-flex items-center gap-1 rounded-full border border-[#C6C6C8] bg-[#F2F2F7] px-2 py-0.5 shadow-sm">
+                        {IMESSAGE_TAPBACKS.map((emoji) => (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => {
+                              sfx.messagePop();
+                              setTapback((curr) => (curr === emoji ? null : emoji));
+                              setPickerOpen(false);
+                            }}
+                            className="hover:scale-125 transition px-0.5 text-sm cursor-pointer"
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setPickerOpen(true)}
+                        className="rounded-full border border-[#C6C6C8] bg-[#F2F2F7] px-2.5 py-1 text-[11px] font-semibold text-[#007AFF] hover:bg-[#E5E5EA] cursor-pointer"
+                      >
+                        {tapback ? `Tapback ${tapback}` : 'Tapback ❤️ 😂 ‼️'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       ) : (
@@ -217,79 +227,85 @@ export const SwipeOpeningChatCard: React.FC<SwipeOpeningChatCardProps> = ({
           </div>
 
           <div className="p-4 space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="relative shrink-0">
-                <img
-                  src={profile.photos[0].photoUrl}
-                  alt=""
-                  className="h-10 w-10 rounded-full object-cover object-top"
-                />
-                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#313338] bg-[#23A55A]" />
+            {role === 'him' && profile.initiatesFirst === false ? (
+              <div className="rounded-lg border border-[#3F4147] bg-[#2B2D31] px-3.5 py-2.5 text-xs text-[#DBDEE1]">
+                ✨ {profile.openingDm}
               </div>
-
-              <div className="min-w-0 flex-1 space-y-1.5">
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span
-                    className={`text-sm font-bold ${
-                      role === 'him' ? 'text-[#F47FFF]' : 'text-[#F0B232]'
-                    }`}
-                  >
-                    New Match
-                  </span>
-                  <span className="rounded bg-[#5865F2]/25 px-1.5 py-0.2 text-[10px] font-bold text-[#949CF7]">
-                    LVL {profile.age}
-                  </span>
-                  <span className="text-[11px] text-[#949BA4]">Today at 8:14 PM</span>
+            ) : (
+              <div className="flex items-start gap-3">
+                <div className="relative shrink-0">
+                  <img
+                    src={profile.photos[0].photoUrl}
+                    alt=""
+                    className="h-10 w-10 rounded-full object-cover object-top"
+                  />
+                  <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#313338] bg-[#23A55A]" />
                 </div>
 
-                <p className="text-[15px] leading-relaxed text-[#DBDEE1]">{profile.openingDm}</p>
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span
+                      className={`text-sm font-bold ${
+                        role === 'him' ? 'text-[#F47FFF]' : 'text-[#F0B232]'
+                      }`}
+                    >
+                      New Match
+                    </span>
+                    <span className="rounded bg-[#5865F2]/25 px-1.5 py-0.2 text-[10px] font-bold text-[#949CF7]">
+                      LVL {profile.age}
+                    </span>
+                    <span className="text-[11px] text-[#949BA4]">Today at 8:14 PM</span>
+                  </div>
 
-                {/* Discord Voice Attachment + Clickable Reaction Pills */}
-                <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                  <button
-                    type="button"
-                    onClick={onToggleVoice}
-                    className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-bold transition cursor-pointer ${
-                      isPlayingVoice
-                        ? 'border-[#5865F2] bg-[#5865F2] text-white'
-                        : 'border-[#4E5058] bg-[#2B2D31] text-[#DBDEE1] hover:bg-[#383A40]'
-                    }`}
-                  >
-                    <Volume2 className="h-3.5 w-3.5" />
-                    <span>{isPlayingVoice ? 'Playing Voice Note…' : '🔊 Hear Voice Note'}</span>
-                  </button>
+                  <p className="text-[15px] leading-relaxed text-[#DBDEE1]">{profile.openingDm}</p>
 
-                  {(
-                    [
-                      ['🔥', 3],
-                      ['💀', 2],
-                      ['🚩', 4],
-                      ['🫡', 1],
-                    ] as const
-                  ).map(([emoji, base]) => {
-                    const active = Boolean(discordReacts[emoji]);
-                    return (
-                      <button
-                        key={emoji}
-                        type="button"
-                        onClick={() => {
-                          sfx.messagePop();
-                          setDiscordReacts((prev) => ({ ...prev, [emoji]: !prev[emoji] }));
-                        }}
-                        className={`inline-flex h-7 items-center gap-1 rounded-md border px-2 text-xs font-semibold transition cursor-pointer ${
-                          active
-                            ? 'border-[#5865F2] bg-[#5865F2]/25 text-[#DEE0FC]'
-                            : 'border-[#3F4147] bg-[#2B2D31] text-[#B5BAC1] hover:border-[#80848E]'
-                        }`}
-                      >
-                        <span>{emoji}</span>
-                        <span>{base + (active ? 1 : 0)}</span>
-                      </button>
-                    );
-                  })}
+                  {/* Discord Voice Attachment + Clickable Reaction Pills */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={onToggleVoice}
+                      className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-bold transition cursor-pointer ${
+                        isPlayingVoice
+                          ? 'border-[#5865F2] bg-[#5865F2] text-white'
+                          : 'border-[#4E5058] bg-[#2B2D31] text-[#DBDEE1] hover:bg-[#383A40]'
+                      }`}
+                    >
+                      <Volume2 className="h-3.5 w-3.5" />
+                      <span>{isPlayingVoice ? 'Playing Voice Note…' : '🔊 Hear Voice Note'}</span>
+                    </button>
+
+                    {(
+                      [
+                        ['🔥', 3],
+                        ['💀', 2],
+                        ['🚩', 4],
+                        ['🫡', 1],
+                      ] as const
+                    ).map(([emoji, base]) => {
+                      const active = Boolean(discordReacts[emoji]);
+                      return (
+                        <button
+                          key={emoji}
+                          type="button"
+                          onClick={() => {
+                            sfx.messagePop();
+                            setDiscordReacts((prev) => ({ ...prev, [emoji]: !prev[emoji] }));
+                          }}
+                          className={`inline-flex h-7 items-center gap-1 rounded-md border px-2 text-xs font-semibold transition cursor-pointer ${
+                            active
+                              ? 'border-[#5865F2] bg-[#5865F2]/25 text-[#DEE0FC]'
+                              : 'border-[#3F4147] bg-[#2B2D31] text-[#B5BAC1] hover:border-[#80848E]'
+                          }`}
+                        >
+                          <span>{emoji}</span>
+                          <span>{base + (active ? 1 : 0)}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}

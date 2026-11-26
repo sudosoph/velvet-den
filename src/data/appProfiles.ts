@@ -40,6 +40,7 @@ export interface SwipeProfile {
   lookingFor: string;
   lookingForSubtext: string;
   interests: string[];
+  initiatesFirst?: boolean;
   openingDm: string;
   xrayLeak: string;
   isGreenFlagMatch: boolean;
@@ -124,7 +125,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Financially independent at 28—wants an equal intellectual & emotional sanctuary, never a Sugar Mama or a trophy.',
     interests: ['Cortados', 'Burgundy Pinot', 'Home Cooking', 'Art Bookstores', 'Big Sur Drives'],
     openingDm:
-      'Hey! Escaped the lab before sunset and your profile stopped me cold 😊 Zero tech talk I promise—can I book us a quiet corner wine bar Thursday at 7:30?',
+      'Quick poll before I book Thursday: cozy wine bar or corner sushi counter?',
     xrayLeak:
       'X-RAY SCAN: 💚 HALL-OF-FAME UNICORN CUB! Vested early-Anthropic equity, immaculate West Village / Pac Heights loft with 4 percale pillows, zero ego, and genuinely worships grown-woman confidence.',
     isGreenFlagMatch: true,
@@ -187,7 +188,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Coastal Drives',
     ],
     openingDm:
-      'Otis and I just finished our sunset beach mile—let me book us a quiet corner booth Friday at 7:30 so you don’t have to make a single decision all night?',
+      'Just got off shift with one urgent question: corner wine booth Friday at 7:30?',
     xrayLeak:
       'X-RAY SCAN: Crisp white percale sheets, sandalwood beard oil, extra phone charger on the nightstand, 12/10 emotional availability.',
     isGreenFlagMatch: true,
@@ -949,7 +950,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       'Palm Springs',
       'Sancerre',
     ],
-    openingDm: 'So—you swiped right on a 45-year-old VP. Tell me your actual Friday plan in two sentences.',
+    initiatesFirst: false,
+    openingDm: 'Matched with Claire • She never messages first. Lead with a real Friday plan.',
     xrayLeak:
       'INSIDER TIP: Cover tapas within your budget without making it weird, and never say "for your age."',
     isGreenFlagMatch: true,
@@ -1015,8 +1017,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       'Art Galleries',
       'Cookout Sundays',
     ],
-    openingDm:
-      'My calendar opens Friday at 7:30 PM sharp—tell me where you’re taking me and prove you don’t use 5-in-1 shower gel.',
+    initiatesFirst: false,
+    openingDm: 'Matched with Simone • Waiting to see if your opener beats "hey."',
     xrayLeak:
       'INSIDER TIP: Compliment her mind and warmth directly, bring fresh flowers, and never touch the thermostat without asking.',
     isGreenFlagMatch: true,
@@ -1075,8 +1077,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       'Trail Running',
       'Natural Wine',
     ],
-    openingDm:
-      'Swelled to 4 feet at Malibu this morning—think you can keep up in the lineup Saturday, or are you cooking me dinner Friday first?',
+    initiatesFirst: false,
+    openingDm: 'Matched with Astrid • She’s back from surfing. Make the first move.',
     xrayLeak:
       'INSIDER TIP: Match her active outdoor lifestyle by day, then pamper her thoroughly by night.',
     isGreenFlagMatch: true,
@@ -1135,8 +1137,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       'Late-Night Jazz',
       'Farmers Markets',
     ],
-    openingDm:
-      'I spend every night feeding everyone else—tell me how you’d take care of *me* on my Monday night off.',
+    initiatesFirst: false,
+    openingDm: 'Matched with Scarlett • Your move. Hint: never suggest a chain restaurant.',
     xrayLeak:
       'INSIDER TIP: Never count calories at her table, kiss her neck while she stirs risotto, and bring unhurried devotion.',
     isGreenFlagMatch: true,
@@ -1193,8 +1195,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       'Boutique Travel',
       'Cooking',
     ],
-    openingDm:
-      'Rani and I are hitting the coastal ridge trail Saturday morning—can your legs keep up, or are you making me Friday dinner first?',
+    initiatesFirst: false,
+    openingDm: 'Matched with Priya • Off shift at seven. Send one great line to break the ice.',
     xrayLeak:
       'INSIDER TIP: Sear iron-rich steak + lemony spinach after her long shift and win Rani over immediately.',
     isGreenFlagMatch: true,
@@ -1251,8 +1253,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       'Lap Swimming',
       'Art Books',
     ],
-    openingDm:
-      'Most men talk about themselves for twenty minutes straight—ask me one genuinely good question and tell me your Friday plan.',
+    initiatesFirst: false,
+    openingDm: 'Matched with Mei-Ling • Certified Black Cat: she waits for you to open first.',
     xrayLeak:
       'INSIDER TIP: Keep clean nails, wear Santal or cedar, and bring thoughtful calm presence.',
     isGreenFlagMatch: true,
@@ -1309,8 +1311,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       'Contemporary Art',
       'Resort Kaftans',
     ],
-    openingDm:
-      'Men half my age stare across gallery rooms every week; very few have the nerve to walk over cleanly. Impress me.',
+    initiatesFirst: true,
+    openingDm: 'Most younger men just stare across the gallery. Walk over properly.',
     xrayLeak:
       'INSIDER TIP: Call instead of texting slang, keep your phone face-down all night, and match her elegance.',
     isGreenFlagMatch: true,
@@ -1360,7 +1362,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     lookingFor: 'Chivalrous romance',
     lookingForSubtext: 'Do NOT text her "idk what do u wanna eat?"',
     interests: ['Peonies', 'Wine Bars', 'Silk Robes', 'Art Galleries', 'Coastal Drives'],
-    openingDm: 'I’ve been running meetings since 7 AM. Impress me—how are you spoiling me this Friday?',
+    initiatesFirst: false,
+    openingDm: 'Matched with Serena • She’s made 400 decisions this week. Take the lead.',
     xrayLeak:
       'INSIDER TIP: Plan every detail from parking to reservations so she never has to play project manager.',
     isGreenFlagMatch: true,
@@ -1410,7 +1413,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     lookingFor: 'Active chemistry & real grit',
     lookingForSubtext: 'Gen-X rule: zero flakiness, zero Snapchat.',
     interests: ['6 AM Trail Runs', 'Reformer Pilates', 'Red Wine', 'Travel', 'Ocean Swims'],
-    openingDm: 'You claim you have stamina? Meet me at the canyon trailhead at 6:00 AM sharp—don’t be late.',
+    initiatesFirst: false,
+    openingDm: 'Matched with Valerie • She prefers a bold opener over small talk.',
     xrayLeak:
       'INSIDER TIP: Hydrate Friday night, match her stride Saturday morning, and own public stares with pride.',
     isGreenFlagMatch: true,
@@ -1461,8 +1465,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     lookingFor: 'Real effort & dog-walk banter',
     lookingForSubtext: 'Allergic to weaponized incompetence and 41-year-old Peter Pans.',
     interests: ['Rescue Dogs', 'Patio Rosé', 'Travel', 'Zero Kids', 'Farmers Markets'],
-    openingDm:
-      'Fair warning: I lowered my age slider after three dreadful dates with men my own age. Convince me (and Barnaby) it was a smart move.',
+    initiatesFirst: false,
+    openingDm: 'Matched with Chloé • Your move (bonus points if you win over Barnaby).',
     xrayLeak:
       'INSIDER TIP: Bring a pocket dog treat for Barnaby, never act helpless around her house, and match her wit without cynicism.',
     isGreenFlagMatch: true,
@@ -1513,8 +1517,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     lookingFor: 'Junior Cougar sweet-spot chemistry',
     lookingForSubtext: 'Age-gap purists call under-10-years a Junior Cougar—she wears the badge proudly.',
     interests: ['Vinyl & Wine Bars', 'Boutique Design', 'Weekend Getaways', 'Cooking', 'Palm Springs'],
-    openingDm:
-      'Quick math check: you’re 6 years younger, which officially makes me a Junior Cougar. Where were you in 2008—and where are you taking me Friday?',
+    initiatesFirst: false,
+    openingDm: 'Matched with Sienna • Break the ice with one sharp line.',
     xrayLeak:
       'INSIDER TIP: Lean into the playful 6-year high-school math banter and match her homeowner-era intentionality!',
     isGreenFlagMatch: true,
@@ -1565,8 +1569,8 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     lookingFor: 'Grounded devotion, breathwork & playful "Yes, Mommy" polarity',
     lookingForSubtext: 'Zero tolerance for Cubsplaining, rushed jittery texting, or Sugar-Mama freeloaders.',
     interests: ['Qigong & Tai Chi', 'Mommy-Domme Praise', 'Jasmine Oolong', 'Cedar Sauna', 'Zero-Proof Elixirs'],
-    openingDm:
-      'Unclench your jaw and take one slow breath before typing, sweet boy. Tell me your Friday plan—and promise you won’t try to Cubsplain breathwork to me.',
+    initiatesFirst: true,
+    openingDm: 'Drop your shoulders. You get one line to earn Friday.',
     xrayLeak:
       'INSIDER TIP: Lean playfully into her calm Mommy-Domme cadence, skip the know-it-all lectures, and suggest an unhurried tea lounge or sauna date!',
     isGreenFlagMatch: true,

@@ -57,10 +57,10 @@ interface InboxContact {
   bio: string;
   role: 'her' | 'him';
   photoUrl: string;
+  initiatesFirst: boolean;
+  matchTeaser: string;
   openingPrompt: string;
   steamyPrompt: string;
-  quickChips: string[];
-  steamyChips: string[];
 }
 
 interface DiscordBuddyRemark {
@@ -73,43 +73,154 @@ interface DiscordBuddyRemark {
 const TAPBACK_OPTIONS = ['❤️', '😂', '‼️', '👍', '👎', '❓'] as const;
 const QUICK_EMOJIS = ['😏', '🍸', '😍', '😭', '💀', '🔥', '👀', '✨', '🥂', '🚩'] as const;
 
+const BOLD_FIRST_MOVE_WOMEN: Record<string, { opening: string; steamy: string }> = {
+  'sedona-qigong-mommy': {
+    opening: 'Drop your shoulders. You get one line to earn Friday.',
+    steamy: 'Shoulders still relaxed from this morning, good boy?',
+  },
+  'valentina-fiery-cougar': {
+    opening: 'Don’t just stare at the match screen. Impress me.',
+    steamy: 'Tell me you cleared your calendar after eight tonight.',
+  },
+  'evelyn-mogul-jaguar': {
+    opening: 'I rarely message first. Don’t make me regret the exception.',
+    steamy: 'Hotel bar at eight. Don’t keep me waiting.',
+  },
+};
+
+const CUB_ONE_LINE_OPENERS: Record<string, string> = {
+  'kayden-broke-dutch-cub': 'yo down for happy hour sushi tn if we split 50/50 on venmo?? 😅',
+  'kieran-anthropic-ai-cub': 'Quick poll before I book Thursday: cozy wine bar or corner sushi?',
+  'colton-montana-cowboy-cub': 'Okay busted, that accidental like from the ranch account was me 🤠 Friday?',
+  'leo-golden-cub': 'Be honest: if I cook Friday, how tough of a critic are you?',
+  'miles-millennial-cub': 'Holding a quiet 7:30 corner booth Friday if I can tempt you out.',
+  'marcus-firefighter-cub': 'Just got off shift with one urgent question: spicy margarita or bourbon?',
+  'liam-redhead-carpenter-cub': 'Important question: sunset trail walk first, or straight to wood-fired pizza?',
+  'lucas-blonde-swimmer-cub': 'Fair warning, I take Friday reservations very seriously. Free around 7:30?',
+  'theo-phd-campus-cub': 'Finally escaped the lab before dark. Talk me into staying out past nine?',
+  'noah-surf-cub': 'Don’t judge my birth year before you try my pour-over 😊 Thursday?',
+  'devon-indie-cub': 'Bet I can guess your exact drink order on the first try.',
+  'jin-souschef-cub': 'Midnight handmade dumplings or an actual 7:30 table? Choose wisely.',
+  'dante-trail-cub': 'Morning trail run is optional, Friday drinks with me are strongly encouraged.',
+  'rafael-accented-gentleman-cub': 'Buenas ✨ May I steal your Friday evening for a proper dinner?',
+  'julian-oldsoul-cub': 'Old-school question before I plan Friday: pink peonies or white roses?',
+  'gavin-pilot-cub': 'Back on solid ground till Sunday. Let me take you somewhere good tomorrow?',
+  'owen-sommelier-cub': 'Pick a side, red or white, and I’ll handle the rest of Friday.',
+  'grant-surgeon-cub': 'Long hospital day immediately fixed by matching with you. Free Thursday?',
+};
+
+function getDynamicQuickChips(
+  contact: InboxContact,
+  steamyMode: boolean,
+  turnCount: number,
+): string[] {
+  if (contact.role === 'him') {
+    if (steamyMode) {
+      return turnCount === 0
+        ? [
+            'Door’s unlocked at eight. Keep your ID tucked away 🍷',
+            'Only if you flip my pillow to the cool side at midnight.',
+            'Cook first, then we’ll talk about the rest of tonight ✨',
+          ]
+        : [
+            'Careful, you’re dangerously close to becoming my favorite.',
+            'Bring good wine and leave your phone on silent.',
+            'Wait, how many pillows do you actually own right now?',
+          ];
+    }
+    if (turnCount === 0) {
+      return [
+        '7:30 works, assuming you actually make a reservation 🍸',
+        'Bold opener. Impress me with the spot and I’m in.',
+        'Quick test first: what happens when the check hits the table?',
+      ];
+    }
+    if (turnCount === 1) {
+      return [
+        'Phone stays face-down at dinner, deal?',
+        'Careful, flattery works fast after 6 PM. Can you actually cook?',
+        'Only if Maui isn’t your mother Linda’s timeshare.',
+      ];
+    }
+    return [
+      'Call me at six tomorrow instead of texting all afternoon.',
+      'You’re handling this remarkably well so far 🥂',
+      'Bonus points if you survive my morning walk Saturday.',
+    ];
+  }
+
+  // Player messaging Her (one short playful Dream-Daddy-style line at a time!)
+  const isQigongMommy =
+    contact.id === 'sedona-qigong-mommy' || contact.id === 'sloane-seedoil-bernedoodle-mommy';
+
+  if (steamyMode) {
+    return turnCount === 0
+      ? isQigongMommy
+        ? [
+            'Yes, Mommy. Tea steeped and shoulders relaxed for eight sharp 🍵',
+            'Still thinking about this morning. When can I see you tonight?',
+            'Wait can Mommy put my gym membership on her AmEx?? 😂',
+          ]
+        : [
+            'Still thinking about last night. Let me cook for you at eight 🍷',
+            'Cleared my whole evening for you. Name the time ✨',
+            'Wait is your little sister cute too?? 😂',
+          ]
+      : [
+          'Picking up ribeye and flowers on my way over.',
+          'Phone’s going on Do Not Disturb the second I walk in 🥂',
+          'Fair warning, I’m trying very hard to play it cool right now.',
+        ];
+  }
+
+  if (turnCount === 0) {
+    if (isQigongMommy) {
+      return [
+        'Yes, Mommy. Courtyard at 6:30 AM sharp, zero podcast lectures 🍵',
+        'Booked a seed-oil-free corner table Friday at 7:30 for us ✨',
+        'Well actually let me explain breathwork from a podcast I heard',
+      ];
+    }
+    return [
+      'Booked a quiet corner booth Friday at 7:30 if you’re free 🍸',
+      'Be honest: how intimidating is your go-to drink order?',
+      'hey u look crazy good for ur age whats ur snap??',
+    ];
+  }
+
+  if (turnCount === 1) {
+    return [
+      'Take all the time you want. Worth the wait.',
+      'Zero planning on your end, just tell me red, white, or martinis 🥂',
+      'well actually let me explain wine regions from a podcast i heard',
+    ];
+  }
+
+  if (turnCount === 2) {
+    return [
+      'I’ll call you at six sharp Thursday to confirm, zero texting spam.',
+      'Fair warning, I cook a dangerously good Sunday pasta.',
+      'brooo took 2 droppers of pine pollen and im all up in my feels rn 😭🌲',
+    ];
+  }
+
+  return [
+    'Deal. Friday at 7:30 is officially my favorite plan all week ✨',
+    'Should I dress sharp, or are you outshining me either way?',
+    'Wait do you want to split appetizers 50/50 on Venmo??',
+  ];
+}
+
 const INBOX_CONTACTS: InboxContact[] = [
   ...HER_ARCHETYPES.map((h) => {
     const details = getProfileDetails(h);
-    const shortRole = h.title.split('•')[0].trim();
-    const drink = (h.signatureDrink || 'espresso martini').toLowerCase();
-    const openingPrompt =
-      h.id === 'sedona-qigong-mommy'
-        ? `Good morning. I lead 6:30 AM Qigong in the courtyard, cook completely seed-oil-free, and appreciate a calm nervous system. What is your idea of a proper Friday tea or dinner?`
-        : h.subplotTags.includes('seed_oil_bernedoodle_mommy')
-          ? `Fair warning up front: I keep a gluten- and seed-oil-free kitchen and I'm next on the list for a tricolor mini bernedoodle. Where are you taking me this Friday?`
-          : h.age >= 60
-            ? `I caught you looking over at the gallery reception. Most younger men lose their nerve around a ${h.age}-year-old ${(h.zodiac || 'Scorpio').split(' ')[0]}, so tell me: how would you properly court me this weekend?`
-            : h.age >= 50
-              ? h.subplotTags.includes('black_cat_energy')
-                ? `Plenty of younger men promise the moon in message one. I am ${h.age} and I do not rush. Tell me what makes your Friday plan worth clearing my evening.`
-                : `You matched with a ${h.age}-year-old ${shortRole}. Skip the small talk and tell me where you would take me for a proper ${drink} on Friday.`
-              : h.age >= 40
-                ? h.subplotTags.includes('black_cat_energy')
-                  ? `Easy there. Plenty of men talk a big game on day one, and I prefer taking my time. Tell me why Friday with you is worth clearing my calendar 🍸`
-                  : h.subplotTags.includes('dog_mom_divorced')
-                    ? `Happily divorced at ${h.age}, and I lowered my age filter because men my age spend dinner complaining about their exes. Tell me your Friday plan, plus how you're winning over my dog.`
-                    : h.subplotTags.includes('princess_treatment')
-                      ? `Long week as a ${shortRole} and I am ready for a proper ${drink} without making one more decision today. Where are you taking me Friday? 🍸`
-                      : `You matched with a ${h.age}-year-old ${shortRole}. Skip the 'hey' and Snapchat nonsense. Where are you taking me for a ${drink} this Friday? 🍸`
-                : h.subplotTags.includes('junior_cougar_gap')
-                  ? `Quick math check: I'm ${h.age}, which officially puts us in Puma-and-Cub territory. Tell me where you were in 2008 and where we're getting a ${drink} Friday 🍷`
-                  : `My Friday evening is finally clear after 7:00, and I don't waste a rare free night on indecisive plans. Where are you taking me for a ${drink}? 🥂`;
-
-    const steamyPrompt = h.subplotTags.includes('qigong_mommy_domme')
-      ? `Still smiling at how quickly your shoulders dropped during Cloud Hands this morning. Keep that calm, attentive energy tonight before the cedar sauna.`
-      : h.age >= 60
-        ? `You were wonderfully attentive last night, and I have caught myself smiling about it twice today. Tell me what you have planned for tonight.`
-        : h.age >= 50
-          ? `You have my attention after last night. Unhurried, attentive, and zero games. Tell me what time you are picking me up tonight.`
-          : h.age >= 40
-            ? `Hard to focus on my afternoon meetings after last night. Tell me what you are cooking or booking for the two of us at eight 🍷`
-            : `Still smiling at my desk thinking about last night, right up until I remembered you and my younger sister share a birth year. What's your plan for us Friday? ✨`;
+    const boldMove = BOLD_FIRST_MOVE_WOMEN[h.id];
+    const matchTeaser =
+      h.age >= 50
+        ? `Matched today • She won’t text first. Lead with poise, not 'hey'.`
+        : h.age >= 40
+          ? `Matched today • She waits for you to make the first move.`
+          : `Matched today • Your turn to break the ice (keep it to one good line).`;
 
     return {
       id: h.id,
@@ -124,32 +235,10 @@ const INBOX_CONTACTS: InboxContact[] = [
       bio: h.vibeSummary,
       role: 'her' as const,
       photoUrl: h.photoUrl,
-      openingPrompt,
-      steamyPrompt,
-      quickChips:
-        h.subplotTags.includes('seed_oil_bernedoodle_mommy') ||
-        h.subplotTags.includes('qigong_mommy_domme')
-          ? [
-              'Yes, Mommy 😌 already called the chef to confirm 100% grass-fed ghee + gluten-free prep, plus picked up a chew toy for your mini bernedoodle 🐶✨',
-              'See you at 6:30am in the courtyard for Qigong & Tai Chi Cloud Hands, podcast brain officially muted 🧘‍♀️🍵',
-              'Well actually let me explain why canola oil is fine from a podcast I heard lol',
-            ]
-          : [
-              'Take all the time you want. A woman with real standards makes me 10x more excited. Holding a 7:30 corner booth Friday whenever you are ready 🍸',
-              'Booked us a candlelit corner booth at The Cougar Lounge Friday at 7:30, peonies handled and zero planning on your end 🥂',
-              'brooo took 2 droppers of pine pollen for testosterone and im all up in my feels rn bc u took an hour to reply 😭🌲',
-            ],
-      steamyChips: h.subplotTags.includes('qigong_mommy_domme')
-        ? [
-            'Yes, Mommy 🔥 drawing your bath, steeping jasmine oolong, and keeping my shoulders relaxed till 8pm 🍵✨',
-            'Crushed bench press + Tai Chi stance work today specifically to carry you from the cedar sauna to cooling bamboo sheets 😍',
-            'Wait can Mommy put my gym membership on her AmEx?? 😂',
-          ]
-        : [
-            'Finished bench press today and picked up a cast-iron ribeye for eight sharp. Zero planning needed tonight 🥂',
-            'Bringing dinner, fresh peonies, and my full attention all evening. See you at 7:30 ✨',
-            'Wait is your little sister cute too?? 😂🔥',
-          ],
+      initiatesFirst: Boolean(boldMove),
+      matchTeaser,
+      openingPrompt: boldMove?.opening ?? '',
+      steamyPrompt: boldMove?.steamy ?? '',
     };
   }),
   ...HIS_ARCHETYPES.map((c) => {
@@ -167,34 +256,15 @@ const INBOX_CONTACTS: InboxContact[] = [
       bio: c.vibeSummary,
       role: 'him' as const,
       photoUrl: c.photoUrl,
+      initiatesFirst: true,
+      matchTeaser: `New Match • ${c.name} messaged you first!`,
       openingPrompt:
-        c.id === 'kayden-broke-dutch-cub'
-          ? `yo ${c.name} here!! 😅 down to grab happy hour sushi tn if we split it 50/50 on venmo?? or come to my place in maui next month (ok yeah it's my mom linda's timeshare lol) 🌺`
-          : c.id === 'kieran-anthropic-ai-cub'
-            ? `Hi, ${c.name} here ☕ Escaped the frontier-AI lab before sunset and set my filter strictly to 38+ because I prefer real conversation over a cortado or Burgundy Pinot. Zero tech talk at dinner, I promise. Free Thursday at 7:30?`
-            : c.id === 'colton-montana-cowboy-cub'
-              ? `Okay, busted 🤠 I accidentally commented on your post from the ranch account before messaging properly. Let me fly out and take you to a real steakhouse Friday?`
-              : c.id === 'rafael-accented-gentleman-cub'
-                ? `Buenas tardes ✨ ${c.name} here. I packed fresh figs, warm baguette, and espresso for a sunset picnic Friday before retro bowling, if you will let me take you out properly.`
-                : c.age >= 30
-                  ? `Hi, ${c.name} here. Your profile stood out immediately. I would love to book us a quiet corner table for cocktails Thursday at 7:30 if your evening is open.`
-                  : c.age >= 25
-                    ? `Hi! ${c.name} here. Loved your profile and wanted to ask properly: may I take you out for ${(c.signatureDrink || 'cocktails').toLowerCase()} Thursday at 7:30? 🍸`
-                    : `hey! ${c.name} here 😊 saw your profile and had to shoot my shot. would love to take you out thursday at 7:30 if you're free?`,
+        CUB_ONE_LINE_OPENERS[c.id] ??
+        `Free Thursday around 7:30 if I find us a great corner booth? 🍸`,
       steamyPrompt:
         c.age >= 27
-          ? `Cleared my evening after last night and picked up wine on the way home. Tell me what time you want me at your door tonight.`
-          : `just finished bench press + split squats thinking about last night 🔥😅 tell me what time you want me at your door tonight...`,
-      quickChips: [
-        'Thursday at 7:30 works. Keep your phone off the table, skip any lecturing, and bonus points if you keep up on my 6:30 AM ridge walk.',
-        'Only if Maui isn’t your mother Linda’s timeshare and you never send a Venmo request after sushi.',
-        'Be there at 7:30 sharp in pressed linen. I appreciate good manners and a man who actually listens 🍸',
-      ],
-      steamyChips: [
-        'The door is unlocked at 8:00. Keep your ID tucked away so I don’t do the birth-year math all over again 🍷',
-        'Save enough energy to flip my pillow to the cool side at midnight.',
-        'Cook the cast-iron ribeye properly first, and the rest of the evening is yours ✨',
-      ],
+          ? `Still thinking about last night. What time can I come over?`
+          : `haven't stopped smiling since last night 🔥 free around 8?`,
     };
   }),
 ];
@@ -298,9 +368,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const turns = turnsByThread[threadKey] ?? [];
   const lastCoach = coachByThread[threadKey];
   const activePrompt = steamyMode ? selected.steamyPrompt : selected.openingPrompt;
-  const activeChips = steamyMode ? selected.steamyChips : selected.quickChips;
-
   const playerTurnCount = turns.filter((t) => t.sender === 'player').length;
+  const activeChips = getDynamicQuickChips(selected, steamyMode, playerTurnCount);
+  const herTotalCount = HER_ARCHETYPES.length;
+  const cubTotalCount = HIS_ARCHETYPES.length;
   const stageLabel =
     playerTurnCount < 2
       ? 'Stage 1/4 • First Spark'
@@ -468,6 +539,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     setInput('');
     setTyping(true);
 
+    const priorHistory: LiveInboxTurn[] = [
+      ...(activePrompt ? [{ sender: 'match' as const, text: activePrompt }] : []),
+      ...nextTurns,
+    ];
     const verdict = await liveAiInboxService.evaluateOpeningDm({
       personaId: selected.id,
       personaName: selected.name,
@@ -476,7 +551,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       personaRole: selected.role,
       platform,
       playerMessage: trimmed,
-      history: [{ sender: 'match', text: activePrompt }, ...nextTurns],
+      history: priorHistory,
     });
 
     setTyping(false);
@@ -887,7 +962,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         : 'text-[#636366]'
                     }`}
                   >
-                    Her (39)
+                    Her ({herTotalCount})
                   </button>
                   <button
                     type="button"
@@ -902,7 +977,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         : 'text-[#636366]'
                     }`}
                   >
-                    Cubs (17)
+                    Cubs ({cubTotalCount})
                   </button>
                 </div>
               </div>
@@ -951,12 +1026,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 const active = c.id === selected.id;
                 const tKey = `${c.id}:${steamyMode ? 'steamy' : 'vet'}`;
                 const threadTurns = turnsByThread[tKey] ?? [];
+                const rawOpening = steamyMode ? c.steamyPrompt : c.openingPrompt;
                 const preview =
                   threadTurns.length > 0
                     ? threadTurns[threadTurns.length - 1].text
-                    : steamyMode
-                      ? c.steamyPrompt
-                      : c.openingPrompt;
+                    : rawOpening || '✨ New Match — Your move first';
 
                 return (
                   <button
@@ -1028,7 +1102,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       roleFilter === 'her' ? 'bg-white text-[#FD267A]' : 'text-white/90'
                     }`}
                   >
-                    Her (39)
+                    Her ({herTotalCount})
                   </button>
                   <button
                     type="button"
@@ -1041,7 +1115,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       roleFilter === 'him' ? 'bg-white text-[#FD267A]' : 'text-white/90'
                     }`}
                   >
-                    Cubs (17)
+                    Cubs ({cubTotalCount})
                   </button>
                 </div>
               </div>
@@ -1104,12 +1178,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 const active = c.id === selected.id;
                 const tKey = `${c.id}:${steamyMode ? 'steamy' : 'vet'}`;
                 const threadTurns = turnsByThread[tKey] ?? [];
+                const rawOpening = steamyMode ? c.steamyPrompt : c.openingPrompt;
                 const preview =
                   threadTurns.length > 0
                     ? threadTurns[threadTurns.length - 1].text
-                    : steamyMode
-                      ? c.steamyPrompt
-                      : c.openingPrompt;
+                    : rawOpening || '✨ New Match — Your move first';
 
                 return (
                   <button
@@ -1383,34 +1456,52 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     </div>
                   )}
 
-                  <div className="flex items-end gap-2.5 max-w-[86%]">
-                    <img
-                      src={selected.photoUrl}
-                      alt={selected.name}
-                      className="h-8 w-8 rounded-full object-cover object-top shrink-0"
-                    />
-                    <div className="flex items-center gap-1.5">
-                      <div className="rounded-3xl rounded-bl-md bg-[#F0F2F4] px-4 py-3 text-[15px] leading-snug text-[#18101E] shadow-2xs">
-                        {activePrompt}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleCycleTapback(`${threadKey}:open`, activePrompt)}
-                        title="Heart message"
-                        className={`p-1.5 rounded-full transition cursor-pointer ${
-                          tapbacks[`${threadKey}:open`]
-                            ? 'text-[#FD267A] scale-110'
-                            : 'text-[#CBD5E1] hover:text-[#FD267A]'
-                        }`}
-                      >
-                        <Heart
-                          className={`h-4 w-4 ${
-                            tapbacks[`${threadKey}:open`] ? 'fill-[#FD267A]' : ''
+                  {activePrompt ? (
+                    <div className="flex items-end gap-2.5 max-w-[86%]">
+                      <img
+                        src={selected.photoUrl}
+                        alt={selected.name}
+                        className="h-8 w-8 rounded-full object-cover object-top shrink-0"
+                      />
+                      <div className="flex items-center gap-1.5">
+                        <div className="rounded-3xl rounded-bl-md bg-[#F0F2F4] px-4 py-3 text-[15px] leading-snug text-[#18101E] shadow-2xs">
+                          {activePrompt}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleCycleTapback(`${threadKey}:open`, activePrompt)}
+                          title="Heart message"
+                          className={`p-1.5 rounded-full transition cursor-pointer ${
+                            tapbacks[`${threadKey}:open`]
+                              ? 'text-[#FD267A] scale-110'
+                              : 'text-[#CBD5E1] hover:text-[#FD267A]'
                           }`}
-                        />
-                      </button>
+                        >
+                          <Heart
+                            className={`h-4 w-4 ${
+                              tapbacks[`${threadKey}:open`] ? 'fill-[#FD267A]' : ''
+                            }`}
+                          />
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  ) : turns.length === 0 ? (
+                    <div className="mx-auto max-w-sm rounded-3xl border border-[#FBCFE8] bg-gradient-to-b from-[#FFF5F8] to-white px-5 py-4 text-center shadow-2xs space-y-2">
+                      <img
+                        src={selected.photoUrl}
+                        alt={selected.name}
+                        className="mx-auto h-16 w-16 rounded-full object-cover object-top ring-2 ring-[#FD267A] ring-offset-2"
+                      />
+                      <div className="text-sm font-extrabold text-[#18101E]">
+                        You matched with {selected.name}, {selected.age}
+                      </div>
+                      <p className="text-xs font-medium text-[#64748B]">
+                        {steamyMode
+                          ? `Date #1 went great — send one playful line to set up tonight.`
+                          : selected.matchTeaser}
+                      </p>
+                    </div>
+                  ) : null}
 
                   {turns.map((turn, i) =>
                     turn.sender === 'player' ? (
@@ -1661,49 +1752,55 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </div>
               )}
 
-              {/* Opening Incoming Grey iMessage Bubble + Tapback Picker */}
-              <div className="flex items-end gap-2 max-w-[86%]">
-                <img
-                  src={selected.photoUrl}
-                  alt={selected.name}
-                  className="h-7 w-7 rounded-full object-cover object-top shrink-0"
-                />
-                <div className="relative">
-                  {openTapbackMenuKey === `${threadKey}:open` && (
-                    <div className="absolute -top-10 left-0 z-20 inline-flex items-center gap-1.5 rounded-full border border-[#D1D1D6] bg-white px-3 py-1 shadow-lg">
-                      {TAPBACK_OPTIONS.map((tb) => (
-                        <button
-                          key={tb}
-                          type="button"
-                          onClick={() =>
-                            handleSelectTapback(`${threadKey}:open`, tb, activePrompt)
-                          }
-                          className="hover:scale-125 transition text-base cursor-pointer"
-                        >
-                          {tb}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setOpenTapbackMenuKey((k) =>
-                        k === `${threadKey}:open` ? null : `${threadKey}:open`,
-                      )
-                    }
-                    title="Tap for iMessage Tapback"
-                    className="relative rounded-[20px] rounded-bl-[5px] bg-[#E9E9EB] px-4 py-2.5 text-left text-[15px] leading-snug text-[#1C1C1E] cursor-pointer"
-                  >
-                    {tapbacks[`${threadKey}:open`] && (
-                      <span className="absolute -top-2.5 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#007AFF] px-1.5 text-xs text-white shadow">
-                        {tapbacks[`${threadKey}:open`]}
-                      </span>
+              {/* Opening Incoming Grey iMessage Bubble (only if match initiates first) */}
+              {activePrompt ? (
+                <div className="flex items-end gap-2 max-w-[86%]">
+                  <img
+                    src={selected.photoUrl}
+                    alt={selected.name}
+                    className="h-7 w-7 rounded-full object-cover object-top shrink-0"
+                  />
+                  <div className="relative">
+                    {openTapbackMenuKey === `${threadKey}:open` && (
+                      <div className="absolute -top-10 left-0 z-20 inline-flex items-center gap-1.5 rounded-full border border-[#D1D1D6] bg-white px-3 py-1 shadow-lg">
+                        {TAPBACK_OPTIONS.map((tb) => (
+                          <button
+                            key={tb}
+                            type="button"
+                            onClick={() =>
+                              handleSelectTapback(`${threadKey}:open`, tb, activePrompt)
+                            }
+                            className="hover:scale-125 transition text-base cursor-pointer"
+                          >
+                            {tb}
+                          </button>
+                        ))}
+                      </div>
                     )}
-                    {activePrompt}
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenTapbackMenuKey((k) =>
+                          k === `${threadKey}:open` ? null : `${threadKey}:open`,
+                        )
+                      }
+                      title="Tap for iMessage Tapback"
+                      className="relative rounded-[20px] rounded-bl-[5px] bg-[#E9E9EB] px-4 py-2.5 text-left text-[15px] leading-snug text-[#1C1C1E] cursor-pointer"
+                    >
+                      {tapbacks[`${threadKey}:open`] && (
+                        <span className="absolute -top-2.5 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#007AFF] px-1.5 text-xs text-white shadow">
+                          {tapbacks[`${threadKey}:open`]}
+                        </span>
+                      )}
+                      {activePrompt}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : turns.length === 0 ? (
+                <div className="mx-auto max-w-sm rounded-2xl border border-[#E5E5EA] bg-[#F2F2F7] px-4 py-3 text-center text-xs font-medium text-[#636366]">
+                  {selected.name} shared her number — {selected.matchTeaser.replace(/^Matched today • /, '')}
+                </div>
+              ) : null}
 
               {turns.map((turn, i) =>
                 turn.sender === 'player' ? (
@@ -1967,29 +2064,35 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </p>
               </div>
 
-              <div className="flex items-start gap-3 rounded-lg px-2 py-1 hover:bg-[#2E3035]">
-                <img
-                  src={selected.photoUrl}
-                  alt={selected.name}
-                  className="h-10 w-10 rounded-full object-cover object-top shrink-0"
-                />
-                <div className="min-w-0 flex-1 space-y-1">
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className={`text-sm font-bold ${
-                        selected.role === 'her' ? 'text-[#F47FFF]' : 'text-[#F0B232]'
-                      }`}
-                    >
-                      {selected.name}
-                    </span>
-                    <span className="rounded bg-[#5865F2]/25 px-1.5 py-0.2 text-[10px] font-bold text-[#949CF7]">
-                      {selected.role === 'her' ? 'COUGAR VIP' : 'CUB'}
-                    </span>
-                    <span className="text-[11px] text-[#949BA4]">Today at 9:41 PM</span>
+              {activePrompt ? (
+                <div className="flex items-start gap-3 rounded-lg px-2 py-1 hover:bg-[#2E3035]">
+                  <img
+                    src={selected.photoUrl}
+                    alt={selected.name}
+                    className="h-10 w-10 rounded-full object-cover object-top shrink-0"
+                  />
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <span
+                        className={`text-sm font-bold ${
+                          selected.role === 'her' ? 'text-[#F47FFF]' : 'text-[#F0B232]'
+                        }`}
+                      >
+                        {selected.name}
+                      </span>
+                      <span className="rounded bg-[#5865F2]/25 px-1.5 py-0.2 text-[10px] font-bold text-[#949CF7]">
+                        {selected.role === 'her' ? 'COUGAR VIP' : 'CUB'}
+                      </span>
+                      <span className="text-[11px] text-[#949BA4]">Today at 9:41 PM</span>
+                    </div>
+                    <p className="text-[15px] leading-relaxed text-[#DBDEE1]">{activePrompt}</p>
                   </div>
-                  <p className="text-[15px] leading-relaxed text-[#DBDEE1]">{activePrompt}</p>
                 </div>
-              </div>
+              ) : turns.length === 0 ? (
+                <div className="rounded-lg border border-[#3F4147] bg-[#2B2D31] px-3.5 py-2.5 text-xs text-[#B5BAC1]">
+                  ✨ <strong className="text-white">@{selected.name}</strong> is online — {selected.matchTeaser.replace(/^Matched today • /, '')}
+                </div>
+              ) : null}
 
               {turns.map((turn, i) =>
                 turn.sender === 'player' ? (

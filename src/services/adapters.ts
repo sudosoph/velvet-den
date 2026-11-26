@@ -176,10 +176,14 @@ export function evaluateDmLocally(params: {
   personaAge: number;
   personaRole: 'her' | 'him';
   playerMessage: string;
+  history?: LiveInboxTurn[];
 }): AiDmVettingResponse {
   const msg = params.playerMessage.trim();
   const lower = msg.toLowerCase();
   const age = params.personaAge;
+  const turnIdx = Array.isArray(params.history)
+    ? Math.max(0, params.history.filter((t) => t.sender === 'player').length - 1)
+    : 0;
 
   const hasSnap = /\bsnap(chat)?\b/.test(lower);
   const hasPushyWhine = /hard\s+to\s+get|stuck\s+up|why\s+so\s+cold|hurry\s+up/.test(lower);
@@ -204,13 +208,27 @@ export function evaluateDmLocally(params: {
     );
   const hasForYourAge = /for\s+(your|ur)\s+age/.test(lower) || /\blook\s+good\s+for\b/.test(lower);
   const isLazyHey =
-    msg.length < 12 || /^(hey+|yo+|sup|wyd|u\s*up\??|hi+)$/i.test(msg.replace(/[!?.🔥😍👀]/g, '').trim());
+    msg.length < 10 || /^(hey+|yo+|sup|wyd|u\s*up\??|hi+)$/i.test(msg.replace(/[!?.🔥😍👀]/g, '').trim());
   const hasPlan =
-    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|6:?30|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow|oolong|sauna|courtyard)\b/.test(
+    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|6:?30|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow|oolong|sauna|courtyard|cook|martini)\b/.test(
       lower,
     );
 
   if (params.personaRole === 'him') {
+    if (/\bvenmo\b/.test(lower) || /\blinda\b/.test(lower)) {
+      return {
+        maturityDelta: 16,
+        chivalryDelta: 18,
+        chemistryDelta: 20,
+        herReply:
+          age < 24
+            ? `okay fair roast 😅 zero Venmo requests ever, dinner's 100% on me!`
+            : `Zero Venmo math on my watch. Check is handled before you blink 🍷`,
+        coachNote: 'Smart test! Vetting his check etiquette early saves a Friday night.',
+        passedVibeCheck: true,
+        source: 'local-heuristic',
+      };
+    }
     if (isLazyHey) {
       return {
         maturityDelta: -6,
@@ -218,26 +236,39 @@ export function evaluateDmLocally(params: {
         chemistryDelta: -4,
         herReply:
           age >= 30
-            ? `Give me one clue on what you are in the mood for Thursday and I will handle the reservation.`
+            ? `Give me one hint on your mood and I'll lock in Thursday.`
             : age >= 25
-              ? `Give me a tiny hint on your Friday vibe and I'll lock in the table ☕`
-              : `wait give me one hint on what food u like so i plan friday right 😊`,
-        coachNote: 'Give him a clear standard or preference so you can vet how well he plans!',
+              ? `Give me one clue: wine bar or late-night sushi? ☕`
+              : `give me one hint so i plan friday right 😊 wine or tacos?`,
+        coachNote: 'Drop one playful cue so you can test how fast he plans!',
         passedVibeCheck: false,
         source: 'local-heuristic',
       };
     }
+    const cubLines =
+      age >= 30
+        ? [
+            `7:30 sharp works. Corner booth is booked and my phone stays off the table.`,
+            `Deal. I'll call you at six tomorrow instead of blowing up your phone.`,
+            `Four crisp pillows on my bed, for the record. Pick you up at 7:30?`,
+          ]
+        : age >= 25
+          ? [
+              `7:30 works great. Quiet corner table booked, zero startup talk all night 🍷`,
+              `Deal. Fair warning, I'm cooking you pasta on Date #2.`,
+              `Six o'clock phone call tomorrow it is. Looking forward to hearing your voice ✨`,
+            ]
+          : [
+              `7:30 works!! 😊 ironed a real shirt and booked us an actual table ✨`,
+              `deal!! fair warning im showing up 10 mins early with flowers`,
+              `phone stays face-down all dinner, promise 😊`,
+            ];
     return {
       maturityDelta: 18,
       chivalryDelta: 20,
       chemistryDelta: 22,
-      herReply:
-        age >= 30
-          ? `7:30 sharp works well. Corner booth reserved, phone stays off the table, and I will pick up the check cleanly.`
-          : age >= 25
-            ? `7:30 works great. I booked a quiet corner table, zero tech lectures and zero Venmo math ever 🍷`
-            : `7:30 sounds amazing!! 😊 ironed a real shirt, booked a real table, and zero Venmo requests i promise ✨`,
-      coachNote: 'Green-flag Cub response! Clear standards draw out his best effort.',
+      herReply: cubLines[turnIdx % cubLines.length],
+      coachNote: 'Green-flag Cub banter! Keep testing his follow-through one line at a time.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -250,11 +281,11 @@ export function evaluateDmLocally(params: {
       chemistryDelta: -25,
       herReply:
         age >= 50
-          ? `Asking about a relative is the fastest way to end an evening before it starts. Enjoy the rest of your week.`
+          ? `Asking about a relative is a world-record exit. Enjoy your evening alone.`
           : age >= 40
-            ? `Asking about my younger sister is bold in all the wrong ways. Have a lovely evening elsewhere.`
-            : `Asking if my little sister is single is an immediate exit. Bold fumble, though 👋`,
-      coachNote: 'Rule #0: When she jokes about the age gap, make her laugh with poise, NEVER ask if her sister is cute!',
+            ? `Asking about my younger sister is bold in all the wrong ways. Goodbye.`
+            : `Asking if my sister is single is an Olympic-level fumble 👋`,
+      coachNote: 'Rule #0: Never ask if her sister is cute!',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -267,14 +298,14 @@ export function evaluateDmLocally(params: {
       chemistryDelta: -24,
       herReply:
         age >= 60
-          ? `Please set the pine-pollen dropper aside. I turn my phone off after nine to read, and six anxious midnight messages are not how grown adults court.`
+          ? `Kindly set the pine-pollen dropper aside. Adults do not panic after one quiet hour.`
           : age >= 50
-            ? `Set the pine-pollen tincture down and take a breath. Quiet weeknights are normal at ${age}, not ghosting, and midnight text spirals do not work for me.`
+            ? `Put the pine-pollen dropper down. My phone goes on silent at nine.`
             : age >= 40
-              ? `Please set the pine-pollen dropper down. I put my phone away at 9:30 PM on weeknights, and six anxious texts in a row are a non-starter.`
-              : `Step away from the pine-pollen dropper for a second. Quiet weeknights aren't ghosting, and six midnight panic texts in a row are way too much 🍷`,
+              ? `Step away from the pine-pollen dropper. Reading after 9:30 PM isn't ghosting.`
+              : `Put the pine-pollen dropper down. One quiet hour isn't ghosting 🍷`,
       coachNote:
-        'Communication Mishap #1: Skip the pine-pollen jitters and 24/7 texting panic. Respect her quiet evenings and send one normal sentence!',
+        'Skip the pine-pollen jitters and 24/7 texting panic. One calm sentence wins.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -287,13 +318,13 @@ export function evaluateDmLocally(params: {
       chemistryDelta: -22,
       herReply:
         age >= 60
-          ? `Opening with 'well actually' to lecture me on a subject I have lived for decades is bold, I will give you that. Try curiosity next time.`
+          ? `Lecturing me from a ten-minute podcast is ambitious, darling. Try a question instead.`
           : age >= 50
-            ? `Did you just open with 'well actually' from a podcast clip? I have been in my field longer than you have had a driver's license. Ask a real question instead.`
+            ? `Starting a sentence with 'well actually' from a podcast is brave. Incorrect, though.`
             : age >= 40
-              ? `Opening with 'well actually' from a podcast to lecture me on my own craft is quite a choice. Drop the monologue and lead with curiosity next time.`
-              : `Starting a text with 'well actually' from a podcast is bold when I do this professionally. Retire the lecture and try a real question 😏`,
-      coachNote: 'Zero Cubsplaining! Accomplished women love curiosity and confidence, not a Wikipedia lecture.',
+              ? `Did you just 'well actually' me from a podcast clip? Bold last words.`
+              : `Did a podcast host hijack your thumbs just now? Try that again 😏`,
+      coachNote: 'Zero Cubsplaining! Curiosity beats a podcast lecture every time.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -306,11 +337,11 @@ export function evaluateDmLocally(params: {
       chemistryDelta: -20,
       herReply:
         age >= 50
-          ? `Calling a woman 'hard to get' because she keeps standards and a full schedule tells me everything I need to know. Take care.`
+          ? `Mistaking a full calendar for 'playing hard to get' makes my evening very easy.`
           : age >= 40
-            ? `Mistaking standards and a full calendar for 'playing hard to get' is an easy pass for me. Best of luck out there.`
-            : `Calling a woman 'hard to get' because she doesn't rush for a stranger? That just made my decision very easy 👋`,
-      coachNote: 'When a Black Cat Cougar slows the pace, never whine! Unbothered Golden-Retriever patience melts her.',
+            ? `Calling standards 'hard to get' just freed up my Friday night. Take care.`
+            : `Calling me 'hard to get' on message two? That solved my Friday dilemma 👋`,
+      coachNote: 'When a Black Cat Cougar paces things, never whine. Unbothered patience melts her.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
@@ -323,11 +354,11 @@ export function evaluateDmLocally(params: {
       chemistryDelta: 26,
       herReply:
         age >= 50
-          ? `Shoulders relaxed, zero lecturing, and genuine attentiveness. Meet me in the courtyard at 6:30 AM sharp for Qigong and warm jasmine oolong.`
+          ? `Calm shoulders and zero lecturing. Courtyard at 6:30 sharp tomorrow.`
           : age >= 40
-            ? `Calm presence, zero lecturing, and real follow-through. Good boy. Meet me in the courtyard at 6:30 AM sharp for Tai Chi and warm jasmine oolong 🍵`
-            : `Grounded energy, zero lecturing, and actual effort? Meet me in the courtyard at 6:30 AM for Qigong and warm jasmine oolong ✨`,
-      coachNote: 'Wellness Mommy-Domme bullseye! Playful polarity + real effort melts her fast.',
+            ? `Good boy. Courtyard at 6:30 sharp, and don't make me fix your posture twice 🍵`
+            : `Grounded energy and zero lecturing? Courtyard at 6:30 sharp tomorrow ✨`,
+      coachNote: 'Wellness Mommy-Domme bullseye! Playful poise + real effort melts her fast.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -340,13 +371,13 @@ export function evaluateDmLocally(params: {
       chemistryDelta: 25,
       herReply:
         age >= 60
-          ? `Unhurried confidence is rarer than you think. Keep that composure and I will gladly save Friday at 7:30 for you.`
+          ? `Unhurried confidence is rarer than you think. Save Friday at 7:30 for me.`
           : age >= 50
-            ? `No rushing, no sulking, and an actual sense of timing. Keep that composure and Friday at 7:30 is yours.`
+            ? `No rushing and zero sulking. Keep that poise and Friday at 7:30 is yours.`
             : age >= 40
-              ? `Unhurried confidence without a hint of impatience. You have my attention. Hold that 7:30 table for Friday 🍸`
-              : `Zero rushing and actual patience? That already puts you ahead of 95% of my inbox. Keep Friday at 7:30 warm for us 🍷`,
-      coachNote: '🐈‍⬛×🐕 Bullseye! Unbothered warmth + respecting her slow-burn pace is pure Black Cat kryptonite.',
+              ? `Unhurried confidence without flinching. Hold that 7:30 table for Friday 🍸`
+              : `Zero rushing and actual patience? Keep Friday at 7:30 warm for us 🍷`,
+      coachNote: '🐈‍⬛×🐕 Bullseye! Unbothered warmth + respecting her pace is pure kryptonite.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -356,29 +387,29 @@ export function evaluateDmLocally(params: {
     const reason = hasSnap
       ? `Asking ${params.personaName} (${params.personaAge}) for Snapchat is an instant unmatch.`
       : hasForYourAge
-        ? '"For your age" is banned in all 50 states. Compliment her without a birth-year footnote!'
-        : 'Rule #1: Mommy-Domme is playful romance, Cougar NEVER means Sugar Mama ATM!';
+        ? '"For your age" is banned in all 50 states. Drop the birth-year footnote!'
+        : 'Rule #1: Cougar NEVER means Sugar Mama ATM!';
     const herReply = hasSnap
       ? age >= 60
-        ? `I have not used Snapchat at any point in my life, and I am certainly not starting at ${age}. When you are ready to converse like an adult, let me know.`
+        ? `I have survived sixty years without Snapchat and intend to keep my streak at zero.`
         : age >= 50
-          ? `I am ${age}. I do not do Snapchat streaks. Exchange real numbers and propose a proper time if you want to take me out.`
+          ? `I am ${age}, not collecting streaks. Call me when you have a real reservation.`
           : age >= 40
-            ? `I run a team and own a wine cellar. I haven't opened Snapchat in a decade, so try again with a real plan if you'd like my number.`
-            : `I haven't opened Snapchat since the dog-filter era. Bring a real Friday plan if you want my actual number ✨`
+            ? `The last time I opened Snapchat, Obama was in office. Try a real drink spot.`
+            : `My Snapchat retired with the dog filter in 2016. Got a real Friday bar? ✨`
       : hasForYourAge
         ? age >= 60
-          ? `Adding 'for your age' at the end of a compliment undoes all of your charm in three words. A gentleman simply says a woman looks stunning.`
+          ? `Three words too long, darling. Stop the compliment right before 'for your age.'`
           : age >= 50
-            ? `'For your age' is where the conversation ends. Next time, stop the sentence two words earlier.`
+            ? `Next time, stop the sentence two words before 'for your age.'`
             : age >= 40
-              ? `You were doing fine right up until 'for your age.' Next time, deliver the compliment without the qualifier.`
-              : `You almost had it right up until 'for your age.' Drop the footnote next time 🚩`
+              ? `You had me right up until 'for your age.' Try that compliment without the footnote.`
+              : `So close, right up until 'for your age.' Drop the footnote next time 🚩`
         : age >= 50
-          ? `You have the wrong impression entirely. I date equals in effort and manners, not dependents.`
+          ? `Wrong impression entirely. I date equals in manners, not dependents.`
           : age >= 40
-            ? `Wrong inbox entirely. I enjoy generous, confident company, not someone auditioning for an allowance.`
-            : `Wrong inbox. Dating an established woman means matching her effort, not asking for an allowance 👋`;
+            ? `I'm a date, not a scholarship committee. Best of luck out there.`
+            : `Wrong inbox. I date grown partners, not dependents 👋`;
     return {
       maturityDelta: -18,
       chivalryDelta: -15,
@@ -397,50 +428,76 @@ export function evaluateDmLocally(params: {
       chemistryDelta: -8,
       herReply:
         age >= 60
-          ? `A one-word greeting leaves very little to work with. Tell me what caught your eye and where you would take me on Friday.`
+          ? `One word is hardly an introduction. Tell me where you would take me Friday.`
           : age >= 50
-            ? `'Hey' is not much of an opener. Propose a real Friday plan or call me properly at six.`
+            ? `'Hey' won't cut it. Propose a real Friday spot or call me at six.`
             : age >= 40
-              ? `One-word openers disappear fast in my inbox. Lead with a real thought and where you'd like to take me Friday.`
-              : `A bare 'hey' gets buried pretty quickly in here. Give me a real question or your favorite Friday cocktail spot 🍸`,
-      coachNote: 'Low-effort "hey / wyd" openers fail 95% of the time. Lead with a fun observation and a real date spot!',
+              ? `You get one redo better than 'hey.' Where are you taking me Friday?`
+              : `A bare 'hey' gets buried fast in here. Got a favorite Friday bar? 🍸`,
+      coachNote: 'Skip one-word openers and lead with one witty line or a real spot!',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };
   }
 
-  if (hasPlan && msg.length >= 28) {
+  if (hasPlan && msg.length >= 22) {
+    const planLines =
+      age >= 60
+        ? [
+            `A man who books a proper table without twenty questions. See you at 7:30.`,
+            `Thoughtful timing and good manners. Tell me, red wine or a dry martini?`,
+          ]
+        : age >= 50
+          ? [
+              `Punctual and decisive. Send the restaurant name and do not be late.`,
+              `Good instinct. Call me at six Thursday so I know your voice matches your text.`,
+            ]
+          : age >= 40
+            ? [
+                `Decisive and zero homework for me. Send the address for 7:30 🍸`,
+                `Smooth move. Fair warning, I judge a man by how he treats the bartender.`,
+              ]
+            : [
+                `An actual reservation without twenty back-and-forth texts? Send the pin for 7:30 🥂`,
+                `Okay, points for decisiveness. Can you actually hold conversation without checking your phone?`,
+              ];
     return {
       maturityDelta: 18,
       chivalryDelta: 20,
       chemistryDelta: 22,
-      herReply:
-        age >= 60
-          ? `A thoughtful reservation and clear timing without being asked twice. Send the address and I will see you Friday at 7:30.`
-          : age >= 50
-            ? `Decisive, punctual, and zero back-and-forth. Send me the restaurant details and I will meet you there at 7:30 sharp.`
-            : age >= 40
-              ? `Decisive, thoughtful, and zero guesswork on my end. I appreciate a man with a real plan. Send the details for 7:30 🍸`
-              : `An actual reservation, clear timing, and zero back-and-forth? You have my attention. Send the details and I'll see you at 7:30 🥂`,
-      coachNote: 'Elite move: concrete date plan + confident energy + zero needy clutter.',
+      herReply: planLines[turnIdx % planLines.length],
+      coachNote: 'Elite 1-liner: decisive plan + confident charm keeps her hooked!',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
   }
 
+  const banterLines =
+    age >= 60
+      ? [
+          `Charming start. Now tell me what kind of evening you have in mind for Friday.`,
+          `Witty, I will give you that. Do you cook, or do you know a good bistro?`,
+        ]
+      : age >= 50
+        ? [
+            `Good start. Now tell me where you are actually taking me Friday.`,
+            `Not bad at all. Are you all banter, or do you book reservations too?`,
+          ]
+        : age >= 40
+          ? [
+              `Bold start. Tell me what Friday spot you have up your sleeve 🍸`,
+              `Careful, dry wit works fast on me. Can you actually cook, or just flirt?`,
+            ]
+          : [
+              `Good energy so far. Where are you taking me Friday to back it up? ✨`,
+              `Cute line. Quick test: quiet corner wine bar or loud club?`,
+            ];
   return {
     maturityDelta: 8,
     chivalryDelta: 6,
     chemistryDelta: 10,
-    herReply:
-      age >= 60
-        ? `Charming start, and I appreciate good manners. Tell me what kind of evening you have in mind for Friday.`
-        : age >= 50
-          ? `Good start. Now tell me what you actually have in mind for Friday evening so I know you follow through.`
-          : age >= 40
-            ? `Good composure so far. Tell me what spot you have in mind for Friday evening and we'll see if your taste matches your confidence 🍸`
-            : `Good energy so far. Tell me where you'd actually take me Friday so I know you're more than good banter ✨`,
-    coachNote: 'Warm start! Lock in a specific neighborhood spot and time next to seal the date.',
+    herReply: banterLines[turnIdx % banterLines.length],
+    coachNote: 'Fun 1-line volley! Lock in a Friday spot next to turn banter into a date.',
     passedVibeCheck: true,
     source: 'local-heuristic',
   };

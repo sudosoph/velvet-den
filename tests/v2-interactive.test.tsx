@@ -470,6 +470,10 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       screen.getByRole('dialog', { name: /Survive Their Inbox/i }),
     ).toBeInTheDocument();
 
+    // Most women wait for the Cub to make the first move (zero bio-reciting pre-sent paragraph)
+    expect(screen.getByText(/You matched with Claire, 45/i)).toBeInTheDocument();
+    expect(screen.queryByText(/swiped right on a/i)).not.toBeInTheDocument();
+
     const input = screen.getByPlaceholderText(/Message Claire on Tinder/i);
     fireEvent.change(input, {
       target: {
@@ -479,6 +483,12 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     fireEvent.click(screen.getAllByRole('button', { name: /^Send$/i })[0]);
 
     expect(await screen.findByText(/VIBE CHECK PASSED/i)).toBeInTheDocument();
+
+    // When switching to Cubs (for women), Cubs initiate first with a crisp 1-liner!
+    fireEvent.click(screen.getByRole('button', { name: /^Cubs \(18\)$/i }));
+    expect(
+      screen.getAllByText(/Be honest: if I cook Friday/i).length,
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it('handles Cloudflare Worker /api/health, /api/stats (KV), and /api/inbox-vet (Workers AI + fallback) cleanly', async () => {
