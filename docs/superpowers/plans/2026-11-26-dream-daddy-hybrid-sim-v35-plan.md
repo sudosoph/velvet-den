@@ -15,7 +15,8 @@
 - **Zero Banned Filler, Recycled `v34` Gags, or Stage-Direction Pills:** `pine pollen`, `qigong`, `tai chi`, `seed oil`, `bernedoodle`, `maui`, `timeshare`, `sheryl crow`, `james webb`, `tito`, `roblox`, `venmo`, `oatmeal cashmere`, and `photo 1 of` must not appear anywhere in `src/`, `worker/`, or `public/guides/`.
 - **Real First-Person Hinge Profiles & Asymmetric Number Polarity:** Hinge profiles render clean interleaved photos, Vitals, and first-person prompts (`"My simple pleasures"`, `"Together, we could"`, `"A friend's review of me"`) with **zero** `"Photo X of 6"` counters, **zero** third-person photo descriptions, and **zero** top/tab pills (`Cortado`, `Kitchen`, `Booth`). When `playerRole === 'her'`, **he** tries to keep her interested to earn **her** number (`📱 Give Him My Number` vs. `🚩 Cut Him Loose`); when `playerRole === 'him'`, **he** earns **her** number.
 - **7-Bucket Strict Humor Partition (100% Original Rewrites):** `SEED_COURTROOM_STORIES` in `ClubCourtroomView.tsx` (15 brand-new cases), `COUGAR_CUB_CHECKLIST_ITEMS` in `CougarCubChecklistModal.tsx` (25 brand-new generational moments), and `AFFILIATE_CATALOG` pitches in `src/lib/affiliates.ts` are rewritten from scratch so zero jokes overlap across Cub School, Chat Traps, Hinge, Wild Venues, Crown/Dump, Have You Ever, or Trivia.
-- **10/10 "Variety of Hot" Cast Floor:** Every cast image referenced in `src/data/v35Cast.ts` must exist in `public/images/cast/`, exceed `45 KB` (no `16–38 KB` blurry Unsplash stock nerds/uglies), include at least 4 distinct blonde leads (`soren-26m`, `rory-24m`, `miles-zaddy-31m`, `chadwick-24m`, `elena-prof-44f`, `summer-blonde-33f`), and eliminate brown-haired lookalike clones.
+- **100% Globally Unique 6-Photo Sets Per Character (Zero Shared Slides 4–6):** Every single profile in `V35_CAST_PROFILES` has **6 globally unique photo URLs** depicting that specific character in 6 distinct personality-driven moments (`new Set(allPhotoUrls).size === allPhotoUrls.length`—never recycling generic kitchen/cocktail/pool filler scenes across multiple men or women).
+- **No Pre-Game Age Filter + Real Selective Hinge Matching:** Remove the desired-age filter selector so players encounter the full surprising age spectrum (`21`–`62`) organically. Tapping `❤️` + sending an opener evaluates compatibility against that character's personality: mismatched/generic openers go to `Sent Like (No Match)` (or prompt spotting them `🗺️ In The Wild`), high-EQ openers trigger immediate or delayed `✨ It's a Match!` pop-ins, and `🌹 Send a Rose (1 Cr / VIP)` guarantees priority match attention on selective Standouts.
 - **Editorial Luxury UI (No Amateur Clutter):** Retire `PairingMixerView.tsx`, `PixiCubAcademyStage.tsx`, `EightBitAdventureWorld.tsx`, `EpisodeStage.tsx`, `SceneChatInterface.tsx`, and `src/data/episodes.ts`. No front-page multi-banner clutter or Neo-Brutalist comic border soup.
 - **Strict Economy & Live Links:** Preserve all 4 live `buy.stripe.com` URLs in `src/config/monetization.ts`. New storage key `velvet_wallet_v35` grants `3` one-time starter credits (`0` daily refill, `0` free credits from quizzes, courtroom, checklists, shares, newsletters, waitlists, or referrals). Friendly `💛 Support This Project` button stays visible in `TopHudBar` and ending/diploma cards.
 - **Verified Post-Answer Media Reveal (No Spoilers, No Caption Clutter):** In `PopCultureTriviaModal.tsx`, neither `imageUrl` nor `youtubeEmbedUrl` renders before `selectedOpt !== null`; both reveal *after* answering with zero `<figcaption>` attribution text at the bottom.
@@ -57,7 +58,7 @@
 - Produces:
   - `export type PortraitExpression = 'neutral' | 'smirk' | 'laugh' | 'blush' | 'icked';`
   - `export type HairLook = 'platinum_blonde' | 'golden_blonde' | 'dirty_blonde' | 'mediterranean_dark' | 'latin_curls' | 'black_athletic' | 'east_asian' | 'copper_auburn' | 'silver_fox' | 'brunette_glam' | 'south_asian';`
-  - `export interface CastVisualEntry { id: string; primaryPortrait: string; lifestyleSlides: [string, string, string]; hairLook: HairLook; role: 'him' | 'her'; }`
+  - `export interface CastVisualEntry { id: string; primaryPortrait: string; sixUniquePhotos: [string, string, string, string, string, string]; hairLook: HairLook; role: 'him' | 'her'; }`
   - `export const V35_CAST_VISUALS: Record<string, CastVisualEntry>`
   - `export const V35_SCENE_BACKDROPS: Record<string, string>`
   - `export const EXPRESSION_MOTION_PRESETS: Record<PortraitExpression, { badge: string; particle: string; tintClass: string; motionClass: string }>`
@@ -79,7 +80,7 @@ describe('v35 cast hotness floor & visual diversity manifest', () => {
     const entries = Object.values(V35_CAST_VISUALS);
     expect(entries.length).toBeGreaterThanOrEqual(20);
     for (const entry of entries) {
-      for (const rel of [entry.primaryPortrait, ...entry.lifestyleSlides]) {
+      for (const rel of entry.sixUniquePhotos) {
         const diskPath = path.resolve(process.cwd(), 'public', rel.replace(/^\.\//, ''));
         expect(fs.existsSync(diskPath), `Missing ${diskPath}`).toBe(true);
         expect(fs.statSync(diskPath).size, `Low-res stock image ${diskPath}`).toBeGreaterThan(40_000);
@@ -91,8 +92,12 @@ describe('v35 cast hotness floor & visual diversity manifest', () => {
     }
   });
 
-  it('includes >= 6 blonde leads across him/her and purges retired nerd/wellness files', () => {
-    const blondes = Object.values(V35_CAST_VISUALS).filter((c) => c.hairLook.includes('blonde'));
+  it('enforces 100% globally unique photo URLs across all 6 slides of every character (zero shared filler scenes) and >= 6 blondes', () => {
+    const entries = Object.values(V35_CAST_VISUALS);
+    const allUrls = entries.flatMap((e) => e.sixUniquePhotos);
+    expect(allUrls.length).toBe(entries.length * 6);
+    expect(new Set(allUrls).size).toBe(allUrls.length);
+    const blondes = entries.filter((c) => c.hairLook.includes('blonde'));
     expect(blondes.length).toBeGreaterThanOrEqual(6);
     for (const purged of ['sedona-qigong-46f.jpg', 'devon-23m.jpg', 'nadia-41f.jpg', 'brandon-24m.jpg']) {
       expect(fs.existsSync(path.resolve(process.cwd(), 'public/images/cast', purged))).toBe(false);
@@ -254,7 +259,7 @@ git commit -m "feat(v35-content): add 7-bucket partitioned cast, 10 wild venues,
 - [ ] **Step 1: Write the failing UI tests in `tests/v35-hinge-and-wild.test.tsx`**
 
 Test:
-1. `HingeFeedView` renders an authentic vertical Hinge card (`Name` header, interleaved full-bleed `3:4` photos, Vitals strip with `Age`, `Height`, `Job`, `School`, `Looking For`, and 3 first-person prompts) with **zero** `"Photo 1 of 6"` text and **zero** wardrobe/room tab pills (`Cortado`, `Kitchen`, `Booth`, `Oatmeal Cashmere`); clicking a `❤️` button on any photo or prompt opens the 3-opener sheet (`2` Free + `1 Cr` Smooth Opener) and advances cleanly across the diverse cast (including blonde leads Søren and Rory).
+1. `HingeFeedView` renders an authentic vertical Hinge card (`Name` header, interleaved full-bleed `3:4` photos, Vitals strip with `Age`, `Height`, `Job`, `School`, `Looking For`, and 3 first-person prompts) with **zero** desired-age pre-filter, **zero** `"Photo 1 of 6"` text, and **zero** wardrobe/room tab pills (`Cortado`, `Kitchen`, `Booth`, `Oatmeal Cashmere`); sending a low-effort/mismatched opener puts the profile into `Sent Like (No Immediate Match)` while continuing the shuffled deck, whereas picking the personality-attuned opener (or `🌹 Send a Rose • 1 Cr`) triggers a real match (with delayed match pop-in support on selective leads).
 2. `InTheWildMapView` renders all 10 illustrated hotspots (`The Velvet Room`, `Hawthorne University`, `Terminal B Arrivals`, etc.); selecting `Terminal B Arrivals` as `her` plays Miles's luggage-taking & car/dinner-coordinating scene and calls `onUnlockWildLead('miles', 'terminal-b-airport', ...)`; visiting a hotspot whose lead is already in `activeLeadThreads` plays the `3-beat Chemistry Cameo` (`onCompleteCameo`) instead of duplicating Chapter 1.
 
 - [ ] **Step 2: Run test to verify it fails**
