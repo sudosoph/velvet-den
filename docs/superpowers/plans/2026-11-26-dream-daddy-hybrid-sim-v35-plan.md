@@ -12,8 +12,8 @@
 
 ## Global Constraints
 
-- **Zero Banned Filler:** `pine pollen`, `qigong`, `tai chi`, `seed oil`, and `bernedoodle` must not appear anywhere in `src/`, `worker/`, or `public/guides/`.
-- **7-Bucket Strict Humor Partition:** Each of the 7 content buckets (1: Cub School 12 drills, 2: Chat/iMessage 5 deception traps, 3: Hinge cast voices, 4: 10 Wild venues, 5: 30 Courtroom cases, 6: 25 Experience checklist items, 7: 55-Q Pop-Culture & Trailer Quiz) has exclusive jokes with zero cross-bucket repetition.
+- **Zero Banned Filler or Recycled `v34` Gags:** `pine pollen`, `qigong`, `tai chi`, `seed oil`, `bernedoodle`, plus overused `v34` crossover gags (`maui`, `timeshare`, `sheryl crow`, `james webb`, `tito`, `roblox`) must not appear anywhere in `src/`, `worker/`, or `public/guides/`.
+- **7-Bucket Strict Humor Partition (100% Original Rewrites):** `SEED_COURTROOM_STORIES` in `ClubCourtroomView.tsx` (15 brand-new cases), `COUGAR_CUB_CHECKLIST_ITEMS` in `CougarCubChecklistModal.tsx` (25 brand-new generational moments), and `AFFILIATE_CATALOG` pitches in `src/lib/affiliates.ts` are rewritten from scratch so zero jokes overlap across Cub School, Chat Traps, Hinge, Wild Venues, Crown/Dump, Have You Ever, or Trivia.
 - **10/10 "Variety of Hot" Cast Floor:** Every cast image referenced in `src/data/v35Cast.ts` must exist in `public/images/cast/`, exceed `45 KB` (no `16–38 KB` blurry Unsplash stock nerds/uglies), include at least 4 distinct blonde leads (`soren-26m`, `rory-24m`, `miles-zaddy-31m`, `chadwick-24m`, `elena-prof-44f`, `summer-blonde-33f`), and eliminate brown-haired lookalike clones.
 - **Editorial Luxury UI (No Amateur Clutter):** Retire `PairingMixerView.tsx`, `PixiCubAcademyStage.tsx`, `EightBitAdventureWorld.tsx`, `EpisodeStage.tsx`, `SceneChatInterface.tsx`, and `src/data/episodes.ts`. No front-page multi-banner clutter or Neo-Brutalist comic border soup.
 - **Strict Economy & Live Links:** Preserve all 4 live `buy.stripe.com` URLs in `src/config/monetization.ts`. New storage key `velvet_wallet_v35` grants `3` one-time starter credits (`0` daily refill, `0` free credits from quizzes, courtroom, checklists, shares, newsletters, waitlists, or referrals). Friendly `💛 Support This Project` button stays visible in `TopHudBar` and ending/diploma cards.
@@ -174,6 +174,9 @@ git commit -m "feat(v35-economy): enforce one-time 3 starter credits, patron tip
 - Create: `src/data/v35ChatsAndDates.ts`
 - Create: `src/data/v35CubSchool.ts`
 - Modify: `src/data/popCultureTrivia.ts`
+- Modify: `src/components/ClubCourtroomView.tsx` (rewrite `SEED_COURTROOM_STORIES` with 15 brand-new original cases)
+- Modify: `src/components/CougarCubChecklistModal.tsx` (rewrite `COUGAR_CUB_CHECKLIST_ITEMS` with 25 brand-new original generational moments)
+- Modify: `src/lib/affiliates.ts` (refresh `cheekyPitch` & `badge` copy to remove Maui timeshare / recycled `v34` references)
 - Modify: `src/data/dailyDilemmas.json`
 - Modify: `src/data/journalArticles.ts`
 - Modify: `src/domain/taxonomy.ts`
@@ -202,11 +205,12 @@ git commit -m "feat(v35-economy): enforce one-time 3 starter credits, patron tip
 - [ ] **Step 1: Write the failing 7-bucket uniqueness, banned-trope purge, and 55-Q trailer quiz test in `tests/v35-content-uniqueness.test.ts`**
 
 Assert:
-1. Zero occurrences of `/pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle/i` across all files in `src/`.
+1. Zero occurrences of `/pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle|timeshare|sheryl\s*crow|james\s*webb|roblox|1\.75l\s+bottle\s+of\s+tito/i` across `src/` and `worker/`.
 2. `V35_CAST_PROFILES` has `>= 20` profiles (`10` `main_lead` with 3+ Date scripts each, `5` `trap`, `>= 5` `cameo`), each with 6 unique slide URLs or captions and 3 Hinge prompts.
 3. `V35_WILD_VENUES` has exact length `10` including Terminal B Zaddy luggage coordination & Hawthorne University Post-Grades Rule.
-4. `V35_CUB_SCHOOL_DRILLS` has exact length `12` covering the 12 real `r/CougarsAndCubs` complaints, and signature phrases (`"bathroom trash can"`, `"one flat pillow"`, `"u have snap"`, `"charitable donation"`, `"sti panel"`) do **not** appear in `v35Cast.ts`, `v35ChatsAndDates.ts`, or `dailyDilemmas.json`.
-5. `POP_CULTURE_TRIVIA.length >= 55`, includes *No Hard Feelings* (Jennifer Lawrence) with `https://www.youtube-nocookie.com/embed/kIcLb0KAJAs`, and every `youtubeEmbedUrl` uses `https://www.youtube-nocookie.com/embed/` with one of the 23 `oembed`-verified 11-char IDs.
+4. `V35_CUB_SCHOOL_DRILLS` has exact length `12` covering the 12 real `r/CougarsAndCubs` complaints, and none of its 12 topics (`"trash can"`, `"flat pillow"`, `"whats ur snap"`, `"u have snap"`, `"charitable donation"`, `"sti panel"`) appear in `SEED_COURTROOM_STORIES`, `COUGAR_CUB_CHECKLIST_ITEMS`, `v35Cast.ts`, or `v35ChatsAndDates.ts`.
+5. `SEED_COURTROOM_STORIES` (`15` brand-new cases) and `COUGAR_CUB_CHECKLIST_ITEMS` (`25` brand-new generational items) share zero 5-word n-grams with each other or with any other `v35` module.
+6. `POP_CULTURE_TRIVIA.length >= 55`, includes *No Hard Feelings* (Jennifer Lawrence) with `https://www.youtube-nocookie.com/embed/kIcLb0KAJAs`, and every `youtubeEmbedUrl` uses `https://www.youtube-nocookie.com/embed/` with one of the 23 `oembed`-verified 11-char IDs.
 
 - [ ] **Step 2: Run test to verify it fails**
 
