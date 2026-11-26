@@ -198,3 +198,18 @@ Right now, `cougarsandcubs.club` has strong comedic DNA and viral hooks, but its
      - Expand all 1-paragraph stub guides (`junior-cougar`, `grown-son`, `cougar-town`, `movies-like-babygirl`, `spontaneous-weekend-getaway`, etc.) into genuine multi-section, scannable, funny & useful articles with honest read-time badges and zero Qigong/Mommy-Domme leakage.
      - Upgrade `astrology-zodiac-compatibility-older-woman-younger-man` from a 1-paragraph esoteric stub into an **interactive 12-Sign Her × Him Chemistry Picker** covering all 12 signs cleanly alongside practical audience-favorite takeaways (including how to spot Bucket-List Tourists vs. relationship-ready Cubs).
      - Add a **1-tap Share Article button** on every guide in `VelvetJournalView.tsx` opening `SocialShareSheetModal` with its canonical `/guides/<slug>/` URL so readers can text/WhatsApp/IG/Pinterest any guide directly.
+
+---
+
+## 7. Option A Desktop Phone Landing & PostHog Conversion/Affiliate/Share Analytics
+
+1. **Option A — Desktop Phone Simulator Landing + `About` Anchor (`PairingMixerView.tsx` & `AboutClubView.tsx`)**:
+   - On desktop viewports (`lg+`), `PairingMixerView.tsx` presents a two-column hero studio: **Left = Story & Club Command** (restored slogan **`"Lower Your Age Slider. Vet the Red Flags. Win Real Love."`**, 3-tap *Velvet Profile* setup, Earned Match Queue, `👯‍♀️ Invite Bestie` / `🎯 Send 60s Audition`, and `ℹ️ About the Game` anchor); **Right = Realistic Interactive iPhone Simulator Frame (`w-full max-w-[400px]`)** housing the scrollable 6-photo Hinge/Tinder profile feed (`aspect-[3/4]` portraits that can never stretch wide or crop faces/bodies!). On mobile viewports, the phone chrome steps out of the way so the card fills the mobile screen naturally.
+
+2. **PostHog Full-Funnel Product, Affiliate & Share Analytics (`posthog-js@1`, `@posthog/react@1`, `posthog-node@6`)**:
+   - Client SDK initialized optionally via `VITE_POSTHOG_PROJECT_TOKEN` and `VITE_POSTHOG_HOST` (routed through a first-party Cloudflare Worker `/ingest/*` reverse proxy on production so ad blockers never drop conversion or affiliate events; loud dev error if unconfigured; safe no-op in Vitest).
+   - Track structured events with `app: "cougars_and_cubs_club"`:
+     - **Affiliates**: `affiliate_clicked` (`product_id`, `product_name`, `category`, `placement`) on client + `affiliate_redirect_served` server-side in `worker/index.ts` (`/api/go/:id`).
+     - **Shares**: `share_triggered` (`channel`: `whatsapp | imessage | instagram | tiktok | discord | x | threads | telegram | copy_link | native`, `share_surface`: `audition | bestie_profile | pop_quiz | checklist_25pt | guide | verdict_receipt`).
+     - **Core Funnel & Monetization Conversions**: `velvet_profile_customized`, `profile_swiped`, `match_unlocked`, `profile_memory_bonus`, `off_app_imessage_unlocked`, `cub_obedience_graduated`, `date_stage_started`, `date_stage_completed`, `paywall_opened`, `stripe_checkout_clicked` (`tier`: `credits_299 | vip_699 | tip_5 | cameo_29`), `checkout_verified_server`, `waitlist_submitted`, `newsletter_subscribed`.
+   - Identify users cleanly with a stable client UUID when they submit Newsletter, Waitlist, or VIP Restore (storing email as a person property, never as `distinct_id`).
