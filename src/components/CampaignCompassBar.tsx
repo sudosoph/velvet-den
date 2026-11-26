@@ -150,7 +150,7 @@ export function computeCampaignProgress({
       nextStep = {
         targetTab: 'wild',
         stepTag: 'Explore Off-App Exclusives',
-        ctaLabel: '🗺️ Meet Leads In The Wild →',
+        ctaLabel: 'Meet Leads In The Wild →',
       };
     }
   }
@@ -179,6 +179,7 @@ interface CampaignCompassBarProps {
   onSelectMatchChat: (leadId: string) => void;
   onOpenCubSchool: () => void;
   onOpenWildMap: () => void;
+  onResetHearts?: () => void;
 }
 
 export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
@@ -193,6 +194,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onSelectMatchChat,
   onOpenCubSchool,
   onOpenWildMap,
+  onResetHearts,
 }) => {
   const activeThreads = threads.filter((t) => !cutLooseIds.includes(t.leadId));
   const summary = computeCampaignProgress({
@@ -203,13 +205,18 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
     role,
   });
 
+  const heartsDisplay =
+    wallet.fridayHearts > 0
+      ? '❤️'.repeat(wallet.fridayHearts) + '🤍'.repeat(Math.max(0, 3 - wallet.fridayHearts))
+      : '🤍🤍🤍';
+
   // When already on Hinge with 0 matches, offer 1-tap jump to In The Wild so button always advances flow
   const effectiveNextStep: CampaignNextStep =
     activeThreads.length === 0 && activeTab === 'hinge'
       ? {
           targetTab: 'wild',
           stepTag: 'Act 1 • Two Ways to Meet',
-          ctaLabel: '🗺️ Or Meet Offline In The Wild (10 Spots) →',
+          ctaLabel: 'Explore 10 In The Wild Spots →',
         }
       : summary.nextStep;
 
@@ -217,49 +224,56 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
     <section
       data-testid="campaign-compass-bar"
       aria-label="Campaign Progress and Next Step"
-      className="editorial-hinge-card rounded-2xl border border-stone-200/90 bg-white/95 px-4 py-3 shadow-xs"
+      className="mx-auto w-full max-w-4xl rounded-2xl border border-stone-200/80 bg-white/90 px-4 py-2.5 shadow-2xs"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
-        {/* Left: Dream Daddy Campaign Level + Progress Bar + Cub School Perk */}
-        <div className="flex flex-wrap items-center gap-2.5">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#18101E] px-3 py-1 text-xs font-extrabold text-white">
-            <Award className="h-3.5 w-3.5 text-amber-300 shrink-0" />
+        {/* Left: Campaign Level + Friday Hearts + School Spark (Zero Double Emojis) */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#18101E] whitespace-nowrap">
+            <Award className="h-4 w-4 text-rose-600 shrink-0" />
             <span>
               Lv.{summary.level} • {summary.levelTitle}
             </span>
           </div>
 
+          <span className="text-stone-300 hidden sm:inline">|</span>
+
           <div
-            className="hidden sm:flex items-center gap-2"
-            title={`${summary.totalPoints} Campaign Points`}
+            data-testid="hud-friday-hearts"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-600 whitespace-nowrap"
+            title="Friday Date Energy (3 Hearts)"
           >
-            <div className="h-2 w-20 overflow-hidden rounded-full bg-stone-200">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-rose-600 to-amber-500 transition-all duration-300"
-                style={{ width: `${summary.progressPercent}%` }}
-              />
-            </div>
-            <span className="text-[11px] font-bold text-stone-500">
-              {summary.totalDatesCompleted > 0
-                ? `${summary.totalDatesCompleted} Date${summary.totalDatesCompleted === 1 ? '' : 's'} ♥`
-                : `${summary.totalPoints} pts`}
-            </span>
+            <span>{heartsDisplay}</span>
+            {wallet.discernmentXp > 0 && (
+              <span className="text-stone-500">• {wallet.discernmentXp} XP</span>
+            )}
+            {wallet.fridayHearts === 0 && onResetHearts && (
+              <button
+                type="button"
+                onClick={onResetHearts}
+                className="ml-1 rounded-full bg-rose-600 px-2.5 py-0.5 text-[10px] font-extrabold text-white cursor-pointer"
+              >
+                New Friday
+              </button>
+            )}
           </div>
+
+          <span className="text-stone-300 hidden sm:inline">|</span>
 
           <button
             type="button"
             onClick={onOpenCubSchool}
-            className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-bold transition cursor-pointer ${
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
               summary.etiquetteBonusActive
-                ? 'border-emerald-300 bg-emerald-50 text-emerald-900'
-                : 'border-amber-200 bg-amber-50/70 text-amber-950 hover:bg-amber-100'
+                ? 'bg-emerald-50 text-emerald-900'
+                : 'text-stone-600 hover:bg-stone-100 hover:text-[#18101E]'
             }`}
           >
-            <GraduationCap className="h-3.5 w-3.5 shrink-0" />
+            <GraduationCap className="h-3.5 w-3.5 text-amber-600 shrink-0" />
             <span>
               {summary.etiquetteBonusActive
-                ? `🎓 ${cubSchoolStars}/12 ⭐ (+8% Spark)`
-                : `🎓 School ${cubSchoolStars}/12 ⭐ (+8% Perk)`}
+                ? `School ${cubSchoolStars}/12 (+8% Spark)`
+                : `School ${cubSchoolStars}/12`}
             </span>
           </button>
         </div>

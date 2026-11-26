@@ -755,6 +755,7 @@ export default function App() {
               }}
               onOpenCubSchool={() => setActiveTab('school')}
               onOpenWildMap={() => setActiveTab('wild')}
+              onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
             />
           )}
 

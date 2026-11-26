@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Briefcase,
-  Compass,
   GraduationCap,
   Heart,
   MapPin,
@@ -215,10 +214,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   };
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-5 animate-stage-in">
-      {/* Subtle Editorial Top Controls (Zero Age Filter!) */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white/90 px-4 py-3 border border-stone-200/80 shadow-xs">
-        <div className="inline-flex rounded-full bg-stone-100 p-1">
+    <div className="mx-auto w-full max-w-xl space-y-4 animate-stage-in">
+      {/* Clean Minimal Centered Perspective Switcher (Zero Extra Card Box, Zero Duplicate Wild Button) */}
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="inline-flex rounded-full bg-stone-200/75 p-1">
           <button
             type="button"
             onClick={() => {
@@ -228,7 +227,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               setMatchCelebration(null);
               onSwitchRole('her');
             }}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer ${
+            className={`rounded-full px-4 py-1.5 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
               role === 'her'
                 ? 'bg-[#18101E] text-white shadow-xs'
                 : 'text-stone-600 hover:text-stone-900'
@@ -245,7 +244,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               setMatchCelebration(null);
               onSwitchRole('him');
             }}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer ${
+            className={`rounded-full px-4 py-1.5 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
               role === 'him'
                 ? 'bg-[#18101E] text-white shadow-xs'
                 : 'text-stone-600 hover:text-stone-900'
@@ -255,21 +254,11 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           </button>
         </div>
 
-        <div className="flex items-center gap-2.5 text-xs font-semibold text-stone-600">
-          {pendingLikes.length > 0 && (
-            <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-amber-900">
-              {pendingLikes.length} Sent Like • Pending
-            </span>
-          )}
-          <button
-            type="button"
-            onClick={onOpenWildMap}
-            className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3.5 py-1.5 text-xs font-bold text-rose-900 hover:bg-rose-100 transition cursor-pointer"
-          >
-            <Compass className="h-3.5 w-3.5 text-rose-700" />
-            <span>Meet Exclusives In The Wild →</span>
-          </button>
-        </div>
+        {pendingLikes.length > 0 && (
+          <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-900">
+            {pendingLikes.length} Sent Like • Pending
+          </span>
+        )}
       </div>
 
       {/* Live Match / Pending Status Banner */}
@@ -327,44 +316,35 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         </div>
       ) : (
         <article className="editorial-hinge-card rounded-3xl overflow-hidden">
-          {/* Authentic Hinge First-Name Header */}
-          <header className="flex items-center justify-between px-6 pt-6 pb-4">
-            <div>
-              <div className="flex items-baseline gap-2.5">
-                <h1 className="font-editorial text-3xl font-bold tracking-tight text-[#18101E]">
-                  {currentProfile.name}
-                </h1>
-                <span className="text-lg font-medium text-stone-500">{currentProfile.age}</span>
-              </div>
-              <p className="mt-0.5 text-xs font-medium text-stone-500">
-                {currentProfile.vitals.neighborhood}
-              </p>
+          {/* Authentic Minimal Hinge Header: Just Name, Age & Subtle Status Dot */}
+          <header className="flex items-baseline justify-between px-6 pt-6 pb-3">
+            <div className="flex items-baseline gap-2.5">
+              <h1 className="font-editorial text-3xl font-bold tracking-tight text-[#18101E]">
+                {currentProfile.name}
+              </h1>
+              <span className="text-xl font-medium text-stone-500">{currentProfile.age}</span>
             </div>
 
-            <span
-              className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                currentProfile.matchSelectivity === 'standout'
-                  ? 'bg-amber-50 text-amber-900 border border-amber-200'
-                  : 'bg-emerald-50 text-emerald-800 border border-emerald-200/70'
-              }`}
-            >
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-500">
+              <span
+                className={`h-2 w-2 rounded-full ${
+                  currentProfile.matchSelectivity === 'standout'
+                    ? 'bg-amber-400'
+                    : 'bg-emerald-500'
+                }`}
+              />
               {currentProfile.activeStatusLabel}
             </span>
           </header>
 
           <div className="space-y-4 px-4 pb-6 sm:px-6">
-            {/* Photo 1 */}
+            {/* Photo 1 — Unobstructed Full-Bleed Portrait (Zero Top Caption Bar) */}
             <div className="relative overflow-hidden rounded-2xl bg-stone-100 aspect-[3/4]">
               <img
                 src={currentProfile.slides[0].url}
                 alt={currentProfile.name}
                 className="h-full w-full object-cover"
               />
-              {currentProfile.slides[0].caption && (
-                <div className="absolute inset-x-4 top-4 rounded-xl bg-black/45 backdrop-blur-md px-3.5 py-2 text-xs font-medium text-white">
-                  {currentProfile.slides[0].caption}
-                </div>
-              )}
               <button
                 type="button"
                 aria-label={`Like photo 1 of ${currentProfile.name}`}
@@ -372,7 +352,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   setReplyTarget({
                     kind: 'photo',
                     label: `${currentProfile.name}'s first photo`,
-                    previewText: currentProfile.slides[0].caption || currentProfile.tagline,
+                    previewText: `${currentProfile.name}'s photo`,
                     prompt: currentProfile.prompts[0],
                   })
                 }
@@ -437,26 +417,21 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </div>
             </div>
 
-            {/* Photo 2 */}
+            {/* Photo 2 — Clean Unobstructed Photo */}
             <div className="relative overflow-hidden rounded-2xl bg-stone-100 aspect-[3/4]">
               <img
                 src={currentProfile.slides[1].url}
                 alt={`${currentProfile.name} lifestyle`}
                 className="h-full w-full object-cover"
               />
-              {currentProfile.slides[1].caption && (
-                <div className="absolute inset-x-4 top-4 rounded-xl bg-black/45 backdrop-blur-md px-3.5 py-2 text-xs font-medium text-white">
-                  {currentProfile.slides[1].caption}
-                </div>
-              )}
               <button
                 type="button"
                 aria-label={`Like photo 2 of ${currentProfile.name}`}
                 onClick={() =>
                   setReplyTarget({
                     kind: 'photo',
-                    label: `${currentProfile.name}'s lifestyle photo`,
-                    previewText: currentProfile.slides[1].caption || currentProfile.tagline,
+                    label: `${currentProfile.name}'s photo`,
+                    previewText: `${currentProfile.name}'s photo`,
                     prompt: currentProfile.prompts[1],
                   })
                 }
@@ -491,26 +466,21 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </button>
             </div>
 
-            {/* Photo 3 */}
+            {/* Photo 3 — Clean Unobstructed Photo */}
             <div className="relative overflow-hidden rounded-2xl bg-stone-100 aspect-[3/4]">
               <img
                 src={currentProfile.slides[2].url}
                 alt={`${currentProfile.name} candid`}
                 className="h-full w-full object-cover"
               />
-              {currentProfile.slides[2].caption && (
-                <div className="absolute inset-x-4 top-4 rounded-xl bg-black/45 backdrop-blur-md px-3.5 py-2 text-xs font-medium text-white">
-                  {currentProfile.slides[2].caption}
-                </div>
-              )}
               <button
                 type="button"
                 aria-label={`Like photo 3 of ${currentProfile.name}`}
                 onClick={() =>
                   setReplyTarget({
                     kind: 'photo',
-                    label: `${currentProfile.name}'s candid photo`,
-                    previewText: currentProfile.slides[2].caption || currentProfile.tagline,
+                    label: `${currentProfile.name}'s photo`,
+                    previewText: `${currentProfile.name}'s photo`,
                     prompt: currentProfile.prompts[2],
                   })
                 }
@@ -545,7 +515,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </button>
             </div>
 
-            {/* Photos 4, 5, 6 */}
+            {/* Photos 4, 5, 6 — Clean Unobstructed Photos */}
             {currentProfile.slides.slice(3).map((slide, extraIdx) => (
               <div
                 key={slide.url}
@@ -556,11 +526,6 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   alt={`${currentProfile.name} moment`}
                   className="h-full w-full object-cover"
                 />
-                {slide.caption && (
-                  <div className="absolute inset-x-4 top-4 rounded-xl bg-black/45 backdrop-blur-md px-3.5 py-2 text-xs font-medium text-white">
-                    {slide.caption}
-                  </div>
-                )}
                 <button
                   type="button"
                   aria-label={`Like photo ${extraIdx + 4} of ${currentProfile.name}`}
@@ -568,7 +533,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     setReplyTarget({
                       kind: 'photo',
                       label: `${currentProfile.name}'s photo`,
-                      previewText: slide.caption || currentProfile.tagline,
+                      previewText: `${currentProfile.name}'s photo`,
                       prompt: currentProfile.prompts[extraIdx % 3],
                     })
                   }
