@@ -166,3 +166,31 @@ Right now, `cougarsandcubs.club` has strong comedic DNA and viral hooks, but its
 4. **Exact Credit Metering & Test Migration (Builder Call)**:
    - Remove per-3-message chat credit drain in `LiveInboxModal.tsx` so Match #1's full Tinder → Off-App iMessage → 3-Date Route plays cleanly on `dailyFreeCredits: 5`, while gating **2nd+ Off-App iMessage Unlocks (`2 Cr`)**, **Early Flirt Mode Boost (`2 Cr`)**, and **Chat Unmatch Rewind (`2 Cr`)** (`EpisodeStage` choice rewind stays `1 Cr`; VIP Black Card `$6.99` unlocks everything unlimited). Quizzes, Checklists, Shares, Obedience School, Courtroom, and 8-Bit grant **XP & Stamps** (`0` wallet credits); only Newsletter (`+3 Cr`), Raya Waitlist (`+2 Cr`), and Verified Friend Referrals (`+3 Cr` × max 3) grant wallet credits. Update legacy `v32` test assertions to verify the new `v34` invariants.
 
+---
+
+## 6. Visual Framing, Navigation, About Page & Hidden Red-Flag Strategy Refinements
+
+1. **Zero-Crop `3:4` (`0.75`) Full-Portrait Framing at Every Screen Width**:
+   - All 57 cast `.jpg` files in `public/images/cast/` have a native `0.75` (`3:4`) aspect ratio (`480×640`, `642×860`, `717×960`, `800×1071`, `880×1178`).
+   - Every portrait card across `PairingMixerView.tsx`, `AppSwipeStage.tsx`, `LiveInboxModal.tsx`, `EpisodeStage.tsx`, and `PixiCubAcademyStage.tsx` MUST use `aspect-[3/4]` with a bounded width (`w-full max-w-[300px] sm:max-w-[330px] mx-auto`) and **NEVER** combine `w-full` / `lg:max-w-none` with a clamped `max-h-[...]` or landscape `h-52` / `h-64` box. This guarantees 100% of every character's face, hair, and upper/full body remains visible with zero cropping on wide desktop monitors.
+
+2. **Adaptive, Balanced 3-Zone Navigation + Dedicated `About` Page (`TopHudBar.tsx` & `AboutClubView.tsx`)**:
+   - Replace the 12-pill scrolling row in `TopHudBar.tsx` with a balanced, responsive 3-zone header:
+     - **Left**: Brand logo + level badge (`🐆 Cougars & Cubs Club`).
+     - **Center (Desktop flex row; clean toggle drawer on `< lg` screens)**: **`🔥 Swipe`** • **`💬 Chats`** • **`🗺️ Club Map`** • **`🦮 Obedience`** • **`📖 Lore & Quizzes ▾`** (dropdown/popover grouping *Pop-Culture Quiz*, *25-Pt Club Score*, *Crown/Dump Courtroom*, *Field Guide*, *Dating Guides*) • **`ℹ️ About`**.
+     - **Right**: **`🛍️ Shop`** • **`🍸 Tip $5`** • **`💎 5 Cr / VIP`** • Audio controls.
+   - Create **`src/components/AboutClubView.tsx`** (`activeTab === 'about'`): anchors newcomers with **(a)** What *Cougars & Cubs Club* Is (21+ *Dream Daddy*-inspired comedy vetting & romance simulator), **(b)** How the 4-Stage Detective & 3-Date Loop Works, **(c)** Our Manifesto & Cast Spectrum (from 30s Pumas to 60s "Glam-ma" grandmothers, child-free jet-setters, horse girls, and chivalrous Cubs), and **(d)** Direct CTAs to Start Swiping, Join the Virtual Salon Waitlist, or Visit the Boutique.
+
+3. **3-Tier Detective Strategy & Interactive Hidden Red-Flag Reveal (Never Vague `"Had Hidden Red Flags"` Toasts!)**:
+   - Every profile in the Swipe Deck belongs to one of **3 Strategic Tiers** with inspectable clues across Photo #2, Prompt #3, and Voice Notes:
+     - **💎 Tier 1 — Rare Gems & Selective Icons**: Authentic green-flag tells (4 percale pillows, emotional warmth, specific passions) → unlock full **3-Date *Dream Daddy* Character Storylines**.
+     - **🐕 Tier 2 — Trainable "Golden Puppies"**: Sweet chemistry with one rookie blind spot (6 AM cold-plunge over-trying, Sheryl Crow age-4 blurt, 5-in-1 body wash) → rehabilitate in **`🦮 Cub Obedience School`** for bonus Chemistry!
+     - **🚩 Tier 3 — Undercover Red-Flag Traps** (folded directly into the Swipe experience as well as `AppSwipeStage.tsx`): Hide concrete clues in Photo #2 / Prompt #3 (empty Tito's handle in mirror, bare floor mattress, `"my place in Maui"` on Mom's counter, `$19.50` Venmo math, `"never been with an older woman, tryna cross it off my bucket list"`).
+   - **Explicit Investigation Feedback**:
+     - Swiping **Left (`✕ Nope`)** on a Trap names the **exact clue you caught** (`"🛡️ Bullet Dodged! You clocked Connor's Photo #2 empty Tito's handle & bare floor mattress!"`).
+     - Swiping **Right (`❤️ Like`)** on a Trap **NEVER** flashes a vague `"had hidden red flags"` message and skips! Instead, it pops an **Interactive Red-Flag Reveal Card** showing the exact missed clue zoomed/highlighted (`"🚨 WAIT A SECOND — Look Closer at What You Just Matched With!"`) with **3 playful strategic choices**:
+       1. **`👻 Instant Unmatch & Block`** (escape cleanly before they text!)
+       2. **`🦮 Drag to Cub Obedience School`** (attempt clicker/leash rehabilitation!)
+       3. **`🍿 Let Them Into Chat & Roast Them`** (watch their unhinged opener land in Tinder and roast it for XP!).
+
+
