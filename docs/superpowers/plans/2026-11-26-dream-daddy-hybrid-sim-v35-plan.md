@@ -17,7 +17,8 @@
 - **10/10 "Variety of Hot" Cast Floor:** Every cast image referenced in `src/data/v35Cast.ts` must exist in `public/images/cast/`, exceed `45 KB` (no `16–38 KB` blurry Unsplash stock nerds/uglies), include at least 4 distinct blonde leads (`soren-26m`, `rory-24m`, `miles-zaddy-31m`, `chadwick-24m`, `elena-prof-44f`, `summer-blonde-33f`), and eliminate brown-haired lookalike clones.
 - **Editorial Luxury UI (No Amateur Clutter):** Retire `PairingMixerView.tsx`, `PixiCubAcademyStage.tsx`, `EightBitAdventureWorld.tsx`, `EpisodeStage.tsx`, `SceneChatInterface.tsx`, and `src/data/episodes.ts`. No front-page multi-banner clutter or Neo-Brutalist comic border soup.
 - **Strict Economy & Live Links:** Preserve all 4 live `buy.stripe.com` URLs in `src/config/monetization.ts`. New storage key `velvet_wallet_v35` grants `3` one-time starter credits (`0` daily refill, `0` free credits from quizzes, courtroom, checklists, shares, newsletters, waitlists, or referrals). Friendly `💛 Support This Project` button stays visible in `TopHudBar` and ending/diploma cards.
-- **Verified Media Only:** All YouTube trailer/music embeds must use pre-verified `oembed` (`HTTP 200`) IDs via `https://www.youtube-nocookie.com/embed/<id>`, and Wikimedia portraits must render attribution captions.
+- **Verified Post-Answer Media Reveal (No Spoilers, No Caption Clutter):** In `PopCultureTriviaModal.tsx`, neither `imageUrl` nor `youtubeEmbedUrl` renders before `selectedOpt !== null`; both reveal *after* answering with zero `<figcaption>` attribution text at the bottom.
+- **Real Product Photos & Visual Shoppable Guides (Above-the-Fold Affiliates):** Every product in `AFFILIATE_CATALOG` maps to a real studio/lifestyle photograph under `public/images/products/*.jpg` (retiring SVG box placeholders in `ProductVisualThumbnail.tsx`). Both `VelvetJournalView.tsx` and `scripts/generate-seo-pages.mjs` lead with a `16:9` hero image, an **above-the-fold visual product strip**, interactive `"Text This, Not That"` & `Green Flag vs. Red Flag` cards, and **inline `/api/go/:id` affiliate links on every checklist/watchlist item** instead of burying text links at the bottom.
 - **Zero-404 Compatibility:** Preserve `?challenge=` (`PartnerAuditionView`), `?session_id=` (`/api/verify-checkout`), `/api/go/:id` (`GET` and `HEAD`), and all 16 `/guides/<slug>/` `?dilemma=<slug>` deep links.
 
 ## Review Focus
@@ -45,6 +46,7 @@
 - Create: `public/images/scenes/terminal-b-arrivals.jpg`
 - Create: `public/images/scenes/havana-salsa-studio.jpg`
 - Create: `public/images/scenes/cougarmarket-wine.jpg`
+- Create: `public/images/products/*.jpg` (`12` studio/lifestyle product photos covering aprons, silk robe & pillowcase, percale/bamboo bedding, lidded bathroom bin & botanical soap, copper martini barware & Big Carl goblet, cedar parfum & grooming kit, brass clicker & leather leash, mugs & love coupons, cinema & book stack, weekender duffel & picnic basket, tortoiseshell readers, trail/fitness gear)
 - Delete: `public/images/cast/sedona-qigong-46f.jpg`, `public/images/cast/devon-23m.jpg`, `public/images/cast/nadia-41f.jpg`, `public/images/cast/brandon-24m.jpg`
 - Create: `src/data/v35AssetManifest.ts`
 - Test: `tests/v35-assets-and-hotness.test.ts`
@@ -323,13 +325,13 @@ git commit -m "feat(v35-sim): implement 6-beat Cut-Loose vetting, Dream Daddy an
 
 **Files:**
 - Modify: `src/components/TopHudBar.tsx`
-- Modify: `src/components/PopCultureTriviaModal.tsx`
+- Modify: `src/components/ProductVisualThumbnail.tsx` (render crisp `<img>` product photography instead of SVG placeholder boxes)
+- Modify: `src/components/VelvetJournalView.tsx` (add hero imagery, above-the-fold visual product cards, `"Text This, Not That"` iMessage bubbles, `Green/Red Flag` split cards, and 100% affiliate-linked checklist/watchlist rows)
+- Modify: `src/components/PopCultureTriviaModal.tsx` (hide `imageUrl` & `youtubeEmbedUrl` until `selectedOpt !== null`, remove `<figcaption>` credit line, add optional Amazon watch/read CTA on reveal)
 - Modify: `src/components/BoutiqueAndVipModal.tsx`
-- Modify: `src/components/ClubCourtroomView.tsx`
-- Modify: `src/components/CougarCubChecklistModal.tsx`
 - Modify: `src/components/PartnerAuditionView.tsx`
 - Modify: `src/App.tsx`
-- Modify: `scripts/generate-seo-pages.mjs`
+- Modify: `scripts/generate-seo-pages.mjs` (upgrade static `/guides/*/index.html` with hero photos, above-the-fold visual product cards with `<img>`, `"Text This / Not That"` callouts, and linked items)
 - Delete: `src/components/PairingMixerView.tsx`, `src/components/PixiCubAcademyStage.tsx`, `src/components/EightBitAdventureWorld.tsx`, `src/components/EpisodeStage.tsx`, `src/components/SceneChatInterface.tsx`, `src/components/MinigameWidgets.tsx`, `src/data/episodes.ts`
 - Test: `tests/v35-shell-and-trailer-quiz.test.tsx`
 
@@ -342,8 +344,9 @@ git commit -m "feat(v35-sim): implement 6-beat Cut-Loose vetting, Dream Daddy an
 
 Test:
 1. Default screen renders clean editorial Hinge discovery (no 57-card grid, no stick-figure canvas, no 8-bit boxes) with visible `💛 Support This Project` link pointing to `MONETIZATION_CONFIG.tipJarUrl`, `❤️❤️❤️` Friday Hearts, and `3 Cr` starter balance.
-2. Opening `🎬 55-Q Trailer & Pop Quiz` renders `youtube-nocookie.com/embed/` iframe on trailer-backed questions (including *No Hard Feelings*) and grants `0` free credits on completion.
-3. Visiting `/?dilemma=campus-stroll-sushi-professor-student` routes cleanly into `InTheWildMapView` at `hawthorne-campus` (zero broken links), and `/?challenge=` renders `PartnerAuditionView`.
+2. Opening `🎬 55-Q Trailer & Pop Quiz` shows **zero** answer `<img>` or `<iframe>` before selecting an option (preventing spoilers), then reveals the celebrity photo / `youtube-nocookie.com/embed/` trailer *after* clicking an option with zero `<figcaption>` attribution text, and grants `0` free credits on completion.
+3. Opening `📖 Guides` (`VelvetJournalView`) renders a hero `<img>`, an **above-the-fold** shoppable product card strip with real `public/images/products/*.jpg` photography (zero SVG placeholder boxes), `"Text This, Not That"` interactive callouts, and inline `/api/go/` affiliate links on checklist items.
+4. Visiting `/?dilemma=campus-stroll-sushi-professor-student` routes cleanly into `InTheWildMapView` at `hawthorne-campus` (zero broken links), and `/?challenge=` renders `PartnerAuditionView`.
 
 - [ ] **Step 2: Run test to verify it fails**
 
