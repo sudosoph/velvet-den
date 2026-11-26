@@ -432,7 +432,12 @@ export function buildEpisodeChatSpec(
           id: 'pp4',
           sender: 'her',
           authorLabel: herName,
-          text: `morning ${hisName} ☕ two quick rules lol: 1) i sleep at 10pm on weeknights, quiet evenings aren't ghosting. 2) step away from the pine pollen dropper and text me in normal sentences 😭🌲`,
+          text:
+            herAge >= 50
+              ? `Good morning, ${hisName}. Two ground rules if we are going to see each other: I turn my phone off at 10:00 PM on weeknights, and you will need to retire the pine-pollen dropper before texting me again.`
+              : herAge >= 40
+                ? `Good morning, ${hisName} ☕ Two quick ground rules: quiet weeknights after 10:00 PM aren't ghosting, and please step away from the pine-pollen dropper and use full sentences.`
+                : `Morning, ${hisName} ☕ Two quick rules: I'm asleep by 10:00 PM on weeknights so quiet evenings aren't ghosting, and please put the pine-pollen dropper down and text in normal sentences.`,
           timestamp: '8:15 AM',
         },
       ],
@@ -461,7 +466,10 @@ export function buildEpisodeChatSpec(
               id: 's2',
               sender: 'her',
               authorLabel: herName,
-              text: `wait hold on 😭 my baby sister just texted me her ${hisAge}th bday invite... WERE YOU BOTH BORN IN ${2026 - hisAge}?! 😱💀`,
+              text:
+                herAge >= 45
+                  ? `Hold everything. My youngest cousin just sent an invite for her ${hisAge}th birthday dinner. Were the two of you seriously both born in ${2026 - hisAge}?`
+                  : `Wait a second. My younger sister just texted me her ${hisAge}th birthday invite. Were you two seriously both born in ${2026 - hisAge}?! 😳`,
               timestamp: '2:15 PM',
             },
           ]
@@ -478,7 +486,10 @@ export function buildEpisodeChatSpec(
                 id: 'j2',
                 sender: 'her',
                 authorLabel: herName,
-                text: `babe i’m ${herAge} and running a company 🥂 skip the all-day texting and call me at 6pm sharp 📞`,
+                text:
+                  herAge >= 50
+                    ? `I am ${herAge} and in meetings until five. Skip the all-day check-in texts and call me at 6:00 PM sharp.`
+                    : `I’m ${herAge} and in back-to-back meetings today. Skip the midday check-in texts and call me at 6:00 PM sharp 🥂`,
                 timestamp: '12:04 PM',
               },
             ]
@@ -496,7 +507,12 @@ export function buildEpisodeChatSpec(
                   id: 'v2',
                   sender: 'her',
                   authorLabel: herName,
-                  text: `…did you seriously just itemize FOUR-SEVENTHS of an edamame bowl in my iMessage?! 💀🚩`,
+                  text:
+                    herAge >= 50
+                      ? `Did you genuinely just send an itemized Venmo request for four-sevenths of an edamame appetizer? Delete my number immediately.`
+                      : herAge >= 40
+                        ? `Did you seriously just itemize four-sevenths of an edamame bowl in my messages? I’ll cover the full $41.63 as a parting gift. Take care.`
+                        : `Did you seriously just itemize four-sevenths of an edamame bowl in my iMessages? Lose my number immediately 🚩`,
                   timestamp: '10:43 PM',
                 },
               ]
@@ -512,7 +528,12 @@ export function buildEpisodeChatSpec(
                   id: 'c2',
                   sender: 'her',
                   authorLabel: herName,
-                  text: `i own real estate and drink barolo ${hisName} 😭🍷 ask me for snapchat one more time and you’re blocked lol 👋`,
+                  text:
+                    herAge >= 50
+                      ? `I own property and drink Barolo, ${hisName}. Ask me for a Snapchat streak again and this conversation is over.`
+                      : herAge >= 40
+                        ? `I own real estate and drink Barolo, ${hisName}. I haven’t opened Snapchat in a decade. Text me a real Friday plan instead 🍷`
+                        : `I have a mortgage and a Barolo habit, ${hisName}. Retire the Snapchat streak request and send a real Friday plan instead 🍷`,
                   timestamp: '11:50 AM',
                 },
               ];

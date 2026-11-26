@@ -76,6 +76,41 @@ const QUICK_EMOJIS = ['😏', '🍸', '😍', '😭', '💀', '🔥', '👀', '�
 const INBOX_CONTACTS: InboxContact[] = [
   ...HER_ARCHETYPES.map((h) => {
     const details = getProfileDetails(h);
+    const shortRole = h.title.split('•')[0].trim();
+    const drink = (h.signatureDrink || 'espresso martini').toLowerCase();
+    const openingPrompt =
+      h.id === 'sedona-qigong-mommy'
+        ? `Good morning. I lead 6:30 AM Qigong in the courtyard, cook completely seed-oil-free, and appreciate a calm nervous system. What is your idea of a proper Friday tea or dinner?`
+        : h.subplotTags.includes('seed_oil_bernedoodle_mommy')
+          ? `Fair warning up front: I keep a gluten- and seed-oil-free kitchen and I'm next on the list for a tricolor mini bernedoodle. Where are you taking me this Friday?`
+          : h.age >= 60
+            ? `I caught you looking over at the gallery reception. Most younger men lose their nerve around a ${h.age}-year-old ${(h.zodiac || 'Scorpio').split(' ')[0]}, so tell me: how would you properly court me this weekend?`
+            : h.age >= 50
+              ? h.subplotTags.includes('black_cat_energy')
+                ? `Plenty of younger men promise the moon in message one. I am ${h.age} and I do not rush. Tell me what makes your Friday plan worth clearing my evening.`
+                : `You matched with a ${h.age}-year-old ${shortRole}. Skip the small talk and tell me where you would take me for a proper ${drink} on Friday.`
+              : h.age >= 40
+                ? h.subplotTags.includes('black_cat_energy')
+                  ? `Easy there. Plenty of men talk a big game on day one, and I prefer taking my time. Tell me why Friday with you is worth clearing my calendar 🍸`
+                  : h.subplotTags.includes('dog_mom_divorced')
+                    ? `Happily divorced at ${h.age}, and I lowered my age filter because men my age spend dinner complaining about their exes. Tell me your Friday plan, plus how you're winning over my dog.`
+                    : h.subplotTags.includes('princess_treatment')
+                      ? `Long week as a ${shortRole} and I am ready for a proper ${drink} without making one more decision today. Where are you taking me Friday? 🍸`
+                      : `You matched with a ${h.age}-year-old ${shortRole}. Skip the 'hey' and Snapchat nonsense. Where are you taking me for a ${drink} this Friday? 🍸`
+                : h.subplotTags.includes('junior_cougar_gap')
+                  ? `Quick math check: I'm ${h.age}, which officially puts us in Puma-and-Cub territory. Tell me where you were in 2008 and where we're getting a ${drink} Friday 🍷`
+                  : `My Friday evening is finally clear after 7:00, and I don't waste a rare free night on indecisive plans. Where are you taking me for a ${drink}? 🥂`;
+
+    const steamyPrompt = h.subplotTags.includes('qigong_mommy_domme')
+      ? `Still smiling at how quickly your shoulders dropped during Cloud Hands this morning. Keep that calm, attentive energy tonight before the cedar sauna.`
+      : h.age >= 60
+        ? `You were wonderfully attentive last night, and I have caught myself smiling about it twice today. Tell me what you have planned for tonight.`
+        : h.age >= 50
+          ? `You have my attention after last night. Unhurried, attentive, and zero games. Tell me what time you are picking me up tonight.`
+          : h.age >= 40
+            ? `Hard to focus on my afternoon meetings after last night. Tell me what you are cooking or booking for the two of us at eight 🍷`
+            : `Still smiling at my desk thinking about last night, right up until I remembered you and my younger sister share a birth year. What's your plan for us Friday? ✨`;
+
     return {
       id: h.id,
       name: h.name,
@@ -89,32 +124,8 @@ const INBOX_CONTACTS: InboxContact[] = [
       bio: h.vibeSummary,
       role: 'her' as const,
       photoUrl: h.photoUrl,
-      openingPrompt:
-        h.id === 'sedona-qigong-mommy'
-          ? `morning sweet boy 🧘‍♀️✨ i guide 6:30am qigong, skip all seed oils, and love a calm nervous system. what's our friday tea or dinner plan? (zero cubsplaining lol)`
-          : h.subplotTags.includes('seed_oil_bernedoodle_mommy')
-            ? `fair warning cutie 🥑🐶 strictly gluten + seed oil free and #2 on the waitlist for a tricolor mini bernedoodle! where are you taking me friday? ✨`
-            : h.subplotTags.includes('black_cat_energy')
-              ? `easy there puppy 🐈‍⬛ every guy in my dms promises the moon on day 1 lol. i take my time... convince me why i shouldn't make you wait till next week 👀`
-              : h.subplotTags.includes('junior_cougar_gap')
-                ? `quick math check 😅 i'm ${h.age}, so our gap officially makes me a junior cougar lol. tell me where you were in 2008 + your friday ${(h.signatureDrink || 'espresso martini').toLowerCase()} spot 🍸`
-                : h.subplotTags.includes('dog_mom_divorced')
-                  ? `${h.age}, happily divorced, and lowered my age slider bc every 43yo guy on here just rants about his ex 😭💀 tell me our friday plan + how you're winning over my pup 🐾`
-                  : h.age < 40
-                    ? `hiii! my sitter is officially booked for friday at 7 🙌 i get ONE free night for a ${(h.signatureDrink || 'cocktail').toLowerCase()} this month so don't fumble... where are we going? 🥂`
-                    : h.age >= 60
-                      ? `caught you looking over at the gallery opening 🥂 most younger men get nervous around a ${h.age}yo ${(h.zodiac || 'Scorpio').split(' ')[0]}... how would you court me this weekend? ✨`
-                      : h.subplotTags.includes('princess_treatment')
-                        ? `${h.name} here 💅 long week as a ${h.title.split('•')[0].trim().toLowerCase()} and i'm craving a ${(h.signatureDrink || 'martini').toLowerCase()}. zero planning on my end... where are you taking me friday? ✨`
-                        : `okay you swiped right on a ${h.age}yo ${h.title.split('•')[0].trim().toLowerCase()} 😏 skip the "hey / whats ur snap" lol... where are we grabbing ${(h.signatureDrink || 'espresso martini').toLowerCase()}s friday? 🍸`,
-      steamyPrompt:
-        h.subplotTags.includes('qigong_mommy_domme')
-          ? `still smiling from how fast you melted into tai chi cloud hands when mommy fixed your posture this morning 😌🔥 keep that grounded energy going before sauna tonight...`
-          : h.age >= 50
-            ? `stuck in a meeting still thinking about how unhurried and attentive you were last night 😏✨ keep the slow burn going before tonight...`
-            : h.age >= 40
-              ? `zero focus on my deck today after last night 😭🔥 hope you hit bench press bc you're carrying me straight upstairs at 8... what's the plan?`
-              : `still blushing at my desk thinking about last night (right until i panicked realizing you're my baby sister's age 😱💀) what are you doing with me friday? 🔥`,
+      openingPrompt,
+      steamyPrompt,
       quickChips:
         h.subplotTags.includes('seed_oil_bernedoodle_mommy') ||
         h.subplotTags.includes('qigong_mommy_domme')
@@ -124,8 +135,8 @@ const INBOX_CONTACTS: InboxContact[] = [
               'Well actually let me explain why canola oil is fine from a podcast I heard lol',
             ]
           : [
-              'Take all the time you want 😌 a woman who doesn’t rush makes me 10x more excited. Holding a 7:30 corner booth Friday whenever you’re ready 🍸',
-              'Booked us a candlelit corner booth at The Cougar Lounge Friday at 7:30, peonies handled & zero planning on your end 🥂✨',
+              'Take all the time you want. A woman with real standards makes me 10x more excited. Holding a 7:30 corner booth Friday whenever you are ready 🍸',
+              'Booked us a candlelit corner booth at The Cougar Lounge Friday at 7:30, peonies handled and zero planning on your end 🥂',
               'brooo took 2 droppers of pine pollen for testosterone and im all up in my feels rn bc u took an hour to reply 😭🌲',
             ],
       steamyChips: h.subplotTags.includes('qigong_mommy_domme')
@@ -135,8 +146,8 @@ const INBOX_CONTACTS: InboxContact[] = [
             'Wait can Mommy put my gym membership on her AmEx?? 😂',
           ]
         : [
-            'Crushed 5 sets of 225 on bench today specifically to carry you straight upstairs at 8 🔥 dinner & silk robe ready 🥂',
-            'Bringing cast-iron ribeye, cooling bamboo sheets, and my full attention all night 😏 unlock the door at 7:30 ✨',
+            'Finished bench press today and picked up a cast-iron ribeye for eight sharp. Zero planning needed tonight 🥂',
+            'Bringing dinner, fresh peonies, and my full attention all evening. See you at 7:30 ✨',
             'Wait is your little sister cute too?? 😂🔥',
           ],
     };
@@ -160,22 +171,29 @@ const INBOX_CONTACTS: InboxContact[] = [
         c.id === 'kayden-broke-dutch-cub'
           ? `yo ${c.name} here!! 😅 down to grab happy hour sushi tn if we split it 50/50 on venmo?? or come to my place in maui next month (ok yeah it's my mom linda's timeshare lol) 🌺`
           : c.id === 'kieran-anthropic-ai-cub'
-            ? `hey! ${c.name} here ☕😊 escaped the frontier-ai lab before sunset and set my filter strictly to 38+ bc i want real conversation over a cortado or burgundy pinot, zero tech talk i promise lol. free thursday at 7:30? ✨`
+            ? `Hi, ${c.name} here ☕ Escaped the frontier-AI lab before sunset and set my filter strictly to 38+ because I prefer real conversation over a cortado or Burgundy Pinot. Zero tech talk at dinner, I promise. Free Thursday at 7:30?`
             : c.id === 'colton-montana-cowboy-cub'
-            ? `okay busted 🤠😅 i accidentally commented "i love you" from my boys' shared ranch account before sliding in here lol. let me fly out and take you to dinner friday? 🥩✨`
-            : c.id === 'rafael-accented-gentleman-cub'
-              ? `hola ✨ ${c.name} here. packed fresh figs, warm baguette & espresso for a sunset picnic friday before retro bowling, if you'll let me take you out properly? 🥂`
-              : `hey! ${c.name} here 😊 saw your profile and had to shoot my shot. would love to take you for espresso martinis thursday at 7:30 if you're free? 🍸`,
-      steamyPrompt: `just finished bench press + split squats thinking about last night 🔥😅 tell me what time you want me at your door tonight...`,
+              ? `Okay, busted 🤠 I accidentally commented on your post from the ranch account before messaging properly. Let me fly out and take you to a real steakhouse Friday?`
+              : c.id === 'rafael-accented-gentleman-cub'
+                ? `Buenas tardes ✨ ${c.name} here. I packed fresh figs, warm baguette, and espresso for a sunset picnic Friday before retro bowling, if you will let me take you out properly.`
+                : c.age >= 30
+                  ? `Hi, ${c.name} here. Your profile stood out immediately. I would love to book us a quiet corner table for cocktails Thursday at 7:30 if your evening is open.`
+                  : c.age >= 25
+                    ? `Hi! ${c.name} here. Loved your profile and wanted to ask properly: may I take you out for ${(c.signatureDrink || 'cocktails').toLowerCase()} Thursday at 7:30? 🍸`
+                    : `hey! ${c.name} here 😊 saw your profile and had to shoot my shot. would love to take you out thursday at 7:30 if you're free?`,
+      steamyPrompt:
+        c.age >= 27
+          ? `Cleared my evening after last night and picked up wine on the way home. Tell me what time you want me at your door tonight.`
+          : `just finished bench press + split squats thinking about last night 🔥😅 tell me what time you want me at your door tonight...`,
       quickChips: [
-        'Thursday at 7:30 sounds fun 😏 drop your shoulders, zero cubsplaining, and bonus points if you survive my 6:30am ridge hike ✨',
-        'Only if Hawaii isn’t your mom Linda’s timeshare and you never Venmo me $0.38 for edamame 😭💀',
-        'Show up at 7:30 sharp in pressed linen, breathe with Mommy, and let’s see if you actually listen 🍸',
+        'Thursday at 7:30 works. Keep your phone off the table, skip any lecturing, and bonus points if you keep up on my 6:30 AM ridge walk.',
+        'Only if Maui isn’t your mother Linda’s timeshare and you never send a Venmo request after sushi.',
+        'Be there at 7:30 sharp in pressed linen. I appreciate good manners and a man who actually listens 🍸',
       ],
       steamyChips: [
-        'Door’s unlocked at 8, silk robe is on, and keep your ID hidden so I don’t shriek at your birth year again 😭🔥',
-        'Save enough strength to flip my pillow to the cold side at 3am tonight 😌✨',
-        'Bring cast-iron ribeye first, then you can carry me upstairs 🍷🔥',
+        'The door is unlocked at 8:00. Keep your ID tucked away so I don’t do the birth-year math all over again 🍷',
+        'Save enough energy to flip my pillow to the cool side at midnight.',
+        'Cook the cast-iron ribeye properly first, and the rest of the evening is yours ✨',
       ],
     };
   }),

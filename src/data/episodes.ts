@@ -183,7 +183,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Points for defending you, minus ten for picking a fight with hospitality staff instead of laughing it off with grace.',
         outcomeHim:
-          'She appreciates the loyalty, then gently touches your arm: "Babe, breathe—let’s just laugh about it over wine."',
+          'She appreciates the loyalty, then rests a calm hand on your sleeve: "Easy—breathe. Let’s just laugh about it over wine."',
         toastBanner: 'CHIVALRY +5 • EQ -10 (OVERCORRECTED)',
         deltas: { maturity: -5, chivalry: 5, eq: -10, chemistry: 0, redFlags: 0 },
       },

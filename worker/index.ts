@@ -371,12 +371,64 @@ function sanitizeId(raw: string | null, maxLen = 64): string {
   return raw.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, maxLen);
 }
 
-function humanizeChatText(raw: string): string {
-  return raw
+function humanizeChatText(
+  raw: string,
+  options?: { role?: 'her' | 'him'; age?: number },
+): string {
+  let cleaned = raw
     .replace(/\s*[—–]\s*/g, ', ')
-    .replace(/\s*;\s*/g, '. ')
-    .replace(/\s{2,}/g, ' ')
-    .trim();
+    .replace(/\s*;\s*/g, '. ');
+
+  if (options?.role === 'her') {
+    const age = options.age ?? 45;
+    // Cougars never call matches "babe" or "bestie"
+    cleaned = cleaned
+      .replace(/^\s*(?:babe|bestie)\s*[,!.?]?\s*/i, '')
+      .replace(/,\s*(?:babe|bestie)\b(?=\s*[,.!?]|$)/gi, '')
+      .replace(/\s+\b(?:babe|bestie)\b(?=\s*[,.!?]|$)/gi, '')
+      .replace(/\b(?:babe|bestie)\b\s*,?\s*/gi, '');
+
+    if (age >= 40) {
+      cleaned = cleaned
+        .replace(/\s*\b(?:lol|lmao|ngl|tbh|fr|rn)\b\s*/gi, ' ')
+        .replace(/[😭💀🤪]/gu, '');
+    }
+    if (age >= 50) {
+      cleaned = cleaned.replace(/[😍🔥👀😅😱💅😴]/gu, '');
+    }
+
+    cleaned = cleaned.replace(/\s+([,.!?])/g, '$1').trim();
+    if (cleaned.length > 0 && /^[a-z]/.test(cleaned)) {
+      cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+    }
+  }
+
+  return cleaned.replace(/\s{2,}/g, ' ').trim();
+}
+
+function buildGenerationalVoiceDirective(age: number, role: 'her' | 'him'): string {
+  if (role === 'him') {
+    if (age >= 30) {
+      return `GENERATIONAL CADENCE (${age}M Composed Millennial Gentleman): Use normal capitalization and clean punctuation, 0 to 1 understated emoji (🥂 or none), zero Gen-Z slang ("fr", "ngl", "rn", "💀"), and calm, decisive courtship.`;
+    }
+    if (age >= 25) {
+      return `GENERATIONAL CADENCE (${age}M Articulate Late-20s Zillennial): Warm, intelligent, normal sentence capitalization, 0 to 1 light emoji (☕, 🍷, or ✨), zero teenager slang ("fr", "ngl", "cooked", "💀"), confident without trying too hard.`;
+    }
+    return `GENERATIONAL CADENCE (${age}M Early-20s Gen-Z Cub): Casual upbeat rhythm, 1 to 2 natural emojis, earnest Golden-Retriever warmth.`;
+  }
+
+  const hardBan = `STRICT FEMALE VOICE BAN: NEVER call him "babe", "bestie", or "bro". NEVER use Zoomer slang ("ngl", "fr", "rn", "tbh", "cooked", "💀", "😭").`;
+
+  if (age >= 60) {
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Silver-Screen Panther): Speak with classic, unhurried elegance, worldly poise, and impeccable full sentences with proper capitalization and periods. Use ZERO emojis and ZERO internet acronyms ("lol", "omg", "idk"). Never gush or chase. Reward good manners, intellect, and decisive plans with understated warmth.`;
+  }
+  if (age >= 50) {
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Classic Gen-X Jaguar): Speak with dry, unbothered Gen-X poise, crisp capitalization, and real periods. Use ZERO internet acronyms ("lol", "omg", "bc", "idk") and ZERO emojis (at most a rare 🥂 if toasting, defaulting to none). You value punctuality, a 6:00 PM phone call, and concrete reservations over all-day micro-texting.`;
+  }
+  if (age >= 40) {
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Composed Cougar): Speak with self-possessed executive/creative reserve, proper sentence capitalization, and real punctuation. NEVER say "lol" or gush breathlessly ("wait okay 😍") on early turns. Use at most 0 to 1 subtle icon (🍸 or 🥂, or none). Make him earn your Friday evening through real effort, calm composure, and follow-through.`;
+  }
+  return `${hardBan} GENERATIONAL RESERVE (${age}F Millennial Puma): Speak with warm, quick-witted 30s Millennial confidence, normal capitalization and punctuation, and at most 1 tasteful emoji (🍷, ✨, 🥂, or 😏). Discerning, busy, and playful without trying too hard.`;
 }
 
 function scrubPiiForLog(raw: string): string {
@@ -422,16 +474,55 @@ async function appendAnonymizedAiLog(
 function fallbackEvaluateDm(req: {
   personaName?: string;
   personaAge?: number;
+  personaRole?: 'her' | 'him';
   playerMessage?: string;
 }) {
   const name = (req.personaName || 'Claire').slice(0, 32);
   const age = Number(req.personaAge || 45);
+  const role = req.personaRole === 'him' ? 'him' : 'her';
   const msg = String(req.playerMessage || '').trim();
   const lower = msg.toLowerCase();
 
-  if (/\bsnap(chat)?\b/.test(lower)) {
+  if (role === 'him') {
+    if (msg.length < 10) {
+      return {
+        herReply:
+          age >= 28
+            ? `Give me a little more than one word so I can plan Thursday properly. Cocktail bar at 7:30 or espresso first?`
+            : `Wait give me one hint so I plan Friday right 😊 cozy wine bar or sunset walk first?`,
+        maturityDelta: -6,
+        chivalryDelta: -4,
+        chemistryDelta: -4,
+        coachNote: 'Give him a clear cue on your Friday preference to test his follow-through.',
+        passedVibeCheck: false,
+      };
+    }
     return {
-      herReply: `i run a department and own a wine fridge babe 😭💀 i haven’t opened snapchat since 2016 lol. try again with a real friday plan 👋`,
+      herReply:
+        age >= 30
+          ? `7:30 works well. I reserved a quiet corner booth and handled the details. Just bring yourself.`
+          : age >= 25
+            ? `7:30 works great. I booked us a quiet corner table and my phone stays face-down all evening 🍷`
+            : `7:30 works!! 😊 booked us a cozy corner table and zero Venmo math ever, promise ✨`,
+      maturityDelta: 18,
+      chivalryDelta: 18,
+      chemistryDelta: 22,
+      coachNote: 'Confident age-gap chemistry unlocked!',
+      passedVibeCheck: true,
+    };
+  }
+
+  if (/\bsnap(chat)?\b/.test(lower)) {
+    const herReply =
+      age >= 60
+        ? `I have never used Snapchat, and I am certainly not starting at ${age}. Come back when you are ready to exchange real numbers and a proper evening plan.`
+        : age >= 50
+          ? `I am ${age}. I do not do Snapchat streaks. Offer a real phone call and a proper Friday reservation.`
+          : age >= 40
+            ? `I run a team and own a wine cellar. I haven't opened Snapchat in a decade, so try again with a real Friday plan.`
+            : `I haven't opened Snapchat since the dog-filter era. Bring a real Friday plan if you want my actual number ✨`;
+    return {
+      herReply,
       maturityDelta: -18,
       chivalryDelta: -15,
       chemistryDelta: -15,
@@ -440,9 +531,17 @@ function fallbackEvaluateDm(req: {
     };
   }
 
-  if (/for\s+(your|ur)\s+age/.test(lower)) {
+  if (/for\s+(your|ur)\s+age/.test(lower) || /\blook\s+good\s+for\b/.test(lower)) {
+    const herReply =
+      age >= 60
+        ? `Adding 'for your age' to the end of a compliment undoes your charm in three words. A gentleman stops two words earlier.`
+        : age >= 50
+          ? `'For your age' is where this conversation ends. Next time, stop the sentence two words earlier.`
+          : age >= 40
+            ? `You were doing fine right up until 'for your age.' Next time, deliver the compliment without the qualifier.`
+            : `You almost had it right up until 'for your age.' Drop the footnote next time 🚩`;
     return {
-      herReply: `"for my age"?! 😭 you were doing so well until those three words left your thumbs lol 🚩`,
+      herReply,
       maturityDelta: -15,
       chivalryDelta: -10,
       chemistryDelta: -15,
@@ -452,8 +551,16 @@ function fallbackEvaluateDm(req: {
   }
 
   if (/pine\s*pollen|all\s+up\s+in\s+(my|his)\s+feels|up\s+in\s+my\s+feels\s+rn/.test(lower)) {
+    const herReply =
+      age >= 60
+        ? `Please set the pine-pollen dropper aside. I turn my phone off after nine to read, and six anxious midnight texts are not how adults court.`
+        : age >= 50
+          ? `Set the pine-pollen tincture down. Quiet weeknights are normal at ${age}, not ghosting, and midnight text spirals do not work for me.`
+          : age >= 40
+            ? `Please set the pine-pollen dropper down. I put my phone away at 9:30 PM on weeknights, and six anxious texts in a row are a non-starter.`
+            : `Step away from the pine-pollen dropper for a second. Quiet weeknights aren't ghosting, and six midnight panic texts are way too much 🍷`;
     return {
-      herReply: `babe put the pine-pollen dropper down 💀🌲 quiet weeknight evenings aren’t ghosting, sending 6 "all up in my feels" texts gets your bubble turned green 🚩`,
+      herReply,
       maturityDelta: -24,
       chivalryDelta: -16,
       chemistryDelta: -24,
@@ -464,8 +571,16 @@ function fallbackEvaluateDm(req: {
   }
 
   if (/\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(lower)) {
+    const herReply =
+      age >= 60
+        ? `Opening with 'well actually' to lecture me on a subject I have lived for decades is bold, I will give you that. Try curiosity next time.`
+        : age >= 50
+          ? `Did you just start a text with 'well actually' from a podcast clip? I have been in my field longer than you have had a license. Ask a real question instead.`
+          : age >= 40
+            ? `Opening with 'well actually' from a podcast to lecture me on my own craft is quite a choice. Drop the monologue and try genuine curiosity.`
+            : `Starting a text with 'well actually' from a podcast is bold when I do this professionally. Retire the lecture and try a real question 😏`;
     return {
-      herReply: `hold up sweet boy 🤓💀 did you really just start a text with "well actually" to cubsplain something i mastered 15 years ago?? mute the podcast brain 😂`,
+      herReply,
       maturityDelta: -22,
       chivalryDelta: -15,
       chemistryDelta: -20,
@@ -475,8 +590,14 @@ function fallbackEvaluateDm(req: {
   }
 
   if (/\b(sugar\s*mama|amex|allowance|spoil\s*me|pay\s*my)\b/.test(lower) || /^(hey+|yo+|sup)\s+mommy[!?.🔥😍👀]*$/i.test(msg)) {
+    const herReply =
+      age >= 50
+        ? `You have the wrong impression entirely. I date equals in effort and manners, not dependents.`
+        : age >= 40
+          ? `Wrong inbox entirely. I enjoy confident, attentive company, not someone auditioning for an allowance.`
+          : `Wrong inbox. Dating an established woman means matching her effort, not asking for an allowance 👋`;
     return {
-      herReply: `wrong inbox babe 💅 playful mommy banter is for grown partners, cougar never means sugar mama lol 👋`,
+      herReply,
       maturityDelta: -20,
       chivalryDelta: -20,
       chemistryDelta: -18,
@@ -486,8 +607,14 @@ function fallbackEvaluateDm(req: {
   }
 
   if (/\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(lower)) {
+    const herReply =
+      age >= 50
+        ? `Shoulders relaxed, zero lecturing, and genuine attentiveness. Meet me in the courtyard at 6:30 AM sharp for Qigong and warm jasmine oolong.`
+        : age >= 40
+          ? `Calm presence, zero lecturing, and real follow-through. Good boy. Meet me in the courtyard at 6:30 AM sharp for Tai Chi and warm jasmine oolong 🍵`
+          : `Grounded energy, zero lecturing, and actual effort? Meet me in the courtyard at 6:30 AM for Qigong and warm jasmine oolong ✨`;
     return {
-      herReply: `good boy 😌🧘‍♀️ 100% gluten + seed oil free, zero cubsplaining, AND excited for my tricolor mini bernedoodle?? meet mommy in the courtyard at 6:30am 🍵✨`,
+      herReply,
       maturityDelta: 22,
       chivalryDelta: 20,
       chemistryDelta: 25,
@@ -497,8 +624,16 @@ function fallbackEvaluateDm(req: {
   }
 
   if (msg.length < 10) {
+    const herReply =
+      age >= 60
+        ? `A one-word greeting leaves very little to work with. Tell me what caught your eye and where you would take me on Friday.`
+        : age >= 50
+          ? `'Hey' is not much of an opener. Propose a real Friday spot or call me properly at six.`
+          : age >= 40
+            ? `One-word openers disappear fast in my inbox. Lead with a real thought and where you'd like to take me Friday.`
+            : `A bare 'hey' gets buried pretty quickly in here. Give me a real question or your favorite Friday cocktail spot 🍸`;
     return {
-      herReply: `"hey / wyd" gets lost under 99 other guys in my dms lol 😴 give me an actual friday spot or a real question 👀`,
+      herReply,
       maturityDelta: -10,
       chivalryDelta: -10,
       chemistryDelta: -8,
@@ -507,8 +642,16 @@ function fallbackEvaluateDm(req: {
     };
   }
 
+  const herReply =
+    age >= 60
+      ? `A thoughtful plan and clear timing without being asked twice. Send the address and I will see you Friday at 7:30.`
+      : age >= 50
+        ? `Decisive, punctual, and zero back-and-forth. Send me the restaurant details and I will meet you there at 7:30 sharp.`
+        : age >= 40
+          ? `Decisive, thoughtful, and zero guesswork on my end. I appreciate a man with a real plan. Send the details for 7:30 🍸`
+          : `An actual reservation, clear timing, and zero back-and-forth? You have my attention. Send the details and I'll see you at 7:30 🥂`;
   return {
-    herReply: `okay wait 😍 clear energy, actual effort, zero games?? send me the pin and i’ll meet you there at 7:30 🍸✨`,
+    herReply,
     maturityDelta: 18,
     chivalryDelta: 18,
     chemistryDelta: 22,
@@ -917,13 +1060,14 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
       const systemPrompt = [
         `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic comedy dating game.`,
         `STRICT SAFETY RULE: Keep banter PG-13 cheeky & flirty, NEVER explicit/NSFW.`,
-        `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext} NEVER end the conversation abruptly; always give them something fun, flirty, or intriguing to reply to so the chat keeps flowing naturally!`,
-        `CRITICAL HUMAN TEXTING STYLE: Text like a REAL attractive human on Tinder / iMessage, NEVER like an AI chatbot or novelist! NEVER use em-dashes (—), en-dashes (–), or semicolons (;). NEVER use stiff phrases like "how quaint", "meanwhile", or "ah,". Write 1-2 short, natural, punchy text sentences with casual rhythm (contractions, occasional "lol", "wait", "tbh", "babe", or "...") and 1 to 3 natural emojis (😏, 🍸, 😭, 💀, 👀, ✨, 😍, 🚩).`,
+        `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext} Keep the conversation flowing naturally by leaving room for a reply when they pass the vibe check, or delivering a composed, self-respecting dismissal when they drop a blatant red flag.`,
+        `CRITICAL HUMAN TEXTING STYLE: Text like a real, attractive ${personaAge}-year-old adult, NEVER like an AI novelist OR a uniform teenager! NEVER use em-dashes (—), en-dashes (–), or semicolons (;). NEVER use stiff AI filler like "how quaint", "meanwhile", or "ah,". Write 1-2 concise, authentic sentences.`,
+        buildGenerationalVoiceDirective(personaAge, personaRole),
         personaRole === 'her'
-          ? `Vibe: You have cool "Black Cat" or warm "Wellness Mommy-Domme" confidence. You love playful "Yes, Mommy / good boy" banter when paired with real effort and concrete date plans, and you melt for unbothered "Golden Retriever" warmth. Roast "Cubsplaining" ("well actually..."), pine-pollen biohackers sending "all up in my feels" midnight walls of text, lazy "hey/wyd" texts, Snapchat requests, "for your age", and Sugar-Mama freeloaders.`
-          : `Vibe: You are a charming, sunny "Golden Retriever" younger man who plans real dates, uses natural emojis, respects her pace without sulking, and never Cubsplains.`,
+          ? `Vibe: You have self-possessed confidence matched to your exact age (${personaAge}). You appreciate calm, attentive "Golden Retriever" warmth and real date plans (and playful "good boy" / wellness polarity ONLY if your title/history already invites Qigong/Mommy-Domme energy). Dismiss "Cubsplaining" ("well actually..."), pine-pollen biohackers sending anxious midnight text walls, lazy "hey/wyd" openers, Snapchat requests, "for your age", and Sugar-Mama freeloaders with age-appropriate poise.`
+          : `Vibe: You are ${personaName} (${personaAge}), a charming younger man matched to your exact age bracket who plans real dates, respects her pace without sulking, never sends Venmo math, and never Cubsplains.`,
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
-        `{"herReply":"1-2 natural text-message sentences with emojis, ZERO em-dashes, and a hook to keep chatting","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy tip without em-dashes","passedVibeCheck":boolean}`,
+        `{"herReply":"1-2 authentic ${personaAge}-year-old text sentences matching your generational reserve, ZERO em-dashes, ZERO 'babe' if female","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy coaching tip without em-dashes","passedVibeCheck":boolean}`,
       ].join(' ');
 
       const recentTurns = Array.isArray(body.history)
@@ -964,7 +1108,10 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
       }
 
       if (parsed && typeof parsed.herReply === 'string' && parsed.herReply.trim()) {
-        const cleanReply = humanizeChatText(parsed.herReply).slice(0, 360);
+        const cleanReply = humanizeChatText(parsed.herReply, {
+          role: personaRole,
+          age: personaAge,
+        }).slice(0, 360);
         const cleanCoach = humanizeChatText(
           String(parsed.coachNote || 'Live Vibe Check complete!'),
         ).slice(0, 200);
@@ -1268,7 +1415,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v28-anthropic-cub-raya-waitlist-feedback-vault',
+        version: 'v29-generational-voice-reserve',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),

@@ -399,6 +399,7 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(snapVerdict.passedVibeCheck).toBe(false);
     expect(snapVerdict.maturityDelta).toBeLessThan(0);
     expect(snapVerdict.herReply).not.toContain('—');
+    expect(snapVerdict.herReply).not.toMatch(/\bbabe\b/i);
 
     const planVerdict = evaluateDmLocally({
       personaName: 'Claire',
@@ -410,6 +411,39 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(planVerdict.passedVibeCheck).toBe(true);
     expect(planVerdict.chemistryDelta).toBeGreaterThan(15);
     expect(planVerdict.herReply).not.toContain('—');
+    expect(planVerdict.herReply).not.toMatch(/\bbabe\b/i);
+
+    // Verify authentic generational reserve across 30s Puma, 40s Cougar, 50s Gen-X Jaguar, and 60s+ Panther
+    for (const [name, age] of [
+      ['Sienna', 35],
+      ['Claire', 45],
+      ['Victoria', 54],
+      ['Genevieve', 62],
+    ] as const) {
+      const planMsg = evaluateDmLocally({
+        personaName: name,
+        personaAge: age,
+        personaRole: 'her',
+        playerMessage:
+          'Booked a quiet corner booth Friday at 7:30 PM, zero planning needed on your end.',
+      });
+      const snapMsg = evaluateDmLocally({
+        personaName: name,
+        personaAge: age,
+        personaRole: 'her',
+        playerMessage: 'whats ur snap??',
+      });
+      expect(planMsg.herReply).not.toMatch(/\bbabe\b/i);
+      expect(snapMsg.herReply).not.toMatch(/\bbabe\b/i);
+      if (age >= 40) {
+        expect(planMsg.herReply).not.toMatch(/\blol\b/i);
+        expect(snapMsg.herReply).not.toMatch(/\blol\b/i);
+      }
+      if (age >= 50) {
+        expect(planMsg.herReply).not.toMatch(/[😍😭💀🍸✨]/u);
+        expect(snapMsg.herReply).not.toMatch(/[😍😭💀🍸✨]/u);
+      }
+    }
 
     const qigongMommyVerdict = evaluateDmLocally({
       personaName: 'Sedona',
