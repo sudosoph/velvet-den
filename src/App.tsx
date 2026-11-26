@@ -184,7 +184,7 @@ export function resolveDilemmaRoute(slug: string | null): {
     };
   }
 
-  // Fallback any unknown historical dilemma slug cleanly into The Velvet Room
+  // Fallback any unknown historical dilemma slug cleanly into The Marlow Lounge
   return { tab: 'wild', venueId: 'velvet-room' };
 }
 

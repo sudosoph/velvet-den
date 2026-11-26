@@ -80,7 +80,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
             <Award className="h-8 w-8" />
           </div>
           <div className="text-xs font-extrabold uppercase tracking-widest text-amber-900">
-            Velvet Palms Academy • Honors Conferral
+            Cougars & Cubs Academy • Honors Conferral
           </div>
           <h1 className="font-editorial text-3xl sm:text-4xl font-bold text-[#18101E]">
             📜 Certified Housebroken Cub Diploma

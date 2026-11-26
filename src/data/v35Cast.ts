@@ -72,7 +72,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       height: '6\'1"',
       job: 'Visiting Architecture Fellow',
       school: 'UCL Bartlett',
-      neighborhood: 'Westwood / Velvet Palms',
+      neighborhood: 'Westwood / Sunset Hills',
       lookingFor: 'Long-term relationship',
       kidsStance: 'Open to yours, content without',
     },
@@ -245,7 +245,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       height: '6\'2"',
       job: 'Hospitality Architect & Partner',
       school: 'Cal Poly Architecture',
-      neighborhood: 'Marina / Velvet Palms',
+      neighborhood: 'Marina / Sunset Hills',
       lookingFor: 'Life partner',
       kidsStance: 'Flexible & family-warm',
     },
@@ -532,7 +532,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 5:15 PM at The Velvet Room, let’s see what happens when the clock hits 6:45.',
+            text: '🌹 5:15 PM at The Marlow Lounge, let’s see what happens when the clock hits 6:45.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -790,7 +790,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Bring those dimples and the velvet dinner jacket, twilight botanical walk is a yes.',
+            text: '🌹 Bring those dimples and the tailored dinner jacket, twilight botanical walk is a yes.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1099,7 +1099,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     primaryWildVenueId: 'velvet-room',
     secondaryWildVenueId: 'terminal-b-airport',
     matchSelectivity: 'standout',
-    activeStatusLabel: 'Met In The Wild • The Velvet Room',
+    activeStatusLabel: 'Met In The Wild • The Marlow Lounge',
     tagline: 'Coastal M&A partner: peaceful oceanfront home, grown kids, happily never remarrying.',
     vitals: {
       height: '5\'8"',
@@ -1192,7 +1192,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       height: '5\'5"',
       job: 'Principal Interior Designer',
       school: 'UCLA Architecture & Design',
-      neighborhood: 'Velvet Palms / Pasadena',
+      neighborhood: 'Sunset Hills / Pasadena',
       lookingFor: 'Proud, public partnership',
       kidsStance: 'Done / Happy auntie',
     },
@@ -2070,7 +2070,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       subtextTell: 'Steady station-house calm, shows up when he says he will.',
     },
     fridayStoryHook:
-      'If you match: Trades turnout gear for a coastal sunset overlook nobody else in Velvet Palms knows about.',
+      'If you match: Trades turnout gear for a coastal sunset overlook nobody else in Sunset Hills knows about.',
   },
   summer: {
     voicePrompt: {
@@ -2100,7 +2100,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:14',
       transcript:
         '“Friday hits five o’clock, the red grading pen stays in my satchel, and someone brave enough to skip academic flattery asks me to sushi.”',
-      subtextTell: 'Velvet seminar-leader voice, spots hollow flattery in three seconds flat.',
+      subtextTell: 'Warm seminar-leader voice, spots hollow flattery in three seconds flat.',
     },
     fridayStoryHook:
       'If you match: Leaves faculty politics behind at Hawthorne Gate, if you can hold your own across a candlelit omakase counter.',
@@ -2158,7 +2158,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       subtextTell: 'Silver-screen poise and zero patience for rehearsal.',
     },
     fridayStoryHook:
-      'If you match: Sweeps into The Velvet Room twenty minutes before a private screening and dares you to keep pace.',
+      'If you match: Sweeps into The Marlow Lounge twenty minutes before a private screening and dares you to keep pace.',
   },
   astrid: {
     voicePrompt: {

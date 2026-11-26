@@ -99,10 +99,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             Door 2 • In The Wild
           </span>
           <h2 className="text-base font-semibold text-zinc-950">
-            {V35_WILD_VENUES.length} Illustrated Velvet Palms Venues
+            {V35_WILD_VENUES.length} Illustrated Sunset Hills Venues
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Meet offline at Terminal B Arrivals, Hawthorne University, The Velvet Room Hotel Bar, Havana Social Salsa, and Palisades Racquet, going straight to real phone numbers.
+            Meet offline at Terminal B Arrivals, Hawthorne University, The Marlow Lounge Hotel Bar, Havana Social Salsa, and Palisades Racquet, going straight to real phone numbers.
           </p>
         </div>
 
@@ -126,7 +126,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             Animated Multi-Date S-Rank Stage
           </h2>
           <p className="text-sm text-stone-600 leading-relaxed">
-            Experience full-bleed sunset dates with animated character expressions, free S-Rank replays, Secret Group-Chat Leaks, Velvet Cut Weekend Epilogues, and the hidden Table 9 Takedown.
+            Experience full-bleed sunset dates with animated character expressions, free S-Rank replays, Secret Group-Chat Leaks, Weekend Escape Epilogues, and the hidden Table 9 Takedown.
           </p>
         </div>
       </section>
@@ -154,7 +154,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
               <span>{herCount} Women × {himCount} Men • 132 Bespoke Photos</span>
             </div>
             <h2 className="font-editorial text-2xl font-bold text-[#18101E]">
-              Explore Every Corner of Velvet Palms
+              Explore Every Corner of Sunset Hills
             </h2>
             <p className="text-sm text-stone-600 leading-relaxed">
               Grade 12 real-world courtship scenarios in Cub Obedience School or browse all {AFFILIATE_CATALOG.length} studio-photographed date-night &amp; hosting picks.

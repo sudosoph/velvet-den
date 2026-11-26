@@ -266,7 +266,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
         <div className="space-y-1">
           <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500">
             <MapPin className="h-3.5 w-3.5 text-rose-600" />
-            <span>10 Illustrated Velvet Palms &amp; Downtown Venues</span>
+            <span>10 Illustrated Sunset Hills &amp; Downtown Venues</span>
           </span>
           <h1 className="text-2xl font-semibold tracking-tight text-zinc-950">
             Meet Exclusives Out In The Wild

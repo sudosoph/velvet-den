@@ -186,7 +186,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Bantr"
     ],
     "correctIndex": 3,
-    "funFact": "Rebecca & Sam’s witty photo-free chemistry on Bantr inspired our own #blind-velvet-dm mystery lounge!",
+    "funFact": "Rebecca & Sam’s witty photo-free chemistry on Bantr inspired our own #blind-spark-dm mystery lounge!",
     "imageUrl": "./images/products/mocktail-card-deck.jpg",
     "imageCredit": ""
   },

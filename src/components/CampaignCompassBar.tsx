@@ -35,11 +35,11 @@ const LEVEL_THRESHOLDS: {
   nextMin: number;
   title: string;
 }[] = [
-  { level: 1, min: 0, nextMin: 40, title: 'Velvet Newcomer' },
+  { level: 1, min: 0, nextMin: 40, title: 'Club Newcomer' },
   { level: 2, min: 40, nextMin: 100, title: 'Sharp Flirt & Vetter' },
   { level: 3, min: 100, nextMin: 180, title: 'Inner-Circle Regular' },
   { level: 4, min: 180, nextMin: 280, title: 'S-Rank Heartthrob' },
-  { level: 5, min: 280, nextMin: 380, title: 'Icon of Velvet Palms' },
+  { level: 5, min: 280, nextMin: 380, title: 'Crown Icon of the Club' },
 ];
 
 export function formatThreeDateHearts(datesCompleted: number): string {

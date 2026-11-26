@@ -71,11 +71,11 @@ export const V35_AUDITION_SCENARIOS: AuditionScenario[] = [
   },
   {
     id: 'velvet-room',
-    title: '6:30 PM at The Velvet Room Hotel Bar',
+    title: '6:30 PM at The Marlow Lounge Hotel Bar',
     setupHer:
       'You are unwinding solo at the brass hotel bar when a sharp 27-year-old two stools down catches your eye. What opening wins you over?',
     setupHim:
-      'She is reading a hardcover menu over a chilled dirty martini at The Velvet Room. How do you bridge the two-stool gap?',
+      'She is reading a hardcover menu over a chilled dirty martini at The Marlow Lounge. How do you bridge the two-stool gap?',
     choices: [
       {
         labelHer: 'Specific observation, dry humor, and offering his real number with zero hovering.',
@@ -367,7 +367,7 @@ export function buildDilemmaShareLink(episodeOrProfileId: string, baseUrl: strin
 export function buildEmojiReceipt(summary: RunSummary, shareUrl: string): string {
   const bottleLine = summary.caughtBottleTrap
     ? '📱 App Audit: 🔍 Caught the 2 AM Mirror Tell'
-    : '📱 App Audit: ⚡ Survived Velvet Palms Vetting';
+    : '📱 App Audit: ⚡ Survived Sunset Hills Vetting';
 
   const episodeLines = summary.episodeHighlights
     .slice(0, 4)

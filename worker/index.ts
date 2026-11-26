@@ -1342,7 +1342,7 @@ const CAST_AI_LORE_BY_ID: Record<string, string> = {
   claire:
     '46yo M&A Deal Partner; decisive executive magnetism, zero patience for passive "idk where do you want to go" texts, loves bold reservations.',
   sienna:
-    '39yo luxury interior designer in Velvet Palms; warm, aesthetic-minded, tests whether a younger man holds hands proudly in public.',
+    '39yo luxury interior designer in Sunset Hills; warm, aesthetic-minded, tests whether a younger man holds hands proudly in public.',
   priya:
     '36yo Charge Trauma RN; quick-witted, grounded, values post-shift peace and real tacos over showy posturing.',
   summer:
@@ -1350,7 +1350,7 @@ const CAST_AI_LORE_BY_ID: Record<string, string> = {
   vanessa:
     '43yo Bel Air art patron who claims she is "practically divorced" even though her husband Lawrence still lives in the mansion! Purring luxury charm while dodging weekends and home visits.',
   brooke:
-    '42yo Palisades lifestyle creator secretly booking Table 9 at The Velvet Room just to make her ex-husband Richard jealous! Obsessed with camera angles and sitting near Table 9.',
+    '42yo Palisades lifestyle creator secretly booking Table 9 at The Marlow Lounge just to make her ex-husband Richard jealous! Obsessed with camera angles and sitting near Table 9.',
   celeste: '58yo silver-screen cinema icon; continental elegance, dry martinis, zero tolerance for boredom.',
   astrid: '41yo coastal movement & sauna studio founder; serene, perceptive, reads nervous energy instantly.',
   camila: '39yo contemporary gallery curator; smoky mezcal, incisive art-world banter, hates pretentious jargon.',
@@ -1415,16 +1415,16 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
       if (platform === 'discord') {
         const memberDesc =
           playerRole === 'her'
-            ? 'an accomplished, self-possessed woman (a Cougar) posting to fellow Velvet Palms regulars'
-            : 'a younger man (a Cub) asking seasoned Velvet Palms regulars for honest courtship wisdom';
+            ? 'an accomplished, self-possessed woman (a Cougar) posting to fellow Sunset Hills regulars'
+            : 'a younger man (a Cub) asking seasoned Sunset Hills regulars for honest courtship wisdom';
 
         systemPrompt = [
-          `You run the lively Velvet Palms Club Discord Lounge in "Cougars & Cubs Club", a sharp, funny romantic-comedy age-gap dating game.`,
+          `You run the lively Sunset Hills Club Discord Lounge in "Cougars & Cubs Club", a sharp, funny romantic-comedy age-gap dating game.`,
           `The human member posting right now is ${memberDesc}.`,
           `Primary responder: ${personaName} (${personaAge}, ${personaTitle}). Optional second responder chiming in right after: ${secondSpeakerName}.`,
           `CRITICAL READING COMPREHENSION: Read every word of the member's message accurately!`,
           `- If someone invited her out on Date #1 and asked to SPLIT the bill 50/50, NEVER call splitting generous! In this Club, whoever initiates the invite hosts the check cleanly (if a man asks to split Date #1, tell her to calmly put down her card for her half so she owes him nothing, then delete his number before Date #2).`,
-          `- If they ask about moving in together vs Living-Apart-Together (separate places/keys): give concrete, witty Velvet Palms perspective (protecting your sanctuary, keeping two sets of keys, doing a Friday-to-Monday weekend test first, never merging leases out of pressure).`,
+          `- If they ask about moving in together vs Living-Apart-Together (separate places/keys): give concrete, witty Sunset Hills perspective (protecting your sanctuary, keeping two sets of keys, doing a Friday-to-Monday weekend test first, never merging leases out of pressure).`,
           `- If they ask whether a younger guy or older woman is serious vs just curious: point to concrete tells (locking in Friday reservations by Wednesday, proud public hand-holding in front of friends, weekday consistency, zero 6:45 PM mystery curfews).`,
           `- If they ask about income gaps: whoever invites plans squarely inside their real budget and pays cleanly; alternate turns hosting without mothering or ego.`,
           `BANNED BLAND AI CLICHES: NEVER write generic fortune-cookie HR lines like "Consider his maturity level", "Communication is key", "Actions speak louder than words", or "Assess compatibility". Sound like witty, opinionated real regulars over wine!`,
@@ -1674,7 +1674,7 @@ async function handleVipWaitlist(
     return jsonResponse({ ok: false, error: 'Contact email or @handle required' }, 400);
   }
   const role = body.role === 'cub' ? 'cub' : 'cougar';
-  const city = scrubPiiForLog(String(body.city || 'Velvet Palms').trim()).slice(0, 48);
+  const city = scrubPiiForLog(String(body.city || 'Sunset Hills').trim()).slice(0, 48);
   const vibe = scrubPiiForLog(String(body.vibe || '').trim()).slice(0, 140);
   let position = 142;
   if (env.VELVET_KV) {

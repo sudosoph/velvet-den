@@ -142,7 +142,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     identifyPlayerWithContact(email, { signup_source: 'club_dispatch' });
     trackEvent('newsletter_subscribed', { source: 'boutique_modal' });
     onClaimNewsletterBonus(email);
-    setNewsletterMsg('🎉 You’re on The Velvet Dispatch list for new character & salon drops!');
+    setNewsletterMsg('🎉 You’re on the Cougars & Cubs Club Dispatch list for monthly character drops!');
     setEmail('');
   };
 
@@ -261,7 +261,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             [
               ['vip', 'Passes & VIP'],
               ['shop', `Date-Night Shop (${AFFILIATE_CATALOG.length})`],
-              ['rewards', 'Private Salon & Invite'],
+              ['rewards', 'Club Events & Invite'],
             ] as const
           ).map(([tabId, label]) => (
             <button
@@ -300,7 +300,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   🎬 Describe Your Custom Cougar or Cub Character
                 </h3>
                 <p className="text-sm text-stone-700 leading-relaxed">
-                  Share the first-name persona, age, job, signature green flag (or hilarious red-flag trap!), and favorite Velvet Palms hangout, we’ll illustrate 6 slides and add them to the Club deck.
+                  Share the first-name persona, age, job, signature green flag (or hilarious red-flag trap!), and favorite Sunset Hills hangout, we’ll illustrate 6 slides and add them to the Club deck.
                 </p>
                 <textarea
                   required
@@ -424,7 +424,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-amber-300 mt-1" />
-                      <span><strong>All 10</strong> Velvet Cut 6-Month Epilogues Unlocked</span>
+                      <span><strong>All 10</strong> 6-Month Weekend Escape Epilogues Unlocked</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-amber-300 mt-1" />
@@ -622,7 +622,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   Share Your Personal Club Invite Link
                 </h3>
                 <p className="text-sm text-stone-600">
-                  Drop your link in the group chat or send it to a real-life match to see if they survive Velvet Palms vetting.
+                  Drop your link in the group chat or send it to a real-life match to see if they survive Sunset Hills vetting.
                 </p>
               </div>
 
@@ -651,8 +651,9 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               {questMsg && <p className="text-sm font-bold text-emerald-800">{questMsg}</p>}
             </div>
 
-            {/* Private Salon Waitlist */}
+            {/* Private Club Salon & Live Events Waitlist (Clean Editorial Card, Spacious Role Buttons & Inputs) */}
             <form
+              data-testid="private-club-waitlist-form"
               onSubmit={async (e) => {
                 e.preventDefault();
                 if (!waitlistContact.trim() || waitlistContact.trim().length < 4) return;
@@ -682,7 +683,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   const data = (await res.json()) as { ok?: boolean; position?: number };
                   if (res.ok && data.ok) {
                     setWaitlistMsg(
-                      `🗝️ Velvet-Rope Application #${data.position ?? 142} received! You’re on the list for our invite-only Virtual Trivia Salon.`,
+                      `🥂 Club Application #${data.position ?? 142} received! You’re on the list for our invite-only Pop-Culture Trivia & Speed-Vetting Salon.`,
                     );
                     setWaitlistVibe('');
                     setWaitlistContact('');
@@ -690,82 +691,110 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     setWaitlistMsg('Please include a valid email or @handle so we can send your invite.');
                   }
                 } catch {
-                  setWaitlistMsg('🗝️ Velvet-Rope Waitlist spot reserved!');
+                  setWaitlistMsg('🥂 Private Club Waitlist spot reserved!');
                 }
               }}
-              className="rounded-3xl bg-gradient-to-r from-[#18101E] via-[#261633] to-[#18101E] p-6 text-white space-y-4"
+              className="rounded-3xl border border-zinc-200 bg-white p-6 sm:p-7 space-y-5 shadow-2xs"
             >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="font-editorial text-2xl font-bold text-amber-300">
-                  🗝️ Velvet-Rope Private Salon Waitlist
-                </h3>
-                <span className="rounded-full bg-white/10 border border-white/15 px-3 py-1 text-xs font-bold text-amber-200">
-                  Invite-Only Live Events
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <h3 className="font-editorial text-2xl font-bold text-zinc-950">
+                    🥂 Private Club Salon &amp; Live Events Waitlist
+                  </h3>
+                  <p className="text-sm text-zinc-600 leading-relaxed max-w-2xl">
+                    Apply for our vetted real-world and virtual member cohort, starting with hosted Pop-Culture Trivia and Speed-Vetting Salons.
+                  </p>
+                </div>
+                <span className="rounded-full bg-rose-50 border border-rose-200 px-3.5 py-1 text-xs font-bold text-rose-800 whitespace-nowrap">
+                  Invite-Only Events
                 </span>
               </div>
-              <p className="text-sm text-white/85 leading-relaxed">
-                Apply for our vetted real-world &amp; virtual member cohort, starting with hosted Pop-Culture Trivia &amp; Speed-Vetting Salons.
-              </p>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <select
+
+              {/* Spacious 2-Button Role Picker (Zero Truncation or Dropdown Clipping) */}
+              <div className="space-y-2">
+                <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+                  I’m Joining As
+                </div>
+                <div
+                  role="group"
                   aria-label="Waitlist Role"
-                  value={waitlistRole}
-                  onChange={(e) => setWaitlistRole(e.target.value === 'cub' ? 'cub' : 'cougar')}
-                  className="min-w-0 w-full rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm font-bold text-white"
+                  className="grid grid-cols-1 gap-2.5 sm:grid-cols-2"
                 >
-                  <option value="cougar" className="text-[#18101E]">
-                    🐆 Puma / Cougar / Jaguar / Panther
-                  </option>
-                  <option value="cub" className="text-[#18101E]">
-                    🥂 Vetted Cub (Ages 21–35)
-                  </option>
-                </select>
+                  <button
+                    type="button"
+                    onClick={() => setWaitlistRole('cougar')}
+                    className={`min-h-[48px] rounded-xl border px-4 py-3 text-left text-sm font-bold whitespace-normal leading-snug transition cursor-pointer ${
+                      waitlistRole === 'cougar'
+                        ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
+                        : 'border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100'
+                    }`}
+                  >
+                    🐆 Cougar / Puma / Jaguar (Her)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setWaitlistRole('cub')}
+                    className={`min-h-[48px] rounded-xl border px-4 py-3 text-left text-sm font-bold whitespace-normal leading-snug transition cursor-pointer ${
+                      waitlistRole === 'cub'
+                        ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
+                        : 'border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100'
+                    }`}
+                  >
+                    🥂 Vetted Cub, Ages 21 to 35 (Him)
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <input
                   type="text"
                   maxLength={48}
-                  placeholder="City / Timezone (e.g. LA, NYC, London)"
+                  placeholder="City (e.g. LA, NYC, London)"
                   value={waitlistCity}
                   onChange={(e) => setWaitlistCity(e.target.value)}
-                  className="min-w-0 w-full rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm font-medium text-white placeholder:text-white/60"
-                />
-                <input
-                  type="text"
-                  maxLength={140}
-                  placeholder="Your one-line vibe..."
-                  value={waitlistVibe}
-                  onChange={(e) => setWaitlistVibe(e.target.value)}
-                  className="min-w-0 w-full rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm font-medium text-white placeholder:text-white/60"
+                  className="min-w-0 w-full h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:bg-white focus:outline-none"
                 />
                 <input
                   type="text"
                   required
                   maxLength={120}
-                  placeholder="Email or @IG / @X handle"
+                  placeholder="Email or @handle for invite"
                   value={waitlistContact}
                   onChange={(e) => setWaitlistContact(e.target.value)}
-                  className="min-w-0 w-full rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm font-medium text-white placeholder:text-white/60"
+                  className="min-w-0 w-full h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:bg-white focus:outline-none"
+                />
+                <input
+                  type="text"
+                  maxLength={140}
+                  placeholder="Your Friday date vibe in one line (optional)"
+                  value={waitlistVibe}
+                  onChange={(e) => setWaitlistVibe(e.target.value)}
+                  className="sm:col-span-2 min-w-0 w-full h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:bg-white focus:outline-none"
                 />
               </div>
-              <button
-                type="submit"
-                className="rounded-full bg-amber-300 px-6 py-3 text-sm font-extrabold text-[#18101E] hover:bg-amber-200 transition cursor-pointer"
-              >
-                Apply to Private Salon →
-              </button>
-              {waitlistMsg && <p className="text-sm font-bold text-emerald-300">{waitlistMsg}</p>}
+
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <button
+                  type="submit"
+                  className="inline-flex h-11 items-center justify-center rounded-xl bg-rose-600 px-6 text-sm sm:text-base font-bold text-white hover:bg-rose-700 transition cursor-pointer"
+                >
+                  Join Private Club Waitlist →
+                </button>
+                {waitlistMsg && <p className="text-sm font-bold text-emerald-700">{waitlistMsg}</p>}
+              </div>
             </form>
 
             {/* Clean Newsletter Dispatch Card */}
             <form
               onSubmit={handleNewsletterSubmit}
-              className="rounded-3xl border border-stone-200 bg-white p-6 space-y-3"
+              className="rounded-3xl border border-zinc-200 bg-white p-6 sm:p-7 space-y-3 shadow-2xs"
             >
               <div className="space-y-1">
-                <h3 className="font-editorial text-xl font-bold text-[#18101E]">
+                <h3 className="font-editorial text-xl font-bold text-zinc-950">
                   <Mail className="inline h-5 w-5 mr-1.5 text-rose-600" />
-                  The Velvet Dispatch (New Character Drops)
+                  Cougars &amp; Cubs Club Dispatch (Monthly Character Drops)
                 </h3>
-                <p className="text-sm text-stone-600">
+                <p className="text-sm text-zinc-600">
                   Get notified once a month when new romance routes, Courtroom cases, and community cameos go live.
                 </p>
               </div>
@@ -776,17 +805,17 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   placeholder="you@domain.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="min-w-0 flex-1 rounded-xl border border-stone-300 bg-stone-50 px-4 py-2.5 text-sm font-medium text-[#18101E]"
+                  className="min-w-0 flex-1 h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 focus:border-zinc-950 focus:bg-white focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 rounded-xl bg-[#18101E] px-6 py-2.5 text-sm font-bold text-white hover:bg-stone-800 cursor-pointer"
+                  className="shrink-0 h-11 rounded-xl bg-zinc-950 px-6 text-sm font-bold text-white hover:bg-zinc-800 cursor-pointer"
                 >
                   Subscribe
                 </button>
               </div>
               {newsletterMsg && (
-                <p className="text-sm font-bold text-emerald-800">{newsletterMsg}</p>
+                <p className="text-sm font-bold text-emerald-700">{newsletterMsg}</p>
               )}
             </form>
           </div>

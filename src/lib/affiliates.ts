@@ -218,10 +218,10 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     name: 'Mint & Mortar 7-Piece Copper Cocktail Shaker & Bamboo Stand Set',
     category: 'date_night',
     priceDisplay: '$38 Barware Set',
-    badge: '🍸 Velvet Room Home Bar Kit',
+    badge: '🍸 Marlow Lounge Home Bar Kit',
     cheekyPitch:
       'Weighted 24-ounce copper cobbler shaker, double jigger, and Hawthorne strainer for shaking two frothy espresso martinis after dinner.',
-    whyItConverts: 'Signature barware set tied to The Velvet Room martini scenes.',
+    whyItConverts: 'Signature barware set tied to The Marlow Lounge martini scenes.',
     merchantUrl: 'https://www.amazon.com/dp/B08KQCX9Z9',
   },
   {
@@ -427,7 +427,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     name: 'Polare 23-Inch Waxed Canvas & Full-Grain Leather Weekender Duffel',
     category: 'hosting_upgrade',
     priceDisplay: '$119 Travel Pick',
-    badge: '🧳 Velvet-Cut Weekend Escape Bag',
+    badge: '🧳 Weekend Escape Leather Duffel',
     cheekyPitch:
       'Heavy waxed canvas and saddle leather sized cleanly for pressed linen shirts, cedar parfum, and a spontaneous 48-hour coastal getaway.',
     whyItConverts: 'Handsome weekend travel bag tied to Date #4 epilogues.',

@@ -39,7 +39,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
   {
     id: 'velvet-room',
     number: 1,
-    name: 'The Velvet Room',
+    name: 'The Marlow Lounge',
     subtitle: 'Downtown Hotel Mahogany Martini & Piano Bar • 6:15 PM',
     emoji: '🍸',
     backdropUrl: V35_SCENE_BACKDROPS['velvet-room'],
@@ -543,7 +543,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
   {
     id: 'velvet-palms-bbq',
     number: 10,
-    name: 'Velvet Palms Cul-de-Sac BBQ',
+    name: 'Palisades Cul-de-Sac BBQ',
     subtitle: 'String-Light Backyard Grill & Neighbor Bestie Hangout',
     emoji: '🏡',
     backdropUrl: V35_SCENE_BACKDROPS['velvet-palms-bbq'],
@@ -551,7 +551,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     primaryHimLeadId: 'sienna',
     secondaryCameoLeadId: 'priya',
     sceneSetupHer:
-      'Your neighbor bestie Jade hosts Sunday string-light ribs on the cul-de-sac. Rafael arrives carrying a custom walnutfloating shelf he built for Jade’s den, clean-shaven, sun-bronzed, and immediately taking over the smoky grill.',
+      'Your neighbor bestie Jade hosts Sunday string-light ribs on the cul-de-sac. Rafael arrives carrying a custom walnut floating shelf he built for Jade’s den, clean-shaven, sun-bronzed, and immediately taking over the smoky grill.',
     sceneSetupHim:
       'Your buddy Sam hosts a backyard cookout when his effortlessly magnetic 39-year-old aunt Sienna walks onto the patio in an ivory linen jumpsuit carrying chilled rosé.',
     choicesHer: [

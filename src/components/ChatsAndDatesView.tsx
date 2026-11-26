@@ -634,12 +634,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     'velvet-lounge': {
       id: 'jade-discord',
       name: 'Jade_42F',
-      badge: '🐆 Velvet Palms Host',
+      badge: '🐆 Sunset Hills Host',
       age: 42,
-      title: 'Velvet Palms Host & Biotech Director',
+      title: 'Sunset Hills Host & Biotech Director',
       role: 'her',
       secondName: 'Sienna_Design',
-      secondBadge: '🏡 Velvet Palms',
+      secondBadge: '🏡 Sunset Hills',
     },
     'red-flag-emergency': {
       id: 'priya',
@@ -649,7 +649,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       title: 'Charge Trauma RN & Red-Flag Triage Lead',
       role: 'her',
       secondName: 'Jade_42F',
-      secondBadge: '🐆 Velvet Palms Host',
+      secondBadge: '🐆 Sunset Hills Host',
     },
     'ask-a-cougar': {
       id: 'elena',
@@ -666,7 +666,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       name: 'Sam_27M',
       badge: '🏡 Cul-de-Sac Neighbor',
       age: 27,
-      title: 'Structural Engineer & Velvet Palms Regular',
+      title: 'Structural Engineer & Sunset Hills Regular',
       role: 'him',
       secondName: 'Claire_M&A',
       secondBadge: '🍸 Deal Partner',
@@ -676,9 +676,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       name: 'Anon_Cedar_7',
       badge: '🎭 Mystery Regular',
       age: 39,
-      title: 'Velvet Room Insider',
+      title: 'Marlow Lounge Insider',
       role: 'her',
-      secondName: 'Anon_Velvet_9',
+      secondName: 'Anon_Marlow_9',
       secondBadge: '🕵️ Insider',
     },
   };
@@ -1065,7 +1065,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           {/* 5 Distinct Discord Channels */}
           <aside className="rounded-2xl border border-zinc-200 bg-white p-4 space-y-1.5 shadow-2xs">
             <div className="px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-              Velvet Palms Server
+              Cougars & Cubs Club Lounge
             </div>
             {V35_DISCORD_CHANNELS.map((ch) => (
               <button
@@ -1245,8 +1245,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             Your Inbox Is Wide Open
           </h2>
           <p className="text-sm text-stone-600 max-w-md mx-auto">
-            Send a thoughtful prompt reply on Hinge or meet someone out at Terminal B, The Velvet
-            Room, or Hawthorne University to start your first thread!
+            Send a thoughtful prompt reply on Hinge or meet someone out at Terminal B, The Marlow
+            Lounge, or Hawthorne University to start your first thread!
           </p>
           <button
             type="button"
@@ -1539,7 +1539,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <div className="text-xs sm:text-sm font-bold text-emerald-950">
                     🍸 Chemistry is high ({currentThread.chemistry}%). Ready for{' '}
                     {nextDateScript.dateNumber === 4
-                      ? `Velvet Cut Weekend Epilogue (${
+                      ? `Weekend Escape Epilogue (${
                           wallet.isVip ||
                           wallet.isFounderUnlimited ||
                           wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
@@ -1555,7 +1555,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     className="rounded-full bg-[#18101E] px-4 py-2 text-xs font-bold text-white cursor-pointer"
                   >
                     {nextDateScript.dateNumber === 4
-                      ? '🌙 Launch Velvet Cut Epilogue →'
+                      ? '🌙 Launch Weekend Escape Epilogue →'
                       : `🍸 Go on Date #${nextDateScript.dateNumber} →`}
                   </button>
                 </div>
@@ -2076,7 +2076,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           <Sparkles className="h-3.5 w-3.5" />
                           <span>
                             {nextDateScript.dateNumber === 4
-                              ? `Launch Velvet Cut Epilogue (${
+                              ? `Launch Weekend Escape Epilogue (${
                                   wallet.isVip ||
                                   wallet.isFounderUnlimited ||
                                   wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)

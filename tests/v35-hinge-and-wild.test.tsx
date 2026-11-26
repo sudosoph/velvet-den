@@ -65,10 +65,10 @@ describe('v35 Editorial Hinge Feed (selective matching, zero clutter) & 10-Spot 
       />,
     );
 
-    expect(screen.getAllByText(/The Velvet Room/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/The Marlow Lounge/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Hawthorne University/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Terminal B Arrivals/i).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText(/Velvet Palms Cul-de-Sac BBQ/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Palisades Cul-de-Sac BBQ/i).length).toBeGreaterThanOrEqual(1);
 
     // Enter Terminal B Arrivals as her -> Miles takes both bags & coordinated car + 8:15 table
     fireEvent.click(screen.getByRole('button', { name: /Terminal B Arrivals/i }));

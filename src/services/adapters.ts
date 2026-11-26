@@ -333,7 +333,7 @@ export function evaluateDmLocally(params: {
           ? `When I invite you out, I plan inside my real budget and get the check cleanly, zero ego about your success.`
           : `Alternating turns works best: plan dates you genuinely enjoy hosting, and let me spoil us when it’s my turn.`,
       secondReply: isDiscord
-        ? `Effort and thoughtfulness always outrank flashy receipts in Velvet Palms.`
+        ? `Effort and thoughtfulness always outrank flashy receipts in Sunset Hills.`
         : undefined,
       coachNote: 'Healthy, ego-free financial candor passes every Club test.',
       passedVibeCheck: true,

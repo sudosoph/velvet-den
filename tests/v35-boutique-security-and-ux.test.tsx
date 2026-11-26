@@ -83,6 +83,22 @@ describe('v35 Boutique Security (Paid-Session-Only Cameo Briefs) & Consumer Roma
       screen.getByRole('button', { name: /Already purchased VIP or have a gift code/i }),
     );
     expect(screen.getByPlaceholderText(/Email used on Stripe/i)).toBeInTheDocument();
+    expect(vipDialog.textContent).not.toMatch(/velvet/i);
+
+    // Switch to Club Events & Invite tab: verify clean waitlist card with spacious 2-button role picker (no <select>) and zero Velvet theme leftovers
+    fireEvent.click(screen.getByRole('button', { name: /Club Events & Invite/i }));
+    const waitlistForm = screen.getByTestId('private-club-waitlist-form');
+    expect(waitlistForm.querySelector('select')).toBeNull();
+    expect(
+      screen.getByRole('button', { name: /Cougar \/ Puma \/ Jaguar \(Her\)/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Vetted Cub, Ages 21 to 35 \(Him\)/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Join Private Club Waitlist/i }),
+    ).toBeInTheDocument();
+    expect(vipDialog.textContent).not.toMatch(/velvet/i);
     u2.unmount();
 
     // When a verified paid $29 Stripe session IS passed, the Verified Producer Brief Composer unlocks with ZERO email spoofing input!

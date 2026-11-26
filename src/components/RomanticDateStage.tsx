@@ -447,7 +447,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-xs font-bold uppercase tracking-wider text-amber-300">
-                        🌙 6-Month Velvet Cut Weekend Epilogue
+                        🌙 6-Month Weekend Escape Epilogue
                       </span>
                       <span className="rounded-full bg-white/10 border border-white/15 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-200">
                         {wallet.isVip ||
@@ -471,7 +471,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                     className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-amber-300 px-4 text-xs font-extrabold text-zinc-950 hover:bg-amber-200 cursor-pointer"
                   >
                     <Award className="h-3.5 w-3.5" />
-                    <span>Unlock Velvet Cut Weekend Epilogue</span>
+                    <span>Unlock Weekend Escape Epilogue</span>
                   </button>
                 </div>
               )}

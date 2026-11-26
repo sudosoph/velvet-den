@@ -320,7 +320,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     tagline:
       'Entertainment partner in peak Rich Auntie Era: cabana bikinis, 90s R&B vinyl, poised romantic command, and strict silk-pillowcase respect.',
     vibeSummary:
-      'Negotiates festival headliner deals by day and floats in Palm Springs pools by Friday afternoon. Rewards attentive manners with velvet "Good boy" praise, while her cousins at Sunday cookout vet your soul in ninety seconds flat.',
+      'Negotiates festival headliner deals by day and floats in Palm Springs pools by Friday afternoon. Rewards attentive manners with warm "Good boy" praise, while her cousins at Sunday cookout vet your soul in ninety seconds flat.',
     secretInsecurity:
       'Used to being the powerhouse fixer in every room, melts completely when a tall, emotionally fluent Cub rubs her shoulders and handles dinner without ego.',
     subplotTags: ['soft_mommy_domme', 'princess_treatment', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
@@ -865,7 +865,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Symphony Cellist & Soft-Command Cougar',
     shortHook: '5\'4" principal cellist on the cusp of Jaguar status: espresso silk, backstage poise & "Good boy" praise.',
     tagline:
-      'Principal cellist with velvet wrists, backstage passes, soft romantic command, and a weakness for bookish PhD & musician Cubs.',
+      'Principal cellist with expressive wrists, backstage passes, soft romantic command, and a weakness for bookish PhD & musician Cubs.',
     vibeSummary:
       '49F musician who performs in black silk at 8 PM, whispers "Good boy" when you hold her coat at stage door, and happily slips into white sneakers for midnight ramen or campus sushi afterward.',
     secretInsecurity:
@@ -1130,7 +1130,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     name: 'Vivienne',
     age: 61,
     title: 'Fashion Director & Soft-Command Panther',
-    shortHook: 'Waist-length silver braids, Mediterranean swimwear, Prince vinyl & velvet "Good boy" poise.',
+    shortHook: 'Waist-length silver braids, Mediterranean swimwear, Prince vinyl & warm "Good boy" poise.',
     tagline:
       'Former NYC fashion director wintering on the coast: silver braids, bronze swimwear, and magnetic romantic command.',
     vibeSummary:
@@ -1798,7 +1798,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     label: '👑 Soft Mommy-Domme & "Good Boy" Praise',
     ageRange: 'Consensual Polarity • Ages 35-64+',
     category: 'crossover_lore',
-    headline: 'Velvet Romantic Command & Praise (Never an ATM!)',
+    headline: 'Warm Romantic Command & Praise (Never an ATM!)',
     insiderLore:
       'Poised romantic authority where one raised eyebrow, two fingers under his chin, and a quiet "Good boy" (or a British Cub’s shameless "Yes, Mummy xx") turns an overthinking twenty-something into putty. Rule #1 holds: romantic command never means paying a freeloader’s rent!',
     signatureTell: 'Makes him forget every podcast he was about to Cubsplain in three seconds flat.',

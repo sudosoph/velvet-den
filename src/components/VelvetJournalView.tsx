@@ -335,7 +335,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     greenFlag: 'Knows Cougar never means Sugar Mama and takes Friday planning off her plate.',
     redFlag: 'Treats accomplished women like an Xbox achievement badge or expects rent money.',
     redditReceipt: {
-      handle: 'u/VelvetJaguar_52F • 40s/50s Regular',
+      handle: 'u/SilverJaguar_52F • 40s/50s Regular',
       upvotes: '2.4k',
       quote:
         'PSA to every 25M entering the sub: I own my house, my car, and my retirement account. I don’t need a provider OR a dependent. I want a hot, emotionally present man who books a 7:30 booth.',
@@ -745,7 +745,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       upvotes: '1.9k',
       quote:
         'Learning that director Halina Reijn borrowed the Babygirl hotel-bar drink send from a real younger actor in Brussels made that scene ten times hotter.',
-      topReply: '↳ u/VelvetRoomBartender: Three-olive Gibson orders jumped 300% this year.',
+      topReply: '↳ u/MarlowLoungeBartender: Three-olive Gibson orders jumped 300% this year.',
     },
     poll: {
       question: '🗳️ Mood Matcher: Which Friday watch-night energy are you picking tonight?',

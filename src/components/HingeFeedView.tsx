@@ -543,7 +543,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             You’ve Seen Today’s Hinge Standouts
           </h2>
           <p className="text-sm text-stone-600 max-w-md mx-auto">
-            Half of Velvet Palms’ best catches never touch dating apps, step out to The Velvet Room,
+            Half of Sunset Hills’ best catches never touch dating apps, step out to The Marlow Lounge,
             Terminal B, or Hawthorne University, or revisit passed profiles.
           </p>
           <div className="flex flex-wrap justify-center gap-3 pt-2">

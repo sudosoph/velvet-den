@@ -402,7 +402,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       },
       {
         heading: '3. Owning the Gatekeeper Tease Inside the Club',
-        body: 'Veteran 18-year-gap Jaguars will playfully tease a 6-year pair at the velvet rope, right before pouring them a glass and welcoming them into the exact same high-EQ courtship culture.',
+        body: 'Veteran 18-year-gap Jaguars will playfully tease a 6-year pair at the host stand, right before pouring them a glass and welcoming them into the exact same high-EQ courtship culture.',
       },
     ],
     faqs: [
@@ -654,7 +654,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     sections: [
       {
         heading: '1. High-Voltage Polarity & Hotel-Bar Tension: Babygirl & White Palace',
-        body: 'When you want sharp suits, unspoken power dynamics, and Nicole Kidman receiving a tall glass of milk across a velvet lounge from Harris Dickinson, queue up A24’s Babygirl (borrowed from director Halina Reijn’s real life!) or Susan Sarandon & James Spader in White Palace.',
+        body: 'When you want sharp suits, unspoken power dynamics, and Nicole Kidman receiving a tall glass of milk across a candlelit hotel lounge from Harris Dickinson, queue up A24’s Babygirl (borrowed from director Halina Reijn’s real life!) or Susan Sarandon & James Spader in White Palace.',
       },
       {
         heading: '2. Sweeping Escapism & Vacation Glow: Stella, The Idea of You & Lonely Planet',

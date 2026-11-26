@@ -49,7 +49,7 @@ const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; emojiBadge
   },
   soft_mommy_domme_lore: {
     url: './images/cast/brooke-glam-42f.jpg',
-    emojiBadge: '✨ Velvet Command',
+    emojiBadge: '✨ Confident Command',
   },
   cubsplaining_lore: {
     url: './images/cast/julian-27m.jpg',

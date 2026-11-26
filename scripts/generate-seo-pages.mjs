@@ -534,7 +534,7 @@ for (const g of STATIC_GUIDES) {
         )
         .join('\n      ')}
       <div class="cta">
-        <strong>🎮 Ready to test your instincts in Velvet Palms?</strong>
+        <strong>🎮 Ready to test your instincts in Sunset Hills?</strong>
         <p style="margin:6px 0 0;font-size:15px;">Step straight into this exact interactive venue as Her or as Him—and text a 60-second Partner Audition link to your real-life Cougar or Cub.</p>
         <a class="btn" href="../../?dilemma=${encodeURIComponent(g.episodeId)}">Play Interactive Scenario Free →</a>
       </div>

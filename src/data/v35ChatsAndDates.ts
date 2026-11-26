@@ -78,13 +78,13 @@ export interface DiscordChannelSpec {
 export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
   {
     id: 'velvet-lounge',
-    handleLabel: '#velvet-lounge',
-    topicSubtitle: 'Velvet Palms Friday check-ins, outfit checks & pre-date hype',
+    handleLabel: '#friday-lounge',
+    topicSubtitle: 'Sunset Hills Friday check-ins, outfit checks & pre-date hype',
     seededMessages: [
       {
         sender: 'Jade_42F',
-        badge: '🐆 Velvet Palms Host',
-        text: 'Friday roll call: Miles just renovated the patio lanterns at The Velvet Room and Claire is already holding down the corner bar stool.',
+        badge: '🐆 Sunset Hills Host',
+        text: 'Friday roll call: Miles just renovated the patio lanterns at The Marlow Lounge and Claire is already holding down the corner bar stool.',
       },
       {
         sender: 'Hampstead_Julian',
@@ -93,17 +93,17 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
       },
     ],
     suggestionsHer: [
-      'Just moved into Velvet Palms, tell me which cocktail bar has zero tech-bro shouting.',
+      'Just moved into Sunset Hills, tell me which cocktail bar has zero tech-bro shouting.',
       'Testing a 27-year-old British fellow on Thursday logistics. Wish him luck.',
       'Who else refuses to leave the house after 8:30 PM unless the reservation is confirmed?',
     ],
     suggestionsHim: [
       'Booked a quiet corner banquette for 7:30 Friday, peonies in the car or too much for Date #1?',
-      'New to Velvet Palms: best florist open past six near Westwood?',
+      'New to Sunset Hills: best florist open past six near Westwood?',
       'Taking notes so I never fumble a second date in this zip code.',
     ],
     repliesHer: [
-      'Jade_42F: Slip straight into The Velvet Room’s back piano lounge or Left Bank’s courtyard, acoustic warmth, proper glassware, zero finance vests shouting.',
+      'Jade_42F: Slip straight into The Marlow Lounge’s back piano lounge or Left Bank’s courtyard, acoustic warmth, proper glassware, zero finance vests shouting.',
       'Claire_M&A: If it’s Hampstead Julian, you are in very good hands, he arrives five minutes early and actually silences his phone.',
       'Sienna_Design: Hard Club law! After 8:30 PM I am already in silk loungewear unless a confirmed Resy pin hit my phone by noon.',
     ],
@@ -124,7 +124,7 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
     seededMessages: [
       {
         sender: 'Sienna_Design',
-        badge: '🏡 Velvet Palms',
+        badge: '🏡 Sunset Hills',
         text: 'PSA: If a blonde finance guy in a navy blazer vanishes at 6:44 PM sharp every weekday for "Tokyo calls," check his left ring finger.',
       },
       {
@@ -150,19 +150,19 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
     ],
     repliesHim: [
       'Sam_27M: Sprint, brother! "Practically divorced in the same Bel Air house" means Lawrence is eating breakfast in that kitchen right now.',
-      'Jade_42F: That’s Brooke’s Friday revenge audition! Wait, Graham’s 6:45 vanish AND Table 9 are connected. Check #blind-velvet-dm!',
+      'Jade_42F: That’s Brooke’s Friday revenge audition! Wait, Graham’s 6:45 vanish AND Table 9 are connected. Check #blind-spark-dm!',
       'Prof_Elena: Healthy caution protects her peace and moves steadily in private; a rebound prop only wants noisy public photo ops in front of an ex.',
     ],
     botReplies: [
       'Priya_TraumaRN: Clock it and hit Cut Loose! Saving your Friday night heart beats playing unpaid marriage counselor.',
-      'Jade_42F: Wait, Graham’s 6:45 vanish AND Brooke’s Table 9 obsession are connected. Check #blind-velvet-dm!',
+      'Jade_42F: Wait, Graham’s 6:45 vanish AND Brooke’s Table 9 obsession are connected. Check #blind-spark-dm!',
     ],
     conspiracyClueId: 'clue-discord-triage',
   },
   {
     id: 'ask-a-cougar',
     handleLabel: '#ask-a-cougar',
-    topicSubtitle: 'Direct Q&A with Claire, Elena, Priya & seasoned Velvet Palms regulars',
+    topicSubtitle: 'Direct Q&A with Claire, Elena, Priya & seasoned Sunset Hills regulars',
     seededMessages: [
       {
         sender: 'Prof_Elena',
@@ -237,22 +237,22 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
       'Sienna_Design: Haha put actual olive oil and figs in the basket first, we spot empty-basket aisle lurkers from thirty paces!',
     ],
     botReplies: [
-      'Sam_27M: Confirmed, half the best romances in Velvet Palms started curbside at Terminal B or by the fig counter.',
+      'Sam_27M: Confirmed, half the best romances in Sunset Hills started curbside at Terminal B or by the fig counter.',
       'Jade_42F: Go check the In The Wild map before someone else claims that 8:15 corner table!',
     ],
   },
   {
     id: 'blind-velvet-dm',
-    handleLabel: '#blind-velvet-dm',
+    handleLabel: '#blind-spark-dm',
     topicSubtitle: 'Anonymous handle mystery channel & Table 9 Alibi Club leaks',
     seededMessages: [
       {
         sender: 'Anon_Cedar_7',
         badge: '🎭 Mystery Regular',
-        text: 'Insider tip from behind the mahogany bar: Table 9 at The Velvet Room is booked every Friday under a shared shell account called "The 6:45 Tokyo Call."',
+        text: 'Insider tip from behind the mahogany bar: Table 9 at The Marlow Lounge is booked every Friday under a shared shell account called "The 6:45 Tokyo Call."',
       },
       {
-        sender: 'Anon_Velvet_9',
+        sender: 'Anon_Marlow_9',
         badge: '🕵️ Insider',
         text: 'Graham, Vanessa’s husband, AND Brooke’s ex Richard split that booth tab to cover each other’s alibis. Collect 3 clues to crash their dinner!',
       },
@@ -264,22 +264,22 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
     ],
     suggestionsHim: [
       'So Brooke only wanted me at that steakhouse to rattle Richard at Table 9, and Vanessa’s husband is in on it?!',
-      'Anon_Cedar_7, drop one clue who you are in Velvet Palms.',
+      'Anon_Cedar_7, drop one clue who you are in Sunset Hills.',
       'Logging this Table 9 receipt right now, nobody uses us as alibi props on Friday night.',
     ],
     repliesHer: [
-      'Anon_Cedar_7: Every word is true, three husbands split one cash ledger at Table 9 so none of their credit cards show The Velvet Room. Clue logged!',
+      'Anon_Cedar_7: Every word is true, three husbands split one cash ledger at Table 9 so none of their credit cards show The Marlow Lounge. Clue logged!',
       'Anon_Cedar_7: Let’s just say I care deeply about room acoustics, cedar joinery, and making sure good women don’t waste Friday nights on liars.',
-      'Anon_Velvet_9: Dossier updated! Grab two more clues from #red-flag-emergency or Cut Loose vetting to unlock the Table 9 Takedown finale.',
+      'Anon_Marlow_9: Dossier updated! Grab two more clues from #red-flag-emergency or Cut Loose vetting to unlock the Table 9 Takedown finale.',
     ],
     repliesHim: [
-      'Anon_Velvet_9: Bingo, Richard, Lawrence, and Graham run a three-way alibi ring out of Table 9 every Friday at 6:15 PM. Clue logged!',
-      'Anon_Cedar_7: Check Terminal B or the mahogany bar rail. I build the rooms where Velvet Palms regulars tell the truth.',
-      'Anon_Velvet_9: Receipt locked into your vault! Hit 3/3 clues to crash their Friday booth in the secret finale.',
+      'Anon_Marlow_9: Bingo, Richard, Lawrence, and Graham run a three-way alibi ring out of Table 9 every Friday at 6:15 PM. Clue logged!',
+      'Anon_Cedar_7: Check Terminal B or the mahogany bar rail. I build the rooms where Sunset Hills regulars tell the truth.',
+      'Anon_Marlow_9: Receipt locked into your vault! Hit 3/3 clues to crash their Friday booth in the secret finale.',
     ],
     botReplies: [
       'Anon_Cedar_7: Sharp eye. Clock three Table 9 clues across your chats and venues to unlock the secret Friday Takedown episode.',
-      'Anon_Velvet_9: Clue logged! Keep vetting suspicious curfews via Cut Loose to complete the dossier.',
+      'Anon_Marlow_9: Clue logged! Keep vetting suspicious curfews via Cut Loose to complete the dossier.',
     ],
     conspiracyClueId: 'clue-discord-table9',
   },
@@ -750,7 +750,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
     spicySuggestions: isHimMatch
       ? [
           `Wear that dark linen shirt with rolled sleeves Friday. I’m not subtle when I like a view.`,
-          `Keep making Friday this effortless and dessert might move back to Velvet Palms.`,
+          `Keep making Friday this effortless and dessert might move back to Sunset Hills.`,
           `Tell me one thing you’ve been wanting to do since we matched.`,
         ]
       : [
@@ -844,7 +844,7 @@ function buildImessageFollowup(
     {
       beatNumber: 3,
       incomingMessages: [
-        `Just walked past The Velvet Room patio on my way home, the string lights look unreal tonight.`,
+        `Just walked past The Marlow Lounge patio on my way home, the string lights look unreal tonight.`,
       ],
       choices: [
         {
@@ -931,7 +931,7 @@ function buildImessageFollowup(
       ],
       choices: [
         {
-          text: `Walking through the velvet curtains right now, stand up so I spot you.`,
+          text: `Walking through the lounge curtains right now, stand up so I spot you.`,
           reply: `Already standing, wow, you look breathtaking.`,
           delta: 20,
         },
@@ -1030,7 +1030,7 @@ function buildTrapChapter(
             },
             {
               text: 'Sure, let’s hear the next excuse.',
-              reply: 'Wait until you try the martinis at The Velvet Room.',
+              reply: 'Wait until you try the martinis at The Marlow Lounge.',
               delta: 10,
             },
             {
@@ -1164,7 +1164,7 @@ function buildTrapChapter(
     vanessa: {
       m1: 'Darling, just so there’s zero confusion. Lawrence and I are practically divorced, we simply still live in the same Bel Air house for property taxes.',
       m2: 'Let’s meet strictly between 1 PM and 4 PM Wednesdays at a hotel bar near your side of town, never call after six because the house gets loud.',
-      m3: 'Also if a tall guy in a golf vest ever walks into The Velvet Room near Table 9, pretend you’re my interior-lighting consultant!',
+      m3: 'Also if a tall guy in a golf vest ever walks into The Marlow Lounge near Table 9, pretend you’re my interior-lighting consultant!',
       headline: '🏆 BULLET DODGED: "Practically Divorced" Same-House Mirage!',
       note: 'Sam fist-pumping: "Practically divorced in the same house" + pretending to be her lighting guy?! You dodged a full Bel Air soap opera + grabbed a Table 9 clue!',
       clue: 'clue-vanessa-alibi',
@@ -1529,9 +1529,9 @@ const BESPOKE_MAIN_LEAD_STORIES: Record<string, BespokeLeadStoryPack> = {
       'Rafael laughs against your lips: "Every door in this house opens smoothly from now on."',
   },
   marcus: {
-    date1Title: 'Jazz-Lounge Velvet Rope & The UV-Flashlight Bouncer ID Check',
+    date1Title: 'Jazz-Lounge Doorman Stand & The UV-Flashlight Bouncer ID Check',
     date1Beat1Dialogue:
-      'At the jazz club velvet rope, the burly doorman shines a purple UV flashlight across 27-year-old Marcus’s driver’s license for twelve full seconds, then waves you straight inside without glancing at your clutch! Marcus grins without a shred of ego: "Hey, means I absorb all the carding delays and you get the best booth by the saxophonist."',
+      'At the jazz club entrance, the burly doorman shines a purple UV flashlight across 27-year-old Marcus’s driver’s license for twelve full seconds, then waves you straight inside without glancing at your clutch! Marcus grins without a shred of ego: "Hey, means I absorb all the carding delays and you get the best booth by the saxophonist."',
     date1Beat2Dialogue:
       'Over charred lemon mahi-mahi, Marcus talks openly about twenty-four-hour ocean-rescue shifts, and mentions warmly that his mom Denise is forty-nine, promising you will never walk into an unprepped family ambush.',
     date2Title: 'Date #2: Vinyl Grill Sunday & Meeting His 49-Year-Old Mom Denise',
@@ -1595,9 +1595,9 @@ const BESPOKE_MAIN_LEAD_STORIES: Record<string, BespokeLeadStoryPack> = {
       'Elena steps onto the rung of your chair to kiss you deeply: "Best Plot Twist of my forties."',
   },
   claire: {
-    date1Title: 'Three-Olive Gibsons at The Velvet Room & The Smooth Check-Drop',
+    date1Title: 'Three-Olive Gibsons at The Marlow Lounge & The Smooth Check-Drop',
     date1Beat1Dialogue:
-      'Claire studies you across The Velvet Room’s corner leather booth over a three-olive Gibson martini: "Five minutes early, crisp collar, phone face-down in your coat. You just survived the ninety-second M&A audit."',
+      'Claire studies you across The Marlow Lounge’s corner leather booth over a three-olive Gibson martini: "Five minutes early, crisp collar, phone face-down in your coat. You just survived the ninety-second M&A audit."',
     date1Beat2Dialogue:
       'When the server sets down the checkbook, Claire glances down out of twenty-year habit, only to discover you already tapped Apple Pay cleanly on your way back from washing your hands, zero awkwardness, zero income-gap speech.',
     date2Title: 'Date #2: Manhattan Beach Brunch & Meeting Her 22-Year-Old College Son Leo',
@@ -1636,13 +1636,13 @@ const BESPOKE_MAIN_LEAD_STORIES: Record<string, BespokeLeadStoryPack> = {
     date2Title: 'Date #2: Cul-de-Sac Lantern Party & Claiming Her in Front of Nephew Sam’s Crew',
     date2Backdrop: V35_SCENE_BACKDROPS['velvet-palms-bbq'],
     date2Beat1Dialogue:
-      'At a twenty-person Velvet Palms courtyard dinner, your twenty-something rec-league teammates walk in right beside Sienna’s 27-year-old nephew Sam! Every eye turns to see how you introduce the stunning designer beside you.',
+      'At a twenty-person Sunset Hills courtyard dinner, your twenty-something rec-league teammates walk in right beside Sienna’s 27-year-old nephew Sam! Every eye turns to see how you introduce the stunning designer beside you.',
     date2Beat1GoodLabel:
       'Rest your hand warmly at the small of Sienna’s back and claim her proudly in front of Sam and your whole crew.',
     date2Beat1GoodResponse:
       'Sam raises a beer grinning, "Approved, Aunt Sienna!" while Sienna beams up at you all night.',
     date2Beat1BadLabel: 'Step two feet sideways and pretend you’re just chatting about patio tile.',
-    date2Beat1BadResponse: 'Sienna’s smile freezes instantly, secrecy never flies in Velvet Palms.',
+    date2Beat1BadResponse: 'Sienna’s smile freezes instantly, secrecy never flies in Sunset Hills.',
     date2Beat2Dialogue:
       'While Al Green spins in her Spanish-revival kitchen after guests leave, Sienna challenges you on Sunday 7 AM Pasadena antique-market stamina.',
     date2Beat2GoodLabel:
@@ -1651,7 +1651,7 @@ const BESPOKE_MAIN_LEAD_STORIES: Record<string, BespokeLeadStoryPack> = {
     date2Beat2VipLabel:
       '💎 Spin her across the warm terracotta kitchen tile before loading a single dishwasher rack.',
     date2Beat2VipResponse: 'Sienna melts into your shoulder as Al Green plays on.',
-    date3Title: 'Date #3: 7 AM Rose Bowl Brass & Sunlit Velvet Palms Future',
+    date3Title: 'Date #3: 7 AM Rose Bowl Brass & Sunlit Sunset Hills Future',
     date3Backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
     date3Beat1Dialogue:
       'Fresh figs and antique brass sconces sit on her courtyard table after dawn treasure-hunting. Sienna looks at you steadily: "Six years apart turned out to be the exact sweet spot, are you ready to do this for real?"',
@@ -1944,7 +1944,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
     },
     {
       dateNumber: 4,
-      title: `🌙 Velvet Cut Epilogue: Six Months Later with ${profile.name}`,
+      title: `🌙 Weekend Escape Epilogue: Six Months Later with ${profile.name}`,
       venueBackdrop: './images/scenes/coastal-convertible.jpg',
       isEpilogueUnlock: true,
       epilogueCost: 3,
@@ -1955,7 +1955,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
           choices: [
             {
               label: 'Clink mugs overlooking the waves and plan your one-year trip abroad together.',
-              response: `"Best chapter in Velvet Palms history," ${profile.name} whispers, kissing your shoulder in the morning sun.`,
+              response: `"Best chapter in Sunset Hills history," ${profile.name} whispers, kissing your shoulder in the morning sun.`,
               nextExpression: 'blush',
               chemistryDelta: 30,
             },
@@ -1985,9 +1985,9 @@ function buildTrapOrCameoDateScripts(profile: V35CastProfile): DateSceneScript[]
             speakerExpression: 'icked',
             dialogue:
               profile.id === 'graham'
-                ? `At 6:38 PM, Graham’s spouse walks straight into The Velvet Room holding his shared credit-card alert while Graham dives behind a potted palm!`
+                ? `At 6:38 PM, Graham’s spouse walks straight into The Marlow Lounge holding his shared credit-card alert while Graham dives behind a potted palm!`
                 : profile.id === 'connor'
-                  ? `The Velvet Room doorman UV-scans Connor’s ID for ten seconds and hands it back: "Nice try, sophomore, come back when you turn twenty-one next April."`
+                  ? `The Marlow Lounge doorman UV-scans Connor’s ID for ten seconds and hands it back: "Nice try, sophomore, come back when you turn twenty-one next April."`
                   : profile.id === 'devon'
                     ? `It is 8:15 PM at your table when Devon sends a 400-word voice note from Echo Park saying he "got overwhelmed by your aura and stayed home with his guitar."`
                     : profile.id === 'vanessa'
@@ -2015,7 +2015,7 @@ function buildTrapOrCameoDateScripts(profile: V35CastProfile): DateSceneScript[]
           },
         ],
         secretBestiePovLeak: {
-          friendName: 'Velvet Bartender',
+          friendName: 'Marlow Bartender',
           messages: [
             'Bartender: Never seen someone roast a Table 9 regular that cleanly, drinks on the house next Friday.',
           ],
@@ -2046,7 +2046,7 @@ function buildTrapOrCameoDateScripts(profile: V35CastProfile): DateSceneScript[]
             },
             {
               label: '💎 Extend the night with a moonlight walk and trade favorite records.',
-              response: `An S-Rank cameo memory sealed into your Velvet Palms Dateodex!`,
+              response: `An S-Rank cameo memory sealed into your Cougars & Cubs Dateodex!`,
               nextExpression: 'blush',
               chemistryDelta: 30,
               cost: 1,
@@ -2057,7 +2057,7 @@ function buildTrapOrCameoDateScripts(profile: V35CastProfile): DateSceneScript[]
       secretBestiePovLeak: {
         friendName: profile.role === 'him' ? 'Jade' : 'Sam',
         messages: [
-          `${profile.name}: Still smiling from tonight, tell Velvet Palms they have competition.`,
+          `${profile.name}: Still smiling from tonight, tell Sunset Hills they have competition.`,
         ],
         cost: 2,
       },
@@ -2085,7 +2085,7 @@ export const V35_TABLE_9_CONSPIRACY = {
       speakerExpression: 'smirk' as PortraitExpression,
       speakerName: 'Jade & Sam (Co-Conspirators)',
       dialogue:
-        'Friday, 6:40 PM at The Velvet Room. Armed with all three clues. Graham’s 6:45 "Tokyo Call" shell tab, Vanessa’s "lighting consultant" cover story, and Brooke’s ex-husband Richard holding down Table 9, you, Jade, Claire, and Miles surround the corner banquette.',
+        'Friday, 6:40 PM at The Marlow Lounge. Armed with all three clues. Graham’s 6:45 "Tokyo Call" shell tab, Vanessa’s "lighting consultant" cover story, and Brooke’s ex-husband Richard holding down Table 9, you, Jade, Claire, and Miles surround the corner banquette.',
       choices: [
         {
           label: 'Have the pianist announce a special dedication to "The 6:45 Tokyo Portfolio Alibi Club at Table 9"!',

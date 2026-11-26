@@ -114,11 +114,11 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
     fireEvent.click(screen.getByRole('button', { name: /Club Discord Lounge/i }));
     const seenOpenings = new Set<string>();
     for (const chLabel of [
-      '#velvet-lounge',
+      '#friday-lounge',
       '#red-flag-emergency',
       '#ask-a-cougar',
       '#spotted-in-the-wild',
-      '#blind-velvet-dm',
+      '#blind-spark-dm',
     ]) {
       fireEvent.click(screen.getByRole('button', { name: new RegExp(chLabel, 'i') }));
       const firstMsg = screen.getByTestId('discord-first-message').textContent || '';

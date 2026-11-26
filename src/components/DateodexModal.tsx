@@ -31,7 +31,7 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
-      aria-label="Velvet Palms Dateodex & Polaroid Album"
+      aria-label="Cougars & Cubs Dateodex & Polaroid Album"
       onClick={onClose}
     >
       <div
@@ -41,7 +41,7 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
         <div className="flex items-start justify-between gap-4 border-b border-stone-200 pb-4">
           <div className="space-y-1">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-amber-950">
-              <Camera className="h-3.5 w-3.5" /> Velvet Palms Dateodex • {stampedCount}/
+              <Camera className="h-3.5 w-3.5" /> Cougars & Cubs Dateodex • {stampedCount}/
               {V35_CAST_PROFILES.length} Logged
             </span>
             <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
