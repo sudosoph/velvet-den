@@ -26,7 +26,6 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
   const [history, setHistory] = useState<boolean[]>([]);
   const [finished, setFinished] = useState(false);
   const [stampUnlocked, setStampUnlocked] = useState(false);
-  const [imgHidden, setImgHidden] = useState<Record<string, boolean>>({});
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   if (!open) return null;
@@ -233,16 +232,15 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                       />
                     </div>
                   ) : (
-                    current.imageUrl &&
-                    !imgHidden[current.id] && (
+                    current.imageUrl && (
                       <div className="flex justify-center">
                         <img
                           src={current.imageUrl}
                           alt={current.badge}
-                          loading="lazy"
-                          onError={() =>
-                            setImgHidden((prev) => ({ ...prev, [current.id]: true }))
-                          }
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = './images/cast/hero-couple.jpg';
+                          }}
                           className="h-48 w-40 rounded-2xl border border-stone-200 object-cover object-top shadow-sm"
                         />
                       </div>

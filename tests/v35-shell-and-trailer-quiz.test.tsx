@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import App from '../src/App';
 import { MONETIZATION_CONFIG } from '../src/config/monetization';
+import { POP_CULTURE_TRIVIA } from '../src/data/popCultureTrivia';
 import { encodeChallengeLink } from '../src/lib/viral';
 
 describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppable Guides & SEO Routing', () => {
@@ -67,6 +68,21 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
 
     // Wallet remains strictly at 3 Cr (0 free credit inflation)
     expect(screen.getByRole('button', { name: /\b3 Cr\b/i })).toBeInTheDocument();
+
+    // Verify trivia order interleaves categories & spaces repeated references >= 12 questions apart
+    const nhfIndices = POP_CULTURE_TRIVIA.map((q, idx) =>
+      /no hard feelings|maneater/i.test(`${q.id} ${q.question}`) ? idx : -1,
+    ).filter((idx) => idx >= 0);
+    for (let i = 1; i < nhfIndices.length; i++) {
+      expect(nhfIndices[i] - nhfIndices[i - 1]).toBeGreaterThanOrEqual(15);
+    }
+
+    // Answer key rotates across all 4 slots (0, 1, 2, 3) and uses 100% local images (zero wikimedia 429s)
+    const usedSlots = new Set(POP_CULTURE_TRIVIA.map((q) => q.correctIndex));
+    expect(usedSlots.size).toBe(4);
+    for (const q of POP_CULTURE_TRIVIA) {
+      expect(q.imageUrl).toMatch(/^\.\/images\//);
+    }
   });
 
   it('renders VelvetJournalView with widescreen scene hero photos, above-the-fold real product photography, authentic iMessage bubbles (zero weird red/green cards), and inline checklist links', () => {
