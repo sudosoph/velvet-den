@@ -106,14 +106,14 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onGoHome}
-            className={`shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-2.5 text-xs font-bold transition cursor-pointer ${
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
               activeTab === 'game' && activePhase === 'mixer'
                 ? 'border-[#18101E] bg-[#18101E] text-white'
                 : 'border-slate-200 bg-white text-[#18101E] hover:bg-slate-50'
             }`}
           >
             <Users className="h-3.5 w-3.5 shrink-0" />
-            <span>The Roster</span>
+            <span>Roster</span>
           </button>
 
           {onOpenSwipeDeck && (
@@ -121,7 +121,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               type="button"
               onClick={onOpenSwipeDeck}
               title="Open Tinder Swipe Deck"
-              className={`shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-2.5 text-xs font-bold transition cursor-pointer ${
+              className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
                 activeTab === 'game' && activePhase === 'swipes'
                   ? 'border-transparent bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white'
                   : 'border-[#FECDD3] bg-[#FFF1F2] text-[#E11D48] hover:bg-[#FFE4E6]'
@@ -136,7 +136,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             type="button"
             title="Live AI Chat on Tinder, iMessage & Discord"
             onClick={() => (activeTab === 'inbox' ? onSelectTab('game') : onOpenLiveInbox())}
-            className={`shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-2.5 text-xs font-bold transition cursor-pointer ${
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
               activeTab === 'inbox'
                 ? 'border-transparent bg-[#007AFF] text-white'
                 : 'border-[#BFDBFE] bg-[#EFF6FF] text-[#1D4ED8] hover:bg-[#DBEAFE]'
@@ -149,7 +149,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab(activeTab === 'world' ? 'game' : 'world')}
-            className={`shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-2.5 text-xs font-bold transition cursor-pointer ${
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
               activeTab === 'world'
                 ? 'border-transparent bg-[#059669] text-white'
                 : 'border-[#A7F3D0] bg-[#ECFDF5] text-[#065F46] hover:bg-[#D1FAE5]'
@@ -163,10 +163,11 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             <button
               type="button"
               onClick={onOpenPopTrivia}
-              className="shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-[#FDE68A] bg-[#FFFBEB] hover:bg-[#FEF3C7] px-2.5 text-xs font-bold text-[#92400E] transition cursor-pointer"
+              title="Pop-Culture Cougar & Cub Quiz (+3 Cr)"
+              className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-[#FDE68A] bg-[#FFFBEB] hover:bg-[#FEF3C7] px-2 text-[11px] font-bold text-[#92400E] transition cursor-pointer"
             >
               <Award className="h-3.5 w-3.5 text-[#D97706] shrink-0" />
-              <span className="whitespace-nowrap">Pop Quiz</span>
+              <span className="whitespace-nowrap">Quiz</span>
               <span className="rounded-full bg-[#FDE68A] px-1.5 py-0.2 text-[10px] font-extrabold text-[#78350F] whitespace-nowrap">
                 +3 Cr
               </span>
@@ -177,17 +178,18 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             <button
               type="button"
               onClick={onOpenChecklist}
-              className="shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white hover:bg-[#FFF1F2] px-2.5 text-xs font-bold text-[#18101E] transition cursor-pointer"
+              title="25-Point Viral Age-Gap Score Test (+2 Cr)"
+              className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white hover:bg-[#FFF1F2] px-2 text-[11px] font-bold text-[#18101E] transition cursor-pointer"
             >
               <Sparkles className="h-3.5 w-3.5 text-[#E11D48] shrink-0" />
-              <span className="whitespace-nowrap">25-Pt Test</span>
+              <span className="whitespace-nowrap">25-Pt</span>
             </button>
           )}
 
           <button
             type="button"
             onClick={onOpenFieldGuide}
-            className="shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white px-2 text-xs font-bold text-[#18101E] hover:bg-slate-50 transition cursor-pointer"
+            className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white px-2 text-[11px] font-bold text-[#18101E] hover:bg-slate-50 transition cursor-pointer"
           >
             <BookOpen className="h-3.5 w-3.5 text-[#E11D48] shrink-0" />
             <span>Field Guide</span>
@@ -196,7 +198,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab(activeTab === 'journal' ? 'game' : 'journal')}
-            className={`shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-2 text-xs font-bold transition cursor-pointer ${
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
               activeTab === 'journal'
                 ? 'border-[#18101E] bg-[#18101E] text-white'
                 : 'border-slate-200 bg-white text-[#18101E] hover:bg-slate-50'
@@ -209,7 +211,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onOpenBoutique}
-            className="shrink-0 whitespace-nowrap inline-flex h-8.5 items-center justify-center gap-1 rounded-full bg-[#18101E] hover:bg-[#2E1F38] px-3 text-xs font-bold text-white transition cursor-pointer"
+            className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full bg-[#18101E] hover:bg-[#2E1F38] px-2.5 text-[11px] font-bold text-white transition cursor-pointer"
           >
             {wallet.isFounderUnlimited ? (
               <Wrench className="h-3.5 w-3.5 text-[#FBBF24] shrink-0" />
@@ -235,7 +237,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               setBgmOn(playing);
               if (playing) setMuted(false);
             }}
-            className={`shrink-0 inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border transition cursor-pointer ${
+            className={`shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full border transition cursor-pointer ${
               bgmOn
                 ? 'border-[#E11D48] bg-[#E11D48] text-white'
                 : 'border-slate-200 bg-slate-50 text-[#475569] hover:bg-slate-100 hover:text-[#18101E]'
@@ -253,7 +255,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               setMuted(nextMuted);
               if (nextMuted) setBgmOn(false);
             }}
-            className={`shrink-0 inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border transition cursor-pointer ${
+            className={`shrink-0 inline-flex h-8 w-8 items-center justify-center rounded-full border transition cursor-pointer ${
               muted
                 ? 'border-[#FECDD3] bg-[#FFF1F2] text-[#E11D48]'
                 : 'border-slate-200 bg-slate-50 text-[#475569] hover:bg-slate-100 hover:text-[#18101E]'
