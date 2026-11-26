@@ -261,23 +261,23 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6 animate-stage-in">
-      <section className="editorial-hinge-card rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-white via-amber-50/40 to-rose-50/40">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">
-          <MapPin className="h-3.5 w-3.5" />
-          <span>10 Illustrated Velvet Palms &amp; Downtown Hotspots</span>
-        </span>
-        <h1 className="mt-2 font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
-          Meet Exclusives Out &ldquo;In The Wild&rdquo;
-        </h1>
-        <p className="mt-1 text-sm text-stone-600 max-w-3xl">
-          Several of our best romance leads—Miles at Terminal B, Claire at The Velvet Room, Prof.
-          Elena at Hawthorne University, Priya at St. Jude, Rafael at Havana &amp; Vine, and Marcus
-          at Dawn Lap Pool—never swipe on apps. Step into any hotspot to spark an off-app iMessage!
+    <div className="mx-auto w-full max-w-6xl space-y-5 animate-stage-in">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-zinc-200 pb-4">
+        <div className="space-y-1">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500">
+            <MapPin className="h-3.5 w-3.5 text-rose-600" />
+            <span>10 Illustrated Velvet Palms &amp; Downtown Venues</span>
+          </span>
+          <h1 className="text-2xl font-semibold tracking-tight text-zinc-950">
+            Meet Exclusives Out In The Wild
+          </h1>
+        </div>
+        <p className="text-sm text-zinc-600 max-w-md">
+          Step into any offline hotspot to meet leads who never swipe on apps and unlock direct iMessage threads.
         </p>
-      </section>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {V35_WILD_VENUES.map((spot) => {
           const leadId = role === 'her' ? spot.primaryHerLeadId : spot.primaryHimLeadId;
           const lead = getCastProfileById(leadId);
@@ -292,40 +292,42 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                 setSelectedSpotId(spot.id);
                 setOutcomeCard(null);
               }}
-              className="editorial-hinge-card group flex flex-col overflow-hidden rounded-3xl text-left transition hover:-translate-y-1 cursor-pointer"
+              className="editorial-hinge-card group flex flex-col overflow-hidden rounded-2xl text-left transition hover:border-zinc-300 hover:shadow-sm cursor-pointer"
             >
-              <div className="relative h-44 w-full overflow-hidden bg-stone-200">
+              <div className="relative h-44 w-full overflow-hidden bg-zinc-200">
                 <img
                   src={spot.backdropUrl}
                   alt={spot.name}
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-                <span className="absolute left-3.5 top-3.5 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold text-[#18101E]">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                <span className="absolute left-3 top-3 rounded-md bg-white/95 px-2 py-0.5 text-xs font-medium text-zinc-900">
                   {spot.emoji} #{spot.number}
                 </span>
                 {alreadyMet && (
-                  <span className="absolute right-3.5 top-3.5 rounded-full bg-emerald-500/95 px-2.5 py-1 text-[11px] font-bold text-white">
-                    Cameo Ready ✨
+                  <span className="absolute right-3 top-3 rounded-md bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white">
+                    Cameo Ready
                   </span>
                 )}
-                <div className="absolute inset-x-4 bottom-3">
-                  <h2 className="font-editorial text-lg font-bold text-white leading-snug">
+                <div className="absolute inset-x-3.5 bottom-3">
+                  <h2 className="text-base font-semibold text-white leading-snug">
                     {spot.name}
                   </h2>
                 </div>
               </div>
 
               <div className="flex flex-1 flex-col justify-between p-4 space-y-3">
-                <p className="text-xs font-medium text-stone-600">{spot.subtitle}</p>
+                <p className="text-sm text-zinc-600 line-clamp-2">{spot.subtitle}</p>
                 {lead && (
-                  <div className="flex items-center justify-between border-t border-stone-100 pt-2.5 text-xs font-bold text-[#18101E]">
+                  <div className="flex items-center justify-between border-t border-zinc-100 pt-2.5 text-xs font-medium text-zinc-900">
                     <span>
                       {alreadyMet
-                        ? `Bonus Cameo Available`
+                        ? 'Bonus Cameo Available'
                         : `Meet ${lead.name}, ${lead.age}`}
                     </span>
-                    <span className="text-rose-700">Step Inside →</span>
+                    <span className="text-zinc-600 group-hover:text-zinc-950 transition-colors">
+                      Enter →
+                    </span>
                   </div>
                 )}
               </div>

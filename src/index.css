@@ -2,16 +2,14 @@
 
 @layer base {
   :root {
-    --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --font-editorial: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --font-pixel: 'Silkscreen', monospace;
-    --bg-canvas: #FAF7F5;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-editorial: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-quote: 'Instrument Serif', Georgia, serif;
+    --bg-canvas: #F7F7F8;
     --bg-card: #FFFFFF;
-    --bg-well: #FFF5F7;
-    --ink: #18101E;
-    --accent-coral: #E11D48;
-    --accent-mango: #F59E0B;
+    --ink: #09090B;
+    --border-subtle: #E4E4E7;
   }
 
   html {
@@ -23,67 +21,72 @@
   body {
     font-family: var(--font-sans);
     background-color: var(--bg-canvas);
-    background-image:
-      radial-gradient(ellipse 65% 45% at 10% 0%, rgba(225, 29, 72, 0.06), transparent 60%),
-      radial-gradient(ellipse 60% 45% at 92% 8%, rgba(245, 158, 11, 0.08), transparent 58%),
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(244, 63, 94, 0.05), transparent 65%);
     color: var(--ink);
-    line-height: 1.55;
+    line-height: 1.5;
+    letter-spacing: -0.011em;
     overflow-x: clip;
   }
 }
 
-.font-display {
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.022em;
-  line-height: 1.18;
+/* Unified shadcn/ui Typography Classes (Zero 4-Font Mashup) */
+.font-display,
+.font-editorial {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.024em;
+  line-height: 1.24;
 }
 
-.font-editorial {
-  font-family: var(--font-editorial);
-  letter-spacing: -0.015em;
+.font-hinge-quote {
+  font-family: var(--font-quote);
+  letter-spacing: -0.01em;
 }
 
 .font-pixel {
-  font-family: var(--font-pixel);
-  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-weight: 600;
 }
 
-/* Modern Editorial Dating-Club Surface & Tactile Button System */
+/* Enforce Human-Readable Minimum Font Floor (Ban 10px/11px Micro-Text) */
+.text-\[10px\],
+.text-\[11px\] {
+  font-size: 0.75rem !important;
+  line-height: 1.125rem !important;
+  letter-spacing: -0.005em !important;
+}
+
+/* Clean Unified shadcn/ui Card & Surface System (Replaces Rainbow Gradients & 32px Bubble Corners) */
 .vice-panel,
 .velvet-card,
-.pop-card {
-  background-color: #FFFFFF;
-  color: #18101E;
-  border: 1px solid rgba(24, 16, 30, 0.11);
+.pop-card,
+.editorial-hinge-card {
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  color: #09090B;
+  border: 1px solid #E4E4E7;
+  border-radius: 1rem;
   box-shadow:
-    0 10px 28px -8px rgba(24, 16, 30, 0.08),
-    0 2px 6px -1px rgba(24, 16, 30, 0.04);
+    0 1px 3px 0 rgba(9, 9, 11, 0.05),
+    0 1px 2px -1px rgba(9, 9, 11, 0.04);
 }
 
 .velvet-well,
-.pop-well {
-  background-color: #FFF5F7;
-  color: #18101E;
-  border: 1px solid rgba(225, 29, 72, 0.16);
+.pop-well,
+.editorial-prompt-card {
+  background: #FAFAFA;
+  color: #09090B;
+  border: 1px solid #E4E4E7;
+  border-radius: 0.875rem;
 }
 
 .pop-btn {
   font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  border: 1px solid rgba(24, 16, 30, 0.14);
-  box-shadow: 0 2px 6px rgba(24, 16, 30, 0.06);
-  transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.15s ease, border-color 0.15s ease;
-}
-.pop-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(24, 16, 30, 0.1);
-}
-.pop-btn:active {
-  transform: translateY(0px);
-  box-shadow: 0 1px 3px rgba(24, 16, 30, 0.08);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid #E4E4E7;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgba(9, 9, 11, 0.04);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -94,44 +97,32 @@
   scrollbar-width: none;
 }
 
-.vice-toast {
-  animation: toastPop 0.36s cubic-bezier(0.18, 0.89, 0.32, 1.24) both;
+/* Hinge Floating Action Buttons */
+.hinge-heart-fab {
+  background-color: #FFFFFF;
+  color: #E11D48;
+  border: 1px solid rgba(9, 9, 11, 0.1);
+  box-shadow: 0 6px 18px rgba(9, 9, 11, 0.14);
+  transition: transform 0.16s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-@keyframes toastPop {
-  0% {
-    opacity: 0;
-    transform: translateY(10px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.hinge-heart-fab:hover {
+  background-color: #E11D48;
+  color: #FFFFFF;
+  transform: scale(1.06);
 }
 
-@keyframes shockZoom {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.03);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.velvet-stage-dock {
+  background: rgba(9, 9, 11, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.4);
 }
 
-.animate-shock-zoom {
-  animation: shockZoom 0.38s cubic-bezier(0.18, 0.89, 0.32, 1.24) both;
-}
-
+/* Subtle Snappy Transitions */
 @keyframes stageSlideIn {
   0% {
     opacity: 0;
-    transform: translateY(12px) scale(0.99);
+    transform: translateY(6px);
   }
   100% {
     opacity: 1;
@@ -140,394 +131,51 @@
 }
 
 .animate-stage-in {
-  animation: stageSlideIn 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes cardDealIn {
-  0% {
-    opacity: 0;
-    transform: translateY(14px) scale(0.97);
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.animate-card-deal {
-  animation: cardDealIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes velvetCurtainWipe {
-  0% {
-    opacity: 0;
-    transform: scaleX(0.96);
-  }
-  30% {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.animate-curtain-wipe {
-  animation: velvetCurtainWipe 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes floatBubble {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-.animate-float-bubble {
-  animation: floatBubble 2.6s ease-in-out infinite;
-}
-
-@keyframes portraitBreathe {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-3px);
-  }
-}
-
-.animate-portrait-breathe {
-  animation: portraitBreathe 3.8s ease-in-out infinite;
-}
-
-@keyframes floatParticle {
-  0% {
-    opacity: 0;
-    transform: translateY(14px) scale(0.7);
-  }
-  25% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-88px) scale(1.22);
-  }
-}
-
-.animate-float-particle {
-  animation: floatParticle 1.3s ease-out forwards;
-}
-
-@keyframes swipeFlyLeft {
-  to {
-    opacity: 0;
-    transform: translate3d(-135%, 12px, 0) rotate(-20deg);
-  }
-}
-
-@keyframes swipeFlyRight {
-  to {
-    opacity: 0;
-    transform: translate3d(145%, -14px, 0) rotate(24deg);
-  }
-}
-
-@keyframes swipeFlyUp {
-  to {
-    opacity: 0;
-    transform: translate3d(0, -135%, 0) scale(1.06) rotate(-4deg);
-  }
-}
-
-.animate-fly-left,
-.animate-swipe-left {
-  animation: swipeFlyLeft 0.36s cubic-bezier(0.32, 0, 0.67, 0) forwards;
-}
-
-.animate-fly-right,
-.animate-swipe-right {
-  animation: swipeFlyRight 0.36s cubic-bezier(0.32, 0, 0.67, 0) forwards;
-}
-
-.animate-swipe-up {
-  animation: swipeFlyUp 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.tinder-fab {
-  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s ease;
-}
-.tinder-fab:hover {
-  transform: translateY(-2px) scale(1.09);
-}
-.tinder-fab:active {
-  transform: translateY(1px) scale(0.92);
-}
-
-@keyframes kenBurnsScene {
-  0% {
-    transform: scale(1.02) translate3d(0, 0, 0);
-  }
-  50% {
-    transform: scale(1.08) translate3d(-1.3%, -0.8%, 0);
-  }
-  100% {
-    transform: scale(1.04) translate3d(1%, -0.4%, 0);
-  }
-}
-
-.animate-ken-burns {
-  animation: kenBurnsScene 16s ease-in-out infinite alternate;
-}
-
-@keyframes screenShake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-7px); }
-  40% { transform: translateX(7px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
-}
-
-.animate-screen-shake {
-  animation: screenShake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-}
-
-@keyframes statFlyUp {
-  0% {
-    opacity: 0;
-    transform: translateY(16px) scale(0.82);
-  }
-  20% {
-    opacity: 1;
-    transform: translateY(0px) scale(1.05);
-  }
-  80% {
-    opacity: 1;
-    transform: translateY(-26px) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-44px) scale(0.96);
-  }
-}
-
-.animate-stat-flyup {
-  animation: statFlyUp 1.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes comboPulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(229, 193, 123, 0.35);
-  }
-  50% {
-    transform: scale(1.04);
-    box-shadow: 0 0 16px 3px rgba(225, 29, 72, 0.38);
-  }
-}
-
-.animate-combo-pulse {
-  animation: comboPulse 2.2s ease-in-out infinite;
-}
-
-@keyframes bokehDrift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(0.95);
-    opacity: 0.25;
-  }
-  50% {
-    transform: translate3d(14px, -18px, 0) scale(1.12);
-    opacity: 0.6;
-  }
-  100% {
-    transform: translate3d(-10px, -32px, 0) scale(0.95);
-    opacity: 0.2;
-  }
-}
-
-.animate-bokeh-drift {
-  animation: bokehDrift 7s ease-in-out infinite alternate;
-}
-
-@keyframes vnTalkBounce {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  45% {
-    transform: translateY(-6px) scale(1.02);
-  }
-}
-
-.animate-vn-talk {
-  animation: vnTalkBounce 2.1s ease-in-out infinite;
-}
-
-@keyframes vnDialogueBoxIn {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-vn-box {
-  animation: vnDialogueBoxIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes waveformBar {
-  0%, 100% {
-    transform: scaleY(0.35);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.animate-waveform-bar {
-  animation: waveformBar 0.65s ease-in-out infinite;
-}
-
-@keyframes hotspotPing {
-  0% {
-    transform: scale(0.92);
-    box-shadow: 0 0 0 0 rgba(229, 193, 123, 0.7);
-  }
-  70% {
-    transform: scale(1.08);
-    box-shadow: 0 0 0 14px rgba(229, 193, 123, 0);
-  }
-  100% {
-    transform: scale(0.92);
-    box-shadow: 0 0 0 0 rgba(229, 193, 123, 0);
-  }
-}
-
-.animate-hotspot-ping {
-  animation: hotspotPing 1.8s ease-out infinite;
-}
-
-
-/* ============================================================================
-   v35 Editorial Luxury & Dream Daddy Portrait Stage System
-   ============================================================================ */
-
-.editorial-hinge-card {
-  background-color: #FFFFFF;
-  border: 1px solid rgba(24, 16, 30, 0.08);
-  box-shadow:
-    0 18px 42px -14px rgba(24, 16, 30, 0.09),
-    0 4px 12px -2px rgba(24, 16, 30, 0.04);
-}
-
-.editorial-prompt-card {
-  background: linear-gradient(180deg, #FDFBF9 0%, #FAF6F2 100%);
-  border: 1px solid rgba(24, 16, 30, 0.07);
-}
-
-.hinge-heart-fab {
-  background-color: #FFFFFF;
-  color: #B83253;
-  border: 1px solid rgba(24, 16, 30, 0.08);
-  box-shadow: 0 8px 20px rgba(24, 16, 30, 0.14);
-  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.16s ease, color 0.16s ease;
-}
-
-.hinge-heart-fab:hover {
-  background-color: #B83253;
-  color: #FFFFFF;
-  transform: scale(1.08);
-}
-
-.velvet-stage-dock {
-  background: linear-gradient(180deg, rgba(24, 15, 29, 0.88) 0%, rgba(16, 10, 20, 0.95) 100%);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(253, 230, 138, 0.22);
-  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.45);
+  animation: stageSlideIn 0.2s ease-out;
 }
 
 @keyframes v35IdleBreathe {
   0%, 100% {
-    transform: translateY(0px) scale(1);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-4px) scale(1.008);
+    transform: translateY(-2px);
   }
 }
 
 @keyframes v35SmirkTilt {
-  0% {
-    transform: scale(0.97) rotate(-1.2deg);
-  }
-  60% {
-    transform: scale(1.02) rotate(0.8deg);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
+  0% { transform: scale(0.98); }
+  100% { transform: scale(1); }
 }
 
 @keyframes v35LaughSpring {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  30% {
-    transform: translateY(-8px) scale(1.025);
-  }
-  60% {
-    transform: translateY(-3px) scale(1.01);
-  }
+  0%, 100% { transform: translateY(0px); }
+  40% { transform: translateY(-4px); }
 }
 
 @keyframes v35BlushWarm {
-  0% {
-    transform: scale(0.98);
-    filter: saturate(1);
-  }
-  50% {
-    transform: scale(1.025);
-    filter: saturate(1.14) brightness(1.03);
-  }
-  100% {
-    transform: scale(1.01);
-    filter: saturate(1.08);
-  }
+  0% { transform: scale(0.99); }
+  100% { transform: scale(1); }
 }
 
 @keyframes v35IckedRecoil {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-6px) rotate(-1deg);
-  }
-  65% {
-    transform: translateX(5px) rotate(0.8deg);
-  }
+  0%, 100% { transform: translateX(0); }
+  30% { transform: translateX(-4px); }
+  70% { transform: translateX(4px); }
 }
 
 .v35-portrait-breathe {
-  animation: v35IdleBreathe 4.2s ease-in-out infinite;
+  animation: v35IdleBreathe 4s ease-in-out infinite;
 }
-
 .v35-portrait-smirk {
-  animation: v35SmirkTilt 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: v35SmirkTilt 0.3s ease-out both;
 }
-
 .v35-portrait-laugh {
-  animation: v35LaughSpring 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: v35LaughSpring 0.4s ease-out both;
 }
-
 .v35-portrait-blush {
-  animation: v35BlushWarm 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: v35BlushWarm 0.35s ease-out both;
 }
-
 .v35-portrait-icked {
-  animation: v35IckedRecoil 0.44s ease-in-out both;
+  animation: v35IckedRecoil 0.35s ease-in-out both;
 }

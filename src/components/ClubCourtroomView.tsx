@@ -433,57 +433,56 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
   return (
     <div className="w-full space-y-5 animate-stage-in">
       {creditToast && (
-        <div className="vice-panel rounded-2xl bg-[#D1FAE5] px-5 py-3 text-xs sm:text-sm font-extrabold text-[#065F46]">
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-900">
           {creditToast}
         </div>
       )}
 
       {/* Header */}
-      <section className="vice-panel rounded-3xl p-5 sm:p-6 bg-gradient-to-r from-white via-[#FFF7F9] to-[#FFFBEB] space-y-3">
+      <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-xs space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
             onClick={onBackToRoster}
-            className="pop-btn inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-3.5 text-xs font-extrabold text-[#18101E] cursor-pointer"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950 transition-colors cursor-pointer"
           >
-            <ArrowLeft className="h-3.5 w-3.5" />
+            <ArrowLeft className="h-4 w-4" />
             <span>Back to Roster</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenCubAcademy}
-            className="pop-btn inline-flex h-9 items-center gap-1.5 rounded-full bg-[#18101E] px-4 text-xs font-extrabold text-white cursor-pointer"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
           >
-            <Sparkles className="h-3.5 w-3.5 text-[#FBBF24]" />
+            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
             <span>Open 2D Cub Obedience Sim →</span>
           </button>
         </div>
 
-        <h1 className="font-display text-2xl sm:text-3xl text-[#18101E]">
-          👑 Crown Him or 🚩 Dump Him • Live Club Courtroom
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-950">
+          Crown Him or Dump Him • Club Courtroom
         </h1>
-        <p className="text-xs sm:text-sm font-medium text-[#475569] max-w-3xl">
-          Play <strong>Today’s Synchronized 60-Second Drop</strong>, judge real age-gap field reports to expose the{' '}
-          <strong>🐆 Cougar vs. 🐕 Cub blind-spot gap</strong>, and pitch your own date story to become next Friday’s animated episode!
+        <p className="text-sm text-zinc-600 max-w-3xl">
+          Vote on <strong>Today’s Synchronized Daily Drop</strong>, compare Cougar vs. Cub blind-spot percentages, and submit anonymous real-life field reports.
         </p>
       </section>
 
       {/* TODAY'S SYNCHRONIZED DAILY RED FLAG DROP */}
       {dailyStory && (
-        <section className="vice-panel rounded-3xl p-5 sm:p-6 bg-gradient-to-br from-[#18101E] via-[#261730] to-[#18101E] text-white space-y-4">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-xs space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFBE0B] px-3 py-1 text-xs font-extrabold uppercase text-[#18101E]">
-              <Flame className="h-3.5 w-3.5 fill-[#E11D48] text-[#E11D48]" />
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-900 px-2.5 py-1 text-xs font-medium text-white">
+              <Flame className="h-3.5 w-3.5 text-rose-400" />
               <span>Today’s Daily Drop #{dropNum} • +15 XP</span>
             </span>
-            <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-bold text-[#FDE68A]">
+            <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-700">
               {dailyStory.aslTag} • {dailyStory.vibeBadge}
             </span>
           </div>
 
-          <h2 className="font-display text-xl sm:text-2xl text-white">{dailyStory.headline}</h2>
-          <p className="text-sm sm:text-base font-medium text-white/90 leading-relaxed">
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">{dailyStory.headline}</h2>
+          <p className="text-sm sm:text-base text-zinc-700 leading-relaxed">
             {dailyStory.story}
           </p>
 
@@ -491,27 +490,27 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
             <button
               type="button"
               onClick={() => handleVote(dailyStory.id, 'crown')}
-              className={`pop-btn h-12 rounded-2xl font-extrabold text-sm inline-flex items-center justify-center gap-2 cursor-pointer ${
+              className={`h-11 rounded-lg font-medium text-sm inline-flex items-center justify-center gap-2 border transition-colors cursor-pointer ${
                 votes[dailyStory.id] === 'crown'
-                  ? 'bg-[#059669] text-white border-white'
-                  : 'bg-[#FFFBEB] text-[#92400E] border-transparent'
+                  ? 'bg-emerald-600 text-white border-emerald-600'
+                  : 'bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50'
               }`}
             >
-              <Crown className="h-4 w-4" />
-              <span>👑 Crown Him (Husband Material)</span>
+              <Crown className="h-4 w-4 text-emerald-600" />
+              <span>Crown Him (Husband Material)</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleVote(dailyStory.id, 'dump')}
-              className={`pop-btn h-12 rounded-2xl font-extrabold text-sm inline-flex items-center justify-center gap-2 cursor-pointer ${
+              className={`h-11 rounded-lg font-medium text-sm inline-flex items-center justify-center gap-2 border transition-colors cursor-pointer ${
                 votes[dailyStory.id] === 'dump'
-                  ? 'bg-[#E11D48] text-white border-white'
-                  : 'bg-[#FFF1F2] text-[#BE123C] border-transparent'
+                  ? 'bg-rose-600 text-white border-rose-600'
+                  : 'bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50'
               }`}
             >
-              <Flag className="h-4 w-4" />
-              <span>🚩 Dump Him (Straight to Jail)</span>
+              <Flag className="h-4 w-4 text-rose-600" />
+              <span>Dump Him (Straight to Jail)</span>
             </button>
           </div>
 
@@ -521,9 +520,9 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
               <button
                 type="button"
                 onClick={handleShareDailyReceipt}
-                className="pop-btn inline-flex h-10 items-center gap-2 rounded-xl bg-[#FFBE0B] px-4 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 text-xs font-medium text-zinc-900 hover:bg-zinc-50 transition-colors cursor-pointer"
               >
-                {copiedDaily ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
+                {copiedDaily ? <Check className="h-4 w-4 text-emerald-600" /> : <Share2 className="h-4 w-4" />}
                 <span>
                   {copiedDaily
                     ? 'Daily Verdict Copied for Group Chat!'
@@ -545,21 +544,21 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
               return (
                 <article
                   key={item.id}
-                  className="vice-panel rounded-3xl p-5 bg-white space-y-3.5"
+                  className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-xs space-y-3.5"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold">
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[#18101E]">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-medium">
+                    <span className="rounded-md bg-zinc-100 px-2.5 py-1 text-zinc-800">
                       {item.aslTag}
                     </span>
-                    <span className="rounded-full bg-[#FFF1F2] px-3 py-1 text-[#E11D48]">
+                    <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-zinc-600">
                       {item.vibeBadge}
                     </span>
                   </div>
 
-                  <h3 className="font-display text-lg sm:text-xl text-[#18101E]">
+                  <h3 className="text-lg font-semibold tracking-tight text-zinc-950">
                     {item.headline}
                   </h3>
-                  <p className="text-xs sm:text-sm font-medium text-[#334155] leading-relaxed">
+                  <p className="text-sm text-zinc-600 leading-relaxed">
                     {item.story}
                   </p>
 
@@ -567,27 +566,27 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
                     <button
                       type="button"
                       onClick={() => handleVote(item.id, 'crown')}
-                      className={`pop-btn h-10 rounded-xl text-xs sm:text-sm font-extrabold inline-flex items-center justify-center gap-1.5 cursor-pointer ${
+                      className={`h-9 rounded-lg text-sm font-medium inline-flex items-center justify-center gap-1.5 border transition-colors cursor-pointer ${
                         voted === 'crown'
-                          ? 'bg-[#059669] text-white border-transparent'
-                          : 'bg-[#ECFDF5] text-[#065F46]'
+                          ? 'bg-emerald-600 text-white border-emerald-600'
+                          : 'bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50'
                       }`}
                     >
                       <Crown className="h-3.5 w-3.5" />
-                      <span>👑 Crown Him</span>
+                      <span>Crown Him</span>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => handleVote(item.id, 'dump')}
-                      className={`pop-btn h-10 rounded-xl text-xs sm:text-sm font-extrabold inline-flex items-center justify-center gap-1.5 cursor-pointer ${
+                      className={`h-9 rounded-lg text-sm font-medium inline-flex items-center justify-center gap-1.5 border transition-colors cursor-pointer ${
                         voted === 'dump'
-                          ? 'bg-[#E11D48] text-white border-transparent'
-                          : 'bg-[#FFF1F2] text-[#BE123C]'
+                          ? 'bg-rose-600 text-white border-rose-600'
+                          : 'bg-white text-zinc-900 border-zinc-200 hover:bg-zinc-50'
                       }`}
                     >
                       <Flag className="h-3.5 w-3.5" />
-                      <span>🚩 Dump Him</span>
+                      <span>Dump Him</span>
                     </button>
                   </div>
 
@@ -598,22 +597,22 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
         </div>
 
         {/* PITCH YOUR REAL DATE TO BE GREENLIT INTO THE GAME */}
-        <aside className="vice-panel rounded-3xl p-5 bg-[#FFFDF9] space-y-3.5 lg:sticky lg:top-20">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#FEF3C7] px-3 py-1 text-[11px] font-extrabold uppercase text-[#92400E]">
-            <Sparkles className="h-3.5 w-3.5 text-[#D97706]" />
-            <span>Greenlight Board • +15 XP &amp; Dateodex</span>
+        <aside className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-xs space-y-3.5 lg:sticky lg:top-20">
+          <div className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
+            <Sparkles className="h-3.5 w-3.5 text-zinc-500" />
+            <span>Greenlight Board • +15 XP</span>
           </div>
 
-          <h3 className="font-display text-xl text-[#18101E]">
-            Put My Date in the Game!
+          <h3 className="text-lg font-semibold tracking-tight text-zinc-950">
+            Put My Date in the Game
           </h3>
-          <p className="text-xs font-medium text-[#475569] leading-relaxed">
-            Submit an anonymous real-life green flag or unhinged red flag (zero names or contact info). Every Friday, the #1 community-voted report becomes a playable illustrated scene!
+          <p className="text-xs text-zinc-600 leading-relaxed">
+            Submit an anonymous real-life green flag or red flag (zero names or contact info). Every Friday, the #1 community-voted report becomes a playable scene.
           </p>
 
           <form onSubmit={handleSubmitStory} className="space-y-3">
             <div>
-              <label htmlFor="court-asl" className="block text-[11px] font-extrabold text-[#475569] mb-1">
+              <label htmlFor="court-asl" className="block text-xs font-medium text-zinc-700 mb-1">
                 Ages &amp; City Tag
               </label>
               <input
@@ -622,12 +621,12 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
                 maxLength={36}
                 value={aslInput}
                 onChange={(e) => setAslInput(e.target.value)}
-                className="w-full h-9 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-[#18101E]"
+                className="w-full h-9 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-900"
               />
             </div>
 
             <div>
-              <label htmlFor="court-headline" className="block text-[11px] font-extrabold text-[#475569] mb-1">
+              <label htmlFor="court-headline" className="block text-xs font-medium text-zinc-700 mb-1">
                 Headline
               </label>
               <input
@@ -637,12 +636,12 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
                 placeholder="e.g. Brought homemade sourdough & fixed my patio latch…"
                 value={headlineInput}
                 onChange={(e) => setHeadlineInput(e.target.value)}
-                className="w-full h-9 rounded-xl border border-slate-200 bg-white px-3 text-xs font-semibold text-[#18101E]"
+                className="w-full h-9 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-900"
               />
             </div>
 
             <div>
-              <label htmlFor="court-story" className="block text-[11px] font-extrabold text-[#475569] mb-1">
+              <label htmlFor="court-story" className="block text-xs font-medium text-zinc-700 mb-1">
                 What Happened? (240 chars max)
               </label>
               <textarea
@@ -652,13 +651,13 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
                 placeholder="Tell the Club Courtroom what happened so Cougars & Cubs can vote Crown or Dump!"
                 value={storyInput}
                 onChange={(e) => setStoryInput(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white p-3 text-xs font-medium text-[#18101E]"
+                className="w-full rounded-lg border border-zinc-200 bg-white p-3 text-sm text-zinc-900"
               />
             </div>
 
             <button
               type="submit"
-              className="pop-btn w-full h-11 rounded-2xl bg-gradient-to-r from-[#E11D48] to-[#FF6036] text-xs sm:text-sm font-extrabold text-white border-transparent inline-flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full h-10 rounded-lg bg-zinc-900 text-sm font-medium text-white hover:bg-zinc-800 inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             >
               <Send className="h-3.5 w-3.5" />
               <span>Submit Case to Courtroom (+15 XP)</span>
@@ -666,7 +665,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
           </form>
 
           {pitchStatus && (
-            <div className="rounded-xl bg-[#ECFDF5] border border-[#059669]/30 p-3 text-xs font-bold text-[#065F46]">
+            <div className="rounded-lg bg-emerald-50 border border-emerald-200 p-3 text-xs font-medium text-emerald-900">
               {pitchStatus}
             </div>
           )}

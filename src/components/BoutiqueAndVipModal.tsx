@@ -255,23 +255,23 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
           </button>
         </div>
 
-        {/* Sleek Segmented Tab Control */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 rounded-2xl bg-stone-100 p-1.5">
+        {/* Clean shadcn Segmented Tab Control */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 rounded-xl bg-zinc-100 p-1">
           {(
             [
-              ['vip', '💎 Passes & VIP'],
-              ['shop', `🛍️ Date-Night Shop (${AFFILIATE_CATALOG.length})`],
-              ['rewards', '🗝️ Private Salon & Invite'],
+              ['vip', 'Passes & VIP'],
+              ['shop', `Date-Night Shop (${AFFILIATE_CATALOG.length})`],
+              ['rewards', 'Private Salon & Invite'],
             ] as const
           ).map(([tabId, label]) => (
             <button
               key={tabId}
               type="button"
               onClick={() => setActiveTab(tabId)}
-              className={`rounded-xl px-4 py-3 text-sm font-bold transition cursor-pointer ${
+              className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
                 activeTab === tabId
-                  ? 'bg-white text-[#18101E] shadow-sm'
-                  : 'text-stone-600 hover:text-[#18101E]'
+                  ? 'bg-white text-zinc-950 shadow-2xs'
+                  : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
               {label}

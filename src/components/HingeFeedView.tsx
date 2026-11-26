@@ -256,9 +256,9 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-xl space-y-4 animate-stage-in">
-      {/* Clean Minimal Centered Perspective Switcher (Zero Extra Card Box, Zero Duplicate Wild Button) */}
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <div className="inline-flex rounded-full bg-stone-200/75 p-1">
+      {/* Clean shadcn Segmented Perspective Switcher */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="inline-flex rounded-lg bg-zinc-200/70 p-1">
           <button
             type="button"
             onClick={() => {
@@ -268,13 +268,13 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               setMatchCelebration(null);
               onSwitchRole('her');
             }}
-            className={`rounded-full px-4 py-1.5 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
+            className={`rounded-md px-3.5 py-1.5 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
               role === 'her'
-                ? 'bg-[#18101E] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900'
+                ? 'bg-white text-zinc-950 shadow-2xs'
+                : 'text-zinc-600 hover:text-zinc-950'
             }`}
           >
-            🐆 Playing as Her
+            Playing as Her
           </button>
           <button
             type="button"
@@ -285,21 +285,21 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               setMatchCelebration(null);
               onSwitchRole('him');
             }}
-            className={`rounded-full px-4 py-1.5 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
+            className={`rounded-md px-3.5 py-1.5 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
               role === 'him'
-                ? 'bg-[#18101E] text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900'
+                ? 'bg-white text-zinc-950 shadow-2xs'
+                : 'text-zinc-600 hover:text-zinc-950'
             }`}
           >
-            🥂 Playing as Him
+            Playing as Him
           </button>
         </div>
 
-        {pendingLikes.length > 0 && (
-          <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-900">
-            {pendingLikes.length} Sent Like • Pending
-          </span>
-        )}
+        <span className="text-xs font-medium text-zinc-500">
+          {pendingLikes.length > 0
+            ? `${pendingLikes.length} Sent Like • Pending`
+            : 'Press ← or tap ✕ to pass • Tap ♡ to like'}
+        </span>
       </div>
 
       {/* Live Match / Pending Status Banner */}
@@ -405,10 +405,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
             {/* Prompt 1 */}
             <div className="editorial-prompt-card relative rounded-2xl p-6 pr-16">
-              <div className="text-xs font-semibold tracking-wide text-stone-500">
+              <div className="text-xs font-medium text-zinc-500">
                 {currentProfile.prompts[0].question}
               </div>
-              <p className="mt-2 font-editorial text-xl leading-snug text-[#18101E]">
+              <p className="mt-1.5 font-hinge-quote text-2xl leading-snug text-zinc-950">
                 {currentProfile.prompts[0].answer}
               </p>
               <button
@@ -484,10 +484,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
             {/* Prompt 2 */}
             <div className="editorial-prompt-card relative rounded-2xl p-6 pr-16">
-              <div className="text-xs font-semibold tracking-wide text-stone-500">
+              <div className="text-xs font-medium text-zinc-500">
                 {currentProfile.prompts[1].question}
               </div>
-              <p className="mt-2 font-editorial text-xl leading-snug text-[#18101E]">
+              <p className="mt-1.5 font-hinge-quote text-2xl leading-snug text-zinc-950">
                 {currentProfile.prompts[1].answer}
               </p>
               <button
@@ -533,10 +533,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
             {/* Prompt 3 */}
             <div className="editorial-prompt-card relative rounded-2xl p-6 pr-16">
-              <div className="text-xs font-semibold tracking-wide text-stone-500">
+              <div className="text-xs font-medium text-zinc-500">
                 {currentProfile.prompts[2].question}
               </div>
-              <p className="mt-2 font-editorial text-xl leading-snug text-[#18101E]">
+              <p className="mt-1.5 font-hinge-quote text-2xl leading-snug text-zinc-950">
                 {currentProfile.prompts[2].answer}
               </p>
               <button

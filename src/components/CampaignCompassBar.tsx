@@ -1,10 +1,11 @@
 import React from 'react';
-import { Award, Compass, GraduationCap, Sparkles } from 'lucide-react';
+import { ArrowRight, Award, GraduationCap } from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
 import { V35_DATE_SCRIPTS, V35_TABLE_9_CONSPIRACY } from '../data/v35ChatsAndDates';
 import type { WalletState } from '../domain/economy';
 import type { PlayerRole } from '../domain/taxonomy';
+import { cn } from '../lib/utils';
 import type { ActiveMatchThread } from './ChatsAndDatesView';
 import type { ClubTopTab } from './TopHudBar';
 
@@ -86,15 +87,14 @@ export function computeCampaignProgress({
 
   const etiquetteBonusActive = cubSchoolStars >= 4;
 
-  // Determine the clearest 1-tap Next Action so the player never wonders what to do next
   let nextStep: CampaignNextStep;
 
   if (wallet.conspiracyClues.length >= V35_TABLE_9_CONSPIRACY.requiredClueCount) {
     nextStep = {
       targetTab: 'chats',
       openConspiracy: true,
-      stepTag: '🕵️ 3/3 Clues Unlocked',
-      ctaLabel: 'Crash Table 9 Alibi Club →',
+      stepTag: '3/3 Clues Unlocked',
+      ctaLabel: 'Crash Table 9 Alibi Club',
     };
   } else {
     const readyDateThread = threads.find((t) => {
@@ -121,7 +121,7 @@ export function computeCampaignProgress({
         leadId: readyDateThread.leadId,
         launchDateNumber: nextNum,
         stepTag: `Act 3 • Date #${nextNum} Ready`,
-        ctaLabel: `🍸 Launch Date #${nextNum} with ${p?.name ?? readyDateThread.leadId} →`,
+        ctaLabel: `Launch Date #${nextNum} with ${p?.name ?? readyDateThread.leadId}`,
       };
     } else if (readyGraduateThread) {
       const p = getCastProfileById(readyGraduateThread.leadId);
@@ -129,7 +129,7 @@ export function computeCampaignProgress({
         targetTab: 'chats',
         leadId: readyGraduateThread.leadId,
         stepTag: 'Act 2 • Beat 6 Complete',
-        ctaLabel: `📱 Graduate ${p?.name ?? readyGraduateThread.leadId} to iMessage →`,
+        ctaLabel: `Graduate ${p?.name ?? readyGraduateThread.leadId} to iMessage`,
       };
     } else if (activeVettingThread) {
       const p = getCastProfileById(activeVettingThread.leadId);
@@ -138,19 +138,19 @@ export function computeCampaignProgress({
         targetTab: 'chats',
         leadId: activeVettingThread.leadId,
         stepTag: `Act 2 • Beat ${beatLabel}/6 Vetting`,
-        ctaLabel: `💬 Text ${p?.name ?? activeVettingThread.leadId} (Beat ${beatLabel}/6) →`,
+        ctaLabel: `Text ${p?.name ?? activeVettingThread.leadId} (Beat ${beatLabel}/6)`,
       };
     } else if (threads.length === 0) {
       nextStep = {
         targetTab: 'hinge',
         stepTag: 'Act 1 • Spark Your First Match',
-        ctaLabel: '📱 Send a Prompt Reply on Hinge →',
+        ctaLabel: 'Send a Prompt Reply on Hinge',
       };
     } else {
       nextStep = {
         targetTab: 'wild',
-        stepTag: 'Explore Off-App Exclusives',
-        ctaLabel: 'Meet Leads In The Wild →',
+        stepTag: 'Off-App Exclusives',
+        ctaLabel: 'Meet Leads In The Wild',
       };
     }
   }
@@ -210,13 +210,12 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
       ? '❤️'.repeat(wallet.fridayHearts) + '🤍'.repeat(Math.max(0, 3 - wallet.fridayHearts))
       : '🤍🤍🤍';
 
-  // When already on Hinge with 0 matches, offer 1-tap jump to In The Wild so button always advances flow
   const effectiveNextStep: CampaignNextStep =
     activeThreads.length === 0 && activeTab === 'hinge'
       ? {
           targetTab: 'wild',
           stepTag: 'Act 1 • Two Ways to Meet',
-          ctaLabel: 'Explore 10 In The Wild Spots →',
+          ctaLabel: 'Explore 10 In The Wild Spots',
         }
       : summary.nextStep;
 
@@ -224,52 +223,53 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
     <section
       data-testid="campaign-compass-bar"
       aria-label="Campaign Progress and Next Step"
-      className="mx-auto w-full max-w-4xl rounded-2xl border border-stone-200/80 bg-white/90 px-4 py-2.5 shadow-2xs"
+      className="w-full border-b border-zinc-200/80 bg-zinc-50/90"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        {/* Left: Campaign Level + Friday Hearts + School Spark (Zero Double Emojis) */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#18101E] whitespace-nowrap">
-            <Award className="h-4 w-4 text-rose-600 shrink-0" />
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6">
+        {/* Left: Anchored Status Metrics */}
+        <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-zinc-600">
+          <div className="inline-flex items-center gap-1.5 font-semibold text-zinc-900 whitespace-nowrap">
+            <Award className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
             <span>
               Lv.{summary.level} • {summary.levelTitle}
             </span>
           </div>
 
-          <span className="text-stone-300 hidden sm:inline">|</span>
+          <span className="text-zinc-300 hidden sm:inline">•</span>
 
           <div
             data-testid="hud-friday-hearts"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-600 whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap"
             title="Friday Date Energy (3 Hearts)"
           >
             <span>{heartsDisplay}</span>
             {wallet.discernmentXp > 0 && (
-              <span className="text-stone-500">• {wallet.discernmentXp} XP</span>
+              <span className="text-zinc-500">• {wallet.discernmentXp} XP</span>
             )}
             {wallet.fridayHearts === 0 && onResetHearts && (
               <button
                 type="button"
                 onClick={onResetHearts}
-                className="ml-1 rounded-full bg-rose-600 px-2.5 py-0.5 text-[10px] font-extrabold text-white cursor-pointer"
+                className="ml-1 rounded-md bg-zinc-900 px-2 py-0.5 text-xs font-medium text-white cursor-pointer"
               >
                 New Friday
               </button>
             )}
           </div>
 
-          <span className="text-stone-300 hidden sm:inline">|</span>
+          <span className="text-zinc-300 hidden sm:inline">•</span>
 
           <button
             type="button"
             onClick={onOpenCubSchool}
-            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap transition cursor-pointer ${
+            className={cn(
+              'inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors cursor-pointer',
               summary.etiquetteBonusActive
-                ? 'bg-emerald-50 text-emerald-900'
-                : 'text-stone-600 hover:bg-stone-100 hover:text-[#18101E]'
-            }`}
+                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                : 'text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-900',
+            )}
           >
-            <GraduationCap className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+            <GraduationCap className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
             <span>
               {summary.etiquetteBonusActive
                 ? `School ${cubSchoolStars}/12 (+8% Spark)`
@@ -278,7 +278,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
           </button>
         </div>
 
-        {/* Center: Velvet Book 3-Date Heart Roster Pills (shown outside Chats tab where full roster lives) */}
+        {/* Center: Active Match Roster Chips */}
         {activeThreads.length > 0 && activeTab !== 'chats' && (
           <div className="flex flex-wrap items-center gap-1.5">
             {activeThreads.slice(0, 4).map((t) => {
@@ -290,20 +290,20 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                   key={t.leadId}
                   type="button"
                   onClick={() => onSelectMatchChat(t.leadId)}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-stone-50 hover:bg-rose-50 hover:border-rose-200 px-2.5 py-1 text-xs font-bold text-[#18101E] transition cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-zinc-200 bg-white hover:bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-900 transition-colors cursor-pointer"
                   title={`${person.name}: ${t.datesCompleted}/3 Dates Complete`}
                 >
                   <img
                     src={vis.primaryPortrait}
                     alt={person.name}
-                    className="h-4.5 w-4.5 rounded-full object-cover"
+                    className="h-4 w-4 rounded-full object-cover"
                   />
                   <span>{person.name}</span>
                   <span className="text-rose-600 tracking-tight">
                     {formatThreeDateHearts(t.datesCompleted)}
                   </span>
                   {t.lastDateRank && t.lastDateRank !== 'F' && (
-                    <span className="rounded bg-amber-200 px-1 text-[10px] font-black text-[#18101E]">
+                    <span className="rounded bg-zinc-900 px-1 text-xs font-semibold text-white">
                       {t.lastDateRank}
                     </span>
                   )}
@@ -313,9 +313,9 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
           </div>
         )}
 
-        {/* Right: Guided 1-Tap Next Action */}
-        <div className="flex items-center gap-2">
-          <span className="hidden lg:inline text-[11px] font-bold uppercase tracking-wider text-stone-400">
+        {/* Right: Clean Next-Action Button */}
+        <div className="flex items-center gap-2.5">
+          <span className="hidden md:inline text-xs font-medium text-zinc-500">
             {effectiveNextStep.stepTag}
           </span>
           <button
@@ -327,14 +327,10 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 onNavigateStep(effectiveNextStep);
               }
             }}
-            className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 hover:bg-rose-700 px-3.5 py-1.5 text-xs font-extrabold text-white shadow-2xs transition cursor-pointer"
+            className="inline-flex h-7 items-center gap-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 px-3 text-xs font-medium text-white transition-colors cursor-pointer"
           >
-            {effectiveNextStep.targetTab === 'wild' ? (
-              <Compass className="h-3.5 w-3.5 shrink-0" />
-            ) : (
-              <Sparkles className="h-3.5 w-3.5 shrink-0" />
-            )}
             <span>{effectiveNextStep.ctaLabel}</span>
+            <ArrowRight className="h-3.5 w-3.5 shrink-0" />
           </button>
         </div>
       </div>

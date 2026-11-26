@@ -395,33 +395,33 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         </div>
       )}
 
-      {/* Top Mode Switcher: Active Matches vs Club Discord Lounge */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="inline-flex rounded-full bg-white border border-stone-200 p-1 shadow-xs">
+      {/* Top Mode Switcher: shadcn Segmented Tabs */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 pb-3">
+        <div className="inline-flex rounded-lg bg-zinc-100 p-1">
           <button
             type="button"
             onClick={() => setSurface('dm')}
-            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition cursor-pointer ${
-              surface === 'dm' ? 'bg-[#18101E] text-white' : 'text-stone-600'
+            className={`inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
+              surface === 'dm' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
             }`}
           >
-            <MessageCircle className="h-3.5 w-3.5" />
+            <MessageCircle className="h-4 w-4 text-zinc-500" />
             <span>Matches &amp; Dates ({visibleThreads.length})</span>
           </button>
           <button
             type="button"
             onClick={() => setSurface('discord')}
-            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition cursor-pointer ${
-              surface === 'discord' ? 'bg-[#5865F2] text-white' : 'text-stone-600'
+            className={`inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
+              surface === 'discord' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
             }`}
           >
-            <Hash className="h-3.5 w-3.5" />
-            <span>🎭 Club Discord Lounge (5 Channels)</span>
+            <Hash className="h-4 w-4 text-zinc-500" />
+            <span>Club Discord Lounge (5 Channels)</span>
           </button>
         </div>
 
-        <div className="text-xs font-semibold text-stone-500">
-          🕵️ Table 9 Clues: {wallet.conspiracyClues.length}/3 • Discernment XP: {wallet.discernmentXp}
+        <div className="text-xs font-medium text-zinc-500">
+          Table 9 Clues: {wallet.conspiracyClues.length}/3 • Discernment XP: {wallet.discernmentXp}
         </div>
       </div>
 

@@ -96,76 +96,76 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
   return (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-3 sm:p-6"
         role="dialog"
         aria-modal="true"
         aria-label="Pop-Culture Cougar & Cub Trivia"
         onClick={onClose}
       >
         <div
-          className="editorial-hinge-card relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-7 space-y-5 shadow-2xl"
+          className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 sm:p-7 space-y-5 shadow-xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-start justify-between gap-3 border-b border-stone-200 pb-4">
+          <div className="flex items-start justify-between gap-3 border-b border-zinc-200 pb-4">
             <div className="space-y-1">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-rose-700">
-                <Sparkles className="h-3.5 w-3.5" /> {POP_CULTURE_TRIVIA.length}-Question Cinema &amp; Celebrity Blitz
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
+                <Sparkles className="h-3.5 w-3.5 text-zinc-500" /> {POP_CULTURE_TRIVIA.length}-Question Cinema &amp; Celebrity Quiz
               </span>
-              <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
+              <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">
                 Trailer &amp; Pop-Culture Cougar Quiz
               </h2>
             </div>
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-stone-200 bg-white p-2.5 text-stone-700 hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
+              className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
               aria-label="Close Trivia"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
           </div>
 
           {finished ? (
-            <div className="rounded-3xl border border-amber-200 bg-amber-50/60 p-6 sm:p-7 text-center space-y-4">
-              <Award className="mx-auto h-12 w-12 text-rose-600" />
-              <div className="font-editorial text-4xl sm:text-5xl font-bold text-[#18101E]">
-                {score} / {POP_CULTURE_TRIVIA.length} Correct!
+            <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-6 sm:p-7 text-center space-y-4">
+              <Award className="mx-auto h-10 w-10 text-zinc-900" />
+              <div className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-950">
+                {score} / {POP_CULTURE_TRIVIA.length} Correct
               </div>
               <div className="text-lg tracking-widest select-all">
                 {history.slice(0, 20).map((ok, i) => (
                   <span key={i}>{ok ? '🟩' : '⬛'}</span>
                 ))}
               </div>
-              <p className="text-base font-medium text-stone-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
                 {score >= Math.round(POP_CULTURE_TRIVIA.length * 0.7)
                   ? 'Certified Red-Carpet Cougar Historian! Angela Bassett, Tina Turner, Cher, Priyanka, Jennifer Lawrence, and Sienna would wave you straight to Table 1.'
                   : 'Solid run! Queue up No Hard Feelings, Babygirl, and The Rebound on Friday night and run it back.'}
               </p>
               {stampUnlocked && (
-                <div className="rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm font-extrabold text-emerald-900">
-                  🏆 Unlocked the Pop-Culture Historian Stamp in your Field Guide!
+                <div className="rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm font-medium text-emerald-900">
+                  Unlocked the Pop-Culture Historian Stamp in your Field Guide!
                 </div>
               )}
-              <div className="flex flex-wrap justify-center gap-3 pt-2">
+              <div className="flex flex-wrap justify-center gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={openQuizShareSheet}
-                  className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-5 py-3 text-sm font-extrabold text-[#18101E] cursor-pointer"
+                  className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
                 >
                   <Share2 className="h-4 w-4" />
-                  <span>Share Score Card (🐆🎬 {score}/{POP_CULTURE_TRIVIA.length})</span>
+                  <span>Share Score Card ({score}/{POP_CULTURE_TRIVIA.length})</span>
                 </button>
                 <button
                   type="button"
                   onClick={handleRestart}
-                  className="rounded-full border border-stone-300 bg-white px-5 py-3 text-sm font-extrabold text-[#18101E] cursor-pointer"
+                  className="inline-flex h-10 items-center rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors cursor-pointer"
                 >
                   Play Quiz Again
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="rounded-full bg-[#18101E] px-6 py-3 text-sm font-extrabold text-white cursor-pointer"
+                  className="inline-flex h-10 items-center rounded-lg border border-zinc-200 bg-zinc-100 px-4 text-sm font-medium text-zinc-800 hover:bg-zinc-200 transition-colors cursor-pointer"
                 >
                   Back to Club
                 </button>
@@ -173,32 +173,32 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-extrabold">
-                <span className="rounded-full bg-amber-100 border border-amber-300/70 px-3.5 py-1 text-amber-950">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-medium">
+                <span className="rounded-md bg-zinc-100 px-2.5 py-1 text-zinc-800">
                   {current.badge}
                 </span>
-                <span className="text-stone-500">
+                <span className="text-zinc-500">
                   Question {qIdx + 1} of {POP_CULTURE_TRIVIA.length} • Score: {score}
                 </span>
               </div>
 
-              <p className="text-lg font-bold text-[#18101E] leading-relaxed">
+              <p className="text-base sm:text-lg font-semibold text-zinc-950 leading-snug">
                 {current.question}
               </p>
 
-              <div className="grid gap-2.5">
+              <div className="grid gap-2">
                 {current.options.map((opt, idx) => {
                   const isSelected = selectedOpt === idx;
                   const isCorrect = idx === current.correctIndex;
                   let style =
-                    'border-stone-200 bg-white text-[#18101E] hover:border-stone-400 hover:bg-stone-50';
+                    'border-zinc-200 bg-white text-zinc-900 hover:border-zinc-300 hover:bg-zinc-50';
                   if (selectedOpt !== null) {
                     if (isCorrect) {
                       style = 'border-emerald-500 bg-emerald-50 text-emerald-950';
                     } else if (isSelected) {
                       style = 'border-rose-400 bg-rose-50 text-rose-950';
                     } else {
-                      style = 'border-stone-200/60 bg-stone-50/60 text-stone-400';
+                      style = 'border-zinc-200/60 bg-zinc-50 text-zinc-400';
                     }
                   }
                   return (
@@ -206,7 +206,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                       key={opt}
                       type="button"
                       onClick={() => handlePick(idx)}
-                      className={`flex items-center justify-between rounded-2xl border px-4 py-3.5 text-left text-sm sm:text-base font-semibold whitespace-normal transition cursor-pointer ${style}`}
+                      className={`flex items-center justify-between rounded-xl border px-4 py-3 text-left text-sm sm:text-base font-medium whitespace-normal transition-colors cursor-pointer ${style}`}
                     >
                       <span>{opt}</span>
                       {selectedOpt !== null && isCorrect && (
@@ -217,11 +217,11 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                 })}
               </div>
 
-              {/* Post-Answer Reveal Only (Zero Pre-Answer Spoilers & Zero Figcaption Clutter) */}
+              {/* Post-Answer Reveal Only */}
               {selectedOpt !== null && (
-                <div className="animate-stage-in rounded-3xl border border-amber-200 bg-amber-50/50 p-4 sm:p-5 space-y-3.5">
+                <div className="animate-stage-in rounded-xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5 space-y-3.5">
                   {current.youtubeEmbedUrl ? (
-                    <div className="overflow-hidden rounded-2xl border border-stone-200 bg-black shadow-sm">
+                    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-black shadow-2xs">
                       <iframe
                         src={current.youtubeEmbedUrl}
                         title={`${current.badge} Official Trailer`}
@@ -241,13 +241,13 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                             e.currentTarget.onerror = null;
                             e.currentTarget.src = './images/cast/hero-couple.jpg';
                           }}
-                          className="h-48 w-40 rounded-2xl border border-stone-200 object-cover object-top shadow-sm"
+                          className="h-48 w-40 rounded-xl border border-zinc-200 object-cover object-top shadow-2xs"
                         />
                       </div>
                     )
                   )}
 
-                  <p className="text-sm font-medium text-stone-800 leading-relaxed">
+                  <p className="text-sm text-zinc-700 leading-relaxed">
                     {current.funFact}
                   </p>
 
@@ -262,17 +262,17 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                           surface: 'pop_quiz_reveal',
                         })
                       }
-                      className="flex items-center justify-between gap-2 rounded-2xl border border-stone-200 bg-white px-4 py-2.5 text-xs font-bold text-[#18101E] hover:bg-stone-50 transition"
+                      className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors"
                     >
-                      <span>🎬 Watch / Read Pick: {matchedAffiliate.name}</span>
-                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-600" />
+                      <span>Watch / Read Pick: {matchedAffiliate.name}</span>
+                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-500" />
                     </a>
                   )}
 
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="w-full rounded-full bg-[#18101E] py-3 text-sm sm:text-base font-bold text-white hover:bg-stone-800 transition cursor-pointer"
+                    className="w-full h-10 rounded-lg bg-zinc-900 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
                   >
                     {qIdx + 1 >= POP_CULTURE_TRIVIA.length
                       ? 'See Final Score & Share Card →'

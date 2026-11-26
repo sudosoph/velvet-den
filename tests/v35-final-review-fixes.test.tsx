@@ -122,7 +122,7 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
 
     render(<App />);
     fireEvent.click(
-      screen.getAllByRole('button', { name: /💬 Chats/i })[0],
+      screen.getAllByRole('button', { name: /Chats & Dates/i })[0],
     );
 
     // Launch Graham Date #1 -> walk into Trap Disaster (rank === 'F')

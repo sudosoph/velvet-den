@@ -34,23 +34,23 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
 
   return (
     <div className="w-full space-y-6 animate-stage-in">
-      <section className="editorial-hinge-card rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#FFFDF9] via-rose-50/40 to-amber-50/40 space-y-4">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300/70 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-amber-950">
-          <Sparkles className="h-3.5 w-3.5 text-rose-600" /> Official Club Manifesto • 21+ Romantic-Comedy Simulation
+      <section className="editorial-hinge-card rounded-2xl p-6 sm:p-8 space-y-4">
+        <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-700">
+          <Sparkles className="h-3.5 w-3.5 text-rose-600" /> Official Club Overview • 21+ Romantic-Comedy Simulation
         </span>
-        <h1 className="font-editorial text-3xl sm:text-4xl font-bold text-[#18101E] leading-tight">
+        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950 leading-tight">
           What Is Cougars &amp; Cubs Club?
         </h1>
-        <p className="text-base sm:text-lg font-medium text-stone-700 max-w-3xl leading-relaxed">
+        <p className="text-sm sm:text-base text-zinc-600 max-w-3xl leading-relaxed">
           Inspired by narrative cult classics like <em>Dream Daddy</em> and real age-gap dating communities,{' '}
-          <strong>Cougars &amp; Cubs Club</strong> is a hybrid romantic-comedy dating simulation, evolving chat studio, and visual etiquette handbook celebrating confident older women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
+          <strong className="font-semibold text-zinc-900">Cougars &amp; Cubs Club</strong> is a hybrid romantic-comedy dating simulation, evolving chat studio, and visual etiquette handbook celebrating confident older women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
         </p>
 
-        <div className="flex flex-wrap gap-3 pt-1">
+        <div className="flex flex-wrap gap-2.5 pt-1">
           <button
             type="button"
             onClick={onGoToHinge}
-            className="inline-flex items-center gap-2 rounded-full bg-[#18101E] px-5 py-3 text-xs sm:text-sm font-bold text-white cursor-pointer"
+            className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white cursor-pointer"
           >
             <Smartphone className="h-4 w-4" />
             <span>Explore Hinge Profiles</span>
@@ -58,23 +58,23 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
           <button
             type="button"
             onClick={onOpenWildMap}
-            className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-5 py-3 text-xs sm:text-sm font-bold text-white cursor-pointer"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-medium text-zinc-900 cursor-pointer"
           >
-            <Compass className="h-4 w-4" />
+            <Compass className="h-4 w-4 text-zinc-500" />
             <span>Meet Offline In The Wild ({V35_WILD_VENUES.length} Venues)</span>
           </button>
           <button
             type="button"
             onClick={onOpenChats}
-            className="inline-flex items-center gap-2 rounded-full bg-[#007AFF] px-5 py-3 text-xs sm:text-sm font-bold text-white cursor-pointer"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-medium text-zinc-900 cursor-pointer"
           >
-            <MessageCircle className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4 text-zinc-500" />
             <span>Open Chats, Discord &amp; Dates</span>
           </button>
           <button
             type="button"
             onClick={onOpenGuides}
-            className="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white px-5 py-3 text-xs sm:text-sm font-bold text-[#18101E] cursor-pointer"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-medium text-zinc-900 cursor-pointer"
           >
             <span>Read 16 Shoppable Guides</span>
           </button>
@@ -82,39 +82,39 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 items-stretch">
-        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-rose-50 px-3 py-0.5 text-xs font-extrabold text-rose-700">
+        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-2">
+          <span className="inline-block rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
             Door 1 • Selective Hinge
           </span>
-          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+          <h2 className="text-base font-semibold text-zinc-950">
             6 Bespoke Photos &amp; Real Prompts
           </h2>
-          <p className="text-sm text-stone-600 leading-relaxed">
+          <p className="text-sm text-zinc-600 leading-relaxed">
             Every profile features 6 unique activity photos and casual first-person prompts. Low-effort openers sit in Pending Likes; thoughtful notes or a Standout Rose spark the match.
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-amber-100 px-3 py-0.5 text-xs font-extrabold text-amber-950">
+        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-2">
+          <span className="inline-block rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
             Door 2 • In The Wild
           </span>
-          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+          <h2 className="text-base font-semibold text-zinc-950">
             {V35_WILD_VENUES.length} Illustrated Velvet Palms Venues
           </h2>
-          <p className="text-sm text-stone-600 leading-relaxed">
+          <p className="text-sm text-zinc-600 leading-relaxed">
             Meet offline at Terminal B Arrivals, Hawthorne University, The Velvet Room Hotel Bar, Havana Social Salsa, and Palisades Racquet—going straight to real phone numbers.
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-sky-100 px-3 py-0.5 text-xs font-extrabold text-sky-900">
+        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-2">
+          <span className="inline-block rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
             Act 2 • Evolving Vetting
           </span>
-          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+          <h2 className="text-base font-semibold text-zinc-950">
             App DM → Earned iMessage &amp; Cut Loose
           </h2>
-          <p className="text-sm text-stone-600 leading-relaxed">
-            Chat freely with live AI or curated replies, consult 5 distinct Club Discord channels, spot disguised Traps before Date #1 with <strong>🚩 Cut Loose</strong>, and graduate worthy matches to iMessage.
+          <p className="text-sm text-zinc-600 leading-relaxed">
+            Chat freely with live AI or curated replies, consult 5 distinct Club Discord channels, spot disguised Traps before Date #1 with Cut Loose, and graduate worthy matches to iMessage.
           </p>
         </div>
 

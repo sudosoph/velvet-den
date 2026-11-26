@@ -920,18 +920,18 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   return (
     <>
       <div className="w-full space-y-5 animate-stage-in">
-        {/* BuzzFeed × Top-Reddit Magazine Header + 1-Tap Feature Pills */}
-        <div className="editorial-hinge-card rounded-3xl p-5 sm:p-7 space-y-4 bg-gradient-to-r from-[#FFFDF9] via-rose-50/45 to-amber-50/45">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1.5 max-w-3xl">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300/70 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-amber-950">
-                ⚡ Club Magazine • Visual Listicles, Upvoted Receipts &amp; Interactive Toys
+        {/* Clean Anchored Magazine Header + shadcn Filter Bar */}
+        <div className="space-y-4 border-b border-zinc-200 pb-5">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-1 max-w-3xl">
+              <span className="text-xs font-medium text-zinc-500">
+                Club Magazine • 16 Illustrated Guides, Polls &amp; 12×12 Astro Matcher
               </span>
-              <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
-                16 Illustrated Insider Guides, Live Polls &amp; 12×12 Astro Matcher
+              <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950">
+                Insider Guides, Community Receipts &amp; Star-Sign Matcher
               </h1>
-              <p className="text-xs font-medium text-stone-600">
-                Reader Disclosure: Curated shopping picks below may earn a small affiliate commission at no extra cost to you.
+              <p className="text-xs text-zinc-500">
+                Reader disclosure: curated shopping picks below may earn a small affiliate commission at no extra cost to you.
               </p>
             </div>
 
@@ -939,27 +939,24 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               <button
                 type="button"
                 onClick={handleShareGuide}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-xs sm:text-sm font-bold text-[#18101E] cursor-pointer"
+                className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 text-sm font-medium text-zinc-900 cursor-pointer"
               >
-                <Share2 className="h-4 w-4 text-rose-600" />
+                <Share2 className="h-4 w-4 text-zinc-500" />
                 <span>Share Guide</span>
               </button>
               <button
                 type="button"
                 onClick={() => onPlayScenario(active.featuredEpisodeId)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-rose-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-rose-700 cursor-pointer"
+                className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white cursor-pointer"
               >
-                <Play className="h-4 w-4 fill-white" />
-                <span>Play Scenario Free</span>
+                <Play className="h-3.5 w-3.5 fill-white" />
+                <span>Play Scenario</span>
               </button>
             </div>
           </div>
 
-          {/* 1-Tap Viral Jump Bar */}
-          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-stone-200/70">
-            <span className="text-[11px] font-extrabold uppercase tracking-wider text-stone-500 mr-1">
-              Jump To:
-            </span>
+          {/* 1-Tap Jump Bar (Clean shadcn Tabs) */}
+          <div className="flex flex-wrap items-center gap-1.5">
             {[
               {
                 slug: 'cougar-vs-puma-vs-jaguar-dating-age-chart',
@@ -988,10 +985,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   key={pill.slug}
                   type="button"
                   onClick={() => handleSelectArticle(pill.slug)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-extrabold transition cursor-pointer ${
+                  className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
                     isCurrent
-                      ? 'bg-[#18101E] text-white shadow-xs'
-                      : 'border border-stone-200 bg-white text-[#18101E] hover:border-rose-300 hover:bg-rose-50/50'
+                      ? 'bg-zinc-900 text-white'
+                      : 'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100'
                   }`}
                 >
                   {pill.label}

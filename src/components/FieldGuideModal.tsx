@@ -212,54 +212,54 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
 
   const modalNode = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label="Age-Gap Dating Field Guide"
       onClick={onClose}
     >
       <div
-        className="editorial-hinge-card relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-8 space-y-5 shadow-2xl"
+        className="editorial-hinge-card relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 sm:p-8 space-y-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-stone-200 pb-4">
-          <div className="space-y-1.5">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300/70 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-amber-950">
-              <Sparkles className="h-3.5 w-3.5 text-rose-600" /> Illustrated BuzzFeed-Style Spotter’s Deck • {FIELD_GUIDE_ENTRIES.length} Cards
+        <div className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-4">
+          <div className="space-y-1">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
+              <Sparkles className="h-3.5 w-3.5 text-zinc-500" /> Illustrated Spotter’s Deck • {FIELD_GUIDE_ENTRIES.length} Cards
             </span>
-            <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
-              🐆 The Illustrated Age-Gap Field Guide
+            <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">
+              The Illustrated Age-Gap Field Guide
             </h2>
-            <p className="text-xs sm:text-sm font-medium text-stone-600">
-              Spot every archetype in 5 seconds: Puma → Cougar → Jaguar → Panther tiers, Golden Cubs vs. Tourists &amp; 23 Celebrity Icons.
+            <p className="text-sm text-zinc-600">
+              Puma → Cougar → Jaguar → Panther tiers, Golden Cubs vs. Tourists &amp; 23 Celebrity Icons.
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-stone-200 bg-white p-2.5 text-stone-700 hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
+            className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
             aria-label="Close Field Guide"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="inline-flex flex-wrap items-center gap-1 rounded-lg bg-zinc-100 p-1">
           {[
-            { id: 'all', label: `🔥 All ${FIELD_GUIDE_ENTRIES.length} Cards` },
-            { id: 'feline_scale', label: '🐆 Feline Age Scale' },
-            { id: 'cub_taxonomy', label: '🥂 Cubs vs. Goblins' },
-            { id: 'crossover_lore', label: '👑 Romance Polarity' },
-            { id: 'pop_culture', label: '✨ Celebrity Hall of Fame' },
+            { id: 'all', label: `All ${FIELD_GUIDE_ENTRIES.length} Cards` },
+            { id: 'feline_scale', label: 'Feline Age Scale' },
+            { id: 'cub_taxonomy', label: 'Cubs vs. Goblins' },
+            { id: 'crossover_lore', label: 'Romance Polarity' },
+            { id: 'pop_culture', label: 'Celebrity Icons' },
           ].map((tab) => (
             <button
               key={tab.id}
               type="button"
               onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
-              className={`rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition cursor-pointer ${
+              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
                 activeFilter === tab.id
-                  ? 'bg-[#18101E] text-white shadow-xs'
-                  : 'border border-stone-200 bg-white text-[#18101E] hover:bg-stone-50'
+                  ? 'bg-white text-zinc-950 shadow-2xs'
+                  : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
               {tab.label}
@@ -270,7 +270,6 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
         <div className="grid gap-4 sm:grid-cols-2 items-stretch">
           {visibleEntries.map((entry, idx) => {
             const stamped = unlockedStamps.includes(entry.id);
-            const isPop = entry.category === 'pop_culture';
             const portrait = ENTRY_PORTRAITS[entry.id] ?? {
               url: './images/cast/hero-couple.jpg',
               emojiBadge: '✨ Club Lore',
@@ -278,11 +277,7 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
             return (
               <div
                 key={entry.id}
-                className={`rounded-3xl border p-4 sm:p-5 space-y-3 h-full flex flex-col justify-between shadow-2xs ${
-                  isPop
-                    ? 'border-rose-200/80 bg-gradient-to-br from-rose-50/45 via-white to-amber-50/30'
-                    : 'border-stone-200 bg-white'
-                }`}
+                className="rounded-xl border border-zinc-200 bg-white p-4 sm:p-5 space-y-3 h-full flex flex-col justify-between shadow-2xs"
               >
                 <div className="space-y-3">
                   <div className="flex items-start gap-3.5">
@@ -294,41 +289,41 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                           e.currentTarget.onerror = null;
                           e.currentTarget.src = './images/cast/hero-couple.jpg';
                         }}
-                        className="h-24 w-20 sm:h-28 sm:w-22 rounded-2xl border border-stone-200 bg-stone-100 object-cover object-top shadow-2xs"
+                        className="h-24 w-20 sm:h-28 sm:w-22 rounded-xl border border-zinc-200 bg-zinc-100 object-cover object-top"
                       />
-                      <span className="absolute -top-2 -left-2 rounded-full bg-[#18101E] px-2 py-0.5 text-[10px] font-extrabold text-amber-300">
+                      <span className="absolute -top-2 -left-2 rounded-md bg-zinc-900 px-1.5 py-0.5 text-xs font-semibold text-white">
                         #{idx + 1}
                       </span>
                     </div>
                     <div className="min-w-0 flex-1 space-y-1">
                       <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-950">
+                        <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700">
                           {portrait.emojiBadge}
                         </span>
-                        <span className="rounded-full border border-rose-200 bg-white px-2.5 py-0.5 text-[10px] font-extrabold text-rose-700">
+                        <span className="rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-xs font-medium text-zinc-600">
                           {entry.ageRange}
                         </span>
                       </div>
-                      <h3 className="font-editorial text-lg sm:text-xl font-bold text-[#18101E] leading-snug">
+                      <h3 className="text-base sm:text-lg font-semibold text-zinc-950 leading-snug">
                         {entry.label}
                       </h3>
-                      <div className="text-xs font-extrabold text-rose-700 leading-snug">
+                      <div className="text-xs font-medium text-zinc-500 leading-snug">
                         {entry.headline} {stamped ? '• ✓ Unlocked' : ''}
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm font-medium leading-relaxed text-stone-700">
+                  <p className="text-sm leading-relaxed text-zinc-600">
                     {entry.insiderLore}
                   </p>
                 </div>
 
                 <div className="space-y-1.5 pt-1">
-                  <p className="rounded-2xl border border-amber-200/80 bg-amber-50/70 px-3.5 py-2 text-xs font-bold text-[#18101E]">
-                    👀 <span className="text-rose-700">Instant Tell:</span> {entry.signatureTell}
+                  <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-800">
+                    <span className="font-semibold text-zinc-950">Instant Tell:</span> {entry.signatureTell}
                   </p>
                   {portrait.credit && (
-                    <p className="text-[10px] font-medium text-stone-400">{portrait.credit}</p>
+                    <p className="text-xs text-zinc-400">{portrait.credit}</p>
                   )}
                 </div>
               </div>

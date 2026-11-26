@@ -642,7 +642,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#18101E]">
+    <div className="min-h-screen flex flex-col bg-[#F7F7F8] text-zinc-900">
       <TopHudBar
         wallet={wallet}
         activeTab={activeTab}
@@ -720,44 +720,45 @@ export default function App() {
         </div>
       )}
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-5">
-        {!activeChallenge &&
-          (activeTab === 'hinge' ||
-            activeTab === 'wild' ||
-            activeTab === 'chats' ||
-            activeTab === 'school') && (
-            <CampaignCompassBar
-              wallet={wallet}
-              threads={threads}
-              cutLooseIds={cutLooseIds}
-              cubSchoolStars={cubSchoolStars}
-              completedCameoCount={completedCameoVenues.length}
-              role={role}
-              activeTab={activeTab}
-              onNavigateStep={(step) => {
-                if (step.leadId) setSelectedChatLeadId(step.leadId);
-                setOpenConspiracyDirectly(Boolean(step.openConspiracy));
-                if (step.leadId && step.launchDateNumber) {
-                  setAutoLaunchDateRequest({
-                    leadId: step.leadId,
-                    dateNumber: step.launchDateNumber,
-                    nonce: Date.now(),
-                  });
-                } else {
-                  setAutoLaunchDateRequest(null);
-                }
-                setActiveTab(step.targetTab);
-              }}
-              onSelectMatchChat={(leadId) => {
-                setSelectedChatLeadId(leadId);
-                setOpenConspiracyDirectly(false);
-                setActiveTab('chats');
-              }}
-              onOpenCubSchool={() => setActiveTab('school')}
-              onOpenWildMap={() => setActiveTab('wild')}
-              onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
-            />
-          )}
+      {!activeChallenge &&
+        (activeTab === 'hinge' ||
+          activeTab === 'wild' ||
+          activeTab === 'chats' ||
+          activeTab === 'school') && (
+          <CampaignCompassBar
+            wallet={wallet}
+            threads={threads}
+            cutLooseIds={cutLooseIds}
+            cubSchoolStars={cubSchoolStars}
+            completedCameoCount={completedCameoVenues.length}
+            role={role}
+            activeTab={activeTab}
+            onNavigateStep={(step) => {
+              if (step.leadId) setSelectedChatLeadId(step.leadId);
+              setOpenConspiracyDirectly(Boolean(step.openConspiracy));
+              if (step.leadId && step.launchDateNumber) {
+                setAutoLaunchDateRequest({
+                  leadId: step.leadId,
+                  dateNumber: step.launchDateNumber,
+                  nonce: Date.now(),
+                });
+              } else {
+                setAutoLaunchDateRequest(null);
+              }
+              setActiveTab(step.targetTab);
+            }}
+            onSelectMatchChat={(leadId) => {
+              setSelectedChatLeadId(leadId);
+              setOpenConspiracyDirectly(false);
+              setActiveTab('chats');
+            }}
+            onOpenCubSchool={() => setActiveTab('school')}
+            onOpenWildMap={() => setActiveTab('wild')}
+            onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
+          />
+        )}
+
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-6">
 
         {noticeBanner && (
           <div className="editorial-hinge-card flex items-center justify-between gap-3 rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-xs sm:text-sm font-bold text-amber-950">
@@ -1001,91 +1002,91 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-stone-200/80 bg-white py-8 text-sm text-stone-600">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 grid gap-6 md:grid-cols-[1.3fr_1fr_1fr] items-start">
+      <footer className="border-t border-zinc-200 bg-white py-8 text-sm text-zinc-600">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 grid gap-6 md:grid-cols-[1.4fr_1fr_1fr] items-start">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#18101E] text-xs text-white">
+              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-900 text-xs text-white">
                 🐆
               </span>
-              <span className="font-editorial text-base font-bold text-[#18101E]">
+              <span className="text-sm font-semibold text-zinc-950">
                 {BRAND_CONFIG.name}
               </span>
             </div>
-            <p className="text-xs leading-relaxed text-stone-500 max-w-sm">
-              Editorial romantic-comedy dating simulation, live AI chat studio, and shoppable age-gap relationship guide for consenting adults (21+).
+            <p className="text-xs leading-relaxed text-zinc-500 max-w-sm">
+              Romantic-comedy dating simulation, live AI chat studio, and shoppable age-gap relationship guide for consenting adults (21+).
             </p>
           </div>
 
           <div className="space-y-2">
-            <div className="text-[11px] font-extrabold uppercase tracking-wider text-stone-400">
+            <div className="text-xs font-semibold text-zinc-900">
               Simulation Wings
             </div>
-            <div className="flex flex-wrap gap-2 text-xs font-semibold">
+            <div className="flex flex-wrap gap-1.5 text-xs font-medium">
               <button
                 type="button"
                 onClick={() => setActiveTab('hinge')}
-                className="rounded-full border border-stone-200 bg-stone-50 hover:bg-stone-100 px-3 py-1 text-[#18101E] cursor-pointer"
+                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
               >
-                📱 Hinge Feed
+                Hinge Feed
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('wild')}
-                className="rounded-full border border-stone-200 bg-stone-50 hover:bg-stone-100 px-3 py-1 text-[#18101E] cursor-pointer"
+                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
               >
-                🗺️ In The Wild
+                In The Wild
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('chats')}
-                className="rounded-full border border-stone-200 bg-stone-50 hover:bg-stone-100 px-3 py-1 text-[#18101E] cursor-pointer"
+                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
               >
-                💬 Chats &amp; Dates
+                Chats &amp; Dates
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('school')}
-                className="rounded-full border border-stone-200 bg-stone-50 hover:bg-stone-100 px-3 py-1 text-[#18101E] cursor-pointer"
+                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
               >
-                🎓 Cub School
+                Cub School
               </button>
             </div>
           </div>
 
           <div className="space-y-2">
-            <div className="text-[11px] font-extrabold uppercase tracking-wider text-stone-400">
+            <div className="text-xs font-semibold text-zinc-900">
               Extras, Shop &amp; Support
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+            <div className="flex flex-wrap items-center gap-1.5 text-xs font-medium">
               <button
                 type="button"
                 onClick={() => setPopTriviaOpen(true)}
-                className="rounded-full border border-stone-200 bg-white hover:bg-amber-50 px-3 py-1 text-[#18101E] cursor-pointer"
+                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
               >
-                🎬 Trailer Quiz
+                Trailer Quiz
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('journal')}
-                className="rounded-full border border-stone-200 bg-white hover:bg-stone-50 px-3 py-1 text-[#18101E] cursor-pointer"
+                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
               >
-                📖 16 Guides
+                16 Guides
               </button>
               <button
                 type="button"
                 onClick={() => openBoutiqueWithTab('shop')}
-                className="rounded-full bg-[#18101E] px-3 py-1 text-white cursor-pointer"
+                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
               >
-                🛍️ Date-Night Shop
+                Date-Night Shop
               </button>
               <a
                 href={MONETIZATION_CONFIG.tipJarUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-amber-300 bg-amber-50 px-3 py-1 font-bold text-amber-950"
+                className="rounded-md bg-zinc-900 hover:bg-zinc-800 px-2.5 py-1 font-medium text-white"
               >
-                💛 Support This Project
+                Support This Project
               </a>
               <button
                 type="button"
@@ -1111,25 +1112,27 @@ export default function App() {
       {/* Quick 15-Second Persona Setup Modal */}
       {personaModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/60 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-4"
           role="dialog"
           aria-modal="true"
           aria-label="15-Second Persona Setup"
+          onClick={() => setPersonaModalOpen(false)}
         >
           <form
+            onClick={(e) => e.stopPropagation()}
             onSubmit={(e) => {
               e.preventDefault();
               updateWallet(updatePlayerPersona(wallet, draftName, draftVibe));
               setPersonaModalOpen(false);
             }}
-            className="editorial-hinge-card w-full max-w-md rounded-3xl bg-[#FFFDF9] p-6 space-y-4 shadow-2xl"
+            className="editorial-hinge-card w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 space-y-4 shadow-xl"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-3 py-0.5 text-xs font-extrabold uppercase text-rose-700">
-                  <Sparkles className="h-3 w-3" /> 15-Second Persona Setup
+                <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
+                  <Sparkles className="h-3.5 w-3.5 text-zinc-500" /> Persona Setup
                 </span>
-                <h2 className="mt-1.5 font-editorial text-2xl font-bold text-[#18101E]">
+                <h2 className="mt-1.5 text-xl font-semibold tracking-tight text-zinc-950">
                   How Should Matches Address You?
                 </h2>
               </div>
@@ -1137,7 +1140,7 @@ export default function App() {
                 type="button"
                 onClick={() => setPersonaModalOpen(false)}
                 aria-label="Close Persona Setup"
-                className="rounded-full border border-stone-200 bg-white p-2 text-stone-700 cursor-pointer"
+                className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -1146,7 +1149,7 @@ export default function App() {
             <div className="space-y-1.5">
               <label
                 htmlFor="persona-name-input"
-                className="block text-xs font-extrabold uppercase tracking-wider text-stone-600"
+                className="block text-xs font-medium text-zinc-700"
               >
                 Your First Name (Used on Dates &amp; Texts)
               </label>
@@ -1157,12 +1160,12 @@ export default function App() {
                 placeholder={role === 'her' ? 'e.g. Sophia' : 'e.g. Alex'}
                 value={draftName}
                 onChange={(e) => setDraftName(e.target.value)}
-                className="w-full rounded-2xl border border-stone-300 bg-white px-4 py-3 text-sm font-bold text-[#18101E]"
+                className="w-full h-10 rounded-lg border border-zinc-200 bg-white px-3.5 text-sm text-zinc-900"
               />
             </div>
 
             <div className="space-y-1.5">
-              <div className="text-xs font-extrabold uppercase tracking-wider text-stone-600">
+              <div className="text-xs font-medium text-zinc-700">
                 Friday Signature Vibe
               </div>
               <div className="grid gap-2">
@@ -1171,10 +1174,10 @@ export default function App() {
                     key={vibe}
                     type="button"
                     onClick={() => setDraftVibe(vibe)}
-                    className={`rounded-2xl border px-3.5 py-2.5 text-left text-xs font-bold cursor-pointer ${
+                    className={`rounded-lg border px-3.5 py-2.5 text-left text-xs font-medium transition-colors cursor-pointer ${
                       draftVibe === vibe
-                        ? 'border-[#18101E] bg-[#18101E] text-white'
-                        : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+                        ? 'border-zinc-900 bg-zinc-900 text-white'
+                        : 'border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50'
                     }`}
                   >
                     {vibe}
@@ -1187,13 +1190,13 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setPersonaModalOpen(false)}
-                className="rounded-full border border-stone-300 bg-white px-4 py-2 text-xs font-bold text-stone-700 cursor-pointer"
+                className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-4 text-xs font-medium text-zinc-700 hover:bg-zinc-50 cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="rounded-full bg-rose-600 px-5 py-2 text-xs font-extrabold text-white cursor-pointer"
+                className="inline-flex h-9 items-center rounded-lg bg-zinc-900 px-4 text-xs font-medium text-white hover:bg-zinc-800 cursor-pointer"
               >
                 Save Persona
               </button>

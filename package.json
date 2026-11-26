@@ -14,12 +14,15 @@
   },
   "dependencies": {
     "@posthog/react": "^1.11.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
     "pixi.js": "^8.23.0",
     "posthog-js": "^1.455.2",
     "posthog-node": "^6.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.7.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.9",

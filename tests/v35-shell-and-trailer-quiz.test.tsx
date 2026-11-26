@@ -20,10 +20,10 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
 
     // 4 primary navigation tabs inside Primary Club Navigation
     const primaryNav = screen.getByRole('navigation', { name: /Primary Club Navigation/i });
-    expect(within(primaryNav).getByRole('button', { name: /📱 Hinge/i })).toBeInTheDocument();
-    expect(within(primaryNav).getByRole('button', { name: /🗺️ In The Wild/i })).toBeInTheDocument();
-    expect(within(primaryNav).getByRole('button', { name: /💬 Chats & Dates/i })).toBeInTheDocument();
-    expect(within(primaryNav).getByRole('button', { name: /🎓 Cub School/i })).toBeInTheDocument();
+    expect(within(primaryNav).getByRole('button', { name: /^Hinge$/i })).toBeInTheDocument();
+    expect(within(primaryNav).getByRole('button', { name: /^In The Wild$/i })).toBeInTheDocument();
+    expect(within(primaryNav).getByRole('button', { name: /^Chats & Dates$/i })).toBeInTheDocument();
+    expect(within(primaryNav).getByRole('button', { name: /^Cub School$/i })).toBeInTheDocument();
 
     // Visible Support This Project link + 3 Friday Hearts + 3 Cr starter balance
     const supportLinks = screen.getAllByRole('link', { name: /Support This Project/i });

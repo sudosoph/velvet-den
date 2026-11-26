@@ -158,20 +158,20 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-2xl space-y-3.5 animate-stage-in">
-      {/* Compact Single-Row HUD: Mode Pill + +8% Spark Progress + Active Match Return */}
+      {/* Compact Single-Row HUD: Clean Neutral Badge + shadcn Segmented Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-2.5">
         <div
           data-testid="cub-school-perk-banner"
-          className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold ${
+          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium ${
             perkUnlocked
-              ? 'border-emerald-300 bg-emerald-50 text-emerald-950'
-              : 'border-amber-200 bg-amber-50/90 text-amber-950'
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+              : 'border-zinc-200 bg-white text-zinc-700'
           }`}
         >
           <span>
             {perkUnlocked
-              ? `✨ +8% Etiquette Spark Active (${bestStars}/12 ⭐)`
-              : `⭐ ${bestStars}/4 Stars for +8% Chat Spark`}
+              ? `✨ +8% Etiquette Spark Active (${bestStars}/12 Stars)`
+              : `${bestStars}/4 Gold Stars for +8% Chat Spark`}
           </span>
         </div>
 
@@ -180,74 +180,74 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
             <button
               type="button"
               onClick={onReturnToActiveMatch}
-              className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-3.5 py-1.5 text-xs font-extrabold text-white cursor-pointer"
+              className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-900 px-3 text-xs font-medium text-white cursor-pointer"
             >
               <MessageCircle className="h-3.5 w-3.5" />
               <span>Return to Active Match ({activeMatchName}) →</span>
             </button>
           )}
 
-          <div className="inline-flex rounded-full bg-stone-200/75 p-1">
+          <div className="inline-flex rounded-lg bg-zinc-100 p-1">
             <button
               type="button"
               onClick={() => setMode('headmistress')}
-              className={`rounded-full px-3 py-1 text-xs font-bold cursor-pointer transition ${
-                mode === 'headmistress' ? 'bg-[#18101E] text-white shadow-xs' : 'text-stone-600'
+              className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
+                mode === 'headmistress' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
-              {mode === 'headmistress' ? '🐆 Headmistress Grading Mode' : '🐆 Headmistress'}
+              {mode === 'headmistress' ? 'Headmistress Grading Mode' : 'Headmistress'}
             </button>
             <button
               type="button"
               onClick={() => setMode('candidate')}
-              className={`rounded-full px-3 py-1 text-xs font-bold cursor-pointer transition ${
-                mode === 'candidate' ? 'bg-[#18101E] text-white shadow-xs' : 'text-stone-600'
+              className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
+                mode === 'candidate' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
-              {mode === 'candidate' ? '🎓 Cub Candidate Exam' : '🎓 Candidate'}
+              {mode === 'candidate' ? 'Cub Candidate Exam' : 'Candidate'}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Visual 12-Dot Progress Strip */}
-      <div className="flex items-center gap-1.5 px-1" aria-label="Drill progress">
+      {/* Visual 12-Step Progress Strip */}
+      <div className="flex items-center gap-1.5" aria-label="Drill progress">
         {V35_CUB_SCHOOL_DRILLS.map((d, i) => {
           const passed = results[i];
           const isCurrent = i === drillIdx;
           return (
             <div
               key={d.id}
-              className={`h-2 flex-1 rounded-full transition-all ${
+              className={`h-1.5 flex-1 rounded-full transition-all ${
                 isCurrent
-                  ? 'bg-[#18101E] scale-y-125'
+                  ? 'bg-zinc-900'
                   : passed === true
                     ? 'bg-emerald-500'
                     : passed === false
-                      ? 'bg-rose-400'
-                      : 'bg-stone-200'
+                      ? 'bg-rose-500'
+                      : 'bg-zinc-200'
               }`}
             />
           );
         })}
       </div>
 
-      {/* Visual Scene Quiz Card — Question First, Zero Text Wall! */}
-      <section className="editorial-hinge-card overflow-hidden rounded-3xl bg-white">
+      {/* Visual Scene Quiz Card — Question First, Clean shadcn Surface */}
+      <section className="editorial-hinge-card overflow-hidden rounded-2xl bg-white">
         {/* Illustrated Scene Banner + Live Reaction Avatar */}
-        <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-[#18101E]">
+        <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-zinc-950">
           <img
             data-testid="cub-school-scene-img"
             src={drill.sceneImage}
             alt={drill.topicTag}
             className="h-full w-full object-cover opacity-85"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#18101E] via-[#18101E]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
 
           {/* Top-Left Topic Pill */}
           <div className="absolute top-3.5 left-4 flex items-center gap-2">
-            <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#18101E] shadow-xs">
-              Drill {drill.moduleNumber}/12 • {drill.topicTag}
+            <span className="rounded-md bg-white/95 px-2.5 py-1 text-xs font-medium text-zinc-900 shadow-2xs">
+              Drill {drill.moduleNumber} of 12 • {drill.topicTag}
             </span>
           </div>
 
@@ -257,9 +257,9 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
               <img
                 src={mode === 'headmistress' ? headmistressPortrait : candidatePortrait}
                 alt="Academy reaction"
-                className={`h-24 w-20 sm:h-28 sm:w-22 rounded-2xl object-cover ring-2 border-2 border-white/80 shadow-xl ${preset.tintClass} ${preset.motionClass}`}
+                className={`h-24 w-20 sm:h-28 sm:w-22 rounded-xl object-cover border-2 border-white/90 shadow-lg ${preset.motionClass}`}
               />
-              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18101E] border border-amber-300/50 px-2 py-0.5 text-[10px] font-bold text-amber-200 shadow-sm">
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-zinc-900 px-2 py-0.5 text-xs font-medium text-white shadow-xs">
                 {preset.particle} {preset.badge}
               </span>
             </div>
@@ -269,7 +269,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 pr-28 sm:pr-32">
             <h1
               data-testid="cub-school-question"
-              className="font-editorial text-lg sm:text-2xl font-bold leading-snug text-white drop-shadow-xs"
+              className="text-lg sm:text-xl font-semibold tracking-tight leading-snug text-white"
             >
               {drill.punchyQuestion}
             </h1>
@@ -300,31 +300,31 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                       sfx.redFlag();
                     }
                   }}
-                  className={`group flex w-full items-center gap-3.5 rounded-2xl p-3.5 sm:p-4 text-left text-sm sm:text-base transition cursor-pointer ${
+                  className={`group flex w-full items-center gap-3 rounded-xl p-3.5 text-left text-sm transition-colors cursor-pointer ${
                     pickedIdx === null
-                      ? 'border border-stone-200 bg-stone-50/75 font-semibold text-[#18101E] hover:border-[#18101E] hover:bg-white hover:shadow-xs'
+                      ? 'border border-zinc-200 bg-white font-medium text-zinc-900 hover:border-zinc-400 hover:bg-zinc-50'
                       : opt.isGoldStar
-                        ? 'border-2 border-emerald-500 bg-emerald-50 font-bold text-emerald-950'
+                        ? 'border-2 border-emerald-500 bg-emerald-50 font-semibold text-emerald-950'
                         : isPicked
-                          ? 'border-2 border-rose-500 bg-rose-50 font-semibold text-rose-950'
-                          : 'border border-stone-200/70 bg-white/60 text-stone-400'
+                          ? 'border-2 border-rose-500 bg-rose-50 font-medium text-rose-950'
+                          : 'border border-zinc-200/70 bg-zinc-50/50 text-zinc-400'
                   }`}
                 >
                   <span
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-extrabold transition ${
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-semibold transition-colors ${
                       pickedIdx === null
-                        ? 'bg-white border border-stone-300 text-[#18101E] group-hover:bg-[#18101E] group-hover:text-white group-hover:border-[#18101E]'
+                        ? 'bg-zinc-100 text-zinc-700 group-hover:bg-zinc-900 group-hover:text-white'
                         : opt.isGoldStar
                           ? 'bg-emerald-600 text-white'
                           : isPicked
                             ? 'bg-rose-600 text-white'
-                            : 'bg-stone-100 text-stone-400'
+                            : 'bg-zinc-100 text-zinc-400'
                     }`}
                   >
                     {pickedIdx !== null && opt.isGoldStar
-                      ? '⭐'
+                      ? '✓'
                       : pickedIdx !== null && isPicked
-                        ? '🚩'
+                        ? '✕'
                         : letter}
                   </span>
                   <span className="leading-snug">{opt.label}</span>
@@ -336,25 +336,25 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           {/* Instant Verdict + Post-Answer Real Receipt + Next Button */}
           {pickedOption && (
             <div
-              className={`rounded-2xl p-4 sm:p-5 space-y-2.5 animate-stage-in ${
+              className={`rounded-xl p-4 space-y-2 animate-stage-in ${
                 pickedOption.isGoldStar
-                  ? 'bg-emerald-50 border border-emerald-200 text-emerald-950'
-                  : 'bg-rose-50 border border-rose-200 text-rose-950'
+                  ? 'bg-emerald-50/80 border border-emerald-200 text-emerald-950'
+                  : 'bg-zinc-100 border border-zinc-200 text-zinc-900'
               }`}
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="space-y-1 flex-1 min-w-[220px]">
-                  <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold">
                     <CheckCircle2 className="h-4 w-4 shrink-0" />
                     <span>
                       {pickedOption.isGoldStar ? 'Gold Star Ruling' : 'Headmistress Detention'}
                     </span>
                   </div>
-                  <p className="text-sm font-bold leading-snug">
+                  <p className="text-sm font-medium leading-snug">
                     {pickedOption.headmistressVerdict}
                   </p>
-                  <p className="text-xs opacity-80 italic">
-                    💬 Real club receipt: {drill.redditComplaintQuote}
+                  <p className="text-xs text-zinc-600 italic">
+                    Real club receipt: {drill.redditComplaintQuote}
                   </p>
                 </div>
 
@@ -370,7 +370,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                       onEarnDiploma?.();
                     }
                   }}
-                  className="shrink-0 rounded-full bg-[#18101E] hover:bg-stone-800 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-white shadow-xs transition cursor-pointer"
+                  className="shrink-0 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white transition-colors cursor-pointer"
                 >
                   {drillIdx + 1 < V35_CUB_SCHOOL_DRILLS.length
                     ? `Next Module (#${drillIdx + 2}) →`
@@ -380,7 +380,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
             </div>
           )}
 
-          {/* Compact Full-Card Clickable Contextual Amazon Fix */}
+          {/* Clean Neutral shadcn Product Footer Row */}
           {fixProduct && (
             <a
               href={buildAffiliateUrl(fixProduct, `cub_school_m${drill.moduleNumber}`)}
@@ -393,25 +393,25 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                   module: drill.moduleNumber,
                 })
               }
-              className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200/90 bg-amber-50/50 px-3.5 py-2.5 hover:border-amber-400 hover:bg-amber-50 transition cursor-pointer"
+              className="group flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50/80 px-3.5 py-2.5 hover:border-zinc-300 hover:bg-zinc-100/70 transition-colors cursor-pointer"
             >
-              <div className="flex items-center gap-3 min-w-0">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
                 <img
                   src={fixProduct.photoUrl}
                   alt={fixProduct.name}
-                  className="h-11 w-11 rounded-xl object-cover shrink-0 ring-1 ring-amber-200/80"
+                  className="h-10 w-10 rounded-lg object-cover shrink-0 border border-zinc-200 bg-white"
                 />
                 <div className="min-w-0">
-                  <div className="text-xs font-bold text-[#18101E] truncate group-hover:underline">
+                  <div className="text-sm font-medium text-zinc-900 truncate group-hover:underline">
                     {fixProduct.name}
                   </div>
-                  <div className="text-[11px] text-stone-600">
-                    {fixProduct.priceDisplay} • Opens on Amazon
+                  <div className="text-xs text-zinc-500">
+                    {fixProduct.priceDisplay} • Amazon Partner Pick
                   </div>
                 </div>
               </div>
 
-              <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-3.5 py-2 text-xs font-bold text-white group-hover:bg-stone-800 transition">
+              <span className="shrink-0 inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-900 px-3 text-xs font-medium text-white group-hover:bg-zinc-800 transition-colors">
                 <span>Shop the Fix on Amazon</span>
                 <ExternalLink className="h-3.5 w-3.5" />
               </span>
