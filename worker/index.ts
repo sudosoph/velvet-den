@@ -1365,6 +1365,8 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
     personaTitle?: string;
     personaRole?: 'her' | 'him';
     playerRole?: 'her' | 'him';
+    playerName?: string;
+    playerPersonaVibe?: string;
     channelId?: string;
     secondSpeakerName?: string;
     personaLore?: string;
@@ -1398,6 +1400,11 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         : 'him';
   const platform = String(body.platform || 'tinder').slice(0, 16);
   const secondSpeakerName = String(body.secondSpeakerName || 'Claire_M&A').slice(0, 32);
+  const playerName = String(body.playerName || '')
+    .replace(/[^a-zA-Z0-9 '\-]/g, '')
+    .trim()
+    .slice(0, 28);
+  const playerPersonaVibe = String(body.playerPersonaVibe || '').trim().slice(0, 48);
   const castLore =
     String(body.personaLore || '').slice(0, 260) || CAST_AI_LORE_BY_ID[personaId] || '';
 
@@ -1457,9 +1464,15 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
             ? 'witty, self-possessed woman flirting/vetting him'
             : 'charming, sharp younger man flirting with her';
 
+        const playerIdentityHint =
+          playerName || playerPersonaVibe
+            ? `PLAYER IDENTITY: The player's name is ${playerName || 'your match'}${playerPersonaVibe ? ` and their signature dating vibe is '${playerPersonaVibe}'` : ''}. Weave their first name (${playerName}) or play off their '${playerPersonaVibe}' energy naturally when it fits!`
+            : '';
+
         systemPrompt = [
           `You are texting 1-on-1 in first person as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a playful, funny romantic-comedy dating game.`,
           castLore ? `YOUR SECRET CHARACTER BIBLE: ${castLore}` : '',
+          playerIdentityHint,
           `CRITICAL COHERENCE & FUN RULE: Reply directly to the exact joke, answer, tease, or question the player just sent! Build directly on their words with genuine humor, personality, and curiosity.`,
           pacingDirective,
           `LENGTH & VOICE: 1 to 2 lively, natural texting sentences (12-30 words) ending with a fun hook or playful question so the player wants to reply! NEVER sound robotic or corporate.`,

@@ -102,7 +102,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             {V35_WILD_VENUES.length} Illustrated Velvet Palms Venues
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Meet offline at Terminal B Arrivals, Hawthorne University, The Velvet Room Hotel Bar, Havana Social Salsa, and Palisades Racquet—going straight to real phone numbers.
+            Meet offline at Terminal B Arrivals, Hawthorne University, The Velvet Room Hotel Bar, Havana Social Salsa, and Palisades Racquet, going straight to real phone numbers.
           </p>
         </div>
 
@@ -142,7 +142,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
           </h2>
           <ul className="space-y-2 text-sm font-medium text-stone-700 leading-relaxed">
             <li>• <strong>Adults Only (21+):</strong> Every character is a consenting adult (including strict Post-Grades university boundaries).</li>
-            <li>• <strong>Never an ATM:</strong> Accomplished women date younger for chemistry, presence, and joy—never to bankroll a dependent.</li>
+            <li>• <strong>Never an ATM:</strong> Accomplished women date younger for chemistry, presence, and joy, never to bankroll a dependent.</li>
             <li>• <strong>Every Polarity Celebrated:</strong> Play Princess Romance, Soft Mommy-Domme poise, or decisive Cub-Daddy dinner takeovers.</li>
           </ul>
         </div>

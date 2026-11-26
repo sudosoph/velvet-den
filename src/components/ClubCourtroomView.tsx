@@ -54,7 +54,7 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     aslTag: '41F × 25M • Los Angeles',
     headline: 'Posted Our Cabo Anniversary Dinner Exclusively to His 9-Person "Close Friends" Ring',
     story:
-      'Four months of great dates, yet when he finally posted our beachfront toast I spotted the neon green circle—populated strictly by out-of-state cousins and zero local pals.',
+      'Four months of great dates, yet when he finally posted our beachfront toast I spotted the neon green circle, populated strictly by out-of-state cousins and zero local pals.',
     vibeBadge: '🟢 Soft-Launch Dodge',
     crownHer: 8,
     dumpHer: 92,
@@ -90,7 +90,7 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     aslTag: '49F × 29M • Scottsdale',
     headline: 'Secretly Took Three Stick-Shift Lessons So He Could Drive My Classic Carrera Home',
     story:
-      'Never acted weird that he didn’t drive manual—booked an instructor on his own dime and smoothly took the keys after our wine-pairing dinner.',
+      'Never acted weird that he didn’t drive manual, booked an instructor on his own dime and smoothly took the keys after our wine-pairing dinner.',
     vibeBadge: '🏎️ Smooth Operator',
     crownHer: 96,
     dumpHer: 4,
@@ -114,7 +114,7 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     aslTag: '42F × 25M • Boston',
     headline: 'Wrapped Up a $180 Jar Labeled "Extra-Firming Mature Wrinkle Rescue" for My Birthday',
     story:
-      'Swore the department-store clerk told him it was the luxury bestseller—sweetest handwritten card attached to the most mortifying label on earth.',
+      'Swore the department-store clerk told him it was the luxury bestseller, sweetest handwritten card attached to the most mortifying label on earth.',
     vibeBadge: '🎁 Clueless Sweetheart?',
     crownHer: 38,
     dumpHer: 62,
@@ -126,7 +126,7 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     aslTag: '51F × 30M • Denver',
     headline: 'Kept His Charger & Toothbrush Inside His Duffel Until I Explicitly Offered Him a Drawer',
     story:
-      'Zero stealth territory-marking in my townhouse for three straight months—waited until I cleared top-drawer space before leaving a single item behind.',
+      'Zero stealth territory-marking in my townhouse for three straight months, waited until I cleared top-drawer space before leaving a single item behind.',
     vibeBadge: '🧳 Sanctuary Respect',
     crownHer: 95,
     dumpHer: 5,
@@ -150,7 +150,7 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     aslTag: '48F × 28M • Miami',
     headline: 'Pre-Paid Valet & Tipped the Hostess Ahead So My Wallet Never Left My Evening Clutch',
     story:
-      'Took me out for my promotion celebration on his sous-chef paycheck—coordinated every detail with the restaurant at 4 PM so the evening glided seamlessly.',
+      'Took me out for my promotion celebration on his sous-chef paycheck, coordinated every detail with the restaurant at 4 PM so the evening glided seamlessly.',
     vibeBadge: '🥂 Pure Class',
     crownHer: 98,
     dumpHer: 2,
@@ -162,7 +162,7 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     aslTag: '40F × 25M • Charleston',
     headline: 'Introduced Me to His 82-Year-Old Grandmother at a Family Wedding as "My Good Friend"',
     story:
-      'Claimed afterward he didn’t want Nana to spill punch on her dress from shock—after I flew two states in heels to be his date.',
+      'Claimed afterward he didn’t want Nana to spill punch on her dress from shock, after I flew two states in heels to be his date.',
     vibeBadge: '💒 Plus-One Foul',
     crownHer: 5,
     dumpHer: 95,

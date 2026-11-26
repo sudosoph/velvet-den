@@ -47,7 +47,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     primaryHimLeadId: 'claire',
     secondaryCameoLeadId: 'miles',
     sceneSetupHer:
-      'Golden dusk filters across the mahogany bar. Two stools down, sun-kissed blonde finance VP Graham raises his coupe—though a faint pale tan line circles his left ring finger and he keeps checking the clock before 6:45 PM.',
+      'Golden dusk filters across the mahogany bar. Two stools down, sun-kissed blonde finance VP Graham raises his coupe, though a faint pale tan line circles his left ring finger and he keeps checking the clock before 6:45 PM.',
     sceneSetupHim:
       'At the corner of the mahogany bar, M&A partner Claire sets her phone face-down beside a chilled Gibson martini, savoring twenty quiet minutes after closing a coastal acquisition.',
     choicesHer: [
@@ -55,7 +55,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Trade dry banter with Graham and grab his card so you can investigate that 6:45 PM curfew in text.',
         outcomeText:
-          'Graham beams, slides you his card, and rushes out at 6:44 PM muttering about "Table 9 client calls." Thread unlocked—keep your eyes open!',
+          'Graham beams, slides you his card, and rushes out at 6:44 PM muttering about "Table 9 client calls." Thread unlocked, keep your eyes open!',
         unlocksChatWithId: 'graham',
         chemistryBonus: 10,
         conspiracyClueId: 'clue-velvet-ring',
@@ -64,7 +64,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Clock the pale ring-tan line immediately, toast the bartender instead, and pocket a Table 9 matchbook clue.',
         outcomeText:
-          'The bartender grins: "Smart eye—three regulars use the 6:45 Table 9 alibi every Thursday." +Discernment clue logged!',
+          'The bartender grins: "Smart eye, three regulars use the 6:45 Table 9 alibi every Thursday." +Discernment clue logged!',
         chemistryBonus: 15,
         conspiracyClueId: 'clue-velvet-ring',
       },
@@ -82,7 +82,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Interrupt her immediately to explain bond yields you heard on a morning commute show.',
         outcomeText:
-          'Claire takes one slow sip: "Adorable—I structured that fund." Scene fumbled, try a calmer opener!',
+          'Claire takes one slow sip: "Adorable. I structured that fund." Scene fumbled, try a calmer opener!',
         chemistryBonus: -10,
         isMemeFail: true,
       },
@@ -106,13 +106,13 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     sceneSetupHer:
       'Visiting Hampstead fellow Julian finishes his public guest lecture on Mediterranean villas, stepping off the lectern in rolled linen sleeves with two coffees in hand.',
     sceneSetupHim:
-      'Visiting public auditor series: honey-blonde Chair Prof. Elena collects the final seminar papers. Campus policy is crystal clear—zero social drinks until final grades post Friday at 5 PM.',
+      'Visiting public auditor series: honey-blonde Chair Prof. Elena collects the final seminar papers. Campus policy is crystal clear, zero social drinks until final grades post Friday at 5 PM.',
     choicesHer: [
       {
         label:
           'Challenge Julian’s thesis on Amalfi courtyards with a razor-sharp smile at the reception table.',
         outcomeText:
-          'Julian lights up: "Properly ruthless critique—fancy continuing this over a drink at half seven? xx"',
+          'Julian lights up: "Properly ruthless critique, fancy continuing this over a drink at half seven? xx"',
         unlocksChatWithId: 'julian',
         chemistryBonus: 16,
       },
@@ -130,7 +130,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Honor the Post-Grades Rule: wait until Friday 5:15 PM after grades officially post, then invite Elena for celebratory espresso at the faculty gallery.',
         outcomeText:
-          'Elena’s eyes crinkle warmly: "Patience AND ethics. My calendar just opened up—here is my personal cell."',
+          'Elena’s eyes crinkle warmly: "Patience AND ethics. My calendar just opened up, here is my personal cell."',
         unlocksChatWithId: 'elena',
         chemistryBonus: 20,
       },
@@ -138,14 +138,14 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Try to slip your number inside your seminar notebook on Wednesday BEFORE final grades post.',
         outcomeText:
-          'Elena slides it right back across the walnut desk: "Flattering, truly—come find me ONLY once grades are sealed."',
+          'Elena slides it right back across the walnut desk: "Flattering, truly, come find me ONLY once grades are sealed."',
         chemistryBonus: -12,
         isMemeFail: true,
       },
     ],
     cameoBeat: {
       speakerId: 'julian',
-      line: 'Julian spots you beneath the autumn quad elms holding two rare Penguin paperbacks: "Saved you the annotated Colette copy—don’t tell Elena I raided the stacks x"',
+      line: 'Julian spots you beneath the autumn quad elms holding two rare Penguin paperbacks: "Saved you the annotated Colette copy, don’t tell Elena I raided the stacks x"',
       boostText: '+15% Chemistry Cameo with Julian!',
     },
   },
@@ -160,7 +160,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     primaryHimLeadId: 'celeste',
     secondaryCameoLeadId: 'claire',
     sceneSetupHer:
-      'You walk out of Terminal B after a delayed flight. Dirty-blonde architect Miles—whom Jade introduced briefly last month—tracked your tail number, stands curbside in a charcoal coat holding your exact hot cortado, effortlessly takes both of your heavy bags in one hand, and nods toward the waiting black car with an 8:15 corner booth already confirmed.',
+      'You walk out of Terminal B after a delayed flight. Dirty-blonde architect Miles, whom Jade introduced briefly last month, tracked your tail number, stands curbside in a charcoal coat holding your exact hot cortado, effortlessly takes both of your heavy bags in one hand, and nods toward the waiting black car with an 8:15 corner booth already confirmed.',
     sceneSetupHim:
       'Inside the departure lounge terrace, silver-haired Palm Springs gallery icon Celeste looks up from an exhibition catalog as gate agents announce a forty-minute delay.',
     choicesHer: [
@@ -168,7 +168,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Hand over both bags with a slow smile: "You tracked the flight AND booked the 8:15 table? Dangerous precedent, Miles."',
         outcomeText:
-          'Miles opens the passenger door smoothly: "Turn your brain off—you’ve been running point all week. I’ve got tonight." Direct iMessage unlocked!',
+          'Miles opens the passenger door smoothly: "Turn your brain off, you’ve been running point all week. I’ve got tonight." Direct iMessage unlocked!',
         unlocksChatWithId: 'miles',
         chemistryBonus: 22,
       },
@@ -201,7 +201,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     ],
     cameoBeat: {
       speakerId: 'claire',
-      line: 'Claire breezes out of PreCheck in a silk trench, smiling as she spots you: "Upgrade cleared—sit next to me before someone dull takes 2B."',
+      line: 'Claire breezes out of PreCheck in a silk trench, smiling as she spots you: "Upgrade cleared, sit next to me before someone dull takes 2B."',
       boostText: '+15% Chemistry Cameo with Claire!',
     },
   },
@@ -224,7 +224,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Match Rafael’s frame on the cross-body turn and tease him for making a complex spin feel effortless.',
         outcomeText:
-          'Rafael grins, steady hand warm at your waist: "Stay for one espresso after class—I want to hear your laugh without the trumpet section." Direct iMessage unlocked!',
+          'Rafael grins, steady hand warm at your waist: "Stay for one espresso after class. I want to hear your laugh without the trumpet section." Direct iMessage unlocked!',
         unlocksChatWithId: 'rafael',
         chemistryBonus: 20,
       },
@@ -232,7 +232,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Spend the whole song staring down at your shoes apologizing twenty times.',
         outcomeText:
-          'The rotation bell rings just as you look up—try stepping in with confidence!',
+          'The rotation bell rings just as you look up, try stepping in with confidence!',
         chemistryBonus: 2,
       },
     ],
@@ -249,14 +249,14 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Hover awkwardly by the wall drinking punch without joining a single rotation.',
         outcomeText:
-          'Wallflower night—you came to a social class, jump in!',
+          'Wallflower night, you came to a social class, jump in!',
         chemistryBonus: -6,
         isMemeFail: true,
       },
     ],
     cameoBeat: {
       speakerId: 'sienna',
-      line: 'Sienna waves from the courtyard bar holding two lime aguas frescas: "Jade told me you might drop in—save me the next bachata!"',
+      line: 'Sienna waves from the courtyard bar holding two lime aguas frescas: "Jade told me you might drop in, save me the next bachata!"',
       boostText: '+15% Chemistry Cameo with Sienna!',
     },
   },
@@ -273,13 +273,13 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     sceneSetupHer:
       'Court 3 needs a fourth for mixed doubles at sunset. Platinum-blonde Scandinavian architect Søren twirls his racquet on the baseline, ice-blue eyes glinting with quiet amusement.',
     sceneSetupHim:
-      'Golden-blonde socialite Brooke waves you over to sub in on Court 1—though you notice her glancing repeatedly toward Court 4 where her silver-haired ex-husband is playing.',
+      'Golden-blonde socialite Brooke waves you over to sub in on Court 1, though you notice her glancing repeatedly toward Court 4 where her silver-haired ex-husband is playing.',
     choicesHer: [
       {
         label:
           'Sub in fearless at the net, put away a clean cross-court volley, and accept Søren’s post-match tonic.',
         outcomeText:
-          'Søren’s cool Nordic composure cracks into a delighted grin: "Deadly backhand. Thursday dinner—my treat, no excuses."',
+          'Søren’s cool Nordic composure cracks into a delighted grin: "Deadly backhand. Thursday dinner, my treat, no excuses."',
         unlocksChatWithId: 'soren',
         chemistryBonus: 20,
       },
@@ -287,16 +287,16 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Pretend you pulled a hamstring watching from the cabana.',
         outcomeText:
-          'Søren nods politely and finishes the set—fortune favors stepping onto the court!',
+          'Søren nods politely and finishes the set, fortune favors stepping onto the court!',
         chemistryBonus: 0,
       },
     ],
     choicesHim: [
       {
         label:
-          'Play the set with Brooke and accept her cabana spritz—while clocking why she seated you directly in her ex’s line of sight.',
+          'Play the set with Brooke and accept her cabana spritz, while clocking why she seated you directly in her ex’s line of sight.',
         outcomeText:
-          'Brooke drops her number into your phone and whispers about "booking Table 9 Friday." Thread unlocked—watch for ex-baiting tells!',
+          'Brooke drops her number into your phone and whispers about "booking Table 9 Friday." Thread unlocked, watch for ex-baiting tells!',
         unlocksChatWithId: 'brooke',
         chemistryBonus: 12,
         conspiracyClueId: 'clue-brooke-table9',
@@ -305,14 +305,14 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Smash an overhead lob straight into the champagne cart.',
         outcomeText:
-          'Spectacular chaos on the terrace—club pro blows the whistle!',
+          'Spectacular chaos on the terrace, club pro blows the whistle!',
         chemistryBonus: -8,
         isMemeFail: true,
       },
     ],
     cameoBeat: {
       speakerId: 'soren',
-      line: 'Søren tosses you a chilled towel courtside: "Brooke’s ex just double-faulted twice watching her—don’t get drafted into the Table 9 circus."',
+      line: 'Søren tosses you a chilled towel courtside: "Brooke’s ex just double-faulted twice watching her, don’t get drafted into the Table 9 circus."',
       boostText: '+15% Chemistry Cameo with Søren!',
     },
   },
@@ -368,7 +368,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     ],
     cameoBeat: {
       speakerId: 'marcus',
-      line: 'Marcus walks past with two cortados: "Priya only teases people she actually likes—trust me, I’ve worked trauma bay with her for three years."',
+      line: 'Marcus walks past with two cortados: "Priya only teases people she actually likes, trust me, I’ve worked trauma bay with her for three years."',
       boostText: '+15% Chemistry Cameo with Marcus!',
     },
   },
@@ -391,7 +391,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Let him hand you the copy and wager a glass of Rioja on who finishes it by Sunday.',
         outcomeText:
-          'Julian’s hazel eyes warm instantly: "Dangerous wager—I read fast when the prize is dinner with you xx"',
+          'Julian’s hazel eyes warm instantly: "Dangerous wager. I read fast when the prize is dinner with you xx"',
         unlocksChatWithId: 'julian',
         chemistryBonus: 18,
       },
@@ -417,7 +417,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Pretend you personally know the artist when the artist is a ninety-year-old woman standing behind you.',
         outcomeText:
-          'Busted in stereo—Celeste hides a laugh behind her champagne glass.',
+          'Busted in stereo. Celeste hides a laugh behind her champagne glass.',
         chemistryBonus: -10,
         isMemeFail: true,
       },
@@ -441,7 +441,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     sceneSetupHer:
       'Steam rises off Lane 4 at 6:30 AM. Marcus finishes his 1,500-meter set, pushes his goggles up, and laughs as a confused park wildlife officer at the gate tells a jogger: "Ma’am, for the last time, there aren’t wild cougars in New Jersey!"',
     sceneSetupHim:
-      'Sun-kissed blonde dermatologist Summer finishes reformer cooldown on the terrace with white earbuds still in—testing whether you know the Sacred Gym Earbuds Law.',
+      'Sun-kissed blonde dermatologist Summer finishes reformer cooldown on the terrace with white earbuds still in, testing whether you know the Sacred Gym Earbuds Law.',
     choicesHer: [
       {
         label:
@@ -473,7 +473,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Wave both hands six inches from her face mid-plank so she pulls an earbud out.',
         outcomeText:
-          'Instant gym ick—Sacred Earbuds Law violated!',
+          'Instant gym ick. Sacred Earbuds Law violated!',
         chemistryBonus: -12,
         isMemeFail: true,
       },
@@ -495,7 +495,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     primaryHimLeadId: 'camila',
     secondaryCameoLeadId: 'rafael',
     sceneSetupHer:
-      'Golden-blonde park ranger Rory mistakes you from behind in the fig-and-olive aisle for his friend’s sister, taps your shoulder cheerfully, freezes pink-cheeked when you turn around—and turns the mix-up into the most disarming dimpled recovery all week.',
+      'Golden-blonde park ranger Rory mistakes you from behind in the fig-and-olive aisle for his friend’s sister, taps your shoulder cheerfully, freezes pink-cheeked when you turn around, and turns the mix-up into the most disarming dimpled recovery all week.',
     sceneSetupHim:
       'Chef-owner Camila squeezes heirloom figs beside the Rioja display, rolling her eyes at a guy down the aisle visibly "prowling" with a completely empty hand basket for forty minutes.',
     choicesHer: [
@@ -503,7 +503,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
         label:
           'Laugh at Rory’s mortified British blush and let him recommend his favorite picnic cheese to redeem himself.',
         outcomeText:
-          'Rory’s dimples deepen: "Best accidental shoulder-tap of my life—let me make it up to you with a proper botanical-garden walk."',
+          'Rory’s dimples deepen: "Best accidental shoulder-tap of my life, let me make it up to you with a proper botanical-garden walk."',
         unlocksChatWithId: 'rory',
         chemistryBonus: 18,
       },
@@ -551,7 +551,7 @@ export const V35_WILD_VENUES: WildVenueSpot[] = [
     primaryHimLeadId: 'sienna',
     secondaryCameoLeadId: 'priya',
     sceneSetupHer:
-      'Your neighbor bestie Jade hosts Sunday string-light ribs on the cul-de-sac. Rafael arrives carrying a custom walnutfloating shelf he built for Jade’s den—clean-shaven, sun-bronzed, and immediately taking over the smoky grill.',
+      'Your neighbor bestie Jade hosts Sunday string-light ribs on the cul-de-sac. Rafael arrives carrying a custom walnutfloating shelf he built for Jade’s den, clean-shaven, sun-bronzed, and immediately taking over the smoky grill.',
     sceneSetupHim:
       'Your buddy Sam hosts a backyard cookout when his effortlessly magnetic 39-year-old aunt Sienna walks onto the patio in an ivory linen jumpsuit carrying chilled rosé.',
     choicesHer: [

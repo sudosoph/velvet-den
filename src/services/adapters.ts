@@ -42,6 +42,8 @@ export interface AiDmVettingService {
     personaTitle: string;
     personaRole: 'her' | 'him';
     playerRole?: 'her' | 'him';
+    playerName?: string;
+    playerPersonaVibe?: string;
     channelId?: string;
     secondSpeakerName?: string;
     personaLore?: string;
@@ -184,6 +186,8 @@ export function evaluateDmLocally(params: {
   personaAge: number;
   personaRole: 'her' | 'him';
   playerRole?: 'her' | 'him';
+  playerName?: string;
+  playerPersonaVibe?: string;
   channelId?: string;
   secondSpeakerName?: string;
   personaLore?: string;
@@ -266,14 +270,14 @@ export function evaluateDmLocally(params: {
       chivalryDelta: 18,
       chemistryDelta: 18,
       herReply: isDiscord
-        ? `If he invited you out on Date #1 and asked to split the check, pay your half with a warm smile so you owe him nothing—and cross him off your Friday roster.`
+        ? `If he invited you out on Date #1 and asked to split the check, pay your half with a warm smile so you owe him nothing, and cross him off your Friday roster.`
         : params.personaRole === 'him'
           ? `Zero 50/50 check math when I invite you out. The tab is handled before your coat is on.`
-          : `Whoever extends the invitation handles the check cleanly—splitting pennies on Date #1 kills the spark fast.`,
+          : `Whoever extends the invitation handles the check cleanly, splitting pennies on Date #1 kills the spark fast.`,
       secondReply: isDiscord
         ? `Hard co-sign. A man on a tight stipend who treats you to a great $28 wine bar beats a rich guy doing calculator math.`
         : undefined,
-      coachNote: 'Whoever invites hosts the check cleanly—alternating turns beats splitting pennies.',
+      coachNote: 'Whoever invites hosts the check cleanly, alternating turns beats splitting pennies.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -288,10 +292,10 @@ export function evaluateDmLocally(params: {
       herReply: isDiscord
         ? `Ignore Tuesday compliments and watch three actions: does he lock in Friday plans by Wednesday, hold your hand in front of his friends, and remember small details from your week?`
         : params.personaRole === 'him'
-          ? `I don’t do novelty flings—if I ask you out, I want real Friday reservations and introducing you proudly to my inner circle.`
+          ? `I don’t do novelty flings, if I ask you out, I want real Friday reservations and introducing you proudly to my inner circle.`
           : `Consistency tells on everyone by Week 3: real contenders plan ahead and never hide you in dimly lit corners.`,
       secondReply: isDiscord
-        ? `Amen—curious tourists vanish after 9 PM texts; serious men show up five minutes early on Thursday.`
+        ? `Amen, curious tourists vanish after 9 PM texts; serious men show up five minutes early on Thursday.`
         : undefined,
       coachNote: 'Weekday consistency and proud public presence separate real contenders from tourists.',
       passedVibeCheck: true,
@@ -307,10 +311,10 @@ export function evaluateDmLocally(params: {
       chemistryDelta: 20,
       herReply:
         params.personaRole === 'him'
-          ? `Zero rush to merge leases—keeping two peaceful sanctuaries makes every weekend together feel electric.`
+          ? `Zero rush to merge leases, keeping two peaceful sanctuaries makes every weekend together feel electric.`
           : `Living-Apart-Together is my favorite arrangement: deep commitment, shared weekends, and two separate sets of house keys.`,
       secondReply: isDiscord
-        ? `Keep both leases for at least year one—missing each other between Tuesday and Friday keeps the chemistry undefeated.`
+        ? `Keep both leases for at least year one, missing each other between Tuesday and Friday keeps the chemistry undefeated.`
         : undefined,
       coachNote: 'Direct alignment on living space & autonomy builds instant long-term trust.',
       passedVibeCheck: true,
@@ -326,7 +330,7 @@ export function evaluateDmLocally(params: {
       chemistryDelta: 18,
       herReply:
         params.personaRole === 'him'
-          ? `When I invite you out, I plan inside my real budget and get the check cleanly—zero ego about your success.`
+          ? `When I invite you out, I plan inside my real budget and get the check cleanly, zero ego about your success.`
           : `Alternating turns works best: plan dates you genuinely enjoy hosting, and let me spoil us when it’s my turn.`,
       secondReply: isDiscord
         ? `Effort and thoughtfulness always outrank flashy receipts in Velvet Palms.`
@@ -346,9 +350,9 @@ export function evaluateDmLocally(params: {
       herReply:
         params.personaRole === 'him'
           ? `I prep my family warmly ahead of time and introduce the woman I’m dating with total pride.`
-          : `Warm advance prep and zero apologies win every room—confident couples set the tone for everyone else.`,
+          : `Warm advance prep and zero apologies win every room, confident couples set the tone for everyone else.`,
       secondReply: isDiscord
-        ? `Never spring a surprise ambush at Sunday brunch—one warm heads-up text makes everything effortless.`
+        ? `Never spring a surprise ambush at Sunday brunch, one warm heads-up text makes everything effortless.`
         : undefined,
       coachNote: 'Proud public partnership and thoughtful family boundaries shine.',
       passedVibeCheck: true,
@@ -430,35 +434,35 @@ export function evaluateDmLocally(params: {
           chemistryDelta: 22,
           herReply: ukPlanLines[turnIdx % ukPlanLines.length],
           suggestedReplies: [
-            `Westwood wine bar—and I'm holding you to that no-phones rule.`,
-            `Wait, slow down professor—pass my vibe check before we book tables.`,
+            `Westwood wine bar, and I'm holding you to that no-phones rule.`,
+            `Wait, slow down professor, pass my vibe check before we book tables.`,
             `💎 Surprise me with your favorite courtyard spot and bring your best story.`,
           ],
-          coachNote: 'He stepped right up when you floated plans—keep teasing or lock it in!',
+          coachNote: 'He stepped right up when you floated plans, keep teasing or lock it in!',
           passedVibeCheck: true,
           source: 'local-heuristic',
         };
       }
       const ukBanterLines = [
         `Careful, dry wit like that makes it dangerously hard to focus on archive notes x What's one hill you'll irrationally die on?`,
-        `Properly unfair answer—you're already ten times sharper than everyone else on this app. What's your biggest guilty pleasure after a long week?`,
+        `Properly unfair answer, you're already ten times sharper than everyone else on this app. What's your biggest guilty pleasure after a long week?`,
         `Haha touché, I deserved that roast. Quick test: loud gallery scenes, or sneaking out twenty minutes early to critique everyone's outfits?`,
       ];
       const ukAdaptiveSets: [string, string, string][] = [
         [
           `Bad restaurant lighting and men who clap when the plane lands.`,
-          `You go first—what hill does a Hampstead historian die on?`,
-          `💎 People who rush small talk instead of flirting properly—your turn.`,
+          `You go first, what hill does a Hampstead historian die on?`,
+          `💎 People who rush small talk instead of flirting properly, your turn.`,
         ],
         [
           `Chilled Sancerre, vinyl on low, and ignoring every email past six.`,
-          `Depends—are you judging, or taking notes?`,
+          `Depends, are you judging, or taking notes?`,
           `💎 Sneaking out of boring obligations with someone who makes me laugh.`,
         ],
         [
-          `Sneaking out twenty minutes early, hands down—bonus points if we steal canapés.`,
+          `Sneaking out twenty minutes early, hands down, bonus points if we steal canapés.`,
           `Only if your commentary is actually ruthless.`,
-          `💎 Twenty minutes is generous—I give pretentious openings ten flat.`,
+          `💎 Twenty minutes is generous. I give pretentious openings ten flat.`,
         ],
       ];
       const pick = turnIdx % ukBanterLines.length;
@@ -468,7 +472,7 @@ export function evaluateDmLocally(params: {
         chemistryDelta: 20,
         herReply: ukBanterLines[pick],
         suggestedReplies: ukAdaptiveSets[pick],
-        coachNote: 'Playful British banter unlocked—zero rush, just genuine spark!',
+        coachNote: 'Playful British banter unlocked, zero rush, just genuine spark!',
         passedVibeCheck: true,
         source: 'local-heuristic',
       };
@@ -479,10 +483,10 @@ export function evaluateDmLocally(params: {
         age >= 30
           ? [
               `7:30 sharp works. Quiet corner booth and my phone stays off the table.`,
-              `Deal—name the neighborhood and I'll handle the reservation.`,
+              `Deal, name the neighborhood and I'll handle the reservation.`,
             ]
           : [
-              `Love that energy—quiet wine bar or late-night sushi when we do meet up? 🍷`,
+              `Love that energy, quiet wine bar or late-night sushi when we do meet up? 🍷`,
               `Deal. Fair warning, I show up five minutes early and actually listen.`,
             ];
       return {
@@ -491,8 +495,8 @@ export function evaluateDmLocally(params: {
         chemistryDelta: 20,
         herReply: cubPlanLines[turnIdx % cubPlanLines.length],
         suggestedReplies: [
-          `Quiet wine bar—loud clubs are an automatic veto.`,
-          `Hold on, don't get ahead of yourself—earn two more good answers first.`,
+          `Quiet wine bar, loud clubs are an automatic veto.`,
+          `Hold on, don't get ahead of yourself, earn two more good answers first.`,
           `💎 Pick your favorite hidden spot on the Westside and impress me.`,
         ],
         coachNote: 'You floated plans and he matched your energy cleanly.',
@@ -503,19 +507,19 @@ export function evaluateDmLocally(params: {
 
     const cubSpontaneousLines = [
       `Okay that actually made me laugh out loud. Quick vibe check: what's the fastest way someone accidentally gives you the ick?`,
-      `Bold answer—I respect it. Tell me one thing on your profile that gets misread all the time.`,
-      `You don't pull punches at all, do you? Honestly refreshing—what's your go-to reset after a chaotic week?`,
+      `Bold answer. I respect it. Tell me one thing on your profile that gets misread all the time.`,
+      `You don't pull punches at all, do you? Honestly refreshing, what's your go-to reset after a chaotic week?`,
     ];
     const cubAdaptiveSets: [string, string, string][] = [
       [
         `People who treat Hinge like a LinkedIn interview or rush straight to logistics.`,
-        `Guys who brag about things their parents paid for—what's yours?`,
-        `💎 Boring texters—thankfully you're surviving round one so far.`,
+        `Guys who brag about things their parents paid for, what's yours?`,
+        `💎 Boring texters, thankfully you're surviving round one so far.`,
       ],
       [
         `People assume I'm all business until they hear my dry sense of humor.`,
-        `Guess first—let's see how perceptive you actually are.`,
-        `💎 That I have patience for bad banter—glad you brought real energy.`,
+        `Guess first, let's see how perceptive you actually are.`,
+        `💎 That I have patience for bad banter, glad you brought real energy.`,
       ],
       [
         `Long coastal walk, phone on Do Not Disturb, and something great in a wine glass.`,
@@ -530,7 +534,7 @@ export function evaluateDmLocally(params: {
       chemistryDelta: 18,
       herReply: cubSpontaneousLines[cubPick],
       suggestedReplies: cubAdaptiveSets[cubPick],
-      coachNote: 'Spontaneous banter flowing—keep riffing or test his wit!',
+      coachNote: 'Spontaneous banter flowing, keep riffing or test his wit!',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -758,21 +762,21 @@ export function evaluateDmLocally(params: {
   const banterLines =
     age >= 50
       ? [
-          `Witty start—most men on here open like a customer-support ticket. What's the most spontaneous thing you've done this month?`,
+          `Witty start, most men on here open like a customer-support ticket. What's the most spontaneous thing you've done this month?`,
           `Not bad at all. Quick litmus test: what album do you put on when nobody else is watching?`,
         ]
       : [
           `Okay, dry wit works dangerously fast on me. Tell me one unpopular opinion you refuse to apologize for 🍸`,
-          `Cute answer—now prove you have range: what's your biggest red flag in three words? ✨`,
+          `Cute answer, now prove you have range: what's your biggest red flag in three words? ✨`,
         ];
   const herAdaptiveSets: [string, string, string][] = [
     [
       `Booked a last-minute coastal drive with zero itinerary and my phone off.`,
-      `Wait—tell me yours first so I know the bar I'm clearing.`,
+      `Wait, tell me yours first so I know the bar I'm clearing.`,
       `💎 Messaging the sharpest woman on this app without a rehearsed script.`,
     ],
     [
-      `Sade's Love Deluxe front to back—zero skips allowed.`,
+      `Sade's Love Deluxe front to back, zero skips allowed.`,
       `Overrated restaurants with loud DJs deserve to be outlawed.`,
       `💎 Spoiling a great conversation by rushing straight to boring small talk.`,
     ],

@@ -45,7 +45,7 @@ export function parseChoiceCardSpec(fullLabel: string, role: 'her' | 'him'): Par
     };
   }
 
-  const dashMatch = clean.match(/^([^—–(]{10,54}?)(?:\s*[—–]\s*|\s+\()/);
+  const dashMatch = clean.match(/^([^\u2014\u2013(]{10,54}?)(?:\s*[\u2014\u2013]\s*|\s+\()/);
   if (dashMatch && dashMatch[1]) {
     const head = dashMatch[1].trim();
     const remainder = clean.slice(head.length).trim();

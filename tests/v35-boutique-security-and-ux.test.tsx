@@ -67,7 +67,7 @@ describe('v35 Boutique Security (Paid-Session-Only Cameo Briefs) & Consumer Roma
     expect(screen.queryByTestId('verified-cameo-composer')).toBeNull();
 
     // Direct $29 Stripe Checkout link is prominently wired on the Producer card
-    const cameoLink = screen.getByRole('link', { name: /Sponsor a Character — \$29/i });
+    const cameoLink = screen.getByRole('link', { name: /Sponsor a Character.*\$29/i });
     expect(cameoLink.getAttribute('href')).toBe(MONETIZATION_CONFIG.cameoCommissionUrl);
 
     // Secondary restore / gift code forms stay cleanly tucked until toggled

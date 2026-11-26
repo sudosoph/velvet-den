@@ -28,7 +28,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "To research a magazine column"
     ],
     "correctIndex": 1,
-    "funFact": "Jennifer Lawrence & Broadway star Andrew Barth Feldman turned \"No Hard Feelings\" into a global box-office hit—highlighted by Percy’s unexpectedly soulful piano-bar rendition of \"Maneater.\"",
+    "funFact": "Jennifer Lawrence & Broadway star Andrew Barth Feldman turned \"No Hard Feelings\" into a global box-office hit, highlighted by Percy’s unexpectedly soulful piano-bar rendition of \"Maneater.\"",
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": "",
     "youtubeEmbedUrl": "https://www.youtube-nocookie.com/embed/kIcLb0KAJAs",
@@ -60,7 +60,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Shaves his own golden blond hair right alongside her"
     ],
     "correctIndex": 3,
-    "funFact": "Smith Jerrod shaving his trademark hair without hesitation—and flying home mid-shoot just to tell Samantha he loves her—cemented him as TV’s #1 Golden-Retriever partner.",
+    "funFact": "Smith Jerrod shaving his trademark hair without hesitation, and flying home mid-shoot just to tell Samantha he loves her, cemented him as TV’s #1 Golden-Retriever partner.",
     "imageUrl": "./images/products/martini-barware-goblet.jpg",
     "imageCredit": ""
   },
@@ -91,7 +91,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Champagne"
     ],
     "correctIndex": 1,
-    "funFact": "Director Halina Reijn borrowed the moment from real life after a younger Belgian actor sent her a glass of milk in a bar—winning Nicole Kidman the Venice Best Actress Volpi Cup!",
+    "funFact": "Director Halina Reijn borrowed the moment from real life after a younger Belgian actor sent her a glass of milk in a bar, winning Nicole Kidman the Venice Best Actress Volpi Cup!",
     "imageUrl": "./images/products/babygirl-movie-prime.jpg",
     "imageCredit": "",
     "youtubeEmbedUrl": "https://www.youtube-nocookie.com/embed/-8Sx6U6Ou0Q",
@@ -155,7 +155,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "14 years older"
     ],
     "correctIndex": 1,
-    "funFact": "Anne Bancroft was just 35 during filming while Dustin Hoffman was already 29—Hollywood makeup and framing created a 20-year illusion out of a 6-year gap!",
+    "funFact": "Anne Bancroft was just 35 during filming while Dustin Hoffman was already 29. Hollywood makeup and framing created a 20-year illusion out of a 6-year gap!",
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": "",
     "youtubeEmbedUrl": "https://www.youtube-nocookie.com/embed/KVNFaxJspMQ"
@@ -171,7 +171,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Conducted her London orchestra"
     ],
     "correctIndex": 0,
-    "funFact": "Tina met Erwin at 46 when he picked her up at Düsseldorf Airport—and his 2017 kidney donation remains the ultimate real-world devotion story.",
+    "funFact": "Tina met Erwin at 46 when he picked her up at Düsseldorf Airport, and his 2017 kidney donation remains the ultimate real-world devotion story.",
     "imageUrl": "./images/icons/pop_tina_erwin.jpg",
     "imageCredit": ""
   },
@@ -193,7 +193,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
   {
     "id": "yung-gravy-betty-vmas",
     "badge": "🕺 Viral Red-Carpet Move",
-    "question": "Rapper Yung Gravy sampled Rick Astley’s \"Never Gonna Give You Up\" for his platinum anthem \"Betty (Get Money)\"—and famously brought whose mom, Sheri Easterling, as his date to the 2022 MTV VMAs?",
+    "question": "Rapper Yung Gravy sampled Rick Astley’s \"Never Gonna Give You Up\" for his platinum anthem \"Betty (Get Money)\" and famously brought whose mom, Sheri Easterling, as his date to the 2022 MTV VMAs?",
     "options": [
       "Alix Earle’s mom",
       "Charli D’Amelio’s mom",
@@ -234,7 +234,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Sparkling water"
     ],
     "correctIndex": 0,
-    "funFact": "Never underestimate a woman’s kitchen intuition—missing strawberry jam became pop culture’s most famous detective clue (rivaling Olivia Wilde’s salad dressing lore!).",
+    "funFact": "Never underestimate a woman’s kitchen intuition, missing strawberry jam became pop culture’s most famous detective clue (rivaling Olivia Wilde’s salad dressing lore!).",
     "imageUrl": "./images/products/aprons-kitchen.jpg",
     "imageCredit": ""
   },
@@ -258,7 +258,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
   {
     "id": "colette-cheri-1920",
     "badge": "📖 1920 French Literary Classic",
-    "question": "Which trailblazing French novelist published \"Chéri\" in 1920—chronicling the unforgettable Belle Époque love affair between poised 49-year-old Léa de Lonval and 25-year-old Fred (\"Chéri\")?",
+    "question": "Which trailblazing French novelist published \"Chéri\" in 1920, chronicling the unforgettable Belle Époque love affair between poised 49-year-old Léa de Lonval and 25-year-old Fred (\"Chéri\")?",
     "options": [
       "Marguerite Duras",
       "Simone de Beauvoir",
@@ -449,14 +449,14 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Williamsburg tattoo studio"
     ],
     "correctIndex": 3,
-    "funFact": "Josh clocking Liza’s real heart—and standing by her long after learning her real age—drove #TeamJosh mania for seven seasons.",
+    "funFact": "Josh clocking Liza’s real heart, and standing by her long after learning her real age, drove #TeamJosh mania for seven seasons.",
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": ""
   },
   {
     "id": "mariah-carey-touch-my-body-set",
     "badge": "🎥 Music-Video Meet-Cute",
-    "question": "On the set of which playful 2008 #1 music video—directed by Brett Ratner—did Mariah Carey spark her whirlwind marriage with Nick Cannon (11 years her junior)?",
+    "question": "On the set of which playful 2008 #1 music video, directed by Brett Ratner, did Mariah Carey spark her whirlwind marriage with Nick Cannon (11 years her junior)?",
     "options": [
       "\"Obsessed\"",
       "\"Touch My Body\"",
@@ -464,7 +464,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "\"We Belong Together\""
     ],
     "correctIndex": 2,
-    "funFact": "After \"Touch My Body\" hit #1, Mariah cast Nick Cannon as her love interest in the \"Bye Bye\" island video—and they wed in the Bahamas weeks later!",
+    "funFact": "After \"Touch My Body\" hit #1, Mariah cast Nick Cannon as her love interest in the \"Bye Bye\" island video, and they wed in the Bahamas weeks later!",
     "imageUrl": "./images/products/silk-robe-pillowcase.jpg",
     "imageCredit": ""
   },
@@ -479,7 +479,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "\"Africa\""
     ],
     "correctIndex": 1,
-    "funFact": "Andrew Barth Feldman actually performed \"Maneater\" live on set—turning a comedy setup into the warmest emotional turning point of the film.",
+    "funFact": "Andrew Barth Feldman actually performed \"Maneater\" live on set, turning a comedy setup into the warmest emotional turning point of the film.",
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": "",
     "youtubeEmbedUrl": "https://www.youtube-nocookie.com/embed/P15S6ND8kbQ",
@@ -542,7 +542,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Vermont"
     ],
     "correctIndex": 1,
-    "funFact": "Sitka, Alaska—plus Betty White’s scene-stealing Grandma Annie—helped make \"The Proposal\" one of the highest-grossing romantic comedies of the century.",
+    "funFact": "Sitka, Alaska, plus Betty White’s scene-stealing Grandma Annie, helped make \"The Proposal\" one of the highest-grossing romantic comedies of the century.",
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": "",
     "youtubeEmbedUrl": "https://www.youtube-nocookie.com/embed/Wbhhokv84K4"
@@ -707,7 +707,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
   {
     "id": "white-lotus-resort-canon",
     "badge": "🌺 Prestige Resort Satire",
-    "question": "Mike White’s Emmy juggernaut \"The White Lotus\" set its first two lush resort seasons—packed with cross-generational entanglement—in which two glamorous locations?",
+    "question": "Mike White’s Emmy juggernaut \"The White Lotus\" set its first two lush resort seasons, packed with cross-generational entanglement, in which two glamorous locations?",
     "options": [
       "Bali and Cannes",
       "Fiji and Capri",
@@ -722,7 +722,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
   {
     "id": "prime-meryl-streep-twist",
     "badge": "🛋️ 2005 Manhattan Therapy Twist",
-    "question": "In the 2005 rom-com \"Prime,\" Uma Thurman plays 37-year-old Rafi dating 23-year-old painter David—until her therapist (Meryl Streep) realizes mid-session that David is whom?",
+    "question": "In the 2005 rom-com \"Prime,\" Uma Thurman plays 37-year-old Rafi dating 23-year-old painter David, until her therapist (Meryl Streep) realizes mid-session that David is whom?",
     "options": [
       "Her ex-husband’s nephew",
       "Her own son",
@@ -737,7 +737,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
   {
     "id": "vladimir-julia-may-jonas",
     "badge": "🖋️ Campus Satire Page-Turner",
-    "question": "Julia May Jonas’s razor-sharp 2022 debut novel (adapted into a limited series starring Rachel Weisz & Leo Woodall) is titled after the magnetic younger novelist joining a liberal-arts English department—what is his first name?",
+    "question": "Julia May Jonas’s razor-sharp 2022 debut novel (adapted into a limited series starring Rachel Weisz & Leo Woodall) is titled after the magnetic younger novelist joining a liberal-arts English department, what is his first name?",
     "options": [
       "Vladimir",
       "Nikolai",
@@ -846,7 +846,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
   {
     "id": "hall-and-oates-maneater",
     "badge": "🎷 1982 #1 Billboard Classic",
-    "question": "Daryl Hall & John Oates’s four-week #1 smash \"Maneater\" (1982)—later covered on piano in \"No Hard Feelings\"—features an iconic solo on which instrument?",
+    "question": "Daryl Hall & John Oates’s four-week #1 smash \"Maneater\" (1982), later covered on piano in \"No Hard Feelings\" features an iconic solo on which instrument?",
     "options": [
       "Fender Stratocaster",
       "Saxophone",
@@ -862,7 +862,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
   {
     "id": "home-again-reese-witherspoon",
     "badge": "🏡 2017 LA Guesthouse Spark",
-    "question": "In \"Home Again\" (2017), Reese Witherspoon plays newly separated 40-year-old Alice Kinney, who lets three aspiring 20-something filmmakers—led by Pico Alexander’s Harry—stay in her LA guesthouse. Who wrote and directed the film?",
+    "question": "In \"Home Again\" (2017), Reese Witherspoon plays newly separated 40-year-old Alice Kinney, who lets three aspiring 20-something filmmakers, led by Pico Alexander’s Harry, stay in her LA guesthouse. Who wrote and directed the film?",
     "options": [
       "Hallie Meyers-Shyer",
       "Greta Gerwig",

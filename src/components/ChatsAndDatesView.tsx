@@ -31,7 +31,11 @@ import {
   V35_DISCORD_CHANNELS,
   V35_TABLE_9_CONSPIRACY,
 } from '../data/v35ChatsAndDates';
-import type { WalletState } from '../domain/economy';
+import {
+  getPersonaVibeSpec,
+  PERSONA_VIBE_SPECS,
+  type WalletState,
+} from '../domain/economy';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 import { liveAiInboxService } from '../services/adapters';
@@ -107,6 +111,7 @@ export interface ChatsAndDatesViewProps {
   onOpenHinge: () => void;
   onOpenBoutique: () => void;
   onOpenCubSchool?: () => void;
+  onSavePersona?: (playerName: string, personaTag: string) => void;
 }
 
 export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
@@ -128,12 +133,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   onRecordConspiracyClue,
   onOpenHinge,
   onOpenCubSchool,
+  onSavePersona,
 }) => {
   const visibleThreads = useMemo(
     () => threads.filter((t) => !cutLooseIds.includes(t.leadId)),
     [threads, cutLooseIds],
   );
   const etiquetteBonusActive = cubSchoolStars >= 4;
+  const activeVibeSpec = getPersonaVibeSpec(wallet.personaTag);
 
   const [surface, setSurface] = useState<'dm' | 'discord' | 'conspiracy'>(
     initialOpenConspiracy ? 'conspiracy' : 'dm',
@@ -161,6 +168,15 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [calloutPromptLeadId, setCalloutPromptLeadId] = useState<string | null>(null);
   const [snoozedImessageIds, setSnoozedImessageIds] = useState<string[]>([]);
   const [showArchivedHinge, setShowArchivedHinge] = useState(false);
+  const [dismissedPersonaCard, setDismissedPersonaCard] = useState(false);
+  const [quickName, setQuickName] = useState(wallet.playerName || '');
+  const [quickVibe, setQuickVibe] = useState(
+    wallet.personaTag || PERSONA_VIBE_SPECS[0].id,
+  );
+  const [pendingDateAfterPersona, setPendingDateAfterPersona] = useState<{
+    leadId: string;
+    dateNumber: 1 | 2 | 3 | 4;
+  } | null>(null);
   const [imessageGradSplash, setImessageGradSplash] = useState<{
     leadId: string;
     name: string;
@@ -299,7 +315,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       currentThread.stage === 'imessage' ? currentChapter.imessage : currentChapter.tinder;
     const nextBeatNum = currentThread.currentBeat + 1;
     const nextBeatObj = beatsArray.find((b) => b.beatNumber === nextBeatNum);
-    const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
+    const vibeChatBonus = activeVibeSpec?.chatSparkBonus ?? 0;
+    const boostedDelta =
+      delta > 0
+        ? delta + (etiquetteBonusActive ? 4 : 0) + vibeChatBonus
+        : delta;
     const newChemistry = Math.max(0, Math.min(100, currentThread.chemistry + boostedDelta));
 
     setCoachBanner(null);
@@ -383,7 +403,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
     const firstImessage = currentChapter.imessage[0];
     const openingLine =
-      firstImessage?.incomingMessages[0] ?? 'Made it off the app—so much easier texting you here.';
+      firstImessage?.incomingMessages[0] ?? 'Made it off the app, so much easier texting you here.';
     const vis = V35_CAST_VISUALS[currentProfile.id];
 
     // Archive old Hinge App DM messages cleanly so personal iMessage opens as a fresh, authentic iOS thread!
@@ -465,6 +485,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           personaTitle: currentProfile.vitals.job,
           personaRole: currentProfile.role,
           playerRole: role,
+          playerName: wallet.playerName || undefined,
+          playerPersonaVibe: wallet.personaTag || undefined,
           personaOrigin:
             currentProfile.id === 'julian' ? 'Hampstead London UK' : currentProfile.vitals.neighborhood,
           personaLore: `${currentProfile.tagline} ${currentProfile.trapTellSummary || currentProfile.vulnerabilityNote || ''}`.trim(),
@@ -477,9 +499,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
       sfx.messagePop();
       setCoachBanner({ leadId: targetLeadId, text: res.coachNote });
+      const vibeChatBonus = activeVibeSpec?.chatSparkBonus ?? 0;
       const boostedDelta =
-        res.chemistryDelta > 0 && etiquetteBonusActive
-          ? res.chemistryDelta + 4
+        res.chemistryDelta > 0
+          ? res.chemistryDelta + (etiquetteBonusActive ? 4 : 0) + vibeChatBonus
           : res.chemistryDelta;
       setSparkToast({ delta: boostedDelta + (cost > 0 ? 6 : 0), nonce: Date.now() });
 
@@ -495,8 +518,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           : withPlayerMsg;
 
       const fallbackAdapted: [string, string, string] = [
-        `Haha fair point—now tell me one thing nobody guesses about you on first impression.`,
-        `Wait, back up—explain that last part without dodging.`,
+        `Haha fair point, now tell me one thing nobody guesses about you on first impression.`,
+        `Wait, back up, explain that last part without dodging.`,
         `💎 Keep making me laugh like that and you might actually survive my vibe check.`,
       ];
 
@@ -576,6 +599,15 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         const ok = onUnlockBucketItem('unlockedEpilogueIds', epId, 3);
         if (!ok) return;
       }
+    }
+    if (!wallet.playerName && !wallet.personaTag && onSavePersona && !isTestEnv) {
+      setQuickName('');
+      setQuickVibe(PERSONA_VIBE_SPECS[0].id);
+      setPendingDateAfterPersona({
+        leadId,
+        dateNumber: scriptToLaunch.dateNumber,
+      });
+      return;
     }
     setActiveDateModal({
       leadId,
@@ -870,10 +902,114 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           </button>
         </div>
 
-        <div className="text-xs font-medium text-zinc-500">
-          Table 9 Clues: {wallet.conspiracyClues.length}/3 • Discernment XP: {wallet.discernmentXp}
+        <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-500">
+          {activeVibeSpec && (
+            <span
+              data-testid="active-vibe-perk-badge"
+              className="rounded-full bg-rose-50 border border-rose-200 px-2.5 py-1 text-[11px] font-bold text-rose-900"
+            >
+              {activeVibeSpec.emoji} {wallet.playerName ? `${wallet.playerName} • ` : ''}
+              {activeVibeSpec.id} ({activeVibeSpec.perkBadge})
+            </span>
+          )}
+          <span>
+            Table 9 Clues: {wallet.conspiracyClues.length}/3 • Discernment XP: {wallet.discernmentXp}
+          </span>
         </div>
       </div>
+
+      {/* Inline 5-Second Persona & Vibe Perk Onboarding Card Before Your First Chat / Date */}
+      {surface === 'dm' &&
+        visibleThreads.length > 0 &&
+        !wallet.playerName &&
+        !wallet.personaTag &&
+        !dismissedPersonaCard &&
+        onSavePersona && (
+          <form
+            data-testid="inline-persona-onboarding"
+            onSubmit={(e) => {
+              e.preventDefault();
+              sfx.greenFlag();
+              onSavePersona(
+                quickName.trim() || (role === 'her' ? 'Vivian' : 'Alex'),
+                quickVibe,
+              );
+            }}
+            className="rounded-2xl border border-rose-200 bg-white p-4 sm:p-5 shadow-2xs space-y-3"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className="text-xs font-extrabold uppercase tracking-wider text-rose-600">
+                  ✨ 5-Second Club Check-In (Before Your Date!)
+                </div>
+                <p className="mt-0.5 text-xs sm:text-sm font-medium text-zinc-700">
+                  Set your first name so matches address you personally, and pick a Friday Vibe to unlock an active chat and date bonus:
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Skip persona card"
+                onClick={() => setDismissedPersonaCard(true)}
+                className="rounded-full p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+              {PERSONA_VIBE_SPECS.map((spec) => {
+                const selected = quickVibe === spec.id;
+                return (
+                  <button
+                    key={spec.id}
+                    type="button"
+                    onClick={() => setQuickVibe(spec.id)}
+                    className={`rounded-xl border p-2.5 text-left transition cursor-pointer ${
+                      selected
+                        ? 'border-zinc-950 bg-zinc-950 text-white'
+                        : 'border-zinc-200 bg-zinc-50/70 text-zinc-800 hover:bg-zinc-100'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1 text-xs font-bold">
+                      <span>
+                        {spec.emoji} {spec.id}
+                      </span>
+                    </div>
+                    <div
+                      className={`mt-1 text-[10px] font-extrabold ${
+                        selected ? 'text-rose-300' : 'text-rose-700'
+                      }`}
+                    >
+                      {spec.perkBadge}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                type="text"
+                maxLength={28}
+                value={quickName}
+                onChange={(e) => setQuickName(e.target.value)}
+                aria-label="Quick first name"
+                placeholder={
+                  role === 'her'
+                    ? 'Your first name (e.g. Sophia)...'
+                    : 'Your first name (e.g. Alex)...'
+                }
+                className="flex-1 min-w-[200px] rounded-full border border-zinc-300 bg-white px-4 py-2 text-xs sm:text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="rounded-full bg-rose-600 hover:bg-rose-700 px-5 py-2 text-xs font-extrabold text-white transition cursor-pointer"
+              >
+                Save Name &amp; Activate Perk →
+              </button>
+            </div>
+          </form>
+        )}
 
       {surface === 'conspiracy' ? (
         <section className="overflow-hidden rounded-3xl bg-[#18101E] text-white shadow-2xl">
@@ -1348,7 +1484,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       </div>
                       <p className="text-xs text-stone-500">
                         {role === 'her'
-                          ? 'He is courting your interest — vet his consistency or block him anytime.'
+                          ? 'He is courting your interest, vet his consistency or block him anytime.'
                           : 'Build genuine spark across 6 beats to earn her personal iMessage.'}
                       </p>
                     </div>
@@ -1401,7 +1537,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               {isDateReady && nextDateScript && (
                 <div className="flex flex-wrap items-center justify-between gap-3 bg-emerald-50 border-b border-emerald-200 px-6 py-3">
                   <div className="text-xs sm:text-sm font-bold text-emerald-950">
-                    🍸 Chemistry is high ({currentThread.chemistry}%) — Ready for{' '}
+                    🍸 Chemistry is high ({currentThread.chemistry}%). Ready for{' '}
                     {nextDateScript.dateNumber === 4
                       ? 'Velvet Cut Weekend Epilogue (Date #4)'
                       : `Date #${nextDateScript.dateNumber}`}{' '}
@@ -1734,8 +1870,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-blue-50/80 px-4 py-3">
                     <div className="text-xs font-bold text-blue-950">
                       {role === 'her'
-                        ? `📱 Chemistry is buzzing — share your number to move to iMessage, or stay on Hinge as long as you like!`
-                        : `📱 Chemistry is buzzing — move to personal iMessage now, or keep bantering right here on Hinge!`}
+                        ? `📱 Chemistry is buzzing, share your number to move to iMessage, or stay on Hinge as long as you like!`
+                        : `📱 Chemistry is buzzing, move to personal iMessage now, or keep bantering right here on Hinge!`}
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                       <button
@@ -1757,7 +1893,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         }
                         className="rounded-full border border-blue-200 bg-white hover:bg-blue-100/40 px-3.5 py-2 text-xs font-semibold text-blue-950 cursor-pointer"
                       >
-                        Not Yet — Keep Bantering on Hinge ✨
+                        Not Yet, Keep Bantering on Hinge ✨
                       </button>
                     </div>
                   </div>
@@ -1897,7 +2033,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <div className="space-y-2.5">
                     <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-zinc-600">
                       <span className="font-bold text-rose-700">
-                        ✨ Spontaneous Banter Mode — Keep riffing freely or pick a playful prompt:
+                        ✨ Spontaneous Banter Mode. Keep riffing freely or pick a playful prompt:
                       </span>
                       {nextDateScript && currentThread.stage === 'imessage' && (
                         <button
@@ -1924,7 +2060,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       {[
                         `Okay my turn: tell me one harmless guilty pleasure you'd never admit on a first date.`,
                         `Quick test: what's the most overrated advice people give about age-gap dating?`,
-                        `💎 Be honest—what was the very first thing on my profile that made you stop scrolling?`,
+                        `💎 Be honest, what was the very first thing on my profile that made you stop scrolling?`,
                       ].map((sugText, idx) => {
                         const isVipMove = idx === 2;
                         return (
@@ -1953,7 +2089,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
-                {/* Free-Typing Live AI Bar (0 Credits — Never Cuts Player Off!) */}
+                {/* Free-Typing Live AI Bar (0 Credits. Never Cuts Player Off!) */}
                 <form onSubmit={handleFreeTextSubmit} className="flex gap-2">
                   <input
                     type="text"
@@ -1977,6 +2113,112 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           )}
         </div>
       )}
+
+      {/* Pre-Date Host Stand Check-In Modal (Prompts Name & Vibe Perk Before Date #1 If Unset) */}
+      {pendingDateAfterPersona &&
+        onSavePersona &&
+        createPortal(
+          <div
+            data-testid="predate-persona-modal"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/65 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Host Stand Reservation Check-In"
+            onClick={() => {
+              const target = pendingDateAfterPersona;
+              setPendingDateAfterPersona(null);
+              setActiveDateModal(target);
+            }}
+          >
+            <form
+              onClick={(e) => e.stopPropagation()}
+              onSubmit={(e) => {
+                e.preventDefault();
+                sfx.greenFlag();
+                onSavePersona(
+                  quickName.trim() || (role === 'her' ? 'Vivian' : 'Alex'),
+                  quickVibe,
+                );
+                const target = pendingDateAfterPersona;
+                setPendingDateAfterPersona(null);
+                setActiveDateModal(target);
+              }}
+              className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl space-y-4 animate-stage-in"
+            >
+              <div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-rose-900">
+                  🍸 Host Stand Check-In
+                </span>
+                <h3 className="mt-2 text-xl font-bold tracking-tight text-zinc-950">
+                  Who Should We Hold the Booth For?
+                </h3>
+                <p className="mt-1 text-xs text-zinc-600">
+                  Your date will greet you by name, and your Signature Vibe applies an active S-Rank chemistry bonus tonight.
+                </p>
+              </div>
+
+              <input
+                type="text"
+                maxLength={28}
+                value={quickName}
+                onChange={(e) => setQuickName(e.target.value)}
+                placeholder={role === 'her' ? 'Your first name (e.g. Sophia)' : 'Your first name (e.g. Alex)'}
+                className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-950"
+              />
+
+              <div className="grid gap-2">
+                {PERSONA_VIBE_SPECS.map((spec) => {
+                  const selected = quickVibe === spec.id;
+                  return (
+                    <button
+                      key={spec.id}
+                      type="button"
+                      onClick={() => setQuickVibe(spec.id)}
+                      className={`rounded-xl border px-3.5 py-2.5 text-left transition cursor-pointer ${
+                        selected
+                          ? 'border-zinc-950 bg-zinc-950 text-white'
+                          : 'border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between text-xs font-bold">
+                        <span>
+                          {spec.emoji} {spec.id}
+                        </span>
+                        <span className={selected ? 'text-rose-300' : 'text-rose-700'}>
+                          {spec.perkBadge}
+                        </span>
+                      </div>
+                      <div className={`mt-0.5 text-[11px] ${selected ? 'text-zinc-300' : 'text-zinc-500'}`}>
+                        {spec.perkSummary}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center justify-between gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const target = pendingDateAfterPersona;
+                    setPendingDateAfterPersona(null);
+                    setActiveDateModal(target);
+                  }}
+                  className="rounded-full border border-zinc-200 px-4 py-2.5 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 cursor-pointer"
+                >
+                  Skip for Now
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-full bg-rose-600 hover:bg-rose-700 px-5 py-2.5 text-xs font-extrabold text-white cursor-pointer"
+                >
+                  Activate Perk &amp; Start Date →
+                </button>
+              </div>
+            </form>
+          </div>,
+          document.body,
+        )}
 
       {/* Dramatic iOS Contact Poster Celebration Splash on Graduating to Personal iMessage */}
       {imessageGradSplash &&
@@ -2093,10 +2335,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               {cutLooseModal.verdict.isActualTrap && (
                 <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-1.5">
                   <div className="inline-block rounded-2xl rounded-bl-xs bg-[#E9E9EB] px-3.5 py-2 text-xs font-medium text-zinc-700">
-                    Wait hold on—let me explain that last part!!
+                    Wait hold on, let me explain that last part!!
                   </div>
                   <div className="text-[11px] font-bold text-rose-600">
-                    ❗ Not Delivered — Number Blocked by You
+                    ❗ Not Delivered. Number Blocked by You
                   </div>
                 </div>
               )}

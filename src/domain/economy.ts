@@ -298,6 +298,65 @@ export function resetFridayHearts(wallet: WalletState): WalletState {
   };
 }
 
+export interface PersonaVibeSpec {
+  id: string;
+  emoji: string;
+  perkBadge: string;
+  perkSummary: string;
+  chatSparkBonus: number;
+  dateScoreBonus: number;
+  trapXpBonus: number;
+  wildChemistryBonus: number;
+}
+
+export const PERSONA_VIBE_SPECS: PersonaVibeSpec[] = [
+  {
+    id: 'Corner-Booth Connoisseur',
+    emoji: '🍸',
+    perkBadge: '+8 Date Score',
+    perkSummary: 'Hostesses upgrade your booth and every date starts +8 toward S-Rank.',
+    chatSparkBonus: 2,
+    dateScoreBonus: 8,
+    trapXpBonus: 0,
+    wildChemistryBonus: 4,
+  },
+  {
+    id: 'Playful Slow-Burn Romantic',
+    emoji: '✨',
+    perkBadge: '+5% Chat Spark',
+    perkSummary: 'Playful banter and teasing earn +5% bonus Spark in every conversation.',
+    chatSparkBonus: 5,
+    dateScoreBonus: 5,
+    trapXpBonus: 0,
+    wildChemistryBonus: 4,
+  },
+  {
+    id: 'Zero-Nonsense Executive',
+    emoji: '👑',
+    perkBadge: '+10 Trap XP & +5 Date',
+    perkSummary: 'Blocking red-flag traps awards +35 XP (up from +25) and commands respect.',
+    chatSparkBonus: 2,
+    dateScoreBonus: 5,
+    trapXpBonus: 10,
+    wildChemistryBonus: 2,
+  },
+  {
+    id: 'Golden-Hour Weekend Escapist',
+    emoji: '🌅',
+    perkBadge: '+12% Wild Spark & +6 Date',
+    perkSummary: 'Meeting leads In The Wild grants +12% extra chemistry plus +6 Date Score.',
+    chatSparkBonus: 3,
+    dateScoreBonus: 6,
+    trapXpBonus: 0,
+    wildChemistryBonus: 12,
+  },
+];
+
+export function getPersonaVibeSpec(personaTag?: string): PersonaVibeSpec | null {
+  if (!personaTag) return null;
+  return PERSONA_VIBE_SPECS.find((s) => s.id === personaTag) ?? PERSONA_VIBE_SPECS[0];
+}
+
 export function recordBulletDodged(
   wallet: WalletState,
   personaId: string,
@@ -305,6 +364,7 @@ export function recordBulletDodged(
 ): WalletState {
   const rewardTag = `dodged_${personaId}`;
   const alreadyDodged = wallet.claimedRewards.includes(rewardTag);
+  const vibeBonus = getPersonaVibeSpec(wallet.personaTag)?.trapXpBonus ?? 0;
   const nextClues =
     clueId && !wallet.conspiracyClues.includes(clueId)
       ? [...wallet.conspiracyClues, clueId]
@@ -312,7 +372,7 @@ export function recordBulletDodged(
 
   return {
     ...wallet,
-    discernmentXp: alreadyDodged ? wallet.discernmentXp : wallet.discernmentXp + 25,
+    discernmentXp: alreadyDodged ? wallet.discernmentXp : wallet.discernmentXp + 25 + vibeBonus,
     conspiracyClues: nextClues,
     claimedRewards: alreadyDodged
       ? wallet.claimedRewards

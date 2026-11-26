@@ -132,7 +132,7 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
       fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
     }
 
-    const notYetBtn = screen.getByRole('button', { name: /Not Yet — Keep Bantering on Hinge/i });
+    const notYetBtn = screen.getByRole('button', { name: /Not Yet, Keep Bantering on Hinge/i });
     fireEvent.click(notYetBtn);
     expect(screen.getAllByTestId('chat-suggestion-btn')).toHaveLength(3);
 
@@ -145,5 +145,92 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
     expect(
       screen.getByRole('button', { name: /Earlier Hinge App Messages/i }),
     ).toBeInTheDocument();
+  });
+
+  it('enforces zero literal em-dashes across src/ and wires pre-date Persona Name & Signature Vibe gameplay perks', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const walkFiles = (dir: string): string[] => {
+      const out: string[] = [];
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) out.push(...walkFiles(full));
+        else if (/\.(ts|tsx|css)$/.test(entry.name)) out.push(full);
+      }
+      return out;
+    };
+    const srcDir = path.resolve(process.cwd(), 'src');
+    const offending: string[] = [];
+    for (const file of walkFiles(srcDir)) {
+      const content = fs.readFileSync(file, 'utf8');
+      if (content.includes('\u2014')) {
+        offending.push(path.relative(srcDir, file));
+      }
+    }
+    expect(offending).toEqual([]);
+
+    // Verify Zero-Nonsense Executive grants +10 bonus Trap XP (35 total instead of 25)
+    const {
+      createDefaultWallet,
+      updatePlayerPersona,
+      recordBulletDodged,
+      getPersonaVibeSpec,
+    } = await import('../src/domain/economy');
+    let wallet = createDefaultWallet();
+    wallet = updatePlayerPersona(wallet, 'Sophia', 'Zero-Nonsense Executive');
+    wallet = recordBulletDodged(wallet, 'connor', 'clue-connor-card');
+    expect(wallet.discernmentXp).toBe(35);
+    expect(getPersonaVibeSpec('Corner-Booth Connoisseur')?.dateScoreBonus).toBe(8);
+
+    // Verify pre-chat / pre-date 5-Second Club Check-In onboarding card renders when Name & Vibe are unset
+    window.localStorage.clear();
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /Like prompt 1:/i }));
+    const noteInput = screen.getByLabelText(/Optional comment for Julian/i);
+    fireEvent.change(noteInput, {
+      target: { value: 'Love that Sunday slow-roast rule, what are we pouring?' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Send Like \+ Note/i }));
+    const celebration = await screen.findByTestId('hinge-match-celebration');
+    fireEvent.click(within(celebration).getByRole('button', { name: /Text Julian Now/i }));
+
+    const onboardingForm = screen.getByTestId('inline-persona-onboarding');
+    expect(onboardingForm).toBeInTheDocument();
+    const nameInput = within(onboardingForm).getByLabelText(/Quick first name/i);
+    fireEvent.change(nameInput, { target: { value: 'Sophia' } });
+    fireEvent.click(
+      within(onboardingForm).getByRole('button', { name: /Corner-Booth Connoisseur/i }),
+    );
+    fireEvent.click(
+      within(onboardingForm).getByRole('button', { name: /Save Name & Activate Perk/i }),
+    );
+
+    const perkBadge = screen.getByTestId('active-vibe-perk-badge');
+    expect(perkBadge.textContent).toContain('Sophia');
+    expect(perkBadge.textContent).toContain('+8 Date Score');
+
+    // Verify RomanticDateStage applies +8 score bonus and greets Sophia by name on Scene 1
+    const { RomanticDateStage } = await import('../src/components/RomanticDateStage');
+    const dateWallet = updatePlayerPersona(
+      createDefaultWallet(),
+      'Sophia',
+      'Corner-Booth Connoisseur',
+    );
+    const { container } = render(
+      <RomanticDateStage
+        leadId="julian"
+        dateNumber={1}
+        role="her"
+        wallet={dateWallet}
+        onCompleteDate={() => {}}
+        onLoseHeart={() => {}}
+        onSpendCredits={() => true}
+        onUnlockPov={() => true}
+        onUnlockEpilogue={() => true}
+        onBackToChats={() => {}}
+      />,
+    );
+    expect(container.textContent).toContain('So glad it’s finally you across the table, Sophia');
+    expect(container.textContent).toContain('+8 Signature Vibe Bonus applied toward S-Rank');
   });
 });

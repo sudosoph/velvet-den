@@ -207,7 +207,7 @@ function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
     rating = '95% Twin-Mirror Voltage';
     polarity = `🪞 Double ${her.label} Recognition`;
     dateIdea = '🍣 Late-night omakase counter + trading war stories until midnight';
-    vettingTip = '⚡ You share identical blind spots—take turns owning Friday reservations!';
+    vettingTip = '⚡ You share identical blind spots, take turns owning Friday reservations!';
     scenePhoto = './images/scenes/campus-autumn-sushi.jpg';
     meters = [
       { label: '🔥 Bedroom & Banter Voltage', pct: 96 },
@@ -237,7 +237,7 @@ function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
     rating = '99% Sanctuary & Linen-Apron Soulmate Tier';
     polarity = `🌿 ${her.element} × 🌊 ${him.element} Grounded Devotion`;
     dateIdea = '🍝 Farmers-market figs + handmade Sunday pasta in a 62°F lamp-lit kitchen';
-    vettingTip = '💎 Consistency is pure oxygen here—follow through on every small promise.';
+    vettingTip = '💎 Consistency is pure oxygen here, follow through on every small promise.';
     scenePhoto = './images/scenes/sunday-kitchen-sanctuary.jpg';
     meters = [
       { label: '🔥 Bedroom & Banter Voltage', pct: 97 },
@@ -264,7 +264,7 @@ function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
     rating = '96% All-In Magnetic Heat';
     polarity = `⚡ Pure ${her.element}-Sign Immersion`;
     dateIdea = '🌴 Top-down Highway 1 sunset drive + oceanfront terrace cocktails';
-    vettingTip = '🤝 Zero ego scorekeeping allowed—keep communication candid and generous.';
+    vettingTip = '🤝 Zero ego scorekeeping allowed, keep communication candid and generous.';
     scenePhoto = './images/scenes/coastal-convertible.jpg';
     meters = [
       { label: '🔥 Bedroom & Banter Voltage', pct: 99 },
@@ -331,14 +331,14 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/scenes/candlelit-cocktails.jpg',
     ],
     dontText: 'ngl never been with a cougar before, bucket list check tonight??',
-    doText: 'Booked us the quiet corner booth at 7:30 Friday—Sancerre is already on deck.',
+    doText: 'Booked us the quiet corner booth at 7:30 Friday. Sancerre is already on deck.',
     greenFlag: 'Knows Cougar never means Sugar Mama and takes Friday planning off her plate.',
     redFlag: 'Treats accomplished women like an Xbox achievement badge or expects rent money.',
     redditReceipt: {
       handle: 'u/VelvetJaguar_52F • 40s/50s Regular',
       upvotes: '2.4k',
       quote:
-        'PSA to every 25M entering the sub: I own my house, my car, and my retirement account. I don’t need a provider OR a dependent—I want a hot, emotionally present man who books a 7:30 booth.',
+        'PSA to every 25M entering the sub: I own my house, my car, and my retirement account. I don’t need a provider OR a dependent. I want a hot, emotionally present man who books a 7:30 booth.',
       topReply: '↳ u/HampsteadCub_27M: Printed, framed, and taped above the espresso machine.',
     },
     poll: {
@@ -389,7 +389,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/scenes/candlelit-cocktails.jpg',
     ],
     dontText: 'i didnt know what to get u since u already buy everything lol',
-    doText: 'Remembered the Sicilian olive oil you praised three Tuesdays ago—plus Sunday dinner is on me.',
+    doText: 'Remembered the Sicilian olive oil you praised three Tuesdays ago, plus Sunday dinner is on me.',
     greenFlag: 'Gifts tiny personal observations, sensory silk comfort, and homemade Sunday dinners.',
     redFlag: 'Competes insecurely with her salary or panic-buys generic mall clutter.',
     redditReceipt: {
@@ -418,7 +418,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/cast/claire-5.jpg',
     ],
     dontText: 'yo u look crazy good for ur age whats ur snap??',
-    doText: 'Here is my cell—free for a quick 6 PM call Thursday before our Friday 7:30 reservation?',
+    doText: 'Here is my cell, free for a quick 6 PM call Thursday before our Friday 7:30 reservation?',
     greenFlag: 'Trades real phone numbers, reads Gen-X punctuation calmly, and confirms at noon.',
     redFlag: 'Asks a 45-year-old executive for Snapchat or spirals over a sincere 👍 emoji.',
     redditReceipt: {
@@ -447,21 +447,21 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/cast/miles-5.jpg',
     ],
     dontText: 'wait are those people at the next table staring at us??',
-    doText: 'Let them stare—gives the sommelier an excuse to comp our dessert.',
+    doText: 'Let them stare, gives the sommelier an excuse to comp our dessert.',
     greenFlag: 'Talks kids/timelines honestly by Month 3 and holds your hand proudly in daylight.',
     redFlag: 'Avoids future conversations for two years or shrinks back when acquaintances look over.',
     redditReceipt: {
       handle: 'u/LakeZurichEnergy • 14-Yr Gap Married',
       upvotes: '2.2k',
       quote:
-        'When a hotel clerk asked if we needed two Queen beds, my 28-year-old partner didn’t flinch—just smiled and said "One King is plenty, thanks." Confidence resets the whole room in three seconds.',
+        'When a hotel clerk asked if we needed two Queen beds, my 28-year-old partner didn’t flinch, just smiled and said "One King is plenty, thanks." Confidence resets the whole room in three seconds.',
       topReply: '↳ u/CopenhagenArchitect: Deadpan warmth undefeated every single time.',
     },
     poll: {
       question: '🗳️ Public Side-Eye Poll: Best comeback when a waiter stumbles over the gap?',
       options: [
         { label: '🥂 Kiss her hand deadpan & joke into comped Champagne', pct: 61 },
-        { label: '😎 Smile unbothered—happy couples don’t explain themselves', pct: 28 },
+        { label: '😎 Smile unbothered, happy couples don’t explain themselves', pct: 28 },
         { label: '😂 Wink and say "He’s here for my 90s vinyl collection"', pct: 11 },
       ],
     },
@@ -476,7 +476,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/products/golden-retriever-boyfriend-mug.jpg',
     ],
     dontText: 'fine guess ur too busy for me then!!',
-    doText: 'Zero rush at all—held Thursday next week just in case, and my evening stays yours.',
+    doText: 'Zero rush at all, held Thursday next week just in case, and my evening stays yours.',
     greenFlag: 'Beams brighter when she paces the first three dates instead of taking boundaries personally.',
     redFlag: 'Sulks, love-bombs, or demands instant girlfriend energy before Date #2.',
     redditReceipt: {
@@ -491,7 +491,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       options: [
         { label: '🐈‍⬛ Selective Black Cat who melts once trust is earned', pct: 49 },
         { label: '🐕 Sunny Golden Retriever who loves the slow burn', pct: 37 },
-        { label: '🥂 Switch—cool in public, pure sap on Sunday morning', pct: 14 },
+        { label: '🥂 Switch, cool in public, pure sap on Sunday morning', pct: 14 },
       ],
     },
   },
@@ -505,7 +505,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/icons/pop_miley_maxx.jpg',
     ],
     dontText: 'wait celebrity age gaps never last more than a summer right??',
-    doText: 'Tina Turner & Erwin Bach went 38 years strong—queueing up our Capri era.',
+    doText: 'Tina Turner & Erwin Bach went 38 years strong, queueing up our Capri era.',
     greenFlag: 'Hypes her spotlight like Nick Jonas, Tom Kaulitz, and Erwin Bach with zero ego.',
     redFlag: 'Gets competitive whenever she earns more or walks into a room as the headliner.',
     redditReceipt: {
@@ -563,20 +563,20 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/scenes/wedding-gala-cheers.jpg',
     ],
     dontText: 'six years barely even counts as an age gap lol',
-    doText: 'You had a parallel-parked car in 2009 while I was in sophomore geometry—definitely counts.',
+    doText: 'You had a parallel-parked car in 2009 while I was in sophomore geometry, definitely counts.',
     greenFlag: 'Blends shared pop-culture overlap with proud public hand-holding and clear timelines.',
     redFlag: 'Uses a smaller gap as an excuse for Peter-Pan laziness or sloppy date planning.',
     redditReceipt: {
       handle: 'u/JuniorCougar_39F • 6-Yr Gap',
       upvotes: '1.5k',
       quote:
-        'The 18-year-gap Jaguars tease us at the door, then pour us wine—because 39F × 33M has zero public stares AND all the playful "wait, what grade were you in during 2009?!" comedy.',
-      topReply: '↳ u/PalmSpringsDrummer: Miley & Maxx, Eva & Ryan, Cameron & Benji—undefeated lane.',
+        'The 18-year-gap Jaguars tease us at the door, then pour us wine, because 39F × 33M has zero public stares AND all the playful "wait, what grade were you in during 2009?!" comedy.',
+      topReply: '↳ u/PalmSpringsDrummer: Miley & Maxx, Eva & Ryan, Cameron & Benji, undefeated lane.',
     },
     poll: {
       question: '🗳️ Gatekeeper Debate: Does a 6-to-8 year woman-older gap get a Club seat?',
       options: [
-        { label: '🥂 100% Yes—proud "Junior Cougar" badge unlocked!', pct: 64 },
+        { label: '🥂 100% Yes, proud "Junior Cougar" badge unlocked!', pct: 64 },
         { label: '🐆 Honorary Puma/Junior seat (10+ yrs = full Cougar)', pct: 29 },
         { label: '📏 Only if he still opens every car door!', pct: 7 },
       ],
@@ -592,14 +592,14 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/scenes/sunday-kitchen-sanctuary.jpg',
     ],
     dontText: 'so since im dating ur mom im basically in charge now right??',
-    doText: 'Already told my mom all about you—she cannot wait to swap 90s concert stories on Sunday.',
+    doText: 'Already told my mom all about you, she cannot wait to swap 90s concert stories on Sunday.',
     greenFlag: 'Peer-level warmth with her college/adult kids + prepping his parents a full week ahead.',
     redFlag: 'Playing fake "stepdad" to a 22-year-old or springing a holiday doorway ambush on Mom.',
     redditReceipt: {
       handle: 'u/StanfordLawMom_46F • 20-Yr Gap',
       upvotes: '2.7k',
       quote:
-        'My 22-year-old son met my 26-year-old partner at Manhattan Beach brunch. Zero weird authority posturing—they talked surf breaks for twenty minutes and my son texted afterward: "Okay Mom, he’s solid."',
+        'My 22-year-old son met my 26-year-old partner at Manhattan Beach brunch. Zero weird authority posturing, they talked surf breaks for twenty minutes and my son texted afterward: "Okay Mom, he’s solid."',
       topReply: '↳ u/Station14Mom_49F: And thank heaven my son prepped me on Tuesday instead of Thanksgiving!',
     },
     poll: {
@@ -621,7 +621,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/scenes/coastal-convertible.jpg',
     ],
     dontText: 'wanna just come sit on my couch and scroll streaming menus??',
-    doText: 'Packed figs, Brie, and crusty baguette—bluff overlook at 5:30, then neon bowling at 8?',
+    doText: 'Packed figs, Brie, and crusty baguette, bluff overlook at 5:30, then neon bowling at 8?',
     greenFlag: 'Beats stiff corporate dinner interviews with playful movement and real planning.',
     redFlag: 'Fake trust-fund flexing or dumping "idk where should we go" onto her Friday.',
     redditReceipt: {
@@ -679,7 +679,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/scenes/coastal-convertible.jpg',
     ],
     dontText: 'astrology is dumb lol anyway wyd tonight',
-    doText: 'Texted my mom at lunch for my exact birth minute—tell me our Friday forecast.',
+    doText: 'Texted my mom at lunch for my exact birth minute, tell me our Friday forecast.',
     greenFlag: 'Texts his mom for his exact birth time with playful curiosity and zero eye-rolling.',
     redFlag: 'Launches a 15-minute condescending lecture mocking things she enjoys for fun.',
     redditReceipt: {
@@ -692,9 +692,9 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     poll: {
       question: '🗳️ Star-Sign Poll: Which Cub element brings the highest Husband/Partner EQ?',
       options: [
-        { label: '🌿 Earth Cubs (Taurus, Virgo, Capricorn) — culinary & steady', pct: 45 },
-        { label: '🌊 Water Cubs (Cancer, Scorpio, Pisces) — locked-in devotion', pct: 33 },
-        { label: '🔥💨 Fire & Air Cubs — fearless banter & passport energy', pct: 22 },
+        { label: '🌿 Earth Cubs (Taurus, Virgo, Capricorn), culinary & steady', pct: 45 },
+        { label: '🌊 Water Cubs (Cancer, Scorpio, Pisces), locked-in devotion', pct: 33 },
+        { label: '🔥💨 Fire & Air Cubs, fearless banter & passport energy', pct: 22 },
       ],
     },
   },
@@ -708,7 +708,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/icons/pop_stella_cinema.jpg',
     ],
     dontText: 'never heard of any of those movies lol put on sports highlights',
-    doText: 'Chilled two glasses—starting with The Rebound or No Hard Feelings tonight?',
+    doText: 'Chilled two glasses, starting with The Rebound or No Hard Feelings tonight?',
     greenFlag: 'Queues up Stella, Babygirl, or The Rebound with takeout already ordered.',
     redFlag: 'Scrolls streaming menus for 50 minutes until you both fall asleep annoyed.',
     redditReceipt: {
@@ -738,7 +738,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     ],
     dontText: 'idk pick whatever movie u want i guess',
     doText: 'Want hotel-bar tension (Babygirl), vacation glow (Stella), or London laughs (Bridget)?',
-    greenFlag: 'Matches the movie vibe to her week—escapism after chaos, tension on date night.',
+    greenFlag: 'Matches the movie vibe to her week, escapism after chaos, tension on date night.',
     redFlag: 'Spoils the ending ten minutes in or checks work Slack during the best scene.',
     redditReceipt: {
       handle: 'u/HalinaBarScene • Hotel-Bar Regular',
@@ -766,14 +766,14 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/scenes/cougarmarket-wine.jpg',
     ],
     dontText: 'hey wave wave take off ur headphones mid-squat real quick!!',
-    doText: 'Waited until you wrapped up at the smoothie counter—I’m Marcus, by the way.',
+    doText: 'Waited until you wrapped up at the smoothie counter. I’m Marcus, by the way.',
     greenFlag: 'Respects the sacred gym headphone rule, builds warm familiarity, and never Cubsplains.',
     redFlag: 'Interrupts her workout mid-set or lectures her on wine tannins she mastered in 2005.',
     redditReceipt: {
       handle: 'u/DawnLapPool_42F • Met IRL',
       upvotes: '3.0k',
       quote:
-        'He reracked his weights cleanly and shared a polite nod for three straight weeks without interrupting my headphones once. The morning my AirPods came out at the coffee counter, he introduced himself—smooth as silk.',
+        'He reracked his weights cleanly and shared a polite nod for three straight weeks without interrupting my headphones once. The morning my AirPods came out at the coffee counter, he introduced himself, smooth as silk.',
       topReply: '↳ u/RacquetClubSøren: Situational awareness beats pickup lines 100% of the time.',
     },
     poll: {
@@ -904,10 +904,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
     const astroUrl = `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}?journal=astrology-zodiac-compatibility-older-woman-younger-man`;
     setSharePayload({
       title: `${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub`,
-      message: `🔮 Cougars & Cubs Astro Match: ${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub — ${zodiacMatch.rating}! Test your signs:`,
+      message: `🔮 Cougars & Cubs Astro Match: ${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub, ${zodiacMatch.rating}! Test your signs:`,
       url: astroUrl,
       shareSurface: 'guide',
-      discordMarkdown: `**🔮 ${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub — ${zodiacMatch.rating}**\n${zodiacMatch.dateIdea}\nTest your signs: ${astroUrl}`,
+      discordMarkdown: `**🔮 ${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub, ${zodiacMatch.rating}**\n${zodiacMatch.dateIdea}\nTest your signs: ${astroUrl}`,
     });
   };
 
@@ -1290,7 +1290,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
-            {/* Authentic iPhone iMessage Mockup (Grey Bubble vs. Blue Bubble — Zero Red/Green Cards!) */}
+            {/* Authentic iPhone iMessage Mockup (Grey Bubble vs. Blue Bubble. Zero Red/Green Cards!) */}
             <div
               data-testid="guide-text-this-not-that"
               className="rounded-3xl border border-stone-200 bg-stone-50/60 p-5 space-y-3.5"

@@ -1910,7 +1910,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'pop_culture',
     headline: 'The Iconic 2000s Marriage That Shattered Hollywood’s Double Standard',
     insiderLore:
-      'Even though they parted ways in 2013 after an eight-year marriage, Demi Moore (then 40) and Ashton Kutcher (then 25) arriving at the 2003 *Charlie’s Angels: Full Throttle* premiere—alongside Bruce Willis and their daughters—permanently rewrote pop-culture rules for women over 40.',
+      'Even though they parted ways in 2013 after an eight-year marriage, Demi Moore (then 40) and Ashton Kutcher (then 25) arriving at the 2003 *Charlie’s Angels: Full Throttle* premiere, alongside Bruce Willis and their daughters, permanently rewrote pop-culture rules for women over 40.',
     signatureTell: 'Changed mainstream red-carpet vocabulary overnight and proved 40s leading ladies own every room.',
   },
   {
@@ -1920,7 +1920,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'pop_culture',
     headline: 'Posh British "Black Cat" Icon × Devoted Spanish Ex-Real Madrid Cub',
     insiderLore:
-      '*Ladies of London* and *The Real Housewives of Dubai* star Caroline Stanbury married 18-years-younger former Real Madrid C footballer Sergio Carrallo in Dubai & Mauritius in 2021—giving Bravo viewers television’s purest real-life Black Cat wife × tail-wagging Golden Retriever husband.',
+      '*Ladies of London* and *The Real Housewives of Dubai* star Caroline Stanbury married 18-years-younger former Real Madrid C footballer Sergio Carrallo in Dubai & Mauritius in 2021, giving Bravo viewers television’s purest real-life Black Cat wife × tail-wagging Golden Retriever husband.',
     signatureTell: 'Dry British wit paired with a beaming Spanish husband who calls her "honey" in every room.',
   },
   {
@@ -2402,18 +2402,18 @@ export function getProfileDetails(profile: HerArchetype | HisArchetype) {
     'Weekend Escapes',
   ];
   return {
-    zodiac: (profile.zodiac ?? '♏ Scorpio Sun • ♌ Leo Rising').replace(/\s*[—–]+\s*/g, ' • '),
+    zodiac: (profile.zodiac ?? '♏ Scorpio Sun • ♌ Leo Rising').replace(/\s*[\u2014\u2013]+\s*/g, ' • '),
     height: profile.height ?? '5\'8"',
-    loveLanguage: (profile.loveLanguage ?? 'Intentional Effort & Touch').replace(/\s*[—–]+\s*/g, ', '),
+    loveLanguage: (profile.loveLanguage ?? 'Intentional Effort & Touch').replace(/\s*[\u2014\u2013]+\s*/g, ', '),
     originOrAccent: profile.originOrAccent ?? 'Cosmopolitan Charm',
-    signatureDrink: (profile.signatureDrink ?? 'Espresso Martini').replace(/\s*[—–]+\s*/g, ', '),
-    statusPill: (profile.statusPill ?? 'Solo Sanctuary').replace(/\s*[—–]+\s*/g, ' • '),
+    signatureDrink: (profile.signatureDrink ?? 'Espresso Martini').replace(/\s*[\u2014\u2013]+\s*/g, ', '),
+    statusPill: (profile.statusPill ?? 'Solo Sanctuary').replace(/\s*[\u2014\u2013]+\s*/g, ' • '),
     interests: rawInterests.map((s) => s.trim()),
     idealSunday:
       delight?.idealSunday ?? 'Slow morning coffee, farmers market stroll, and unhurried dinner',
     softSpot:
       delight?.softSpot ?? 'Thoughtful plans, real curiosity, and keeping phones off the table',
-    petName: 'petName' in profile && profile.petName ? profile.petName.replace(/\s*[—–]+\s*/g, ' • ') : undefined,
+    petName: 'petName' in profile && profile.petName ? profile.petName.replace(/\s*[\u2014\u2013]+\s*/g, ' • ') : undefined,
   };
 }
 

@@ -169,7 +169,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
       );
       setStatusBanner({
         tone: 'delayed',
-        text: `✨ Surprise Match Pop-In! ${readyPopIn.name} just matched with your earlier Like — open Chats & Dates!`,
+        text: `✨ Surprise Match Pop-In! ${readyPopIn.name} just matched with your earlier Like, open Chats & Dates!`,
         leadId: readyPopIn.leadId,
       });
       if (delayedPerson && delayedVis) {
@@ -302,6 +302,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             personaTitle: targetPerson.vitals.job,
             personaRole: targetPerson.role,
             playerRole: role,
+            playerName: wallet.playerName || undefined,
+            playerPersonaVibe: wallet.personaTag || undefined,
             personaLore: `${targetPerson.tagline} ${targetPerson.trapTellSummary || targetPerson.vulnerabilityNote || ''}`.trim(),
             platform: 'tinder',
             playerMessage: openerText,
@@ -352,7 +354,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
       if (!poppedDelayed) {
         setStatusBanner({
           tone: 'pending',
-          text: `Sent Like • Pending — ${targetPerson.name} is selective! Read prompts closely (or send a 🌹 Standout Rose) to match right away.`,
+          text: `Sent Like • Pending, ${targetPerson.name} is selective! Read prompts closely (or send a 🌹 Standout Rose) to match right away.`,
         });
       }
     }
@@ -445,7 +447,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         </div>
       )}
 
-      {/* Tonight's Cast Strip — Jump Straight to Any Intriguing Character or Track Matches */}
+      {/* Tonight's Cast Strip. Jump Straight to Any Intriguing Character or Track Matches */}
       {allHingeCast.length > 0 && (
         <section
           data-testid="hinge-cast-strip"
@@ -541,7 +543,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             You’ve Seen Today’s Hinge Standouts
           </h2>
           <p className="text-sm text-stone-600 max-w-md mx-auto">
-            Half of Velvet Palms’ best catches never touch dating apps—step out to The Velvet Room,
+            Half of Velvet Palms’ best catches never touch dating apps, step out to The Velvet Room,
             Terminal B, or Hawthorne University, or revisit passed profiles.
           </p>
           <div className="flex flex-wrap justify-center gap-3 pt-2">
@@ -585,7 +587,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           </header>
 
           <div className="space-y-4 px-4 pb-6 sm:px-6">
-            {/* Photo 1 — Unobstructed Full-Bleed Lead Portrait */}
+            {/* Photo 1. Unobstructed Full-Bleed Lead Portrait */}
             <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
               <div className="relative overflow-hidden bg-zinc-100 aspect-[3/4]">
                 <img
@@ -769,7 +771,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </div>
             </div>
 
-            {/* Photo 2 — Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
+            {/* Photo 2. Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
             <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
               <div className="relative overflow-hidden bg-zinc-100 aspect-[3/4]">
                 <img
@@ -857,7 +859,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </div>
             )}
 
-            {/* Photo 3 — Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
+            {/* Photo 3. Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
             <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
               <div className="relative overflow-hidden bg-zinc-100 aspect-[3/4]">
                 <img
@@ -913,7 +915,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </button>
             </div>
 
-            {/* Photos 4, 5, 6 — Unobstructed Photos + Authentic Below-Photo 1st-Person Captions */}
+            {/* Photos 4, 5, 6. Unobstructed Photos + Authentic Below-Photo 1st-Person Captions */}
             {currentProfile.slides.slice(3).map((slide, extraIdx) => (
               <div
                 key={slide.url}
@@ -969,7 +971,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             </div>
           </div>
 
-          {/* Authentic Hinge Sticky Bottom-Left Floating Pass (✕) Button — Always Visible Without Scrolling */}
+          {/* Authentic Hinge Sticky Bottom-Left Floating Pass (✕) Button. Always Visible Without Scrolling */}
           <div className="sticky bottom-6 z-30 pointer-events-none flex items-center justify-start px-7 sm:px-9 pb-5 -mt-20">
             <button
               type="button"

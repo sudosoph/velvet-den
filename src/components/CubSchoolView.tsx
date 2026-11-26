@@ -86,7 +86,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
             📜 Certified Housebroken Cub Diploma
           </h1>
           <p className="text-sm sm:text-base text-stone-700 max-w-lg mx-auto leading-relaxed">
-            Passed with <strong>{goldStars}/12 Gold Stars</strong> — Bathroom Lid Certified,
+            Passed with <strong>{goldStars}/12 Gold Stars</strong>. Bathroom Lid Certified,
             Four-Pillow Approved, Zero Mental-Load Dumping, and Sidewalk Hand-Hold Verified.
           </p>
 
@@ -96,7 +96,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
               onClick={async () => {
                 await shareOrCopy({
                   title: 'Certified Housebroken Cub Diploma',
-                  text: `🎓 Scored ${goldStars}/12 Gold Stars in Cougars & Cubs Club Obedience School — Certified Housebroken! Test your etiquette:`,
+                  text: `🎓 Scored ${goldStars}/12 Gold Stars in Cougars & Cubs Club Obedience School. Certified Housebroken! Test your etiquette:`,
                   url: 'https://cougarsandcubs.club',
                 });
                 setCopiedDiploma(true);
@@ -232,7 +232,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
         })}
       </div>
 
-      {/* Visual Scene Quiz Card — Question First, Clean shadcn Surface */}
+      {/* Visual Scene Quiz Card. Question First, Clean shadcn Surface */}
       <section className="editorial-hinge-card overflow-hidden rounded-2xl bg-white">
         {/* Illustrated Scene Banner + Live Reaction Avatar */}
         <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-zinc-950">

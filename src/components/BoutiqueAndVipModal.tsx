@@ -167,7 +167,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         setRestoreMsg('No completed VIP purchase found under that email yet.');
       }
     } catch {
-      setRestoreMsg('Could not reach VIP restore service right now—try again in a moment.');
+      setRestoreMsg('Could not reach VIP restore service right now, try again in a moment.');
     }
   };
 
@@ -196,7 +196,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         setCameoMsg('Please write at least one full sentence describing your character vibe.');
       }
     } catch {
-      setCameoMsg('Network hiccup—please press Submit Brief once more.');
+      setCameoMsg('Network hiccup, please press Submit Brief once more.');
     }
   };
 
@@ -300,7 +300,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   🎬 Describe Your Custom Cougar or Cub Character
                 </h3>
                 <p className="text-sm text-stone-700 leading-relaxed">
-                  Share the first-name persona, age, job, signature green flag (or hilarious red-flag trap!), and favorite Velvet Palms hangout—we’ll illustrate 6 slides and add them to the Club deck.
+                  Share the first-name persona, age, job, signature green flag (or hilarious red-flag trap!), and favorite Velvet Palms hangout, we’ll illustrate 6 slides and add them to the Club deck.
                 </p>
                 <textarea
                   required
@@ -345,7 +345,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   </div>
 
                   <p className="text-sm text-stone-600 leading-relaxed">
-                    Top up your wallet for special moments across your favorite matches—never a recurring subscription.
+                    Top up your wallet for special moments across your favorite matches, never a recurring subscription.
                   </p>
 
                   <ul className="space-y-2.5 text-sm font-medium text-[#18101E]">
@@ -376,7 +376,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     rel="noopener noreferrer"
                     className="block w-full rounded-2xl border-2 border-[#18101E] bg-white py-3.5 text-center text-sm sm:text-base font-extrabold text-[#18101E] hover:bg-stone-50 transition"
                   >
-                    Get 15 Credits — $2.99
+                    Get 15 Credits • $2.99
                   </a>
                 ) : isSandbox ? (
                   <button
@@ -410,7 +410,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   </div>
 
                   <p className="text-sm text-stone-200 leading-relaxed">
-                    Less than one happy-hour martini—unlocks the complete unrestricted romance sim across all 22 characters forever.
+                    Less than one happy-hour martini, unlocks the complete unrestricted romance sim across all 22 characters forever.
                   </p>
 
                   <ul className="space-y-2.5 text-sm font-medium text-white">
@@ -446,7 +446,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     className="flex items-center justify-center gap-2 rounded-2xl bg-amber-300 py-3.5 text-center text-sm sm:text-base font-extrabold text-[#18101E] hover:bg-amber-200 transition shadow-md"
                   >
                     <Crown className="h-4 w-4" />
-                    <span>Unlock Lifetime VIP — $6.99</span>
+                    <span>Unlock Lifetime VIP • $6.99</span>
                   </a>
                 ) : isSandbox ? (
                   <button
@@ -477,7 +477,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   </div>
 
                   <p className="text-sm text-stone-600 leading-relaxed">
-                    Put a fictionalized Cougar, Cub, or legendary group-chat red flag into the game—just like classic indie dating-sim backer cameos!
+                    Put a fictionalized Cougar, Cub, or legendary group-chat red flag into the game, just like classic indie dating-sim backer cameos!
                   </p>
 
                   <ul className="space-y-2.5 text-sm font-medium text-[#18101E]">
@@ -509,7 +509,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     className="flex items-center justify-center gap-2 rounded-2xl bg-rose-600 py-3.5 text-center text-sm sm:text-base font-extrabold text-white hover:bg-rose-700 transition shadow-xs"
                   >
                     <Gift className="h-4 w-4" />
-                    <span>Sponsor a Character — $29</span>
+                    <span>Sponsor a Character • $29</span>
                   </a>
                 )}
               </div>
@@ -704,7 +704,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 </span>
               </div>
               <p className="text-sm text-white/85 leading-relaxed">
-                Apply for our vetted real-world &amp; virtual member cohort—starting with hosted Pop-Culture Trivia &amp; Speed-Vetting Salons.
+                Apply for our vetted real-world &amp; virtual member cohort, starting with hosted Pop-Culture Trivia &amp; Speed-Vetting Salons.
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <select

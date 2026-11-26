@@ -56,7 +56,7 @@ function makeSlides(id: string, captions: [string, string, string, string, strin
 }
 
 export const V35_CAST_PROFILES: V35CastProfile[] = [
-  // ================= 5 MAIN ROMANCE LEADS (HIM — FOR HER) =================
+  // ================= 5 MAIN ROMANCE LEADS (HIM. FOR HER) =================
   {
     id: 'julian',
     name: 'Julian',
@@ -79,7 +79,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('julian', [
       '',
       'Happiest buried in archive notebooks (glasses come off by dinner)',
-      '6 AM river miles—promise I’m much calmer by half seven',
+      '6 AM river miles, promise I’m much calmer by half seven',
       '',
       'Yes I climb library ladders for work, yes I carry allergy pills',
       'Still mourning proper Hampstead cask ale',
@@ -93,7 +93,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Hey cute accent where are you from', delta: -6 },
           {
-            text: 'Translating "half seven" accurately on the first try—does that win me the risotto recipe?',
+            text: 'Translating "half seven" accurately on the first try, does that win me the risotto recipe?',
             delta: 18,
           },
           {
@@ -111,7 +111,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Sounds fun lol', delta: -8 },
           {
-            text: 'Only if I get veto power on pretentious plaques—pick the Barolo spot.',
+            text: 'Only if I get veto power on pretentious plaques, pick the Barolo spot.',
             delta: 16,
           },
           {
@@ -129,7 +129,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Hi how is your week going', delta: -4 },
           {
-            text: 'Life is very happily built over here—let’s see if your dry humor survives two glasses of red.',
+            text: 'Life is very happily built over here, let’s see if your dry humor survives two glasses of red.',
             delta: 18,
           },
           {
@@ -141,7 +141,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       },
     ],
     vulnerabilityNote:
-      'Proud of his craft yet privately sensitive about fellowship stipend math beside an executive partner—melts when respected for his mind and initiative.',
+      'Proud of his craft yet privately sensitive about fellowship stipend math beside an executive partner, melts when respected for his mind and initiative.',
   },
   {
     id: 'soren',
@@ -164,7 +164,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('soren', [
       '',
-      'Clay courts beat hard courts—willing to defend this over drinks',
+      'Clay courts beat hard courts, willing to defend this over drinks',
       'Late-night balsa pavilion model before client review',
       'Post-cold-plunge dock coffee back home',
       'Saturday sourdough run on two wheels',
@@ -183,7 +183,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Standout Rose: Save the small talk—bring that clay-court focus to Thursday martinis at 8.',
+            text: '🌹 Standout Rose: Save the small talk, bring that clay-court focus to Thursday martinis at 8.',
             delta: 26,
             isVipSmooth: true,
           },
@@ -193,15 +193,15 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'soren-p2',
         question: 'First round is on me if',
         answer:
-          'You can return my left-handed slice on clay—or ruthlessly roast bad restaurant lighting with me.',
+          'You can return my left-handed slice on clay, or ruthlessly roast bad restaurant lighting with me.',
         openers: [
           { text: 'I dont play tennis haha', delta: -6 },
           {
-            text: 'Overhead fluorescent bulbs in restaurants should be illegal—first round is officially on you.',
+            text: 'Overhead fluorescent bulbs in restaurants should be illegal, first round is officially on you.',
             delta: 17,
           },
           {
-            text: '🌹 One set of mixed doubles at Palisades followed by dim candlelight—winner picks the wine.',
+            text: '🌹 One set of mixed doubles at Palisades followed by dim candlelight, winner picks the wine.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -215,11 +215,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Where is it??', delta: -4 },
           {
-            text: 'Bold claim—you’re going to have to back that map pin up this weekend.',
+            text: 'Bold claim, you’re going to have to back that map pin up this weekend.',
             delta: 16,
           },
           {
-            text: '🌹 Phones on airplane mode, two cortados, Sunday morning—show me.',
+            text: '🌹 Phones on airplane mode, two cortados, Sunday morning, show me.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -254,7 +254,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       'Checking cedar pergola sightlines before opening night',
       'Timber terrace walkthrough',
       'Happiest under canvas when the wind picks up',
-      '8:15 corner table—already handled',
+      '8:15 corner table, already handled',
       'Sunrise bluff miles before site calls',
     ]),
     prompts: [
@@ -270,7 +270,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Consider Friday officially delegated to you—just tell me dress code and pickup time.',
+            text: '🌹 Consider Friday officially delegated to you, just tell me dress code and pickup time.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -306,7 +306,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 17,
           },
           {
-            text: '🌹 Quiet booth acoustics and a proper bourbon pour—show me your favorite room you built.',
+            text: '🌹 Quiet booth acoustics and a proper bourbon pour, show me your favorite room you built.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -357,7 +357,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Bring the seven-string playlist—I’ll pour the Rioja while you lead.',
+            text: '🌹 Bring the seven-string playlist. I’ll pour the Rioja while you lead.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -371,7 +371,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Yum!', delta: -6 },
           {
-            text: 'Zero menu hesitation—already giving you high marks.',
+            text: 'Zero menu hesitation, already giving you high marks.',
             delta: 17,
           },
           {
@@ -393,7 +393,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Oat cortado at 8 AM—and let’s test that salsa frame first.',
+            text: '🌹 Oat cortado at 8 AM, and let’s test that salsa frame first.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -428,7 +428,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       '1,500 meters before the city wakes up',
       'Post-shift iced coffee outside Station 14',
       'Sunday mahi-mahi and charred lemon duty',
-      'Two-man beach volleyball—still undefeated this summer',
+      'Two-man beach volleyball, still undefeated this summer',
       'Proving I own clothes besides navy turnout gear',
     ]),
     prompts: [
@@ -458,7 +458,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Nice smile', delta: -6 },
           {
-            text: 'Marvin Gaye on vinyl and direct communication—we’re going to get along dangerously well.',
+            text: 'Marvin Gaye on vinyl and direct communication, we’re going to get along dangerously well.',
             delta: 17,
           },
           {
@@ -480,7 +480,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 I’ll bring the crisp white wine—cook me the winning lemon pasta on Date #2.',
+            text: '🌹 I’ll bring the crisp white wine, cook me the winning lemon pasta on Date #2.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -488,10 +488,10 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       },
     ],
     vulnerabilityNote:
-      'Close with his 49-year-old mom Denise—wants a partner who lets him prep his family warmly a week before Sunday dinner.',
+      'Close with his 49-year-old mom Denise, wants a partner who lets him prep his family warmly a week before Sunday dinner.',
   },
 
-  // ================= 3 DISGUISED RED-FLAG TRAPS (HIM — FOR HER) =================
+  // ================= 3 DISGUISED RED-FLAG TRAPS (HIM. FOR HER) =================
   {
     id: 'graham',
     name: 'Graham',
@@ -514,17 +514,17 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('graham', [
       '',
       'Quick harbor spin before my Sunday phone blackout kicks in',
-      'Nine holes before markets open—please don’t tag me lol',
+      'Nine holes before markets open, please don’t tag me lol',
       'Hard stop at 6:42 PM sharp for my nightly Tokyo portfolio call',
       '',
-      'Strictly cash at hotel bars—keeps corporate expense reports clean',
+      'Strictly cash at hotel bars, keeps corporate expense reports clean',
     ]),
     prompts: [
       {
         id: 'graham-p1',
         question: 'My ideal first date',
         answer:
-          'A spontaneous 5:15 PM weekday martini at a quiet hotel bar—my evenings after 6:45 PM and Sundays are completely locked with Tokyo portfolio calls.',
+          'A spontaneous 5:15 PM weekday martini at a quiet hotel bar, my evenings after 6:45 PM and Sundays are completely locked with Tokyo portfolio calls.',
         openers: [
           { text: 'You have a great smile!', delta: 14 },
           {
@@ -532,7 +532,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 5:15 PM at The Velvet Room—let’s see what happens when the clock hits 6:45.',
+            text: '🌹 5:15 PM at The Velvet Room, let’s see what happens when the clock hits 6:45.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -550,7 +550,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Zero tagging here—though I ask very direct questions over martinis.',
+            text: '🌹 Zero tagging here, though I ask very direct questions over martinis.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -568,7 +568,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Book Table 9 and bring your best alibi—I’m curious.',
+            text: '🌹 Book Table 9 and bring your best alibi. I’m curious.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -598,8 +598,8 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('connor', [
       '',
-      '2 AM bathroom mirror check—ignore the bottle of Tito’s on the sink lol',
-      'DJing my four roommates’ rooftop day party—pull up',
+      '2 AM bathroom mirror check, ignore the bottle of Tito’s on the sink lol',
+      'DJing my four roommates’ rooftop day party, pull up',
       'Club lacrosse cardio so I survive frat formal',
       '',
       'Who wants to come to "my place in Maui" (it’s my parents’ Week-14 timeshare)',
@@ -627,7 +627,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'connor-p2',
         question: 'Together, we could',
         answer:
-          'Skip crowded restaurants completely—just let me come straight over to your house tonight and order takeout.',
+          'Skip crowded restaurants completely, just let me come straight over to your house tonight and order takeout.',
         openers: [
           { text: 'Takeout sounds cozy!', delta: 14 },
           {
@@ -635,7 +635,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Nice try, speedrunner—nobody gets my home address before passing public cocktail vetting.',
+            text: '🌹 Nice try, speedrunner, nobody gets my home address before passing public cocktail vetting.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -649,7 +649,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Fun!', delta: 12 },
           {
-            text: 'Four roommates and microwave quesadillas—tell me the truth about that birth year.',
+            text: 'Four roommates and microwave quesadillas, tell me the truth about that birth year.',
             delta: 18,
           },
           {
@@ -684,7 +684,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('devon', [
       '',
       'Already writing verse two about our future Big Sur cabin',
-      'Rainy Echo Park lyric notebook—feel everything at volume eleven',
+      'Rainy Echo Park lyric notebook, feel everything at volume eleven',
       'Digging through dusty Blue Note vinyl I definitely couldn’t afford',
       '',
       'Clearing my head on the pier before Friday overthinking kicks in',
@@ -698,7 +698,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Aww I love deep late-night talks!', delta: 15 },
           {
-            text: 'Planning Big Sur on Tuesday usually means flaking by Friday at 4 PM—prove me wrong.',
+            text: 'Planning Big Sur on Tuesday usually means flaking by Friday at 4 PM, prove me wrong.',
             delta: 18,
           },
           {
@@ -720,7 +720,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Deep breath, poet—one calm drink doesn’t require a screenplay.',
+            text: '🌹 Deep breath, poet, one calm drink doesn’t require a screenplay.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -749,7 +749,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       '48-hour love-bomber who future-fakes Big Sur on Tuesday, then chickens out at 4:15 PM Friday when reality hits.',
   },
 
-  // ================= 3 HIGH-HOTNESS CAMEOS (HIM — FOR HER) =================
+  // ================= 3 HIGH-HOTNESS CAMEOS (HIM. FOR HER) =================
   {
     id: 'rory',
     name: 'Rory',
@@ -771,7 +771,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('rory', [
       '',
-      'Inspecting the heritage oaks—still pinch myself this is my day job',
+      'Inspecting the heritage oaks, still pinch myself this is my day job',
       'Not my dog, just my favorite muddy Tuesday trail regular',
       'Bought two hot chocolates at the Sunday market (one has your name on it)',
       '',
@@ -786,11 +786,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Cute dog!!', delta: 8 },
           {
-            text: 'Straight out of Hampstead Heath—if I get stuck up an oak tree, how fast is your response time?',
+            text: 'Straight out of Hampstead Heath, if I get stuck up an oak tree, how fast is your response time?',
             delta: 18,
           },
           {
-            text: '🌹 Bring those dimples and the velvet dinner jacket—twilight botanical walk is a yes.',
+            text: '🌹 Bring those dimples and the velvet dinner jacket, twilight botanical walk is a yes.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -804,11 +804,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Love berry crumble', delta: 6 },
           {
-            text: 'Making me forget my inbox for two hours is a tall order—accepting your application.',
+            text: 'Making me forget my inbox for two hours is a tall order, accepting your application.',
             delta: 18,
           },
           {
-            text: '🌹 Leave the muddy boots on the porch and bring the warm crumble—Friday is yours.',
+            text: '🌹 Leave the muddy boots on the porch and bring the warm crumble. Friday is yours.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -826,7 +826,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Zero fake American accents allowed—pick me up at eight, ranger.',
+            text: '🌹 Zero fake American accents allowed, pick me up at eight, ranger.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -854,7 +854,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('jin', [
       '',
-      'Contact-sheet edits—I promise I never photograph dinner plates',
+      'Contact-sheet edits. I promise I never photograph dinner plates',
       'Twelve-seat vinyl bar in Little Tokyo (saving the stool beside me)',
       'Testing 120mm film in morning window light',
       'Chalking up for the overhang project that humbled me twice',
@@ -869,7 +869,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Cool camera!', delta: -4 },
           {
-            text: 'In the Mood for Love lighting plus a twelve-seat vinyl bar—name the night.',
+            text: 'In the Mood for Love lighting plus a twelve-seat vinyl bar, name the night.',
             delta: 18,
           },
           {
@@ -887,11 +887,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Same here', delta: -6 },
           {
-            text: 'My phone stays in my clutch from appetizer to check—your move, art director.',
+            text: 'My phone stays in my clutch from appetizer to check, your move, art director.',
             delta: 18,
           },
           {
-            text: '🌹 Zero cameras on the food, undivided eye contact—book Little Tokyo for 8:30.',
+            text: '🌹 Zero cameras on the food, undivided eye contact, book Little Tokyo for 8:30.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -909,7 +909,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 17,
           },
           {
-            text: '🌹 Sunday kissaten coffee followed by MOCA—let’s go.',
+            text: '🌹 Sunday kissaten coffee followed by MOCA, let’s go.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -938,7 +938,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('liam', [
       '',
       'Raising the main cedar ridge beam before mountain weather rolls in',
-      'Winter firewood stacked—cast-iron peach cobbler goes in next',
+      'Winter firewood stacked, cast-iron peach cobbler goes in next',
       'Sunrise paddle in the cedar canoe I built last autumn',
       '',
       'Traded sawdust and flannel for wool at the lodge bar',
@@ -956,7 +956,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Bring that wool coat down from Topanga Friday—first bourbon is waiting.',
+            text: '🌹 Bring that wool coat down from Topanga Friday, first bourbon is waiting.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -970,11 +970,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Love Ojai!', delta: -2 },
           {
-            text: 'Oak-grilled trout and zero freeway noise sounds like heaven—I’ll bring the Syrah.',
+            text: 'Oak-grilled trout and zero freeway noise sounds like heaven. I’ll bring the Syrah.',
             delta: 18,
           },
           {
-            text: '🌹 Pack two mugs for the sunrise canoe paddle—Saturday in Ojai is a yes.',
+            text: '🌹 Pack two mugs for the sunrise canoe paddle. Saturday in Ojai is a yes.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -992,7 +992,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 17,
           },
           {
-            text: '🌹 Put Stardust on vinyl and pour two coffees—let’s start with Friday drinks.',
+            text: '🌹 Put Stardust on vinyl and pour two coffees, let’s start with Friday drinks.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1001,7 +1001,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     ],
   },
 
-  // ================= 5 MAIN ROMANCE LEADS (HER — FOR HIM) =================
+  // ================= 5 MAIN ROMANCE LEADS (HER. FOR HIM) =================
   {
     id: 'elena',
     name: 'Elena',
@@ -1025,9 +1025,9 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('elena', [
       'Grading essays is survivable only with late-afternoon sun',
       'Autumn walk across the north quad',
-      'Left Bank sidewalk espresso—sunglasses stay on before ten',
+      'Left Bank sidewalk espresso, sunglasses stay on before ten',
       'Faculty contemporary opening',
-      'Rainy Sunday reading corner—do not disturb without tea',
+      'Rainy Sunday reading corner, do not disturb without tea',
       'Coastal Highway 1 drive with Sheryl Crow turned all the way up',
     ]),
     prompts: [
@@ -1039,7 +1039,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Hey professor 😉', delta: -12 },
           {
-            text: 'Table for two at 8 PM Friday is already held—bring your sharpest critique.',
+            text: 'Table for two at 8 PM Friday is already held, bring your sharpest critique.',
             delta: 18,
           },
           {
@@ -1057,11 +1057,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'What books do you write?', delta: 4 },
           {
-            text: 'Chilled Sancerre and zero deadline talk all evening—let me take you out Thursday.',
+            text: 'Chilled Sancerre and zero deadline talk all evening, let me take you out Thursday.',
             delta: 18,
           },
           {
-            text: '🌹 Chilled Sancerre waiting at 7:45—tell me the one novel you think everyone misreads.',
+            text: '🌹 Chilled Sancerre waiting at 7:45, tell me the one novel you think everyone misreads.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1075,7 +1075,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Haha deal!', delta: -6 },
           {
-            text: 'Deal—all three topics are officially embargoed, though I’m still getting the first round.',
+            text: 'Deal, all three topics are officially embargoed, though I’m still getting the first round.',
             delta: 18,
           },
           {
@@ -1112,7 +1112,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('claire', [
       'Post-closing exhale',
       'Dusk from the 34th floor before turning my phone off',
-      'Bluff walk barefoot—best reset after deal week',
+      'Bluff walk barefoot, best reset after deal week',
       'One Gibson martini, three olives',
       'Highway 1 with the top down',
       'Sunday Pinot on my own deck',
@@ -1126,11 +1126,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Hey gorgeous', delta: -10 },
           {
-            text: 'Choosing each other every Friday while respecting your sanctuary sounds ideal—drinks Thursday?',
+            text: 'Choosing each other every Friday while respecting your sanctuary sounds ideal, drinks Thursday?',
             delta: 18,
           },
           {
-            text: '🌹 Keep your own keys and your Sunday peace—let me plan Friday at 8 from start to finish.',
+            text: '🌹 Keep your own keys and your Sunday peace, let me plan Friday at 8 from start to finish.',
             delta: 26,
             isVipSmooth: true,
           },
@@ -1144,7 +1144,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Totally agree lol', delta: -8 },
           {
-            text: 'Quiet corner booth is booked for 7:30 sharp—and I arrive five minutes early.',
+            text: 'Quiet corner booth is booked for 7:30 sharp, and I arrive five minutes early.',
             delta: 18,
           },
           {
@@ -1162,7 +1162,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Im not intimidated!', delta: -4 },
           {
-            text: 'Good to know I only have to survive the first ninety seconds—where can I take you Friday?',
+            text: 'Good to know I only have to survive the first ninety seconds, where can I take you Friday?',
             delta: 18,
           },
           {
@@ -1201,7 +1201,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       'Styling hundred-year-old olive branches for our newest courtyard install',
       'Arguing with myself over travertine samples before nine',
       'String lights, chilled rosé, and zero tolerance for secret dating',
-      '7 AM Rose Bowl vintage brass haul—bring strong arms',
+      '7 AM Rose Bowl vintage brass haul, bring strong arms',
       '',
     ]),
     prompts: [
@@ -1217,7 +1217,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 7 AM cortados in hand, trunk cleared for vintage finds—pick you up Sunday?',
+            text: '🌹 7 AM cortados in hand, trunk cleared for vintage finds, pick you up Sunday?',
             delta: 25,
             isVipSmooth: true,
           },
@@ -1235,7 +1235,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Zero hiding, hand in mine walking into dinner—let me book us Friday night.',
+            text: '🌹 Zero hiding, hand in mine walking into dinner, let me book us Friday night.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -1249,11 +1249,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Love Al Green', delta: 4 },
           {
-            text: 'Al Green on the turntable and fresh figs—let me cook dinner while you critique the lighting.',
+            text: 'Al Green on the turntable and fresh figs, let me cook dinner while you critique the lighting.',
             delta: 17,
           },
           {
-            text: '🌹 Put "Let’s Stay Together" on first—where am I taking you Thursday at eight?',
+            text: '🌹 Put "Let’s Stay Together" on first, where am I taking you Thursday at eight?',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1299,7 +1299,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Nurses are awesome!', delta: -6 },
           {
-            text: 'Blackout-curtain sleep respected—and Friday at 7:45 is already booked when you wake up.',
+            text: 'Blackout-curtain sleep respected, and Friday at 7:45 is already booked when you wake up.',
             delta: 18,
           },
           {
@@ -1321,7 +1321,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Dinner cooked from scratch AND a rematch clause—name your free evening off-shift.',
+            text: '🌹 Dinner cooked from scratch AND a rematch clause, name your free evening off-shift.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1335,11 +1335,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Cardamom coffee sounds good', delta: -4 },
           {
-            text: 'Cardamom cold brew waiting in the cupholder and twenty peaceful minutes of coastal views—deal.',
+            text: 'Cardamom cold brew waiting in the cupholder and twenty peaceful minutes of coastal views, deal.',
             delta: 18,
           },
           {
-            text: '🌹 Deal—I’ll bring the cardamom cold brew and let the ocean view do the talking.',
+            text: '🌹 Deal, I’ll bring the cardamom cold brew and let the ocean view do the talking.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1370,26 +1370,26 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('summer', [
       '',
-      'Between Beverly Hills consults—mineral SPF 50 remains undefeated',
+      'Between Beverly Hills consults, mineral SPF 50 remains undefeated',
       'Dawn longboard before clinic rounds (yes I reapplied on my neck)',
       'Sunday farmers-market peonies and iced matcha',
       '',
-      'Practicing my oceanfront anniversary toast—now taking applications',
+      'Practicing my oceanfront anniversary toast, now taking applications',
     ]),
     prompts: [
       {
         id: 'summer-p1',
         question: 'What I’m actually looking for',
         answer:
-          'Watched too many 38-year-old men stall on commitment—looking for an energetic, emotionally ready younger guy excited to build a real life (and family) together.',
+          'Watched too many 38-year-old men stall on commitment, looking for an energetic, emotionally ready younger guy excited to build a real life (and family) together.',
         openers: [
           { text: 'Hey Summer ur gorgeous 🔥', delta: -10 },
           {
-            text: 'Zero stalling here—know exactly what I want to build, and I wear SPF 50 daily. Drinks Friday?',
+            text: 'Zero stalling here, know exactly what I want to build, and I wear SPF 50 daily. Drinks Friday?',
             delta: 18,
           },
           {
-            text: '🌹 Standout Rose: Clear eyes on commitment, dawn surf stamina, and Friday 7:30 in Malibu—say when.',
+            text: '🌹 Standout Rose: Clear eyes on commitment, dawn surf stamina, and Friday 7:30 in Malibu, say when.',
             delta: 26,
             isVipSmooth: true,
           },
@@ -1403,7 +1403,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Oops forgot sunscreen haha', delta: -8 },
           {
-            text: 'Mineral SPF 50 applied at 7 AM and wetsuit stays in the trunk—where are we celebrating after?',
+            text: 'Mineral SPF 50 applied at 7 AM and wetsuit stays in the trunk, where are we celebrating after?',
             delta: 18,
           },
           {
@@ -1421,11 +1421,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Love fish tacos!', delta: -2 },
           {
-            text: 'Pink peonies and an 8 PM oceanfront table this Thursday—let me take care of the rest.',
+            text: 'Pink peonies and an 8 PM oceanfront table this Thursday, let me take care of the rest.',
             delta: 18,
           },
           {
-            text: '🌹 Table overlooking the pier is held for 8 PM Thursday—peonies included.',
+            text: '🌹 Table overlooking the pier is held for 8 PM Thursday, peonies included.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1436,7 +1436,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       'Upfront about wanting real marriage & kids so commitment-phobes filter themselves out early; rewards genuine steadiness.',
   },
 
-  // ================= 2 DISGUISED RED-FLAG TRAPS (HER — FOR HIM) =================
+  // ================= 2 DISGUISED RED-FLAG TRAPS (HER. FOR HIM) =================
   {
     id: 'vanessa',
     name: 'Vanessa',
@@ -1458,7 +1458,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('vanessa', [
       '',
       'Sneaking out between Bel Air property-tax meetings',
-      'Wednesday 2 PM hotel pool—my favorite quiet window',
+      'Wednesday 2 PM hotel pool, my favorite quiet window',
       '',
       'Phones go on airplane mode after 6:30 PM, darling',
       'Spontaneous afternoon escapes > complicated labels',
@@ -1468,7 +1468,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'vanessa-p1',
         question: 'My current chapter',
         answer:
-          'Practically divorced—we just still share the Bel Air property for tax logistics, so we’ll stick to boutique hotels on your side of town!',
+          'Practically divorced, we just still share the Bel Air property for tax logistics, so we’ll stick to boutique hotels on your side of town!',
         openers: [
           { text: 'Works for me! Let’s grab a drink.', delta: 15 },
           {
@@ -1476,7 +1476,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Define "practically divorced" over one hotel martini—I have questions.',
+            text: '🌹 Define "practically divorced" over one hotel martini. I have questions.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -1490,11 +1490,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Love spontaneous Wednesdays!', delta: 14 },
           {
-            text: 'Wednesday afternoon hotel escapes—is that the Table 9 alibi schedule?',
+            text: 'Wednesday afternoon hotel escapes, is that the Table 9 alibi schedule?',
             delta: 18,
           },
           {
-            text: '🌹 One drink in daylight first—let’s see how finalized that separation really is.',
+            text: '🌹 One drink in daylight first, let’s see how finalized that separation really is.',
             delta: 22,
             isVipSmooth: true,
           },
@@ -1508,7 +1508,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Easygoing here!', delta: 14 },
           {
-            text: 'Another 6:30 PM phone blackout—half of Bel Air has the exact same curfew.',
+            text: 'Another 6:30 PM phone blackout, half of Bel Air has the exact same curfew.',
             delta: 18,
           },
           {
@@ -1543,7 +1543,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('brooke', [
       '',
-      'Cabana spritzes—bonus points if you look sharp in a navy blazer',
+      'Cabana spritzes, bonus points if you look sharp in a navy blazer',
       '',
       'Sunday racquet-club brunch debrief with the girls',
       'Museum gala arrival (yes the photographers were right on cue)',
@@ -1554,11 +1554,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'brooke-p1',
         question: 'My non-negotiable Friday spot',
         answer:
-          'One very specific steakhouse patio at 8:00 PM sharp—sit facing the center banquette and laugh loud when my ex-husband Richard walks past Table 9.',
+          'One very specific steakhouse patio at 8:00 PM sharp, sit facing the center banquette and laugh loud when my ex-husband Richard walks past Table 9.',
         openers: [
           { text: 'Haha happy to help!', delta: 15 },
           {
-            text: 'Wait—am I an actual date or a hired stunt double for Richard at Table 9?',
+            text: 'Wait, am I an actual date or a hired stunt double for Richard at Table 9?',
             delta: 18,
           },
           {
@@ -1580,7 +1580,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Tell me honestly—how many times has Richard come up this week?',
+            text: '🌹 Tell me honestly, how many times has Richard come up this week?',
             delta: 22,
             isVipSmooth: true,
           },
@@ -1594,11 +1594,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Love brunch!', delta: 14 },
           {
-            text: 'Scoreboard brunch sounds exhausting—ever go on a date with zero audience?',
+            text: 'Scoreboard brunch sounds exhausting, ever go on a date with zero audience?',
             delta: 18,
           },
           {
-            text: '🌹 Spill the real Table 9 gossip—why is Richard there every Friday?',
+            text: '🌹 Spill the real Table 9 gossip, why is Richard there every Friday?',
             delta: 22,
             isVipSmooth: true,
           },
@@ -1609,7 +1609,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       'Ex-husband revenge pawn: uses younger dates strictly to parade past her ex Richard’s Table 9 booth.',
   },
 
-  // ================= 4 HIGH-HOTNESS CAMEOS (HER — FOR HIM) =================
+  // ================= 4 HIGH-HOTNESS CAMEOS (HER. FOR HIM) =================
   {
     id: 'celeste',
     name: 'Celeste',
@@ -1632,7 +1632,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('celeste', [
       '',
-      'Gallery opening toast—icy Gibson up, cocktail onion required',
+      'Gallery opening toast, icy Gibson up, cocktail onion required',
       'Top down past the San Jacinto palms with Chet Baker on',
       'Quiet sculpture-garden coffee before collectors arrive',
       'Candlelight under the bougainvillea beats loud nightclubs every time',
@@ -1647,11 +1647,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Cool car!', delta: -4 },
           {
-            text: 'Chet Baker on vinyl and desert twilight—I’ll pack the figs and let you pick the bottle.',
+            text: 'Chet Baker on vinyl and desert twilight. I’ll pack the figs and let you pick the bottle.',
             delta: 18,
           },
           {
-            text: '🌹 Save the passenger seat Friday—I’d love to take you to dinner before the desert drive.',
+            text: '🌹 Save the passenger seat Friday. I’d love to take you to dinner before the desert drive.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -1669,7 +1669,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Car door opened, phone silenced, hand held across the plaza—Thursday at eight?',
+            text: '🌹 Car door opened, phone silenced, hand held across the plaza. Thursday at eight?',
             delta: 25,
             isVipSmooth: true,
           },
@@ -1683,11 +1683,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'What is a Gibson?', delta: -6 },
           {
-            text: 'Cocktail onion over olives—impeccable call. Let me order two for us Friday.',
+            text: 'Cocktail onion over olives, impeccable call. Let me order two for us Friday.',
             delta: 18,
           },
           {
-            text: '🌹 Two icy Gibsons up at 7:30—tell me about the new desert installation.',
+            text: '🌹 Two icy Gibsons up at 7:30, tell me about the new desert installation.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1715,9 +1715,9 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('astrid', [
       '',
-      'Inspecting solid-oak joinery—zero nails, zero shortcuts',
+      'Inspecting solid-oak joinery, zero nails, zero shortcuts',
       'Back home in Sweden where nobody complains about cold water',
-      'Post-ocean-plunge cedar sauna—three minutes minimum, no speeches',
+      'Post-ocean-plunge cedar sauna, three minutes minimum, no speeches',
       '',
       'Natural wine with zero small talk',
     ]),
@@ -1730,11 +1730,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Brrr too cold!!', delta: -6 },
           {
-            text: 'Three calm minutes in the Pacific, zero speeches—then I’m buying the post-sauna wine.',
+            text: 'Three calm minutes in the Pacific, zero speeches, then I’m buying the post-sauna wine.',
             delta: 18,
           },
           {
-            text: '🌹 Stopwatch ready for Saturday morning—and dinner Friday night is on me first.',
+            text: '🌹 Stopwatch ready for Saturday morning, and dinner Friday night is on me first.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -1752,7 +1752,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Fresh cardamom buns for our Malibu bluff walk Sunday—or natural wine Friday at 8.',
+            text: '🌹 Fresh cardamom buns for our Malibu bluff walk Sunday, or natural wine Friday at 8.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1766,11 +1766,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'I pack light!', delta: 4 },
           {
-            text: 'One carry-on duffel and five minutes’ notice—test me anytime.',
+            text: 'One carry-on duffel and five minutes’ notice, test me anytime.',
             delta: 17,
           },
           {
-            text: '🌹 Carry-on stays packed—let’s start with natural wine in Santa Monica Friday.',
+            text: '🌹 Carry-on stays packed, let’s start with natural wine in Santa Monica Friday.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1800,7 +1800,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     slides: makeSlides('camila', [
       '',
       'Cellar barrel check before sixty covers walk through the door',
-      'Tweezers out on the wood-fired pass—don’t ask me to cook on Mondays',
+      'Tweezers out on the wood-fired pass, don’t ask me to cook on Mondays',
       '',
       '8 AM Wednesday fig & heirloom tomato raid',
       'Rare slow Sunday when someone else finally orders the pastries',
@@ -1818,7 +1818,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Chef is officially off duty Monday—chilled Albariño, simple grilled sea bass, and zero pans for you.',
+            text: '🌹 Chef is officially off duty Monday, chilled Albariño, simple grilled sea bass, and zero pans for you.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -1832,11 +1832,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Bread is the best!', delta: 6 },
           {
-            text: 'Warm sourdough, olive oil, and spinning you around the kitchen to cumbia—count me in.',
+            text: 'Warm sourdough, olive oil, and spinning you around the kitchen to cumbia, count me in.',
             delta: 18,
           },
           {
-            text: '🌹 Zero macro-counting allowed—let me take you for late-night oysters after your Saturday close.',
+            text: '🌹 Zero macro-counting allowed, let me take you for late-night oysters after your Saturday close.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1854,7 +1854,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 17,
           },
           {
-            text: '🌹 8 AM Wednesday market date—cortados in hand, crates on my shoulder.',
+            text: '🌹 8 AM Wednesday market date, cortados in hand, crates on my shoulder.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1882,11 +1882,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('vivienne', [
       '',
-      'Screening-room notes—third row center is non-negotiable',
+      'Screening-room notes, third row center is non-negotiable',
       'Morning espresso along the Croisette before festival madness',
       'Late-August table in Provence that ran until midnight',
       '',
-      'Premiere night—first man to say "for your age" walks home',
+      'Premiere night, first man to say "for your age" walks home',
     ]),
     prompts: [
       {
@@ -1897,7 +1897,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Bonjour!!', delta: -6 },
           {
-            text: 'Zero portfolio talk promised—just third-row cinema debates and a proper bottle of Burgundy.',
+            text: 'Zero portfolio talk promised, just third-row cinema debates and a proper bottle of Burgundy.',
             delta: 18,
           },
           {
@@ -1915,11 +1915,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'You look amazing!', delta: 6 },
           {
-            text: 'Those three words don’t exist in my vocabulary—8 PM corner banquette at Petit Trois?',
+            text: 'Those three words don’t exist in my vocabulary, 8 PM corner banquette at Petit Trois?',
             delta: 18,
           },
           {
-            text: '🌹 Petit Trois at 8 PM sharp—and the first Champagne coupe is already handled.',
+            text: '🌹 Petit Trois at 8 PM sharp, and the first Champagne coupe is already handled.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -1933,11 +1933,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         openers: [
           { text: 'Love movies!', delta: -6 },
           {
-            text: '35mm revival at the New Beverly followed by late-night steak frites—name the Friday.',
+            text: '35mm revival at the New Beverly followed by late-night steak frites, name the Friday.',
             delta: 18,
           },
           {
-            text: '🌹 Two third-row center tickets held for Friday—steak frites right after.',
+            text: '🌹 Two third-row center tickets held for Friday, steak frites right after.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -1957,21 +1957,21 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:12',
       transcript:
         '“Quiet corner wine bar at half seven, phones face-down in my coat pocket, and you telling me the unfiltered truth about the exhibition we just walked out of.”',
-      subtextTell: 'Warm Hampstead cadence, zero rehearsed pickup script—genuinely locks in on 1-on-1 conversation.',
+      subtextTell: 'Warm Hampstead cadence, zero rehearsed pickup script, genuinely locks in on 1-on-1 conversation.',
     },
     fridayStoryHook:
-      'If you match: Shows up five minutes early with peonies—until your snooty gallery acquaintance mistakes him for “the new intern” in front of the room.',
+      'If you match: Shows up five minutes early with peonies, until your snooty gallery acquaintance mistakes him for “the new intern” in front of the room.',
   },
   soren: {
     voicePrompt: {
       question: 'A wager I will gladly make you',
       duration: '0:14',
       transcript:
-        '“One tiebreak set on clay before dinner. If you pass me down the line, cocktails are on me—and either way, I am not rushing our first night.”',
-      subtextTell: 'Unhurried Nordic confidence—treats chemistry like a slow-burn rally rather than a sprint.',
+        '“One tiebreak set on clay before dinner. If you pass me down the line, cocktails are on me, and either way, I am not rushing our first night.”',
+      subtextTell: 'Unhurried Nordic confidence, treats chemistry like a slow-burn rally rather than a sprint.',
     },
     fridayStoryHook:
-      'If you match: Challenges you to twilight mixed doubles at Palisades Racquet—then drops a disarmingly honest confession over post-match spritzes.',
+      'If you match: Challenges you to twilight mixed doubles at Palisades Racquet, then drops a disarmingly honest confession over post-match spritzes.',
   },
   miles: {
     voicePrompt: {
@@ -1979,7 +1979,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:13',
       transcript:
         '“Tell me your flight landed twenty minutes early and I am already waiting by baggage claim with two proper espressos and dinner booked.”',
-      subtextTell: 'Calm structural-engineer steadiness—zero flaking, zero chaos.',
+      subtextTell: 'Calm structural-engineer steadiness, zero flaking, zero chaos.',
     },
     fridayStoryHook:
       'If you match: Turns a chaotic Terminal B delay into the smoothest impromptu bistro table in town.',
@@ -1990,7 +1990,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:11',
       transcript:
         '“I pull you onto the salsa floor during the brass break, spin you clean on the one, and save you the last plate of maduros.”',
-      subtextTell: 'Playful rhythm and direct eye contact—zero hesitation about leading.',
+      subtextTell: 'Playful rhythm and direct eye contact, zero hesitation about leading.',
     },
     fridayStoryHook:
       'If you match: Leads you onto the Havana Lounge brass floor before half the room realizes you only met ten minutes ago.',
@@ -2001,7 +2001,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:15',
       transcript:
         '“Vinyl spinning low, oak smoke drifting off the patio, and me defending why slow-smoked brisket refuses to be rushed for anybody.”',
-      subtextTell: 'Grounded pitmaster patience—shows care through feeding people well.',
+      subtextTell: 'Grounded pitmaster patience, shows care through feeding people well.',
     },
     fridayStoryHook:
       'If you match: Pulls two VIP plates off the smoker and tests whether you can handle friendly banter with his regular crew.',
@@ -2011,29 +2011,29 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       question: 'Why my calendar looks ruthless',
       duration: '0:13',
       transcript:
-        '“Deal weeks get intense, so let’s grab an early 5:15 corner martini near Century City before my 6:45 client dinner—efficiency is romantic, right?”',
-      subtextTell: 'Polished Wharton baritone—yet listen closely to that suspiciously hard 6:45 PM cutoff.',
+        '“Deal weeks get intense, so let’s grab an early 5:15 corner martini near Century City before my 6:45 client dinner, efficiency is romantic, right?”',
+      subtextTell: 'Polished Wharton baritone, yet listen closely to that suspiciously hard 6:45 PM cutoff.',
     },
     fridayStoryHook:
-      'If you match: Effortless 5:15 PM steakhouse charm—so why do three different men near Table 9 check their watches at 6:42 sharp?',
+      'If you match: Effortless 5:15 PM steakhouse charm, so why do three different men near Table 9 check their watches at 6:42 sharp?',
   },
   connor: {
     voicePrompt: {
       question: 'Quick disclaimer about my profile',
       duration: '0:14',
       transcript:
-        '“Okay swear Facebook glitched my birth year when I made this account, ignore the 27—anyway pull up to our rooftop pregame Friday, my boys are DJing!”',
+        '“Okay swear Facebook glitched my birth year when I made this account, ignore the 27, anyway pull up to our rooftop pregame Friday, my boys are DJing!”',
       subtextTell: 'Background bass thumping + three roommates yelling from a frat balcony mid-recording.',
     },
     fridayStoryHook:
-      'If you match: Swears an app glitch changed his age—while four undergrad roommates argue over speaker cables in his living room.',
+      'If you match: Swears an app glitch changed his age, while four undergrad roommates argue over speaker cables in his living room.',
   },
   devon: {
     voicePrompt: {
       question: 'My love language in one take',
       duration: '0:12',
       transcript:
-        '“Honestly I’m a cozy homebody king—why drop crazy money at loud restaurants when you could host me on your sectional and order takeout?”',
+        '“Honestly I’m a cozy homebody king, why drop crazy money at loud restaurants when you could host me on your sectional and order takeout?”',
       subtextTell: 'Calls himself a “low-key homebody,” yet every suggestion conveniently relies on your sofa and your tab.',
     },
     fridayStoryHook:
@@ -2044,8 +2044,8 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       question: 'A hill I will happily die on',
       duration: '0:13',
       transcript:
-        '“Thirty-five millimeter grain beats digital perfection every single time—meet me ten minutes before trailers so we get third-row center.”',
-      subtextTell: 'Earnest film-school enthusiasm—wears his heart right on his sleeve.',
+        '“Thirty-five millimeter grain beats digital perfection every single time, meet me ten minutes before trailers so we get third-row center.”',
+      subtextTell: 'Earnest film-school enthusiasm, wears his heart right on his sleeve.',
     },
     fridayStoryHook:
       'If you match: Holds two prime revival-house seats and nervously asks your ruthless verdict on his rough cut afterward.',
@@ -2066,8 +2066,8 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       question: 'Best perk of my 48-hour shift schedule',
       duration: '0:13',
       transcript:
-        '“When I’m off duty Tuesday morning, the whole coast is empty—hop in the truck and I’ll cook breakfast burritos after dawn surf.”',
-      subtextTell: 'Steady station-house calm—shows up when he says he will.',
+        '“When I’m off duty Tuesday morning, the whole coast is empty, hop in the truck and I’ll cook breakfast burritos after dawn surf.”',
+      subtextTell: 'Steady station-house calm, shows up when he says he will.',
     },
     fridayStoryHook:
       'If you match: Trades turnout gear for a coastal sunset overlook nobody else in Velvet Palms knows about.',
@@ -2078,7 +2078,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:12',
       transcript:
         '“Pick the spot without making me project-manage Tuesday, laugh when things go slightly off-script, and never flinch at a woman with a bigger studio calendar.”',
-      subtextTell: 'Bright creative-director warmth—allergic to passive “idk wherever u want” texts.',
+      subtextTell: 'Bright creative-director warmth, allergic to passive “idk wherever u want” texts.',
     },
     fridayStoryHook:
       'If you match: Invites you to a rooftop wrap toast where her art-world friends immediately test your composure.',
@@ -2100,10 +2100,10 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:14',
       transcript:
         '“Friday hits five o’clock, the red grading pen stays in my satchel, and someone brave enough to skip academic flattery asks me to sushi.”',
-      subtextTell: 'Velvet seminar-leader voice—spots hollow flattery in three seconds flat.',
+      subtextTell: 'Velvet seminar-leader voice, spots hollow flattery in three seconds flat.',
     },
     fridayStoryHook:
-      'If you match: Leaves faculty politics behind at Hawthorne Gate—if you can hold your own across a candlelit omakase counter.',
+      'If you match: Leaves faculty politics behind at Hawthorne Gate, if you can hold your own across a candlelit omakase counter.',
   },
   claire: {
     voicePrompt: {
@@ -2111,7 +2111,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:13',
       transcript:
         '“Board deck signed, out-of-office on, and one bold dinner invitation from someone who doesn’t treat my title like an interview panel.”',
-      subtextTell: 'Crisp M&A precision—craves playfulness, not a LinkedIn pitch.',
+      subtextTell: 'Crisp M&A precision, craves playfulness, not a LinkedIn pitch.',
     },
     fridayStoryHook:
       'If you match: Trades the executive lounge for a tucked-away jazz banquette where status games stay at the door.',
@@ -2122,7 +2122,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:12',
       transcript:
         '“Feed me real street tacos, tell me one funny story from outside the hospital, and don’t ask me to diagnose your roommate’s sprained ankle.”',
-      subtextTell: 'Quick, grounded ER humor—values emotional steadiness over flash.',
+      subtextTell: 'Quick, grounded ER humor, values emotional steadiness over flash.',
     },
     fridayStoryHook:
       'If you match: Meets you after a twelve-hour trauma shift where sincerity beats smooth lines every time.',
@@ -2132,18 +2132,18 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       question: 'Why spontaneity is everything to me',
       duration: '0:14',
       transcript:
-        '“Montecito charity galas get exhausting—I just want discreet Thursday afternoon champagne at a hotel bar where nobody knows our last names.”',
-      subtextTell: 'Purring luxury cadence—notice how weekends and her own neighborhood are mysteriously off-limits.',
+        '“Montecito charity galas get exhausting. I just want discreet Thursday afternoon champagne at a hotel bar where nobody knows our last names.”',
+      subtextTell: 'Purring luxury cadence, notice how weekends and her own neighborhood are mysteriously off-limits.',
     },
     fridayStoryHook:
-      'If you match: Orders vintage Bollinger in a shadowy corner banquette—until her phone lights up with an estate security alert.',
+      'If you match: Orders vintage Bollinger in a shadowy corner banquette, until her phone lights up with an estate security alert.',
   },
   brooke: {
     voicePrompt: {
       question: 'Energy check before we grab matcha',
       duration: '0:13',
       transcript:
-        '“Hold that grin right there—wait, turn ten degrees toward the ring light! Sorry babe, my followers eat up spontaneous older-woman younger-guy content.”',
+        '“Hold that grin right there, wait, turn ten degrees toward the ring light! Sorry babe, my followers eat up spontaneous older-woman younger-guy content.”',
       subtextTell: 'You can literally hear a tripod clicking into place mid-sentence.',
     },
     fridayStoryHook:
@@ -2154,7 +2154,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       question: 'What thirty years in cinema taught me',
       duration: '0:14',
       transcript:
-        '“Chemistry shows up in the first ninety seconds over martinis—either you know how to hold a woman’s gaze across a table, or the credits roll early.”',
+        '“Chemistry shows up in the first ninety seconds over martinis, either you know how to hold a woman’s gaze across a table, or the credits roll early.”',
       subtextTell: 'Silver-screen poise and zero patience for rehearsal.',
     },
     fridayStoryHook:
@@ -2166,7 +2166,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:12',
       transcript:
         '“Cold plunge at sunrise, cedar sauna breathwork right after, and a man whose nervous system isn’t permanently wired to push notifications.”',
-      subtextTell: 'Serene, hypnotic cadence—will 100% read your posture within five seconds.',
+      subtextTell: 'Serene, hypnotic cadence, will 100% read your posture within five seconds.',
     },
     fridayStoryHook:
       'If you match: Invites you to her coastal studio terrace to test whether your calm matches your opener.',
@@ -2177,7 +2177,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:12',
       transcript:
         '“Walk into the gallery without pretending you read the press release, tell me which canvas actually moves you, and pour the mezcal neat.”',
-      subtextTell: 'Warm, incisive curator energy—loves bold honesty over art-school jargon.',
+      subtextTell: 'Warm, incisive curator energy, loves bold honesty over art-school jargon.',
     },
     fridayStoryHook:
       'If you match: Locks the gallery doors after closing toast and pours smoky mezcal in the back office.',
@@ -2188,7 +2188,7 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
       duration: '0:13',
       transcript:
         '“Book the corner banquette at eight, order the Burgundy without flinching, and never utter the words ‘for your age’ unless you enjoy dining solo.”',
-      subtextTell: 'Effortless Left Bank wit—equal parts intimidating and magnetic.',
+      subtextTell: 'Effortless Left Bank wit, equal parts intimidating and magnetic.',
     },
     fridayStoryHook:
       'If you match: Takes you to a midnight 35mm French New Wave screening and grades your third-act take over steak frites.',

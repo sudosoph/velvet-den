@@ -226,7 +226,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'after-dark-couples-deck',
-    name: "We're Not Really Strangers — Couples Edition Card Game (150 Cards)",
+    name: "We're Not Really Strangers: Couples Edition Card Game (150 Cards)",
     category: 'date_night',
     priceDisplay: '$25 Date-Night Game',
     badge: '🃏 Three-Level Chemistry Deck',
@@ -242,7 +242,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     priceDisplay: '$64 Sleep Sanctuary',
     badge: '❄️ 3 AM Cool-Sleep Hero',
     cheekyPitch:
-      'Wicks heat away in seconds so nobody wakes up kicking the duvet off at 3 AM—pure hotel-suite airflow all night.',
+      'Wicks heat away in seconds so nobody wakes up kicking the duvet off at 3 AM, pure hotel-suite airflow all night.',
     whyItConverts: 'Solves warm-sleeper comfort on weekend stays.',
     merchantUrl: 'https://www.amazon.com/dp/B08HR2WW6T',
   },
@@ -297,7 +297,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     priceDisplay: '$68 Zero-Proof Spritz',
     badge: '🌿 8-Hour Beauty-Sleep Spritz',
     cheekyPitch:
-      'Crisp yuzu, rosemary, and bitter gentian over sparkling water—all the candlelit cocktail ritual with zero 7 AM hangover.',
+      'Crisp yuzu, rosemary, and bitter gentian over sparkling water, all the candlelit cocktail ritual with zero 7 AM hangover.',
     whyItConverts: 'Cult-favorite non-alcoholic date-night bottle.',
     merchantUrl: 'https://www.amazon.com/dp/B0B545FNBW',
   },
@@ -319,7 +319,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     priceDisplay: '$21 Cheeky Pick',
     badge: '🦮 Park-Walk & Inside-Joke Classic',
     cheekyPitch:
-      'Built with full-grain braided leather and a 360-degree solid brass clasp for Hampstead park walks—plus an undefeated couples inside joke.',
+      'Built with full-grain braided leather and a 360-degree solid brass clasp for Hampstead park walks, plus an undefeated couples inside joke.',
     whyItConverts: 'Handsome pet upgrade and playful wink.',
     merchantUrl: 'https://www.amazon.com/dp/B0H2XPRGDS',
   },
@@ -352,18 +352,18 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     priceDisplay: '$14 Blu-ray + Digital',
     badge: '🎬 Montauk Rom-Com Watch Night',
     cheekyPitch:
-      'Queue up Jennifer Lawrence and Andrew Barth Feldman’s hilarious Montauk summer comedy—featuring that unforgettable piano bar rendition of "Maneater."',
+      'Queue up Jennifer Lawrence and Andrew Barth Feldman’s hilarious Montauk summer comedy, featuring that unforgettable piano bar rendition of "Maneater."',
     whyItConverts: 'Instant movie-night pickup straight from the Trailer Quiz.',
     merchantUrl: 'https://www.amazon.com/dp/B0C8BTYH4M',
   },
   {
     id: 'part-of-your-world-book',
-    name: 'Part of Your World — Abby Jimenez Bestselling Paperback Novel',
+    name: 'Part of Your World. Abby Jimenez Bestselling Paperback Novel',
     category: 'cinema_pop_culture',
     priceDisplay: '$14 Bestseller',
     badge: '📚 #1 BookTok Age-Gap Romance',
     cheekyPitch:
-      'ER doctor Alexis Montgomery (37) meets small-town carpenter Daniel Grant (28)—the gold-standard modern novel on navigating two worlds with heart.',
+      'ER doctor Alexis Montgomery (37) meets small-town carpenter Daniel Grant (28), the gold-standard modern novel on navigating two worlds with heart.',
     whyItConverts: 'Beloved age-gap romance novel recommended at Left Bank Books.',
     merchantUrl: 'https://www.amazon.com/dp/1538704374',
   },
@@ -374,24 +374,24 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     priceDisplay: 'Prime Video',
     badge: '🥛 Viral Hotel-Bar Power Play',
     cheekyPitch:
-      'Queue up Halina Reijn’s electric A24 thriller starring Nicole Kidman and Harris Dickinson for Friday night—tall glass of milk optional.',
+      'Queue up Halina Reijn’s electric A24 thriller starring Nicole Kidman and Harris Dickinson for Friday night, tall glass of milk optional.',
     whyItConverts: 'Instant streaming conversion from cinema trivia and guides.',
     merchantUrl: 'https://www.amazon.com/dp/B0DTK694FD',
   },
   {
     id: 'idea-of-you-movie-book',
-    name: 'The Idea of You — Robinne Lee Novel (Silver Lake Gallery Edition)',
+    name: 'The Idea of You. Robinne Lee Novel (Silver Lake Gallery Edition)',
     category: 'cinema_pop_culture',
     priceDisplay: '$15 Book Club Pick',
     badge: '🎨 Coachella VIP Trailer Classic',
     cheekyPitch:
-      'Read Robinne Lee’s intoxicating original novel behind Anne Hathaway and Nicholas Galitzine’s global hit—and debate the book vs. movie ending together.',
+      'Read Robinne Lee’s intoxicating original novel behind Anne Hathaway and Nicholas Galitzine’s global hit, and debate the book vs. movie ending together.',
     whyItConverts: 'Perennial #1 woman-older romance book.',
     merchantUrl: 'https://www.amazon.com/dp/B01MQLZ12X',
   },
   {
     id: 'bridget-jones-cougar-town-watch',
-    name: 'Bridget Jones: Mad About the Boy — Helen Fielding Novel',
+    name: 'Bridget Jones: Mad About the Boy. Helen Fielding Novel',
     category: 'cinema_pop_culture',
     priceDisplay: '$16 Paperback',
     badge: '🌳 Hampstead Park-Ranger Swooner',

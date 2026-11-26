@@ -80,7 +80,7 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     punchyQuestion: 'She decides to stay the night after cocktails. What is your bed setup?',
     title: 'The Single Flat Pillow & Escaping Sheet Crime',
     redditComplaintQuote:
-      '"I have crisp linen at home—I cannot wake up on one pancake pillow with a microfiber sheet popping off."',
+      '"I have crisp linen at home. I cannot wake up on one pancake pillow with a microfiber sheet popping off."',
     scenarioSetup:
       'She decides to stay the night after midnight cocktails. You pull back the duvet in your bedroom.',
     rookieCrime:
@@ -97,7 +97,7 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
         label: 'Four real pillows in breathable cotton cases, headboard, and a spare charger.',
         isGoldStar: true,
         headmistressVerdict:
-          'Top of the class. You do not need a penthouse—just clean cotton and hospitality.',
+          'Top of the class. You do not need a penthouse, just clean cotton and hospitality.',
         expression: 'blush',
       },
       {
@@ -156,7 +156,7 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     punchyQuestion: 'She says she is free Friday after 7 PM. How do you lock in Date #1?',
     title: '"Idk, What Do U Wanna Do?" (Mental-Load Dumping)',
     redditComplaintQuote:
-      '"I make two hundred decisions at work—please do not make me pick the neighborhood, cuisine, and time."',
+      '"I make two hundred decisions at work, please do not make me pick the neighborhood, cuisine, and time."',
     scenarioSetup:
       'She says she is free Friday evening after 7 PM. It is your turn to lock in Date #1.',
     rookieCrime:
@@ -170,7 +170,7 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
         expression: 'icked',
       },
       {
-        label: 'Offer two great spots near her side of town with a 7:30 table held—pick A or B.',
+        label: 'Offer two great spots near her side of town with a 7:30 table held, pick A or B.',
         isGoldStar: true,
         headmistressVerdict:
           'Gold Star. Taking Friday logistics off her plate is pure romantic oxygen.',
@@ -239,17 +239,17 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
       'Casting her as a mystical mentor obligated to train you instead of showing up as an engaged adult peer.',
     options: [
       {
-        label: 'Give puppy eyes: "Older women know so much—hoping you can teach me everything."',
+        label: 'Give puppy eyes: "Older women know so much, hoping you can teach me everything."',
         isGoldStar: false,
         headmistressVerdict:
           'Detention. She clocked out of managing interns at 5:30 PM.',
         expression: 'icked',
       },
       {
-        label: 'Say her dry humor and travel stories hooked you—and you love matching wits.',
+        label: 'Say her dry humor and travel stories hooked you, and you love matching wits.',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Seeing her as a magnetic woman—not a curriculum—sparks real chemistry.',
+          'Gold Star. Seeing her as a magnetic woman, not a curriculum, sparks real chemistry.',
         expression: 'blush',
       },
       {
@@ -270,7 +270,7 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     punchyQuestion: 'You’re fit, 25, and across from a stunning 46-year-old architect. Your vibe?',
     title: 'Treating Your Birth Year Like a Charitable Donation',
     redditComplaintQuote:
-      '"Some 23-year-old with abs acts like showing up is community service—youth is a timestamp, not a personality."',
+      '"Some 23-year-old with abs acts like showing up is community service, youth is a timestamp, not a personality."',
     scenarioSetup:
       'You are fit, twenty-five, and getting plenty of attention. You sit down across from a stunning 46-year-old architect.',
     rookieCrime:
@@ -318,7 +318,7 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
         label: 'Plan a great neighborhood bistro or sunset picnic in your budget and host proudly.',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Self-made women never ask you to match their net worth—only their effort.',
+          'Gold Star. Self-made women never ask you to match their net worth, only their effort.',
         expression: 'blush',
       },
       {

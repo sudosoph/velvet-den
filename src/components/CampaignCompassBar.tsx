@@ -248,7 +248,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 <span className="text-rose-600">Dodge the red flags.</span>
               </h2>
               <p className="text-xs sm:text-base text-zinc-600 leading-relaxed max-w-xl">
-                Swipe below or step out In The Wild—spot the traps, graduate real catches to iMessage, and survive three Friday dates.
+                Swipe below or step out In The Wild, spot the traps, graduate real catches to iMessage, and survive three Friday dates.
               </p>
             </div>
 

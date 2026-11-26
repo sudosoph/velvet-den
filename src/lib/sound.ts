@@ -1,7 +1,7 @@
 /**
  * Zero-asset Web Audio API Lounge & Arcade Sound Synthesizer.
  * Gives every swipe, check-drop reflex hit, trail pace tap, message pop,
- * and red-flag buzz tactile game feel—with safe silent fallback in jsdom/SSR.
+ * and red-flag buzz tactile game feel, with safe silent fallback in jsdom/SSR.
  */
 
 let audioCtx: AudioContext | null = null;
@@ -47,7 +47,7 @@ export function isLoungeMusicPlaying(): boolean {
 
 /**
  * Warm electric-piano / cocktail lounge Major-9th ambient loop.
- * Pure WebAudio synthesis—zero external MP3 weight, instant toggle.
+ * Pure WebAudio synthesis, zero external MP3 weight, instant toggle.
  */
 export function toggleLoungeMusic(): boolean {
   if (typeof window === 'undefined') return false;

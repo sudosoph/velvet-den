@@ -36,11 +36,13 @@ import {
 import {
   addConspiracyClue,
   applyUnlockCodeOrQuery,
+  getPersonaVibeSpec,
   grantFounderAccess,
   grantPatronBadge,
   grantRewardCredits,
   loadWallet,
   loseFridayHeart,
+  PERSONA_VIBE_SPECS,
   recordBulletDodged,
   resetFridayHearts,
   restoreVerifiedVip,
@@ -319,7 +321,7 @@ export default function App() {
   );
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
-      ? 'Heads up: that audition link looked truncated or expired—browse Hinge or In The Wild below!'
+      ? 'Heads up: that audition link looked truncated or expired, browse Hinge or In The Wild below!'
       : null,
   );
 
@@ -823,7 +825,8 @@ export default function App() {
               setThreads((prev) => {
                 if (prev.some((t) => t.leadId === leadId)) return prev;
                 const created = createInitialThread(leadId, 'wild');
-                created.chemistry = Math.min(95, created.chemistry + bonus);
+                const wildPerk = getPersonaVibeSpec(wallet.personaTag)?.wildChemistryBonus ?? 0;
+                created.chemistry = Math.min(96, created.chemistry + bonus + wildPerk);
                 return [created, ...prev];
               });
               setSelectedChatLeadId(leadId);
@@ -941,6 +944,9 @@ export default function App() {
             onOpenHinge={() => setActiveTab('hinge')}
             onOpenBoutique={() => openBoutiqueWithTab('vip')}
             onOpenCubSchool={() => setActiveTab('school')}
+            onSavePersona={(pName, pVibe) => {
+              updateWallet(updatePlayerPersona(wallet, pName, pVibe));
+            }}
           />
         ) : activeTab === 'school' ? (
           <CubSchoolView
@@ -1184,21 +1190,41 @@ export default function App() {
 
             <div className="space-y-1.5">
               <div className="text-xs font-medium text-zinc-700">
-                Friday Signature Vibe
+                Friday Signature Vibe (Unlocks Active Chat &amp; Date Perks)
               </div>
               <div className="grid gap-2">
-                {PERSONA_VIBE_OPTIONS.map((vibe) => (
+                {PERSONA_VIBE_SPECS.map((spec) => (
                   <button
-                    key={vibe}
+                    key={spec.id}
                     type="button"
-                    onClick={() => setDraftVibe(vibe)}
-                    className={`rounded-lg border px-3.5 py-2.5 text-left text-xs font-medium transition-colors cursor-pointer ${
-                      draftVibe === vibe
+                    onClick={() => setDraftVibe(spec.id)}
+                    className={`rounded-xl border px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
+                      draftVibe === spec.id
                         ? 'border-zinc-900 bg-zinc-900 text-white'
-                        : 'border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50'
+                        : 'border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50'
                     }`}
                   >
-                    {vibe}
+                    <div className="flex items-center justify-between gap-2 text-xs font-bold">
+                      <span>
+                        {spec.emoji} {spec.id}
+                      </span>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
+                          draftVibe === spec.id
+                            ? 'bg-rose-500 text-white'
+                            : 'bg-rose-50 text-rose-800'
+                        }`}
+                      >
+                        {spec.perkBadge}
+                      </span>
+                    </div>
+                    <div
+                      className={`mt-0.5 text-[11px] leading-snug ${
+                        draftVibe === spec.id ? 'text-zinc-300' : 'text-zinc-500'
+                      }`}
+                    >
+                      {spec.perkSummary}
+                    </div>
                   </button>
                 ))}
               </div>

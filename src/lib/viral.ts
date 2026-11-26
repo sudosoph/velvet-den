@@ -56,7 +56,7 @@ export const V35_AUDITION_SCENARIOS: AuditionScenario[] = [
     choices: [
       {
         labelHer: 'He picks up the check cleanly with zero awkward speech; I get our nightcap round next door.',
-        labelHim: 'Pick up the check cleanly with a warm smile—you invited her out, zero speeches.',
+        labelHim: 'Pick up the check cleanly with a warm smile, you invited her out, zero speeches.',
       },
       {
         labelHer: 'We split down the middle effortlessly and plan Sunday brunch before standing up.',
@@ -86,7 +86,7 @@ export const V35_AUDITION_SCENARIOS: AuditionScenario[] = [
         labelHim: 'Ask the bartender for her recommendation before introducing yourself.',
       },
       {
-        labelHer: 'Opening with "You look incredible for your age—never been with a cougar before!"',
+        labelHer: 'Opening with "You look incredible for your age, never been with a cougar before!"',
         labelHim: 'Tell her she looks amazing for her age and mention your bucket list.',
         isRedFlag: true,
       },
@@ -147,7 +147,7 @@ export const V35_AUDITION_SCENARIOS: AuditionScenario[] = [
       'She sets a clear two-week boundary before your first off-campus sushi dinner. How do you respond?',
     choices: [
       {
-        labelHer: 'Zero pouting, zero double-texting—he books the 7:30 counter for the exact evening the window opens.',
+        labelHer: 'Zero pouting, zero double-texting, he books the 7:30 counter for the exact evening the window opens.',
         labelHim: 'Respect her timeline 100% and show up with a locked 7:30 omakase reservation when the window opens.',
       },
       {
@@ -188,12 +188,12 @@ export const V35_AUDITION_SCENARIOS: AuditionScenario[] = [
     id: 'mirror-game-insecurities',
     title: 'Bright Sunday Morning Kitchen Light',
     setupHer:
-      'Sunlight pours across the marble counter at 8 AM—zero candlelight, messy hair, oversized linen shirt.',
+      'Sunlight pours across the marble counter at 8 AM, zero candlelight, messy hair, oversized linen shirt.',
     setupHim:
-      'Bright Sunday morning kitchen light—she glances in the hallway mirror before coffee.',
+      'Bright Sunday morning kitchen light, she glances in the hallway mirror before coffee.',
     choices: [
       {
-        labelHer: 'Pulls me in by the waist over coffee and looks at me like I am the only woman on earth—never saying "for your age."',
+        labelHer: 'Pulls me in by the waist over coffee and looks at me like I am the only woman on earth, never saying "for your age."',
         labelHim: 'Kiss her shoulder with genuine awe and zero backhanded "for your age" qualifiers.',
       },
       {
@@ -334,7 +334,7 @@ export function scorePartnerAudition(
       roastNotes.push(
         isRedFlag
           ? `🚩 ${title}: Triggered ${payload.senderName}’s dealbreaker alarm!`
-          : `👀 ${title}: Different instinct than ${payload.senderName}—worth debating over drinks.`,
+          : `👀 ${title}: Different instinct than ${payload.senderName}, worth debating over drinks.`,
       );
     }
   }
@@ -345,7 +345,7 @@ export function scorePartnerAudition(
   if (matchPercent >= 80) {
     verdictTitle = 'S-RANK LINEN-APRON & CORNER-BOOTH CERTIFIED MATCH';
   } else if (matchPercent >= 60) {
-    verdictTitle = 'STRONG CHEMISTRY — ONE TRAINING DATE NEEDED';
+    verdictTitle = 'STRONG CHEMISTRY. ONE TRAINING DATE NEEDED';
   } else {
     verdictTitle = 'GENERATIONAL TRANSLATOR REQUIRED IMMEDIATELY';
   }
@@ -392,7 +392,7 @@ export function buildDiscordReceipt(summary: RunSummary, shareUrl: string): stri
     .join('\n');
 
   return [
-    `### 🐆 **COUGARS & CUBS CLUB — ${summary.overallScore}% VIBE MATCH**`,
+    `### 🐆 **COUGARS & CUBS CLUB, ${summary.overallScore}% VIBE MATCH**`,
     `**${summary.pairing.her.name} (${summary.pairing.her.age}F) × ${summary.pairing.his.name} (${summary.pairing.his.age}M)** • *${summary.rankTitle}*`,
     `📊 \`Maturity ${summary.stats.maturity}\` • \`Chivalry ${summary.stats.chivalry}\` • \`EQ ${summary.stats.eq}\` • \`Chemistry ${summary.stats.chemistry}\``,
     highlights,

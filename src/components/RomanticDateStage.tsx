@@ -18,7 +18,7 @@ import {
 } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
 import { V35_CHAT_CHAPTERS, V35_DATE_SCRIPTS } from '../data/v35ChatsAndDates';
-import type { WalletState } from '../domain/economy';
+import { getPersonaVibeSpec, type WalletState } from '../domain/economy';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
@@ -64,11 +64,14 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
   const script = scripts.find((s) => s.dateNumber === dateNumber) ?? scripts[0];
   const visual = V35_CAST_VISUALS[leadId];
 
+  const activeVibeSpec = getPersonaVibeSpec(wallet.personaTag);
+  const startingVibeScore = activeVibeSpec?.dateScoreBonus ?? 0;
+
   const [beatIdx, setBeatIdx] = useState(0);
   const [expression, setExpression] = useState<PortraitExpression>(
     script?.beats[0]?.speakerExpression ?? 'neutral',
   );
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(startingVibeScore);
   const [sRankLockedOut, setSRankLockedOut] = useState(initialSRankLockedOut);
   const [disasterHit, setDisasterHit] = useState(false);
   const [sparringToast, setSparringToast] = useState(false);
@@ -81,7 +84,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
     const firstExp = script?.beats[0]?.speakerExpression ?? 'neutral';
     setBeatIdx(0);
     setExpression(firstExp);
-    setScore(0);
+    setScore(getPersonaVibeSpec(wallet.personaTag)?.dateScoreBonus ?? 0);
     setSRankLockedOut(initialSRankLockedOut);
     setDisasterHit(false);
     setSparringToast(false);
@@ -101,7 +104,6 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
   const portraitIdx = Math.min(5, (dateNumber - 1 + beatIdx) % 6);
   const portraitSrc = visual.sixUniquePhotos[portraitIdx] || visual.primaryPortrait;
   const currentBeat = script.beats[beatIdx];
-  const playerGreeting = wallet.playerName ? `${wallet.playerName}, ` : '';
 
   const prepProducts = (script.prepAffiliateIds || [])
     .map((id) => getAffiliateById(id))
@@ -168,7 +170,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
     sfx.messagePop();
     setBeatIdx(0);
     setExpression(script.beats[0]?.speakerExpression ?? 'neutral');
-    setScore(0);
+    setScore(startingVibeScore);
     setDisasterHit(false);
     setLastFeedback(null);
     setFinished(false);
@@ -194,7 +196,17 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
           <span>Back to Chats</span>
         </button>
 
-        <div className="flex items-center gap-3 text-xs font-semibold text-zinc-600">
+        <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-zinc-600">
+          {(wallet.playerName || activeVibeSpec) && (
+            <span
+              data-testid="date-persona-perk-pill"
+              className="rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-bold text-rose-900"
+            >
+              {activeVibeSpec ? `${activeVibeSpec.emoji} ` : '✨ '}
+              {wallet.playerName ? `${wallet.playerName} • ` : ''}
+              {activeVibeSpec ? `${activeVibeSpec.id} (+${activeVibeSpec.dateScoreBonus} Score)` : 'VIP Guest'}
+            </span>
+          )}
           <span className="text-zinc-950">
             Date #{script.dateNumber} • {profile.name} ({profile.age})
           </span>
@@ -310,7 +322,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
 
               {sparringToast && (
                 <div className="rounded-xl bg-emerald-500/15 border border-emerald-400/30 px-4 py-2.5 text-xs font-semibold text-emerald-200">
-                  🔔 Etiquette Sparring Round Activated — Public Frame Held Under Fire!
+                  🔔 Etiquette Sparring Round Activated. Public Frame Held Under Fire!
                 </div>
               )}
 
@@ -320,8 +332,18 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 </div>
               )}
 
+              {beatIdx === 0 && (wallet.playerName || activeVibeSpec) && (
+                <div className="rounded-xl bg-rose-500/15 border border-rose-400/30 px-4 py-2.5 text-xs sm:text-sm font-medium text-rose-100">
+                  {wallet.playerName
+                    ? `“So glad it’s finally you across the table, ${wallet.playerName},” ${profile.name} smiles warmly.`
+                    : `${profile.name} spots your ${activeVibeSpec?.id} energy right away.`}
+                  {activeVibeSpec
+                    ? ` (${activeVibeSpec.emoji} +${activeVibeSpec.dateScoreBonus} Signature Vibe Bonus applied toward S-Rank!)`
+                    : ''}
+                </div>
+              )}
+
               <p className="text-lg sm:text-xl font-medium leading-relaxed text-white">
-                {playerGreeting}
                 {currentBeat.dialogue}
               </p>
 
@@ -358,8 +380,8 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                       : rank === 'F'
                         ? `You ignored the chat red flags and lost 1 Friday Night Heart! Next time hit 🚩 Cut Loose in text.`
                         : sRankLockedOut
-                          ? `Rushing Night 1 capped your ceiling at ${rank}-Rank—replay free anytime to earn S-Rank!`
-                          : `Warm connection unlocked—replay free anytime if you want to chase S-Rank!`}
+                          ? `Rushing Night 1 capped your ceiling at ${rank}-Rank, replay free anytime to earn S-Rank!`
+                          : `Warm connection unlocked, replay free anytime if you want to chase S-Rank!`}
                   </p>
                 </div>
 
