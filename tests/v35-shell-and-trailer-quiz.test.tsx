@@ -25,12 +25,12 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
     expect(within(primaryNav).getByRole('button', { name: /^Chats & Dates$/i })).toBeInTheDocument();
     expect(within(primaryNav).getByRole('button', { name: /^Cub School$/i })).toBeInTheDocument();
 
-    // Visible Support This Project link + 3 Friday Hearts + 3 Cr starter balance
+    // Visible Support This Project link + 3 Friday Hearts + 5 Cr starter balance
     const supportLinks = screen.getAllByRole('link', { name: /Support This Project/i });
     expect(supportLinks.length).toBeGreaterThanOrEqual(1);
     expect(supportLinks[0].getAttribute('href')).toBe(MONETIZATION_CONFIG.tipJarUrl);
     expect(screen.getByTestId('hud-friday-hearts').textContent).toContain('❤️❤️❤️');
-    expect(screen.getByRole('button', { name: /\b3 Cr\b/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /\b5 Cr\b/i })).toBeInTheDocument();
 
     // Quick 15-second Persona Setup saves playerName + personaTag into wallet
     fireEvent.click(screen.getByRole('button', { name: /Persona/i }));
@@ -66,8 +66,8 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
     expect(iframe?.getAttribute('src')).toContain('youtube-nocookie.com/embed/kIcLb0KAJAs');
     expect(dialog.querySelector('figcaption')).toBeNull();
 
-    // Wallet remains strictly at 3 Cr (0 free credit inflation)
-    expect(screen.getByRole('button', { name: /\b3 Cr\b/i })).toBeInTheDocument();
+    // Wallet remains strictly at 5 Cr (0 free credit inflation)
+    expect(screen.getByRole('button', { name: /\b5 Cr\b/i })).toBeInTheDocument();
 
     // Verify trivia order interleaves categories & spaces repeated references >= 12 questions apart
     const nhfIndices = POP_CULTURE_TRIVIA.map((q, idx) =>

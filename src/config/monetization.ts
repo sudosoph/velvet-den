@@ -1,5 +1,5 @@
 export interface MonetizationConfig {
-  starterCredits: 3;
+  starterCredits: 5;
   dailyFreeCredits: 0;
   shareRewardCredits: 0;
   newsletterRewardCredits: 0;
@@ -21,7 +21,7 @@ export interface MonetizationConfig {
  * the dedicated Cougars & Cubs Club Stripe sub-account & Amazon Associates StoreID.
  */
 export const MONETIZATION_CONFIG: MonetizationConfig = {
-  starterCredits: 3,
+  starterCredits: 5,
   dailyFreeCredits: 0,
   shareRewardCredits: 0,
   newsletterRewardCredits: 0,

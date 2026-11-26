@@ -466,7 +466,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               rel="noopener noreferrer"
               className="block rounded-lg bg-zinc-900 px-3 py-2 text-center text-sm font-medium text-white"
             >
-              Support This Project ($5)
+              Support This Project
             </a>
           )}
         </div>

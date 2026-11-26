@@ -394,14 +394,23 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 <p className="text-sm text-zinc-200 leading-relaxed">{lastFeedback}</p>
               )}
 
-              {/* Secret Group-Chat Leak (2 Cr / Free w/ VIP) */}
+              {/* Secret Group-Chat Leak (Cost on Card Header, Clean Button) */}
               <div className="rounded-xl border border-white/15 bg-white/5 p-4 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <div className="text-xs font-bold uppercase tracking-wider text-rose-400">
-                      🔓 Post-Date Group-Chat Leak ({script.secretBestiePovLeak.friendName})
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-rose-400">
+                        🔓 Post-Date Group-Chat Leak ({script.secretBestiePovLeak.friendName})
+                      </span>
+                      <span className="rounded-full bg-white/10 border border-white/15 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-200">
+                        {isPovUnlocked
+                          ? 'Unlocked'
+                          : wallet.isVip || wallet.isFounderUnlimited
+                            ? 'VIP Included'
+                            : `${script.secretBestiePovLeak.cost} Cr`}
+                      </span>
                     </div>
-                    <p className="text-xs text-zinc-300">
+                    <p className="mt-0.5 text-xs text-zinc-300">
                       Read what {profile.name} texted right after leaving the restaurant.
                     </p>
                   </div>
@@ -418,9 +427,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                       className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white px-3.5 text-xs font-semibold text-zinc-950 hover:bg-zinc-100 cursor-pointer"
                     >
                       {wallet.isVip ? <Unlock className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
-                      <span>
-                        Unlock Secret Group-Chat Leak ({wallet.isVip ? 'VIP Free' : '2 Cr'})
-                      </span>
+                      <span>Unlock Secret Group-Chat Leak</span>
                     </button>
                   )}
                 </div>
@@ -434,7 +441,42 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 )}
               </div>
 
-              {/* Action Bar: Free Replay, Next Date / Epilogue, Share Polaroid, Support */}
+              {/* Velvet Cut 6-Month Weekend Epilogue Card (Cost on Card Header, Clean Button) */}
+              {rank !== 'F' && script.dateNumber === 3 && hasDate4Epilogue && onLaunchNextDate && (
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-400/30 bg-amber-500/10 p-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                        🌙 6-Month Velvet Cut Weekend Epilogue
+                      </span>
+                      <span className="rounded-full bg-white/10 border border-white/15 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-200">
+                        {wallet.isVip ||
+                        wallet.isFounderUnlimited ||
+                        wallet.unlockedEpilogueIds.includes(epilogueId)
+                          ? 'VIP / Unlocked'
+                          : '3 Cr'}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-xs text-zinc-200">
+                      Fast-forward six months into your private weekend getaway with {profile.name}.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (onUnlockEpilogue(epilogueId, 3)) {
+                        onLaunchNextDate(4);
+                      }
+                    }}
+                    className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-amber-300 px-4 text-xs font-extrabold text-zinc-950 hover:bg-amber-200 cursor-pointer"
+                  >
+                    <Award className="h-3.5 w-3.5" />
+                    <span>Unlock Velvet Cut Weekend Epilogue</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Action Bar: Free Replay, Next Date, Share Polaroid, Support */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                 <div className="flex flex-wrap gap-2.5">
                   <button
@@ -456,23 +498,6 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                     >
                       <Sparkles className="h-3.5 w-3.5" />
                       <span>Continue to Date #{script.dateNumber + 1} →</span>
-                    </button>
-                  )}
-
-                  {rank !== 'F' && script.dateNumber === 3 && hasDate4Epilogue && onLaunchNextDate && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (onUnlockEpilogue(epilogueId, 3)) {
-                          onLaunchNextDate(4);
-                        }
-                      }}
-                      className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white px-4 text-xs font-semibold text-zinc-950 hover:bg-zinc-100 cursor-pointer"
-                    >
-                      <Award className="h-3.5 w-3.5" />
-                      <span>
-                        Unlock Velvet Cut Weekend Epilogue ({wallet.isVip ? 'VIP Free' : '3 Cr'})
-                      </span>
                     </button>
                   )}
 

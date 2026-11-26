@@ -1539,7 +1539,13 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <div className="text-xs sm:text-sm font-bold text-emerald-950">
                     🍸 Chemistry is high ({currentThread.chemistry}%). Ready for{' '}
                     {nextDateScript.dateNumber === 4
-                      ? 'Velvet Cut Weekend Epilogue (Date #4)'
+                      ? `Velvet Cut Weekend Epilogue (${
+                          wallet.isVip ||
+                          wallet.isFounderUnlimited ||
+                          wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
+                            ? 'Unlocked'
+                            : '3 Cr'
+                        })`
                       : `Date #${nextDateScript.dateNumber}`}{' '}
                     with {currentProfile.name}! (Or keep chatting freely below)
                   </div>
@@ -1549,13 +1555,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     className="rounded-full bg-[#18101E] px-4 py-2 text-xs font-bold text-white cursor-pointer"
                   >
                     {nextDateScript.dateNumber === 4
-                      ? `🌙 Velvet Cut Epilogue (${
-                          wallet.isVip ||
-                          wallet.isFounderUnlimited ||
-                          wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
-                            ? 'Ready'
-                            : '3 Cr'
-                        }) →`
+                      ? '🌙 Launch Velvet Cut Epilogue →'
                       : `🍸 Go on Date #${nextDateScript.dateNumber} →`}
                   </button>
                 </div>
@@ -1722,7 +1722,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
-                {/* Beat 4 Private Camera-Roll Portrait Drop (Free Metadata Clue + 1-Cr Unblur w/ Secret Note) */}
+                {/* Beat 4 Private Camera-Roll Portrait Drop (Free 1st Club Sample + Free Metadata Clue + Rich Payoff) */}
                 {activeBeat?.photoDrop && (
                   <div
                     data-testid="chat-photo-drop-card"
@@ -1732,8 +1732,25 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       <div className="text-xs font-bold text-zinc-900">
                         📸 {activeBeat.photoDrop.previewCaption}
                       </div>
-                      <span className="rounded-full bg-white border border-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-600">
-                        Camera Roll
+                      <span
+                        data-testid="photo-drop-cost-badge"
+                        className={`rounded-full border px-2.5 py-0.5 text-[10px] font-extrabold ${
+                          wallet.isVip ||
+                          wallet.isFounderUnlimited ||
+                          wallet.unlockedPhotoIds.includes(activeBeat.photoDrop.id)
+                            ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                            : wallet.unlockedPhotoIds.length === 0
+                              ? 'bg-amber-100 border-amber-300 text-amber-950'
+                              : 'bg-white border-zinc-200 text-zinc-700'
+                        }`}
+                      >
+                        {wallet.isVip || wallet.isFounderUnlimited
+                          ? 'VIP Included'
+                          : wallet.unlockedPhotoIds.includes(activeBeat.photoDrop.id)
+                            ? '✨ Unlocked'
+                            : wallet.unlockedPhotoIds.length === 0
+                              ? `🎁 1st Sample Free (${activeBeat.photoDrop.unlockCost} Cr Value)`
+                              : `${activeBeat.photoDrop.unlockCost} Cr`}
                       </span>
                     </div>
 
@@ -1749,14 +1766,23 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <div className="rounded-xl bg-white border border-zinc-200 p-3 text-xs font-medium text-zinc-800 leading-relaxed">
                           {activeBeat.photoDrop.secretNote}
                         </div>
-                        {currentChapter.cutLooseVerdict.isActualTrap && (
-                          <button
-                            type="button"
-                            onClick={handleTriggerCutLoose}
-                            className="w-full rounded-xl bg-rose-600 hover:bg-rose-700 px-4 py-2.5 text-xs font-extrabold text-white transition cursor-pointer"
-                          >
-                            🚫 Block Number &amp; Claim +25 XP Receipt →
-                          </button>
+                        {currentChapter.cutLooseVerdict.isActualTrap ? (
+                          <div className="space-y-2">
+                            <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-900">
+                              🚨 Smoking-Gun Receipt Exposed! Cut loose now to claim your Discernment XP.
+                            </div>
+                            <button
+                              type="button"
+                              onClick={handleTriggerCutLoose}
+                              className="w-full rounded-xl bg-rose-600 hover:bg-rose-700 px-4 py-2.5 text-xs font-extrabold text-white transition cursor-pointer"
+                            >
+                              🚫 Block Number &amp; Claim XP Receipt →
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-900">
+                            💖 +10% Chemistry Spark Unlocked • Evening Portrait Saved!
+                          </div>
                         )}
                       </div>
                     ) : (
@@ -1771,10 +1797,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             <button
                               type="button"
                               onClick={() => {
+                                const effectiveCost =
+                                  wallet.unlockedPhotoIds.length === 0
+                                    ? 0
+                                    : activeBeat.photoDrop!.unlockCost;
                                 const unlocked = onUnlockBucketItem(
                                   'unlockedPhotoIds',
                                   activeBeat.photoDrop!.id,
-                                  activeBeat.photoDrop!.unlockCost,
+                                  effectiveCost,
                                 );
                                 if (unlocked) {
                                   sfx.greenFlag();
@@ -1789,10 +1819,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                               }}
                               className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-zinc-100 px-4 py-2 text-xs font-extrabold text-zinc-950 shadow-md transition cursor-pointer"
                             >
-                              <Lock className="h-3.5 w-3.5 text-rose-600" />
-                              <span>
-                                Unblur Portrait + Secret Note ({activeBeat.photoDrop.unlockCost} Cr)
-                              </span>
+                              {wallet.unlockedPhotoIds.length === 0 ? (
+                                <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                              ) : (
+                                <Lock className="h-3.5 w-3.5 text-rose-600" />
+                              )}
+                              <span>Unblur Portrait &amp; Secret Note</span>
                             </button>
 
                             {!inspectedExifIds.includes(activeBeat.photoDrop.id) && (
@@ -1808,7 +1840,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                                 className="inline-flex items-center gap-1 rounded-full bg-zinc-950/80 hover:bg-zinc-950 px-3 py-1 text-[11px] font-semibold text-white transition cursor-pointer"
                               >
                                 <Search className="h-3 w-3" />
-                                <span>Inspect Photo Metadata (Free • 0 Cr)</span>
+                                <span>Inspect Photo Metadata</span>
                               </button>
                             )}
                           </div>

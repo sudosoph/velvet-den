@@ -30,9 +30,9 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     vi.restoreAllMocks();
   });
 
-  it('starts new players at 3 one-time credits, 3 Friday hearts, 0 daily/free credit handouts, and cougarsandcub-20 tag', () => {
+  it('starts new players at 5 one-time starter credits, 3 Friday hearts, 0 daily/free credit handouts, and cougarsandcub-20 tag', () => {
     expect(MONETIZATION_CONFIG.amazonAssociateTag).toBe('cougarsandcub-20');
-    expect(MONETIZATION_CONFIG.starterCredits).toBe(3);
+    expect(MONETIZATION_CONFIG.starterCredits).toBe(5);
     expect(MONETIZATION_CONFIG.dailyFreeCredits).toBe(0);
     expect(MONETIZATION_CONFIG.shareRewardCredits).toBe(0);
     expect(MONETIZATION_CONFIG.newsletterRewardCredits).toBe(0);
@@ -41,7 +41,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     expect(WALLET_STORAGE_KEY).toBe('velvet_wallet_v35');
 
     const wallet = createDefaultWallet(new Date('2026-11-26T12:00:00Z'));
-    expect(wallet.credits).toBe(3);
+    expect(wallet.credits).toBe(5);
     expect(wallet.fridayHearts).toBe(3);
     expect(wallet.discernmentXp).toBe(0);
     expect(wallet.isVip).toBe(false);
@@ -63,7 +63,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
 
     const migrated = loadWallet(store, new Date('2026-11-26T10:00:00Z'));
     expect(migrated.isVip).toBe(true);
-    expect(migrated.credits).toBe(3);
+    expect(migrated.credits).toBe(5);
 
     // Spend down to 1 credit, then advance to next UTC day — must remain 1 (zero daily refill)
     store.setItem(
@@ -77,7 +77,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     const nextDay = loadWallet(store, new Date('2026-11-27T15:00:00Z'));
     expect(nextDay.credits).toBe(1);
 
-    // Unverified legacy wallet resets to 3 credits and isVip: false
+    // Unverified legacy wallet resets to 5 credits and isVip: false
     const unverifiedStore = createMemoryStorage({
       velvet_den_wallet_v1: JSON.stringify({
         credits: 99,
@@ -87,7 +87,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     });
     const clean = loadWallet(unverifiedStore, new Date('2026-11-26T10:00:00Z'));
     expect(clean.isVip).toBe(false);
-    expect(clean.credits).toBe(3);
+    expect(clean.credits).toBe(5);
 
     // Friday heart loss & Bullet-Dodged discernment tracking
     const hurt = loseFridayHeart(clean);

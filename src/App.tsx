@@ -605,7 +605,7 @@ export default function App() {
       window.localStorage.removeItem(FOUNDER_DEVICE_SEAL_KEY);
     } catch {}
     setFounderTagStatus(null);
-    setNoticeBanner('🔒 Founder Mode locked: viewing standard 3-Credit player mode.');
+    setNoticeBanner('🔒 Founder Mode locked: viewing standard 5-Credit player mode.');
   };
 
   const handleLaunchScenarioSlug = (slug: string) => {
@@ -877,6 +877,15 @@ export default function App() {
                 updated.lastDateRank !== 'F'
               ) {
                 const rank = updated.lastDateRank ?? (updated.sRankLockedOut ? 'A' : 'S');
+                if (rank === 'S') {
+                  const sRankBonus = grantRewardCredits(wallet, 'milestone_first_s_rank', 2);
+                  if (sRankBonus.granted) {
+                    updateWallet(sRankBonus.wallet);
+                    setNoticeBanner(
+                      '🏆 First S-Rank Date Bonus: +2 Club Credits unlocked! Try a Post-Date Secret Group-Chat Leak or Candid Portrait.',
+                    );
+                  }
+                }
                 setDateodex((prev) =>
                   stampDateodexCharacters(
                     prev,

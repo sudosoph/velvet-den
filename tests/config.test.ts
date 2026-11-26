@@ -3,8 +3,8 @@ import { BRAND_CONFIG } from '../src/config/brand';
 import { MONETIZATION_CONFIG } from '../src/config/monetization';
 
 describe('Project configuration defaults (Cougars & Cubs Club economy)', () => {
-  it('exposes spec-pinned 3-credit one-time starter, 0 daily refill, 0 free share/newsletter credits, and verified Amazon Associate tag', () => {
-    expect(MONETIZATION_CONFIG.starterCredits).toBe(3);
+  it('exposes spec-pinned 5-credit starter tasting wallet, 0 daily refill, 0 free share/newsletter credits, and verified Amazon Associate tag', () => {
+    expect(MONETIZATION_CONFIG.starterCredits).toBe(5);
     expect(MONETIZATION_CONFIG.dailyFreeCredits).toBe(0);
     expect(MONETIZATION_CONFIG.shareRewardCredits).toBe(0);
     expect(MONETIZATION_CONFIG.newsletterRewardCredits).toBe(0);

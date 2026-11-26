@@ -27,14 +27,14 @@ function makeMemoryStorage(initial?: Record<string, string>) {
 }
 
 describe('Wallet economy, affiliate router & Worker security seams (v35)', () => {
-  it('grants 3 one-time starter credits, never auto-refills on next-day rollover, and recovers cleanly from corrupted storage', () => {
+  it('grants 5 one-time starter credits, never auto-refills on next-day rollover, and recovers cleanly from corrupted storage', () => {
     const corrupted = makeMemoryStorage({ [WALLET_STORAGE_KEY]: '{not-valid-json' });
     const recovered = loadWallet(corrupted, new Date('2026-11-24T12:00:00Z'));
-    expect(recovered.credits).toBe(3);
+    expect(recovered.credits).toBe(5);
     expect(recovered.fridayHearts).toBe(3);
     expect(recovered.isVip).toBe(false);
 
-    const spent = spendCredits(recovered, 2);
+    const spent = spendCredits(recovered, 4);
     expect(spent.ok).toBe(true);
     expect(spent.wallet.credits).toBe(1);
     saveWallet(spent.wallet, corrupted);
@@ -49,11 +49,11 @@ describe('Wallet economy, affiliate router & Worker security seams (v35)', () =>
 
     const first = grantRewardCredits(initial, 'promo_once', 3);
     expect(first.granted).toBe(true);
-    expect(first.wallet.credits).toBe(6);
+    expect(first.wallet.credits).toBe(8);
 
     const duplicate = grantRewardCredits(first.wallet, 'promo_once', 3);
     expect(duplicate.granted).toBe(false);
-    expect(duplicate.wallet.credits).toBe(6);
+    expect(duplicate.wallet.credits).toBe(8);
   });
 
   it('blocks ?founder=1 and plaintext founder codes while verifying salted SHA-256 Founder passphrase', async () => {
@@ -83,7 +83,7 @@ describe('Wallet economy, affiliate router & Worker security seams (v35)', () =>
     const scrubbed = loadWallet(legacyFounderStorage, new Date('2026-11-24T12:00:00Z'));
     expect(scrubbed.isFounderUnlimited).toBe(false);
     expect(scrubbed.isVip).toBe(false);
-    expect(scrubbed.credits).toBe(3);
+    expect(scrubbed.credits).toBe(5);
 
     expect(await verifyFounderPassphrase('foundermode')).toBe(false);
     expect(await verifyFounderPassphrase('wrong-passphrase-2026')).toBe(false);
@@ -104,7 +104,7 @@ describe('Wallet economy, affiliate router & Worker security seams (v35)', () =>
 
       const queryCredits = applyUnlockCodeOrQuery(initial, '?unlock=credits15');
       expect(queryCredits.unlocked).toBe('credits');
-      expect(queryCredits.wallet.credits).toBe(18);
+      expect(queryCredits.wallet.credits).toBe(20);
     } finally {
       MONETIZATION_CONFIG.sandboxPreviewMode = orig;
     }

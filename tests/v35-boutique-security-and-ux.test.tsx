@@ -66,8 +66,15 @@ describe('v35 Boutique Security (Paid-Session-Only Cameo Briefs) & Consumer Roma
     expect(screen.queryByPlaceholderText(/Stripe checkout email/i)).toBeNull();
     expect(screen.queryByTestId('verified-cameo-composer')).toBeNull();
 
-    // Direct $29 Stripe Checkout link is prominently wired on the Producer card
-    const cameoLink = screen.getByRole('link', { name: /Sponsor a Character.*\$29/i });
+    // Direct $29 Stripe Checkout link is prominently wired on the Producer card, and card buttons NEVER repeat dollar prices already on cards
+    const creditsLink = screen.getByRole('link', { name: /^Get 15 Credits$/i });
+    const vipLink = screen.getByRole('link', { name: /^Unlock Lifetime VIP$/i });
+    const cameoLink = screen.getByRole('link', { name: /^Sponsor a Character$/i });
+    const tipLink = screen.getByRole('link', { name: /^Send an Espresso Martini$/i });
+    expect(creditsLink.textContent).not.toContain('$');
+    expect(vipLink.textContent).not.toContain('$');
+    expect(cameoLink.textContent).not.toContain('$');
+    expect(tipLink.textContent).not.toContain('$');
     expect(cameoLink.getAttribute('href')).toBe(MONETIZATION_CONFIG.cameoCommissionUrl);
 
     // Secondary restore / gift code forms stay cleanly tucked until toggled

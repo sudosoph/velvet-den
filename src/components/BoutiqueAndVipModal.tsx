@@ -355,7 +355,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Unblur <strong>Candid Photo Drops</strong> in chat (2 Cr)</span>
+                      <span>Unblur <strong>Candid Photo Drops</strong> in chat (1 Cr)</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
@@ -376,7 +376,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     rel="noopener noreferrer"
                     className="block w-full rounded-2xl border-2 border-[#18101E] bg-white py-3.5 text-center text-sm sm:text-base font-extrabold text-[#18101E] hover:bg-stone-50 transition"
                   >
-                    Get 15 Credits • $2.99
+                    Get 15 Credits
                   </a>
                 ) : isSandbox ? (
                   <button
@@ -446,7 +446,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     className="flex items-center justify-center gap-2 rounded-2xl bg-amber-300 py-3.5 text-center text-sm sm:text-base font-extrabold text-[#18101E] hover:bg-amber-200 transition shadow-md"
                   >
                     <Crown className="h-4 w-4" />
-                    <span>Unlock Lifetime VIP • $6.99</span>
+                    <span>Unlock Lifetime VIP</span>
                   </a>
                 ) : isSandbox ? (
                   <button
@@ -509,7 +509,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     className="flex items-center justify-center gap-2 rounded-2xl bg-rose-600 py-3.5 text-center text-sm sm:text-base font-extrabold text-white hover:bg-rose-700 transition shadow-xs"
                   >
                     <Gift className="h-4 w-4" />
-                    <span>Sponsor a Character • $29</span>
+                    <span>Sponsor a Character</span>
                   </a>
                 )}
               </div>
@@ -534,7 +534,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-full border border-amber-300 bg-white px-5 py-2.5 text-sm font-extrabold text-[#18101E] hover:bg-amber-100 transition"
                 >
                   <Heart className="h-4 w-4 fill-rose-600 text-rose-600" />
-                  <span>Tip $5 Espresso Martini</span>
+                  <span>Send an Espresso Martini</span>
                 </a>
               )}
             </div>
