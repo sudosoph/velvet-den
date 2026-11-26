@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Briefcase,
@@ -144,7 +144,28 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     setReplyTarget(null);
     setPassedIds((prev) => [...prev, currentProfile.id]);
     advancePendingCounter();
+    if (!import.meta.env.VITEST && typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      try {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch {
+        // Ignore scroll error
+      }
+    }
   };
+
+  useEffect(() => {
+    if (!currentProfile || replyTarget || matchCelebration) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePass();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  });
 
   const submitLike = (openerText: string, cost: number, delta: number) => {
     if (!currentProfile || !replyTarget) return;
@@ -315,7 +336,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           </div>
         </div>
       ) : (
-        <article className="editorial-hinge-card rounded-3xl overflow-hidden">
+        <article className="editorial-hinge-card relative rounded-3xl">
           {/* Authentic Minimal Hinge Header: Just Name, Age & Subtle Status Dot */}
           <header className="flex items-baseline justify-between px-6 pt-6 pb-3">
             <div className="flex items-baseline gap-2.5">
@@ -544,17 +565,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </div>
             ))}
 
-            {/* Clean Sticky-Style Action Footer */}
-            <div className="flex items-center justify-between gap-3 pt-2">
-              <button
-                type="button"
-                onClick={handlePass}
-                className="inline-flex h-12 items-center gap-2 rounded-full border border-stone-300 bg-white px-6 text-sm font-bold text-stone-700 hover:bg-stone-50 transition cursor-pointer"
-              >
-                <X className="h-4 w-4" />
-                <span>Skip</span>
-              </button>
-
+            {/* Bottom End-of-Profile Action Row */}
+            <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={() =>
@@ -571,6 +583,20 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 <span>Send a Note or Rose</span>
               </button>
             </div>
+          </div>
+
+          {/* Authentic Hinge Sticky Bottom-Left Floating Pass (✕) Button — Always Visible Without Scrolling */}
+          <div className="sticky bottom-6 z-30 pointer-events-none flex items-center justify-start px-7 sm:px-9 pb-5 -mt-20">
+            <button
+              type="button"
+              data-testid="hinge-sticky-pass-btn"
+              aria-label={`Pass on ${currentProfile.name}`}
+              title={`Pass on ${currentProfile.name} (←)`}
+              onClick={handlePass}
+              className="pointer-events-auto flex h-14 w-14 items-center justify-center rounded-full border border-stone-200/90 bg-white text-[#18101E] shadow-[0_10px_28px_rgba(24,16,30,0.22)] hover:scale-108 hover:bg-stone-900 hover:text-white active:scale-95 transition cursor-pointer"
+            >
+              <X className="h-6 w-6 stroke-[2.5]" />
+            </button>
           </div>
         </article>
       )}

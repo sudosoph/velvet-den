@@ -29,7 +29,7 @@
       radial-gradient(ellipse 70% 50% at 50% 100%, rgba(244, 63, 94, 0.05), transparent 65%);
     color: var(--ink);
     line-height: 1.55;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 }
 

@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import App from '../src/App';
 
@@ -30,6 +30,13 @@ describe('v35 Clean Consumer Nav Bar (Zero Overflow/Pill Soup) & Unobstructed Re
 
     // Zero duplicate "Meet Exclusives In The Wild" pill stacked right below the Compass Bar
     expect(container.textContent || '').not.toContain('Meet Exclusives In The Wild');
+
+    // Sticky Hinge Pass / Left-Swipe (X) button is immediately visible in the viewport & advances profile on click
+    const stickyPassBtn = screen.getByTestId('hinge-sticky-pass-btn');
+    expect(stickyPassBtn.closest('.sticky')).not.toBeNull();
+    expect(screen.getByRole('heading', { name: /Julian/i })).toBeInTheDocument();
+    fireEvent.click(stickyPassBtn);
+    expect(screen.getByRole('heading', { name: /Søren/i })).toBeInTheDocument();
   });
 
   it('renders a clean unified segmented Primary Navigation with zero individual pill borders, zero h-8.5 height clipping, and zero double emojis', () => {
