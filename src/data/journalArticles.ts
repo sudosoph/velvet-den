@@ -501,6 +501,61 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     featuredAffiliateIds: ['date-night-oud-bergamot', 'cooling-bamboo-sheets'],
   },
   {
+    slug: 'master-list-cougar-cub-movies-older-woman-younger-man',
+    seoTitle:
+      'Complete Master List of Cougar & Cub Movies (22 Films): From Catherine Zeta-Jones’ "The Rebound" to Natalie Portman’s Upcoming "Good Sex"',
+    metaDescription:
+      'The ultimate Older-Woman / Younger-Man movie master list: Catherine Zeta-Jones in The Rebound, Natalie Portman’s upcoming Netflix rom-com Good Sex, Babygirl, The Idea of You, Bridget Jones, How Stella Got Her Groove Back & Bull Durham.',
+    targetKeywords: [
+      'cougar cub movies list',
+      'older woman younger man movies complete list',
+      'catherine zeta jones cougar movie the rebound',
+      'natalie portman good sex netflix younger man movie',
+    ],
+    headline:
+      'The Complete Master List of Cougar & Cub Movies: From Catherine Zeta-Jones’ "The Rebound" to Natalie Portman’s Upcoming "Good Sex"',
+    readTime: '8 min read',
+    intro:
+      'Bookmark this for every Friday watch night: the definitive 22-film master guide to older-woman / younger-man ("Cougar & Cub") cinema—spanning classic trailblazers, 2000s rom-com gems, the 2024–2025 streaming boom, and the biggest upcoming winter releases.',
+    sections: [
+      {
+        heading: '1. Upcoming & New-Wave Releases (2025–Winter Slate)',
+        body: '• Good Sex (Upcoming Netflix Event): Written and directed by Lena Dunham, Natalie Portman stars as Ally—a pragmatic 40-year-old NYC couples therapist re-entering dating who gets swept into a passionate love triangle between a 20-something Brooklyn creative (musician Tucker Pillsbury / Role Model) and a 50-something Manhattan executive (Mark Ruffalo).\n• Bridget Jones: Mad About the Boy (2025): Renée Zellweger returns as 50-something single mom Bridget matching on Tinder with Leo Woodall’s golden-hearted 29-year-old Hampstead Heath park ranger "Roxster."',
+      },
+      {
+        heading: '2. The 2024 Streaming & A24 Cougar Renaissance',
+        body: '• Babygirl (2024, A24): Nicole Kidman & Harris Dickinson’s electric corporate power-play thriller (home of the viral hotel-bar tall glass of milk).\n• The Idea of You (2024, Prime Video): Anne Hathaway (40F Silver Lake gallery owner) × Nicholas Galitzine (24M Coachella boy-band lead).\n• Lonely Planet (2024, Netflix): Laura Dern & Liam Hemsworth sparking at a sun-drenched writers’ retreat in Morocco.\n• A Family Affair (2024, Netflix): Nicole Kidman & Zac Efron turning a chaotic boss-assistant collision into surprising tenderness (plus Natalie Portman, Julianne Moore & Charles Melton in Todd Haynes’ razor-sharp 2023 satire May December).',
+      },
+      {
+        heading: '3. 2000s–2020s Rom-Com & Indie Essentials (Led by Catherine Zeta-Jones)',
+        body: '• The Rebound (2009): Catherine Zeta-Jones shines as Sandy, a newly divorced 40-year-old mom of two who moves above a Manhattan coffee shop and falls hard for Aram (Justin Bartha), her 25-year-old Golden-Retriever barista and nanny—the gold-standard Cougar × Cub rom-com.\n• Good Luck to You, Leo Grande (2022): Emma Thompson & Daryl McCormack celebrating 60+ Panther candor and joy.\n• Cha Cha Real Smooth (2022): Dakota Johnson & Cooper Raiff.\n• Home Again (2017): Reese Witherspoon (40F) & Pico Alexander (27M aspiring director).\n• Hello I Must Be Going (2012): Melanie Lynskey & Christopher Abbott.\n• I Could Never Be Your Woman (2007): Michelle Pfeiffer & Paul Rudd.\n• Prime (2005): Uma Thurman (37F) & Bryan Greenberg (23M painter—whose therapist mom is played by Meryl Streep!).\n• Something’s Gotta Give (2003): Never forget 30-something doctor Keanu Reeves utterly worshipping Diane Keaton in Nancy Meyers’ Hamptons classic.',
+      },
+      {
+        heading: '4. Foundational Cinema Legends (1955–1998)',
+        body: '• How Stella Got Her Groove Back (1998): Angela Bassett (40F stockbroker) & Taye Diggs in Jamaica—the movie that permanently rewired cultural conversations around successful women choosing pleasure.\n• White Palace (1990): Susan Sarandon (43F) & James Spader (27M) in electric cross-class chemistry.\n• Bull Durham (1988): Susan Sarandon’s Annie Savoy mentoring rookie fireballer Tim Robbins—cinema’s original "Cub Training" masterpiece.\n• Plus timeless rebels Harold and Maude (1971), The Graduate (1967), and Douglas Sirk’s All That Heaven Allows (1955).',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is Catherine Zeta-Jones’ Cougar and Cub romantic comedy movie called?',
+        answer:
+          'Catherine Zeta-Jones stars in The Rebound (2009) as Sandy, a 40-year-old newly divorced mother in NYC who falls in love with Aram (Justin Bartha), a warm 25-year-old barista working downstairs.',
+      },
+      {
+        question: 'What is Natalie Portman’s upcoming older-woman younger-man Netflix movie?',
+        answer:
+          'Natalie Portman stars in Lena Dunham’s Netflix romantic comedy Good Sex as Ally, a 40-year-old NYC couples therapist torn between a 20-something Brooklyn hipster (Tucker Pillsbury / Role Model) and a 50-something businessman (Mark Ruffalo).',
+      },
+    ],
+    featuredEpisodeId: 'babygirl-hotel-bar-milk-or-martini',
+    featuredAffiliateIds: [
+      'the-rebound-zeta-jones-prime',
+      'babygirl-movie-prime',
+      'idea-of-you-movie-book',
+      'bridget-jones-cougar-town-watch',
+    ],
+  },
+  {
     slug: 'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man',
     seoTitle: 'Best Older-Woman / Younger-Man Movies: Babygirl, The Idea of You, Bridget Jones & Lonely Planet',
     metaDescription:

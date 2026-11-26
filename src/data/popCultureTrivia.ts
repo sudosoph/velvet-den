@@ -198,4 +198,29 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     funFact:
       'Taking the ingredient-check mental load off a gluten-free, seed-oil-free Wellness Mommy—and hyping up her incoming tricolor Mini Bernedoodle—earns instant #1 Co-Pilot status!',
   },
+  {
+    id: 'zeta-jones-the-rebound',
+    badge: '🎬 2009 Rom-Com Blueprint',
+    question:
+      'In the beloved 2009 Cougar-Cub romantic comedy "The Rebound," Catherine Zeta-Jones plays a newly single 40-year-old NYC mom who falls for her 25-year-old coffee-shop neighbor played by whom?',
+    options: ['Justin Bartha', 'Penn Badgley', 'Adam Brody', 'Zac Efron'],
+    correctIndex: 0,
+    funFact:
+      'Catherine Zeta-Jones (Sandy, 40) & Justin Bartha (Aram, 25) wrote the modern Golden-Retriever Cub playbook in "The Rebound"—from coffee-shop meet-cutes to owning the 15-year gap in Manhattan!',
+  },
+  {
+    id: 'natalie-portman-good-sex',
+    badge: '🍿 Upcoming Netflix Event',
+    question:
+      'In Lena Dunham’s upcoming Netflix rom-com "Good Sex," Natalie Portman plays a 40-year-old NYC couples therapist caught between Mark Ruffalo and a 20-something Brooklyn hipster played by whom?',
+    options: [
+      'Tucker Pillsbury (Role Model)',
+      'Paul Mescal',
+      'Drew Starkey',
+      'Josh O’Connor',
+    ],
+    correctIndex: 0,
+    funFact:
+      'Netflix snapped up Lena Dunham & Natalie Portman’s "Good Sex" in a massive $55M deal—proving the older-woman / younger-man cinema wave is only getting hotter!',
+  },
 ];

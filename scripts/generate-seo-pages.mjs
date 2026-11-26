@@ -47,6 +47,7 @@ const URL_TO_PRODUCT_ID = {
   'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie': 'babygirl-movie-prime',
   'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie': 'idea-of-you-movie-book',
   'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video': 'bridget-jones-cougar-town-watch',
+  'https://www.amazon.com/s?k=The+Rebound+Catherine+Zeta+Jones+Prime+Video+movie': 'the-rebound-zeta-jones-prime',
   'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil': 'seed-oil-free-ghee-evoo-set',
   'https://www.amazon.com/s?k=wicker+picnic+basket+for+2+with+waterproof+blanket': 'linen-picnic-insulated-tote',
   'https://www.amazon.com/s?k=mens+canvas+leather+overnight+weekender+duffel+bag': 'velvet-travel-weekender-duffel',
@@ -419,6 +420,48 @@ const STATIC_GUIDES = [
       {
         name: '100% Organic Bamboo Viscose Cooling Sheet Set ($89)',
         url: 'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
+      },
+    ],
+  },
+  {
+    slug: 'master-list-cougar-cub-movies-older-woman-younger-man',
+    title:
+      'Complete Master List of Cougar & Cub Movies (22 Films): Catherine Zeta-Jones’ The Rebound to Natalie Portman’s Good Sex',
+    description:
+      'The complete older-woman / younger-man movie master list: Catherine Zeta-Jones in The Rebound, Natalie Portman’s upcoming Netflix rom-com Good Sex, Babygirl, The Idea of You, Bridget Jones, How Stella Got Her Groove Back & Bull Durham.',
+    episodeId: 'babygirl-hotel-bar-milk-or-martini',
+    paragraphs: [
+      'From foundational Hollywood classics to the 2024–2026 streaming explosion, older-woman / younger-man ("Cougar & Cub") cinema has evolved into one of the sharpest, funniest, and highest-grossing romance genres on earth.',
+      'Upcoming & New Wave: Natalie Portman leads Lena Dunham’s Netflix rom-com Good Sex as Ally, a 40-year-old NYC couples therapist torn between a 20-something Brooklyn creative (Tucker Pillsbury / Role Model) and a 50-something executive (Mark Ruffalo), right alongside Renée Zellweger & Leo Woodall in Bridget Jones: Mad About the Boy (2025), Nicole Kidman & Harris Dickinson in Babygirl (2024), Anne Hathaway & Nicholas Galitzine in The Idea of You (2024), Laura Dern & Liam Hemsworth in Lonely Planet (2024), and Nicole Kidman & Zac Efron in A Family Affair (2024).',
+      '2000s–2020s Rom-Com & Indie Favorites: Catherine Zeta-Jones set the modern post-divorce rom-com blueprint in The Rebound (2009) opposite 25-year-old coffee-shop barista Justin Bartha—joined by Good Luck to You, Leo Grande (Emma Thompson & Daryl McCormack), Cha Cha Real Smooth (Dakota Johnson & Cooper Raiff), Home Again (Reese Witherspoon & Pico Alexander), Hello I Must Be Going (Melanie Lynskey & Christopher Abbott), I Could Never Be Your Woman (Michelle Pfeiffer & Paul Rudd), Prime (Uma Thurman & Bryan Greenberg), and Keanu Reeves swooning over Diane Keaton in Something’s Gotta Give.',
+      'Foundational Icons: Angela Bassett & Taye Diggs in How Stella Got Her Groove Back (1998), Susan Sarandon in both White Palace (1990, with James Spader) and Bull Durham (1988, mentoring rookie pitcher Tim Robbins), Harold and Maude (1971), The Graduate (1967), and All That Heaven Allows (1955).',
+    ],
+    faqs: [
+      {
+        q: 'What is Catherine Zeta-Jones’ Cougar and Cub movie called?',
+        a: 'Catherine Zeta-Jones stars in The Rebound (2009) as a 40-year-old newly divorced mother of two in Manhattan who falls for her warm 25-year-old barista and nanny Aram (Justin Bartha).',
+      },
+      {
+        q: 'What is Natalie Portman’s upcoming older-woman younger-man movie?',
+        a: 'Natalie Portman stars in Lena Dunham’s Netflix romantic comedy Good Sex as a 40-year-old NYC couples therapist caught between a 20-something Brooklyn hipster (Tucker Pillsbury / Role Model) and a 50-something Manhattan man (Mark Ruffalo).',
+      },
+    ],
+    picks: [
+      {
+        name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Prime Video)',
+        url: 'https://www.amazon.com/s?k=The+Rebound+Catherine+Zeta+Jones+Prime+Video+movie',
+      },
+      {
+        name: 'Babygirl (Nicole Kidman • Prime Video 4K)',
+        url: 'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
+      },
+      {
+        name: 'The Idea of You — Robinne Lee Paperback & Prime Video',
+        url: 'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
+      },
+      {
+        name: 'Bridget Jones: Mad About the Boy (Prime Video)',
+        url: 'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
       },
     ],
   },

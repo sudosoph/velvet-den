@@ -261,6 +261,17 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     merchantUrl: 'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
   },
   {
+    id: 'the-rebound-zeta-jones-prime',
+    name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Prime Video)',
+    category: 'cinema_pop_culture',
+    priceDisplay: 'Prime Video',
+    badge: 'OG NYC Cougar × Barista Rom-Com',
+    cheekyPitch:
+      'Catherine Zeta-Jones (40) moves above a Manhattan coffee shop after her divorce and falls for 25-year-old Golden-Retriever nanny Justin Bartha—pure blueprint cinema.',
+    whyItConverts: 'High-intent streaming rental/buy directly from our Master List of Cougar & Cub Movies.',
+    merchantUrl: 'https://www.amazon.com/s?k=The+Rebound+Catherine+Zeta+Jones+Prime+Video+movie',
+  },
+  {
     id: 'seed-oil-free-ghee-evoo-set',
     name: 'Grass-Fed Artisanal Ghee & Cold-Pressed Tuscan Extra-Virgin Olive Oil Duo',
     category: 'houseboy',

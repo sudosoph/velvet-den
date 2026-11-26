@@ -87,6 +87,8 @@ const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
     'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
   'bridget-jones-cougar-town-watch':
     'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
+  'the-rebound-zeta-jones-prime':
+    'https://www.amazon.com/s?k=The+Rebound+Catherine+Zeta+Jones+Prime+Video+movie',
   'seed-oil-free-ghee-evoo-set':
     'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil',
   'linen-picnic-insulated-tote':
@@ -1155,7 +1157,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v25-dream-daddy-phase1',
+        version: 'v26-cougar-cub-movie-masterlist',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
