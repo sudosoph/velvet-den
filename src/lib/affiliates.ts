@@ -1,6 +1,7 @@
 import { MONETIZATION_CONFIG } from '../config/monetization';
 
 export type AffiliateCategory =
+  | 'cougar_cub_merch'
   | 'funny_cute'
   | 'cinema_pop_culture'
   | 'houseboy'
@@ -29,6 +30,83 @@ const PROHIBITED_ADULT_DOMAINS = [
 ];
 
 export const AFFILIATE_CATALOG: AffiliateProduct[] = [
+  {
+    id: 'trophy-boyfriend-cooking-apron',
+    name: '"Trophy Husband (In Training)" Funny Pocket Chef Apron',
+    category: 'cougar_cub_merch',
+    priceDisplay: 'Cub Merch Pick',
+    badge: '🐕 S-Rank Cub Graduation Apron',
+    cheekyPitch:
+      'Upgrade him from plain linen to full self-awareness: pocketed chef apron for the vetted Cub who sears grass-fed ribeye, washes every pan, and wears his title with pride.',
+    whyItConverts: 'Self-referential Cougar/Cub apron payoff for Cub Academy & Sunday Houseboy fans.',
+    merchantUrl: 'https://www.amazon.com/s?k=trophy+husband+funny+cooking+apron+for+men',
+  },
+  {
+    id: 'leopard-print-cougar-apron',
+    name: 'Fierce Leopard-Print Cougar Hostess & Sous-Chef Apron (With Pockets)',
+    category: 'cougar_cub_merch',
+    priceDisplay: 'Cougar Signature',
+    badge: '🐆 Iconic Cougar Print Apron',
+    cheekyPitch:
+      'Whether she wears it shaking espresso martinis or ties it onto her 26-year-old sous-chef on Sunday morning—spotted Cougar couture with deep pockets for his phone and thermometer.',
+    whyItConverts: 'Instant visual Cougar wink for couples cooking nights and kitchen selfies.',
+    merchantUrl: 'https://www.amazon.com/s?k=leopard+print+kitchen+apron+with+pockets',
+  },
+  {
+    id: 'good-boy-brass-training-clicker',
+    name: '"Certified Good Boy" Obedience Clicker & Wrist-Strap Gag Gift',
+    category: 'cougar_cub_merch',
+    priceDisplay: 'Under-$12 Gag',
+    badge: '🔔 Official 2D Cub Sim Prop',
+    cheekyPitch:
+      'Straight out of our 2D Cub Obedience School: keep one on the marble island and give a single polite click whenever he starts to "well actually" a podcast.',
+    whyItConverts: 'Hilarious under-$12 impulse add-on that triggers Amazon’s 24-hour universal cart cookie.',
+    merchantUrl: 'https://www.amazon.com/s?k=dog+training+clicker+wrist+strap+treat+pouch',
+  },
+  {
+    id: 'funny-cougar-stemless-wine-glass',
+    name: 'Sassy "Certified Cougar" Novelty Wine Glass & Gift Box',
+    category: 'cougar_cub_merch',
+    priceDisplay: 'Funny Gift Pick',
+    badge: '🍷 Self-Aware Cougar Barware',
+    cheekyPitch:
+      'Unapologetic Cougar barware that leans all the way into the bit—ideal 40th/50th birthday, divorce-party glow-up, or 6-month Cub anniversary toast.',
+    whyItConverts: 'High-intent self-referential gift search for Cougar birthdays & anniversaries.',
+    merchantUrl: 'https://www.amazon.com/s?k=funny+cougar+wine+glass+gift+for+women',
+  },
+  {
+    id: 'golden-retriever-boyfriend-mug',
+    name: '"Golden Retriever Energy" Boyfriend Ceramic Coffee Mug',
+    category: 'cougar_cub_merch',
+    priceDisplay: 'Cute Gift Pick',
+    badge: '☕ Morning Cortado Inside Joke',
+    cheekyPitch:
+      'For the sunny, unbothered 27-year-old Cub who texts back in 90 seconds, carries every grocery bag in one trip, and brings her oat latte in bed.',
+    whyItConverts: 'Viral TikTok/age-gap archetype gift with massive couples conversion.',
+    merchantUrl: 'https://www.amazon.com/s?k=golden+retriever+energy+funny+mug+gift',
+  },
+  {
+    id: 'black-cat-girlfriend-leopard-mug',
+    name: '"Black Cat Energy" Ceramic Espresso Mug (His & Hers Pair)',
+    category: 'cougar_cub_merch',
+    priceDisplay: 'Cute Gift Pick',
+    badge: '🐈‍⬛ Selective Cougar Counterpart',
+    cheekyPitch:
+      'Pairs with his Golden-Retriever mug on the kitchen counter—for the poised, slow-burn Black-Cat Cougar whose calendar and standards stay undefeated.',
+    whyItConverts: 'Natural 2-item bundle pair alongside the Golden Retriever Boyfriend mug.',
+    merchantUrl: 'https://www.amazon.com/s?k=black+cat+energy+funny+coffee+mug+gift',
+  },
+  {
+    id: 'cougar-hunter-retro-trucker-hat',
+    name: 'Retro Foam "Cougar" Novelty Lake-Day & Pickleball Trucker Hat',
+    category: 'cougar_cub_merch',
+    priceDisplay: 'Cheeky Gag Pick',
+    badge: '🧢 Claimed-Cub Weekend Cap',
+    cheekyPitch:
+      'Peak self-referential comedy for boat days, pickleball courts, and backyard BBQs once she officially claims him off the dating apps.',
+    whyItConverts: 'Playful viral gag gift for couples who love leaning into age-gap banter.',
+    merchantUrl: 'https://www.amazon.com/s?k=funny+cougar+trucker+hat+novelty+gift',
+  },
   {
     id: 'houseboy-linen-apron',
     name: 'Japanese Cross-Back Heavyweight Linen Apron',

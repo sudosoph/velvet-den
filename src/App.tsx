@@ -1245,7 +1245,7 @@ export default function App() {
                 onClick={() => setBoutiqueOpen(true)}
                 className="rounded-full bg-[#18101E] hover:bg-[#2E1F38] px-3 py-1 text-white cursor-pointer"
               >
-                Cougars &amp; Cubs Club VIP Lounge
+                🛍️ Cougar &amp; Cub Merch &amp; VIP
               </button>
               <button
                 type="button"

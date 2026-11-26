@@ -639,6 +639,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             {(
               [
                 ['all', `✨ All (${AFFILIATE_CATALOG.length})`],
+                ['cougar_cub_merch', '🐆 Cougar & Cub Merch'],
                 ['funny_cute', '🐶 Cute & Funny'],
                 ['cinema_pop_culture', '🎬 Movies & Books'],
                 ['houseboy', '🥂 Houseboy & Pantry'],

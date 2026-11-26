@@ -26,6 +26,13 @@ const PROHIBITED_ADULT_DOMAINS = [
 ];
 
 const URL_TO_PRODUCT_ID = {
+  'https://www.amazon.com/s?k=trophy+husband+funny+cooking+apron+for+men': 'trophy-boyfriend-cooking-apron',
+  'https://www.amazon.com/s?k=leopard+print+kitchen+apron+with+pockets': 'leopard-print-cougar-apron',
+  'https://www.amazon.com/s?k=dog+training+clicker+wrist+strap+treat+pouch': 'good-boy-brass-training-clicker',
+  'https://www.amazon.com/s?k=funny+cougar+wine+glass+gift+for+women': 'funny-cougar-stemless-wine-glass',
+  'https://www.amazon.com/s?k=golden+retriever+energy+funny+mug+gift': 'golden-retriever-boyfriend-mug',
+  'https://www.amazon.com/s?k=black+cat+energy+funny+coffee+mug+gift': 'black-cat-girlfriend-leopard-mug',
+  'https://www.amazon.com/s?k=funny+cougar+trucker+hat+novelty+gift': 'cougar-hunter-retro-trucker-hat',
   'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men': 'houseboy-linen-apron',
   'https://www.amazon.com/s?k=ultralight+trail+running+hydration+vest+pack': 'trail-hydration-vest',
   'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme': 'princess-mulberry-silk-robe',
@@ -158,16 +165,20 @@ const STATIC_GUIDES = [
     ],
     picks: [
       {
+        name: '"Trophy Husband (In Training)" Funny Pocket Chef Apron',
+        url: 'https://www.amazon.com/s?k=trophy+husband+funny+cooking+apron+for+men',
+      },
+      {
+        name: 'Fierce Leopard-Print Cougar Hostess & Sous-Chef Apron',
+        url: 'https://www.amazon.com/s?k=leopard+print+kitchen+apron+with+pockets',
+      },
+      {
         name: 'Fill-in-the-Blank Romantic Love Coupon Cards',
         url: 'https://www.amazon.com/s?k=fill+in+the+blank+love+coupons+cards+for+couples',
       },
       {
         name: '22-Momme Mulberry Silk Lounge Robe',
         url: 'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
-      },
-      {
-        name: 'Japanese Cross-Back Heavyweight Linen Apron',
-        url: 'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men',
       },
     ],
   },

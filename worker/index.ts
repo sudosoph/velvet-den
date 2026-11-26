@@ -45,6 +45,20 @@ const DEFAULT_FOUNDER_SHA256 =
   '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac';
 
 const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
+  'trophy-boyfriend-cooking-apron':
+    'https://www.amazon.com/s?k=trophy+husband+funny+cooking+apron+for+men',
+  'leopard-print-cougar-apron':
+    'https://www.amazon.com/s?k=leopard+print+kitchen+apron+with+pockets',
+  'good-boy-brass-training-clicker':
+    'https://www.amazon.com/s?k=dog+training+clicker+wrist+strap+treat+pouch',
+  'funny-cougar-stemless-wine-glass':
+    'https://www.amazon.com/s?k=funny+cougar+wine+glass+gift+for+women',
+  'golden-retriever-boyfriend-mug':
+    'https://www.amazon.com/s?k=golden+retriever+energy+funny+mug+gift',
+  'black-cat-girlfriend-leopard-mug':
+    'https://www.amazon.com/s?k=black+cat+energy+funny+coffee+mug+gift',
+  'cougar-hunter-retro-trucker-hat':
+    'https://www.amazon.com/s?k=funny+cougar+trucker+hat+novelty+gift',
   'houseboy-linen-apron':
     'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men',
   'trail-hydration-vest':
@@ -247,7 +261,15 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
   const clicks: Record<string, number> = {};
   let recentAiLogs: unknown[] = [];
   if (env.VELVET_KV) {
-    for (const id of ['houseboy-linen-apron', 'princess-mulberry-silk-robe', 'cooling-bamboo-sheets', 'zero-proof-botanical-mocktail-set']) {
+    for (const id of [
+      'trophy-boyfriend-cooking-apron',
+      'leopard-print-cougar-apron',
+      'good-boy-brass-training-clicker',
+      'houseboy-linen-apron',
+      'princess-mulberry-silk-robe',
+      'cooling-bamboo-sheets',
+      'zero-proof-botanical-mocktail-set',
+    ]) {
       try {
         const val = await env.VELVET_KV.get(`aff_clicks:${id}`);
         clicks[id] = Number(val) || 0;
@@ -1157,7 +1179,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v26-cougar-cub-movie-masterlist',
+        version: 'v27-self-referential-cougar-cub-merch',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),

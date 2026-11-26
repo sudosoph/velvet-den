@@ -131,10 +131,11 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     ],
     featuredEpisodeId: 'princess-soft-life',
     featuredAffiliateIds: [
+      'trophy-boyfriend-cooking-apron',
+      'leopard-print-cougar-apron',
+      'funny-cougar-stemless-wine-glass',
       'fill-in-love-coupon-cards',
       'princess-mulberry-silk-robe',
-      'houseboy-linen-apron',
-      'short-leash-leather-dog-leash',
     ],
   },
   {
@@ -251,10 +252,10 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     ],
     featuredEpisodeId: 'black-cat-pushback-golden-retriever-test',
     featuredAffiliateIds: [
+      'golden-retriever-boyfriend-mug',
+      'black-cat-girlfriend-leopard-mug',
+      'good-boy-brass-training-clicker',
       'short-leash-leather-dog-leash',
-      'fill-in-love-coupon-cards',
-      'silk-pillowcase-sleepover-duo',
-      'cub-grooming-beard-skincare-kit',
     ],
   },
   {

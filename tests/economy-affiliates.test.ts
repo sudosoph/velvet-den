@@ -163,9 +163,16 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     expect(percentages.reduce((sum, n) => sum + n, 0)).toBe(100);
   });
 
-  it('verifies 100% organic affiliate coverage across all 25 catalog items, all 81 episodes, all 16 guides, and Worker /api/go/:id redirects', async () => {
-    expect(AFFILIATE_CATALOG.length).toBe(25);
+  it('verifies 100% organic affiliate coverage across all 32 catalog items, all 81 episodes, all 16 guides, and Worker /api/go/:id redirects', async () => {
+    expect(AFFILIATE_CATALOG.length).toBe(32);
     const mustHaveIds = [
+      'trophy-boyfriend-cooking-apron',
+      'leopard-print-cougar-apron',
+      'good-boy-brass-training-clicker',
+      'funny-cougar-stemless-wine-glass',
+      'golden-retriever-boyfriend-mug',
+      'black-cat-girlfriend-leopard-mug',
+      'cougar-hunter-retro-trucker-hat',
       'fill-in-love-coupon-cards',
       'short-leash-leather-dog-leash',
       'babygirl-movie-prime',

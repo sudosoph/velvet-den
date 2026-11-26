@@ -5,10 +5,12 @@ import {
   Bell,
   Camera,
   Crown,
+  ExternalLink,
   Eye,
   Heart,
   RotateCcw,
   ShieldCheck,
+  ShoppingBag,
   Sparkles,
 } from 'lucide-react';
 import {
@@ -23,6 +25,7 @@ import {
   type HisArchetype,
   type PlayerRole,
 } from '../domain/taxonomy';
+import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { sfx } from '../lib/sound';
 
 interface PixiCubAcademyStageProps {
@@ -805,6 +808,51 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
                   </button>
                 </div>
               </div>
+
+              {/* Contextual Self-Referential Graduation Merch Bar */}
+              <div className="pt-3 border-t border-[#F59E0B]/30 space-y-2.5">
+                <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wide text-[#92400E]">
+                  <ShoppingBag className="h-3.5 w-3.5 text-[#E11D48]" />
+                  <span>Official Certified Good-Boy Graduation Kit (Real-Life Inside-Joke Gifts)</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {(
+                    [
+                      'trophy-boyfriend-cooking-apron',
+                      'good-boy-brass-training-clicker',
+                      'leopard-print-cougar-apron',
+                    ] as const
+                  ).map((affId) => {
+                    const item = getAffiliateById(affId);
+                    if (!item) return null;
+                    return (
+                      <a
+                        key={item.id}
+                        href={buildAffiliateUrl(item, 'cub_academy_diploma')}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        className="rounded-2xl border border-[#18101E]/15 bg-white hover:bg-[#FFFDF5] p-3.5 flex flex-col justify-between gap-2 transition shadow-xs"
+                      >
+                        <div>
+                          <span className="inline-block rounded-full bg-[#FEF3C7] px-2 py-0.5 text-[10px] font-extrabold text-[#92400E]">
+                            {item.badge}
+                          </span>
+                          <div className="mt-1 text-xs font-extrabold text-[#18101E]">
+                            {item.name}
+                          </div>
+                          <p className="mt-0.5 text-[11px] font-medium text-[#64748B] line-clamp-2">
+                            {item.cheekyPitch}
+                          </p>
+                        </div>
+                        <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#E11D48]">
+                          <span>Shop Protected Link</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -896,6 +944,36 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
               )}
             </div>
           )}
+
+          {/* Contextual Real-Life Bachelor-Pad Upgrade Picks */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            {(['hosting-lidded-bin-soap', 'silk-pillowcase-sleepover-duo'] as const).map((affId) => {
+              const item = getAffiliateById(affId);
+              if (!item) return null;
+              return (
+                <a
+                  key={item.id}
+                  href={buildAffiliateUrl(item, 'academy_room_scanner')}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="rounded-2xl border border-slate-200 bg-[#FFFDF9] hover:bg-[#FFFBEB] p-3.5 flex items-center justify-between gap-3 transition"
+                >
+                  <div>
+                    <span className="text-[10px] font-extrabold uppercase text-[#059669]">
+                      Real-Life Sanctuary Fix • {item.badge}
+                    </span>
+                    <div className="text-xs sm:text-sm font-extrabold text-[#18101E] mt-0.5">
+                      {item.name}
+                    </div>
+                  </div>
+                  <span className="shrink-0 rounded-xl bg-[#18101E] px-3 py-2 text-xs font-extrabold text-white inline-flex items-center gap-1">
+                    <span>Shop</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </span>
+                </a>
+              );
+            })}
+          </div>
         </section>
       )}
 

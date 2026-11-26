@@ -4,14 +4,17 @@ import {
   Check,
   Copy,
   Download,
+  ExternalLink,
   Hash,
   MessageCircle,
   RotateCcw,
   Send,
+  ShoppingBag,
   Sparkles,
 } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import type { GameRunState, RunSummary } from '../domain/gameEngine';
+import { AFFILIATE_CATALOG, buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import {
   buildDiscordReceipt,
   buildEmojiReceipt,
@@ -443,9 +446,67 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
               onClick={onOpenBoutique}
               className="pop-btn rounded-2xl bg-[#FF2E63] py-3 text-sm font-extrabold text-white cursor-pointer"
             >
-              VIP Lounge &amp; Boutique
+              Cougar &amp; Cub Merch ({AFFILIATE_CATALOG.length})
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* Self-Referential Cougar & Cub Merch Strip */}
+      <section className="vice-panel rounded-3xl p-6 space-y-4 bg-gradient-to-r from-[#FFFDF9] via-white to-[#FFF7F9]">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FEF3C7] border border-[#F59E0B]/40 px-3 py-0.5 text-xs font-extrabold text-[#92400E]">
+              <ShoppingBag className="h-3.5 w-3.5 text-[#E11D48]" />
+              <span>Self-Referential Cougar &amp; Cub Gift Bar</span>
+            </span>
+            <h3 className="font-display text-xl sm:text-2xl text-[#18101E] mt-1">
+              Bring the Bit Into Real Life: Cheeky Aprons, Mugs &amp; Inside-Joke Gifts
+            </h3>
+          </div>
+          <button
+            type="button"
+            onClick={onOpenBoutique}
+            className="pop-btn rounded-full bg-[#18101E] px-4 py-2 text-xs font-extrabold text-white cursor-pointer"
+          >
+            Browse All {AFFILIATE_CATALOG.length} Curated Picks →
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {(
+            [
+              'trophy-boyfriend-cooking-apron',
+              'leopard-print-cougar-apron',
+              'golden-retriever-boyfriend-mug',
+            ] as const
+          ).map((affId) => {
+            const item = getAffiliateById(affId);
+            if (!item) return null;
+            return (
+              <a
+                key={item.id}
+                href={buildAffiliateUrl(item, 'outcome_merch_strip')}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="rounded-2xl border border-slate-200 bg-white hover:bg-[#FFFDF5] p-4 flex flex-col justify-between gap-3 transition shadow-xs"
+              >
+                <div>
+                  <span className="inline-block rounded-full bg-[#FFF1F2] border border-[#FECDD3] px-2.5 py-0.5 text-[11px] font-extrabold text-[#E11D48]">
+                    {item.badge}
+                  </span>
+                  <h4 className="mt-2 text-sm font-extrabold text-[#18101E]">{item.name}</h4>
+                  <p className="mt-1 text-xs font-medium text-[#64748B] leading-relaxed">
+                    {item.cheekyPitch}
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#E11D48]">
+                  <span>Shop Protected Partner Link</span>
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </span>
+              </a>
+            );
+          })}
         </div>
       </section>
     </div>

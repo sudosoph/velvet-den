@@ -294,6 +294,16 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     setSpeakingEpId(null);
   }, [activeEpIdForStats, showingOutcomeForEpId]);
 
+  const flyupTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (flyupTimerRef.current) {
+        clearTimeout(flyupTimerRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     const syncBase = getSplitChoicePercentagesSync(activeEpIdForStats, 3);
@@ -358,7 +368,11 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
     }
 
     setStatFlyups(flyups.slice(0, 2));
-    window.setTimeout(() => {
+    if (flyupTimerRef.current) {
+      clearTimeout(flyupTimerRef.current);
+    }
+    flyupTimerRef.current = setTimeout(() => {
+      if (typeof window === 'undefined') return;
       setParticleBurst(null);
       setStatFlyups([]);
     }, 1450);
