@@ -707,9 +707,9 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
     id: 'daily-cast-iron-steak-venmo',
     aslTag: '44F × 25M • Austin',
-    headline: 'Cooked Me Grass-Fed Ribeye… Then Sent a $19.50 Venmo at 8:15 AM',
+    headline: 'Cooked Me Grass-Fed Ribeye, Then Sent a $19.50 Venmo at 8:15 AM',
     story:
-      'He wore a linen apron, seared rosemary steak in ghee, and washed every dish before midnight. Next morning on my drive to work my phone buzzed: "$19.50 — your half of the butcher ribeye 🥩😊." Crown him or dump him?!',
+      'He wore a linen apron, seared rosemary steak in ghee, and washed every dish before midnight. Next morning on my drive to work my phone buzzed: "$19.50 for your half of the butcher ribeye 🥩😊." Crown him or dump him?!',
     vibeBadge: '💸 Dutch Math Emergency',
     crownHer: 8,
     dumpHer: 92,
@@ -743,9 +743,9 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
     id: 'court-waiter-son-tip-move',
     aslTag: '51F × 28M • Manhattan',
-    headline: 'Waiter Asked If I Wanted Separate Checks "For My Son"—Watch His Move',
+    headline: 'Waiter Asked If I Wanted Separate Checks "For My Son." Watch His Move.',
     story:
-      'Buzzy West Village bistro. Waiter sets the check down and asks if I am treating my son for graduation. Without blinking, my date slid his card in, grinned, kissed my hand, and said "Definitely one check—my girlfriend’s just genetically unfair."',
+      'Buzzy West Village bistro. Waiter sets the check down and asks if I am treating my son for graduation. Without blinking, my date slid his card in, grinned, kissed my hand, and said "Definitely one check, my girlfriend’s just genetically unfair."',
     vibeBadge: '👑 Unshakeable Frame',
     crownHer: 98,
     dumpHer: 2,
@@ -755,7 +755,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
     id: 'court-maui-moms-timeshare',
     aslTag: '39F × 23M • San Diego',
-    headline: 'Bragged About "His Place in Maui"—His Parents Were in the Kitchen!',
+    headline: 'Bragged About "His Place in Maui," Then His Parents Were in the Kitchen!',
     story:
       'Invited me for a romantic 4-day getaway to "my condo in Wailea." We open the front door with suitcases and his mom is standing at the blender in a visor asking if we want Costco turkey wraps.',
     vibeBadge: '🌺 Timeshare Mirage',
@@ -767,9 +767,9 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
     id: 'court-perimenopause-bamboo-sheets',
     aslTag: '49F × 30M • Seattle',
-    headline: '3 AM Hot Flash—He Wordlessly Flipped the Cooling Pillow & Grabbed Ice Water',
+    headline: '3 AM Hot Flash: He Wordlessly Flipped the Cooling Pillow & Grabbed Ice Water',
     story:
-      'Woke up mortified kicking the duvet off at 3 AM. Zero weirdness—he sleepily kissed my shoulder, cracked the window two inches, handed me ice water, and ordered cooling bamboo sheets to his place the next afternoon.',
+      'Woke up mortified kicking the duvet off at 3 AM. Zero weirdness. He sleepily kissed my shoulder, cracked the window two inches, handed me ice water, and ordered cooling bamboo sheets to his place the next afternoon.',
     vibeBadge: '💚 Grown-Man EQ',
     crownHer: 99,
     dumpHer: 1,
@@ -779,7 +779,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
     id: 'court-whats-ur-snap-1900s',
     aslTag: '45F × 24M • Miami',
-    headline: 'Great Chemistry All Dinner… Then He Texted "u look crazy good for ur age 🔥 whats ur snap??"',
+    headline: 'Great Chemistry All Dinner, Then He Texted "u look crazy good for ur age 🔥 whats ur snap??"',
     story:
       'Opened every door, laughed at my dry jokes, and walked me to my Uber. Two minutes into the ride my phone pings: "yo tonight was fire ngl 💀 u look crazy good for someone born in the late 1900s!! whats ur snap so we streak??"',
     vibeBadge: '👻 Triple-Combo Ick',
@@ -793,7 +793,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     aslTag: '43F × 25M • Denver',
     headline: 'Tried to "Cubsplain" Mortgages From a Bare Floor Mattress Next to an Empty Tito’s Handle',
     story:
-      'I own two properties. We stop by his apartment to grab his jacket: 5-in-1 neon-blue body wash on the sink, unlidded trash can, bare mattress on the floor—and he spends 14 minutes lecturing me on fixed-rate amortization from a podcast.',
+      'I own two properties. We stop by his apartment to grab his jacket: 5-in-1 neon-blue body wash on the sink, unlidded trash can, bare mattress on the floor, and he spends 14 minutes lecturing me on fixed-rate amortization from a podcast.',
     vibeBadge: '🤓 Podcast Cubsplainer',
     crownHer: 3,
     dumpHer: 97,
