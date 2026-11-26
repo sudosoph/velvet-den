@@ -14,9 +14,9 @@ interface CougarCubChecklistModalProps {
 
 export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: string }[] = [
   {
-    id: 'math2008',
-    text: 'Silently calculated where you both were in 2008 within 20 minutes of Date #1.',
-    episodeId: 'junior-cougar-gatekeeper-tease',
+    id: 'sherylcrow4',
+    text: 'Sheryl Crow’s "Soak Up the Sun" came on and the Cub beamed: "Oh yeah, that was my favorite song when I was 4!"',
+    episodeId: 'sheryl-crow-cold-plunge-impress-incident',
   },
   {
     id: 'late1900s',
@@ -45,7 +45,7 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
   },
   {
     id: 'twoqueens',
-    text: 'Had a hotel clerk or waiter ask: "Two Queen beds for you and your son?!"',
+    text: 'Had a hotel clerk ask "Two Queen beds?" at check-in, or a waiter ask if you want separate checks "for you and your son."',
     episodeId: 'hotel-checkin-two-queen-beds-mixup',
   },
   {
@@ -79,9 +79,9 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
     episodeId: 'babygirl-hotel-bar-milk-or-martini',
   },
   {
-    id: 'bigcarl',
-    text: 'Poured a giant "Cougar Town" Big Carl wine glass and called it "just one glass."',
-    episodeId: 'milestone-six-month-anniversary',
+    id: 'andrewtatevetting',
+    text: 'Dropped a casual test question on Date #1 just to verify he’s never quoted Andrew Tate or bought a clip-on podcast mic.',
+    episodeId: 'sheryl-crow-cold-plunge-impress-incident',
   },
   {
     id: 'bamboo62',
@@ -100,13 +100,13 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
   },
   {
     id: 'qigongmommy',
-    text: 'Melted into "Yes, Mommy" posture when a Qigong / Tai Chi Wellness Mommy-Domme fixed your breathing with two fingers under your chin.',
+    text: 'Melted into "Yes, Mommy" posture when a Tai Chi Wellness Mommy-Domme lifted your chin with two fingers.',
     episodeId: 'qigong-tai-chi-wellness-mommy-domme',
   },
   {
-    id: 'cubsplaining',
-    text: 'Caught a Cub mid-"Cubsplain" trying to lecture an accomplished homeowner Mommy on mortgages, Fleetwood Mac, or breathwork.',
-    episodeId: 'cubsplaining-and-bouncer-id-check',
+    id: 'cubcoldplungespace',
+    text: 'Watched an eager Cub try way too hard to impress you with 6 AM 37°F cold plunges and passionate updates on James Webb space news.',
+    episodeId: 'sheryl-crow-cold-plunge-impress-incident',
   },
   {
     id: 'getaway18h',
@@ -130,7 +130,7 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
   },
   {
     id: 'houseboysunday',
-    text: 'Unlocked Linen-Apron Houseboy Sunday (cooked from scratch + zero dishes left in the sink).',
+    text: 'Unlocked Linen-Apron Houseboy Sunday: he cooked from scratch, folded all your laundry, and loaded the dishwasher like an engineer.',
     episodeId: 'houseboy-sunday-sanctuary',
   },
   {

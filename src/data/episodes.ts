@@ -464,12 +464,12 @@ export const EPISODES: Episode[] = [
     recommendedAffiliateId: 'houseboy-linen-apron',
     choices: [
       {
-        labelHer: 'Toss him the washed linen apron, watch him hang the patio lights, scrub the counters spotless, and earn a very thorough fade-to-black reward upstairs.',
-        labelHim: 'Tie on the linen apron, hang the patio lights, prep dinner, leave her space spotless, and playfully ask how your performance review looks.',
+        labelHer: 'Toss him the washed linen apron, watch him fold all your laundry (even the fitted sheet!), load and set up the dishwasher like an engineer, and earn a very thorough fade-to-black reward upstairs.',
+        labelHim: 'Tie on the linen apron, cook dinner, fold every piece of her laundry, load and run the dishwasher to perfection, and playfully ask how your performance review looks.',
         outcomeHer:
-          'Competence + youthful vigor + playful devotion, and he packs his overnight bag cleanly afterward without colonizing your bathroom counter. Perfection.',
+          'Folded laundry, a perfectly engineered dishwasher rack, gleaming counters, and he packs his overnight bag cleanly afterward without colonizing your bathroom counter. Perfection.',
         outcomeHim:
-          'She inspects the gleaming kitchen, tugs your apron strings with a slow smile, and announces your Sunday houseboy review is moving upstairs... [Fade to Sunset].',
+          'She inspects the folded towels and purring dishwasher, tugs your apron strings with a slow smile, and announces your Sunday houseboy review is moving upstairs... [Fade to Sunset].',
         toastBanner: 'CERTIFIED HOUSEBOY XP +30 • FADE-TO-BLACK PAYOFF',
         deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'Certified Linen-Apron Houseboy',
@@ -4297,6 +4297,67 @@ export const EPISODES: Episode[] = [
           'Airplane-mode devotion speaks louder than any speech.',
         toastBanner: 'AIRPLANE-MODE DEVOTION +25',
         deltas: { maturity: 20, chivalry: 25, eq: 25, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'sheryl-crow-cold-plunge-impress-incident',
+    act: 2,
+    stage: 2,
+    title: 'Sheryl Crow "When I Was 4!", 37°F Cold Plunges & Eager Cub Overdrive',
+    loreQuote:
+      'Real-World Quote • "Sheryl Crow’s Soak Up the Sun came on and he beamed: Oh yeah, that was my favorite song when I was 4!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    recommendedAffiliateId: 'trophy-boyfriend-cooking-apron',
+    setupHer:
+      'Cruising the coast with {hisName} ({hisAge}M), **Sheryl Crow’s *"Soak Up the Sun"*** comes on the stereo and he grins ear-to-ear: **"Oh yeah, turn this up! That was my favorite song when I was 4!"** Before your soul returns to your body, he realizes the math and scrambles adorably to prove how mature and impressive he is: telling you about his **6 AM 37°F cold plunge**, briefing you on **James Webb deep-space exoplanet news**, and clarifying unprompted that he thinks **Andrew Tate manosphere podcasts** are pure clownery.',
+    setupHim:
+      'Top-down drive with {herName} ({herAge}F): **Sheryl Crow’s *"Soak Up the Sun"*** plays and before your brain catches your mouth, you beam: **"Oh yeah, that was my favorite song when I was 4!"** She lowers her sunglasses in stunned silence. Now you’re in full eager-Cub overdrive trying to impress her with your **6 AM 37°F ice plunge**, **James Webb space-telescope news**, and passing her anti-manosphere vibe check!',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her half-horrified, half-charmed thought: "When he was FOUR?! I wore low-rise jeans to college when this song dropped... though watching him nervously recite NASA space news to impress me is unfairly cute."',
+      hisDoubt:
+        'His panicked recovery: "Why did I say four out loud?! Quick, talk about the James Webb telescope and volunteer to fold her laundry!"',
+    },
+    choices: [
+      {
+        labelHer:
+          'Burst out laughing behind your sunglasses, tease him gently ("Four?! Keep talking about telescopes, kid"), and let him win points by cooking dinner and folding your laundry tonight.',
+        labelHim:
+          'Own the "when I was 4" slip with a grin, skip fake pretentiousness, share one genuinely cool space discovery, and make it up to her by cooking dinner and setting up her dishwasher tonight.',
+        outcomeHer:
+          'His earnest desire to impress you without an ounce of toxic podcast ego turns a generational shock into your favorite inside joke.',
+        outcomeHim:
+          'She laughs so hard she nearly misses the exit, squeezes your knee, and puts you on kitchen and laundry duty back at her place.',
+        toastBanner: 'SHERYL CROW SURVIVED! • EARNEST CUB CHARM +25',
+        deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Soak Up the Sun Survivor',
+      },
+      {
+        labelHer:
+          'He pivots from cold plunges into quoting an Andrew Tate "alpha frame" clip he saw on TikTok.',
+        labelHim:
+          'Try to sound "alpha" by quoting an Andrew Tate clip-mic rant about "female hypergamy" after your cold-plunge story.',
+        outcomeHer:
+          'Easiest U-turn in coastal highway history. Zero manosphere brainrot allowed past the velvet rope!',
+        outcomeHim:
+          'Quoting manosphere TikToks to a self-made woman gets you dropped at the nearest rideshare curb.',
+        toastBanner: 'RED FLAG! • MANOSPHERE PODCAST BRAINROT (-30)',
+        deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer:
+          'Turn it into a 2002 vs 2020s car-stereo swap: one Sheryl Crow classic per space fact.',
+        labelHim:
+          'Hand her full DJ control for 2002 summer hits while you keep eyes on the road and coffee hot.',
+        outcomeHer:
+          'Windows down, zero awkwardness, and peak coastal banter all afternoon.',
+        outcomeHim:
+          'Respecting the 2002 summer anthem canon earns an immediate Friday night invite.',
+        toastBanner: '2002 ANTHEM RESPECT +20',
+        deltas: { maturity: 15, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
       },
     ],
   },

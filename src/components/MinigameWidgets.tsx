@@ -570,8 +570,8 @@ const TrailPaceRunnerGame: React.FC<{
 const ROOM_ITEMS = [
   { id: 'soap', bad: '🧴 5-in-1 Blue Shower Gel', good: '🌿 Botanical Hand Soap' },
   { id: 'bin', bad: '🗑️ Open Wire Wastebasket', good: '🖤 Matte-Black Lidded Bin' },
-  { id: 'sheets', bad: '🛏️ Wrinkled Polyester Sheets', good: '✨ 600TC Percale + Oak Frame' },
-  { id: 'apron', bad: '🍕 Takeout Boxes on Counter', good: '🥂 Washed Linen Apron & Basil' },
+  { id: 'laundry', bad: '🧺 Unfolded Laundry Basket', good: '👕 Folded All Your Laundry' },
+  { id: 'dishwasher', bad: '🍽️ Chaotic Sink Dishes', good: '✨ Dishwasher Set Up & Running' },
 ];
 
 const RoomAuditHotspotGame: React.FC<{

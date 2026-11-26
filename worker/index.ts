@@ -705,6 +705,18 @@ interface StoredCourtStory {
 
 const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
+    id: 'court-sheryl-crow-cold-plunge-laundry',
+    aslTag: '43F × 25M • Santa Barbara',
+    headline: 'Said Sheryl Crow Was His "Favorite Song When I Was 4," Then Folded My Laundry & Loaded the Dishwasher',
+    story:
+      'Sheryl Crow’s "Soak Up the Sun" came on in my car and he beamed, "Oh yeah, my favorite song when I was 4!" Nearly drove off PCH. Then Sunday he did a 6 AM cold plunge, briefed me on James Webb space news to impress me, folded all my laundry, and set up my dishwasher.',
+    vibeBadge: '☀️ Overachieving Cub',
+    crownHer: 94,
+    dumpHer: 6,
+    crownHim: 89,
+    dumpHim: 11,
+  },
+  {
     id: 'daily-cast-iron-steak-venmo',
     aslTag: '44F × 25M • Austin',
     headline: 'Cooked Me Grass-Fed Ribeye, Then Sent a $19.50 Venmo at 8:15 AM',
@@ -1447,7 +1459,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v32-earned-imessage-anon-discord-subplot-flirt-lock',
+        version: 'v33-earned-imessage-discord-subplot-sheryl-crow-checklist',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import App from '../src/App';
 import { APP_SWIPE_PROFILES, getSwipeDeckForRole, HER_SWIPE_PROFILES } from '../src/data/appProfiles';
@@ -34,8 +34,8 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 83 subplots accurately—including Early-Anthropic AI Cub, Pine-Pollen Feels Spiral, Seed-Oil-Free & Bernedoodle Mommy, Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
-    expect(EPISODES.length).toBe(83);
+  it('routes 84 subplots accurately—including Sheryl Crow Age-4 & Cold-Plunge Overdrive, Early-Anthropic AI Cub, Pine-Pollen Feels Spiral, Seed-Oil-Free & Bernedoodle Mommy, Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(84);
     expect(HER_ARCHETYPES.length).toBe(39);
     expect(HIS_ARCHETYPES.length).toBe(18);
     const kieran28 = HIS_ARCHETYPES.find((c) => c.id === 'kieran-anthropic-ai-cub')!;
@@ -339,9 +339,23 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     window.history.replaceState({}, '', '/?checklist=1');
     render(<App />);
 
+    const checklistModal = screen.getByRole('dialog', {
+      name: /25-Point Cougars & Cubs Viral Experience Checklist/i,
+    });
+    expect(checklistModal).toBeInTheDocument();
+    expect(within(checklistModal).getByText(/favorite song when I was 4/i)).toBeInTheDocument();
     expect(
-      screen.getByRole('dialog', { name: /25-Point Cougars & Cubs Viral Experience Checklist/i }),
+      within(checklistModal).getByText(/cold plunges and passionate updates on James Webb space news/i),
     ).toBeInTheDocument();
+    expect(within(checklistModal).getByText(/never quoted Andrew Tate/i)).toBeInTheDocument();
+    expect(
+      within(checklistModal).getByText(/separate checks "for you and your son\."/i),
+    ).toBeInTheDocument();
+    expect(
+      within(checklistModal).getByText(/folded all your laundry, and loaded the dishwasher/i),
+    ).toBeInTheDocument();
+    expect(within(checklistModal).queryByText(/breathwork/i)).not.toBeInTheDocument();
+
     fireEvent.click(screen.getByRole('button', { name: /late 1900s/i }));
     fireEvent.click(screen.getByRole('button', { name: /Babygirl/i }));
     expect(screen.getByText('8/100')).toBeInTheDocument();
