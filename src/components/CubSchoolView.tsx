@@ -158,14 +158,12 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-2xl space-y-3.5 animate-stage-in">
-      {/* Compact Single-Row HUD: Clean Neutral Badge + shadcn Segmented Tabs */}
+      {/* Compact Single-Row HUD: Clean Inline Text + shadcn Segmented Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-2.5">
         <div
           data-testid="cub-school-perk-banner"
-          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium ${
-            perkUnlocked
-              ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
-              : 'border-zinc-200 bg-white text-zinc-700'
+          className={`text-xs font-semibold ${
+            perkUnlocked ? 'text-emerald-700' : 'text-zinc-600'
           }`}
         >
           <span>

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Check, Lock, ShieldCheck, Sparkles, Wrench, X } from 'lucide-react';
+import { Check, Lock, ShieldCheck, Wrench, X } from 'lucide-react';
 import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AboutClubView } from './components/AboutClubView';
@@ -371,6 +371,38 @@ export default function App() {
   useEffect(() => {
     saveSimState({ threads, cutLooseIds, completedCameoVenues, cubSchoolStars });
   }, [threads, cutLooseIds, completedCameoVenues, cubSchoolStars]);
+
+  useEffect(() => {
+    const anyModalOpen =
+      boutiqueOpen ||
+      popTriviaOpen ||
+      checklistOpen ||
+      fieldGuideOpen ||
+      dateodexOpen ||
+      personaModalOpen ||
+      founderModalOpen;
+    if (!anyModalOpen || typeof window === 'undefined') return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setBoutiqueOpen(false);
+      setPopTriviaOpen(false);
+      setChecklistOpen(false);
+      setFieldGuideOpen(false);
+      setDateodexOpen(false);
+      setPersonaModalOpen(false);
+      setFounderModalOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [
+    boutiqueOpen,
+    popTriviaOpen,
+    checklistOpen,
+    fieldGuideOpen,
+    dateodexOpen,
+    personaModalOpen,
+    founderModalOpen,
+  ]);
 
   useEffect(() => {
     if (import.meta.env.VITEST) return;
@@ -1158,14 +1190,14 @@ export default function App() {
               updateWallet(updatePlayerPersona(wallet, draftName, draftVibe));
               setPersonaModalOpen(false);
             }}
-            className="editorial-hinge-card w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 space-y-4 shadow-xl"
+            className="editorial-hinge-card flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
           >
-            <div className="flex items-start justify-between gap-3">
+            <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-4">
               <div>
-                <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
-                  <Sparkles className="h-3.5 w-3.5 text-zinc-500" /> Persona Setup
-                </span>
-                <h2 className="mt-1.5 text-xl font-semibold tracking-tight text-zinc-950">
+                <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                  Persona Setup
+                </div>
+                <h2 className="mt-0.5 text-xl font-semibold tracking-tight text-zinc-950">
                   How Should Matches Address You?
                 </h2>
               </div>
@@ -1173,86 +1205,86 @@ export default function App() {
                 type="button"
                 onClick={() => setPersonaModalOpen(false)}
                 aria-label="Close Persona Setup"
-                className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+                className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="space-y-1.5">
-              <label
-                htmlFor="persona-name-input"
-                className="block text-xs font-medium text-zinc-700"
-              >
-                Your First Name (Used on Dates &amp; Texts)
-              </label>
-              <input
-                id="persona-name-input"
-                type="text"
-                maxLength={28}
-                placeholder={role === 'her' ? 'e.g. Sophia' : 'e.g. Alex'}
-                value={draftName}
-                onChange={(e) => setDraftName(e.target.value)}
-                className="w-full h-10 rounded-lg border border-zinc-200 bg-white px-3.5 text-sm text-zinc-900"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="text-xs font-medium text-zinc-700">
-                Friday Signature Vibe (Unlocks Active Chat &amp; Date Perks)
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4">
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="persona-name-input"
+                  className="block text-xs font-medium text-zinc-700"
+                >
+                  Your First Name (Used on Dates &amp; Texts)
+                </label>
+                <input
+                  id="persona-name-input"
+                  type="text"
+                  maxLength={28}
+                  placeholder={role === 'her' ? 'e.g. Sophia' : 'e.g. Alex'}
+                  value={draftName}
+                  onChange={(e) => setDraftName(e.target.value)}
+                  className="w-full h-10 rounded-lg border border-zinc-200 bg-white px-3.5 text-sm text-zinc-900"
+                />
               </div>
-              <div className="grid gap-2">
-                {PERSONA_VIBE_SPECS.map((spec) => (
-                  <button
-                    key={spec.id}
-                    type="button"
-                    onClick={() => setDraftVibe(spec.id)}
-                    className={`rounded-xl border px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
-                      draftVibe === spec.id
-                        ? 'border-zinc-900 bg-zinc-900 text-white'
-                        : 'border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2 text-xs font-bold">
-                      <span>
-                        {spec.emoji} {spec.id}
-                      </span>
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
-                          draftVibe === spec.id
-                            ? 'bg-rose-500 text-white'
-                            : 'bg-rose-50 text-rose-800'
-                        }`}
-                      >
-                        {spec.perkBadge}
-                      </span>
-                    </div>
-                    <div
-                      className={`mt-0.5 text-[11px] leading-snug ${
-                        draftVibe === spec.id ? 'text-zinc-300' : 'text-zinc-500'
+
+              <div className="space-y-1.5">
+                <div className="text-xs font-medium text-zinc-700">
+                  Friday Signature Vibe (Unlocks Active Chat &amp; Date Perks)
+                </div>
+                <div className="grid gap-2">
+                  {PERSONA_VIBE_SPECS.map((spec) => (
+                    <button
+                      key={spec.id}
+                      type="button"
+                      onClick={() => setDraftVibe(spec.id)}
+                      className={`rounded-xl border px-3.5 py-2.5 text-left transition-colors cursor-pointer ${
+                        draftVibe === spec.id
+                          ? 'border-zinc-900 bg-zinc-900 text-white'
+                          : 'border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50'
                       }`}
                     >
-                      {spec.perkSummary}
-                    </div>
-                  </button>
-                ))}
+                      <div className="flex items-center justify-between gap-2 text-xs font-bold">
+                        <span>
+                          {spec.emoji} {spec.id}
+                        </span>
+                        <span
+                          className={`text-[11px] font-extrabold ${
+                            draftVibe === spec.id ? 'text-rose-300' : 'text-rose-700'
+                          }`}
+                        >
+                          {spec.perkBadge}
+                        </span>
+                      </div>
+                      <div
+                        className={`mt-0.5 text-[11px] leading-snug ${
+                          draftVibe === spec.id ? 'text-zinc-300' : 'text-zinc-500'
+                        }`}
+                      >
+                        {spec.perkSummary}
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="flex justify-end gap-2 pt-2">
-              <button
-                type="button"
-                onClick={() => setPersonaModalOpen(false)}
-                className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-4 text-xs font-medium text-zinc-700 hover:bg-zinc-50 cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="inline-flex h-9 items-center rounded-lg bg-zinc-900 px-4 text-xs font-medium text-white hover:bg-zinc-800 cursor-pointer"
-              >
-                Save Persona
-              </button>
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setPersonaModalOpen(false)}
+                  className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-4 text-xs font-medium text-zinc-700 hover:bg-zinc-50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="inline-flex h-9 items-center rounded-lg bg-zinc-900 px-4 text-xs font-medium text-white hover:bg-zinc-800 cursor-pointer"
+                >
+                  Save Persona
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -1261,21 +1293,23 @@ export default function App() {
       {/* Founder Passphrase Modal */}
       {founderModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/60 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-4"
           role="dialog"
           aria-modal="true"
           aria-label="Founder Passphrase Vault"
+          onClick={() => setFounderModalOpen(false)}
         >
           <form
+            onClick={(e) => e.stopPropagation()}
             onSubmit={handleFounderUnlockSubmit}
-            className="editorial-hinge-card w-full max-w-md rounded-3xl bg-[#FFFDF9] p-6 space-y-4 shadow-2xl"
+            className="editorial-hinge-card flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
           >
-            <div className="flex items-start justify-between gap-3">
+            <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-4">
               <div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-0.5 text-xs font-extrabold uppercase text-amber-950">
-                  <Lock className="h-3 w-3" /> Salted SHA-256 Protected
-                </span>
-                <h2 className="mt-2 font-editorial text-2xl font-bold text-[#18101E]">
+                <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                  Salted SHA-256 Protected
+                </div>
+                <h2 className="mt-0.5 text-xl font-semibold tracking-tight text-zinc-950">
                   Founder Playtest &amp; Affiliate Vault
                 </h2>
               </div>
@@ -1283,51 +1317,53 @@ export default function App() {
                 type="button"
                 onClick={() => setFounderModalOpen(false)}
                 aria-label="Close Founder Vault"
-                className="rounded-full border border-stone-200 bg-white p-2 text-stone-700 cursor-pointer"
+                className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="space-y-1.5">
-              <label
-                htmlFor="founder-passphrase-input"
-                className="block text-xs font-extrabold uppercase tracking-wide text-[#18101E]"
-              >
-                Private Vault Passphrase
-              </label>
-              <input
-                id="founder-passphrase-input"
-                type="password"
-                autoFocus
-                required
-                placeholder="Enter private passphrase..."
-                value={founderPassInput}
-                onChange={(e) => {
-                  setFounderPassInput(e.target.value);
-                  if (founderAuthError) setFounderAuthError(null);
-                }}
-                className="min-w-0 w-full rounded-2xl border border-stone-300 bg-white px-4 py-3 text-sm font-bold text-[#18101E]"
-              />
-              {founderAuthError && (
-                <p className="text-xs font-extrabold text-rose-700">{founderAuthError}</p>
-              )}
-            </div>
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4">
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="founder-passphrase-input"
+                  className="block text-xs font-bold uppercase tracking-wide text-zinc-900"
+                >
+                  Private Vault Passphrase
+                </label>
+                <input
+                  id="founder-passphrase-input"
+                  type="password"
+                  autoFocus
+                  required
+                  placeholder="Enter private passphrase..."
+                  value={founderPassInput}
+                  onChange={(e) => {
+                    setFounderPassInput(e.target.value);
+                    if (founderAuthError) setFounderAuthError(null);
+                  }}
+                  className="min-w-0 w-full h-11 rounded-xl border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-950"
+                />
+                {founderAuthError && (
+                  <p className="text-xs font-bold text-rose-700">{founderAuthError}</p>
+                )}
+              </div>
 
-            <div className="flex items-center justify-end gap-2 pt-1">
-              <button
-                type="button"
-                onClick={() => setFounderModalOpen(false)}
-                className="rounded-full border border-stone-300 bg-white px-4 py-2.5 text-xs font-bold text-stone-700 cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="rounded-full bg-rose-600 px-5 py-2.5 text-xs font-extrabold text-white cursor-pointer"
-              >
-                Unlock Founder Vault
-              </button>
+              <div className="flex items-center justify-end gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setFounderModalOpen(false)}
+                  className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-4 text-xs font-medium text-zinc-700 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="inline-flex h-9 items-center rounded-lg bg-rose-600 px-5 text-xs font-bold text-white cursor-pointer"
+                >
+                  Unlock Founder Vault
+                </button>
+              </div>
             </div>
           </form>
         </div>

@@ -200,7 +200,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
           {(wallet.playerName || activeVibeSpec) && (
             <span
               data-testid="date-persona-perk-pill"
-              className="rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-bold text-rose-900"
+              className="font-bold text-rose-700"
             >
               {activeVibeSpec ? `${activeVibeSpec.emoji} ` : '✨ '}
               {wallet.playerName ? `${wallet.playerName} • ` : ''}

@@ -99,6 +99,13 @@ describe('v35 Boutique Security (Paid-Session-Only Cameo Briefs) & Consumer Roma
       screen.getByRole('button', { name: /Join Private Club Waitlist/i }),
     ).toBeInTheDocument();
     expect(vipDialog.textContent).not.toMatch(/velvet/i);
+
+    // Pinned header architecture: outer shell has overflow-hidden + flex-col while Close Boutique sits inside a non-scrolling shrink-0 header
+    const modalShell = screen.getByTestId('boutique-modal-shell');
+    expect(modalShell.className).toContain('overflow-hidden');
+    expect(modalShell.className).toContain('flex-col');
+    const closeBtn = screen.getByRole('button', { name: /Close Boutique/i });
+    expect(closeBtn.closest('.shrink-0')).not.toBeNull();
     u2.unmount();
 
     // When a verified paid $29 Stripe session IS passed, the Verified Producer Brief Composer unlocks with ZERO email spoofing input!

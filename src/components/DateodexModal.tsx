@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Award, Camera, Flag, Search, X } from 'lucide-react';
+import { Award, Flag, Search, X } from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { V35_CAST_PROFILES } from '../data/v35Cast';
 import { CLUB_POLAROIDS, type DateodexState } from '../domain/dateodex';
@@ -28,61 +28,64 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label="Cougars & Cubs Dateodex & Polaroid Album"
       onClick={onClose}
     >
       <div
-        className="editorial-hinge-card relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-7 space-y-5 shadow-2xl"
+        className="editorial-hinge-card relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-stone-200 pb-4">
-          <div className="space-y-1">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-amber-950">
-              <Camera className="h-3.5 w-3.5" /> Cougars & Cubs Dateodex • {stampedCount}/
-              {V35_CAST_PROFILES.length} Logged
-            </span>
-            <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
-              Cast Ranks, Dodged Traps &amp; Polaroid Memories
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-600">
-              Table 9 Conspiracy Clues Collected:{' '}
-              <strong>{wallet.conspiracyClues.length}/3</strong> • Discernment XP:{' '}
-              <strong>{wallet.discernmentXp} XP</strong>
-            </p>
+        <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-7 space-y-3.5">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-0.5">
+              <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+                Cougars &amp; Cubs Dateodex • {stampedCount}/{V35_CAST_PROFILES.length} Logged
+              </div>
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
+                Cast Ranks, Dodged Traps &amp; Polaroid Memories
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600">
+                Table 9 Conspiracy Clues Collected:{' '}
+                <strong>{wallet.conspiracyClues.length}/3</strong> • Discernment XP:{' '}
+                <strong>{wallet.discernmentXp} XP</strong>
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close Dateodex"
+              className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close Dateodex"
-            className="rounded-full border border-stone-200 bg-white p-2.5 text-stone-700 hover:bg-rose-50 cursor-pointer"
-          >
-            <X className="h-5 w-5" />
-          </button>
+
+          <div className="inline-flex rounded-xl bg-zinc-100 p-1">
+            <button
+              type="button"
+              onClick={() => setSubTab('cast')}
+              className={`rounded-lg px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                subTab === 'cast' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
+              }`}
+            >
+              Cast Roster ({V35_CAST_PROFILES.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSubTab('polaroids')}
+              className={`rounded-lg px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                subTab === 'polaroids' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
+              }`}
+            >
+              Polaroid Memories ({dateodex.unlockedPolaroidIds.length}/{CLUB_POLAROIDS.length})
+            </button>
+          </div>
         </div>
 
-        <div className="inline-flex rounded-full bg-stone-100 p-1">
-          <button
-            type="button"
-            onClick={() => setSubTab('cast')}
-            className={`rounded-full px-4 py-2 text-xs font-extrabold cursor-pointer ${
-              subTab === 'cast' ? 'bg-[#18101E] text-white' : 'text-stone-600'
-            }`}
-          >
-            🗂️ Cast Roster ({V35_CAST_PROFILES.length})
-          </button>
-          <button
-            type="button"
-            onClick={() => setSubTab('polaroids')}
-            className={`rounded-full px-4 py-2 text-xs font-extrabold cursor-pointer ${
-              subTab === 'polaroids' ? 'bg-[#18101E] text-white' : 'text-stone-600'
-            }`}
-          >
-            📸 Polaroid Memories ({dateodex.unlockedPolaroidIds.length}/{CLUB_POLAROIDS.length})
-          </button>
-        </div>
+        <div className="flex-1 min-h-0 overflow-y-auto bg-[#FAFAFA] p-5 sm:p-7">
 
         {subTab === 'cast' ? (
           <div className="grid gap-3.5 sm:grid-cols-2 md:grid-cols-3">
@@ -159,6 +162,7 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
             })}
           </div>
         )}
+        </div>
       </div>
     </div>
   );

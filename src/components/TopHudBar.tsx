@@ -258,26 +258,6 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               )}
             </div>
           </nav>
-
-          <span className="hidden xl:inline-block h-5 w-px bg-zinc-200" aria-hidden="true" />
-
-          {/* Highlighted Fun Party Mini-Games (1-Click Pop Quiz & 25-Pt Checklist) */}
-          <div className="hidden xl:flex items-center gap-4 shrink-0">
-            <button
-              type="button"
-              onClick={onOpenPopTrivia}
-              className="inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap text-rose-600 hover:text-rose-700 transition-colors cursor-pointer"
-            >
-              <span>🎬 Pop Quiz</span>
-            </button>
-            <button
-              type="button"
-              onClick={onOpenChecklist}
-              className="inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap text-zinc-700 hover:text-rose-600 transition-colors cursor-pointer"
-            >
-              <span>✅ 25-Pt Test</span>
-            </button>
-          </div>
         </div>
 
         {/* RIGHT: Minimal Clean Actions */}

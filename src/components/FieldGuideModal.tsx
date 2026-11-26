@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Sparkles, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { FIELD_GUIDE_ENTRIES } from '../domain/taxonomy';
 
 interface FieldGuideModalProps {
@@ -224,55 +224,58 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="editorial-hinge-card relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 sm:p-8 space-y-5 shadow-xl"
+        className="editorial-hinge-card relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-4">
-          <div className="space-y-1">
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
-              <Sparkles className="h-3.5 w-3.5 text-zinc-500" /> Illustrated Spotter’s Deck • {FIELD_GUIDE_ENTRIES.length} Cards
-            </span>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">
-              The Illustrated Age-Gap Field Guide
-            </h2>
-            <p className="text-sm text-zinc-600">
-              Puma → Cougar → Jaguar → Panther tiers, Golden Cubs vs. Tourists &amp; 24 Celebrity Icons.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
-            aria-label="Close Field Guide"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-
-        <div className="inline-flex flex-wrap items-center gap-1 rounded-lg bg-zinc-100 p-1">
-          {[
-            { id: 'all', label: `All ${FIELD_GUIDE_ENTRIES.length} Cards` },
-            { id: 'feline_scale', label: 'Feline Age Scale' },
-            { id: 'cub_taxonomy', label: 'Cubs vs. Goblins' },
-            { id: 'crossover_lore', label: 'Romance Polarity' },
-            { id: 'pop_culture', label: 'Celebrity Icons' },
-          ].map((tab) => (
+        <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-8 space-y-3.5">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-0.5">
+              <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                Illustrated Spotter’s Deck • {FIELD_GUIDE_ENTRIES.length} Cards
+              </div>
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
+                The Illustrated Age-Gap Field Guide
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600">
+                Puma → Cougar → Jaguar → Panther tiers, Golden Cubs vs. Tourists &amp; 24 Celebrity Icons.
+              </p>
+            </div>
             <button
-              key={tab.id}
               type="button"
-              onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
-                activeFilter === tab.id
-                  ? 'bg-white text-zinc-950 shadow-2xs'
-                  : 'text-zinc-600 hover:text-zinc-950'
-              }`}
+              onClick={onClose}
+              className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+              aria-label="Close Field Guide"
             >
-              {tab.label}
+              <X className="h-4 w-4" />
             </button>
-          ))}
+          </div>
+
+          <div className="inline-flex flex-wrap items-center gap-1 rounded-lg bg-zinc-100 p-1">
+            {[
+              { id: 'all', label: `All ${FIELD_GUIDE_ENTRIES.length} Cards` },
+              { id: 'feline_scale', label: 'Feline Age Scale' },
+              { id: 'cub_taxonomy', label: 'Cubs vs. Goblins' },
+              { id: 'crossover_lore', label: 'Romance Polarity' },
+              { id: 'pop_culture', label: 'Celebrity Icons' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
+                  activeFilter === tab.id
+                    ? 'bg-white text-zinc-950 shadow-2xs'
+                    : 'text-zinc-600 hover:text-zinc-950'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 items-stretch">
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-8">
+          <div className="grid gap-4 sm:grid-cols-2 items-stretch">
           {visibleEntries.map((entry, idx) => {
             const stamped = unlockedStamps.includes(entry.id);
             const portrait = ENTRY_PORTRAITS[entry.id] ?? {
@@ -334,6 +337,7 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
               </div>
             );
           })}
+          </div>
         </div>
       </div>
     </div>

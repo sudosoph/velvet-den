@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Award, CheckCircle2, ExternalLink, Share2, Sparkles, X } from 'lucide-react';
+import { Award, CheckCircle2, ExternalLink, Share2, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { POP_CULTURE_TRIVIA } from '../data/popCultureTrivia';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
@@ -103,27 +103,29 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
         onClick={onClose}
       >
         <div
-          className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 sm:p-7 space-y-5 shadow-xl"
+          className="relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-start justify-between gap-3 border-b border-zinc-200 pb-4">
-            <div className="space-y-1">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
-                <Sparkles className="h-3.5 w-3.5 text-zinc-500" /> {POP_CULTURE_TRIVIA.length}-Question Cinema &amp; Celebrity Quiz
-              </span>
-              <h2 className="text-2xl font-semibold tracking-tight text-zinc-950">
+          <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4 sm:px-7">
+            <div className="space-y-0.5">
+              <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                {POP_CULTURE_TRIVIA.length}-Question Cinema &amp; Celebrity Quiz
+              </div>
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
                 Trailer &amp; Pop-Culture Cougar Quiz
               </h2>
             </div>
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+              className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
               aria-label="Close Trivia"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
+
+          <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 space-y-5">
 
           {finished ? (
             <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-6 sm:p-7 text-center space-y-4">
@@ -282,6 +284,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
               )}
             </div>
           )}
+          </div>
         </div>
       </div>
 

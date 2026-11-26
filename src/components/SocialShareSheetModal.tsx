@@ -171,55 +171,60 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-[#1E1022]/65 p-3 backdrop-blur-xs"
+      className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-zinc-950/60 p-3 sm:p-5"
       role="dialog"
       aria-modal="true"
       aria-label={payload.title}
+      onClick={onClose}
     >
-      <div className="vice-panel w-full max-w-lg rounded-3xl p-5 sm:p-6 space-y-4">
-        <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/10 pb-3">
+      <div
+        className="flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4">
           <div className="min-w-0">
-            <span className="inline-block rounded-full border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-[11px] font-extrabold uppercase text-[#1E1022]">
+            <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
               Send to Group Chat or Bestie
-            </span>
-            <h3 className="mt-1 font-display text-xl text-[#1E1022] truncate">{payload.title}</h3>
+            </div>
+            <h3 className="mt-0.5 text-lg font-semibold text-zinc-950 truncate">{payload.title}</h3>
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close share sheet"
-            className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
+            className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-3 text-xs font-semibold text-[#1E1022] space-y-1">
-          <p className="line-clamp-3 leading-relaxed">{payload.message}</p>
-          <p className="truncate font-mono text-[11px] font-bold text-[#D90452]">{payload.url}</p>
-        </div>
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 space-y-4">
+          <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-xs font-medium text-zinc-800 space-y-1">
+            <p className="line-clamp-3 leading-relaxed">{payload.message}</p>
+            <p className="truncate font-mono text-[11px] font-semibold text-rose-600">{payload.url}</p>
+          </div>
 
-        <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-3">
-          {channels.map((ch) => (
-            <button
-              key={ch.id}
-              type="button"
-              onClick={() => handleChannel(ch.id)}
-              aria-label={ch.label}
-              className="pop-btn flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-white p-2.5 text-center hover:bg-[#FFF4F7] cursor-pointer"
-            >
-              <span
-                className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#1E1022] text-base font-extrabold"
-                style={{ backgroundColor: ch.bg, color: ch.fg }}
+          <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-3">
+            {channels.map((ch) => (
+              <button
+                key={ch.id}
+                type="button"
+                onClick={() => handleChannel(ch.id)}
+                aria-label={ch.label}
+                className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-white p-2.5 text-center hover:bg-zinc-50 transition-colors cursor-pointer"
               >
-                {ch.icon}
-              </span>
-              <span className="text-[11px] font-extrabold text-[#1E1022] leading-tight">
-                {ch.label}
-              </span>
-            </button>
-          ))}
-        </div>
+                <span
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-base font-bold shadow-2xs"
+                  style={{ backgroundColor: ch.bg, color: ch.fg }}
+                >
+                  {ch.icon}
+                </span>
+                <span className="text-[11px] font-semibold text-zinc-800 leading-tight">
+                  {ch.label}
+                </span>
+              </button>
+            ))}
+          </div>
 
         <div className="flex flex-wrap gap-2">
           {payload.onDownloadStoryPng && (
@@ -261,11 +266,12 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
         </div>
 
         {statusBanner && (
-          <div className="flex items-center gap-1.5 rounded-xl border-2 border-[#1E1022] bg-[#D1FAE5] px-3 py-2 text-xs font-extrabold text-[#065F46]">
+          <div className="flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-900">
             <Check className="h-4 w-4 shrink-0" />
             <span>{statusBanner}</span>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

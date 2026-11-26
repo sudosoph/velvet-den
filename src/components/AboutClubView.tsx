@@ -1,12 +1,9 @@
 import React from 'react';
 import {
   Compass,
-  Heart,
   MessageCircle,
-  ShieldCheck,
   ShoppingBag,
   Smartphone,
-  Sparkles,
 } from 'lucide-react';
 import { V35_CAST_PROFILES } from '../data/v35Cast';
 import { V35_WILD_VENUES } from '../data/v35WildVenues';
@@ -34,10 +31,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
 
   return (
     <div className="w-full space-y-6 animate-stage-in">
-      <section className="editorial-hinge-card rounded-2xl p-6 sm:p-8 space-y-4">
-        <span className="inline-flex items-center gap-1.5 rounded-md border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-700">
-          <Sparkles className="h-3.5 w-3.5 text-rose-600" /> Official Club Overview • 21+ Romantic-Comedy Simulation
-        </span>
+      <section className="editorial-hinge-card rounded-2xl p-6 sm:p-8 space-y-3">
+        <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+          Official Club Overview • 21+ Romantic-Comedy Simulation
+        </div>
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950 leading-tight">
           What Is Cougars &amp; Cubs Club?
         </h1>
@@ -82,10 +79,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 items-stretch">
-        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-2">
-          <span className="inline-block rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
+        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
+          <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
             Door 1 • Selective Hinge
-          </span>
+          </div>
           <h2 className="text-base font-semibold text-zinc-950">
             6 Bespoke Photos &amp; Real Prompts
           </h2>
@@ -94,10 +91,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-2">
-          <span className="inline-block rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
+        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
+          <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
             Door 2 • In The Wild
-          </span>
+          </div>
           <h2 className="text-base font-semibold text-zinc-950">
             {V35_WILD_VENUES.length} Illustrated Sunset Hills Venues
           </h2>
@@ -106,10 +103,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-2">
-          <span className="inline-block rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700">
+        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
+          <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
             Act 2 • Evolving Vetting
-          </span>
+          </div>
           <h2 className="text-base font-semibold text-zinc-950">
             App DM → Earned iMessage &amp; Cut Loose
           </h2>
@@ -118,45 +115,43 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-emerald-100 px-3 py-0.5 text-xs font-extrabold text-emerald-900">
+        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
+          <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
             Act 3 • Sunset Dates
-          </span>
-          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+          </div>
+          <h2 className="text-base font-semibold text-zinc-950">
             Animated Multi-Date S-Rank Stage
           </h2>
-          <p className="text-sm text-stone-600 leading-relaxed">
+          <p className="text-sm text-zinc-600 leading-relaxed">
             Experience full-bleed sunset dates with animated character expressions, free S-Rank replays, Secret Group-Chat Leaks, Weekend Escape Epilogues, and the hidden Table 9 Takedown.
           </p>
         </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2 items-stretch">
-        <div className="editorial-hinge-card rounded-3xl p-6 bg-[#FFFDF9] space-y-3">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-extrabold text-emerald-900">
-            <ShieldCheck className="h-4 w-4" />
-            <span>House Rules of The Club</span>
+        <div className="editorial-hinge-card rounded-2xl p-6 bg-white space-y-2.5">
+          <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+            House Rules of The Club
           </div>
-          <h2 className="font-editorial text-2xl font-bold text-[#18101E]">
+          <h2 className="text-xl font-semibold tracking-tight text-zinc-950">
             Consenting Grown Adults (21+), Zero Mooching &amp; Zero Tourists
           </h2>
-          <ul className="space-y-2 text-sm font-medium text-stone-700 leading-relaxed">
+          <ul className="space-y-2 text-sm font-medium text-zinc-600 leading-relaxed">
             <li>• <strong>Adults Only (21+):</strong> Every character is a consenting adult (including strict Post-Grades university boundaries).</li>
             <li>• <strong>Never an ATM:</strong> Accomplished women date younger for chemistry, presence, and joy, never to bankroll a dependent.</li>
             <li>• <strong>Every Polarity Celebrated:</strong> Play Princess Romance, Soft Mommy-Domme poise, or decisive Cub-Daddy dinner takeovers.</li>
           </ul>
         </div>
 
-        <div className="editorial-hinge-card rounded-3xl p-6 bg-white flex flex-col justify-between gap-4">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-extrabold text-rose-700">
-              <Heart className="h-4 w-4 fill-current" />
-              <span>{herCount} Women × {himCount} Men • 132 Bespoke Photos</span>
+        <div className="editorial-hinge-card rounded-2xl p-6 bg-white flex flex-col justify-between gap-4">
+          <div className="space-y-2.5">
+            <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+              {herCount} Women × {himCount} Men • 132 Bespoke Photos
             </div>
-            <h2 className="font-editorial text-2xl font-bold text-[#18101E]">
+            <h2 className="text-xl font-semibold tracking-tight text-zinc-950">
               Explore Every Corner of Sunset Hills
             </h2>
-            <p className="text-sm text-stone-600 leading-relaxed">
+            <p className="text-sm text-zinc-600 leading-relaxed">
               Grade 12 real-world courtship scenarios in Cub Obedience School or browse all {AFFILIATE_CATALOG.length} studio-photographed date-night &amp; hosting picks.
             </p>
           </div>

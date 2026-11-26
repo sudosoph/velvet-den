@@ -992,22 +992,22 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         currentProfile &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-[#18101E]/50 p-3 sm:p-5"
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-zinc-950/55 p-3 sm:p-5"
             role="dialog"
             aria-modal="true"
             aria-label={`Reply to ${currentProfile.name}`}
             onClick={() => setReplyTarget(null)}
           >
             <div
-              className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
+              className="flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-start justify-between gap-3">
+              <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4 sm:px-6">
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
                     Replying to {currentProfile.name}
                   </div>
-                  <p className="mt-1 font-editorial text-lg text-[#18101E]">
+                  <p className="mt-1 font-editorial text-lg text-zinc-950">
                     &ldquo;{replyTarget.previewText}&rdquo;
                   </p>
                 </div>
@@ -1015,11 +1015,13 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   type="button"
                   aria-label="Close reply sheet"
                   onClick={() => setReplyTarget(null)}
-                  className="rounded-full p-1.5 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer"
+                  className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
+
+              <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 space-y-4">
 
               {replyTarget.prompt && (
                 <div className="space-y-2">
@@ -1101,6 +1103,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   {customNote.trim() ? 'Send Like + Note' : 'Send Like'}
                 </button>
               </form>
+              </div>
             </div>
           </div>,
           document.body,
@@ -1111,21 +1114,27 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         createPortal(
           <div
             data-testid="hinge-match-celebration"
-            className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-4"
             role="dialog"
             aria-label={`Matched with ${matchCelebration.name}`}
             onClick={() => setMatchCelebration(null)}
           >
             <div
-              className="editorial-hinge-card w-full max-w-md rounded-3xl bg-[#FFFDF9] p-6 text-center shadow-2xl space-y-4"
+              className="editorial-hinge-card relative w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-2xl space-y-4"
               onClick={(e) => e.stopPropagation()}
             >
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-rose-900">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>
-                  {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : 'It’s a Match!'}
-                </span>
-              </span>
+              <button
+                type="button"
+                onClick={() => setMatchCelebration(null)}
+                aria-label="Close match splash"
+                className="absolute right-4 top-4 rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              <div className="text-xs font-extrabold uppercase tracking-widest text-rose-600">
+                {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : 'It’s a Match!'}
+              </div>
 
               <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-amber-300 shadow-lg">
                 <img

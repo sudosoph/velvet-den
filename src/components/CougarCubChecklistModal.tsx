@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckSquare, Play, RotateCcw, Share2, Sparkles, Square, X } from 'lucide-react';
+import { CheckSquare, Play, RotateCcw, Share2, Square, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { trackEvent } from '../lib/analytics';
 import { sfx } from '../lib/sound';
@@ -264,18 +264,18 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
         onClick={onClose}
       >
         <div
-          className="editorial-hinge-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 sm:p-7 space-y-4 shadow-xl"
+          className="editorial-hinge-card relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-start justify-between gap-3 border-b border-zinc-200 pb-4">
+          <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4 sm:px-7">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
-                <Sparkles className="h-3.5 w-3.5 text-zinc-500" /> Have You Ever? • 0 to 100 Club Score
-              </span>
-              <h2 className="mt-1.5 text-2xl font-semibold tracking-tight text-zinc-950 leading-tight">
+              <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+                Have You Ever? • 0 to 100 Club Score
+              </div>
+              <h2 className="mt-0.5 text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950 leading-tight">
                 The 25-Point Cougars &amp; Cubs Experience Test
               </h2>
-              <p className="mt-1 text-sm text-zinc-600">
+              <p className="mt-1 text-xs sm:text-sm text-zinc-600">
                 Check every moment you’ve lived (or would survive) and compare your 0 to 100 score with your group chat.
               </p>
             </div>
@@ -283,11 +283,13 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               type="button"
               onClick={onClose}
               aria-label="Close Checklist"
-              className="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+              className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
+
+          <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 space-y-4">
 
           {/* Live Score Banner */}
           <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3.5 shadow-2xs">
@@ -370,6 +372,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               <Play className="h-4 w-4 fill-white" />
               <span>Play Matched Scenario →</span>
             </button>
+          </div>
           </div>
         </div>
       </div>
