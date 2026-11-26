@@ -104,7 +104,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     mode: 'groupchat' | 'x' | 'community',
   ) => {
     if (wallet.claimedRewards.includes(questId)) {
-      setQuestMsg('Already claimed that channel—verify a friend referral or top up above!');
+      setQuestMsg('Already claimed that channel, verify a friend referral or top up above!');
       return;
     }
     const dilemmaUrl = `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}?dilemma=grown-son-same-age-collision&ref=${encodeURIComponent(refCode)}`;
@@ -115,14 +115,14 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
       window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank', 'noopener,noreferrer');
     } else if (mode === 'groupchat') {
       await shareOrCopy({
-        title: 'Group-Chat Debate — Cougars & Cubs Club',
+        title: 'Group-Chat Debate • Cougars & Cubs Club',
         text: `Wait how would y’all handle finding out your date’s grown son graduated the exact same year as you 💀 Pass the test:`,
         url: dilemmaUrl,
       });
     } else {
       await shareOrCopy({
         title: 'Cougars & Cubs Club Vetting Challenge',
-        text: `🐆 80 real Cougar & Cub scenarios (from Qigong Wellness Mommy-Dommes & Mom’s Hawaii Timeshare traps to 18h hotel-sauna getaways)—see your rank:`,
+        text: `🐆 80 real Cougar & Cub scenarios (from Qigong Wellness Mommy-Dommes & Mom’s Hawaii Timeshare traps to 18h hotel-sauna getaways), see your rank:`,
         url: refUrl,
       });
     }
@@ -150,7 +150,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
       if (newlyGranted > 0) {
         setQuestMsg(`🔥 Verified ${status.uniqueReferrals} real friend click(s)! +${newlyGranted} Den Credits added!`);
       } else if (refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS) {
-        setQuestMsg('🔒 Maximum 3/3 friend referral bonuses claimed—grab +15 Credits ($2.99) or Lifetime VIP ($6.99) above!');
+        setQuestMsg('🔒 Maximum 3/3 friend referral bonuses claimed, grab +15 Credits ($2.99) or Lifetime VIP ($6.99) above!');
       } else {
         setQuestMsg(
           `Verified clicks so far: ${status.uniqueReferrals}/3. Drop your referral link in a group chat or Hinge bio and check again!`,
@@ -206,7 +206,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         setRestoreMsg('No completed VIP purchase found under that email yet.');
       }
     } catch {
-      setRestoreMsg('Could not reach VIP restore service right now—try again in a moment.');
+      setRestoreMsg('Could not reach VIP restore service right now, try again in a moment.');
     }
   };
 
@@ -334,7 +334,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 Immortalize Your Inside Joke
               </div>
               <p className="text-xs font-medium text-[#5A4664] mt-1.5 leading-relaxed">
-                Buy the creator an Espresso Martini—or sponsor a custom $29 Cougar/Cub dating profile or dilemma in the next drop!
+                Buy the creator an Espresso Martini, or sponsor a custom $29 Cougar/Cub dating profile or dilemma in the next drop!
               </p>
             </div>
             <div className="space-y-2">
@@ -354,7 +354,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   type="button"
                   onClick={() =>
                     setTipStatusMsg(
-                      '🍸 Dedicated Cougars & Cubs Club Stripe Tip Jar activating shortly—grab +5 Free Dispatch Credits below in the meantime!',
+                      '🍸 Dedicated Cougars & Cubs Club Stripe Tip Jar activating shortly, grab +5 Free Dispatch Credits below in the meantime!',
                     )
                   }
                   className="pop-btn w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#FF2E63] py-2 text-xs font-extrabold text-white cursor-pointer"
@@ -380,7 +380,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   type="button"
                   onClick={() =>
                     setTipStatusMsg(
-                      '🎬 Custom $29 Cougar/Cub Cameo checkout opens right after Stripe verification—join The Cougar Dispatch below for priority slots!',
+                      '🎬 Custom $29 Cougar/Cub Cameo checkout opens right after Stripe verification, join The Cougar Dispatch below for priority slots!',
                     )
                   }
                   className="pop-btn w-full flex items-center justify-center gap-1.5 rounded-xl bg-white py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
@@ -587,10 +587,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 setCameoMsg('🎬 Custom Scenario Brief saved! Our writers match it with your $29 Stripe checkout email.');
                 setCameoBrief('');
               } else {
-                setCameoMsg('Could not submit brief right now—please check your message length and retry.');
+                setCameoMsg('Could not submit brief right now, please check your message length and retry.');
               }
             } catch {
-              setCameoMsg('🎬 Brief queued locally—thank you for sponsoring the next Club drop!');
+              setCameoMsg('🎬 Brief queued locally, thank you for sponsoring the next Club drop!');
             }
           }}
           className="rounded-2xl border-2 border-[#1E1022] bg-white p-4 space-y-2.5"
@@ -673,7 +673,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             </span>
           </div>
           <p className="text-xs text-white/85 leading-relaxed">
-            Want vetted community beyond the simulator once our founding ratio unlocks? Apply for our private member list—starting with low-pressure <strong>Virtual Trivia &amp; Speed-Vetting Salons</strong> first as we grow.
+            Want vetted community beyond the simulator once our founding ratio unlocks? Apply for our private member list, starting with low-pressure <strong>Virtual Trivia &amp; Speed-Vetting Salons</strong> first as we grow.
           </p>
           <div className="grid gap-2 sm:grid-cols-[155px_145px_1fr_195px_auto]">
             <select

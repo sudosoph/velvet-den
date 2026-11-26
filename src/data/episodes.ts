@@ -101,14 +101,14 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'tapas_check',
     setupHer:
-      'Two espresso martinis and blistered shishito peppers later, the leather checkbook lands between you and {hisName}. You make triple his salary—but you’re vetting his pride, effort, and reciprocity.',
+      'Two espresso martinis and blistered shishito peppers later, the leather checkbook lands between you and {hisName}. You make triple his salary, but you’re vetting his pride, effort, and reciprocity.',
     setupHim:
-      'The leather check presenter hits the marble table in front of {herName}. You know she runs an entire department, and your budget isn’t infinite—how do you play the check drop?',
+      'The leather check presenter hits the marble table in front of {herName}. You know she runs an entire department, and your budget isn’t infinite, how do you play the check drop?',
     recommendedAffiliateId: 'espresso-martini-barware',
     choices: [
       {
-        labelHer: 'Watch him smoothly slide his card in before you even reach—then offer dessert next door.',
-        labelHim: 'Pick up the check cleanly ("I invited you out—you’ve got gelato next door if you want Round 2").',
+        labelHer: 'Watch him smoothly slide his card in before you even reach, then offer dessert next door.',
+        labelHim: 'Pick up the check cleanly ("I invited you out, you’ve got gelato next door if you want Round 2").',
         outcomeHer:
           'Zero awkward Venmo math, zero performative flexing. He handled dinner within the spot he chose, and grinned when you claimed the gelato tab.',
         outcomeHim:
@@ -131,9 +131,9 @@ export const EPISODES: Episode[] = [
         labelHer: 'He pulls out a phone calculator to split tax and tip down to $0.37.',
         labelHim: 'Open Venmo at the table to itemize who ate four croquetas versus three.',
         outcomeHer:
-          'Fairness is fine, spreadsheet energy on Date #1 kills the romance—though at least he pays his own way.',
+          'Fairness is fine, spreadsheet energy on Date #1 kills the romance, though at least he pays his own way.',
         outcomeHim:
-          'Respectful of equality, slightly accountant-coded. She laughs and tells you to put the calculator away—she’s got tip.',
+          'Respectful of equality, slightly accountant-coded. She laughs and tells you to put the calculator away, she’s got tip.',
         toastBanner: 'MATURITY +5 • ROMANCE -5',
         deltas: { maturity: 5, chivalry: -5, eq: 5, chemistry: -5, redFlags: 0 },
       },
@@ -145,19 +145,19 @@ export const EPISODES: Episode[] = [
     stage: 4,
     minAgeGap: 18,
     title: '"Table for You and Your Son?"',
-    loreQuote: 'Real-World Quote • "Waitress thought I was my cub’s mom—how he handled it sealed the deal"',
+    loreQuote: 'Real-World Quote • "Waitress thought I was my cub’s mom, how he handled it sealed the deal"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'waiter_shock',
     setupHer:
       'At the wine bar host stand, a 19-year-old host beams brightly at you ({herAge}F) and {hisName} ({hisAge}M): "Right this way! Just a table for you and your son tonight?" You feel your soul briefly leave your body.',
     setupHim:
-      'The teenage host just asked if you ({hisAge}M) are {herName}’s SON. You catch a flicker of mortification cross her face—all eyes on your next 2 seconds.',
+      'The teenage host just asked if you ({hisAge}M) are {herName}’s SON. You catch a flicker of mortification cross her face, all eyes on your next 2 seconds.',
     recommendedAffiliateId: 'espresso-martini-barware',
     choices: [
       {
-        labelHer: 'He slips a warm hand onto your waist, winks at the host: "Definitely not my mom—your best corner booth for my date."',
-        labelHim: 'Slide your hand to the small of her back with a grin: "Definitely not my mom—corner booth and two glasses of Pinot, please."',
+        labelHer: 'He slips a warm hand onto your waist, winks at the host: "Definitely not my mom, your best corner booth for my date."',
+        labelHim: 'Slide your hand to the small of her back with a grin: "Definitely not my mom, corner booth and two glasses of Pinot, please."',
         outcomeHer:
           'The host turns crimson and sprints off while the two of you burst out laughing in the booth. Unshakeable public confidence is pure catnip.',
         outcomeHim:
@@ -183,7 +183,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Points for defending you, minus ten for picking a fight with hospitality staff instead of laughing it off with grace.',
         outcomeHim:
-          'She appreciates the loyalty, then rests a calm hand on your sleeve: "Easy—breathe. Let’s just laugh about it over wine."',
+          'She appreciates the loyalty, then rests a calm hand on your sleeve: "Easy, breathe. Let’s just laugh about it over wine."',
         toastBanner: 'CHIVALRY +5 • EQ -10 (OVERCORRECTED)',
         deltas: { maturity: -5, chivalry: 5, eq: -10, chemistry: 0, redFlags: 0 },
       },
@@ -199,9 +199,9 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     setupHer:
-      'On the drive back, OutKast comes on your speakers—right after {hisName} called 2003 "classic retro childhood throwbacks." Now it’s next afternoon and your phone buzzes.',
+      'On the drive back, OutKast comes on your speakers, right after {hisName} called 2003 "classic retro childhood throwbacks." Now it’s next afternoon and your phone buzzes.',
     setupHim:
-      'You nearly called {herName}’s 2003 college OutKast playlist "vintage childhood music" last night. Now you want to lock in Date #2—translate your raw impulse for her generation!',
+      'You nearly called {herName}’s 2003 college OutKast playlist "vintage childhood music" last night. Now you want to lock in Date #2, translate your raw impulse for her generation!',
     codeSwitchRawImpulse: {
       rawThought: 'yo ngl last night was fire fr 💀 u tryna link Friday or nah?? whats ur snap',
       warningNote:
@@ -236,7 +236,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He swings way too far into Victorian cosplay: "Dearest Madam, might I humbly beseech your company..."',
         labelHim: 'Overcorrect into stiff 1890s cosplay: "Good evening Madam, I humbly request your esteemed presence..."',
         outcomeHer:
-          'You burst out laughing—"Stop talking to me like the Dowager Countess and just ask me to dinner!" Cute effort, slightly try-hard.',
+          'You burst out laughing, "Stop talking to me like the Dowager Countess and just ask me to dinner!" Cute effort, slightly try-hard.',
         outcomeHim:
           'She teases you mercilessly for sounding like a Jane Austen telegram, though she still says yes to Friday.',
         toastBanner: 'TRY-HARD COSPLAY • CHEMISTRY +5',
@@ -262,12 +262,12 @@ export const EPISODES: Episode[] = [
       'It starts pouring outside two hours before your Friday date, and your buddies just texted about watching the game. You know {herName} hired a $20/hr babysitter for tonight.',
     choices: [
       {
-        labelHer: 'He texts: "Brought a big golf umbrella and moved my car right near the awning so your hair stays dry—picking you up at 7 sharp."',
-        labelHim: 'Confirm early: "Grabbed an oversized umbrella so your blowout survives the rain—pulling up at 7 sharp. Can’t wait."',
+        labelHer: 'He texts: "Brought a big golf umbrella and moved my car right near the awning so your hair stays dry, picking you up at 7 sharp."',
+        labelHim: 'Confirm early: "Grabbed an oversized umbrella so your blowout survives the rain, pulling up at 7 sharp. Can’t wait."',
         outcomeHer:
           'A younger man who respects a busy woman’s calendar AND protects the blowout? Instant top 1% Cub status.',
         outcomeHim:
-          'She replies with three heart-eyes—respecting how rare and expensive her free evening is puts you miles ahead.',
+          'She replies with three heart-eyes, respecting how rare and expensive her free evening is puts you miles ahead.',
         toastBanner: 'RESPECT FOR HER TIME +25 • CHIVALRY +20',
         deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 15, redFlags: 0 },
         badgeUnlocked: 'Sitter-Clock Respecter',
@@ -286,7 +286,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He runs 20 minutes late fighting traffic, apologizes sincerely, and covers dessert + sitter overtime.',
         labelHim: 'Own a 15-minute rain delay upfront with live ETA and insist on covering the extra sitter hour.',
         outcomeHer:
-          'Real accountability instead of excuses—offering to cover the extra sitter hour shows grown-up awareness.',
+          'Real accountability instead of excuses, offering to cover the extra sitter hour shows grown-up awareness.',
         outcomeHim:
           'Accountability saves the night; acknowledging the sitter clock proves you actually listen.',
         toastBanner: 'ACCOUNTABILITY +10',
@@ -299,22 +299,22 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: 'Princess Treatment: Dropping the 20-Year Mental Load',
-    loreQuote: 'Real-World Quote • "Just because I’m 43 doesn’t mean I want to boss him around—treat me like a princess!"',
+    loreQuote: 'Real-World Quote • "Just because I’m 43 doesn’t mean I want to boss him around, treat me like a princess!"',
     isVip: false,
     creditCost: 0,
     requiredAnyTags: ['princess_treatment'],
     sceneArt: 'princess_bouquet',
     setupHer:
-      'You spent 50 hours this week directing adults who act like toddlers. You do NOT want to plan tonight, pick the restaurant, or play dominant boss—you want soft-life princess treatment from {hisName}.',
+      'You spent 50 hours this week directing adults who act like toddlers. You do NOT want to plan tonight, pick the restaurant, or play dominant boss, you want soft-life princess treatment from {hisName}.',
     setupHim:
-      'Internet memes claim every Cougar wants to dominate—but you can tell {herName} is exhausted from running everything at work all week. How do you set the tone tonight?',
+      'Internet memes claim every Cougar wants to dominate, but you can tell {herName} is exhausted from running everything at work all week. How do you set the tone tonight?',
     recommendedAffiliateId: 'princess-mulberry-silk-robe',
     choices: [
       {
-        labelHer: 'He arrives with peonies, opens your passenger door, drapes his jacket over your shoulders, and whispers: "Zero decisions tonight—I planned every detail."',
-        labelHim: 'Bring fresh peonies, open her car door, handle the whole itinerary, and tell her: "Turn your brain off tonight—I’ve got you."',
+        labelHer: 'He arrives with peonies, opens your passenger door, drapes his jacket over your shoulders, and whispers: "Zero decisions tonight. I planned every detail."',
+        labelHim: 'Bring fresh peonies, open her car door, handle the whole itinerary, and tell her: "Turn your brain off tonight, I’ve got you."',
         outcomeHer:
-          'You practically melt into the leather seat. Being adored and cared for—instead of managing everything—is the ultimate luxury.',
+          'You practically melt into the leather seat. Being adored and cared for, instead of managing everything, is the ultimate luxury.',
         outcomeHim:
           'Her shoulders visibly drop two inches as she exhales. Giving a strong woman space to feel cherished and soft wins her completely.',
         toastBanner: 'PRINCESS TREATMENT UNLOCKED! • CHIVALRY +25',
@@ -325,7 +325,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He texts at 7:45 PM: "idk whatever u wanna eat Mommy, u pick and drive?"',
         labelHim: 'Text "idk wherever u wanna go boss lady, u choose!"',
         outcomeHer:
-          'Great—another unpaid project-management ticket disguised as a date. Hard pass.',
+          'Great, another unpaid project-management ticket disguised as a date. Hard pass.',
         outcomeHim:
           'Handing her MORE mental load on Friday night while calling her boss lady? Brutal miss.',
         toastBanner: 'RED FLAG! • ZERO EFFORT / MENTAL LOAD DUMP',
@@ -337,7 +337,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Executive-assistant level prep! Easy, low-stress, and considerate.',
         outcomeHim:
-          'Smart compromise—she picks B in five seconds and appreciates the prep work.',
+          'Smart compromise, she picks B in five seconds and appreciates the prep work.',
         toastBanner: 'EFFORT +15 • EQ +10',
         deltas: { maturity: 10, chivalry: 15, eq: 10, chemistry: 10, redFlags: 0 },
       },
@@ -349,19 +349,19 @@ export const EPISODES: Episode[] = [
     stage: 2,
     minigame: 'trail_pace',
     title: '6 AM Ridge Trail Run ("Short Leash & Cardio Check")',
-    loreQuote: 'Real-World Quote • "Trail runs with cubs—testing if his 25yo stamina matches his talk"',
+    loreQuote: 'Real-World Quote • "Trail runs with cubs, testing if his 25yo stamina matches his talk"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'ridge_trail_leash',
     setupHer:
       'Saturday, 6:10 AM. {hisName} bragged all week about his "youthful stamina," so you brought him to your steep 5-mile canyon switchbacks. Mile 3 hits and you haven’t even broken breath.',
     setupHim:
-      'You talked a big game about 20-something cardio—and now {herName} ({herAge}F) is floating up a 14% canyon incline in sculpted leggings, glancing back with a wicked grin: "Keep up, Cub. Short leash."',
+      'You talked a big game about 20-something cardio, and now {herName} ({herAge}F) is floating up a 14% canyon incline in sculpted leggings, glancing back with a wicked grin: "Keep up, Cub. Short leash."',
     recommendedAffiliateId: 'trail-hydration-vest',
     choices: [
       {
-        labelHer: 'He digs deep, matches your stride to the overlook, hands you cold electrolytes, and grins: "Short leash looks good on me—coffee’s on me down the hill."',
-        labelHim: 'Push through the burn without whining, hand her electrolytes at the summit, and grin: "Eyes forward, keeping pace—where are we refueling?"',
+        labelHer: 'He digs deep, matches your stride to the overlook, hands you cold electrolytes, and grins: "Short leash looks good on me, coffee’s on me down the hill."',
+        labelHim: 'Push through the burn without whining, hand her electrolytes at the summit, and grin: "Eyes forward, keeping pace, where are we refueling?"',
         outcomeHer:
           'Flushed cheeks, endorphins sky-high, playful tease met with playful grit. Redirecting club energy into sunrise trail stamina is peak Cougar/Cub magic.',
         outcomeHim:
@@ -384,9 +384,9 @@ export const EPISODES: Episode[] = [
         labelHer: 'He sprints ahead trying to turn a partner run into an ego race, then waits awkwardly.',
         labelHim: 'Sprint half a mile ahead to prove your VO2 max instead of running together.',
         outcomeHer:
-          'Impressive lungs, zero partner awareness—she wanted tension and pace together, not a Strava time trial.',
+          'Impressive lungs, zero partner awareness, she wanted tension and pace together, not a Strava time trial.',
         outcomeHim:
-          'Fast split, missed flirtation—running *with* her beats showing off.',
+          'Fast split, missed flirtation, running *with* her beats showing off.',
         toastBanner: 'CARDIO +10 • EQ -5',
         deltas: { maturity: 0, chivalry: -5, eq: -5, chemistry: 5, redFlags: 0 },
       },
@@ -402,22 +402,22 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'Morning espresso in bright kitchen light—no dim cocktail lounge filter now. Both you and {hisName} pause for half a heartbeat, each hiding the exact vulnerability this community knows by heart.',
+      'Morning espresso in bright kitchen light, no dim cocktail lounge filter now. Both you and {hisName} pause for half a heartbeat, each hiding the exact vulnerability this community knows by heart.',
     setupHim:
       'Morning sunlight pours across {herName}’s kitchen counter. Behind the playful banter, both of your inner monologues are louder than the espresso machine.',
     innerInsecurityBubble: {
       herDoubt:
         'Her secret thought: "Harsh morning light... is he noticing softer skin or laugh lines compared to 23-year-old girls? Am I just a bucket-list novelty?"',
       hisDoubt:
-        'His exact thought at the same second: "She is unreal without makeup—oh god, did I actually have enough game, or was I just a fun Friday distraction she won’t invite back?"',
+        'His exact thought at the same second: "She is unreal without makeup, oh god, did I actually have enough game, or was I just a fun Friday distraction she won’t invite back?"',
     },
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
-        labelHer: 'Let him pull you close in the kitchen light as he admits he was nervous you wouldn’t want to see him again—and meet his honesty with yours.',
+        labelHer: 'Let him pull you close in the kitchen light as he admits he was nervous you wouldn’t want to see him again, and meet his honesty with yours.',
         labelHim: 'Kiss her shoulder warmly in the sunlight and admit with a smile: "Honestly? My only worry this morning is making sure I’m lucky enough to see you again next week."',
         outcomeHer:
-          'Every ounce of mirror doubt melts instantly—he isn’t comparing you to 23-year-olds; he’s pinching himself that you chose him, while fluent post-Title IX warmth makes vulnerability effortless.',
+          'Every ounce of mirror doubt melts instantly, he isn’t comparing you to 23-year-olds; he’s pinching himself that you chose him, while fluent post-Title IX warmth makes vulnerability effortless.',
         outcomeHim:
           'Her whole face softens as she laughs: "See you again? Keep looking at me like that and clear your Wednesday." Both insecurities dissolve at once.',
         toastBanner: 'DEEP EQ +25 • MUTUAL INSECURITY MELTED',
@@ -429,7 +429,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He blurts a clumsy backhanded line: "Honestly you barely even look old in the light!"',
         labelHim: 'Try to reassure her with: "Don’t worry, you totally don’t even look old for your age!"',
         outcomeHer:
-          'Bless his heart—or banish him. "For your age" is banned in 49 states and every thread on this sub.',
+          'Bless his heart, or banish him. "For your age" is banned in 49 states and every thread on this sub.',
         outcomeHim:
           'Abort! Abort! Saying "for your age" turns a tender moment into a verbal pothole.',
         toastBanner: 'RED FLAG! • "FOR YOUR AGE" UTTERED (-20)',
@@ -439,7 +439,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Play it cool with witty armor on both sides and talk logistics for next Thursday.',
         labelHim: 'Play it cool, brew her coffee just right, and lock in Thursday dinner before heading out.',
         outcomeHer:
-          'Smooth and pleasant—nobody fumbled, even if the deeper reassurance waits for Date #4.',
+          'Smooth and pleasant, nobody fumbled, even if the deeper reassurance waits for Date #4.',
         outcomeHim:
           'Solid recovery; locking in Thursday proves you’re not a ghoster.',
         toastBanner: 'STEADY FOLLOW-THROUGH +10',
@@ -453,21 +453,21 @@ export const EPISODES: Episode[] = [
     stage: 3,
     minigame: 'room_audit',
     title: 'Houseboy Sunday & Her Peaceful Solo Sanctuary',
-    loreQuote: 'Real-World Quote • "Happy living alone in my sanctuary—plus the joy of an energetic vetted cub doing chores"',
+    loreQuote: 'Real-World Quote • "Happy living alone in my sanctuary, plus the joy of an energetic vetted cub doing chores"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     setupHer:
-      'Sunday afternoon at your immaculate solo home. You love living alone (no premature move-in squatters!)—yet seeing {hisName} put his {hisAge}-year-old vigor into your chore list is undeniably thrilling.',
+      'Sunday afternoon at your immaculate solo home. You love living alone (no premature move-in squatters!), yet seeing {hisName} put his {hisAge}-year-old vigor into your chore list is undeniably thrilling.',
     setupHim:
-      'Sunday at {herName}’s serene home sanctuary. You passed her emotional vetting—now how do you channel that youthful stamina without overstepping her solo space?',
+      'Sunday at {herName}’s serene home sanctuary. You passed her emotional vetting, now how do you channel that youthful stamina without overstepping her solo space?',
     recommendedAffiliateId: 'houseboy-linen-apron',
     choices: [
       {
-        labelHer: 'Toss him the washed linen apron—watch him hang the patio lights, scrub the counters spotless, and earn a very thorough fade-to-black reward upstairs.',
-        labelHim: 'Tie on the linen apron, hang the patio lights, prep dinner, leave her space spotless—and playfully ask how your performance review looks.',
+        labelHer: 'Toss him the washed linen apron, watch him hang the patio lights, scrub the counters spotless, and earn a very thorough fade-to-black reward upstairs.',
+        labelHim: 'Tie on the linen apron, hang the patio lights, prep dinner, leave her space spotless, and playfully ask how your performance review looks.',
         outcomeHer:
-          'Competence + youthful vigor + playful devotion—and he packs his overnight bag cleanly afterward without colonizing your bathroom counter. Perfection.',
+          'Competence + youthful vigor + playful devotion, and he packs his overnight bag cleanly afterward without colonizing your bathroom counter. Perfection.',
         outcomeHim:
           'She inspects the gleaming kitchen, tugs your apron strings with a slow smile, and announces your Sunday houseboy review is moving upstairs... [Fade to Sunset].',
         toastBanner: 'CERTIFIED HOUSEBOY XP +30 • FADE-TO-BLACK PAYOFF',
@@ -479,7 +479,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He tries leaving a 5-lb tub of whey protein, Xbox controller, and three hoodies in your closet after one weekend.',
         labelHim: 'Unpack half your gym duffel into her minimalist bathroom cabinet and ask for a spare house key.',
         outcomeHer:
-          'WHOA, Hobo-sexual Alert! She worked 20 years for her peaceful sanctuary—never colonize a Cougar’s closet uninvited.',
+          'WHOA, Hobo-sexual Alert! She worked 20 years for her peaceful sanctuary, never colonize a Cougar’s closet uninvited.',
         outcomeHim:
           'She hands your whey protein tub right back to you at the front door. Respect the solo sanctuary!',
         toastBanner: 'RED FLAG! • PREMATUARY SANCTUARY INVASION',
@@ -509,15 +509,15 @@ export const EPISODES: Episode[] = [
     sceneArt: 'fertility_talk',
     recommendedAffiliateId: 'after-dark-couples-deck',
     setupHer:
-      'Six months in, the chemistry with {hisName} ({hisAge}M) is electric—and real love has arrived. Over late-night wine, the #1 real-world subplot surfaces: at {herAge}, you’re 100% done having kids, and he once pictured being a dad.',
+      'Six months in, the chemistry with {hisName} ({hisAge}M) is electric, and real love has arrived. Over late-night wine, the #1 real-world subplot surfaces: at {herAge}, you’re 100% done having kids, and he once pictured being a dad.',
     setupHim:
       'You’re falling for {herName} ({herAge}F) for real. She’s honest and gentle: her kid-raising chapter is closed forever, and she refuses to rob you of fatherhood if that’s truly non-negotiable for you.',
     choices: [
       {
-        labelHer: 'Have the brave, transparent conversation—he reflects deeply and chooses a full, travel-filled partnership with *you* over a hypothetical script.',
-        labelHim: 'Speak from grown clarity, not impulse: "I realized I wanted a life partner I adore, not a checklist—and the life I want is with you."',
+        labelHer: 'Have the brave, transparent conversation, he reflects deeply and chooses a full, travel-filled partnership with *you* over a hypothetical script.',
+        labelHim: 'Speak from grown clarity, not impulse: "I realized I wanted a life partner I adore, not a checklist, and the life I want is with you."',
         outcomeHer:
-          'No denial, no kicking the can—just two adults choosing each other with eyes wide open. Real commitment unlocked.',
+          'No denial, no kicking the can, just two adults choosing each other with eyes wide open. Real commitment unlocked.',
         outcomeHim:
           'You didn’t dodge the hard talk; you met her honesty with clarity, sealing a genuine long-term partnership.',
         toastBanner: 'TRUE COMMITMENT UNLOCKED • MATURITY +30',
@@ -525,12 +525,12 @@ export const EPISODES: Episode[] = [
         badgeUnlocked: 'Eyes-Wide-Open Lifemate',
       },
       {
-        labelHer: 'Honor the truth gently if biological kids are his non-negotiable—parting with deep love and zero bitterness.',
+        labelHer: 'Honor the truth gently if biological kids are his non-negotiable, parting with deep love and zero bitterness.',
         labelHim: 'Admit tenderly that becoming a dad someday truly matters to you, honoring each other before resentment ever starts.',
         outcomeHer:
-          'The bittersweet classic *French Cougar / Idea of You* ending—deep love, total honesty, and lifelong gratitude for how much you grew together.',
+          'The bittersweet classic *French Cougar / Idea of You* ending, deep love, total honesty, and lifelong gratitude for how much you grew together.',
         outcomeHim:
-          'Bittersweet, mature, and deeply respectful—proof that loving honestly without stringing each other along is peak emotional maturity.',
+          'Bittersweet, mature, and deeply respectful, proof that loving honestly without stringing each other along is peak emotional maturity.',
         toastBanner: 'BITTERSWEET MATURITY +25 • ZERO REGRETS',
         deltas: { maturity: 25, chivalry: 15, eq: 25, chemistry: 10, redFlags: 0 },
         badgeUnlocked: 'Bittersweet Grace',
@@ -539,7 +539,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He waves it off vaguely: "Idk let’s just not think about it for five years lol."',
         labelHim: 'Kick the can down the road: "Let’s just vibe and figure that out in a few years!"',
         outcomeHer:
-          'Avoidance isn’t commitment—dodging the #1 age-gap life-stage talk sets up future heartbreak.',
+          'Avoidance isn’t commitment, dodging the #1 age-gap life-stage talk sets up future heartbreak.',
         outcomeHim:
           'She sees right through wishful avoidance; grown relationships require grown answers.',
         toastBanner: 'RED FLAG! • WISHFUL AVOIDANCE (-20)',
@@ -565,7 +565,7 @@ export const EPISODES: Episode[] = [
     choices: [
       {
         labelHer: 'He treats your daughter with warm zero-try-hard respect (never playing stepdad!), charms your friend, and lets his devotion to you speak for itself.',
-        labelHim: 'Zero fake-stepdad weirdness, zero Gen-Z slang flexing—warm respect to her daughter and calm, unmistakable devotion to her.',
+        labelHim: 'Zero fake-stepdad weirdness, zero Gen-Z slang flexing, warm respect to her daughter and calm, unmistakable devotion to her.',
         outcomeHer:
           'In the parking lot afterward, your daughter texts you: "Okay wait... he actually adores you, Mom. Approved." Victory!',
         outcomeHim:
@@ -588,7 +588,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Keep the first intro to a breezy 30-minute coffee drop-in rather than a 2-hour brunch.',
         labelHim: 'Suggest a low-pressure 30-minute coffee hello first so nobody feels ambushed.',
         outcomeHer:
-          'Smart pacing—everyone leaves smiling and comfortable.',
+          'Smart pacing, everyone leaves smiling and comfortable.',
         outcomeHim:
           'Thoughtful emotional pacing wins quiet points all around.',
         toastBanner: 'SMART PACING +15',
@@ -604,7 +604,7 @@ export const EPISODES: Episode[] = [
     stage: 3,
     allowedTiers: ['lynx', 'puma'],
     title: 'The 6-Month Kid Boundary & Co-Parenting Ex Driveway Run-In',
-    loreQuote: 'Real-World Quote • "36F single mom dating 25M—strict 6-month rule before meeting my kid + handling the ex"',
+    loreQuote: 'Real-World Quote • "36F single mom dating 25M, strict 6-month rule before meeting my kid + handling the ex"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'babysitter_clock',
@@ -616,7 +616,7 @@ export const EPISODES: Episode[] = [
     choices: [
       {
         labelHer: 'He stays totally composed, gives a polite low-drama wave from his car without intruding on your child’s handoff, and texts later checking how you feel.',
-        labelHim: 'Stay calm and drama-free—head smoothly to your car so her child’s handoff stays peaceful, then send a supportive check-in text.',
+        labelHim: 'Stay calm and drama-free, head smoothly to your car so her child’s handoff stays peaceful, then send a supportive check-in text.',
         outcomeHer:
           'Zero territorial chest-puffing, zero awkwardness in front of your kid. Seeing a younger man prioritize your child’s peace makes you fall ten times harder.',
         outcomeHim:
@@ -639,7 +639,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Coordinate custody buffer windows together on shared calendar blocks going forward.',
         labelHim: 'Suggest building a clean 1-hour buffer before custody drop-offs so mornings stay stress-free.',
         outcomeHer:
-          'Proactive logistics without drama—Elder Millennial heaven.',
+          'Proactive logistics without drama, Elder Millennial heaven.',
         outcomeHim:
           'Practical calendar awareness earns serious partner points.',
         toastBanner: 'CALENDAR HARMONY +15',
@@ -664,10 +664,10 @@ export const EPISODES: Episode[] = [
       'You bring {herName} ({herAge}F) to meet your mid-20s crew. Your loud roommate grins across the booth: "Wait, my guy traded bottle service for minivan duty?!" Everyone looks at you.',
     choices: [
       {
-        labelHer: 'He laughs easily with an arm around your chair: "Have you looked at her? Easiest upgrade of my life, boys—next round’s on you."',
-        labelHim: 'Smile smoothly without getting rattled: "Look across the table, man—easiest upgrade of my life. Grab us two Palomas."',
+        labelHer: 'He laughs easily with an arm around your chair: "Have you looked at her? Easiest upgrade of my life, boys, next round’s on you."',
+        labelHim: 'Smile smoothly without getting rattled: "Look across the table, man, easiest upgrade of my life. Grab us two Palomas."',
         outcomeHer:
-          'Confident, warm, zero defensiveness—even his loudest roommate raises his glass in respect within five minutes.',
+          'Confident, warm, zero defensiveness, even his loudest roommate raises his glass in respect within five minutes.',
         outcomeHim:
           'Your buddies immediately respect the poise, and {herName} slips her hand onto your knee under the table.',
         toastBanner: 'GROUP-CHAT ROAST DEFLECTED • CHEMISTRY +20',
@@ -701,21 +701,21 @@ export const EPISODES: Episode[] = [
     stage: 6,
     allowedTiers: ['lynx', 'puma'],
     title: 'Stage 6 Finale: The 36F "One-and-Done" vs. Baby #2 Timeline',
-    loreQuote: 'Real-World Quote • "Pumas in late 30s—everyone assumes we’re rushing for another baby, or he assumes we have 10 years to decide"',
+    loreQuote: 'Real-World Quote • "Pumas in late 30s, everyone assumes we’re rushing for another baby, or he assumes we have 10 years to decide"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'fertility_talk',
     recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
-      'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: with **Sienna Miller & Oli Green** and **Ellie Goulding & Beau Minniear** welcoming babies with their 20s Cubs all over the headlines, everyone assumes you’re either rushing a baby clock or playing casual—when you actually want real intentionality.',
+      'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: with **Sienna Miller & Oli Green** and **Ellie Goulding & Beau Minniear** welcoming babies with their 20s Cubs all over the headlines, everyone assumes you’re either rushing a baby clock or playing casual, when you actually want real intentionality.',
     setupHim:
-      '{herName} is {herAge}—radiant, thriving, and crystal clear: whether a couple goes the **Sienna Miller / Ellie Goulding** Cougar-Cub baby route or stays one-and-done, she refuses to spend ages 36–41 in vague "let’s see where things go" situationship limbo.',
+      '{herName} is {herAge}, radiant, thriving, and crystal clear: whether a couple goes the **Sienna Miller / Ellie Goulding** Cougar-Cub baby route or stays one-and-done, she refuses to spend ages 36–41 in vague "let’s see where things go" situationship limbo.',
     choices: [
       {
-        labelHer: 'Align on an intentional 1-to-2 year partnership roadmap—exclusive, proud, and crystal clear on family goals.',
+        labelHer: 'Align on an intentional 1-to-2 year partnership roadmap, exclusive, proud, and crystal clear on family goals.',
         labelHim: 'Lay out real intentionality: exclusive commitment now, honest alignment on whether kids are a shared yes or happy one-and-done.',
         outcomeHer:
-          'Zero situationship fog, zero biological assumptions—just real Millennial × Gen-Z partnership clarity.',
+          'Zero situationship fog, zero biological assumptions, just real Millennial × Gen-Z partnership clarity.',
         outcomeHim:
           'Meeting her 30s clarity with real intentionality unlocks a powerhouse relationship.',
         toastBanner: 'PUMA STAGE 5 COMMITMENT • MATURITY +30',
@@ -755,7 +755,7 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'It’s 9:45 PM on a Tuesday sleepover. Your ideal night: tretinoin serum, mulberry silk pillowcase, reading glasses, and the bedroom AC arctic at 62°F—right as {hisName} ({hisAge}M) perks up asking to DoorDash birria tacos and start a 3-hour Christopher Nolan movie.',
+      'It’s 9:45 PM on a Tuesday sleepover. Your ideal night: tretinoin serum, mulberry silk pillowcase, reading glasses, and the bedroom AC arctic at 62°F, right as {hisName} ({hisAge}M) perks up asking to DoorDash birria tacos and start a 3-hour Christopher Nolan movie.',
     setupHim:
       'It’s 9:45 PM. Your {hisAge}-year-old stomach wants birria tacos and *Interstellar*, while {herName} ({herAge}F) just finished her 6-step skincare routine and set the bedroom thermostat to polar-bear 62°F.',
     recommendedAffiliateId: 'princess-mulberry-silk-robe',
@@ -787,7 +787,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Self-sufficient, considerate night-owl compromise!',
         outcomeHim:
-          'Zero sleep disruption, spotless kitchen counter—everyone wins.',
+          'Zero sleep disruption, spotless kitchen counter, everyone wins.',
         toastBanner: 'CONSIDERATE NIGHT OWL +15',
         deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 10, redFlags: 0 },
       },
@@ -799,21 +799,21 @@ export const EPISODES: Episode[] = [
     stage: 3,
     allowedTiers: ['cougar'],
     title: 'Executive Roleplay (The Career Kind): Coaching His +25% Promotion',
-    loreQuote: 'Real-World Quote • "Helped my 26yo cub negotiate a $22k raise using my VP hiring playbook—hottest night ever"',
+    loreQuote: 'Real-World Quote • "Helped my 26yo cub negotiate a $22k raise using my VP hiring playbook, hottest night ever"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
-      '{hisName} just got offered a promotion at work—with a lowball 6% bump. You negotiate seven-figure departmental budgets in your sleep, yet you never want to act like his boss or mom.',
+      '{hisName} just got offered a promotion at work, with a lowball 6% bump. You negotiate seven-figure departmental budgets in your sleep, yet you never want to act like his boss or mom.',
     setupHim:
-      'Your company offered you a promotion with a tiny 6% raise. {herName} literally approves VP compensation bands for a living—how do you handle career advice across the experience gap?',
+      'Your company offered you a promotion with a tiny 6% raise. {herName} literally approves VP compensation bands for a living, how do you handle career advice across the experience gap?',
     choices: [
       {
-        labelHer: 'Ask first if he wants your VP lens—then run a sharp 15-minute mock negotiation together before celebrating his +24% win over steak.',
+        labelHer: 'Ask first if he wants your VP lens, then run a sharp 15-minute mock negotiation together before celebrating his +24% win over steak.',
         labelHim: 'Ask for her executive perspective openly, take notes with zero ego, crush the counteroffer Monday, and take her to steak dinner to celebrate!',
         outcomeHer:
-          'He had zero fragile male ego about learning from your experience—then used his new raise to book your favorite steakhouse. Unbeatable power-couple dynamic.',
+          'He had zero fragile male ego about learning from your experience, then used his new raise to book your favorite steakhouse. Unbeatable power-couple dynamic.',
         outcomeHim:
           'You landed a +24% raise, thanked your secret weapon properly, and watched her beam with pride across the candlelit booth.',
         toastBanner: 'POWER-COUPLE MENTORSHIP • MATURITY +25',
@@ -824,14 +824,14 @@ export const EPISODES: Episode[] = [
         labelHer: 'He snaps defensively: "Stop trying to manage my career just because you’re older!"',
         labelHim: 'Get prickly and defensive: "I don’t need corporate lectures from my girlfriend."',
         outcomeHer:
-          'Insecurity disguised as pride—turning down gold-tier executive wisdom out of ego is exhausting.',
+          'Insecurity disguised as pride, turning down gold-tier executive wisdom out of ego is exhausting.',
         outcomeHim:
           'Snapping at someone rooting for your success kills the spark fast.',
         toastBanner: 'RED FLAG! • FRAGILE CAREER EGO (-20)',
         deltas: { maturity: -20, chivalry: -10, eq: -20, chemistry: -15, redFlags: 1 },
       },
       {
-        labelHer: 'Keep work and romance mostly separate—cheer him on warmly without reading his spreadsheets.',
+        labelHer: 'Keep work and romance mostly separate, cheer him on warmly without reading his spreadsheets.',
         labelHim: 'Handle the negotiation solo first, then share the good news over cocktails Friday.',
         outcomeHer:
           'Clean boundary between office brain and date night.',
@@ -848,7 +848,7 @@ export const EPISODES: Episode[] = [
     stage: 4,
     allowedTiers: ['cougar'],
     title: 'Drinks With His Friends ("Bro Is Dating a Whole VP")',
-    loreQuote: 'Real-World Quote • "Introducing my 45F girlfriend to my 26M friends—setting the tone immediately"',
+    loreQuote: 'Real-World Quote • "Introducing my 45F girlfriend to my 26M friends, setting the tone immediately"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
@@ -856,11 +856,11 @@ export const EPISODES: Episode[] = [
     setupHer:
       'Cocktail lounge night meeting {hisName}’s mid-20s friend circle. Everyone is charming until one tipsy college buddy grins: "Yo {hisName}, blink twice if she’s buying you a PS5 Pro!"',
     setupHim:
-      'You’re proud as hell introducing {herName} ({herAge}F) at a rooftop bar—until your dumbest college buddy blurts out a "Stifler’s Mom / PS5 Sugar Mama" joke.',
+      'You’re proud as hell introducing {herName} ({herAge}F) at a rooftop bar, until your dumbest college buddy blurts out a "Stifler’s Mom / PS5 Sugar Mama" joke.',
     choices: [
       {
-        labelHer: 'He doesn’t flinch—locks eyes with his buddy calmly: "Try a grown-up joke, man. She’s brilliant, and I buy my own gear"—then pivots smoothly.',
-        labelHim: 'Check your buddy cleanly with a calm smile—"Retire the 2004 movie jokes, bro; she’s out of all our leagues"—and pivot the table conversation effortlessly.',
+        labelHer: 'He doesn’t flinch, locks eyes with his buddy calmly: "Try a grown-up joke, man. She’s brilliant, and I buy my own gear", then pivots smoothly.',
+        labelHim: 'Check your buddy cleanly with a calm smile, "Retire the 2004 movie jokes, bro; she’s out of all our leagues", and pivot the table conversation effortlessly.',
         outcomeHer:
           'Zero shouting, total backbone. His friend apologizes immediately, and the rest of the table treats you like royalty all night.',
         outcomeHim:
@@ -897,15 +897,15 @@ export const EPISODES: Episode[] = [
     stage: 1,
     allowedTiers: ['jaguar'],
     title: 'The Bold 6 PM Gen-X Phone Call Test',
-    loreQuote: 'Real-World Quote • "53F Gen-X Jaguar—please stop texting \'wyd\' at 11 AM and call me like an adult at 6 PM"',
+    loreQuote: 'Real-World Quote • "53F Gen-X Jaguar, please stop texting \'wyd\' at 11 AM and call me like an adult at 6 PM"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
-      'At {herAge}, you are peak Gen-X: allergic to 47 work-hour meme texts, voice-note monologues, and "wyd" bubbles. It’s 6:05 PM Wednesday—how does {hisName} ({hisAge}M) bridge the communication gap?',
+      'At {herAge}, you are peak Gen-X: allergic to 47 work-hour meme texts, voice-note monologues, and "wyd" bubbles. It’s 6:05 PM Wednesday, how does {hisName} ({hisAge}M) bridge the communication gap?',
     setupHim:
-      '{herName} ({herAge}F) told you straight up she hates all-day texting during work hours. Most guys your age panic at live phone calls—it’s 6:05 PM Wednesday.',
+      '{herName} ({herAge}F) told you straight up she hates all-day texting during work hours. Most guys your age panic at live phone calls, it’s 6:05 PM Wednesday.',
     choices: [
       {
         labelHer: 'He sends zero midday clutter, then rings you at 6:05 PM with a warm voice and locks in Friday dinner in four effortless minutes.',
@@ -913,7 +913,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'A {hisAge}-year-old man whose phone actually makes voice calls?! Gen-X swoon unlocked in four minutes flat.',
         outcomeHim:
-          'You hear the smile in her voice immediately: "You actually called—and without forty warmup texts. Friday at 8 is yours."',
+          'You hear the smile in her voice immediately: "You actually called, and without forty warmup texts. Friday at 8 is yours."',
         toastBanner: 'GEN-X VOICE CALL MASTERED • CHEMISTRY +25',
         deltas: { maturity: 25, chivalry: 20, eq: 15, chemistry: 25, redFlags: 0 },
         badgeUnlocked: '6 PM Voice-Call Natural',
@@ -932,7 +932,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He sends one crisp 5:30 PM text: "Free for a quick 5-minute call at 6 to plan Friday?"',
         labelHim: 'Send one clean 5:30 PM heads-up text, then call right at 6:00 PM.',
         outcomeHer:
-          'Polite Gen-Z/Gen-X bridge—courteous and punctual.',
+          'Polite Gen-Z/Gen-X bridge, courteous and punctual.',
         outcomeHim:
           'Clean etiquette across generations; she picks up on the second ring.',
         toastBanner: 'CLEAN CALL ETIQUETTE +15',
@@ -995,19 +995,19 @@ export const EPISODES: Episode[] = [
     stage: 6,
     allowedTiers: ['jaguar'],
     title: 'Stage 6 Finale: "Living Apart Together" (LAT) Commitment',
-    loreQuote: 'Real-World Quote • "50s Jaguars in multi-year relationships—why Living Apart Together (LAT) is the ultimate cheat code"',
+    loreQuote: 'Real-World Quote • "50s Jaguars in multi-year relationships, why Living Apart Together (LAT) is the ultimate cheat code"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     setupHer:
-      'One year together: {hisName} has passed every test, your daughter likes him, and the love is real. Traditional scripts say "move in together"—yet at {herAge}, you spent decades earning your peaceful solo home and love keeping romance intentional.',
+      'One year together: {hisName} has passed every test, your daughter likes him, and the love is real. Traditional scripts say "move in together", yet at {herAge}, you spent decades earning your peaceful solo home and love keeping romance intentional.',
     setupHim:
-      'A year in with {herName} ({herAge}F), you’re deeply committed. Instead of merging leases and cluttering her sanctuary, she proposes the gold-standard 50s Jaguar model: committed *Living Apart Together (LAT)*—keys exchanged, weekends & trips shared, two thriving homes 10 minutes apart.',
+      'A year in with {herName} ({herAge}F), you’re deeply committed. Instead of merging leases and cluttering her sanctuary, she proposes the gold-standard 50s Jaguar model: committed *Living Apart Together (LAT)*, keys exchanged, weekends & trips shared, two thriving homes 10 minutes apart.',
     choices: [
       {
-        labelHer: 'Exchange keys and commit fully as exclusive LAT partners—forever date-night spark, shared adventures, and zero roommate resentment.',
-        labelHim: 'Embrace committed Living Apart Together wholeheartedly—keep building your own career & apartment nearby while sharing keys, travel, and deep devotion.',
+        labelHer: 'Exchange keys and commit fully as exclusive LAT partners, forever date-night spark, shared adventures, and zero roommate resentment.',
+        labelHim: 'Embrace committed Living Apart Together wholeheartedly, keep building your own career & apartment nearby while sharing keys, travel, and deep devotion.',
         outcomeHer:
           'All the intimacy and loyalty of a life partner, plus your pristine closets and Sunday quiet intact. Peak Jaguar bliss!',
         outcomeHim:
@@ -1044,7 +1044,7 @@ export const EPISODES: Episode[] = [
     stage: 1,
     allowedTiers: ['panther'],
     title: 'Black-Tie Museum Gala & Owning Every Whisper',
-    loreQuote: 'Real-World Quote • "62F Panther walking into a formal event with my 30yo cub—watching every head turn"',
+    loreQuote: 'Real-World Quote • "62F Panther walking into a formal event with my 30yo cub, watching every head turn"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
@@ -1056,11 +1056,11 @@ export const EPISODES: Episode[] = [
     choices: [
       {
         labelHer: 'He keeps his phone in his tux pocket all night, holds your hand proudly through introductions, and charms the museum board with effortless poise.',
-        labelHim: 'Phone stays invisible all night—offer your arm with unmistakable pride, hold eye contact with board members, and fetch her champagne before she asks.',
+        labelHim: 'Phone stays invisible all night, offer your arm with unmistakable pride, hold eye contact with board members, and fetch her champagne before she asks.',
         outcomeHer:
-          'Within twenty minutes, three women on the board pull you aside in the powder room: "Where on earth did you find him—and does he have an older brother?!"',
+          'Within twenty minutes, three women on the board pull you aside in the powder room: "Where on earth did you find him, and does he have an older brother?!"',
         outcomeHim:
-          'By the auction paddle raise, every skeptic in the ballroom is charmed—and {herName} looks at you like you hung the desert moon.',
+          'By the auction paddle raise, every skeptic in the ballroom is charmed, and {herName} looks at you like you hung the desert moon.',
         toastBanner: 'GALA ROYALTY • CHIVALRY +25 • CHEMISTRY +25',
         deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Black-Tie Panther Escort',
@@ -1093,7 +1093,7 @@ export const EPISODES: Episode[] = [
     stage: 4,
     allowedTiers: ['panther'],
     title: 'Stage 4 Boss: Martini Interrogation With Her Fierce Lifelong Friends',
-    loreQuote: 'Real-World Quote • "60+ women—winning over protective friends who worry a younger man wants her estate"',
+    loreQuote: 'Real-World Quote • "60+ women, winning over protective friends who worry a younger man wants her estate"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
@@ -1101,15 +1101,15 @@ export const EPISODES: Episode[] = [
     setupHer:
       'Your three fiercest lifelong girlfriends invite you and {hisName} ({hisAge}M) for martinis. Their unspoken mission: verify he isn’t chasing your desert house or breaking your heart.',
     setupHim:
-      'Dinner with {herName}’s three ride-or-die friends of 30 years. Between dry martinis, her lawyer best friend asks pointedly: "So {hisName}—what exactly draws a {hisAge}-year-old man to a woman in her sixties?"',
+      'Dinner with {herName}’s three ride-or-die friends of 30 years. Between dry martinis, her lawyer best friend asks pointedly: "So {hisName}, what exactly draws a {hisAge}-year-old man to a woman in her sixties?"',
     choices: [
       {
-        labelHer: 'He answers without flinching—speaking specifically about *your* wit, warmth, and shared rhythm (never generic fetish clichés), and quietly picks up the first round of martinis.',
-        labelHim: 'Answer with calm, specific sincerity about *her*—her mind, humor, and how grounded you feel together—pay your own tab cleanly, and ask thoughtful questions about their 30-year friendship.',
+        labelHer: 'He answers without flinching, speaking specifically about *your* wit, warmth, and shared rhythm (never generic fetish clichés), and quietly picks up the first round of martinis.',
+        labelHim: 'Answer with calm, specific sincerity about *her*, her mind, humor, and how grounded you feel together, pay your own tab cleanly, and ask thoughtful questions about their 30-year friendship.',
         outcomeHer:
           'Your lawyer best friend texts under the table before entrées arrive: "Case dismissed. He’s genuinely crazy about you."',
         outcomeHim:
-          'Speaking about *her as an individual*—not "older women" as a category—wins the toughest jury in Palm Springs.',
+          'Speaking about *her as an individual*, not "older women" as a category, wins the toughest jury in Palm Springs.',
         toastBanner: 'FIERCE FRIENDS WON OVER! • EQ +30',
         deltas: { maturity: 25, chivalry: 20, eq: 30, chemistry: 20, redFlags: 0 },
         badgeUnlocked: 'Panther Inner-Circle Certified',
@@ -1142,7 +1142,7 @@ export const EPISODES: Episode[] = [
     stage: 6,
     allowedTiers: ['panther'],
     title: 'Stage 6 Finale: "When I’m 75 and You’re 45..."',
-    loreQuote: 'Real-World Quote • "25–35 year gaps—talking honestly about aging timelines and choosing real love today"',
+    loreQuote: 'Real-World Quote • "25–35 year gaps, talking honestly about aging timelines and choosing real love today"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'fertility_talk',
@@ -1153,12 +1153,12 @@ export const EPISODES: Episode[] = [
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
-        labelHer: 'Meet the truth without fairy-tale denial—cherishing every vibrant year together with independent finances, total devotion, and zero fear.',
-        labelHim: 'Hold both her hands honestly: "Nobody gets a 50-year guarantee at any age—and I wouldn’t trade ten extraordinary years loving you for fifty ordinary ones with anyone else."',
+        labelHer: 'Meet the truth without fairy-tale denial, cherishing every vibrant year together with independent finances, total devotion, and zero fear.',
+        labelHim: 'Hold both her hands honestly: "Nobody gets a 50-year guarantee at any age, and I wouldn’t trade ten extraordinary years loving you for fifty ordinary ones with anyone else."',
         outcomeHer:
-          'Tears, laughter, and fearless clarity. Neither of you pretends time doesn’t exist—you choose an extraordinary love story right now with open hearts.',
+          'Tears, laughter, and fearless clarity. Neither of you pretends time doesn’t exist, you choose an extraordinary love story right now with open hearts.',
         outcomeHim:
-          'Honest, grounded, and deeply romantic—she pulls you close under the desert sky, every shadow gone.',
+          'Honest, grounded, and deeply romantic, she pulls you close under the desert sky, every shadow gone.',
         toastBanner: 'LEGENDARY PANTHER DEVOTION • EQ +30 • MATURITY +30',
         deltas: { maturity: 30, chivalry: 25, eq: 30, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'Timeless Desert Devotion',
@@ -1168,7 +1168,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He panics, changes the subject to sports, and ghosts for three days.',
         labelHim: 'Freeze up, change the subject awkwardly, and pull away out of fear.',
         outcomeHer:
-          'Real Panther romance takes courage—shrinking from honest talk proves he wasn’t ready for the deep end.',
+          'Real Panther romance takes courage, shrinking from honest talk proves he wasn’t ready for the deep end.',
         outcomeHim:
           'Running from vulnerability breaks trust right at the summit.',
         toastBanner: 'RED FLAG! • EMOTIONAL FLIGHT (-25)',
@@ -1195,14 +1195,14 @@ export const EPISODES: Episode[] = [
     minigame: 'doubt_spiral',
     allowedTiers: ['lynx', 'puma'],
     title: 'Stage 5 • The Doubt: Post-Divorce Cold Feet ("Can This Actually Work?")',
-    loreQuote: 'Real-World Quote • "Everything is amazing—why am I suddenly terrified of getting hurt by a 25-year-old and pulling away?"',
+    loreQuote: 'Real-World Quote • "Everything is amazing, why am I suddenly terrified of getting hurt by a 25-year-old and pulling away?"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'Four months in, the honeymoon rush turns into real love—and panic hits at 2 AM. You already rebuilt your life once after divorce. Watching {hisName} ({hisAge}M) sleep peacefully, a cold wave asks: *Can this actually work in real life, or will he wake up at 29 wanting a carefree girl with zero history?*',
+      'Four months in, the honeymoon rush turns into real love, and panic hits at 2 AM. You already rebuilt your life once after divorce. Watching {hisName} ({hisAge}M) sleep peacefully, a cold wave asks: *Can this actually work in real life, or will he wake up at 29 wanting a carefree girl with zero history?*',
     setupHim:
-      'Everything was electric—then suddenly {herName} ({herAge}F) went quiet all Sunday. Over rain-streaked tea, she admits the doubt keeping her awake: *Can a divorced woman in her 30s and a {hisAge}-year-old man actually go the distance without breaking each other’s hearts?*',
+      'Everything was electric, then suddenly {herName} ({herAge}F) went quiet all Sunday. Over rain-streaked tea, she admits the doubt keeping her awake: *Can a divorced woman in her 30s and a {hisAge}-year-old man actually go the distance without breaking each other’s hearts?*',
     innerInsecurityBubble: {
       herDoubt:
         'Her 2 AM spiral: "I survived one heartbreak already. Am I crazy betting my real heart on a man who hasn’t lived through mortgages or custody storms yet?"',
@@ -1212,12 +1212,12 @@ export const EPISODES: Episode[] = [
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
-        labelHer: 'Voice the fear instead of self-sabotaging—and let him prove through steady Tuesday reliability (not big speeches) that he’s anchored.',
-        labelHim: 'Don’t get defensive—hold space for her scar, name your own fear of being seen as a rebound, and prove steadiness on unglamorous weekdays.',
+        labelHer: 'Voice the fear instead of self-sabotaging, and let him prove through steady Tuesday reliability (not big speeches) that he’s anchored.',
+        labelHim: 'Don’t get defensive, hold space for her scar, name your own fear of being seen as a rebound, and prove steadiness on unglamorous weekdays.',
         outcomeHer:
-          'Naming the fear broke its spell. Instead of love-bombing promises, he showed up Tuesday with groceries, zero drama, and rock-solid calm—proving this actually works.',
+          'Naming the fear broke its spell. Instead of love-bombing promises, he showed up Tuesday with groceries, zero drama, and rock-solid calm, proving this actually works.',
         outcomeHim:
-          'You didn’t argue her feelings away—you met her vulnerability with calm consistency, turning the scariest doubt wobble into deeper trust.',
+          'You didn’t argue her feelings away, you met her vulnerability with calm consistency, turning the scariest doubt wobble into deeper trust.',
         toastBanner: 'DOUBT STAGE WEATHERED! • EQ +25 • MATURITY +25',
         deltas: { maturity: 25, chivalry: 15, eq: 25, chemistry: 20, redFlags: 0 },
         badgeUnlocked: 'Weathered The Doubt Together',
@@ -1234,7 +1234,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'Slow the pace slightly for two weeks while talking openly instead of ghosting.',
-        labelHim: 'Give her breathing room without pulling away—stay warm, punctual, and pressure-free.',
+        labelHim: 'Give her breathing room without pulling away, stay warm, punctual, and pressure-free.',
         outcomeHer:
           'Steady nervous-system regulation beats panic moves every time.',
         outcomeHim:
@@ -1256,22 +1256,22 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'A heavy cream envelope lands on your island: your industry colleague’s formal wedding (`+1` RSVP due Friday). Suddenly the bedroom bubble collides with real life—career gaps, colleagues whispering, ten-year horizons—and you stare at the card wondering: *Can {herAge}F and {hisAge}M actually work out in the daylight world?*',
+      'A heavy cream envelope lands on your island: your industry colleague’s formal wedding (`+1` RSVP due Friday). Suddenly the bedroom bubble collides with real life, career gaps, colleagues whispering, ten-year horizons, and you stare at the card wondering: *Can {herAge}F and {hisAge}M actually work out in the daylight world?*',
     setupHim:
-      'You spot the unmailed wedding RSVP on {herName}’s counter with the `+1` box still blank. When you ask gently, her voice catches: *"Inside this house we’re effortless—but out there in our two completely different worlds, can this actually work?"*',
+      'You spot the unmailed wedding RSVP on {herName}’s counter with the `+1` box still blank. When you ask gently, her voice catches: *"Inside this house we’re effortless, but out there in our two completely different worlds, can this actually work?"*',
     innerInsecurityBubble: {
       herDoubt:
         'Her 2 AM spiral: "Am I fooling myself thinking hot weekend chemistry survives corporate tables, career stages, and a 15-to-20 year gap?"',
       hisDoubt:
-        'His 2 AM spiral: "That blank +1 box stings—is she secretly waiting for the clock to run out on us before letting me into her real life?"',
+        'His 2 AM spiral: "That blank +1 box stings, is she secretly waiting for the clock to run out on us before letting me into her real life?"',
     },
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
         labelHer: 'Put down the armor, admit why the blank RSVP scared you, and check the "+1" box with {hisName}’s name in ink right there together.',
-        labelHim: 'Meet her eyes calmly: "We don’t owe a ballroom of strangers an explanation—let’s test us in real daylight, starting with that +1 box."',
+        labelHim: 'Meet her eyes calmly: "We don’t owe a ballroom of strangers an explanation, let’s test us in real daylight, starting with that +1 box."',
         outcomeHer:
-          'Writing his name in ink felt like jumping off a cliff—and watching him beam with quiet pride proved your bubble belongs in the whole world.',
+          'Writing his name in ink felt like jumping off a cliff, and watching him beam with quiet pride proved your bubble belongs in the whole world.',
         outcomeHim:
           'She picks up the pen, writes your full name on the RSVP card, and exhales like a ten-pound weight just left her chest.',
         toastBanner: 'REAL-WORLD DOUBT CONQUERED! • MATURITY +25 • EQ +25',
@@ -1308,15 +1308,15 @@ export const EPISODES: Episode[] = [
     minigame: 'doubt_spiral',
     allowedTiers: ['jaguar'],
     title: 'Stage 5 • The Doubt: The "Am I Stealing His 20s?" Spiral',
-    loreQuote: 'Real-World Quote • "53F Jaguar—almost broke up with my amazing cub out of fear I was holding him back from someone his own age"',
+    loreQuote: 'Real-World Quote • "53F Jaguar, almost broke up with my amazing cub out of fear I was holding him back from someone his own age"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
-      'Sunday sunset after seeing {hisName}’s friends post engagement parties and backpacking trips. A fierce wave of protective doubt hits your chest: you’ve already lived your 20s, raised kids, built your empire. *Can this actually work without quietly stealing milestones from him—or risking your hard-won peace?*',
+      'Sunday sunset after seeing {hisName}’s friends post engagement parties and backpacking trips. A fierce wave of protective doubt hits your chest: you’ve already lived your 20s, raised kids, built your empire. *Can this actually work without quietly stealing milestones from him, or risking your hard-won peace?*',
     setupHim:
-      'Out on the canyon overlook, {herName} ({herAge}F) goes uncharacteristically quiet—about to pull the classic noble martyr move: *"Maybe I’m being selfish keeping you when you could build a normal life with someone {hisAge}..."*',
+      'Out on the canyon overlook, {herName} ({herAge}F) goes uncharacteristically quiet, about to pull the classic noble martyr move: *"Maybe I’m being selfish keeping you when you could build a normal life with someone {hisAge}..."*',
     innerInsecurityBubble: {
       herDoubt:
         'Her 2 AM spiral: "I love him enough to let him go if loving me shrinks his life. Can two people twenty-five years apart truly want the same road?"',
@@ -1325,12 +1325,12 @@ export const EPISODES: Episode[] = [
     },
     choices: [
       {
-        labelHer: 'Drop the noble-martyr shield—respect {hisName}’s adult agency to choose his own life instead of deciding for him out of fear.',
-        labelHim: 'Stop the martyr speech gently but firmly: "I’m a grown man, {herName}—respect me enough to let *me* decide what makes my life full. It’s you."',
+        labelHer: 'Drop the noble-martyr shield, respect {hisName}’s adult agency to choose his own life instead of deciding for him out of fear.',
+        labelHim: 'Stop the martyr speech gently but firmly: "I’m a grown man, {herName}, respect me enough to let *me* decide what makes my life full. It’s you."',
         outcomeHer:
           'Hearing him claim his adult agency snapped you right out of the fear spiral. Treating him as an equal means trusting his yes.',
         outcomeHim:
-          'Firm, loving clarity cuts straight through her protective armor—she pulls you close, done trying to talk you out of loving her.',
+          'Firm, loving clarity cuts straight through her protective armor, she pulls you close, done trying to talk you out of loving her.',
         toastBanner: 'MARTYR SPIRAL BROKEN! • MATURITY +30 • EQ +25',
         deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Equal Adult Agency Certified',
@@ -1347,7 +1347,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'Check in explicitly every six months so both of your lives keep expanding rather than shrinking.',
-        labelHim: 'Keep thriving in your own career and friendships while showing steady devotion—proving neither of you shrinks.',
+        labelHim: 'Keep thriving in your own career and friendships while showing steady devotion, proving neither of you shrinks.',
         outcomeHer:
           'Seeing his life expand *because* of your love silences every doubt.',
         outcomeHim:
@@ -1364,25 +1364,25 @@ export const EPISODES: Episode[] = [
     minigame: 'doubt_spiral',
     allowedTiers: ['panther'],
     title: 'Stage 5 • The Doubt: When Glamour Meets Real-World Gravity',
-    loreQuote: 'Real-World Quote • "60+ Panther—catching the flu / minor surgery made me wonder if a younger man stays when the glamour is off"',
+    loreQuote: 'Real-World Quote • "60+ Panther, catching the flu / minor surgery made me wonder if a younger man stays when the glamour is off"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
-      'No emerald velvet tonight: a sprained ankle and fever leave you in flannel pajamas with zero makeup and an ice pack. When {hisName} ({hisAge}M) texts that he’s heading over, a sharp doubt hits: *Anyone loves a Panther over Palm Springs martinis—can this actually work when real-life vulnerability walks in?*',
+      'No emerald velvet tonight: a sprained ankle and fever leave you in flannel pajamas with zero makeup and an ice pack. When {hisName} ({hisAge}M) texts that he’s heading over, a sharp doubt hits: *Anyone loves a Panther over Palm Springs martinis, can this actually work when real-life vulnerability walks in?*',
     setupHim:
-      '{herName} ({herAge}F) twisted her ankle and caught a nasty chill—and suddenly tells you *"Don’t come over this week, wait till I’m presentable."* You can hear the real fear underneath: *Does a younger man stay when the silver-screen glamour turns off?*',
+      '{herName} ({herAge}F) twisted her ankle and caught a nasty chill, and suddenly tells you *"Don’t come over this week, wait till I’m presentable."* You can hear the real fear underneath: *Does a younger man stay when the silver-screen glamour turns off?*',
     innerInsecurityBubble: {
       herDoubt:
         'Her 2 AM spiral: "If he sees me tired, mortal, and unglamorous, does the spell break right here?"',
       hisDoubt:
-        'His 2 AM spiral: "She thinks I’m only in love with an untouchable icon—how do I show her I love the real human woman underneath?"',
+        'His 2 AM spiral: "She thinks I’m only in love with an untouchable icon, how do I show her I love the real human woman underneath?"',
     },
     choices: [
       {
-        labelHer: 'Unlock the front door in your flannel pajamas—let him bring homemade soup, swap the ice pack, and see the real woman behind the icon.',
-        labelHim: 'Show up softly with homemade lemon-ginger soup, fresh tea, and zero fuss—making her laugh in flannel pajamas with unmistakable tenderness.',
+        labelHer: 'Unlock the front door in your flannel pajamas, let him bring homemade soup, swap the ice pack, and see the real woman behind the icon.',
+        labelHim: 'Show up softly with homemade lemon-ginger soup, fresh tea, and zero fuss, making her laugh in flannel pajamas with unmistakable tenderness.',
         outcomeHer:
           'Watching a {hisAge}-year-old man tuck a blanket over your ankle and look at you with even deeper adoration in zero makeup answered "Can this work?" forever.',
         outcomeHim:
@@ -1403,7 +1403,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'Start by letting him drop off soup on the patio and stay for twenty quiet minutes.',
-        labelHim: 'Respect her space gently—drop warm soup and flowers inside the foyer with a sweet note and zero pressure.',
+        labelHim: 'Respect her space gently, drop warm soup and flowers inside the foyer with a sweet note and zero pressure.',
         outcomeHer:
           'Gentle care without crowding melts the armor naturally.',
         outcomeHim:
@@ -1422,7 +1422,7 @@ export const EPISODES: Episode[] = [
     allowedTiers: ['lynx', 'puma'],
     requiredAnyTags: ['dog_mom_divorced'],
     title: 'The Rescue-Dog Patio Vetting & Why She Quit Dating Men Her Own Age',
-    loreQuote: 'Real-World Quote • "37F divorced & child-free—men my age just ranted about their ex-wives, then a 26yo won over my rescue dog in 30 seconds"',
+    loreQuote: 'Real-World Quote • "37F divorced & child-free, men my age just ranted about their ex-wives, then a 26yo won over my rescue dog in 30 seconds"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'trader_joes_aisle',
@@ -1436,7 +1436,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He crouches calmly to let Barnaby sniff his hand first, asks the waiter for a water bowl before ordering wine, and brings refreshing zero-bitterness curiosity about you.',
         labelHim: 'Crouch to let Barnaby come to you on his terms, ask the server for a fresh dog bowl first, and bring warm, zero-baggage curiosity all evening.',
         outcomeHer:
-          'Barnaby flops onto {hisName}’s loafers within four minutes—and hearing a man ask thoughtful questions instead of complaining about his 2019 divorce feels like pure oxygen.',
+          'Barnaby flops onto {hisName}’s loafers within four minutes, and hearing a man ask thoughtful questions instead of complaining about his 2019 divorce feels like pure oxygen.',
         outcomeHim:
           'Barnaby rests his chin on your shoe while {herName} blinks in disbelief: "Okay, you just beat every 42-year-old man in this zip code in six minutes."',
         toastBanner: 'BARNABY APPROVED! • CHIVALRY +20 • CHEMISTRY +25',
@@ -1447,7 +1447,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He ignores Barnaby, complains about his ex-situationship for 35 minutes, and calls you "low-baggage since you don’t have kids."',
         labelHim: 'Ignore the dog and spend forty minutes ranting about your toxic ex-girlfriend.',
         outcomeHer:
-          'Great—the exact bitter monologue you fled 42-year-old Hinge men to escape, just in younger sneakers.',
+          'Great, the exact bitter monologue you fled 42-year-old Hinge men to escape, just in younger sneakers.',
         outcomeHim:
           'Barnaby growls softly, and she finishes her rosé in record time.',
         toastBanner: 'RED FLAG! • BARNABY VETO & EX-RANT (-20)',
@@ -1459,7 +1459,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Side-by-side dog-walk banter melts first-date skepticism effortlessly.',
         outcomeHim:
-          'Smart move—walking with Barnaby makes conversation flow naturally.',
+          'Smart move, walking with Barnaby makes conversation flow naturally.',
         toastBanner: 'PACK WALK CHEMISTRY +15',
         deltas: { maturity: 15, chivalry: 15, eq: 15, chemistry: 15, redFlags: 0 },
       },
@@ -1472,30 +1472,30 @@ export const EPISODES: Episode[] = [
     allowedTiers: ['lynx', 'puma'],
     requiredAnyTags: ['dog_mom_divorced', 'jaded_peer_men'],
     title: 'Zero Weaponized Incompetence: The 7:30 AM Drizzle Dog-Walk Test',
-    loreQuote: 'Real-World Quote • "Divorced my 39yo ex over weaponized incompetence—nearly cried when my 25yo cub walked my dog in the rain without waking me"',
+    loreQuote: 'Real-World Quote • "Divorced my 39yo ex over weaponized incompetence, nearly cried when my 25yo cub walked my dog in the rain without waking me"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     setupHer:
-      'Your marriage ended because a 39-year-old man couldn’t locate trash bags or walk the dog without a 12-step tutorial. It’s 7:30 AM Sunday, pouring rain outside, and you wake up braced to haul Barnaby out—only to notice {hisName}’s side of the bed is already empty.',
+      'Your marriage ended because a 39-year-old man couldn’t locate trash bags or walk the dog without a 12-step tutorial. It’s 7:30 AM Sunday, pouring rain outside, and you wake up braced to haul Barnaby out, only to notice {hisName}’s side of the bed is already empty.',
     setupHim:
-      '7:15 AM Sunday drizzle at {herName}’s townhouse. Barnaby taps his leash by the bedroom door. You know her 40-year-old ex-husband traumatized her with helpless man-child excuses—what’s your move?',
+      '7:15 AM Sunday drizzle at {herName}’s townhouse. Barnaby taps his leash by the bedroom door. You know her 40-year-old ex-husband traumatized her with helpless man-child excuses, what’s your move?',
     recommendedAffiliateId: 'houseboy-linen-apron',
     choices: [
       {
-        labelHer: 'Come downstairs to find Barnaby already walked, paws towel-dried, food bowl filled, and fresh espresso waiting—zero questions asked, zero gold-star begging.',
+        labelHer: 'Come downstairs to find Barnaby already walked, paws towel-dried, food bowl filled, and fresh espresso waiting, zero questions asked, zero gold-star begging.',
         labelHim: 'Slip out quietly with Barnaby in the rain, towel-dry all four muddy paws at the mat, refill his kibble, and have hot coffee waiting when she wakes up.',
         outcomeHer:
           'You stand on the bottom stair genuinely misty-eyed. A {hisAge}-year-old man just demonstrated more domestic competence before 8 AM than your ex-husband managed in five years.',
         outcomeHim:
-          'She stares at Barnaby’s clean paws and the steaming mug like she’s witnessing a miracle—and pulls you straight back upstairs.',
+          'She stares at Barnaby’s clean paws and the steaming mug like she’s witnessing a miracle, and pulls you straight back upstairs.',
         toastBanner: 'WEAPONIZED INCOMPETENCE CURED! • CHIVALRY +25 • EQ +25',
         deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Muddy-Paws & Morning Coffee Hero',
         triggerTipPrompt: true,
       },
       {
-        labelHer: 'He pokes your shoulder at 7:15 AM: "Babe your dog is whining—also where do you keep mugs, spoons, and water?"',
+        labelHer: 'He pokes your shoulder at 7:15 AM: "Babe your dog is whining, also where do you keep mugs, spoons, and water?"',
         labelHim: 'Wake her up asking where the leash, towel, coffee mugs, and spoons live.',
         outcomeHer:
           'Instant ex-husband PTSD flashback. You have cabinets with doors, not a CIA vault!',
@@ -1523,15 +1523,15 @@ export const EPISODES: Episode[] = [
     allowedTiers: ['lynx', 'puma'],
     requiredAnyTags: ['dog_mom_divorced', 'jaded_peer_men'],
     title: 'Stage 4 Boss: Patio Brunch With Her Jaded 38F Divorcee Besties',
-    loreQuote: 'Real-World Quote • "My late-30s divorced friends hate 42yo Hinge men—yet roasted me for dating a 26yo until brunch"',
+    loreQuote: 'Real-World Quote • "My late-30s divorced friends hate 42yo Hinge men, yet roasted me for dating a 26yo until brunch"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
     recommendedAffiliateId: 'bridget-jones-cougar-town-watch',
     setupHer:
-      'Dog-friendly patio brunch with Barnaby under the table and your two blunt 38-year-old divorced girlfriends across from {hisName} ({hisAge}M). Both just survived terrible dates with 44-year-old finance bros—and arch their eyebrows: *"Girl, you swore off man-children and went younger?!"*',
+      'Dog-friendly patio brunch with Barnaby under the table and your two blunt 38-year-old divorced girlfriends across from {hisName} ({hisAge}M). Both just survived terrible dates with 44-year-old finance bros, and arch their eyebrows: *"Girl, you swore off man-children and went younger?!"*',
     setupHim:
-      'Patio mimosas with {herName}’s two razor-sharp divorced best friends (38F). They’re deeply cynical about men *their* age—and doubly skeptical about what a {hisAge}-year-old brings to the table.',
+      'Patio mimosas with {herName}’s two razor-sharp divorced best friends (38F). They’re deeply cynical about men *their* age, and doubly skeptical about what a {hisAge}-year-old brings to the table.',
     choices: [
       {
         labelHer: 'He laughs warmly without trying too hard, sneaks Barnaby an approved ice cube, listens to their Hinge horror stories with sharp wit, and quietly covers the table’s mimosa pitcher.',
@@ -1558,7 +1558,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Meet at the off-leash dog beach first so everyone bonds casually before sitting down.',
         labelHim: 'Start with a breezy dog-beach coffee walk so her friends see you two in action naturally.',
         outcomeHer:
-          'Action beats interrogation—watching how good he is with Barnaby wins them over fast.',
+          'Action beats interrogation, watching how good he is with Barnaby wins them over fast.',
         outcomeHim:
           'Relaxed dog-beach setting lets genuine chemistry shine.',
         toastBanner: 'DOG-BEACH CHARM +15',
@@ -1574,29 +1574,29 @@ export const EPISODES: Episode[] = [
     allowedTiers: ['lynx', 'puma'],
     requiredAnyTags: ['dog_mom_divorced', 'jaded_peer_men'],
     title: 'Stage 5 • The Doubt: Waiting for the Mask to Drop ("Can He Really Be Different?")',
-    loreQuote: 'Real-World Quote • "Divorced & jaded by men my age—my 26yo cub treats me so well my brain keeps waiting for the catch"',
+    loreQuote: 'Real-World Quote • "Divorced & jaded by men my age, my 26yo cub treats me so well my brain keeps waiting for the catch"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'Five months in, {hisName} ({hisAge}M) remembers your coffee order, adores Barnaby, and never plays games—and paradoxically, *that’s* what triggers your 2 AM doubt spiral. Your ex-husband was charming in month five too, and every 41-year-old peer you dated disappointed you. *Can this actually work, or are you about to get blindsided again?*',
+      'Five months in, {hisName} ({hisAge}M) remembers your coffee order, adores Barnaby, and never plays games, and paradoxically, *that’s* what triggers your 2 AM doubt spiral. Your ex-husband was charming in month five too, and every 41-year-old peer you dated disappointed you. *Can this actually work, or are you about to get blindsided again?*',
     setupHim:
-      'Nothing went wrong—yet {herName} ({herAge}F) suddenly gets guarded after an amazing weekend. Over late-night wine with Barnaby curled between you, she confesses: *"Men my own age burned me so badly I keep waiting for the catch with us. Can this actually last?"*',
+      'Nothing went wrong, yet {herName} ({herAge}F) suddenly gets guarded after an amazing weekend. Over late-night wine with Barnaby curled between you, she confesses: *"Men my own age burned me so badly I keep waiting for the catch with us. Can this actually last?"*',
     innerInsecurityBubble: {
       herDoubt:
         'Her 2 AM spiral: "When a 40-year-old man couldn’t show up as an equal partner, am I naive believing a {hisAge}-year-old won’t eventually get restless or lazy?"',
       hisDoubt:
-        'His 2 AM spiral: "She’s bracing for me to turn into her ex-husband—how do I earn real trust without paying for sins committed by bitter 42-year-old dudes?"',
+        'His 2 AM spiral: "She’s bracing for me to turn into her ex-husband, how do I earn real trust without paying for sins committed by bitter 42-year-old dudes?"',
     },
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
-        labelHer: 'Own your jaded armor honestly instead of testing him with traps—judging {hisName} by his own six months of steady actions rather than your ex’s ghosts.',
-        labelHim: 'Respond with grounded warmth and clear boundaries: "You don’t have to trust promises—just look at who I’ve been every week, and let me be *me*, not your ex."',
+        labelHer: 'Own your jaded armor honestly instead of testing him with traps, judging {hisName} by his own six months of steady actions rather than your ex’s ghosts.',
+        labelHim: 'Respond with grounded warmth and clear boundaries: "You don’t have to trust promises, just look at who I’ve been every week, and let me be *me*, not your ex."',
         outcomeHer:
-          'Separating old divorce scar tissue from the devoted man right in front of you lifted the fog completely. Good partnership isn’t an age—it’s character.',
+          'Separating old divorce scar tissue from the devoted man right in front of you lifted the fog completely. Good partnership isn’t an age, it’s character.',
         outcomeHim:
-          'Gentle empathy paired with self-respect melted her cynicism—she stops waiting for the other shoe to drop and leans all the way in.',
+          'Gentle empathy paired with self-respect melted her cynicism, she stops waiting for the other shoe to drop and leans all the way in.',
         toastBanner: 'CYNICISM MELTED! • EQ +30 • MATURITY +25',
         deltas: { maturity: 25, chivalry: 20, eq: 30, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Unlearned Peer Cynicism',
@@ -1631,23 +1631,23 @@ export const EPISODES: Episode[] = [
     allowedTiers: ['lynx', 'puma'],
     requiredAnyTags: ['dog_mom_divorced'],
     title: 'Stage 6 Finale: The Child-Free Dog-Pack & Passport Future',
-    loreQuote: 'Real-World Quote • "Child-free 37F + 26M cub—choosing a rescue-dogs, travel & zero-kids life with eyes wide open"',
+    loreQuote: 'Real-World Quote • "Child-free 37F + 26M cub, choosing a rescue-dogs, travel & zero-kids life with eyes wide open"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     recommendedAffiliateId: 'short-leash-leather-dog-leash',
     setupHer:
-      'One year together: Barnaby adores him, your jaded friends are converts, and you survived the Doubt stage. At {herAge}, you love your child-free freedom—traveling on a whim, sleeping in after dog walks, zero diaper plans. Time for the ultimate Stage 6 alignment with {hisName} ({hisAge}M).',
+      'One year together: Barnaby adores him, your jaded friends are converts, and you survived the Doubt stage. At {herAge}, you love your child-free freedom, traveling on a whim, sleeping in after dog walks, zero diaper plans. Time for the ultimate Stage 6 alignment with {hisName} ({hisAge}M).',
     setupHim:
-      'One year with {herName} ({herAge}F) and Barnaby: deeply in love and looking ahead. She’s happily child-free for life—passports, weekend road trips, maybe rescue dog #2—and wants 100% certainty you want that exact future too.',
+      'One year with {herName} ({herAge}F) and Barnaby: deeply in love and looking ahead. She’s happily child-free for life, passports, weekend road trips, maybe rescue dog #2, and wants 100% certainty you want that exact future too.',
     choices: [
       {
-        labelHer: 'Lock in the Child-Free DINK + Rescue-Dog Pact—booking Lisbon in October and agreeing Barnaby gets a little rescue sister next spring!',
-        labelHim: 'Choose the child-free passport + dog-pack life enthusiastically: "Two careers, full freedom, Lisbon in the fall, and rescue dog #2—that’s my dream life with you."',
+        labelHer: 'Lock in the Child-Free DINK + Rescue-Dog Pact, booking Lisbon in October and agreeing Barnaby gets a little rescue sister next spring!',
+        labelHim: 'Choose the child-free passport + dog-pack life enthusiastically: "Two careers, full freedom, Lisbon in the fall, and rescue dog #2, that’s my dream life with you."',
         outcomeHer:
-          'Zero suburban pressure, zero peer bitterness—just an extraordinary, sunlit, dog-hair-and-boarding-passes partnership.',
+          'Zero suburban pressure, zero peer bitterness, just an extraordinary, sunlit, dog-hair-and-boarding-passes partnership.',
         outcomeHim:
-          'Barnaby barks right on cue as she kisses you—officially sealing the happiest child-free power couple in the Club.',
+          'Barnaby barks right on cue as she kisses you, officially sealing the happiest child-free power couple in the Club.',
         toastBanner: 'DINK + DOG-PACK LIFEMATES! • MATURITY +30 • CHEMISTRY +30',
         deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'Child-Free Dog-Pack Lifemate',
@@ -1658,7 +1658,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Never date someone hoping to rewrite their core life design.',
         outcomeHim:
-          'Hidden agendas break child-free trust—honesty today beats resentment tomorrow.',
+          'Hidden agendas break child-free trust, honesty today beats resentment tomorrow.',
         toastBanner: 'RED FLAG! • HIDDEN KID AGENDA (-25)',
         deltas: { maturity: -25, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
       },
@@ -1666,7 +1666,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'If fatherhood is truly non-negotiable for him, part with deep gratitude before anyone compromises their truth.',
         labelHim: 'If you realize you truly want biological kids someday, tell her with total love and honesty now.',
         outcomeHer:
-          'Honoring both truths cleanly proves real emotional maturity—zero bitterness, lifelong respect.',
+          'Honoring both truths cleanly proves real emotional maturity, zero bitterness, lifelong respect.',
         outcomeHim:
           'Total integrity and tenderness, even when life paths diverge.',
         toastBanner: 'HONEST INTEGRITY +25',
@@ -1688,13 +1688,13 @@ export const EPISODES: Episode[] = [
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
-      'At {herAge}F and {hisAge}M, strict age-gap gatekeepers say you’re shy of the 10-year cutoff—officially dubbing you a **Junior Cougar**. Halfway through Date #1 cocktails, you do the inevitable calendar math and gasp: *"Wait... when I graduated college, you were taking sophomore geometry?!"*',
+      'At {herAge}F and {hisAge}M, strict age-gap gatekeepers say you’re shy of the 10-year cutoff, officially dubbing you a **Junior Cougar**. Halfway through Date #1 cocktails, you do the inevitable calendar math and gasp: *"Wait... when I graduated college, you were taking sophomore geometry?!"*',
     setupHim:
-      '{herName} ({herAge}F) is {hisAge}-year-old you’s dream match—only a 6-to-8 year gap, so nobody stares in public, yet she suddenly squints across her cocktail doing 2008 age math: *"Hold on, did you have a bedtime while I was at rooftop bars?!"*',
+      '{herName} ({herAge}F) is {hisAge}-year-old you’s dream match, only a 6-to-8 year gap, so nobody stares in public, yet she suddenly squints across her cocktail doing 2008 age math: *"Hold on, did you have a bedtime while I was at rooftop bars?!"*',
     choices: [
       {
-        labelHer: 'He grins without missing a beat: "Hey, I studied extra hard just to catch up to your Junior Cougar standards—and tonight’s round is on the kid."',
-        labelHim: 'Lean right into the playful Junior Cougar banter: "Hey, I grew up fast just to make this reservation—let me earn your Junior Cougar learner’s permit properly."',
+        labelHer: 'He grins without missing a beat: "Hey, I studied extra hard just to catch up to your Junior Cougar standards, and tonight’s round is on the kid."',
+        labelHim: 'Lean right into the playful Junior Cougar banter: "Hey, I grew up fast just to make this reservation, let me earn your Junior Cougar learner’s permit properly."',
         outcomeHer:
           'Playful, confident, zero weirdness! All the flirty older-woman/younger-man spark without needing a 20-year gap.',
         outcomeHim:
@@ -1705,7 +1705,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'He gets weird and defensive: "Six years is basically the exact same age, except women age faster according to podcasts."',
-        labelHim: 'Say "Six years barely counts—though podcasts say women peak earlier anyway."',
+        labelHim: 'Say "Six years barely counts, though podcasts say women peak earlier anyway."',
         outcomeHer:
           'You nearly throw your orange peel twist at his forehead. Date over before appetizers!',
         outcomeHim:
@@ -1714,7 +1714,7 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -25, chivalry: -25, eq: -25, chemistry: -25, redFlags: 1 },
       },
       {
-        labelHer: 'Compare your exact 2009 playlists and laugh over how close—yet hilariously different—six years feels.',
+        labelHer: 'Compare your exact 2009 playlists and laugh over how close, yet hilariously different, six years feels.',
         labelHim: 'Swap stories of where you both were in 2009 over appetizers.',
         outcomeHer:
           'Peak micro-generational comedy and effortless first-date warmth.',
@@ -1737,17 +1737,17 @@ export const EPISODES: Episode[] = [
     sceneArt: 'code_switch_phone',
     recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
-      'Road-trip playlist battle: with a sub-10-year Junior Cougar gap, you share 80% of references—until you mention crafting passive-aggressive AIM Away Messages on dial-up while {hisName} ({hisAge}M) quotes 2014 Vines and admits his buddies still call you "his hot Cougar."',
+      'Road-trip playlist battle: with a sub-10-year Junior Cougar gap, you share 80% of references, until you mention crafting passive-aggressive AIM Away Messages on dial-up while {hisName} ({hisAge}M) quotes 2014 Vines and admits his buddies still call you "his hot Cougar."',
     setupHim:
       'Driving up the coast with {herName} ({herAge}F): your buddies tease you for "bagging a Cougar," while her older friends laugh that a 6-year gap is "training wheels." Then she puts on LCD Soundsystem and tests your cultural literacy.',
     choices: [
       {
-        labelHer: 'Blend the best of both micro-generations—he queues a killer shared indie/R&B mix, owns calling you his dream woman (not a gimmick), and nails parallel parking.',
+        labelHer: 'Blend the best of both micro-generations, he queues a killer shared indie/R&B mix, owns calling you his dream woman (not a gimmick), and nails parallel parking.',
         labelHim: 'Build a seamless shared road-trip queue, laugh at both friend groups’ teasing, and treat her like a total catch rather than an age-gap punchline.',
         outcomeHer:
           'Close enough to sing every chorus together, just enough gap to keep the banter razor-sharp.',
         outcomeHim:
-          'Best road trip all year—shared nostalgia plus undeniable Junior Cougar electricity.',
+          'Best road trip all year, shared nostalgia plus undeniable Junior Cougar electricity.',
         toastBanner: 'MICRO-GEN HARMONY +20 • CHEMISTRY +20',
         deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
       },
@@ -1784,16 +1784,16 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'bathroom_audit',
     setupHer:
-      'In a 6-year Junior Cougar matchup, {hisName} ({hisAge}M) isn’t sleeping on a bare dorm mattress—he has a real job and decent apartment, yet your 6-year head start shows: custom linen drapes, Dutch ovens, maxing retirement, and hosting dinner parties instead of pre-games.',
+      'In a 6-year Junior Cougar matchup, {hisName} ({hisAge}M) isn’t sleeping on a bare dorm mattress, he has a real job and decent apartment, yet your 6-year head start shows: custom linen drapes, Dutch ovens, maxing retirement, and hosting dinner parties instead of pre-games.',
     setupHim:
-      'You’re doing solid for {hisAge}—until you step into {herName}’s ({herAge}F) sunlit place with framed art, French cookware, and real equity. That subtle 6-year life-stage lead hits right in the pride.',
+      'You’re doing solid for {hisAge}, until you step into {herName}’s ({herAge}F) sunlit place with framed art, French cookware, and real equity. That subtle 6-year life-stage lead hits right in the pride.',
     recommendedAffiliateId: 'hosting-lidded-bin-soap',
     choices: [
       {
         labelHer: 'He admires what you built with zero insecurity, upgrades his own hosting game, and brings killer ingredients + knife skills to your Le Creuset.',
         labelHim: 'Celebrate her taste with zero bruised pride, level up your own apartment touches, and show up Friday with farmer’s-market halibut to cook together.',
         outcomeHer:
-          'A man six years younger who treats your success as inspiration—not competition—is Junior Cougar perfection.',
+          'A man six years younger who treats your success as inspiration, not competition, is Junior Cougar perfection.',
         outcomeHim:
           'Confidence + domestic teamwork turns a 6-year lifestyle head start into shared luxury.',
         toastBanner: 'HOMEOWNER-ERA SYNERGY • MATURITY +25',
@@ -1828,7 +1828,7 @@ export const EPISODES: Episode[] = [
     stage: 4,
     maxAgeGap: 9,
     title: 'Stage 4 Boss: Surviving His Cohort’s 7-Wedding Open-Bar Summer',
-    loreQuote: 'Real-World Quote • "6-year gap reality: I survived my friends’ wedding wave at 31—now at 38 I’m back in his friends’ chaotic groomsmen summer!"',
+    loreQuote: 'Real-World Quote • "6-year gap reality: I survived my friends’ wedding wave at 31, now at 38 I’m back in his friends’ chaotic groomsmen summer!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'thanksgiving_table',
@@ -1836,13 +1836,13 @@ export const EPISODES: Episode[] = [
     setupHer:
       'Nobody talks about this 6-year Junior Cougar hazard: you retired from 8-wedding summers five years ago, and suddenly {hisName} ({hisAge}M) is a groomsman in FOUR chaotic open-bar weddings this summer where his buddies are doing tequila shots at 11:30 PM.',
     setupHim:
-      'Your entire {hisAge}M friend group is getting married this summer. {herName} ({herAge}F) looks stunning as your `+1`, though she already graduated from sloppy groomsmen open-bar marathons years ago—how do you navigate Wedding #3?',
+      'Your entire {hisAge}M friend group is getting married this summer. {herName} ({herAge}F) looks stunning as your `+1`, though she already graduated from sloppy groomsmen open-bar marathons years ago, how do you navigate Wedding #3?',
     choices: [
       {
         labelHer: 'He crushes groomsman duties early, skips sloppy shot-roulette, keeps water + espresso martinis in your hand, twirls you on the dance floor, and calls the car at 10:45 PM before chaos peaks.',
         labelHim: 'Handle groomsman photos early, skip the messy tequila shots, tear up the dance floor with her for three great songs, and whisk her back to the hotel suite at 10:45 PM.',
         outcomeHer:
-          'All the romance of wedding season, zero 1 AM shuttle-bus sloppiness—every bride’s older sister asks where you found him!',
+          'All the romance of wedding season, zero 1 AM shuttle-bus sloppiness, every bride’s older sister asks where you found him!',
         outcomeHim:
           'Leaving right at peak vibe makes the hotel suite afterparty ten times better than messy 1 AM sliders.',
         toastBanner: 'WEDDING-SEASON MVP! • CHIVALRY +25 • EQ +20',
@@ -1878,25 +1878,25 @@ export const EPISODES: Episode[] = [
     minigame: 'doubt_spiral',
     maxAgeGap: 9,
     title: 'Stage 5 • The Doubt: The 6-Year Clock Offset ("Are We Six Years Out of Sync?")',
-    loreQuote: 'Real-World Quote • "In a 6-year Junior Cougar gap, timelines are close enough to collide—what if I’m ready now and he wants 4 more years?"',
+    loreQuote: 'Real-World Quote • "In a 6-year Junior Cougar gap, timelines are close enough to collide, what if I’m ready now and he wants 4 more years?"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'Here is the uniquely sharp **Junior Cougar Doubt**: in a 25-year gap, timelines are completely decoupled—in a 6-year gap ({herAge}F × {hisAge}M), you’re close enough to want the *same* big milestones, just offset by six crucial years. At 2 AM you wonder: *Can this actually work if I’m ready for real life-building now and his internal clock thinks he has till 37?*',
+      'Here is the uniquely sharp **Junior Cougar Doubt**: in a 25-year gap, timelines are completely decoupled, in a 6-year gap ({herAge}F × {hisAge}M), you’re close enough to want the *same* big milestones, just offset by six crucial years. At 2 AM you wonder: *Can this actually work if I’m ready for real life-building now and his internal clock thinks he has till 37?*',
     setupHim:
-      'Late-night kitchen talk with {herName} ({herAge}F): because you’re only six years apart, the future feels vivid and real—and suddenly terrifying. She admits her fear: *"Six years isn’t huge on paper, until my right-now collides with your someday. Can we actually sync up without resentment?"*',
+      'Late-night kitchen talk with {herName} ({herAge}F): because you’re only six years apart, the future feels vivid and real, and suddenly terrifying. She admits her fear: *"Six years isn’t huge on paper, until my right-now collides with your someday. Can we actually sync up without resentment?"*',
     innerInsecurityBubble: {
       herDoubt:
-        'Her 2 AM spiral: "I don’t want to pressure him six years ahead of his pace—and I can’t afford to drift for four years waiting for him to feel ready."',
+        'Her 2 AM spiral: "I don’t want to pressure him six years ahead of his pace, and I can’t afford to drift for four years waiting for him to feel ready."',
       hisDoubt:
         'His 2 AM spiral: "Does she think being six years younger means I’m dragging my feet? What if I step up now and still feel like I’m playing catch-up?"',
     },
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
-        labelHer: 'Put concrete numbers on the table together—discovering that meeting in the middle (12–18 months, zero vague drifting) excites both of you.',
-        labelHim: 'Replace vague "someday" talk with a real shared timeline: "I don’t need six extra years—when you find the right person, you sync watches together."',
+        labelHer: 'Put concrete numbers on the table together, discovering that meeting in the middle (12–18 months, zero vague drifting) excites both of you.',
+        labelHim: 'Replace vague "someday" talk with a real shared timeline: "I don’t need six extra years, when you find the right person, you sync watches together."',
         outcomeHer:
           'All the 2 AM math anxiety vanished the moment he put real dates on the calendar willingly. Synced watches beat identical birth years every time.',
         outcomeHim:
@@ -1917,7 +1917,7 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -20, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
       },
       {
-        labelHer: 'Map out your next 12 months together—shared trip, meeting parents, and clear milestone check-ins.',
+        labelHer: 'Map out your next 12 months together, shared trip, meeting parents, and clear milestone check-ins.',
         labelHim: 'Lay out three concrete next steps over the next 12 months so momentum is unmistakable.',
         outcomeHer:
           'Visible momentum quiets midnight doubts fast.',
@@ -1942,11 +1942,11 @@ export const EPISODES: Episode[] = [
     setupHer:
       'Six stages cleared: you laughed through 2008 geometry math, survived his friends’ wedding marathon, and synced watches through the Doubt stage. Just like **Miley Cyrus marrying her 6-year Junior Cougar Cub Maxx Morando** in Palm Springs, you’ve unlocked modern dating’s secret sweet-spot cheat code.',
     setupHim:
-      'Standing on the terrace with {herName} ({herAge}F): six years older, wiser, magnetic, and completely in lockstep with you ({hisAge}M)—channeling peak **Miley & Maxx Morando** 6-year newlywed harmony. How do you seal Stage 6?',
+      'Standing on the terrace with {herName} ({herAge}F): six years older, wiser, magnetic, and completely in lockstep with you ({hisAge}M), channeling peak **Miley & Maxx Morando** 6-year newlywed harmony. How do you seal Stage 6?',
     choices: [
       {
-        labelHer: 'Go all-in on the Junior Cougar Sweet Spot—combining her hard-won wisdom & standards with his fresh energy for decades of side-by-side adventures!',
-        labelHim: 'Seal the commitment proudly: "Purists can call it Junior Cougar all they want—six years with you is the best cheat code on earth."',
+        labelHer: 'Go all-in on the Junior Cougar Sweet Spot, combining her hard-won wisdom & standards with his fresh energy for decades of side-by-side adventures!',
+        labelHim: 'Seal the commitment proudly: "Purists can call it Junior Cougar all they want, six years with you is the best cheat code on earth."',
         outcomeHer:
           'Shared references, zero public static, electric teasing for the next forty years, and aligned longevity. Junior Cougar Hall of Fame!',
         outcomeHim:
@@ -1997,7 +1997,7 @@ export const EPISODES: Episode[] = [
     choices: [
       {
         labelHer: 'He crushes clean strength reps (zero ego injury), texts back slow-burn heat that makes you blush in traffic, and effortlessly scoops you off your feet Friday night.',
-        labelHim: 'Lock in clean bench + core reps, send back one devastatingly smooth slow-burn text ("Already training for tomorrow—keep 8 PM wide open"), and sweep her up at the door Friday.',
+        labelHim: 'Lock in clean bench + core reps, send back one devastatingly smooth slow-burn text ("Already training for tomorrow, keep 8 PM wide open"), and sweep her up at the door Friday.',
         outcomeHer:
           'When he picks you up effortlessly in the hallway Friday night without even breathing hard, every gym rep pays off with interest... [Fade to Fireworks].',
         outcomeHim:
@@ -2017,7 +2017,7 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -20, chivalry: -10, eq: -10, chemistry: -25, redFlags: 1 },
       },
       {
-        labelHer: 'Pair gym days together—trading flirty glances across the weight room before protein smoothies.',
+        labelHer: 'Pair gym days together, trading flirty glances across the weight room before protein smoothies.',
         labelHim: 'Invite her for a joint lift + stretch session followed by post-workout dinner.',
         outcomeHer:
           'Shared endorphins + flirty gym tension = instant spark.',
@@ -2034,21 +2034,21 @@ export const EPISODES: Episode[] = [
     stage: 3,
     allowedTiers: ['lynx', 'puma'],
     title: '30s Real Talk: Ferritin at 11, Freezing Toes & Luteal Ribeye Care',
-    loreQuote: 'Real-World Quote • "30s low-iron/luteal crash hit hard—my 26yo cub showed up with cast-iron ribeye, spinach, vitamin C & a heated throw"',
+    loreQuote: 'Real-World Quote • "30s low-iron/luteal crash hit hard, my 26yo cub showed up with cast-iron ribeye, spinach, vitamin C & a heated throw"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     setupHer:
-      'Real 30s biology check: your bloodwork just clocked your ferritin at 11 right as luteal-phase hormone fatigue hits. Your hands and toes are literal ice cubes under two blankets and your brain fog is thick—just as energetic {hisName} ({hisAge}M) texts about Friday plans.',
+      'Real 30s biology check: your bloodwork just clocked your ferritin at 11 right as luteal-phase hormone fatigue hits. Your hands and toes are literal ice cubes under two blankets and your brain fog is thick, just as energetic {hisName} ({hisAge}M) texts about Friday plans.',
     setupHim:
-      '{herName} ({herAge}F) admits her iron/ferritin levels tanked and luteal-week exhaustion hit—she’s freezing on the couch with zero social battery. Most clueless guys whine that plans changed; how do you show up?',
+      '{herName} ({herAge}F) admits her iron/ferritin levels tanked and luteal-week exhaustion hit, she’s freezing on the couch with zero social battery. Most clueless guys whine that plans changed; how do you show up?',
     recommendedAffiliateId: 'cast-iron-steak-skillet',
     choices: [
       {
         labelHer: 'He looks up ferritin absorption on the drive over, sears grass-fed ribeye + lemony spinach in cast iron, tucks a heated throw around your freezing toes, and expects zero hosting.',
-        labelHim: 'Bring grass-fed ribeye, spinach, citrus (for iron absorption!), and dark chocolate—cook in her cast iron, warm her ice-cold feet, and clean the whole kitchen.',
+        labelHim: 'Bring grass-fed ribeye, spinach, citrus (for iron absorption!), and dark chocolate, cook in her cast iron, warm her ice-cold feet, and clean the whole kitchen.',
         outcomeHer:
-          'Wait—a {hisAge}-year-old man who understands ferritin + vitamin C pairing AND warms your freezing feet without complaining? You almost propose on the sofa.',
+          'Wait, a {hisAge}-year-old man who understands ferritin + vitamin C pairing AND warms your freezing feet without complaining? You almost propose on the sofa.',
         outcomeHim:
           'She looks at the seared ribeye and warm blanket like you hung the moon: "Where did you learn biology AND chivalry?!"',
         toastBanner: 'FERRITIN & HORMONE IQ +30! • CHIVALRY +25',
@@ -2069,7 +2069,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Cozy iron-rich pho delivery, fuzzy socks, and a zero-pressure movie night in.',
         labelHim: 'Drop off piping-hot beef pho, dark chocolate, and rub her shoulders through a quiet movie.',
         outcomeHer:
-          'Warm broth, warm hands, zero pressure—exactly what your body needed.',
+          'Warm broth, warm hands, zero pressure, exactly what your body needed.',
         outcomeHim:
           'Gentle care turns a low-energy night into deep closeness.',
         toastBanner: 'COZY CARETAKING +20',
@@ -2089,22 +2089,22 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'Welcome to the real 40s Cougar perimenopause rollercoaster nobody puts in rom-coms: at 10 PM, a hormone-charged desire surge leaves {hisName} ({hisAge}M) seeing stars—then at 3:14 AM, a sudden flash-furnace night sweat hits, you kick every sheet off the bed, and guard your estradiol patch.',
+      'Welcome to the real 40s Cougar perimenopause rollercoaster nobody puts in rom-coms: at 10 PM, a hormone-charged desire surge leaves {hisName} ({hisAge}M) seeing stars, then at 3:14 AM, a sudden flash-furnace night sweat hits, you kick every sheet off the bed, and guard your estradiol patch.',
     setupHim:
       'At 10 PM, {herName} ({herAge}F) nearly melted your soul out of your body. At 3:14 AM, she wakes up radiating volcanic perimenopause heat, flinging the comforter across the room and sighing in frustration.',
     innerInsecurityBubble: {
       herDoubt:
-        'Her 3 AM thought: "Perimenopause is wild—one hour I’m a siren, the next I’m sweating through percale at 3 AM. Is a {hisAge}-year-old guy going to be weirded out?"',
+        'Her 3 AM thought: "Perimenopause is wild, one hour I’m a siren, the next I’m sweating through percale at 3 AM. Is a {hisAge}-year-old guy going to be weirded out?"',
       hisDoubt:
-        'His 3 AM thought: "First, 10 PM was legendary; second, time to be an elite 3 AM cooling pit-crew pro—grab ice water and hit the ceiling fan!"',
+        'His 3 AM thought: "First, 10 PM was legendary; second, time to be an elite 3 AM cooling pit-crew pro, grab ice water and hit the ceiling fan!"',
     },
     recommendedAffiliateId: 'cooling-bamboo-sheets',
     choices: [
       {
         labelHer: 'He matches your 10 PM fire joyfully, then at 3 AM wordlessly clicks the fan on high, hands you ice water, flips your pillow to the cold side, and kisses your forehead with zero awkwardness.',
-        labelHim: 'Match her 10 PM passion wholeheartedly—and at 3 AM click on the fan, hand her ice water, flip her pillow to the cool side, and hold space with zero weirdness.',
+        labelHim: 'Match her 10 PM passion wholeheartedly, and at 3 AM click on the fan, hand her ice water, flip her pillow to the cool side, and hold space with zero weirdness.',
         outcomeHer:
-          'Zero shame, cold pillow, ice water, and a partner who adores *every* part of real 40s womanhood—both the 10 PM wildfire and the 3 AM heat wave.',
+          'Zero shame, cold pillow, ice water, and a partner who adores *every* part of real 40s womanhood, both the 10 PM wildfire and the 3 AM heat wave.',
         outcomeHim:
           'She exhales against the cool pillow, squeezes your hand, and whispers: "How are you this good at 3 AM?"',
         toastBanner: 'PERIMENOPAUSE PIT-CREW KING! • EQ +30 • CHEMISTRY +30',
@@ -2118,7 +2118,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'You point silently to his shoes and the front door before 3:16 AM arrives.',
         outcomeHim:
-          'Fastest Uber ride home in human history—deservedly so.',
+          'Fastest Uber ride home in human history, deservedly so.',
         toastBanner: 'RED FLAG! • JUVENILE 3 AM CRACK (-30)',
         deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
       },
@@ -2140,27 +2140,27 @@ export const EPISODES: Episode[] = [
     stage: 3,
     allowedTiers: ['jaguar', 'panther'],
     title: 'Menopause & Intimacy Real Talk: Zero Pregnancy Scares & Unhurried Mastery',
-    loreQuote: 'Real-World Quote • "50s/60s menopause intimacy—zero pregnancy anxiety, why rushing is outlawed, and how an attentive cub became my best lover"',
+    loreQuote: 'Real-World Quote • "50s/60s menopause intimacy, zero pregnancy anxiety, why rushing is outlawed, and how an attentive cub became my best lover"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     setupHer:
-      'Real talk for Jaguars & Panthers ({herAge}F): post-menopause intimacy comes with one unbeatable superpower (*zero pregnancy scares ever!*) alongside real estrogen shifts—meaning impatient 22-year-old rushing is strictly banned, luxury bedside moisture is an unapologetic staple, and unhurried attentiveness rules all.',
+      'Real talk for Jaguars & Panthers ({herAge}F): post-menopause intimacy comes with one unbeatable superpower (*zero pregnancy scares ever!*) alongside real estrogen shifts, meaning impatient 22-year-old rushing is strictly banned, luxury bedside moisture is an unapologetic staple, and unhurried attentiveness rules all.',
     setupHim:
       'Behind closed doors with {herName} ({herAge}F), menopause brings two truths every great Cub learns fast: zero pregnancy stress, AND her body rewards slow, vocal, ego-free warmup + keeping luxury bedside essentials within reach without a shred of awkwardness.',
     innerInsecurityBubble: {
       herDoubt:
-        'Her silent thought: "Menopause changes timing and moisture—will a {hisAge}-year-old man take that personally or treat my body with grown-up reverence?"',
+        'Her silent thought: "Menopause changes timing and moisture, will a {hisAge}-year-old man take that personally or treat my body with grown-up reverence?"',
       hisDoubt:
-        'His silent thought: "Don’t rush like an amateur—listen to her cues, take all night if she wants, and treat bedside essentials like champagne."',
+        'His silent thought: "Don’t rush like an amateur, listen to her cues, take all night if she wants, and treat bedside essentials like champagne."',
     },
     recommendedAffiliateId: 'cooling-bamboo-sheets',
     choices: [
       {
-        labelHer: 'Total body honesty and zero rushing—he treats bedside essentials as seamlessly natural, asks "Show me your favorite pace," and turns patience into electric fireworks.',
-        labelHim: 'Zero ego, zero rushing—embrace unhurried warmup, keep luxury bedside essentials handy seamlessly, and let her vocal cues guide an unforgettable night.',
+        labelHer: 'Total body honesty and zero rushing, he treats bedside essentials as seamlessly natural, asks "Show me your favorite pace," and turns patience into electric fireworks.',
+        labelHim: 'Zero ego, zero rushing, embrace unhurried warmup, keep luxury bedside essentials handy seamlessly, and let her vocal cues guide an unforgettable night.',
         outcomeHer:
-          'Unhurried, attentive, ego-free, and enthusiastically devoted—proving why women in their 50s and 60s rave that their best intimacy ever started *after* menopause.',
+          'Unhurried, attentive, ego-free, and enthusiastically devoted, proving why women in their 50s and 60s rave that their best intimacy ever started *after* menopause.',
         outcomeHim:
           'Listening instead of rushing unlocks a level of chemistry neither of you will ever forget... [Fade to Sunrise].',
         toastBanner: 'MENOPAUSE INTIMACY MASTERCLASS! • EQ +30 • CHEMISTRY +30',
@@ -2201,18 +2201,18 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     setupHer:
-      'All afternoon your phones practically caught fire trading steamy slow-burn texts (*"Still thinking about your hands... clear your whole night 🔥"*). Two hours later, post-[Fade-to-Fireworks] in tangled sheets, you spot {hisName}’s birth year on his wallet ID, bolt upright clutching the percale sheet to your chin, and shriek in pure comedic horror: **"WAIT A SECOND. YOU ARE LITERALLY THE EXACT SAME AGE AS MY BABY SISTER—AND WE JUST BANGED?!"**',
+      'All afternoon your phones practically caught fire trading steamy slow-burn texts (*"Still thinking about your hands... clear your whole night 🔥"*). Two hours later, post-[Fade-to-Fireworks] in tangled sheets, you spot {hisName}’s birth year on his wallet ID, bolt upright clutching the percale sheet to your chin, and shriek in pure comedic horror: **"WAIT A SECOND. YOU ARE LITERALLY THE EXACT SAME AGE AS MY BABY SISTER, AND WE JUST BANGED?!"**',
     setupHim:
-      'After trading scorching flirty texts all day and an Olympic-medal night together, {herName} ({herAge}F) glances at your birth year, freezes like she saw a ghost, grabs the bedsheet, and yells half-mortified, half-laughing: **"OH MY GOD. YOU WERE IN DIAPERS/GRADE SCHOOL WITH MY LITTLE SISTER AND WE JUST—?!"**',
+      'After trading scorching flirty texts all day and an Olympic-medal night together, {herName} ({herAge}F) glances at your birth year, freezes like she saw a ghost, grabs the bedsheet, and yells half-mortified, half-laughing: **"OH MY GOD. YOU WERE IN DIAPERS/GRADE SCHOOL WITH MY LITTLE SISTER AND WE JUST, ?!"**',
     recommendedAffiliateId: 'espresso-martini-barware',
     choices: [
       {
-        labelHer: 'Dissolve into hysterical laughter as he grins shamelessly, tugs the sheet gently, and says: "Way too late for refunds now—and I promise I’m a lot more fun than your little sister’s group chat."',
-        labelHim: 'Grin shamelessly without a second of awkwardness, pull her back into the pillows, and tease: "No refunds after five-star reviews—let’s ban birth-year math until brunch."',
+        labelHer: 'Dissolve into hysterical laughter as he grins shamelessly, tugs the sheet gently, and says: "Way too late for refunds now, and I promise I’m a lot more fun than your little sister’s group chat."',
+        labelHim: 'Grin shamelessly without a second of awkwardness, pull her back into the pillows, and tease: "No refunds after five-star reviews, let’s ban birth-year math until brunch."',
         outcomeHer:
           'You laugh until tears roll down your cheeks. Owning the absurd comedy of the age-math jump-scare makes the chemistry even hotter!',
         outcomeHim:
-          'Turning her existential age-math shriek into belly laughter seals legendary bedroom banter—and she immediately texts you a 🔥 emoji from two feet away.',
+          'Turning her existential age-math shriek into belly laughter seals legendary bedroom banter, and she immediately texts you a 🔥 emoji from two feet away.',
         toastBanner: 'SISTER-AGE SHOCK SURVIVED! • CHEMISTRY +30 • EQ +20',
         deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'Survived "Same Age as My Baby Sister!"',
@@ -2248,23 +2248,23 @@ export const EPISODES: Episode[] = [
     stage: 3,
     minigame: 'cub_grooming',
     title: '"Grooming" Your Cub: The ATJ TikTok Discourse vs. Literal Beard-Oil Glow-Up',
-    loreQuote: 'Real-World Quote • "Internet trolls yell \'grooming\' at consenting 27yo men—meanwhile the only grooming I did was throwing out his 5-in-1 body wash!"',
+    loreQuote: 'Real-World Quote • "Internet trolls yell \'grooming\' at consenting 27yo men, meanwhile the only grooming I did was throwing out his 5-in-1 body wash!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'bathroom_audit',
     setupHer:
-      'The moment a chronically online acquaintance hears your {herAge}F × {hisAge}M gap, they bring up **Aaron Taylor-Johnson** and smirk: *"Careful, TikTok’s gonna say you’re \'grooming\' him!"* Please—{hisName} is a grown {hisAge}-year-old adult with a W-2 and a fully baked prefrontal cortex. Though if **"grooming"** means confiscating his 5-in-1 neon-blue shower gel, lining up his jawline with sandalwood beard oil, and putting him in tailored linen until he looks like **Danny Ramirez** on **Jessica Alba’s** arm? Guilty as charged.',
+      'The moment a chronically online acquaintance hears your {herAge}F × {hisAge}M gap, they bring up **Aaron Taylor-Johnson** and smirk: *"Careful, TikTok’s gonna say you’re \'grooming\' him!"* Please, {hisName} is a grown {hisAge}-year-old adult with a W-2 and a fully baked prefrontal cortex. Though if **"grooming"** means confiscating his 5-in-1 neon-blue shower gel, lining up his jawline with sandalwood beard oil, and putting him in tailored linen until he looks like **Danny Ramirez** on **Jessica Alba’s** arm? Guilty as charged.',
     setupHim:
-      'Your buddy sends a TikTok meme comparing every older-woman/younger-man couple to **Aaron Taylor-Johnson** with air-quotes *"grooming."* You laugh—you’re {hisAge}, fully grown, and pursuing {herName} ({herAge}F) on purpose. Meanwhile, she’s eyeing your 5-in-1 body wash and scruffy collar ready to give you the full **"Cougar-Groomed" Red-Carpet Glow-Up**!',
+      'Your buddy sends a TikTok meme comparing every older-woman/younger-man couple to **Aaron Taylor-Johnson** with air-quotes *"grooming."* You laugh, you’re {hisAge}, fully grown, and pursuing {herName} ({herAge}F) on purpose. Meanwhile, she’s eyeing your 5-in-1 body wash and scruffy collar ready to give you the full **"Cougar-Groomed" Red-Carpet Glow-Up**!',
     recommendedAffiliateId: 'cub-grooming-beard-skincare-kit',
     choices: [
       {
-        labelHer: 'Shut down creepy teen-gap comparisons (grown 25+ adults only!) and lean hilariously into literal "Cub Grooming"—upgrading his beard oil, SPF 50, cologne, and linen shirt.',
+        labelHer: 'Shut down creepy teen-gap comparisons (grown 25+ adults only!) and lean hilariously into literal "Cub Grooming", upgrading his beard oil, SPF 50, cologne, and linen shirt.',
         labelHim: 'Roast the TikTok trolls ("My prefrontal cortex and 401(k) are doing great") and happily let her upgrade your skincare, beard line-up, and tailored collar.',
         outcomeHer:
-          'Two weeks later he walks into cocktails smelling like Santal & bergamot with glowing skin and rolled linen cuffs—your friends gasp: "Okay, THAT kind of \'Cub grooming\' deserves a Nobel Prize."',
+          'Two weeks later he walks into cocktails smelling like Santal & bergamot with glowing skin and rolled linen cuffs, your friends gasp: "Okay, THAT kind of \'Cub grooming\' deserves a Nobel Prize."',
         outcomeHim:
-          'Even your barber asks who upgraded your skincare and collar game—you step out beside {herName} looking straight off a **Jessica Alba & Danny Ramirez** vacation pap walk.',
+          'Even your barber asks who upgraded your skincare and collar game, you step out beside {herName} looking straight off a **Jessica Alba & Danny Ramirez** vacation pap walk.',
         toastBanner: '"COUGAR-GROOMED" GLOW-UP! • CHEMISTRY +25 • CHIVALRY +20',
         deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Cougar-Groomed Glow-Up Icon',
@@ -2280,7 +2280,7 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -20, chivalry: -15, eq: -15, chemistry: -20, redFlags: 1 },
       },
       {
-        labelHer: 'Make it a playful Saturday spa + shopping date—espresso, barber trim, and picking a signature cologne together.',
+        labelHer: 'Make it a playful Saturday spa + shopping date, espresso, barber trim, and picking a signature cologne together.',
         labelHim: 'Turn it into a fun Saturday afternoon date: fresh barber fade, espresso, and letting her pick your new date-night cologne.',
         outcomeHer:
           'Picking out the exact scent on his neck that drives you wild? Elite Saturday investment.',
@@ -2296,23 +2296,23 @@ export const EPISODES: Episode[] = [
     act: 3,
     stage: 4,
     title: 'Pop-Culture Cougar Renaissance: Alba, Sienna Miller, Ellie Goulding & Miley!',
-    loreQuote: 'Real-World Quote • "Between Jessica Alba, Sienna Miller, Ellie Goulding having babies with cubs & Miley marrying Maxx—it’s officially Cougar Season!"',
+    loreQuote: 'Real-World Quote • "Between Jessica Alba, Sienna Miller, Ellie Goulding having babies with cubs & Miley marrying Maxx, it’s officially Cougar Season!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     recommendedAffiliateId: 'idea-of-you-movie-book',
     setupHer:
-      'At cocktail hour, the table starts talking celebrity couples—and pop culture is officially in its Golden Cougar Era: **Jessica Alba** thriving with her Cub **Danny Ramirez**, **Sienna Miller & Oli Green** plus **Ellie Goulding & Beau Minniear** welcoming babies with devoted younger partners, and **Miley Cyrus** marrying her 6-year Cub **Maxx Morando**! Someone turns to you ({herAge}F) and {hisName} ({hisAge}M): *"So are Cougars & Cubs just trendy now because of Hollywood?"*',
+      'At cocktail hour, the table starts talking celebrity couples, and pop culture is officially in its Golden Cougar Era: **Jessica Alba** thriving with her Cub **Danny Ramirez**, **Sienna Miller & Oli Green** plus **Ellie Goulding & Beau Minniear** welcoming babies with devoted younger partners, and **Miley Cyrus** marrying her 6-year Cub **Maxx Morando**! Someone turns to you ({herAge}F) and {hisName} ({hisAge}M): *"So are Cougars & Cubs just trendy now because of Hollywood?"*',
     setupHim:
-      'Drinks with friends turns into celebrity age-gap trivia—**Jessica Alba & Danny Ramirez**, **Sienna Miller & Oli Green**, **Ellie Goulding & Beau Minniear**, and newlyweds **Miley Cyrus & Maxx Morando**. Someone teases you ({hisAge}M) and {herName} ({herAge}F): *"Did you two copy celebrity Cougar summer?"*',
+      'Drinks with friends turns into celebrity age-gap trivia, **Jessica Alba & Danny Ramirez**, **Sienna Miller & Oli Green**, **Ellie Goulding & Beau Minniear**, and newlyweds **Miley Cyrus & Maxx Morando**. Someone teases you ({hisAge}M) and {herName} ({herAge}F): *"Did you two copy celebrity Cougar summer?"*',
     choices: [
       {
-        labelHer: 'Toast the double standard finally dying: men dated younger in Hollywood for 80 years—watching Alba, Sienna, Ellie & Miley thrive publicly just proves women stopped asking permission.',
-        labelHim: 'Raise your glass grinning: "Danny Ramirez, Oli Green, Beau Minniear, and Maxx Morando just figured out what smart Cubs already knew—confident women are the ultimate prize."',
+        labelHer: 'Toast the double standard finally dying: men dated younger in Hollywood for 80 years, watching Alba, Sienna, Ellie & Miley thrive publicly just proves women stopped asking permission.',
+        labelHim: 'Raise your glass grinning: "Danny Ramirez, Oli Green, Beau Minniear, and Maxx Morando just figured out what smart Cubs already knew, confident women are the ultimate prize."',
         outcomeHer:
           'Mic drop at the cocktail table! Half the women raise their martinis cheering while {hisName} slips his arm around your waist beaming.',
         outcomeHim:
-          'Smooth, celebratory, zero awkwardness—{herName} clinks your glass laughing while everyone at the table nods in respect.',
+          'Smooth, celebratory, zero awkwardness, {herName} clinks your glass laughing while everyone at the table nods in respect.',
         toastBanner: 'HOLLYWOOD COUGAR ERA! • CHEMISTRY +25 • EQ +25',
         deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Red-Carpet Cougar Era Certified',
@@ -2352,13 +2352,13 @@ export const EPISODES: Episode[] = [
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'chic-candlelit-menu-readers',
     setupHer:
-      'Friday night, 8:15 PM. {hisName} ({hisAge}M) already scored silent points by pre-heating your passenger seat warmer to Level 3 before opening your car door. Now you’re in a trendy, pitch-dark Italian bistro where the pasta menu is printed in microscopic 7-point grey italic font—a hate crime against anyone over 38 who left her reading glasses in her other clutch.',
+      'Friday night, 8:15 PM. {hisName} ({hisAge}M) already scored silent points by pre-heating your passenger seat warmer to Level 3 before opening your car door. Now you’re in a trendy, pitch-dark Italian bistro where the pasta menu is printed in microscopic 7-point grey italic font, a hate crime against anyone over 38 who left her reading glasses in her other clutch.',
     setupHim:
-      'You pre-warmed {herName}’s ({herAge}F) passenger seat on the drive over and got her into a gorgeous candlelit trattoria. Only problem: the lighting is moody dark and the menu font is microscopic. You notice her holding the cardstock slightly farther back—what’s the move?',
+      'You pre-warmed {herName}’s ({herAge}F) passenger seat on the drive over and got her into a gorgeous candlelit trattoria. Only problem: the lighting is moody dark and the menu font is microscopic. You notice her holding the cardstock slightly farther back, what’s the move?',
     choices: [
       {
-        labelHer: 'Before you even squint, he leans in warmly ("It’s pitch dark in here—listen to this wild boar ragu & truffle cacio e pepe") and reads the best four dishes aloud with zero age jokes.',
-        labelHim: 'Blame the restaurant’s dark mood lighting casually and read the top pasta & wine highlights aloud like a sommelier—zero "need my phone flashlight, grandma?" jokes.',
+        labelHer: 'Before you even squint, he leans in warmly ("It’s pitch dark in here, listen to this wild boar ragu & truffle cacio e pepe") and reads the best four dishes aloud with zero age jokes.',
+        labelHim: 'Blame the restaurant’s dark mood lighting casually and read the top pasta & wine highlights aloud like a sommelier, zero "need my phone flashlight, grandma?" jokes.',
         outcomeHer:
           'Pre-heated seat warmer + reading tiny menu print smoothly without making it weird + reaching your top wine-glass shelf afterward? Husband-tier micro-chivalry.',
         outcomeHim:
@@ -2378,10 +2378,10 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -20, chivalry: -25, eq: -20, chemistry: -20, redFlags: 1 },
       },
       {
-        labelHer: 'Pull out your chic tortoiseshell readers with zero shame—and watch him lose his mind over the hot-professor look.',
+        labelHer: 'Pull out your chic tortoiseshell readers with zero shame, and watch him lose his mind over the hot-professor look.',
         labelHim: 'When she slips on her tortoiseshell reading glasses, tell her honestly that look is dangerously attractive.',
         outcomeHer:
-          'Wait—he thinks the tortoiseshell readers are hot?! Crisis upgraded into foreplay.',
+          'Wait, he thinks the tortoiseshell readers are hot?! Crisis upgraded into foreplay.',
         outcomeHim:
           'Complimenting her reading glasses genuinely makes her blush over her Barolo.',
         toastBanner: 'HOT-PROFESSOR READERS SPARK +20',
@@ -2394,7 +2394,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     title: 'Silk Pillowcase Law, Braids/Blowout Protection & His Secret "Her Drawer"',
-    loreQuote: 'Real-World Quote • "Opened my 26yo cub’s nightstand expecting video games—found a mulberry silk pillowcase, claw clip, makeup wipes & my charger"',
+    loreQuote: 'Real-World Quote • "Opened my 26yo cub’s nightstand expecting video games, found a mulberry silk pillowcase, claw clip, makeup wipes & my charger"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'bathroom_audit',
@@ -2408,7 +2408,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Inside his "Her Drawer": a fresh 22-momme mulberry silk pillowcase already on your pillow, micellar wipes, a spare tortoiseshell claw clip, Ibuprofen, and an extra USB-C cord on your side!',
         labelHim: 'Put a 22-momme silk pillowcase on her side of the bed and stock a dedicated drawer with a spare claw clip, gentle makeup wipes, Advil, and her own phone charger.',
         outcomeHer:
-          'You stare at the silk pillowcase and spare claw clip in stunned silence. Men at 44 never thought of this—meanwhile {hisName} studied the assignment like a scholar.',
+          'You stare at the silk pillowcase and spare claw clip in stunned silence. Men at 44 never thought of this, meanwhile {hisName} studied the assignment like a scholar.',
         outcomeHim:
           'When she spots the silk pillowcase and dedicated claw clip, she kisses you like you just won an Oscar.',
         toastBanner: '"HER DRAWER" LEGEND! • CHIVALRY +30 • CHEMISTRY +25',
@@ -2422,7 +2422,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Trapping a woman’s hair under your elbow on a sandpaper pillowcase is a two-count misdemeanor.',
         outcomeHim:
-          'Watch the elbow on the hair—and invest $39 in silk!',
+          'Watch the elbow on the hair, and invest $39 in silk!',
         toastBanner: 'RED FLAG! • BLOWOUT / BRAID HAZARD (-15)',
         deltas: { maturity: -15, chivalry: -20, eq: -15, chemistry: -15, redFlags: 1 },
       },
@@ -2449,7 +2449,7 @@ export const EPISODES: Episode[] = [
     sceneArt: 'houseboy_apron',
     recommendedAffiliateId: 'seed-oil-free-ghee-evoo-set',
     setupHer:
-      '11:30 PM Saturday after a very active evening. {hisName} ({hisAge}M) casually inhales half a pepperoni pizza straight from the box and will wake up tomorrow with visible lower abs—whereas if you touch late-night sodium or cheap tequila at {herAge}, you wake up puffy with rings stuck on your fingers and acid reflux.',
+      '11:30 PM Saturday after a very active evening. {hisName} ({hisAge}M) casually inhales half a pepperoni pizza straight from the box and will wake up tomorrow with visible lower abs, whereas if you touch late-night sodium or cheap tequila at {herAge}, you wake up puffy with rings stuck on your fingers and acid reflux.',
     setupHim:
       'Post-date midnight hunger hits your {hisAge}-year-old furnace metabolism hard, while {herName} ({herAge}F) laughs that eating salty takeout at 11:45 PM means puffy eyes and tight rings tomorrow morning.',
     choices: [
@@ -2491,7 +2491,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     title: 'Tretinoin vs. Stubble Burn (And Catching Him Stealing Your $180 Eye Cream)',
-    loreQuote: 'Real-World Quote • "Told my cub his 5 o’clock shadow irritated my retinol barrier—caught him moisturizing his beard AND patting on my $180 peptide eye cream"',
+    loreQuote: 'Real-World Quote • "Told my cub his 5 o’clock shadow irritated my retinol barrier, caught him moisturizing his beard AND patting on my $180 peptide eye cream"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
@@ -2541,7 +2541,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: 'Forum Red Flag #1: "After-9-PM Secret Link" vs. Daylight Sidewalk Pride',
-    loreQuote: 'Real-World Quote • "PSA to new Cougars: if he says \'discreet\', never takes you to 11 AM daylight brunch, or drops your hand in public—RUN"',
+    loreQuote: 'Real-World Quote • "PSA to new Cougars: if he says \'discreet\', never takes you to 11 AM daylight brunch, or drops your hand in public, RUN"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
@@ -2549,13 +2549,13 @@ export const EPISODES: Episode[] = [
     setupHer:
       'Every veteran Cougar warns newcomers about the **"Pocket Girlfriend" Red Flag**: younger guys who melt over you behind closed doors at 10 PM, yet mysteriously avoid busy Saturday farmers markets, daylight patios, or walking hand-in-hand past people their age. Time to see how {hisName} ({hisAge}M) handles bright Saturday noon sunlight.',
     setupHim:
-      'Rule #1 from older women on the forums: nothing dries up attraction faster than feeling like a younger man’s "secret after-hours experiment." It’s Saturday at 11:30 AM—how do you court {herName} ({herAge}F) in broad daylight?',
+      'Rule #1 from older women on the forums: nothing dries up attraction faster than feeling like a younger man’s "secret after-hours experiment." It’s Saturday at 11:30 AM, how do you court {herName} ({herAge}F) in broad daylight?',
     choices: [
       {
         labelHer: 'He books a sunlit 11:30 AM street-side brunch patio in the busiest neighborhood in town, holds your hand walking past his own gym crowd, and beams introducing you.',
         labelHim: 'Book the sunniest front-row sidewalk brunch table at 11:30 AM, reach for her hand effortlessly on the crosswalk, and radiate unmistakable pride.',
         outcomeHer:
-          'Zero shadows, zero "keep it lowkey" nonsense—walking down the avenue in noon sunlight with a man who looks proud to be beside you passes the #1 forum test!',
+          'Zero shadows, zero "keep it lowkey" nonsense, walking down the avenue in noon sunlight with a man who looks proud to be beside you passes the #1 forum test!',
         outcomeHim:
           'She squeezes your fingers at the crosswalk smiling: "Okay, you officially passed the Saturday Daylight Test."',
         toastBanner: 'DAYLIGHT PRIDE CERTIFIED! • CHIVALRY +25 • EQ +25',
@@ -2566,7 +2566,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He only texts after 9:30 PM ("come over lowkey 👀") and drops your hand the second two 24-year-old girls walk past.',
         labelHim: 'Suggest only late-night indoor hangouts and pull your hand back when people your age walk by.',
         outcomeHer:
-          'We don’t do secret pocket girlfriends in this club—blocked before you reach the corner!',
+          'We don’t do secret pocket girlfriends in this club, blocked before you reach the corner!',
         outcomeHim:
           'Flinching in public is the fastest one-way ticket out of Cougars & Cubs Club.',
         toastBanner: 'RED FLAG! • "SECRET POCKET" VIOLATION (-25)',
@@ -2589,7 +2589,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: '"Back in the Late 1900s?!", Voicemail Panic & Public Venmo Emojis',
-    loreQuote: 'Real-World Quote • "My 25yo cub innocently asked what concerts were like \'in the late 1900s\'—right after panicking because I left him a voicemail"',
+    loreQuote: 'Real-World Quote • "My 25yo cub innocently asked what concerts were like \'in the late 1900s\', right after panicking because I left him a voicemail"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
@@ -2610,7 +2610,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'You throw one velvet sofa pillow at his head, burst out laughing, and forgive the 21st-century baby immediately.',
         outcomeHim:
-          'She hits you with a throw pillow laughing—and spends the next hour teaching you peak 1999 album lore.',
+          'She hits you with a throw pillow laughing, and spends the next hour teaching you peak 1999 album lore.',
         toastBanner: '"LATE 1900s" SURVIVED! • CHEMISTRY +25 • EQ +20',
         deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Survived Calling 1998 "The 1900s"',
@@ -2642,15 +2642,15 @@ export const EPISODES: Episode[] = [
     act: 3,
     stage: 4,
     title: 'Meeting His Younger Friends: Brainrot Memes & Playing Roblox at 10 PM?!',
-    loreQuote: 'Real-World Quote • "My 25yo cub is a gentleman alone—then I met his friends and realized they just AirDrop unhinged memes and play Roblox Dress to Impress!"',
+    loreQuote: 'Real-World Quote • "My 25yo cub is a gentleman alone, then I met his friends and realized they just AirDrop unhinged memes and play Roblox Dress to Impress!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
-      'One-on-one, {hisName} ({hisAge}M) cooks ribeye and reads hardcovers. Tonight you stop by his college buddies’ apartment for a quick pre-game drink—and experience pure anthropological shock: four 24-year-old men communicating entirely in deep-fried Discord memes, arguing passionately over **Roblox *Dress to Impress*** runway scores on a 75-inch TV, and asking if you want a lukewarm White Claw or "wanna hop in our Roblox server?!"',
+      'One-on-one, {hisName} ({hisAge}M) cooks ribeye and reads hardcovers. Tonight you stop by his college buddies’ apartment for a quick pre-game drink, and experience pure anthropological shock: four 24-year-old men communicating entirely in deep-fried Discord memes, arguing passionately over **Roblox *Dress to Impress*** runway scores on a 75-inch TV, and asking if you want a lukewarm White Claw or "wanna hop in our Roblox server?!"',
     setupHim:
-      'Worlds collide: you brought sophisticated {herName} ({herAge}F) to say hi to your boys for 40 minutes before dinner—right as Bro #1 AirDrops cursed memes and Bro #2 boots up **Roblox** on the living-room TV yelling about obby checkpoints.',
+      'Worlds collide: you brought sophisticated {herName} ({herAge}F) to say hi to your boys for 40 minutes before dinner, right as Bro #1 AirDrops cursed memes and Bro #2 boots up **Roblox** on the living-room TV yelling about obby checkpoints.',
     choices: [
       {
         labelHer: 'He pours your wine into a real glass he brought, playfully roasts his Roblox-obsessed roommates, wins a 2-minute round *for* you laughing, and whisks you out at minute 40 to your candlelit reservation!',
@@ -2658,7 +2658,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Seeing the hilarious contrast between his Roblox-playing buddies and how grown, attentive, and protective {hisName} is with you actually makes him look *ten times* hotter!',
         outcomeHim:
-          'In the Uber to dinner she’s crying laughing: "Your friends are literally 12-year-olds on Roblox—how on earth did YOU turn out so smooth?!"',
+          'In the Uber to dinner she’s crying laughing: "Your friends are literally 12-year-olds on Roblox, how on earth did YOU turn out so smooth?!"',
         toastBanner: 'ROBLOX PRE-GAME SURVIVED! • MATURITY +25 • CHEMISTRY +25',
         deltas: { maturity: 25, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Escaped the Boys’ Roblox Lobby',
@@ -2691,21 +2691,21 @@ export const EPISODES: Episode[] = [
     stage: 4,
     minAgeGap: 6,
     title: 'Her Baby Brother / Sister Was Born the EXACT Same Year as Her Cub!',
-    loreQuote: 'Real-World Quote • "Introduced my cub to my family—my baby brother squinted and yelled \'BRO WE WERE BORN THE EXACT SAME MONTH!!\'"',
+    loreQuote: 'Real-World Quote • "Introduced my cub to my family, my baby brother squinted and yelled \'BRO WE WERE BORN THE EXACT SAME MONTH!!\'"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
     recommendedAffiliateId: 'big-carl-giant-wine-glass',
     setupHer:
-      'Drinks with your younger sibling—who you literally used to babysit and drive to middle school in your first Honda Civic. Five minutes into small talk, your baby sibling and {hisName} ({hisAge}M) realize they were **born the exact same year**, took the SAT the same Saturday, and watched the exact same childhood cartoons. Your sibling stares at you across their margarita: *"Did you seriously raid my birth year?!"*',
+      'Drinks with your younger sibling, who you literally used to babysit and drive to middle school in your first Honda Civic. Five minutes into small talk, your baby sibling and {hisName} ({hisAge}M) realize they were **born the exact same year**, took the SAT the same Saturday, and watched the exact same childhood cartoons. Your sibling stares at you across their margarita: *"Did you seriously raid my birth year?!"*',
     setupHim:
-      'You’re meeting {herName}’s ({herAge}F) younger sibling—and realize within three sentences that you two were born the **exact same calendar year**. Her sibling grins wickedly: *"Wait, she used to wipe pudding off my face while you were in 1st grade too!!"*',
+      'You’re meeting {herName}’s ({herAge}F) younger sibling, and realize within three sentences that you two were born the **exact same calendar year**. Her sibling grins wickedly: *"Wait, she used to wipe pudding off my face while you were in 1st grade too!!"*',
     choices: [
       {
         labelHer: 'He handles your sibling’s teasing with effortless charm, never teams up against you or gets weird, covers the appetizer round cleanly, and keeps all romantic focus clearly on you.',
         labelHim: 'Laugh along warmly without ever crossing boundaries or ganging up on {herName}, treat her sibling with friendly respect, and keep your eyes unmistakably on your partner.',
         outcomeHer:
-          'By drink two, your younger sibling texts you under the table: *"Okay fine, it was weird for 4 minutes—he’s actually awesome for you."*',
+          'By drink two, your younger sibling texts you under the table: *"Okay fine, it was weird for 4 minutes, he’s actually awesome for you."*',
         outcomeHim:
           'Her younger sibling gives you a fist-bump at the curb and officially signs off on the birth-year crossover.',
         toastBanner: 'SAME-YEAR SIBLING APPROVED! • EQ +25 • MATURITY +25',
@@ -2718,7 +2718,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Either one is an immediate, unforgivable ejection from the bloodline.',
         outcomeHim:
-          'Worst family-intro fumble imaginable—instant exile.',
+          'Worst family-intro fumble imaginable, instant exile.',
         toastBanner: 'RED FLAG! • SIBLING BOUNDARY DISASTER (-30)',
         deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -25, redFlags: 1 },
       },
@@ -2741,30 +2741,30 @@ export const EPISODES: Episode[] = [
     minAgeGap: 18,
     requiredAnyTags: ['adult_children'],
     title: 'Ultimate Forum Boss: Her Grown Son Is the EXACT Same Age as Her Cub!',
-    loreQuote: 'Real-World Quote • "My 25yo son walked into my kitchen holding laundry right beside my 25yo boyfriend—same age, same height, same Nike Dunks"',
+    loreQuote: 'Real-World Quote • "My 25yo son walked into my kitchen holding laundry right beside my 25yo boyfriend, same age, same height, same Nike Dunks"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'brunch_daughter',
     recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
-      'The #1 high-wire scenario on Cougars & Cubs Club: Sunday morning in your kitchen, your **grown son** (practically the exact same age as {hisName}, {hisAge}M!) drops by unannounced using his family key—and freezes nose-to-nose with {hisName}, who is standing by the espresso machine wearing the **exact same sneakers**.',
+      'The #1 high-wire scenario on Cougars & Cubs Club: Sunday morning in your kitchen, your **grown son** (practically the exact same age as {hisName}, {hisAge}M!) drops by unannounced using his family key, and freezes nose-to-nose with {hisName}, who is standing by the espresso machine wearing the **exact same sneakers**.',
     setupHim:
-      'The back door opens Sunday morning and in walks {herName}’s ({herAge}F) **grown adult son**—who is literally your exact age, wearing your exact sneakers, staring straight at you beside his mom’s coffee maker. Every forum rule ever written hangs on your next ten seconds!',
+      'The back door opens Sunday morning and in walks {herName}’s ({herAge}F) **grown adult son**, who is literally your exact age, wearing your exact sneakers, staring straight at you beside his mom’s coffee maker. Every forum rule ever written hangs on your next ten seconds!',
     choices: [
       {
         labelHer: 'Zero creepy "hey champ / stepdad" posturing! He shakes your son’s hand man-to-man with calm respect, lets you anchor the conversation, and graciously heads out after ten warm minutes so you and your son get solo time.',
-        labelHim: 'NEVER act like a fake stepdad or try too hard to be his best bro—offer a calm, respectful man-to-man handshake, let {herName} lead, and head out smoothly after coffee to respect their mother-son time.',
+        labelHim: 'NEVER act like a fake stepdad or try too hard to be his best bro, offer a calm, respectful man-to-man handshake, let {herName} lead, and head out smoothly after coffee to respect their mother-son time.',
         outcomeHer:
-          'You exhale a breath you were holding since 2024. Later your son shrugs: *"Look, same-age math is wild, Mom—at least the guy wasn’t weird and clearly respects you."*',
+          'You exhale a breath you were holding since 2024. Later your son shrugs: *"Look, same-age math is wild, Mom, at least the guy wasn’t weird and clearly respects you."*',
         outcomeHim:
-          'Zero ego, zero weirdness, 100% emotional intelligence—she texts you twenty minutes later: "You handled that better than any man alive."',
+          'Zero ego, zero weirdness, 100% emotional intelligence, she texts you twenty minutes later: "You handled that better than any man alive."',
         toastBanner: 'GROWN-SON COLLISION MASTERED! • MATURITY +30 • EQ +30',
         deltas: { maturity: 30, chivalry: 20, eq: 30, chemistry: 20, redFlags: 0 },
         badgeUnlocked: 'Zero-Weirdness Peer-Son Respect',
         triggerTipPrompt: true,
       },
       {
-        labelHer: 'He claps your 25-year-old son on the shoulder and says: "Good to meet you, sport—proud of the man you’re becoming!"',
+        labelHer: 'He claps your 25-year-old son on the shoulder and says: "Good to meet you, sport, proud of the man you’re becoming!"',
         labelHim: 'Pat a guy your exact age on the shoulder and call him "kiddo / champ" like a sitcom stepdad.',
         outcomeHer:
           'Your soul physically leaves your body from secondhand embarrassment. Calling a man born the same month as you "sport" is illegal!',
@@ -2791,13 +2791,13 @@ export const EPISODES: Episode[] = [
     stage: 4,
     minAgeGap: 10,
     title: 'First Time as Wedding +1: Table 9 Whispers, Tipsy Aunties & Slow Dances',
-    loreQuote: 'Real-World Quote • "Survived our first big wedding together as official +1s—from tipsy Aunt Linda’s math to owning the dance floor!"',
+    loreQuote: 'Real-World Quote • "Survived our first big wedding together as official +1s, from tipsy Aunt Linda’s math to owning the dance floor!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'thanksgiving_table',
     recommendedAffiliateId: 'fill-in-love-coupon-cards',
     setupHer:
-      'Your very first black-tie/cocktail wedding together as official `+1`s! Walking into cocktail hour with {hisName} ({hisAge}M) looking devastating in a tailored suit, 150 guests turn: two coworkers whisper behind champagne flutes, and tipsy Aunt Linda squints at the place cards asking *"Wait—nephew, personal trainer, or... OH GOOD FOR YOU HONEY!!"*',
+      'Your very first black-tie/cocktail wedding together as official `+1`s! Walking into cocktail hour with {hisName} ({hisAge}M) looking devastating in a tailored suit, 150 guests turn: two coworkers whisper behind champagne flutes, and tipsy Aunt Linda squints at the place cards asking *"Wait, nephew, personal trainer, or... OH GOOD FOR YOU HONEY!!"*',
     setupHim:
       'Your first big formal wedding as {herName}’s ({herAge}F) official `+1`! She looks breathtaking, Table 9 is buzzing with curious glances, and the band just started playing *September* into a classic slow ballad.',
     choices: [
@@ -2805,7 +2805,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He introduces himself to Table 9 with warm poise, charms Tipsy Aunt Linda onto your fan club, keeps a fresh drink in your hand, and pulls you onto the dance floor like you’re the only woman in the ballroom.',
         labelHim: 'Work Table 9 with warm gentleman charm, laugh graciously with Tipsy Aunt Linda, and lead {herName} onto the dance floor with total pride.',
         outcomeHer:
-          'By cake-cutting, four married women at Table 9 tell you privately you look happier than anyone in the room—and Aunt Linda tries to adopt him!',
+          'By cake-cutting, four married women at Table 9 tell you privately you look happier than anyone in the room, and Aunt Linda tries to adopt him!',
         outcomeHim:
           'Owning the room with grace and pride turns curious whispers into open admiration before dessert.',
         toastBanner: 'WEDDING +1 DEBUT CRUSHED! • CHIVALRY +30 • CHEMISTRY +25',
@@ -2839,16 +2839,16 @@ export const EPISODES: Episode[] = [
     act: 3,
     stage: 4,
     minAgeGap: 10,
-    title: 'Meeting His Parents (When His Mom Is Your Exact Age—Or Two Years Younger!)',
-    loreQuote: 'Real-World Quote • "Met my 26yo cub’s parents—his mom is 48, I’m 49, and Rule #1 saved us: he briefed them respectfully a week beforehand!"',
+    title: 'Meeting His Parents (When His Mom Is Your Exact Age, Or Two Years Younger!)',
+    loreQuote: 'Real-World Quote • "Met my 26yo cub’s parents, his mom is 48, I’m 49, and Rule #1 saved us: he briefed them respectfully a week beforehand!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'thanksgiving_table',
     recommendedAffiliateId: 'houseboy-linen-apron',
     setupHer:
-      'Another legendary forum milestone: meeting {hisName}’s ({hisAge}M) parents for dinner—knowing full well his mom is right in your generational bracket (and listened to the exact same high-school graduation songs!). Halfway through appetizers, his mom pulls {hisName} toward the kitchen asking quietly: *"Sweetheart, are you sure she’s serious about someone your age?"*',
+      'Another legendary forum milestone: meeting {hisName}’s ({hisAge}M) parents for dinner, knowing full well his mom is right in your generational bracket (and listened to the exact same high-school graduation songs!). Halfway through appetizers, his mom pulls {hisName} toward the kitchen asking quietly: *"Sweetheart, are you sure she’s serious about someone your age?"*',
     setupHim:
-      'You’re introducing {herName} ({herAge}F) to your parents over dinner. Your dad blinks doing silent birth-year math while your mom—who is right around {herName}’s age—pulls you aside in the hallway whispering: *"Honey, what about timelines and grandkids? Are you in over your head?"*',
+      'You’re introducing {herName} ({herAge}F) to your parents over dinner. Your dad blinks doing silent birth-year math while your mom, who is right around {herName}’s age, pulls you aside in the hallway whispering: *"Honey, what about timelines and grandkids? Are you in over your head?"*',
     choices: [
       {
         labelHer: 'Because he briefed them respectfully a week ahead (no ambush!), he answers his mom in the kitchen with calm, grown-man conviction, clears every plate, and lets his mom see how radiant and grounded you two are.',
@@ -2856,18 +2856,18 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'By coffee, you and his mom are laughing over 90s travel stories while his dad pours {hisName} the good bourbon. Forum Masterclass!',
         outcomeHim:
-          'Standing calmly as a grown man—without getting defensive—melts your mom’s protective fear into genuine respect by dessert.',
+          'Standing calmly as a grown man, without getting defensive, melts your mom’s protective fear into genuine respect by dessert.',
         toastBanner: 'PARENTS WON OVER! • MATURITY +30 • EQ +25',
         deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
         badgeUnlocked: 'Same-Age Mom Dinner Diplomat',
       },
       {
-        labelHer: 'He never warned them about your age—springing a shock ambush at the front door—then whines "MOM YOU NEVER LET ME LIVE!!" at the table.',
+        labelHer: 'He never warned them about your age, springing a shock ambush at the front door, then whines "MOM YOU NEVER LET ME LIVE!!" at the table.',
         labelHim: 'Ambush your parents unannounced with the age gap at the door, then argue like a 15-year-old over salad.',
         outcomeHer:
           'Forum Cardinal Sin #1 (the unwarned parent ambush) PLUS teenage whining? Get me out of this dining room!',
         outcomeHim:
-          'Ambushing your parents sets your partner up to fail—always prep family with respect first.',
+          'Ambushing your parents sets your partner up to fail, always prep family with respect first.',
         toastBanner: 'RED FLAG! • UNWARNED PARENT AMBUSH (-25)',
         deltas: { maturity: -30, chivalry: -15, eq: -25, chemistry: -20, redFlags: 1 },
       },
@@ -2905,9 +2905,9 @@ export const EPISODES: Episode[] = [
         labelHer: 'Oak bedframe, crisp white percale sheets, eucalyptus hand soap, plush guest towels, AND a matte-black lidded bathroom trash can.',
         labelHim: 'Prep like a king: real bedframe, fresh 600TC cotton sheets, botanical hand soap, sparkling mirror, and a lidded bathroom bin.',
         outcomeHer:
-          'You step out of his bathroom genuinely stunned—he read the sacred texts. Instant green light to stay till morning.',
+          'You step out of his bathroom genuinely stunned, he read the sacred texts. Instant green light to stay till morning.',
         outcomeHim:
-          'She emerges from your bathroom smiling ear to ear: "A lidded trash can AND real linen towels? Who raised you—and can I thank her?"',
+          'She emerges from your bathroom smiling ear to ear: "A lidded trash can AND real linen towels? Who raised you, and can I thank her?"',
         toastBanner: 'LIDDED BIN CERTIFIED! • CHEMISTRY +30',
         deltas: { maturity: 25, chivalry: 20, eq: 20, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'Trash Can With a Lid Certified',
@@ -2927,7 +2927,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Cozy starter studio, spotless surfaces, fresh flowers on the table, and her favorite sparkling water stocked in the fridge.',
         labelHim: 'Small entry-level studio, scrubbed spotless, stocked with her exact LaCroix flavor and clean cotton sheets.',
         outcomeHer:
-          'Proof of what Cougars repeat daily: square footage doesn’t matter—cleanliness and thoughtfulness do.',
+          'Proof of what Cougars repeat daily: square footage doesn’t matter, cleanliness and thoughtfulness do.',
         outcomeHim:
           'She couldn’t care less that it’s a small studio; stocking her favorite drink in a spotless space melts her.',
         toastBanner: 'THOUGHTFUL HOST +20',
@@ -2945,7 +2945,7 @@ export const EPISODES: Episode[] = [
     creditCost: 3,
     sceneArt: 'palm_springs_pool',
     setupHer:
-      'You booked a sunlit boutique resort in Palm Springs with credit-card points because you refuse to downgrade your vacations—how does {hisName} handle the luxury gap poolside?',
+      'You booked a sunlit boutique resort in Palm Springs with credit-card points because you refuse to downgrade your vacations, how does {hisName} handle the luxury gap poolside?',
     setupHim:
       '{herName} booked a gorgeous boutique Palm Springs suite way above your entry-level bracket. How do you show up as an equal partner all weekend?',
     recommendedAffiliateId: 'princess-mulberry-silk-robe',
@@ -2956,7 +2956,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Zero weirdness about money, 100% effort, chivalry, and sun-soaked desert chemistry. Best weekend all year.',
         outcomeHim:
-          'Effort and initiative bridge any income gap effortlessly—she lounges in silk robes grinning all weekend.',
+          'Effort and initiative bridge any income gap effortlessly, she lounges in silk robes grinning all weekend.',
         toastBanner: 'DESERT ESCAPE PERFECTION • CHIVALRY +25',
         deltas: { maturity: 20, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Palm Springs Poolside MVP',
@@ -2965,7 +2965,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He sulks quietly whenever the resort concierge hands you the room folio.',
         labelHim: 'Get defensive and moody about the hotel price tag all Saturday.',
         outcomeHer:
-          'Fragile financial ego turns paradise tense—maturity means celebrating her success, not competing with it.',
+          'Fragile financial ego turns paradise tense, maturity means celebrating her success, not competing with it.',
         outcomeHim:
           'Sulking ruins the desert sun; confidence means bringing full value in effort and presence.',
         toastBanner: 'RED FLAG! • BRUISED INCOME EGO (-15)',
@@ -2988,18 +2988,18 @@ export const EPISODES: Episode[] = [
     act: 3,
     stage: 4,
     title: 'VIP Deep-Cut: Thanksgiving With Her 23yo Son & His Class-of-’97 Mom',
-    loreQuote: 'Real-World Quote • "Met my cub’s parents—his mom and I graduated high school the same year"',
+    loreQuote: 'Real-World Quote • "Met my cub’s parents, his mom and I graduated high school the same year"',
     isVip: true,
     creditCost: 3,
     sceneArt: 'thanksgiving_table',
     recommendedAffiliateId: 'big-carl-giant-wine-glass',
     setupHer:
-      'Holiday crossover episode: you’re meeting {hisName}’s mother—who is right around your age and loved the exact same 1997 Alanis Morissette tour.',
+      'Holiday crossover episode: you’re meeting {hisName}’s mother, who is right around your age and loved the exact same 1997 Alanis Morissette tour.',
     setupHim:
       'Your mom and {herName} ({herAge}F) are standing side by side in the kitchen reaching for the wine opener while your dad blinks rapidly.',
     choices: [
       {
-        labelHer: 'Anchor the room with calm warmth—he introduces you proudly as his partner, helps clear every dish, and lets his mom see how happy and grounded he is.',
+        labelHer: 'Anchor the room with calm warmth, he introduces you proudly as his partner, helps clear every dish, and lets his mom see how happy and grounded he is.',
         labelHim: 'Introduce her proudly without apologizing, jump on dish duty, and let your mom see how grounded, happy, and respectful you two are.',
         outcomeHer:
           'By pie o’clock, you and his mom are bonding over 90s concerts while he beams from the sink. Legendary holiday survival.',
@@ -3036,23 +3036,23 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 1,
     title: 'VIP Deep-Cut: "In the Wild" Trader Joe’s Olive-Oil Aisle Approach',
-    loreQuote: 'Real-World Quote • "How did you meet in the wild without dating apps—and without breaking Not Dating 101?"',
+    loreQuote: 'Real-World Quote • "How did you meet in the wild without dating apps, and without breaking Not Dating 101?"',
     isVip: true,
     creditCost: 2,
     sceneArt: 'trader_joes_aisle',
     setupHer:
-      'Dating app age sliders filter out half the Cubs in town—so here {hisName} is in real life beside the imported Tuscan olive oil and peonies at Trader Joe’s.',
+      'Dating app age sliders filter out half the Cubs in town, so here {hisName} is in real life beside the imported Tuscan olive oil and peonies at Trader Joe’s.',
     setupHim:
-      'Forget app age filters—{herName} is right beside you choosing olive oil in sunlit athleisure. Shoot your shot cleanly without sounding like a pickup TikTok!',
+      'Forget app age filters, {herName} is right beside you choosing olive oil in sunlit athleisure. Shoot your shot cleanly without sounding like a pickup TikTok!',
     recommendedAffiliateId: 'date-night-oud-bergamot',
     choices: [
       {
         labelHer: 'He makes an easy, genuine comment about the Sicilian olive oil, reads your warm body language, and hands you his card/number with zero pressure.',
         labelHim: 'Spark an easy 30-second exchange about the Sicilian olive oil, read her smile, and offer *your* number on a slip so she has zero pressure.',
         outcomeHer:
-          'Natural, respectful, confident, and gave *you* the power to text—you message him before leaving the parking lot.',
+          'Natural, respectful, confident, and gave *you* the power to text, you message him before leaving the parking lot.',
         outcomeHim:
-          'Zero creepy hovering, zero age mention—giving her your number puts her completely at ease. Your phone buzzes ten minutes later!',
+          'Zero creepy hovering, zero age mention, giving her your number puts her completely at ease. Your phone buzzes ten minutes later!',
         toastBanner: 'IN-THE-WILD NATURALS +25',
         deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Trader Joe’s Wild-Catch Pro',
@@ -3091,16 +3091,16 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     setupHer:
-      'Instead of three weeks of pen-pal texting, your FaceTime vibe check with {hisName} ({hisAge}M) goes two electric hours past midnight. Next thing you know, you both carve out an **18-hour spontaneous escape** in a boutique hotel town an hour away—starting with golden-hour rooftop cocktails where nobody knows either of you, followed by the heated outdoor hotel pool and cedar sauna after dark.',
+      'Instead of three weeks of pen-pal texting, your FaceTime vibe check with {hisName} ({hisAge}M) goes two electric hours past midnight. Next thing you know, you both carve out an **18-hour spontaneous escape** in a boutique hotel town an hour away, starting with golden-hour rooftop cocktails where nobody knows either of you, followed by the heated outdoor hotel pool and cedar sauna after dark.',
     setupHim:
-      'Your video call with {herName} ({herAge}F) had off-the-charts chemistry—so you boldly proposed meeting halfway in a boutique getaway town for **18 unforgettable hours**: sunset rooftop drinks, late-night heated hotel pool laps, and cedar sauna steam before checking out at 11 AM.',
+      'Your video call with {herName} ({herAge}F) had off-the-charts chemistry, so you boldly proposed meeting halfway in a boutique getaway town for **18 unforgettable hours**: sunset rooftop drinks, late-night heated hotel pool laps, and cedar sauna steam before checking out at 11 AM.',
     recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     choices: [
       {
         labelHer: 'He arrives 15 minutes early with carry-on polish, claims a sunset rooftop corner booth, transitions seamlessly to midnight pool & cedar-sauna conversation, and orders room-service espresso before checkout.',
         labelHim: 'Arrive early in crisp linen, own the rooftop sunset toast, keep the midnight hotel pool & cedar sauna effortlessly sensual and attentive, and have hot coffee waiting at 9 AM.',
         outcomeHer:
-          'Eighteen hours in another zip code feels like a three-week European romance—riding the elevator down at checkout, neither of you wants to get into separate cars!',
+          'Eighteen hours in another zip code feels like a three-week European romance, riding the elevator down at checkout, neither of you wants to get into separate cars!',
         outcomeHim:
           'Steam rising off the midnight hotel pool + cedar sauna glow + zero awkwardness = the legendary 18-hour first-date story you’ll tell for years.',
         toastBanner: '18-HOUR GETAWAY MAGIC! • CHEMISTRY +30 • CHIVALRY +25',
@@ -3111,7 +3111,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He shows up two hours late with a trash bag for luggage, gets sloppy on rooftop shots, and cannonballs next to strangers in the hotel pool.',
         labelHim: 'Show up late, overdo the rooftop tequila, and cannonball into the quiet boutique pool.',
         outcomeHer:
-          'Thankfully an 18-hour trip has an 11 AM checkout—and a locked connecting door!',
+          'Thankfully an 18-hour trip has an 11 AM checkout, and a locked connecting door!',
         outcomeHim:
           'Spring-break frat behavior in a boutique sauna ends the getaway before midnight.',
         toastBanner: 'RED FLAG! • SPRING-BREAK CANNONBALL (-25)',
@@ -3140,13 +3140,13 @@ export const EPISODES: Episode[] = [
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'babygirl-movie-prime',
     setupHer:
-      '{hisName} ({hisAge}M) just defended his PhD and finally has free evenings to date! For tonight’s date on his leafy university quad, you swap your corner-office heels for crisp white sneakers, fitted denim, and a sleek bomber jacket—blending right in on the brick walkway before slipping into a candlelit campus sushi bar and leaning into cheeky **"Visiting Professor & Star Grad Student After Office Hours"** banter.',
+      '{hisName} ({hisAge}M) just defended his PhD and finally has free evenings to date! For tonight’s date on his leafy university quad, you swap your corner-office heels for crisp white sneakers, fitted denim, and a sleek bomber jacket, blending right in on the brick walkway before slipping into a candlelit campus sushi bar and leaning into cheeky **"Visiting Professor & Star Grad Student After Office Hours"** banter.',
     setupHim:
-      'Now that your dissertation is finally signed, you invite {herName} ({herAge}F) for a golden-hour walk across your old campus quad followed by omakase sushi. She shows up looking effortlessly radiant in sneakers and a fitted jacket—and raises one eyebrow across the warm sake: *"Careful, Mr. Doctoral Candidate… your oral exam isn’t over yet."*',
+      'Now that your dissertation is finally signed, you invite {herName} ({herAge}F) for a golden-hour walk across your old campus quad followed by omakase sushi. She shows up looking effortlessly radiant in sneakers and a fitted jacket, and raises one eyebrow across the warm sake: *"Careful, Mr. Doctoral Candidate… your oral exam isn’t over yet."*',
     choices: [
       {
-        labelHer: 'Own the playful "strict Visiting Professor" bit over spicy tuna & warm sake while he plays the eager top-of-the-class scholar—holding hands back across the lantern-lit quad!',
-        labelHim: 'Match her wit ("Yes, Professor—happy to stay late for extra credit"), pour her warm sake properly, and kiss her under the quad archways after sushi.',
+        labelHer: 'Own the playful "strict Visiting Professor" bit over spicy tuna & warm sake while he plays the eager top-of-the-class scholar, holding hands back across the lantern-lit quad!',
+        labelHim: 'Match her wit ("Yes, Professor, happy to stay late for extra credit"), pour her warm sake properly, and kiss her under the quad archways after sushi.',
         outcomeHer:
           'Dressing down in sneakers + intellectual sparks + cheeky office-hours roleplay makes you both laugh so hard you almost miss last call on nigiri!',
         outcomeHim:
@@ -3159,7 +3159,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He spends 90 minutes lecturing you about p-values and forgets to ask a single question about your life.',
         labelHim: 'Monologue nonstop about footnote citations and mansplain sushi etiquette.',
         outcomeHer:
-          'You survived a real career—you didn’t dress cute on a Friday for an unpaid statistics seminar!',
+          'You survived a real career, you didn’t dress cute on a Friday for an unpaid statistics seminar!',
         outcomeHim:
           'Turning a hot sushi date into a dry dissertation defense fails the vibe check instantly.',
         toastBanner: 'RED FLAG! • 90-MINUTE LECTURE SNOOZE (-20)',
@@ -3182,21 +3182,21 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: 'Spicy Foreign Cougar × Devoted Cub: Accents, Passion & Zero Lukewarm Energy',
-    loreQuote: 'Cougars & Cubs Club Original • "Worldly accented fire meets steady devotion—when she switches into her native language, hold your frame!"',
+    loreQuote: 'Cougars & Cubs Club Original • "Worldly accented fire meets steady devotion, when she switches into her native language, hold your frame!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'princess_bouquet',
     recommendedAffiliateId: 'babygirl-movie-prime',
     setupHer:
-      'Lukewarm American small-talk bores you to tears: when you love, cook, dance, or call out nonsense, your accent sharpens and the temperature in the room jumps ten degrees. Tonight at a bustling wine bar, {hisName} ({hisAge}M)—who openly adores worldly, fiery international women—gets his first taste of your rapid-fire native-tongue passion.',
+      'Lukewarm American small-talk bores you to tears: when you love, cook, dance, or call out nonsense, your accent sharpens and the temperature in the room jumps ten degrees. Tonight at a bustling wine bar, {hisName} ({hisAge}M), who openly adores worldly, fiery international women, gets his first taste of your rapid-fire native-tongue passion.',
     setupHim:
-      'You’ve always been magnetic toward worldly, accented, fiery women over bland dating-app small talk. Tonight {herName} ({herAge}F) switches into rapid-fire native phrases—half teasing your boldness, half testing whether a {hisAge}-year-old man can handle real fire without shrinking!',
+      'You’ve always been magnetic toward worldly, accented, fiery women over bland dating-app small talk. Tonight {herName} ({herAge}F) switches into rapid-fire native phrases, half teasing your boldness, half testing whether a {hisAge}-year-old man can handle real fire without shrinking!',
     choices: [
       {
         labelHer: 'He holds steady eye contact smiling, replies smoothly with two genuinely well-pronounced romantic phrases in your language, pulls out your chair, and matches your fire beat for beat.',
         labelHim: 'Hold calm, confident eye contact with a warm grin, drop one effortlessly practiced compliment in her native language, and step right into her salsa/wine-bar rhythm.',
         outcomeHer:
-          'Finally—a younger man who isn’t intimidated by passion, volume, or culture! Within ten minutes you’re whispering *"mi cielo"* against his collar.',
+          'Finally, a younger man who isn’t intimidated by passion, volume, or culture! Within ten minutes you’re whispering *"mi cielo"* against his collar.',
         outcomeHim:
           'Her eyes flash with pure delight: when a fiery woman realizes she doesn’t have to dim her spark around you, the passion is unmatched.',
         toastBanner: 'INTERNATIONAL FIRE MATCHED! • CHEMISTRY +30 • CHIVALRY +20',
@@ -3236,7 +3236,7 @@ export const EPISODES: Episode[] = [
     sceneArt: 'princess_bouquet',
     recommendedAffiliateId: 'linen-picnic-insulated-tote',
     setupHer:
-      '{hisName} ({hisAge}M) is a self-made craftsman—warm accent, freshly pressed linen shirt, zero trust-fund flash, and real gentleman pride about impressing you with *effort* rather than credit-card flexing. For Saturday, he packs a handmade meadow picnic (fresh baguette, strawberries, cheeses, wildflowers) followed by trash-talking **retro neon bowling**!',
+      '{hisName} ({hisAge}M) is a self-made craftsman, warm accent, freshly pressed linen shirt, zero trust-fund flash, and real gentleman pride about impressing you with *effort* rather than credit-card flexing. For Saturday, he packs a handmade meadow picnic (fresh baguette, strawberries, cheeses, wildflowers) followed by trash-talking **retro neon bowling**!',
     setupHim:
       'You didn’t grow up with country-club money, and {herName} ({herAge}F) can afford any five-star restaurant in town on her own. Instead of faking wealth or splitting chains, you lean into old-school romance: a hand-packed golden-hour **park picnic** followed by playful **retro neon bowling**.',
     choices: [
@@ -3246,7 +3246,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Watching an earnest, accented younger man pour 100% heart and creativity into a $35 Saturday makes every lazy $300 finance-bro dinner you’ve ever had look pathetic!',
         outcomeHim:
-          'She links her arm through yours walking out of the bowling alley: "That was the most fun Saturday date I’ve had in ten years—and wait till you taste my *Big Carl* Cougar Town wine pour at home."',
+          'She links her arm through yours walking out of the bowling alley: "That was the most fun Saturday date I’ve had in ten years, and wait till you taste my *Big Carl* Cougar Town wine pour at home."',
         toastBanner: 'OLD-WORLD CHARM VICTORY! • CHIVALRY +30 • CHEMISTRY +25',
         deltas: { maturity: 25, chivalry: 30, eq: 20, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Picnic & Neon-Bowling Heartthrob',
@@ -3255,7 +3255,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He apologizes forty times for not being rich, sulks about the bowling shoes, and makes his budget awkward.',
         labelHim: 'Spend all afternoon apologizing insecurely about money instead of owning the date.',
         outcomeHer:
-          'Self-pity kills romance—effort and confidence were already winning!',
+          'Self-pity kills romance, effort and confidence were already winning!',
         outcomeHim:
           'Never apologize for an honest budget when your planning and effort are 10/10.',
         toastBanner: 'RED FLAG! • SELF-PITY SPIRAL (-15)',
@@ -3263,7 +3263,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'Turn bowling into a cheeky wager: winner picks tonight’s movie (loser pours the "Cougar Town" Big Carl wine glasses!).',
-        labelHim: 'Make a playful bowling bet—winner chooses midnight dessert, loser gives a 20-minute shoulder massage.',
+        labelHim: 'Make a playful bowling bet, winner chooses midnight dessert, loser gives a 20-minute shoulder massage.',
         outcomeHer:
           'Flirty competition + zero pretentiousness = pure rom-com gold.',
         outcomeHim:
@@ -3287,15 +3287,15 @@ export const EPISODES: Episode[] = [
     setupHer:
       '**Six-Month Milestone Unlocked!** Half a year ago it was one electric check-drop and an age-slider experiment. Tonight, {hisName} ({hisAge}M) has his own skincare spot on your vanity, knows your exact coffee & star-sign quirks, and shows up for your **6-Month Anniversary** with peonies, a handwritten card, and two comically giant *Cougar Town* **"Big Carl"** wine pours.',
     setupHim:
-      '**Six-Month Milestone Unlocked!** Every skeptic gave you and {herName} ({herAge}F) three weekends max. Six months later, you’ve survived generational slang, family age math, and 2 AM doubts—how do you mark half a year together tonight?',
+      '**Six-Month Milestone Unlocked!** Every skeptic gave you and {herName} ({herAge}F) three weekends max. Six months later, you’ve survived generational slang, family age math, and 2 AM doubts, how do you mark half a year together tonight?',
     choices: [
       {
         labelHer: 'Slide a brass spare house key across the table beside your "Big Carl" wine glass, read his handwritten letter aloud, and plan your autumn trip together.',
         labelHim: 'Give her a deeply personal handwritten 6-month letter (referencing the tiny detail you noticed on Date #1), toast "Big Carl"-style, and map out your next trip.',
         outcomeHer:
-          'Seeing his eyes light up over the brass spare key—six months of consistency, laughter, and electric chemistry officially sealed!',
+          'Seeing his eyes light up over the brass spare key, six months of consistency, laughter, and electric chemistry officially sealed!',
         outcomeHim:
-          'She presses the spare key into your palm grinning: "Six months down—and you still open every car door like it’s Friday #1."',
+          'She presses the spare key into your palm grinning: "Six months down, and you still open every car door like it’s Friday #1."',
         toastBanner: '6-MONTH MILESTONE SEALED! • ALL STATS +20',
         deltas: { maturity: 20, chivalry: 25, eq: 20, chemistry: 25, redFlags: 0 },
         badgeUnlocked: '6-Month Brass Key & "Big Carl" Certified',
@@ -3311,7 +3311,7 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -20, redFlags: 1 },
       },
       {
-        labelHer: 'Recreate your exact first date—same booth, same order, zero first-night nerves.',
+        labelHer: 'Recreate your exact first date, same booth, same order, zero first-night nerves.',
         labelHim: 'Book the exact corner booth from Date #1 and surprise her with her signature drink waiting.',
         outcomeHer:
           'Nostalgic, romantic, and effortless.',
@@ -3334,16 +3334,16 @@ export const EPISODES: Episode[] = [
     setupHer:
       '**One-Year Anniversary Finale!** Four full seasons with {hisName} ({hisAge}M): his friends adore you, your inner circle stopped asking "Is it just a phase?" months ago, and you’ve checked into a candlelit coastal suite with a heated midnight pool to toast **365 days** of choosing each other out loud.',
     setupHim:
-      '**One-Year Anniversary Finale!** One full year with {herName} ({herAge}F)—from catching dating-app red flags to holidays, inside jokes, and building a real partnership that outshines every same-age couple you know. Time for the 365-day toast!',
+      '**One-Year Anniversary Finale!** One full year with {herName} ({herAge}F), from catching dating-app red flags to holidays, inside jokes, and building a real partnership that outshines every same-age couple you know. Time for the 365-day toast!',
     recommendedAffiliateId: 'fill-in-love-coupon-cards',
     choices: [
       {
         labelHer: 'Raise champagne under the stars poolside, thank him for loving every chapter of who you are, and step into Year Two hand-in-hand without a single apology.',
         labelHim: 'Toast 365 days poolside ("Best decision I ever made was ignoring the age slider"), slip a timeless keepsake onto her wrist, and claim Year Two with full devotion.',
         outcomeHer:
-          'One year in, zero masks, total peace, and butterflies that still hit like Night #1—you officially beat Cougars & Cubs Club at highest romance rank!',
+          'One year in, zero masks, total peace, and butterflies that still hit like Night #1, you officially beat Cougars & Cubs Club at highest romance rank!',
         outcomeHim:
-          'She pulls you into the warm pool water laughing under the lights—365 days strong and just getting started.',
+          'She pulls you into the warm pool water laughing under the lights, 365 days strong and just getting started.',
         toastBanner: '🏆 1-YEAR ANNIVERSARY CHAMPIONS! • +30 ROMANCE PAYOFF',
         deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
         badgeUnlocked: '365-Day Cougar & Cub Anniversary Crown',
@@ -3355,7 +3355,7 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Forgetting the 1-year anniversary at the 1-yard line?! Tragic fumble!',
         outcomeHim:
-          'Never fumble the 365-day finish line—set three calendar reminders!',
+          'Never fumble the 365-day finish line, set three calendar reminders!',
         toastBanner: 'RED FLAG! • FORGOT THE 1-YEAR ANNIVERSARY (-30)',
         deltas: { maturity: -30, chivalry: -30, eq: -25, chemistry: -25, redFlags: 1 },
       },
@@ -3384,13 +3384,13 @@ export const EPISODES: Episode[] = [
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'babygirl-movie-prime',
     setupHer:
-      'An upscale **hotel lobby bar** on a solo work trip is the #1 "in-the-wild" spot for lightning to strike. You’re unwinding in silk after a keynote when the bartender sets down TWO glasses from {hisName} ({hisAge}M) at the end of the bar: your exact dirty martini—AND, with a cheeky wink referencing Nicole Kidman’s viral ***Babygirl*** scene, a tiny shot glass of cold oat milk with a cocktail napkin reading: *"Pick your poison—zero pressure."* ',
+      'An upscale **hotel lobby bar** on a solo work trip is the #1 "in-the-wild" spot for lightning to strike. You’re unwinding in silk after a keynote when the bartender sets down TWO glasses from {hisName} ({hisAge}M) at the end of the bar: your exact dirty martini, AND, with a cheeky wink referencing Nicole Kidman’s viral ***Babygirl*** scene, a tiny shot glass of cold oat milk with a cocktail napkin reading: *"Pick your poison, zero pressure."* ',
     setupHim:
-      '{herName} ({herAge}F) is unwinding solo at the boutique hotel bar—radiating pure CEO poise. Everyone knows the infamous ***Babygirl*** "send her a glass of milk across the bar" movie moment, and rule #1 of hotel-bar etiquette is never interrupting a solo traveler rudely. How do you make your opening move?',
+      '{herName} ({herAge}F) is unwinding solo at the boutique hotel bar, radiating pure CEO poise. Everyone knows the infamous ***Babygirl*** "send her a glass of milk across the bar" movie moment, and rule #1 of hotel-bar etiquette is never interrupting a solo traveler rudely. How do you make your opening move?',
     choices: [
       {
         labelHer: 'Burst out laughing at the cheeky *Babygirl* visual gag, raise the dirty martini in a toast, wave him over for a 20-minute nightcap, and watch sparks fly.',
-        labelHim: 'Send her exact martini alongside a miniature comedy *Babygirl* milk-shot wink on a napkin—giving her a laugh AND total control over whether to wave you over.',
+        labelHim: 'Send her exact martini alongside a miniature comedy *Babygirl* milk-shot wink on a napkin, giving her a laugh AND total control over whether to wave you over.',
         outcomeHer:
           'Self-aware pop-culture wit + actual martini class + respecting solo hotel-bar boundaries = the smoothest "in-the-wild" opener of the year!',
         outcomeHim:
@@ -3403,9 +3403,9 @@ export const EPISODES: Episode[] = [
         labelHer: 'He sends an unironic pint of warm whole milk to your lactose-intolerant self and whispers "good girl" like a TikTok cringe reel.',
         labelHim: 'Send a literal pint of warm whole milk with zero context and try to growl a movie line to a stranger.',
         outcomeHer:
-          'Warm dairy at 9:30 PM?! Security—and Lactaid—to the lobby bar immediately!',
+          'Warm dairy at 9:30 PM?! Security, and Lactaid, to the lobby bar immediately!',
         outcomeHim:
-          'Life is not an A24 screenplay—unsolicited dairy + zero rapport gets an immediate tab close.',
+          'Life is not an A24 screenplay, unsolicited dairy + zero rapport gets an immediate tab close.',
         toastBanner: 'RED FLAG! • UNIRONIC WARM DAIRY CRIME (-25)',
         deltas: { maturity: -25, chivalry: -15, eq: -25, chemistry: -25, redFlags: 1 },
       },
@@ -3426,23 +3426,23 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 1,
     title: '"In the Wild" Gym Law: The AirPods Max Crime vs. The 3-Week Slow Burn',
-    loreQuote: 'Real-World Quote • "PSA to Cubs: NEVER tap a woman’s shoulder mid-squat when her headphones are on—play the 3-week polite nod game!"',
+    loreQuote: 'Real-World Quote • "PSA to Cubs: NEVER tap a woman’s shoulder mid-squat when her headphones are on, play the 3-week polite nod game!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'ridge_trail_leash',
     recommendedAffiliateId: 'trail-hydration-vest',
     setupHer:
-      'Every single week on `Cougars & Cubs Club`, younger guys ask how to approach a fit Cougar at the gym—and every woman replies with the Sacred Headphone Law. You’re in the zone with noise-canceling headphones on; {hisName} ({hisAge}M) has been training in the next rack at 7 AM for three weeks.',
+      'Every single week on `Cougars & Cubs Club`, younger guys ask how to approach a fit Cougar at the gym, and every woman replies with the Sacred Headphone Law. You’re in the zone with noise-canceling headphones on; {hisName} ({hisAge}M) has been training in the next rack at 7 AM for three weeks.',
     setupHim:
-      'You’ve spotted {herName} ({herAge}F) crushing RDLs at your 7 AM gym for three weeks straight. Right now her over-ear noise-canceling headphones are ON. Every veteran on `Cougars & Cubs Club` is watching—what’s your play?',
+      'You’ve spotted {herName} ({herAge}F) crushing RDLs at your 7 AM gym for three weeks straight. Right now her over-ear noise-canceling headphones are ON. Every veteran on `Cougars & Cubs Club` is watching, what’s your play?',
     choices: [
       {
-        labelHer: 'He NEVER interrupts a single set while your headphones are on—just trades warm smiles for three weeks, reracks his 45-lb plates cleanly, and strikes up an easy 60-second chat at the smoothie bar *after* your headphones come off!',
+        labelHer: 'He NEVER interrupts a single set while your headphones are on, just trades warm smiles for three weeks, reracks his 45-lb plates cleanly, and strikes up an easy 60-second chat at the smoothie bar *after* your headphones come off!',
         labelHim: 'Respect the headphones 100% during sets, rerack your weights like an adult, build three weeks of friendly eye-contact rapport, and say hi naturally at the smoothie counter once her headphones are off.',
         outcomeHer:
           'Patience, gym etiquette, AND reracking 45-lb plates without slamming them? You suggest post-workout coffee before he even finishes his sentence!',
         outcomeHim:
-          'Respecting her workout zone puts you ahead of 99% of gym bros—she smiles wide at the smoothie bar and locks in Saturday coffee.',
+          'Respecting her workout zone puts you ahead of 99% of gym bros, she smiles wide at the smoothie bar and locks in Saturday coffee.',
         toastBanner: 'SACRED HEADPHONE LAW PASSED! • EQ +25 • MATURITY +25',
         deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Gym Headphone Etiquette MVP',
@@ -3458,7 +3458,7 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -25, chivalry: -20, eq: -30, chemistry: -20, redFlags: 1 },
       },
       {
-        labelHer: 'Ask him to spot one heavy bench set—letting you initiate the conversation on your own terms.',
+        labelHer: 'Ask him to spot one heavy bench set, letting you initiate the conversation on your own terms.',
         labelHim: 'Wait until she asks if you’re using the cable attachment, keep it breezy and respectful, and let the rapport build.',
         outcomeHer:
           'Zero pressure, total comfort, natural gym spark.',
@@ -3474,7 +3474,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 2,
     title: '"Cubsplaining" 2008 Mortgages & The Bouncer UV-Flashlight ID Check',
-    loreQuote: 'Real-World Quote • "When he tries to explain Fleetwood Mac to you—right before the bouncer inspects HIS ID for 45 seconds"',
+    loreQuote: 'Real-World Quote • "When he tries to explain Fleetwood Mac to you, right before the bouncer inspects HIS ID for 45 seconds"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'waiter_shock',
@@ -3482,15 +3482,15 @@ export const EPISODES: Episode[] = [
     setupHer:
       'Two classic age-gap comedy moments hit back-to-back outside a speakeasy jazz bar: in line, {hisName} ({hisAge}M) catches himself mid-sentence starting to explain how vinyl pressings and fixed-rate mortgages work (*"Cubsplaining"*!). Five seconds later, the 23-year-old bouncer shines a UV flashlight on **{hisName}’s** license for 40 seconds while waving you straight through the velvet rope.',
     setupHim:
-      'Outside the jazz lounge with {herName} ({herAge}F), you realize two seconds into a sentence about *Rumours*-era Fleetwood Mac that she literally owned the original vinyl before you were born—and then the bouncer quizzes YOUR birthday under a blacklight while waving her right inside!',
+      'Outside the jazz lounge with {herName} ({herAge}F), you realize two seconds into a sentence about *Rumours*-era Fleetwood Mac that she literally owned the original vinyl before you were born, and then the bouncer quizzes YOUR birthday under a blacklight while waving her right inside!',
     choices: [
       {
-        labelHer: 'He catches his own "Cubsplain" laughing ("Wait—I am literally explaining mortgages to a homeowner, shut me up!"), tips the bouncer grinning when you ask to get carded too, and buys the first round.',
+        labelHer: 'He catches his own "Cubsplain" laughing ("Wait. I am literally explaining mortgages to a homeowner, shut me up!"), tips the bouncer grinning when you ask to get carded too, and buys the first round.',
         labelHim: 'Roast yourself mid-"Cubsplain" before finishing the sentence, playfully insist the bouncer check her ID too ("Look at her, clearly 29!"), and grab the corner velvet booth.',
         outcomeHer:
-          'Self-awareness cures "Cubsplaining" in 0.2 seconds—and watching him get grilled on his zip code by the bouncer gives you bestie-brunch material for a month!',
+          'Self-awareness cures "Cubsplaining" in 0.2 seconds, and watching him get grilled on his zip code by the bouncer gives you bestie-brunch material for a month!',
         outcomeHim:
-          'Catching yourself instead of lecturing her—plus turning the ID check into pure flattery—has her laughing against your shoulder all set long.',
+          'Catching yourself instead of lecturing her, plus turning the ID check into pure flattery, has her laughing against your shoulder all set long.',
         toastBanner: 'ZERO CUBSPLAINING! • EQ +25 • CHEMISTRY +25',
         deltas: { maturity: 20, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Survived the Speakeasy UV Bouncer',
@@ -3507,7 +3507,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer: 'Ask him to teach you something he genuinely mastered while you school him on 90s concert history.',
-        labelHim: 'Ask for her real lived take instead of guessing—turning experience differences into mutual curiosity.',
+        labelHim: 'Ask for her real lived take instead of guessing, turning experience differences into mutual curiosity.',
         outcomeHer:
           'Mutual respect and genuine curiosity make the conversation electric.',
         outcomeHim:
@@ -3522,22 +3522,22 @@ export const EPISODES: Episode[] = [
     act: 3,
     stage: 4,
     title: 'Boutique Hotel Check-In: "Did You Want Two Queen Beds for You and Your Son?!"',
-    loreQuote: 'Real-World Quote • "Front desk clerk tried to \'helpfully\' switch our King oceanfront suite to Two Queens—our reaction got us upgraded to Champagne!"',
+    loreQuote: 'Real-World Quote • "Front desk clerk tried to \'helpfully\' switch our King oceanfront suite to Two Queens, our reaction got us upgraded to Champagne!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'waiter_shock',
     recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     minAgeGap: 14,
     setupHer:
-      'You and {hisName} ({hisAge}M) step up to the marble reception desk for your weekend coastal trip. The well-meaning 21-year-old clerk glances between your reservation and {hisName}, taps furiously on his keyboard, and whispers helpfully: *"Oh! The system booked ONE King bed by mistake—let me switch you and your son into Two Queens at no charge!"*',
+      'You and {hisName} ({hisAge}M) step up to the marble reception desk for your weekend coastal trip. The well-meaning 21-year-old clerk glances between your reservation and {hisName}, taps furiously on his keyboard, and whispers helpfully: *"Oh! The system booked ONE King bed by mistake, let me switch you and your son into Two Queens at no charge!"*',
     setupHim:
       'Classic Cougars & Cubs rite of passage at the boutique hotel front desk: the young check-in clerk thinks he’s saving the day by offering to split your oceanfront King suite with {herName} ({herAge}F) into **Two Queen Beds**!',
     choices: [
       {
-        labelHer: 'He wraps one arm smoothly around your waist, kisses your temple smiling, and tells the clerk warmly: "Trust me, one King bed is *definitely* right"—turning the clerk bright red AND scoring complimentary lobby champagne!',
-        labelHim: 'Slip your arm warmly around her waist with a relaxed grin ("Oh, one King bed is definitely what we booked—we’re celebrating all weekend!"), making her laugh and watching the embarrassed clerk send up free champagne.',
+        labelHer: 'He wraps one arm smoothly around your waist, kisses your temple smiling, and tells the clerk warmly: "Trust me, one King bed is *definitely* right", turning the clerk bright red AND scoring complimentary lobby champagne!',
+        labelHim: 'Slip your arm warmly around her waist with a relaxed grin ("Oh, one King bed is definitely what we booked, we’re celebrating all weekend!"), making her laugh and watching the embarrassed clerk send up free champagne.',
         outcomeHer:
-          'Not a flicker of embarrassment—just effortless affection, humor, AND a free bottle of Veuve Clicquot sent up by a mortified front-desk manager!',
+          'Not a flicker of embarrassment, just effortless affection, humor, AND a free bottle of Veuve Clicquot sent up by a mortified front-desk manager!',
         outcomeHim:
           'The clerk turns crimson, upgrades you to the corner ocean-view suite in apology, and {herName} pulls you in by your collar the second the suite door clicks shut!',
         toastBanner: 'FREE CHAMPAGNE UPGRADE! • CHEMISTRY +30 • CHIVALRY +25',
@@ -3548,15 +3548,15 @@ export const EPISODES: Episode[] = [
         labelHer: 'He steps three feet away from you at the desk looking mortified and mutters, "Yeah uh whatever is fine."',
         labelHim: 'Drop her hand in embarrassment and stare at your shoes while she handles the awkward clerk alone.',
         outcomeHer:
-          'Actually, Mr. Clerk—DO make it two separate rooms, and put his on a separate credit card!',
+          'Actually, Mr. Clerk, DO make it two separate rooms, and put his on a separate credit card!',
         outcomeHim:
           'Shrinking away during a public mix-up turns a funny 5-second moment into a real wound.',
         toastBanner: 'RED FLAG! • FRONT-DESK SHRINKING (-25)',
         deltas: { maturity: -25, chivalry: -25, eq: -20, chemistry: -25, redFlags: 1 },
       },
       {
-        labelHer: 'Wink at the clerk together ("Definitely one King—and send up two robe sizes, please!") and laugh all the way up in the elevator.',
-        labelHim: 'Share an unbothered laugh with her in the elevator—treating public mix-ups as your favorite recurring comedy bit.',
+        labelHer: 'Wink at the clerk together ("Definitely one King, and send up two robe sizes, please!") and laugh all the way up in the elevator.',
+        labelHim: 'Share an unbothered laugh with her in the elevator, treating public mix-ups as your favorite recurring comedy bit.',
         outcomeHer:
           'Couples who laugh off front-desk mix-ups in five seconds are invincible.',
         outcomeHim:
@@ -3580,11 +3580,11 @@ export const EPISODES: Episode[] = [
     setupHer:
       'You dared to drag your app age slider into the **Sub-23 Danger Zone**! {hisName} ({hisAge}M) begged to take you out for sushi, ordered two dragon rolls + hot sake for himself while you had one salmon roll, watched his university Meal-Plan card decline off-campus, and now has his iPhone calculator open at the table muttering: *"Okay if we go Dutch plus 8.75% tax and you ate four of the seven edamame pods… can you Venmo me $41.63 right now?"*',
     setupHim:
-      'Budget Reality Test! You’re {hisAge} on a tight student/early-career budget taking {herName} ({herAge}F) out. Your roommate swore you should *"make her go 50/50 Dutch down to the penny with your phone calculator so you don’t get used"*—while every Cougar on earth is watching how you date on a starter budget with real class.',
+      'Budget Reality Test! You’re {hisAge} on a tight student/early-career budget taking {herName} ({herAge}F) out. Your roommate swore you should *"make her go 50/50 Dutch down to the penny with your phone calculator so you don’t get used"*, while every Cougar on earth is watching how you date on a starter budget with real class.',
     choices: [
       {
         labelHer: 'Pay the whole check once with icy grace so the waiter isn’t stiffed, politely tell him why inviting someone out and itemizing edamame on Venmo is a crime, and raise your age slider back to 25+ before reaching your car!',
-        labelHim: 'NEVER invite her to a spot you can’t host or pull out a penny-splitting calculator—plan a charming date squarely inside your real budget (hand-packed park picnic, taco stand, or coffee + sunset walk) and cover it proudly with zero Venmo math!',
+        labelHim: 'NEVER invite her to a spot you can’t host or pull out a penny-splitting calculator, plan a charming date squarely inside your real budget (hand-packed park picnic, taco stand, or coffee + sunset walk) and cover it proudly with zero Venmo math!',
         outcomeHer:
           'Lesson immortalized! You escape with your dignity, block the Venmo request mid-notification, and set your Cougars & Cubs Club age slider firmly above campus meal-plan territory!',
         outcomeHim:
@@ -3595,7 +3595,7 @@ export const EPISODES: Episode[] = [
         triggerTipPrompt: true,
       },
       {
-        labelHer: 'He sends you a public Venmo request for "$41.63 🍣 + 4 edamames" BEFORE the waiter even brings mints—and asks if you validate his parking.',
+        labelHer: 'He sends you a public Venmo request for "$41.63 🍣 + 4 edamames" BEFORE the waiter even brings mints, and asks if you validate his parking.',
         labelHim: 'Order double her food, whip out your iPhone calculator at the table, and send her a public Venmo request for $41.63 including 4/7ths of the edamame.',
         outcomeHer:
           'FOUR-SEVENTHS OF THE EDAMAME?! Every woman in the group chat is screenshotting this Venmo notification for the Smithsonian!',
@@ -3605,12 +3605,12 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -30, chivalry: -30, eq: -25, chemistry: -30, redFlags: 1 },
       },
       {
-        labelHer: 'If a sweet younger Cub is upfront *before* ordering ("Let me treat you to coffee & gelato on my student budget!"), warmly accept—honest effort beats fake baller math.',
+        labelHer: 'If a sweet younger Cub is upfront *before* ordering ("Let me treat you to coffee & gelato on my student budget!"), warmly accept, honest effort beats fake baller math.',
         labelHim: 'Be charmingly transparent upfront ("I’m on a grad-school budget, so let me treat you to the best espresso and cannoli in town!"), keeping generosity 100% intact.',
         outcomeHer:
           'Upfront honesty + a $16 treat he proudly covers is genuinely endearing.',
         outcomeHim:
-          'Cougars never demand Michelin money—they demand effort, honesty, and zero nickel-and-diming.',
+          'Cougars never demand Michelin money, they demand effort, honesty, and zero nickel-and-diming.',
         toastBanner: 'HONEST BUDGET CHARM +20',
         deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 15, redFlags: 0 },
       },
@@ -3621,18 +3621,18 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 1,
     title: '🤠 The Kristin Cavallari × Montana Boyz Dare: Dropping Your Age Slider to 25!',
-    loreQuote: 'Pop-Culture Inspiration: "Kristin Cavallari & 24yo Montana cowboy Mark Estes—when he accidentally DMs \'I love you\' from the boys’ shared TikTok and inspires everyone to lower their age settings!"',
+    loreQuote: 'Pop-Culture Inspiration: "Kristin Cavallari & 24yo Montana cowboy Mark Estes, when he accidentally DMs \'I love you\' from the boys’ shared TikTok and inspires everyone to lower their age settings!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     recommendedAffiliateId: 'short-leash-leather-dog-leash',
     setupHer:
-      'After three bleak dates with grumpy 45-year-old divorcés who complained about property taxes for two hours, your bestie grabs your phone over martinis, yells *"Remember Kristin Cavallari and Mark from Montana Boyz?!"*, and drags your minimum age setting down to **25**. Ten minutes later, {hisName} ({hisAge}M)—a 6\'3" former college wide receiver raised on a ranch—accidentally replies *"I love you"* from his buddies’ shared account before DMing you from his real profile asking to fly in Friday!',
+      'After three bleak dates with grumpy 45-year-old divorcés who complained about property taxes for two hours, your bestie grabs your phone over martinis, yells *"Remember Kristin Cavallari and Mark from Montana Boyz?!"*, and drags your minimum age setting down to **25**. Ten minutes later, {hisName} ({hisAge}M), a 6\'3" former college wide receiver raised on a ranch, accidentally replies *"I love you"* from his buddies’ shared account before DMing you from his real profile asking to fly in Friday!',
     setupHim:
-      'Your buddies dared you on your shared ranch account, you accidentally hit send on *"I love you"* to {herName} ({herAge}F), and miracle of miracles—she lowered her age settings and matched you anyway! Now the whole internet (and her skeptical friends) think a {hisAge}-year-old cowboy is just a two-week Cabo phase. What’s your move?',
+      'Your buddies dared you on your shared ranch account, you accidentally hit send on *"I love you"* to {herName} ({herAge}F), and miracle of miracles, she lowered her age settings and matched you anyway! Now the whole internet (and her skeptical friends) think a {hisAge}-year-old cowboy is just a two-week Cabo phase. What’s your move?',
     choices: [
       {
-        labelHer: 'Own the plot twist with Kristin-level unbothered joy—say yes to Friday dinner, laugh over his accidental group-account confession, and judge him by how thoughtfully he treats you in real life rather than Instagram comments!',
+        labelHer: 'Own the plot twist with Kristin-level unbothered joy, say yes to Friday dinner, laugh over his accidental group-account confession, and judge him by how thoughtfully he treats you in real life rather than Instagram comments!',
         labelHim: 'Own the accidental confession with a fearless grin, show up Friday in a crisp button-down with yes-ma’am ranch manners, hold her hand proudly in daylight, and never chase clout off her name.',
         outcomeHer:
           'Best slider adjustment of the decade! Zero bitterness, 6\'3" doorway-frame energy, and more enthusiasm in one weekend than your last four peer dates combined!',
@@ -3684,7 +3684,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Laugh at the sheer anthropology of the wooden-ladle Cheerios, accept the iced latte {hisName} already ran out at 6:45 AM to bring straight to your bedside, and decree **Rule #1: All future sleepovers happen at YOUR peaceful sanctuary!**',
         labelHim: 'Slip out at 6:45 AM before she wakes to bring real espresso + warm croissants straight to your spotless bedroom, walk her cleanly past the roommate zoo, and happily host future Sundays at her peaceful sanctuary (bringing groceries + cleaning!).',
         outcomeHer:
-          'Crisis averted! Having coffee delivered before witnessing Kyle’s mixing bowl—plus moving all future sleepovers to your quiet AC sanctuary—saves the romance!',
+          'Crisis averted! Having coffee delivered before witnessing Kyle’s mixing bowl, plus moving all future sleepovers to your quiet AC sanctuary, saves the romance!',
         outcomeHim:
           'Anticipating the roommate hazard with 6:45 AM coffee delivery + doing 100% of Sunday cooking at her place turns a disaster into a hilarious war story!',
         toastBanner: 'SANCTUARY RULE ENFORCED! • EQ +25 • MATURITY +25',
@@ -3725,17 +3725,17 @@ export const EPISODES: Episode[] = [
     sceneArt: 'mirror_vanity',
     recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     setupHer:
-      'Your peaceful, mortgage-paid home has 62°F central air, stocked Pellegrino, and a lush backyard—which makes it prime territory for the dreaded **"Hobosexual" Soft Move-In**. On Week 3, {hisName} ({hisAge}M) arrives for Friday night carrying not just an overnight dopp kit, but a **duffel of unwashed laundry, a 5-lb tub of vanilla whey protein, and an HDMI cable peeking out of his backpack**!',
+      'Your peaceful, mortgage-paid home has 62°F central air, stocked Pellegrino, and a lush backyard, which makes it prime territory for the dreaded **"Hobosexual" Soft Move-In**. On Week 3, {hisName} ({hisAge}M) arrives for Friday night carrying not just an overnight dopp kit, but a **duffel of unwashed laundry, a 5-lb tub of vanilla whey protein, and an HDMI cable peeking out of his backpack**!',
     setupHim:
-      '{herName}’s ({herAge}F) house feels like a five-star resort compared to 20-something apartments—which is why smart women ruthlessly vet against "Hobosexuals" who try to colonize a woman’s sanctuary, laundry machine, and Wi-Fi by Week 3. How do you prove you’re a partner, NEVER a freeloader?',
+      '{herName}’s ({herAge}F) house feels like a five-star resort compared to 20-something apartments, which is why smart women ruthlessly vet against "Hobosexuals" who try to colonize a woman’s sanctuary, laundry machine, and Wi-Fi by Week 3. How do you prove you’re a partner, NEVER a freeloader?',
     choices: [
       {
-        labelHer: 'Draw a loving, titanium-clear boundary on the spot—keep one small guest drawer for his toothbrush, send the laundry bag & console right back to his trunk, and confirm he loves his own independent lease!',
+        labelHer: 'Draw a loving, titanium-clear boundary on the spot, keep one small guest drawer for his toothbrush, send the laundry bag & console right back to his trunk, and confirm he loves his own independent lease!',
         labelHim: 'Keep ONLY a clean dopp kit at her place, maintain your own spotless apartment & bills with pride, bring fresh groceries/wine whenever she hosts, and leave Monday morning before she even has to hint!',
         outcomeHer:
           'Zero freeloading, total respect for your sanctuary, and a Cub who brings wine *into* your house instead of sneaking laundry bags in!',
         outcomeHim:
-          'Respecting her solo space—and showing up as a self-sufficient giver—makes her actually *miss* you the second you leave Monday morning!',
+          'Respecting her solo space, and showing up as a self-sufficient giver, makes her actually *miss* you the second you leave Monday morning!',
         toastBanner: 'ZERO HOBOSEXUAL DETECTED! • MATURITY +30 • EQ +25',
         deltas: { maturity: 30, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
         badgeUnlocked: 'Certified Non-Hobosexual Sanctuary Guest',
@@ -3774,21 +3774,21 @@ export const EPISODES: Episode[] = [
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'short-leash-leather-dog-leash',
     setupHer:
-      'You radiate pure **🐈‍⬛ Black Cat** poise: self-contained, unhurried, and allergic to instant over-familiarity. When {hisName} ({hisAge}M) comes in beaming with tail-wagging **🐕 Golden-Retriever** enthusiasm trying to lock in both Thursday *and* Sunday on Date #1, you lean back over your glass and push back playfully: *"Easy there, sunshine—I take my time, and you haven’t even earned Date #2 yet."* Men your own age usually sulk or call you "guarded." Watch what {hisName} does instead.',
+      'You radiate pure **🐈‍⬛ Black Cat** poise: self-contained, unhurried, and allergic to instant over-familiarity. When {hisName} ({hisAge}M) comes in beaming with tail-wagging **🐕 Golden-Retriever** enthusiasm trying to lock in both Thursday *and* Sunday on Date #1, you lean back over your glass and push back playfully: *"Easy there, sunshine. I take my time, and you haven’t even earned Date #2 yet."* Men your own age usually sulk or call you "guarded." Watch what {hisName} does instead.',
     setupHim:
-      'Here’s your open secret: overly eager dates bore you, whereas {herName}’s ({herAge}F) cool, selective **🐈‍⬛ Black Cat** energy has your **🐕 Golden-Retriever** heart doing backflips. Halfway through drinks, she catches you getting ahead of yourself, raises one slow eyebrow, and pushes back: *"Slow down, eager puppy—I like taking my time, and I don’t hand out weekends that fast."* Every insecure guy folds right here. What’s your move?',
+      'Here’s your open secret: overly eager dates bore you, whereas {herName}’s ({herAge}F) cool, selective **🐈‍⬛ Black Cat** energy has your **🐕 Golden-Retriever** heart doing backflips. Halfway through drinks, she catches you getting ahead of yourself, raises one slow eyebrow, and pushes back: *"Slow down, eager puppy. I like taking my time, and I don’t hand out weekends that fast."* Every insecure guy folds right here. What’s your move?',
     innerInsecurityBubble: {
       herDoubt:
-        'Her silent Black Cat test: "Every 45-year-old man gets prickly ego the second I set a boundary or slow the pace. Let’s see if this sunny {hisAge}-year-old pouts—or proves he’s built for the slow burn."',
+        'Her silent Black Cat test: "Every 45-year-old man gets prickly ego the second I set a boundary or slow the pace. Let’s see if this sunny {hisAge}-year-old pouts, or proves he’s built for the slow burn."',
       hisDoubt:
-        'His Golden-Retriever brain: "Oh man, the way she just told me to slow my roll with that tiny half-smirk?! Keep tail wagging calmly, zero neediness—earning her trust is the best part!"',
+        'His Golden-Retriever brain: "Oh man, the way she just told me to slow my roll with that tiny half-smirk?! Keep tail wagging calmly, zero neediness, earning her trust is the best part!"',
     },
     choices: [
       {
-        labelHer: 'Instead of sulking or pushing harder, he grins ear-to-ear completely unbothered ("Fair enough—a woman who takes her time makes me 10x more excited to earn Date #2"), walks you to your car with zero pressure, and follows up right on schedule!',
+        labelHer: 'Instead of sulking or pushing harder, he grins ear-to-ear completely unbothered ("Fair enough, a woman who takes her time makes me 10x more excited to earn Date #2"), walks you to your car with zero pressure, and follows up right on schedule!',
         labelHim: 'Flash a warm, completely unbothered Golden-Retriever grin ("Honestly? Knowing you take your time just makes me like you ten times more"), respect her pace 100% at the car door, and show up with steady, sunny consistency!',
         outcomeHer:
-          'Not an ounce of bruised male ego—just radiant, unshakeable warmth that respects your boundary AND clearly adores your pushback! You catch yourself smiling in the rearview mirror all the way home.',
+          'Not an ounce of bruised male ego, just radiant, unshakeable warmth that respects your boundary AND clearly adores your pushback! You catch yourself smiling in the rearview mirror all the way home.',
         outcomeHim:
           'Her cool Black Cat composure cracks into a genuine, lingering smile at the car door: *"Okay… maybe you can text me about next Friday, Golden Boy."*',
         toastBanner: '🐈‍⬛×🐕 PEAK POLARITY SPARK! • CHEMISTRY +30 • EQ +30',
@@ -3802,13 +3802,13 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'Nothing validates Black Cat boundaries faster than watching a guy throw a tantrum the first time you say "not so fast." Blocked with extreme peace!',
         outcomeHim:
-          'Confusing a self-possessed woman’s natural pacing with "games"—or trying to crowd a Black Cat—guarantees she vanishes into the night.',
+          'Confusing a self-possessed woman’s natural pacing with "games", or trying to crowd a Black Cat, guarantees she vanishes into the night.',
         toastBanner: 'RED FLAG! • BRUISED EGO / RUSHED THE BLACK CAT (-30)',
         deltas: { maturity: -30, chivalry: -20, eq: -30, chemistry: -25, redFlags: 1 },
       },
       {
         labelHer: 'Give him one playful breadcrumb ("Pass a 6 PM phone call Wednesday first, then we’ll talk about Friday") to watch his eyes light up.',
-        labelHim: 'Ask what pace feels best for her ("One date a week while we get to know each other works great for me—I’m not going anywhere").',
+        labelHim: 'Ask what pace feels best for her ("One date a week while we get to know each other works great for me, I’m not going anywhere").',
         outcomeHer:
           'Setting a clear, unhurried cadence lets desire build deliciously.',
         outcomeHim:
@@ -3823,23 +3823,23 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 3,
     title: '😻 When the Black Cat Finally Chooses Your Lap: The Rainy-Friday Thaw',
-    loreQuote: '🐈‍⬛×🐕 Slow-Burn Payoff • "Four weeks of patient Golden-Retriever courtship—the rainy Friday night the Black Cat finally curls into your lap"',
+    loreQuote: '🐈‍⬛×🐕 Slow-Burn Payoff • "Four weeks of patient Golden-Retriever courtship, the rainy Friday night the Black Cat finally curls into your lap"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'mirror_vanity',
     recommendedAffiliateId: 'silk-pillowcase-sleepover-duo',
     setupHer:
-      'For four weeks you paced {hisName} ({hisAge}M) deliberately—teasing his Golden-Retriever eagerness, keeping public PDA subtle, and making sure he wasn’t just high on novelty. Tonight rain is drumming against your windows, he cooked risotto without asking where a single pan lived, and every guarded wall you normally carry after a 50-hour week suddenly melts.',
+      'For four weeks you paced {hisName} ({hisAge}M) deliberately, teasing his Golden-Retriever eagerness, keeping public PDA subtle, and making sure he wasn’t just high on novelty. Tonight rain is drumming against your windows, he cooked risotto without asking where a single pan lived, and every guarded wall you normally carry after a 50-hour week suddenly melts.',
     setupHim:
       'Four weeks of patient **🐕 Golden-Retriever** courtship: you never rushed {herName} ({herAge}F), laughed warmly every time she pushed back, and showed up like clockwork. Tonight, after dinner at her quiet sanctuary, the cool **🐈‍⬛ Black Cat** who barely let you hold her waist on Date #1 kicks off her heels, steps straight into your arms, and curls up against your chest on the sofa.',
     choices: [
       {
-        labelHer: 'Curl right into his warm chest on the sofa, run your fingers through his hair, and whisper: "Thank you for not rushing me—and for not going anywhere when I pushed back."',
-        labelHim: 'Wrap both arms around her quietly without saying "I told you so"—just kiss her temple, hold her close in the rain-lit quiet, and savor the magic of a Black Cat choosing *you*.',
+        labelHer: 'Curl right into his warm chest on the sofa, run your fingers through his hair, and whisper: "Thank you for not rushing me, and for not going anywhere when I pushed back."',
+        labelHim: 'Wrap both arms around her quietly without saying "I told you so", just kiss her temple, hold her close in the rain-lit quiet, and savor the magic of a Black Cat choosing *you*.',
         outcomeHer:
           'Being held by a younger man whose warmth stayed steady until *you* were ready to melt? Pure, spine-tingling sanctuary bliss.',
         outcomeHim:
-          'Anyone can get fast attention—earning the private, unguarded softness of a selective Black Cat Cougar feels like winning the entire universe!',
+          'Anyone can get fast attention, earning the private, unguarded softness of a selective Black Cat Cougar feels like winning the entire universe!',
         toastBanner: 'EARNED BLACK-CAT DEVOTION! • CHEMISTRY +30 • CHIVALRY +25',
         deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'She Finally Chose Your Lap',
@@ -3871,7 +3871,7 @@ export const EPISODES: Episode[] = [
     act: 2,
     stage: 1,
     title: '🥤 Zero-Proof Green Flag: Botanical Mocktails, Smoothies & Zero-Hangover Mornings',
-    loreQuote: 'Modern Wellness Reality: "Half of Gen-Z Cubs barely drink AND perimenopause makes 2 glasses of wine wreck your sleep—zero-proof mocktail & smoothie dates are elite!"',
+    loreQuote: 'Modern Wellness Reality: "Half of Gen-Z Cubs barely drink AND perimenopause makes 2 glasses of wine wreck your sleep, zero-proof mocktail & smoothie dates are elite!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'tapas_check',
@@ -3879,11 +3879,11 @@ export const EPISODES: Episode[] = [
     setupHer:
       'Real talk: between 6:30 AM Pilates, skin glow, and how ruthlessly alcohol wrecks sleep past 38, you ordered **{signatureDrink}** instead of booze tonight. Better yet, {hisName} ({hisAge}M) is part of the health-conscious Gen-Z wave who prefers adaptogen spritzes, ceremonial matcha, and post-gym smoothies over sloppy bar tabs!',
     setupHim:
-      'You’re out with {herName} ({herAge}F), and neither of you cares about getting buzzed—you care about real chemistry, waking up clear-headed at 6:30 AM, and feeling amazing. When the bartender pushes a heavy cocktail list, she smiles and orders **{signatureDrink}**.',
+      'You’re out with {herName} ({herAge}F), and neither of you cares about getting buzzed, you care about real chemistry, waking up clear-headed at 6:30 AM, and feeling amazing. When the bartender pushes a heavy cocktail list, she smiles and orders **{signatureDrink}**.',
     choices: [
       {
         labelHer: 'Toast your zero-proof yuzu mocktails (or lock in a Saturday morning cold-pressed smoothie walk after), love that he never pressures a drink, and wake up glowing with 100% energy for each other!',
-        labelHim: 'Match her vibe effortlessly—order a crisp zero-proof botanical spritz or espresso tonic with zero awkwardness, and plan a sunny post-hike smoothie date for Saturday morning!',
+        labelHim: 'Match her vibe effortlessly, order a crisp zero-proof botanical spritz or espresso tonic with zero awkwardness, and plan a sunny post-hike smoothie date for Saturday morning!',
         outcomeHer:
           'Zero peer pressure, crystal-clear eye contact, deep sleep, AND waking up fresh at 6:30 AM for morning rounds + smoothies?! Peak modern Cougar-Cub compatibility!',
         outcomeHim:
@@ -3926,15 +3926,15 @@ export const EPISODES: Episode[] = [
     sceneArt: 'bathroom_audit',
     recommendedAffiliateId: 'percale-hosting-sheets',
     setupHer:
-      'Chemistry at dinner was a 10/10, so you step into {hisName}’s ({hisAge}M) apartment for a nightcap—and gasp internally: **one flat, case-less yellow pillow from sophomore year**, zero top sheet, and neon purple LED strips taped straight onto drywall! Can this Cub be domesticated before midnight, or are you calling an Uber Black?',
+      'Chemistry at dinner was a 10/10, so you step into {hisName}’s ({hisAge}M) apartment for a nightcap, and gasp internally: **one flat, case-less yellow pillow from sophomore year**, zero top sheet, and neon purple LED strips taped straight onto drywall! Can this Cub be domesticated before midnight, or are you calling an Uber Black?',
     setupHim:
       'Emergency Sanctuary Check! {herName} ({herAge}F) is walking down your hallway in heels right now. Every Cougar horror story starts with a bare mattress, one sad pancake pillow, and zero hand towels. How did you prep before Date #3?',
     choices: [
       {
-        labelHer: 'False alarm—he surprises you with crisp white 400-thread-count percale sheets, FOUR fluffed pillows, warm bedside lamps, and an unopened spare toothbrush on the vanity!',
+        labelHer: 'False alarm, he surprises you with crisp white 400-thread-count percale sheets, FOUR fluffed pillows, warm bedside lamps, and an unopened spare toothbrush on the vanity!',
         labelHim: 'Upgrade to crisp white percale Queen sheets, four real pillows, warm table lamps (LED strips ripped down forever!), and a lidded bathroom bin + luxury hand soap before she ever steps inside!',
         outcomeHer:
-          'FOUR FLUFFY PILLOWS AND A TOP SHEET?! You practically purr—he actually did his homework!',
+          'FOUR FLUFFY PILLOWS AND A TOP SHEET?! You practically purr, he actually did his homework!',
         outcomeHim:
           'She takes one look at four crisp white pillows and warm lamplight and whispers: *"Wait… how are you {hisAge} and already better at hosting than men twice your age?!"*',
         toastBanner: '4-PILLOW GROWN-MAN SANCTUARY! • MATURITY +30 • CHIVALRY +25',
@@ -3945,7 +3945,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'He pats a bare mattress with one pancake-flat pillow and offers you his clean gym hoodie as a blanket.',
         labelHim: 'Offer an accomplished woman a bare mattress and one flat dorm pillow from 2018.',
         outcomeHer:
-          'Your cervical spine files a restraining order on the spot—Uber Black arrives in 3 minutes flat!',
+          'Your cervical spine files a restraining order on the spot, Uber Black arrives in 3 minutes flat!',
         outcomeHim:
           'Nothing ends a hot night faster than expecting a woman with her own thread-count standards to sleep under a gym hoodie.',
         toastBanner: 'RED FLAG! • SINGLE FLAT PILLOW CRIME SCENE (-30)',
@@ -3975,17 +3975,17 @@ export const EPISODES: Episode[] = [
     sceneArt: 'tapas_check',
     recommendedAffiliateId: 'espresso-martini-barware',
     setupHer:
-      'You graciously attend {hisName}’s ({hisAge}M) friend’s birthday dinner. You sip one glass of Sancerre and order branzino, while two of his 23-year-old buddies order **three rounds of Don Julio 1942 shots and twin tomahawk steaks**—then loudly announce as the **$1,120 check** lands: *"Yo let’s just split it evenly 8 ways—everybody Venmo Brody $140 right now, especially since {herName}’s an executive lol!"*',
+      'You graciously attend {hisName}’s ({hisAge}M) friend’s birthday dinner. You sip one glass of Sancerre and order branzino, while two of his 23-year-old buddies order **three rounds of Don Julio 1942 shots and twin tomahawk steaks**, then loudly announce as the **$1,120 check** lands: *"Yo let’s just split it evenly 8 ways, everybody Venmo Brody $140 right now, especially since {herName}’s an executive lol!"*',
     setupHim:
       'Code-Red Chivalry Test! Your loudmouth buddy Brody ordered four rounds of top-shelf tequila shots nobody asked for, then tries to stick {herName} ({herAge}F) with an "even 8-way split" while making a tacky joke about her career!',
     choices: [
       {
-        labelHer: 'Before you even touch your purse, {hisName} shuts Brody down mid-sentence ("{herName} is my guest—her dinner and mine are on my card, and y’all are covering your own 14 shots"), settling both your shares seamlessly!',
-        labelHim: 'Shut Brody down immediately with calm authority ("{herName} is my date—I’ve got both of us covered on a separate check, and the tequila crew covers the shots"), zero awkwardness reaches her!',
+        labelHer: 'Before you even touch your purse, {hisName} shuts Brody down mid-sentence ("{herName} is my guest, her dinner and mine are on my card, and y’all are covering your own 14 shots"), settling both your shares seamlessly!',
+        labelHim: 'Shut Brody down immediately with calm authority ("{herName} is my date, I’ve got both of us covered on a separate check, and the tequila crew covers the shots"), zero awkwardness reaches her!',
         outcomeHer:
           'Watching your younger man shut down freeloading bros in 3 seconds flat without flinching?! Attraction skyrockets through the roof!',
         outcomeHim:
-          'Protecting your date from tacky group-tab freeloading earns instant legend status at the table—and in the car ride home!',
+          'Protecting your date from tacky group-tab freeloading earns instant legend status at the table, and in the car ride home!',
         toastBanner: 'IRONCLAD GROUP-TAB SHIELD! • CHIVALRY +30 • MATURITY +30',
         deltas: { maturity: 30, chivalry: 30, eq: 25, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'Group-Tab Ambush Bodyguard',
@@ -4005,7 +4005,7 @@ export const EPISODES: Episode[] = [
         labelHer: 'Ask the server upfront when sitting down at big group dinners to keep you and your date on a separate two-top tab.',
         labelHim: 'Quietly tell the server right as you sit down: "Please put me and my date on our own separate check."',
         outcomeHer:
-          'Veteran group-dinner move—zero bill drama at the end of the night!',
+          'Veteran group-dinner move, zero bill drama at the end of the night!',
         outcomeHim:
           'Pre-splitting your two-top check before drinks arrive is elite grown-up foresight.',
         toastBanner: 'PROACTIVE TWO-TOP TAB +25',
@@ -4026,13 +4026,13 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     setupHer:
-      'You raise a skeptical eyebrow when {hisName} ({hisAge}M) mentions mid-drink that he still has two semesters of undergrad left. Trying to act like an international high-roller, he leans back and says smoothly: *"Come to my place in Hawaii with me next month."* You pause, look him dead in the eye, and ask: **"Wait—that’s not your home, it’s your parents’, right?"** He blinks twice and grins: *"Yeah… they have a timeshare! My mom Linda’s only using the master bedroom till Thursday!"*',
+      'You raise a skeptical eyebrow when {hisName} ({hisAge}M) mentions mid-drink that he still has two semesters of undergrad left. Trying to act like an international high-roller, he leans back and says smoothly: *"Come to my place in Hawaii with me next month."* You pause, look him dead in the eye, and ask: **"Wait, that’s not your home, it’s your parents’, right?"** He blinks twice and grins: *"Yeah… they have a timeshare! My mom Linda’s only using the master bedroom till Thursday!"*',
     setupHim:
-      '{herName} ({herAge}F) expresses totally fair skepticism that you’re {hisAge} and still finishing college. Your frat roommate told you to flex *"Come to my place in Maui"* using your parents’ Marriott Vacation Club timeshare week—hoping she won’t ask whose name is on the deed or why your mom Linda is down the hall. How do you play this?',
+      '{herName} ({herAge}F) expresses totally fair skepticism that you’re {hisAge} and still finishing college. Your frat roommate told you to flex *"Come to my place in Maui"* using your parents’ Marriott Vacation Club timeshare week, hoping she won’t ask whose name is on the deed or why your mom Linda is down the hall. How do you play this?',
     choices: [
       {
         labelHer: 'Burst out laughing at the sheer audacity of a college junior trying to pimp himself out with his mom’s Maui timeshare points, decline the pull-out kitchenette sofa next to Linda, and send him back to study hall!',
-        labelHim: 'NEVER pretend your parents’ timeshare, boat, or lake house is "my place"—own where you actually are in life with humor and plan a real weekend getaway you booked and paid for yourself!',
+        labelHim: 'NEVER pretend your parents’ timeshare, boat, or lake house is "my place", own where you actually are in life with humor and plan a real weekend getaway you booked and paid for yourself!',
         outcomeHer:
           'Crisis averted! You dodge a 90-minute 8 AM lobby timeshare seminar AND awkward continental-breakfast waffle-iron small talk with his mom Linda!',
         outcomeHim:
@@ -4053,8 +4053,8 @@ export const EPISODES: Episode[] = [
         deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
       },
       {
-        labelHer: 'Tell him gently: "Sweetheart, call me in four years when the hotel room—and the frequent-flyer miles—have your own name on them."',
-        labelHim: 'Save up from your own real work to book a charming coastal B&B one town over—100% under your own name, zero parents within 500 miles.',
+        labelHer: 'Tell him gently: "Sweetheart, call me in four years when the hotel room, and the frequent-flyer miles, have your own name on them."',
+        labelHim: 'Save up from your own real work to book a charming coastal B&B one town over, 100% under your own name, zero parents within 500 miles.',
         outcomeHer:
           'Classy exit with a life lesson he desperately needed.',
         outcomeHim:
@@ -4073,20 +4073,20 @@ export const EPISODES: Episode[] = [
     requiredAnyTags: ['qigong_mommy_domme', 'zero_proof_wellness'],
     title: '🧘‍♀️ Qigong & Tai Chi Wellness Mommy-Domme: Cloud Hands, "Yes, Mommy" & Zero Cubsplaining!',
     loreQuote:
-      'Wellness Mommy-Domme Lore • "Two fingers under his chin at 6:30 AM Qigong: \'Drop your shoulders and breathe with Mommy, good boy\'—right before shutting down his podcast Cubsplain!"',
+      'Wellness Mommy-Domme Lore • "Two fingers under his chin at 6:30 AM Qigong: \'Drop your shoulders and breathe with Mommy, good boy\', right before shutting down his podcast Cubsplain!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'ridge_trail_leash',
     setupHer:
-      '6:30 AM in your sunlit bamboo courtyard: you’re gliding through **Eight Brocades Qigong & Yang-style Tai Chi Cloud Hands** in olive silk-linen. {hisName} ({hisAge}M) arrives buzzing on cold brew, shoulders up by his ears, and five seconds in starts **Cubsplaining**: *"Well actually, I heard a biohacking podcast on vagus-nerve breathwork—"* You glide behind him, place two warm fingers lightly under his chin to lift his posture, and murmur in pure serene **Mommy-Domme** command: **"Shhh. Unclench your jaw, drop your shoulders, and breathe with Mommy, good boy."**',
+      '6:30 AM in your sunlit bamboo courtyard: you’re gliding through **Eight Brocades Qigong & Yang-style Tai Chi Cloud Hands** in olive silk-linen. {hisName} ({hisAge}M) arrives buzzing on cold brew, shoulders up by his ears, and five seconds in starts **Cubsplaining**: *"Well actually, I heard a biohacking podcast on vagus-nerve breathwork, "* You glide behind him, place two warm fingers lightly under his chin to lift his posture, and murmur in pure serene **Mommy-Domme** command: **"Shhh. Unclench your jaw, drop your shoulders, and breathe with Mommy, good boy."**',
     setupHim:
-      '6:30 AM Dawn Sanctuary Date! {herName} ({herAge}F) has practiced **Qigong & Tai Chi** for twenty years—and radiates magnetic, velvet-voiced **Wellness Mommy-Domme** authority. Halfway through opening your mouth to *Cubsplain* a 90-second biohacking clip you saw on Tuesday, she steps in close, adjusts your spine with effortless poise, and whispers: *"Less podcast chatter, sweet boy—sink into your stance and follow Mommy’s hands."* What do you do?',
+      '6:30 AM Dawn Sanctuary Date! {herName} ({herAge}F) has practiced **Qigong & Tai Chi** for twenty years, and radiates magnetic, velvet-voiced **Wellness Mommy-Domme** authority. Halfway through opening your mouth to *Cubsplain* a 90-second biohacking clip you saw on Tuesday, she steps in close, adjusts your spine with effortless poise, and whispers: *"Less podcast chatter, sweet boy, sink into your stance and follow Mommy’s hands."* What do you do?',
     choices: [
       {
-        labelHer: 'He melts instantly with a cheeky grin ("Yes, Mommy—podcast brain officially muted"), mirrors your slow Tai Chi Cloud Hands for 20 silent minutes, and pours warm jasmine oolong for two afterward!',
-        labelHim: 'Swallow the Cubsplain immediately with a self-aware grin ("Yes, Mommy—teach me properly"), sink into her slow Tai Chi Cloud-Hands rhythm, and serve warm jasmine oolong afterward.',
+        labelHer: 'He melts instantly with a cheeky grin ("Yes, Mommy, podcast brain officially muted"), mirrors your slow Tai Chi Cloud Hands for 20 silent minutes, and pours warm jasmine oolong for two afterward!',
+        labelHim: 'Swallow the Cubsplain immediately with a self-aware grin ("Yes, Mommy, teach me properly"), sink into her slow Tai Chi Cloud-Hands rhythm, and serve warm jasmine oolong afterward.',
         outcomeHer:
-          'Watching a 6-foot-plus Cub’s nervous system melt from jittery golden puppy to grounded devotion at "good boy"—with ZERO Cubsplaining—is top-tier Wellness Mommy bliss!',
+          'Watching a 6-foot-plus Cub’s nervous system melt from jittery golden puppy to grounded devotion at "good boy", with ZERO Cubsplaining, is top-tier Wellness Mommy bliss!',
         outcomeHim:
           'Surrendering the know-it-all impulse to her 20-year mastery unlocks electric Mommy-Domme praise: she traces your jawline over oolong tea and whispers, "Fast learner. You’re invited back Sunday."',
         toastBanner: '🧘‍♀️ MOMMY-DOMME QIGONG SYNC! • CHEMISTRY +30 • EQ +25',
@@ -4125,18 +4125,18 @@ export const EPISODES: Episode[] = [
     requiredAnyTags: ['seed_oil_bernedoodle_mommy', 'qigong_mommy_domme', 'zero_proof_wellness'],
     title: '🥑 Health-Nut Wellness Mommy: Zero Seed Oils, Gluten-Free Bliss & The Tricolor Mini Bernedoodle Waitlist!',
     loreQuote:
-      'Wellness Mommy Lore • "100% gluten-free, zero industrial seed oils, and #3 on the waitlist for a Tricolor Mini Bernedoodle—when he calls the chef ahead AND puppy-proofs his baseboards!"',
+      'Wellness Mommy Lore • "100% gluten-free, zero industrial seed oils, and #3 on the waitlist for a Tricolor Mini Bernedoodle, when he calls the chef ahead AND puppy-proofs his baseboards!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     setupHer:
-      'Your body is a temple, sweet boy: you are strictly **100% gluten-free and seed-oil-free** (grass-fed tallow, ghee & cold-pressed olive oil ONLY—not a drop of canola or soybean oil!), AND you just moved up to **#2 on the breeder’s waitlist to adopt a Tricolor Mini Bernedoodle puppy** named **Miso**. {hisName} ({hisAge}M) invites you over to cook Friday dinner at his place. What awaits you inside?',
+      'Your body is a temple, sweet boy: you are strictly **100% gluten-free and seed-oil-free** (grass-fed tallow, ghee & cold-pressed olive oil ONLY, not a drop of canola or soybean oil!), AND you just moved up to **#2 on the breeder’s waitlist to adopt a Tricolor Mini Bernedoodle puppy** named **Miso**. {hisName} ({hisAge}M) invites you over to cook Friday dinner at his place. What awaits you inside?',
     setupHim:
-      'High-Stakes Health-Nut Mommy Vetting! {herName} ({herAge}F) glows like sunlit marble because she’s strictly **gluten-free & seed-oil-free**—and her eyes light up every time she checks her email from the **Tricolor Mini Bernedoodle** waitlist. You’re cooking for her tonight. How do you prove you’re Mommy’s ultimate co-pilot?',
+      'High-Stakes Health-Nut Mommy Vetting! {herName} ({herAge}F) glows like sunlit marble because she’s strictly **gluten-free & seed-oil-free**, and her eyes light up every time she checks her email from the **Tricolor Mini Bernedoodle** waitlist. You’re cooking for her tonight. How do you prove you’re Mommy’s ultimate co-pilot?',
     choices: [
       {
         labelHer: 'He banished every bottle of canola oil and wheat flour, sears grass-fed ribeye in grass-fed ghee & cast iron with cassava sourdough, AND surprises you with a tiny woven collar tag engraved "MISO" for your incoming Tricolor Mini Bernedoodle!',
-        labelHim: 'Audit every ingredient (100% gluten-free cassava bread + grass-fed ghee & extra-virgin olive oil in cast iron—zero seed oils!), hide electrical cords at puppy-chew height, and surprise her with a handmade chew toy for her incoming Tricolor Mini Bernedoodle!',
+        labelHim: 'Audit every ingredient (100% gluten-free cassava bread + grass-fed ghee & extra-virgin olive oil in cast iron, zero seed oils!), hide electrical cords at puppy-chew height, and surprise her with a handmade chew toy for her incoming Tricolor Mini Bernedoodle!',
         outcomeHer:
           'Zero bloat, zero canola contraband, AND he’s already prepping for your Tricolor Mini Bernedoodle?! You pull him in by his linen apron strings and whisper: "Good boy. You just moved to #1 on Mommy’s waitlist too."',
         outcomeHim:
@@ -4152,13 +4152,13 @@ export const EPISODES: Episode[] = [
         outcomeHer:
           'INSULTING THE TRICOLOR MINI BERNEDOODLE WHILE SERVING SOYBEAN OIL AND WHEAT?! Grab your organic matcha and block him before the elevator doors close!',
         outcomeHim:
-          'Never Cubsplain her wellness non-negotiables—and NEVER disrespect the incoming Tricolor Mini Bernedoodle.',
+          'Never Cubsplain her wellness non-negotiables, and NEVER disrespect the incoming Tricolor Mini Bernedoodle.',
         toastBanner: 'RED FLAG! • CANOLA OIL + PUPPY SLANDER (-30)',
         deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
       },
       {
         labelHer: 'Call the farm-to-table bistro chef together ahead of time to confirm 100% butter & olive-oil prep, then spend dessert comparing puppy crate setups.',
-        labelHim: 'Call the restaurant kitchen at 4 PM so the chef preps her entrée in 100% grass-fed butter & olive oil on a gluten-free pan—zero awkwardness at the table!',
+        labelHim: 'Call the restaurant kitchen at 4 PM so the chef preps her entrée in 100% grass-fed butter & olive oil on a gluten-free pan, zero awkwardness at the table!',
         outcomeHer:
           'A Cub who quietly handles the kitchen seed-oil & gluten check before you even sit down is pure soft-life luxury.',
         outcomeHim:
@@ -4182,9 +4182,9 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'code_switch_phone',
     setupHer:
-      'You stated your communication rhythm clearly on Date #1: *"I run full workdays, put my phone on Do Not Disturb at 9:30 PM, and love an unhurried, steady pace—not 24/7 texting."* Unfortunately, {hisName} ({hisAge}M) just started mega-dosing wildcrafted **Pine Pollen tincture** under his tongue for *"ancestral testosterone optimization,"* mistook two quiet evening hours for abandonment, and at 11:47 PM blasted six unpunctuated run-on bubbles confessing he’s **"all up in his feels rn idk what were even doing tbh."**',
+      'You stated your communication rhythm clearly on Date #1: *"I run full workdays, put my phone on Do Not Disturb at 9:30 PM, and love an unhurried, steady pace, not 24/7 texting."* Unfortunately, {hisName} ({hisAge}M) just started mega-dosing wildcrafted **Pine Pollen tincture** under his tongue for *"ancestral testosterone optimization,"* mistook two quiet evening hours for abandonment, and at 11:47 PM blasted six unpunctuated run-on bubbles confessing he’s **"all up in his feels rn idk what were even doing tbh."**',
     setupHim:
-      'Expectations & Communication Collision! {herName} ({herAge}F) told you upfront she unplugs in the evenings and prefers calm, intentional courtship over all-day texting. Meanwhile, your gym bro talked you into taking two droppers of raw **Pine Pollen** for testosterone before leg day—and now at 11:47 PM your pulse is humming, she hasn’t replied since 9 PM, and your thumbs are hovering over a six-bubble *"all up in my feels"* meltdown!',
+      'Expectations & Communication Collision! {herName} ({herAge}F) told you upfront she unplugs in the evenings and prefers calm, intentional courtship over all-day texting. Meanwhile, your gym bro talked you into taking two droppers of raw **Pine Pollen** for testosterone before leg day, and now at 11:47 PM your pulse is humming, she hasn’t replied since 9 PM, and your thumbs are hovering over a six-bubble *"all up in my feels"* meltdown!',
     codeSwitchRawImpulse: {
       rawThought:
         'brooo took 2 droppers of raw pine pollen for testosterone pre lift and ngl im all up in my feels rn bc u havent texted since 9 what are we even doing here r u losing interest or...',
@@ -4195,18 +4195,18 @@ export const EPISODES: Episode[] = [
       herDoubt:
         'Her 8:15 AM coffee thought: "I literally told him Tuesday I turn my phone off at 9:30 PM. How does taking tree pollen for \'alpha testosterone\' immediately turn a 24-year-old man into an incoherent midnight Victorian poet?!"',
       hisDoubt:
-        'His racing 11:47 PM brain: "Wait—she already told me her evening pace is quiet! Are our expectations actually mismatched, or is double-dosing pine pollen inventing a fake crisis?!"',
+        'His racing 11:47 PM brain: "Wait, she already told me her evening pace is quiet! Are our expectations actually mismatched, or is double-dosing pine pollen inventing a fake crisis?!"',
     },
     choices: [
       {
         labelHer:
-          'Refuse to decode midnight hieroglyphics at 11:47 PM—reply calmly at 8:30 AM with one crystal-clear expectation reset: "I enjoy seeing you, {hisName}, AND quiet evenings aren’t rejection. Step away from the pine-pollen dropper and call me at 6 PM in full sentences."',
+          'Refuse to decode midnight hieroglyphics at 11:47 PM, reply calmly at 8:30 AM with one crystal-clear expectation reset: "I enjoy seeing you, {hisName}, AND quiet evenings aren’t rejection. Step away from the pine-pollen dropper and call me at 6 PM in full sentences."',
         labelHim:
           'Delete the incoherent "all up in my feels" draft immediately, cap the pine-pollen bottle, respect the quiet evening pace she already communicated, and send ONE grounded, punctuated morning text locking in Thursday dinner at 7:30!',
         outcomeHer:
-          'Boundary perfection! Either he laughs at himself, puts down the tincture, and steps up to grown-up communication—or he weeds himself out before Friday!',
+          'Boundary perfection! Either he laughs at himself, puts down the tincture, and steps up to grown-up communication, or he weeds himself out before Friday!',
         outcomeHim:
-          'Catching your own anxious texting spiral before hitting send—and honoring her stated communication rhythm—saves the spark and proves real emotional regulation!',
+          'Catching your own anxious texting spiral before hitting send, and honoring her stated communication rhythm, saves the spark and proves real emotional regulation!',
         toastBanner: 'PINE-POLLEN EXPECTATIONS RESET! • MATURITY +30 • EQ +30',
         deltas: { maturity: 30, chivalry: 20, eq: 30, chemistry: 20, redFlags: 0 },
         badgeUnlocked: 'Decoded the Pine-Pollen Feels Spiral',
@@ -4250,25 +4250,25 @@ export const EPISODES: Episode[] = [
     creditCost: 0,
     sceneArt: 'palm_springs_pool',
     setupHer:
-      'On Dates #1 and #2, {hisName} ({hisAge}M) showed up in soft unbranded cashmere, kept his phone face-down, and never once dropped a startup buzzword. Then for Date #3 he casually unlocks a private Big Sur cliffside suite and omakase counter—laughing sheepishly when you raise an eyebrow: *"Okay full disclosure: I was an early engineer at Anthropic. I keep it quiet until Date #3 because 23-year-olds in the city get weird fast—whereas you already built your own life and actually roast my bad jokes."*',
+      'On Dates #1 and #2, {hisName} ({hisAge}M) showed up in soft unbranded cashmere, kept his phone face-down, and never once dropped a startup buzzword. Then for Date #3 he casually unlocks a private Big Sur cliffside suite and omakase counter, laughing sheepishly when you raise an eyebrow: *"Okay full disclosure: I was an early engineer at Anthropic. I keep it quiet until Date #3 because 23-year-olds in the city get weird fast, whereas you already built your own life and actually roast my bad jokes."*',
     setupHim:
-      'You joined Anthropic early and hit life-changing liquidity before 28—which made dating peers a minefield of clout-chasers asking about your equity on Date #1. Across from {herName} ({herAge}F), you finally feel zero transactional static: she owns her career, challenges your mind, and makes you want to shut your laptop at 7 PM sharp. Tonight you booked a private coastal suite and omakase counter—how do you frame generosity without sounding like a flexing tech bro?',
+      'You joined Anthropic early and hit life-changing liquidity before 28, which made dating peers a minefield of clout-chasers asking about your equity on Date #1. Across from {herName} ({herAge}F), you finally feel zero transactional static: she owns her career, challenges your mind, and makes you want to shut your laptop at 7 PM sharp. Tonight you booked a private coastal suite and omakase counter, how do you frame generosity without sounding like a flexing tech bro?',
     innerInsecurityBubble: {
       herDoubt:
-        'Her amused inner monologue: "Wait—an under-30 man in tech who DOESN’T Cubsplain podcasts, already vested his shares, and specifically craves a grown woman’s calm?! Is he real?!"',
+        'Her amused inner monologue: "Wait, an under-30 man in tech who DOESN’T Cubsplain podcasts, already vested his shares, and specifically craves a grown woman’s calm?! Is he real?!"',
       hisDoubt:
-        'His quiet hope: "Please don’t think booking the cliffside suite is me trying to buy points—I just love spoiling a woman who never needed saving."',
+        'His quiet hope: "Please don’t think booking the cliffside suite is me trying to buy points. I just love spoiling a woman who never needed saving."',
     },
     choices: [
       {
         labelHer:
-          'Smile warmly, clink your Pinot glass against his, and claim equal footing: "Love that for you—tonight’s omakase is all yours, and Sunday morning figs and espresso at my place are on me. Just promise you’ll never Cubsplain neural nets before coffee."',
+          'Smile warmly, clink your Pinot glass against his, and claim equal footing: "Love that for you, tonight’s omakase is all yours, and Sunday morning figs and espresso at my place are on me. Just promise you’ll never Cubsplain neural nets before coffee."',
         labelHim:
-          'Keep it effortless and ego-free: "Zero strings and zero startup monologue, I promise—I just love planning a night where you get to turn your brain completely off."',
+          'Keep it effortless and ego-free: "Zero strings and zero startup monologue, I promise. I just love planning a night where you get to turn your brain completely off."',
         outcomeHer:
-          'Perfection! You welcomed his generosity without shrinking or making it weird—and watching a brilliant 28-year-old exhale into your calm feminine frame is pure magic.',
+          'Perfection! You welcomed his generosity without shrinking or making it weird, and watching a brilliant 28-year-old exhale into your calm feminine frame is pure magic.',
         outcomeHim:
-          'Quiet generosity without an ounce of tech-bro ego melts every single wall—she leans in and kisses you before the first course lands.',
+          'Quiet generosity without an ounce of tech-bro ego melts every single wall, she leans in and kisses you before the first course lands.',
         toastBanner: 'QUIET FRONTIER GENEROSITY! • CHEMISTRY +30 • EQ +25',
         deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
         badgeUnlocked: 'Early-Anthropic Unicorn Match',
@@ -4276,7 +4276,7 @@ export const EPISODES: Episode[] = [
       },
       {
         labelHer:
-          'Interrogate his cap table for 30 minutes like a quarterly audit—or insist on Venmoing him half the omakase out of pride.',
+          'Interrogate his cap table for 30 minutes like a quarterly audit, or insist on Venmoing him half the omakase out of pride.',
         labelHim:
           'Ruin the mood by spending 35 minutes bragging about GPU clusters, secondary-market valuations, and "how AI will replace her industry."',
         outcomeHer:

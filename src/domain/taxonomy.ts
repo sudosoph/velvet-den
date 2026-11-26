@@ -153,7 +153,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     tagline:
       'Biotech founder five minutes from First Point: salt-air waves, sporty bikinis, and cold-plunge grit.',
     vibeSummary:
-      'Sold her diagnostics startup at 39 and moved to the Malibu point break. Lives in ocean bikinis and linen button-downs—and loves watching a fit Cub try to pop up on a longboard.',
+      'Sold her diagnostics startup at 39 and moved to the Malibu point break. Lives in ocean bikinis and linen button-downs, and loves watching a fit Cub try to pop up on a longboard.',
     secretInsecurity:
       'Spent a decade out-working everyone in lab coats; still learning how to let a devoted younger partner take care of *her* on Sunday.',
     subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
@@ -184,7 +184,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       'Guides dawn Qigong and slow Tai Chi Cloud Hands, cooks strictly gluten-free & seed-oil-free (grass-fed tallow, ghee & cold-pressed olive oil ONLY), and is on the breeder waitlist to adopt a tricolor Mini Bernedoodle named Miso. Fixes a Cub’s posture with two fingers under his chin and shuts down Cubsplaining with one smirk.',
     secretInsecurity:
-      'Everyone comes to her to be grounded and regulated—privately melts when an attentive Cub calls the restaurant chef ahead to check for canola oil & gluten and brings puppy toys for incoming Miso.',
+      'Everyone comes to her to be grounded and regulated, privately melts when an attentive Cub calls the restaurant chef ahead to check for canola oil & gluten and brings puppy toys for incoming Miso.',
     subplotTags: [
       'qigong_mommy_domme',
       'seed_oil_bernedoodle_mommy',
@@ -202,7 +202,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     loveLanguage: 'Guided Qigong, Grass-Fed Ghee Cooking & "Good Boy" Praise',
     originOrAccent: 'Serene Sedona Velvet Cadence',
     signatureDrink: 'Warm Jasmine Oolong & Collagen Matcha (Zero Seed Oils)',
-    petName: 'Miso (Tricolor Mini Bernedoodle — Waitlist #3)',
+    petName: 'Miso (Tricolor Mini Bernedoodle • Waitlist #3)',
     galleryPhotos: [
       { label: '🧘‍♀️ Dawn Qigong', url: './images/cast/sedona-qigong-46f.jpg' },
       { label: '🏔️ Canyon Trail', url: './images/cast/valerie-53f.jpg' },
@@ -227,7 +227,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       'Reads every ingredient label in 1.4 seconds, cooks exclusively in grass-fed ghee, beef tallow & cold-pressed olive oil, and has a puppy nursery ready for her incoming tricolor Mini Bernedoodle puppy Miso.',
     secretInsecurity:
-      'Tired of grumpy 44-year-old dates rolling their eyes when she asks the waiter about cooking oils—adores an enthusiastic Cub who calls the chef ahead so she never has to ask.',
+      'Tired of grumpy 44-year-old dates rolling their eyes when she asks the waiter about cooking oils, adores an enthusiastic Cub who calls the chef ahead so she never has to ask.',
     subplotTags: [
       'seed_oil_bernedoodle_mommy',
       'qigong_mommy_domme',
@@ -244,7 +244,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     loveLanguage: 'Seed-Oil-Free Home Cooking & Puppy-Nursery Prep',
     originOrAccent: 'Montecito Farmers-Market Warmth',
     signatureDrink: 'Organic Tart-Cherry & Magnesium Mocktail',
-    petName: 'Miso (Tricolor Mini Bernedoodle — Waitlist #2)',
+    petName: 'Miso (Tricolor Mini Bernedoodle • Waitlist #2)',
     galleryPhotos: [
       { label: '🥑 Clean Glow', url: './images/cast/brooke-42f.jpg' },
       { label: '🐶 Puppy Lawn', url: './images/cast/dog-park-picnic.jpg' },
@@ -298,7 +298,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       'Negotiates festival headliner deals by day and floats in Palm Springs pools by Friday afternoon. Waiters card her like she’s 31; her cousins at Sunday cookout will vet your soul in ninety seconds flat.',
     secretInsecurity:
-      'Used to being the powerhouse fixer in every room—melts completely when a tall, emotionally fluent Cub rubs her shoulders and handles dinner without ego.',
+      'Used to being the powerhouse fixer in every room, melts completely when a tall, emotionally fluent Cub rubs her shoulders and handles dinner without ego.',
     subplotTags: ['princess_treatment', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'princess',
     photoUrl: './images/cast/simone-44f.jpg',
@@ -323,11 +323,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Country-Club Tennis & Matcha Cougar',
     shortHook: 'Sleek honey blonde, camel cashmere, mixed-doubles fire & age-slider dare.',
     tagline:
-      'Lowered her dating-app slider from 40 to 25 on a dare after Kristin Cavallari & Montana Boyz—and hasn’t stopped smiling since.',
+      'Lowered her dating-app slider from 40 to 25 on a dare after Kristin Cavallari & Montana Boyz, and hasn’t stopped smiling since.',
     vibeSummary:
       '42F luxury hospitality consultant with sunlit honey-blonde hair, killer backhand slice, and zero patience for grumpy 46-year-old divorcés complaining about their sciatica.',
     secretInsecurity:
-      'Her tennis-club doubles partners gossip non-stop—she needs a Cub who walks onto the club patio beside her like he owns the zip code.',
+      'Her tennis-club doubles partners gossip non-stop, she needs a Cub who walks onto the club patio beside her like he owns the zip code.',
     subplotTags: ['zero_proof_wellness', 'montana_cowboy_slider', 'princess_treatment', 'done_with_kids', 'solo_sanctuary'],
     portraitVariant: 'princess',
     photoUrl: './images/cast/brooke-42f.jpg',
@@ -355,7 +355,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       'Owns an architectural desert home, collects vinyl jazz, and delights in mentoring an emotionally literate younger man who holds her hand in public with pride.',
     secretInsecurity:
-      'Wonders in quiet moments if silver strands or aging timelines scare him—right while he can barely breathe looking at her.',
+      'Wonders in quiet moments if silver strands or aging timelines scare him, right while he can barely breathe looking at her.',
     subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
     photoUrl: './images/cast/celeste-62f.jpg',
@@ -384,7 +384,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       '46F natural copper-redhead with sun-kissed freckles, emerald eyes, and a sunlit loft packed with large-scale canvases. Loves spontaneous road trips and men who aren’t afraid of bold color.',
     secretInsecurity:
-      'Spent years dating pretentious art-world men who competed with her success—melts for an earnest younger man who cheers loudest at her openings.',
+      'Spent years dating pretentious art-world men who competed with her success, melts for an earnest younger man who cheers loudest at her openings.',
     subplotTags: ['spontaneous_getaway', 'done_with_kids', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/georgia-46f.jpg',
@@ -408,7 +408,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       'Tall, sun-kissed blonde with bright blue eyes and competitive athleticism. Switched her app filter down to 25 after realizing guys her age never leave the couch.',
     secretInsecurity:
-      'Everyone sees the sunny beach athlete first—she falls hard for a younger guy who remembers the small emotional details she mentions once.',
+      'Everyone sees the sunny beach athlete first, she falls hard for a younger guy who remembers the small emotional details she mentions once.',
     subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'junior_cougar_gap', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/summer-32f.jpg',
@@ -427,7 +427,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     age: 45,
     title: 'VP of Product • Rooftop Cougar',
     shortHook: 'Mortgage paid, kids grown, espresso waves & zero sugar-mama tolerance.',
-    tagline: 'Mortgage paid, tubes tied, peaceful sanctuary—zero need for a sugar baby.',
+    tagline: 'Mortgage paid, tubes tied, peaceful sanctuary, zero need for a sugar baby.',
     vibeSummary:
       'Raised two kids, divorced amicably, runs a 40-person team. Loves youthful energy, crisp 62°F bamboo sheets, and a Cub who handles the check without bruised pride.',
     secretInsecurity:
@@ -457,7 +457,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       '30F blonde hospitality founder who pairs orange wines by candlelight and loves confident 24–27 Cubs who actually make reservations.',
     secretInsecurity:
-      'Freshly 30 and pouring everything into her first business—hopes he brings calm support instead of 2 AM bar-crawl drama.',
+      'Freshly 30 and pouring everything into her first business, hopes he brings calm support instead of 2 AM bar-crawl drama.',
     subplotTags: ['junior_cougar_gap', 'princess_treatment', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/tessa-30f.jpg',
@@ -477,11 +477,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Film Composer & Chic-Bob Puma',
     shortHook: 'Sharp blonde bob, grand piano loft, dry wit & 18-hour coastal escapes.',
     tagline:
-      'Scores indie thrillers in a sunlit loft—allergic to small talk, weak for rolled shirt sleeves.',
+      'Scores indie thrillers in a sunlit loft, allergic to small talk, weak for rolled shirt sleeves.',
     vibeSummary:
       '31F composer with a French-girl blonde bob and emerald eyes who loves spontaneous overnight train/coastal trips after one great FaceTime.',
     secretInsecurity:
-      'Lives in her head writing music for days—needs a grounded younger man who pulls her outside into the sun.',
+      'Lives in her head writing music for days, needs a grounded younger man who pulls her outside into the sun.',
     subplotTags: ['black_cat_energy', 'spontaneous_getaway', 'junior_cougar_gap', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/isla-31f.jpg',
@@ -501,11 +501,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Farm-to-Table Pastry Chef • Puma',
     shortHook: 'Sunlit golden waves, warm dimples, sourdough mornings & meadow picnics.',
     tagline:
-      'Runs a Sonoma bakery kitchen at 5 AM—melts for old-school chivalry, picnics, and retro bowling dates.',
+      'Runs a Sonoma bakery kitchen at 5 AM, melts for old-school chivalry, picnics, and retro bowling dates.',
     vibeSummary:
       '33F sunlit chef with golden-brown waves and an instant laugh. Miley-and-Maxx 6-year Junior Cougar believer who adores earnest, affectionate younger men.',
     secretInsecurity:
-      'Spends all week baking wedding cakes for everyone else—secretly wants someone who plans romance purely for her.',
+      'Spends all week baking wedding cakes for everyone else, secretly wants someone who plans romance purely for her.',
     subplotTags: ['junior_cougar_gap', 'princess_treatment', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/hannah-33f.jpg',
@@ -529,7 +529,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       'Sun-kissed blonde outdoorswoman who lowered her age slider after watching city guys panic changing a flat tire.',
     secretInsecurity:
-      'Tough and self-reliant all day in the field—melts when he pulls out her chair and tells her to rest.',
+      'Tough and self-reliant all day in the field, melts when he pulls out her chair and tells her to rest.',
     subplotTags: ['montana_cowboy_slider', 'trail_leash_boss', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/zoe-34f.jpg',
@@ -549,11 +549,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'ER Trauma Doc • Hiking Puma',
     shortHook: 'ER physician, golden retriever Rani & sunrise canyon switchbacks.',
     tagline:
-      'Runs trauma bays all week—craves a grounding trail hike with her golden retriever Rani and a Cub who cooks real food.',
+      'Runs trauma bays all week, craves a grounding trail hike with her golden retriever Rani and a Cub who cooks real food.',
     vibeSummary:
       '35F ER physician with bright hazel eyes, glossy dark hair, and zero patience for flaky "wyd" texts after a 12-hour shift. Win over Rani on the coastal ridge trail and sear cast-iron steak when her iron dips.',
     secretInsecurity:
-      'Relatives ask weekly why she isn’t married to a 40-year-old cardiologist—so she needs a younger man who carries himself with unmistakable pride.',
+      'Relatives ask weekly why she isn’t married to a 40-year-old cardiologist, so she needs a younger man who carries himself with unmistakable pride.',
     subplotTags: ['dog_mom_divorced', 'trail_leash_boss', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/priya-35f.jpg',
@@ -577,12 +577,12 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     name: 'Maya',
     age: 36,
     title: 'Cool-Aunt Divorced Puma',
-    shortHook: '$20/hr sitter on the clock—never flake or ask for Snap.',
-    tagline: 'One free Friday night a month ($20/hr babysitter on the clock)—do NOT send "might rain, raincheck?"',
+    shortHook: '$20/hr sitter on the clock, never flake or ask for Snap.',
+    tagline: 'One free Friday night a month ($20/hr babysitter on the clock), do NOT send "might rain, raincheck?"',
     vibeSummary:
       'Under 40 so officially a Puma per community law. Uses 😂 unironically, loves a Google Calendar invite, and guards her kid’s world fiercely.',
     secretInsecurity:
-      'Worries one flaky cub wastes the only kid-free evening she gets all month—and whether her post-kids belly still turns heads.',
+      'Worries one flaky cub wastes the only kid-free evening she gets all month, and whether her post-kids belly still turns heads.',
     subplotTags: ['single_mom_sitter', 'princess_treatment'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/maya-36f.jpg',
@@ -600,11 +600,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     name: 'Chloé',
     age: 37,
     title: 'Child-Free Dog-Mom Puma',
-    shortHook: 'Divorced, zero kids, rescue pup Barnaby—done with 42yo Peter Pans.',
+    shortHook: 'Divorced, zero kids, rescue pup Barnaby, done with 42yo Peter Pans.',
     tagline:
-      'Happily divorced, child-free, and done with bitter 40-something men—lowered her age slider for real effort + Barnaby’s approval.',
+      'Happily divorced, child-free, and done with bitter 40-something men, lowered her age slider for real effort + Barnaby’s approval.',
     vibeSummary:
-      '37, sharp, zero kids, one spoiled scruffy rescue dog named Barnaby. Tried dating men her own age (38–45) and got trauma-dumped on over IPAs by guys who weaponize incompetence—now thrilled by how eager a vetted Cub can be.',
+      '37, sharp, zero kids, one spoiled scruffy rescue dog named Barnaby. Tried dating men her own age (38–45) and got trauma-dumped on over IPAs by guys who weaponize incompetence, now thrilled by how eager a vetted Cub can be.',
     secretInsecurity:
       'After divorcing a man-child, part of her waits for the mask to slip and expects every man to eventually treat her like his unpaid life manager.',
     subplotTags: ['dog_mom_divorced', 'jaded_peer_men', 'done_with_kids', 'solo_sanctuary'],
@@ -627,7 +627,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: '6-Yr Gap "Junior Cougar"',
     shortHook: '6 years older: 2008 high-school math teases & sweet-spot chemistry.',
     tagline:
-      'Under the strict 10-year Cougar cutoff—rocking a 6-year "Junior Cougar" gap with shared playlists and homeowner poise.',
+      'Under the strict 10-year Cougar cutoff, rocking a 6-year "Junior Cougar" gap with shared playlists and homeowner poise.',
     vibeSummary:
       '38F boutique designer paired with a 32M match: zero "Is that your son?" stares from waiters, yet she still lovingly roasts him for taking 10th-grade geometry while she was ordering martinis in 2009.',
     secretInsecurity:
@@ -651,11 +651,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Mezcal Lounge & Lagoon Puma',
     shortHook: 'Honey curls, waterfall bikinis & midnight kitchen salsa tests.',
     tagline:
-      '39 and thriving—owns the sexiest mezcal & vinyl room downtown and swims every waterfall lagoon from Oahu to Tulum.',
+      '39 and thriving, owns the sexiest mezcal & vinyl room downtown and swims every waterfall lagoon from Oahu to Tulum.',
     vibeSummary:
       'On the cusp of 40 with sun-lit honey curls, infectious laugh, and unapologetic curves. Expect spontaneous beach weekends, spicy banter, and an immediate rhythm check when music comes on in the kitchen.',
     secretInsecurity:
-      'Turns 40 next birthday and jokes about graduating from Puma to full Cougar—secretly melts when he plans a surprise getaway without being asked.',
+      'Turns 40 next birthday and jokes about graduating from Puma to full Cougar, secretly melts when he plans a surprise getaway without being asked.',
     subplotTags: ['spontaneous_getaway', 'princess_treatment', 'solo_sanctuary'],
     portraitVariant: 'puma',
     photoUrl: './images/cast/camila-39f.jpg',
@@ -686,7 +686,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       '40F independent jewelry founder with voluminous blonde waves, sunlit collarbones, and infectious Laguna-to-Nashville energy.',
     secretInsecurity:
-      'Newly inducted into the 40+ club—thrilled when a younger man looks at her like she’s the hottest woman in the zip code.',
+      'Newly inducted into the 40+ club, thrilled when a younger man looks at her like she’s the hottest woman in the zip code.',
     subplotTags: ['montana_cowboy_slider', 'princess_treatment', 'solo_sanctuary'],
     portraitVariant: 'princess',
     photoUrl: './images/cast/amber-40f.jpg',
@@ -708,9 +708,9 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     tagline:
       'Publishing director who gleefully cancels club plans for Pinot Noir, 600-page spicy fantasy novels, and her judgmental orange cat Mochi.',
     vibeSummary:
-      '41F witty homebody in off-shoulder knitwear with reading glasses. To enter her inner sanctum, you must pass Mochi’s unblinking headboard stare-down—and never mock her *ACOTAR* shelf.',
+      '41F witty homebody in off-shoulder knitwear with reading glasses. To enter her inner sanctum, you must pass Mochi’s unblinking headboard stare-down, and never mock her *ACOTAR* shelf.',
     secretInsecurity:
-      'Wonders if a lively 26-year-old Cub will get bored of cozy rainy-Friday nights in—until he asks which chapter of her spicy book he should study.',
+      'Wonders if a lively 26-year-old Cub will get bored of cozy rainy-Friday nights in, until he asks which chapter of her spicy book he should study.',
     subplotTags: ['black_cat_energy', 'booktok_cat_mom', 'dog_mom_divorced', 'jaded_peer_men', 'done_with_kids', 'solo_sanctuary'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/nadia-41f.jpg',
@@ -734,8 +734,8 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     name: 'Serena',
     age: 43,
     title: '"Spoil-Me Princess" Cougar',
-    shortHook: 'Runs teams all week—wants peonies, convertible drives & car doors on Friday.',
-    tagline: 'Spent 18 years carrying everyone else’s mental load—now wants doors opened, flowers, and zero planning.',
+    shortHook: 'Runs teams all week, wants peonies, convertible drives & car doors on Friday.',
+    tagline: 'Spent 18 years carrying everyone else’s mental load, now wants doors opened, flowers, and zero planning.',
     vibeSummary:
       'Everyone assumes an older woman wants to boss a guy around. Not Serena: she craves a chivalrous younger man who plans the reservation, pulls out her chair, and treats her like royalty.',
     secretInsecurity:
@@ -761,9 +761,9 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     tagline:
       'European-born wine importer in scarlet silk: rapid-fire passion, midnight Rioja, and volcanic side-eye for timid effort.',
     vibeSummary:
-      '44F international powerhouse whose accent drops an octave over red wine. Switches into breathless native-tongue endearments when you step up boldly—and roasts lukewarm effort in two languages.',
+      '44F international powerhouse whose accent drops an octave over red wine. Switches into breathless native-tongue endearments when you step up boldly, and roasts lukewarm effort in two languages.',
     secretInsecurity:
-      'Men her own age kept calling her "intimidating" or "too passionate"—she melts for a devoted younger Cub who worships her fire without flinching.',
+      'Men her own age kept calling her "intimidating" or "too passionate", she melts for a devoted younger Cub who worships her fire without flinching.',
     subplotTags: ['fiery_foreign', 'spontaneous_getaway', 'princess_treatment', 'done_with_kids', 'solo_sanctuary'],
     portraitVariant: 'princess',
     photoUrl: './images/cast/valentina-44f.jpg',
@@ -788,7 +788,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Boutique Hotelier • Rose-Blonde Cougar',
     shortHook: 'Platinum-rose bob, round tortoiseshell frames & rooftop pool keys.',
     tagline:
-      'Designs coastal boutique hotels—literally owns the rooftop pool and cedar sauna you’ll visit at midnight.',
+      'Designs coastal boutique hotels, literally owns the rooftop pool and cedar sauna you’ll visit at midnight.',
     vibeSummary:
       '47F design hotelier with a chic rose-platinum cut, round sunglasses, and dry humor. Rewards spontaneous Cubs who pack a weekender bag in ten minutes.',
     secretInsecurity:
@@ -812,11 +812,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Coastal Principal Architect • Cougar',
     shortHook: 'Infinity-pool lap swimmer, sleek dark waves & razor-sharp Big Sur wit.',
     tagline:
-      'Designs cliffside glass homes from Big Sur to Kyoto—minimalist black swimwear, bone-dry humor, and immaculate taste.',
+      'Designs cliffside glass homes from Big Sur to Kyoto, minimalist black swimwear, bone-dry humor, and immaculate taste.',
     vibeSummary:
       '48F architectural principal with classic "Black Cat" slow-burn poise: takes her time, pushes back playfully when an eager Cub rushes, and makes every earned smile feel electric.',
     secretInsecurity:
-      'Navigating late-40s perimenopause shifts behind calm perfectionism—deeply touched when his Golden-Retriever warmth stays steady without crowding her.',
+      'Navigating late-40s perimenopause shifts behind calm perfectionism, deeply touched when his Golden-Retriever warmth stays steady without crowding her.',
     subplotTags: ['black_cat_energy', 'done_with_kids', 'solo_sanctuary', 'adult_children', 'income_gap'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/meiling-48f.jpg',
@@ -845,7 +845,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       '49F musician who performs in black silk at 8 PM and happily slips into white sneakers for midnight ramen or campus sushi afterward.',
     secretInsecurity:
-      'Turning 50 in six months—delighted to discover younger men treat 49 going on 50 like an upgrade, not an expiration date.',
+      'Turning 50 in six months, delighted to discover younger men treat 49 going on 50 like an upgrade, not an expiration date.',
     subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary'],
     portraitVariant: 'cougar',
     photoUrl: './images/cast/monica-49f.jpg',
@@ -871,7 +871,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       '50F sunlit blonde Pilates, Qigong, and breathwork Wellness Mommy who celebrates entering her Jaguar decade with barefoot beach dinners and devoted late-20s Cubs who follow her lead.',
     secretInsecurity:
-      'Friends warned her dating apps vanish at 50—instead her inbox exploded the day her 50 badge went live.',
+      'Friends warned her dating apps vanish at 50, instead her inbox exploded the day her 50 badge went live.',
     subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/diana-50f.jpg',
@@ -891,11 +891,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Saffron-Blazer Ad Agency Boss • Jaguar',
     shortHook: 'Power-blazer charisma, magnetic smile, 6 PM phone calls & rooftop jazz.',
     tagline:
-      'Runs an independent creative agency—allergically opposed to passive men and endless "wyd" text chains.',
+      'Runs an independent creative agency, allergically opposed to passive men and endless "wyd" text chains.',
     vibeSummary:
       '52F creative founder in tailored linen blazers who loves a younger man brave enough to call her phone at 6 PM with a real reservation.',
     secretInsecurity:
-      'Direct and fearless in pitch rooms—melts privately when someone takes care of her without waiting for instructions.',
+      'Direct and fearless in pitch rooms, melts privately when someone takes care of her without waiting for instructions.',
     subplotTags: ['princess_treatment', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/renee-52f.jpg',
@@ -938,11 +938,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Champagne-Pixie Literary Agent • Jaguar',
     shortHook: 'Short champagne-blonde cut, designer frames, razor wit & campus sushi banter.',
     tagline:
-      'Represents bestselling novelists—loves sharp banter, wire-rim glasses, and 28-year-old PhDs.',
+      'Represents bestselling novelists, loves sharp banter, wire-rim glasses, and 28-year-old PhDs.',
     vibeSummary:
       '54F literary powerhouse in black blazer and statement frames. Turns dinner conversation into foreplay and adores smart younger men.',
     secretInsecurity:
-      'Used to editing everyone else’s stories—loves being swept into an unscripted weekend adventure.',
+      'Used to editing everyone else’s stories, loves being swept into an unscripted weekend adventure.',
     subplotTags: ['black_cat_energy', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/lauren-54f.jpg',
@@ -962,11 +962,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Golden-Curls Landscape Designer • Jaguar',
     shortHook: 'Sunlit golden curls, greenhouse sanctuary, barefoot warmth & Sunday pasta.',
     tagline:
-      'Designs private coastal gardens—warmest laugh in the room, zero drama, and legendary Sunday dinners.',
+      'Designs private coastal gardens, warmest laugh in the room, zero drama, and legendary Sunday dinners.',
     vibeSummary:
       '55F landscape architect with sunlit blonde curls, dirt-under-nails authenticity by day, and silk slip dresses by 7 PM.',
     secretInsecurity:
-      'Gave twenty years to a lukewarm marriage—now refuses anything less than electric mutual adoration.',
+      'Gave twenty years to a lukewarm marriage, now refuses anything less than electric mutual adoration.',
     subplotTags: ['dog_mom_divorced', 'done_with_kids', 'adult_children', 'solo_sanctuary'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/margot-55f.jpg',
@@ -986,11 +986,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Platinum-Blonde Film Producer • Jaguar',
     shortHook: 'Platinum blowout, gold chains, tailored suiting & hotel-bar milk-or-martini nerve.',
     tagline:
-      'Greenlights feature films—pure *Babygirl* / Cannes energy for a Cub with steady eye contact.',
+      'Greenlights feature films, pure *Babygirl* / Cannes energy for a Cub with steady eye contact.',
     vibeSummary:
       '56F platinum-blonde producer who lives in tailored black suiting and heels. Respects boldness, discretion, and a younger man who never flinches.',
     secretInsecurity:
-      'Everyone pitches her all day long—she craves the one person who wants nothing from her except her company.',
+      'Everyone pitches her all day long, she craves the one person who wants nothing from her except her company.',
     subplotTags: ['black_cat_energy', 'princess_treatment', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/evelyn-56f.jpg',
@@ -1010,11 +1010,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Trench-Coat Wine Critic • Jaguar',
     shortHook: 'Classic blonde waves, trench-coat elegance, Paris-to-Napa palate & dry humor.',
     tagline:
-      'Writes the column chefs fear—melts instantly for a humble Cub who packs a meadow picnic.',
+      'Writes the column chefs fear, melts instantly for a humble Cub who packs a meadow picnic.',
     vibeSummary:
       '57F wine & travel writer who has dined at every three-star table on earth, so flashy money bores her; earnest effort and fresh baguette win her heart.',
     secretInsecurity:
-      'Travels twenty weeks a year—loves having a devoted Cub waiting at arrivals with coffee.',
+      'Travels twenty weeks a year, loves having a devoted Cub waiting at arrivals with coffee.',
     subplotTags: ['spontaneous_getaway', 'done_with_kids', 'adult_children', 'solo_sanctuary'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/colette-57f.jpg',
@@ -1038,7 +1038,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       'Radiant coastal blonde who stays active year-round, laughs past every age-gap cliché, and loves an athletic younger first mate.',
     secretInsecurity:
-      'Out-energizes men her own age by 8 PM—thrilled when a 30-year-old actually keeps up all weekend.',
+      'Out-energizes men her own age by 8 PM, thrilled when a 30-year-old actually keeps up all weekend.',
     subplotTags: ['trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'jaguar',
     photoUrl: './images/cast/julianne-58f.jpg',
@@ -1056,7 +1056,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     name: 'Sylvie',
     age: 59,
     title: 'Silver-Bob Architecture Critic • Jaguar',
-    shortHook: '59 in tailored grey wool & chic frames—one birthday shy of full Panther royalty.',
+    shortHook: '59 in tailored grey wool & chic frames, one birthday shy of full Panther royalty.',
     tagline:
       ' razor-sharp, effortlessly chic in silver hair and tailored coats, and magnetic across any gallery room.',
     vibeSummary:
@@ -1088,7 +1088,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       '60F stage director with a bold platinum pixie cut and mischievous eyes. Treats society’s double standards like comedy material and rewards confident 28–35 Cubs.',
     secretInsecurity:
-      'Zero shame about 60—only checks that her Cub walks into opening-night parties proud beside her.',
+      'Zero shame about 60, only checks that her Cub walks into opening-night parties proud beside her.',
     subplotTags: ['done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
     photoUrl: './images/cast/blythe-60f.jpg',
@@ -1112,7 +1112,7 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     vibeSummary:
       '61F style icon who spent thirty years shooting covers in Paris and Milan. Commands every room she enters, swims in the sea till November, and adores an attentive younger man who holds her hand across crowded piazzas.',
     secretInsecurity:
-      'Fiercely protective of her joy and peace—tests early whether he has the spine to smile past public double-takes without flinching.',
+      'Fiercely protective of her joy and peace, tests early whether he has the spine to smile past public double-takes without flinching.',
     subplotTags: ['black_cat_energy', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
     photoUrl: './images/cast/vivienne-61f.jpg',
@@ -1135,13 +1135,13 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     name: 'Helen',
     age: 63,
     title: 'Couture Collector & Salon Hostess • Panther',
-    shortHook: 'Silver bob, fedora & round frames—throws the best dinner parties on the coast.',
+    shortHook: 'Silver bob, fedora & round frames, throws the best dinner parties on the coast.',
     tagline:
       '63, wickedly funny, collects vintage convertibles and modern art, and dates purely for delight.',
     vibeSummary:
       '63F retired magazine publisher whose candlelit terrace salons mix artists, chefs, and one thoroughly smitten younger gentleman.',
     secretInsecurity:
-      'Fiercely independent—melts when he brings her morning tea in bed without trying to rearrange her life.',
+      'Fiercely independent, melts when he brings her morning tea in bed without trying to rearrange her life.',
     subplotTags: ['princess_treatment', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
     photoUrl: './images/cast/helen-63f.jpg',
@@ -1161,11 +1161,11 @@ export const HER_ARCHETYPES: HerArchetype[] = [
     title: 'Sunlit Vineyard Founder • Golden Panther',
     shortHook: '64, radiant blonde smile, organic hillside vineyard & pure second-act joy.',
     tagline:
-      'Built an organic Pinot estate from scratch—hikes her own vineyard rows at sunrise and laughs till midnight.',
+      'Built an organic Pinot estate from scratch, hikes her own vineyard rows at sunrise and laughs till midnight.',
     vibeSummary:
       '64F sunlit blonde vintner who radiates warmth, vitality, and Cher-level financial independence ("Mom, I AM a rich man"). Loves an active, affectionate Cub who enjoys harvest dinners under string lights.',
     secretInsecurity:
-      'Grown kids are protective of her estate—so she respects a Cub who insists on paying his own way from Day 1.',
+      'Grown kids are protective of her estate, so she respects a Cub who insists on paying his own way from Day 1.',
     subplotTags: ['trail_leash_boss', 'done_with_kids', 'adult_children', 'solo_sanctuary', 'income_gap'],
     portraitVariant: 'panther',
     photoUrl: './images/cast/beatrice-64f.jpg',
@@ -1191,13 +1191,13 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     name: 'Leo',
     age: 25,
     title: 'Golden-Retriever Houseboy Cub',
-    shortHook: 'Pure Golden-Retriever energy—10x more obsessed when a cool Black Cat woman pushes back!',
+    shortHook: 'Pure Golden-Retriever energy, 10x more obsessed when a cool Black Cat woman pushes back!',
     tagline:
       'Beaming Golden-Retriever devotion: the more she takes her time and pushes back at first, the wider he grins.',
     vibeSummary:
-      'Gen-Z emotional fluency meets sunny Golden-Retriever warmth. Bored by instant-gratification chaos—he goes weak in the knees for a selective "Black Cat" older woman who paces him, teases his eagerness, and makes every smile feel earned.',
+      'Gen-Z emotional fluency meets sunny Golden-Retriever warmth. Bored by instant-gratification chaos, he goes weak in the knees for a selective "Black Cat" older woman who paces him, teases his eagerness, and makes every smile feel earned.',
     secretInsecurity:
-      'Driving home wondering: "Did she push back tonight because she’s testing my patience—or am I moving too fast?" (Spoiler: she loved every second.)',
+      'Driving home wondering: "Did she push back tonight because she’s testing my patience, or am I moving too fast?" (Spoiler: she loved every second.)',
     subplotTags: ['golden_retriever_energy', 'houseboy_eager', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/leo-25m.jpg',
@@ -1215,13 +1215,13 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     name: 'Colton',
     age: 25,
     title: '6\'3" Montana Ranch & Ex-Football Cowboy Cub',
-    shortHook: 'Inspired by Kristin Cavallari & Montana Boyz—accidentally DMed "I love you" from the group TikTok!',
+    shortHook: 'Inspired by Kristin Cavallari & Montana Boyz, accidentally DMed "I love you" from the group TikTok!',
     tagline:
       '6\'3" former small-college wide receiver raised on a Montana cattle ranch: Stetson hat, country-boy manners, and zero fear of public headlines.',
     vibeSummary:
       'The exact reason thousands of 37–48 women lowered their age slider! Accidentally commented "I love you" from his buddies’ shared ranch account before sliding in properly, flies out on 12 hours’ notice, and carries both suitcases in one hand.',
     secretInsecurity:
-      'Every comment section yells "He’s 25 from Montana!!"—so he proves with steady actions, yes-ma’am chivalry, and ranch-hand grit that he isn’t chasing clout.',
+      'Every comment section yells "He’s 25 from Montana!!", so he proves with steady actions, yes-ma’am chivalry, and ranch-hand grit that he isn’t chasing clout.',
     subplotTags: ['golden_retriever_energy', 'montana_cowboy_slider', 'spontaneous_getaway', 'princess_treatment', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/colton-25m.jpg',
@@ -1245,13 +1245,13 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     age: 28,
     title: 'Early-Anthropic AI Researcher • Vested SF/NYC Cub',
     shortHook:
-      'Joined Anthropic early, quietly vested at 28, zero tech-bro flash—exclusively courts accomplished women 38–60.',
+      'Joined Anthropic early, quietly vested at 28, zero tech-bro flash, exclusively courts accomplished women 38–60.',
     tagline:
       'Early frontier-AI safety researcher with vested equity, oatmeal cashmere, and zero patience for 23-year-old clout chasers.',
     vibeSummary:
-      'Joined Anthropic in the early pre-hype days and quietly hit financial independence before 28. Allergic to crypto/Lambo flexing and exhausted by 23-year-olds asking about his cap table on Date #1—he melts for a self-made Cougar with her own career, sharp wit, and calm presence who lets him power down his brain at 8 PM and cook her brown-butter halibut.',
+      'Joined Anthropic in the early pre-hype days and quietly hit financial independence before 28. Allergic to crypto/Lambo flexing and exhausted by 23-year-olds asking about his cap table on Date #1, he melts for a self-made Cougar with her own career, sharp wit, and calm presence who lets him power down his brain at 8 PM and cook her brown-butter halibut.',
     secretInsecurity:
-      'Never mentions his early equity until Date #4 so he knows you actually like HIM—and privately hopes you won’t lump him in with awkward podcast tech bros.',
+      'Never mentions his early equity until Date #4 so he knows you actually like HIM, and privately hopes you won’t lump him in with awkward podcast tech bros.',
     subplotTags: [
       'frontier_ai_cub',
       'golden_retriever_energy',
@@ -1311,7 +1311,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     age: 32,
     title: 'Rooftop Architect Cub',
     shortHook: '32yo architect who exclusively dates Cougars & Jaguars 45+.',
-    tagline: '30s architect who solely dates Jaguars & Cougars 45+—fluent in wine lists and emotional availability.',
+    tagline: '30s architect who solely dates Jaguars & Cougars 45+, fluent in wine lists and emotional availability.',
     vibeSummary:
       'Proof that 30+ men are top-tier Cubs when paired with a 45–64 Cougar/Jaguar/Panther. Zero roommate drama, maximum princess-treatment game.',
     secretInsecurity:
@@ -1373,7 +1373,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     vibeSummary:
       'Builds custom walnut dining tables with his hands, hikes pine ridges at dawn, smells like cedarwood and bergamot, and brings rugged-sweetheart devotion.',
     secretInsecurity:
-      'Doesn’t wear corporate suits or talk tech jargon—hopes real craftsmanship and steady hands beat finance-bro flash.',
+      'Doesn’t wear corporate suits or talk tech jargon, hopes real craftsmanship and steady hands beat finance-bro flash.',
     subplotTags: ['houseboy_eager', 'trail_leash_boss', 'princess_treatment'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/liam-28m.jpg',
@@ -1402,7 +1402,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     vibeSummary:
       '30M golden-boy charm without an ounce of frat-boy arrogance. Rubs SPF 50 onto your shoulders poolside, orders crisp Sancerre properly, and fixes sore Pilates shoulders.',
     secretInsecurity:
-      'People assume a blonde swimmer in California is a casual beach boy—so he goes all-in proving his long-term loyalty.',
+      'People assume a blonde swimmer in California is a casual beach boy, so he goes all-in proving his long-term loyalty.',
     subplotTags: ['golden_retriever_energy', 'princess_treatment', 'wants_kids_someday'],
     portraitVariant: 'oldsoul',
     photoUrl: './images/cast/lucas-30m.jpg',
@@ -1427,11 +1427,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     title: 'Freshly Minted PhD & Foreign-Muse Cub',
     shortHook: 'Just defended his PhD, wire-rim glasses, sleeper gym build & campus sushi.',
     tagline:
-      'Spent 5 years in a neuroscience lab while his peers partied—just got his PhD hooded, packed on a sleeper gym build, and is ready to court an extraordinary woman.',
+      'Spent 5 years in a neuroscience lab while his peers partied, just got his PhD hooded, packed on a sleeper gym build, and is ready to court an extraordinary woman.',
     vibeSummary:
       '27M newly minted PhD with glasses, broad swimmer/lifter shoulders under tweed jackets, and a huge soft spot for worldly, accented older women. Plans autumn campus strolls + omakase sushi with cheeky "Professor & Grad Student" banter.',
     secretInsecurity:
-      'Spent his whole 20s buried in research papers—secretly thrilled when a radiant Cougar dresses down in sneakers to meet him on the quad.',
+      'Spent his whole 20s buried in research papers, secretly thrilled when a radiant Cougar dresses down in sneakers to meet him on the quad.',
     subplotTags: ['phd_campus_cub', 'loves_foreign_women', 'spontaneous_getaway', 'houseboy_eager'],
     portraitVariant: 'architect',
     photoUrl: './images/cast/theo-27m.jpg',
@@ -1462,7 +1462,7 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     vibeSummary:
       '22M surfboard shaper and specialty-coffee roaster with bright eyes and zero cynicism. Still gets ID-grilled for 45 seconds by every speakeasy bouncer!',
     secretInsecurity:
-      'Knows 22 makes her raise an eyebrow at first—so he shows up ten minutes early with flowers every single time.',
+      'Knows 22 makes her raise an eyebrow at first, so he shows up ten minutes early with flowers every single time.',
     subplotTags: ['zero_proof_wellness', 'golden_retriever_energy', 'houseboy_eager', 'trail_leash_boss'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/noah-22m.jpg',
@@ -1484,9 +1484,9 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     tagline:
       'Brings museum memberships, 70s soul records, and zero frat-house energy at 23.',
     vibeSummary:
-      '23M editorial portrait photographer who prefers quiet jazz bars and art bookstores over loud clubs—and makes her feel like cinema.',
+      '23M editorial portrait photographer who prefers quiet jazz bars and art bookstores over loud clubs, and makes her feel like cinema.',
     secretInsecurity:
-      'Building his freelance studio from the ground up—wins hearts with unforgettable 35mm film walks and gallery nights.',
+      'Building his freelance studio from the ground up, wins hearts with unforgettable 35mm film walks and gallery nights.',
     subplotTags: ['modest_accent_gentleman', 'spontaneous_getaway'],
     portraitVariant: 'oldsoul',
     photoUrl: './images/cast/devon-23m.jpg',
@@ -1506,11 +1506,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     title: 'Michelin Sous-Chef & Boulderer Cub',
     shortHook: 'Forearm tattoo, 10-step skincare, climber grip & midnight handmade dumplings.',
     tagline:
-      'Sous-chef by night, granite boulderer by morning—elite knife skills, SPF 50 glow, and spotless counters.',
+      'Sous-chef by night, granite boulderer by morning, elite knife skills, SPF 50 glow, and spotless counters.',
     vibeSummary:
       '24M fine-dining sous-chef with a minimalist geometric forearm tattoo, toned climber shoulders, and better skincare habits than most dermatologists. Cooks midnight brown-butter scallops from scratch.',
     secretInsecurity:
-      'Quietly wonders if working restaurant hours clashes with her 9-to-5—so he guards every Sunday off exclusively for her.',
+      'Quietly wonders if working restaurant hours clashes with her 9-to-5, so he guards every Sunday off exclusively for her.',
     subplotTags: ['houseboy_eager', 'trail_leash_boss'],
     portraitVariant: 'trail',
     photoUrl: './images/cast/jin-25m.jpg',
@@ -1534,11 +1534,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     age: 26,
     title: 'Ridge-Trail Physical Therapist Cub',
     shortHook: '6 AM summit runner with an oak bedframe, 600TC percale & lidded bin.',
-    tagline: 'Bragged about his sub-7 mile pace—ready to test it on her 6 AM ridge loop.',
+    tagline: 'Bragged about his sub-7 mile pace, ready to test it on her 6 AM ridge loop.',
     vibeSummary:
       'Doctor of Physical Therapy, magnetic smile, active mornings. Suppresses group-chat slang effortlessly when meeting her 45-year-old friends.',
     secretInsecurity:
-      'Worries his early-career salary looks small next to her corner office—hoping effort and devotion count more than Four Seasons money.',
+      'Worries his early-career salary looks small next to her corner office, hoping effort and devotion count more than Four Seasons money.',
     subplotTags: ['zero_proof_wellness', 'trail_leash_boss', 'houseboy_eager', 'income_gap'],
     portraitVariant: 'trail',
     photoUrl: './images/cast/mateo-26m.jpg',
@@ -1558,11 +1558,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     title: 'Self-Made Craftsman & Old-World Gentleman',
     shortHook: 'Warm melodic accent, ironed linen shirts, meadow picnics & retro bowling.',
     tagline:
-      'Self-made master electrician with old-world manners and a warm accent—zero trust-fund flash, 100% pride in sweeping a woman off her feet.',
+      'Self-made master electrician with old-world manners and a warm accent, zero trust-fund flash, 100% pride in sweeping a woman off her feet.',
     vibeSummary:
       '26M master electrician & craftsman. Owns immaculately ironed white linen shirts, opens every door automatically, and proves a hand-packed meadow picnic + neon bowling night beats lazy luxury flash.',
     secretInsecurity:
-      'Knows her handbag costs more than his first car—so he pours unmatched chivalry and handmade cooking into every date.',
+      'Knows her handbag costs more than his first car, so he pours unmatched chivalry and handmade cooking into every date.',
     subplotTags: ['modest_accent_gentleman', 'loves_foreign_women', 'princess_treatment', 'houseboy_eager', 'income_gap'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/mateo-26m.jpg',
@@ -1586,9 +1586,9 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     age: 27,
     title: 'Old-Soul Gentleman Engineer Cub',
     shortHook: 'Brings peonies, opens car doors & books 7:30 reservations before Wednesday.',
-    tagline: 'Opens every car door and refuses to split tapas—but still pictures being a dad someday.',
+    tagline: 'Opens every car door and refuses to split tapas, but still pictures being a dad someday.',
     vibeSummary:
-      'Listens to 90s R&B and Sade, owns a solid oak bedframe and lidded bathroom trash can, and falls hard and fast—setting up the classic timeline conversation.',
+      'Listens to 90s R&B and Sade, owns a solid oak bedframe and lidded bathroom trash can, and falls hard and fast, setting up the classic timeline conversation.',
     secretInsecurity:
       'Terrified she’ll dismiss him as "too young to know what he wants" before he proves he’s serious about committing.',
     subplotTags: ['wants_kids_someday', 'princess_treatment'],
@@ -1610,11 +1610,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     title: 'Charter Pilot & Weekend Getaway Cub',
     shortHook: '29M aviator calm, golden-hour stubble, spontaneous 18-hour island hops.',
     tagline:
-      'Last year of his 20s—flies coastal charters by day and whisks Cougars away for rooftop-and-sauna weekends.',
+      'Last year of his 20s, flies coastal charters by day and whisks Cougars away for rooftop-and-sauna weekends.',
     vibeSummary:
       '29M commercial charter captain with calm cockpit voice, pressed henleys, and zero 20s flakiness.',
     secretInsecurity:
-      'Away two nights a week flying—makes sure she feels like the center of his universe every hour he’s home.',
+      'Away two nights a week flying, makes sure she feels like the center of his universe every hour he’s home.',
     subplotTags: ['spontaneous_getaway', 'princess_treatment', 'houseboy_eager'],
     portraitVariant: 'golden',
     photoUrl: './images/cast/gavin-29m.jpg',
@@ -1658,11 +1658,11 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
     title: '33M Cardiothoracic Fellow • Jaguar Specialist',
     shortHook: '33M silver-fox-in-training who exclusively courts 45–64 Cougars, Jaguars & Panthers.',
     tagline:
-      'Zero roommates, zero games, 6\'2" in tailored wool—built specifically for powerhouse women in their 40s, 50s, and 60s.',
+      'Zero roommates, zero games, 6\'2" in tailored wool, built specifically for powerhouse women in their 40s, 50s, and 60s.',
     vibeSummary:
       '33M surgical fellow who finds women under 40 exhausting and lights up across candlelit tables with accomplished Cougars and Jaguars.',
     secretInsecurity:
-      'Long surgical fellowship hours—treats every Sunday together like a sacred phone-off retreat.',
+      'Long surgical fellowship hours, treats every Sunday together like a sacred phone-off retreat.',
     subplotTags: ['princess_treatment', 'adult_children', 'spontaneous_getaway'],
     portraitVariant: 'architect',
     photoUrl: './images/cast/grant-33m.jpg',
@@ -1726,7 +1726,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     headline: 'CEO at Work, Pampered Royalty on Dates',
     insiderLore:
       'Debunks the internet myth that every Cougar wants to dominate. After 20 years of carrying everyone else’s mental load, she melts for planned dates, flowers, and car doors.',
-    signatureTell: 'Hands you the menu and says, "Surprise me—I made decisions all week."',
+    signatureTell: 'Hands you the menu and says, "Surprise me. I made decisions all week."',
   },
   {
     id: 'jaguar',
@@ -1755,7 +1755,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'cub_taxonomy',
     headline: 'Sunny, Unbothered & Magnetically Drawn to "Black Cat" Cougars',
     insiderLore:
-      'High-EQ, tail-wagging warmth paired with grown-up chivalry. Secret tell: he is 10x MORE attracted when an older woman has cool "Black Cat" energy—taking her time, teasing him, and pushing back a little at first instead of fawning.',
+      'High-EQ, tail-wagging warmth paired with grown-up chivalry. Secret tell: he is 10x MORE attracted when an older woman has cool "Black Cat" energy, taking her time, teasing him, and pushing back a little at first instead of fawning.',
     signatureTell: 'When she says "Slow down, eager puppy," he grins ear-to-ear instead of sulking.',
   },
   {
@@ -1765,7 +1765,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'crossover_lore',
     headline: 'Qigong, Tai Chi Grounding & Consensual "Good Boy" Praise (Never an ATM!)',
     insiderLore:
-      'The ultimate nervous-system magnet: a radiant Qigong, Tai Chi, or Pilates Wellness Mommy who slows an anxious 26-year-old’s racing heart with two fingers under his chin and calm Mommy-Domme command ("Drop your shoulders and breathe with Mommy"). Rule #1 still holds: Mommy-Domme means romantic authority & praise—NEVER paying a freeloader’s rent!',
+      'The ultimate nervous-system magnet: a radiant Qigong, Tai Chi, or Pilates Wellness Mommy who slows an anxious 26-year-old’s racing heart with two fingers under his chin and calm Mommy-Domme command ("Drop your shoulders and breathe with Mommy"). Rule #1 still holds: Mommy-Domme means romantic authority & praise, NEVER paying a freeloader’s rent!',
     signatureTell: 'Fixes his posture in 3 seconds flat and makes him forget every podcast he was about to Cubsplain.',
   },
   {
@@ -1795,7 +1795,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'crossover_lore',
     headline: 'She Takes Her Time & Pushes Back; He Lives to Earn Every Smile',
     insiderLore:
-      'Peer men often get defensive when a self-possessed older woman won’t rush or stroke their ego on Date #1. A true Golden Retriever Cub finds her cool, selective Black Cat pushback intoxicating—matching her unhurried boundaries with steady sunshine until she finally chooses his lap.',
+      'Peer men often get defensive when a self-possessed older woman won’t rush or stroke their ego on Date #1. A true Golden Retriever Cub finds her cool, selective Black Cat pushback intoxicating, matching her unhurried boundaries with steady sunshine until she finally chooses his lap.',
     signatureTell: 'Publicly she gives him cool side-eye; privately she curls up in his hoodie on Sunday.',
   },
   {
@@ -1826,7 +1826,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     headline: 'The Male Equivalent Across the Aisle',
     insiderLore:
       'Slang cousins in the broader age-gap ecosystem (Panther = under-40 male counterpart; Mountain Lion / Silver Fox = 40+ male counterpart).',
-    signatureTell: 'Gets zero side-eyes from society—highlighting the double standard Cougars laugh past.',
+    signatureTell: 'Gets zero side-eyes from society, highlighting the double standard Cougars laugh past.',
   },
   {
     id: 'pop_kristin_montana',
@@ -1835,7 +1835,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'pop_culture',
     headline: 'The Viral Cowboy Story That Made Everyone Lower Their Age Filter',
     insiderLore:
-      '24-year-old Montana cowboy Mark Estes accidentally DMed Kristin Cavallari (37) "I love you" from the shared Montana Boyz TikTok before sliding in from his own account—inspiring thousands of women to move their app age slider down and give Cubs a real shot!',
+      '24-year-old Montana cowboy Mark Estes accidentally DMed Kristin Cavallari (37) "I love you" from the shared Montana Boyz TikTok before sliding in from his own account, inspiring thousands of women to move their app age slider down and give Cubs a real shot!',
     signatureTell: 'Cabo TikTok dances, Nashville concerts, and zero fear of comment-section pearl-clutchers.',
   },
   {
@@ -1865,7 +1865,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'pop_culture',
     headline: 'Pop Royalty × Actor Cub Family Chapter',
     insiderLore:
-      'Welcomed their baby girl together in 2026—living proof alongside Sienna Miller that late-30s/40s women and devoted late-20s Cubs write their own family rules.',
+      'Welcomed their baby girl together in 2026, living proof alongside Sienna Miller that late-30s/40s women and devoted late-20s Cubs write their own family rules.',
     signatureTell: 'Cozy London strolls, quiet devotion, and zero tabloid noise.',
   },
   {
@@ -1875,7 +1875,7 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'pop_culture',
     headline: 'Patron Saints of the 6-Year Junior Cougar Track',
     insiderLore:
-      'Six years apart (33F × 27M drummer/producer) and officially married in an intimate Palm Springs wedding—proving the sub-10-year Junior Cougar sweet spot is pure rockstar gold.',
+      'Six years apart (33F × 27M drummer/producer) and officially married in an intimate Palm Springs wedding, proving the sub-10-year Junior Cougar sweet spot is pure rockstar gold.',
     signatureTell: 'Shared studio sessions, zero ego competition, and Palm Springs vows.',
   },
   {
@@ -1883,9 +1883,9 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     label: '"Cub Grooming" vs. The ATJ Discourse',
     ageRange: '25+ Prefrontal Rule Only!',
     category: 'pop_culture',
-    headline: 'Beard Oil & Tailoring—Never Creepy Power Gaps',
+    headline: 'Beard Oil & Tailoring, Never Creepy Power Gaps',
     insiderLore:
-      'Whenever an adult Cub dates a Cougar, TikTok brings up Sam & Aaron Taylor-Johnson. Cougar Den Law: prefrontal cortexes must be 25+ baked—the ONLY "grooming" here is upgrading his beard oil, SPF 50, and linen shirts!',
+      'Whenever an adult Cub dates a Cougar, TikTok brings up Sam & Aaron Taylor-Johnson. Cougar Den Law: prefrontal cortexes must be 25+ baked, the ONLY "grooming" here is upgrading his beard oil, SPF 50, and linen shirts!',
     signatureTell: 'His 5-in-1 neon-blue shower gel mysteriously vanishes after Weekend #2.',
   },
   {
@@ -1895,19 +1895,320 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     category: 'pop_culture',
     headline: 'Giant Wine Glasses, Florida Sunshine & Post-Divorce Joy',
     insiderLore:
-      'Courteney Cox’s beloved sitcom started as a 40s post-divorce dating comedy before evolving into the ultimate Cul-de-Sac hangout—immortalizing "Big Carl" (her bathtub-sized red wine glass), Penny Can, and shameless 40s fun.',
+      'Courteney Cox’s beloved sitcom started as a 40s post-divorce dating comedy before evolving into the ultimate Cul-de-Sac hangout, immortalizing "Big Carl" (her bathtub-sized red wine glass), Penny Can, and shameless 40s fun.',
     signatureTell: 'Pours half a bottle of Cabernet into one glass and calls it "just one glass."',
   },
 ];
 
+const DELIGHT_DETAILS: Record<string, { idealSunday: string; softSpot: string; extraInterests?: string[] }> = {
+  'astrid-blonde-cougar': {
+    idealSunday: 'Dawn surf at First Point, then breakfast burritos on the tailgate',
+    softSpot: 'Warm shoulder rubs after cold ocean water',
+    extraInterests: ['Dawn Surfing', 'Cedar Sauna', 'Cold Plunge', 'Coastal Runs', 'Ocean Swims'],
+  },
+  'sedona-qigong-mommy': {
+    idealSunday: 'Sunrise courtyard Qigong, farmers market produce, and puppy-name brainstorming',
+    softSpot: 'Calling the chef ahead to check cooking oils so she never has to ask',
+    extraInterests: ['Qigong & Tai Chi', 'Puppy Nursery Prep', 'Cedar Sauna', 'Clean Cooking', 'Canyon Walks'],
+  },
+  'sloane-seedoil-bernedoodle-mommy': {
+    idealSunday: 'Baking warm cassava sourdough and walking the Montecito farmers market',
+    softSpot: 'Showing up with a chew toy for her incoming puppy Miso',
+    extraInterests: ['Farmers Markets', 'Cassava Baking', 'Mini Bernedoodles', 'Infrared Sauna', 'Morning Walks'],
+  },
+  'scarlett-redhead-jaguar': {
+    idealSunday: 'Sleeping in late, vinyl soul records, and handmade truffle pasta at home',
+    softSpot: 'Steady eye contact and unhurried appreciation for real curves',
+    extraInterests: ['Handmade Pasta', 'Vinyl Soul', 'Infinity Pools', 'Italian Markets', 'Coastal Escapes'],
+  },
+  'simone-auntie-cougar': {
+    idealSunday: 'Floating in a Palm Springs pool with 90s R&B playing on vinyl',
+    softSpot: 'Holding your own at the family cookout and respecting silk pillowcases',
+    extraInterests: ['90s R&B Vinyl', 'Palm Springs Pools', 'Art Collecting', 'Live Music', 'Sunday Cookouts'],
+  },
+  'brooke-tennis-cougar': {
+    idealSunday: 'Morning mixed doubles on clay, reformer Pilates, and poolside reading',
+    softSpot: 'Walking onto the club patio beside her with total confidence',
+    extraInterests: ['Club Tennis', 'Reformer Pilates', 'Cabo Weekends', 'Live Country', 'Beach Walks'],
+  },
+  'celeste-panther-icon': {
+    idealSunday: 'Desert pool swim at noon and old jazz records after sunset',
+    softSpot: 'Holding her hand across a crowded room with unmistakable pride',
+    extraInterests: ['Vinyl Jazz', 'Modern Art', 'Desert Architecture', 'Poolside Reading', 'Classic Cinema'],
+  },
+  'georgia-gallery-cougar': {
+    idealSunday: 'Spontaneous desert road trip with the windows down and zero itinerary',
+    softSpot: 'Cheering loudest at her gallery openings without an ounce of ego',
+    extraInterests: ['Art Openings', 'Desert Road Trips', 'Vinyl Records', 'Roof Terraces', 'Flea Markets'],
+  },
+  'summer-beach-puma': {
+    idealSunday: '2v2 Manhattan Beach volleyball, ocean plunge, and street fish tacos',
+    softSpot: 'Remembering a tiny personal detail she only mentioned once',
+    extraInterests: ['Beach Volleyball', 'Ocean Plunge', 'Fish Tacos', 'Sunset Bike Rides', 'Sauna'],
+  },
+  'claire-cougar-exec': {
+    idealSunday: 'Architectural home tour, coastal drive, and reading in crisp 62°F sheets',
+    softSpot: 'Handling the dinner check smoothly without making a production of it',
+    extraInterests: ['Coastal Drives', 'Modern Architecture', 'Pilates', 'Palm Springs', 'Design Books'],
+  },
+  'tessa-somm-puma': {
+    idealSunday: 'Vinyl records in a corner booth and late-night cacio e pepe',
+    softSpot: 'Making a real 7:30 reservation without twenty texts first',
+    extraInterests: ['Vinyl Booths', 'Midnight Pasta', 'Boutique Hotels', 'Indie Cinema', 'Candlelit Dinners'],
+  },
+  'isla-jazz-puma': {
+    idealSunday: 'Overnight train up the coast and playing rough piano demos at 1 AM',
+    softSpot: 'Rolled shirt sleeves and pulling her out of the studio into the sun',
+    extraInterests: ['Film Scoring', 'Jazz Speakeasies', 'Coastal Trains', 'Grand Piano', 'Hotel Saunas'],
+  },
+  'hannah-vineyard-puma': {
+    idealSunday: 'Warm brioche out of the oven, meadow picnic, and retro neon bowling',
+    softSpot: 'Planning a date purely for her after she bakes for everyone else all week',
+    extraInterests: ['Pastry Baking', 'Meadow Picnics', 'Retro Bowling', 'Farmers Markets', 'Acoustic Shows'],
+  },
+  'zoe-equestrian-puma': {
+    idealSunday: 'Morning trail ride, dusty boots off, and steaks over an open bonfire',
+    softSpot: 'Pulling out her chair and telling her she does not have to fix a thing tonight',
+    extraInterests: ['Trail Riding', 'Bonfire Nights', 'Golden Retrievers', 'Manual Trucks', 'Live Country'],
+  },
+  'priya-surgeon-puma': {
+    idealSunday: 'Sunrise coastal switchbacks with her golden retriever Rani, then a long nap',
+    softSpot: 'Winning over Rani on mile one and cooking iron-rich steak after her shift',
+    extraInterests: ['Canyon Hiking', 'Golden Retrievers', 'Reformer Pilates', 'Home Cooking', 'Boutique Travel'],
+  },
+  'maya-puma-mom': {
+    idealSunday: 'Slow sidewalk coffee, live stand-up comedy, and laughing till her ribs hurt',
+    softSpot: 'Showing up five minutes early when her babysitter is on the clock',
+    extraInterests: ['Live Comedy', 'Sidewalk Cafes', 'Calendar Precision', '90s Throwbacks', 'Patio Dinners'],
+  },
+  'chloe-puma-dogmom': {
+    idealSunday: 'Off-leash dog beach morning with rescue pup Barnaby and farmers market peaches',
+    softSpot: 'Bringing a pocket dog treat for Barnaby and knowing where dishwasher pods go',
+    extraInterests: ['Rescue Dogs', 'Farmers Markets', 'Weekend Hikes', 'Zero Kids', ' Indie Bookstores'],
+  },
+  'sienna-junior-cougar': {
+    idealSunday: 'Flea-market vintage hunting and cooking together in Le Creuset Dutch ovens',
+    softSpot: 'Laughing along when she teases where you were in 2008',
+    extraInterests: ['Boutique Design', 'Vinyl Lounges', 'Vintage Hunting', 'Home Cooking', 'Palm Springs'],
+  },
+  'camila-lagoon-puma': {
+    idealSunday: 'Hidden waterfall swim by afternoon and barefoot kitchen salsa at midnight',
+    softSpot: 'Spinning her in the kitchen the second a good song comes on',
+    extraInterests: ['Waterfall Swims', 'Kitchen Dancing', 'Live Vinyl', 'Beach Weekends', 'Street Tacos'],
+  },
+  'amber-milestone-cougar': {
+    idealSunday: 'Sketching gold jewelry on a sunlit deck before sunset dinner by the water',
+    softSpot: 'Looking at her like she is the only woman in the room',
+    extraInterests: ['Jewelry Design', 'Cabo Getaways', 'Beach Walks', 'Rooftop Dinners', 'Live Acoustic'],
+  },
+  'nadia-booktok-cat-cougar': {
+    idealSunday: 'Rainy afternoon reading fantasy novels while her orange cat Mochi naps nearby',
+    softSpot: 'Passing Mochi’s stare-down test and asking which chapter she is on',
+    extraInterests: ['Spicy BookTok', 'Orange Cat Mochi', 'Co-Op Couch Games', 'Rainy Nights In', 'Bookstores'],
+  },
+  'serena-princess-cougar': {
+    idealSunday: 'Top-down PCH drive with fresh pink peonies on the passenger seat',
+    softSpot: 'Opening her car door and saying "Turn your brain off, I planned tonight"',
+    extraInterests: ['Coastal Convertibles', 'Fresh Peonies', 'Art Galleries', 'Silk Loungewear', 'Candlelit Bistros'],
+  },
+  'valentina-fiery-cougar': {
+    idealSunday: 'Late tapas, dancing in the kitchen past midnight, and 18-hour island flights',
+    softSpot: 'Matching her fire without flinching or playing it safe',
+    extraInterests: ['Kitchen Dancing', 'Spontaneous Trips', 'Spanish Cinema', 'Hotel Saunas', 'Late Tapas'],
+  },
+  'helena-riviera-cougar': {
+    idealSunday: 'Flipping through Italian design books poolside before a midnight sauna',
+    softSpot: 'Packing a weekender bag in ten minutes flat when she says let’s go',
+    extraInterests: ['Boutique Hotels', 'Cedar Saunas', 'Architecture Books', 'Coastal Drives', 'Night Swims'],
+  },
+  'meiling-architect-cougar': {
+    idealSunday: 'Quiet ocean infinity-pool laps at dawn, then hand-pulled noodles or omakase',
+    softSpot: 'Calm patience that never crowds her slow-burn pace',
+    extraInterests: ['Ocean Lap Swims', 'Modern Architecture', 'Omakase', 'Kyoto Travel', 'Art Books'],
+  },
+  'monica-cello-cougar': {
+    idealSunday: 'Afternoon cello rehearsal, then slipping into sneakers for midnight ramen',
+    softSpot: 'Waiting at stage door with warm hands and zero pretentiousness',
+    extraInterests: ['Live Symphony', 'Midnight Ramen', 'Omakase Sushi', 'Night Walks', 'Classical Vinyl'],
+  },
+  'diana-coastal-jaguar': {
+    idealSunday: 'Barefoot morning ocean swim, breathwork on the deck, and grilled local fish',
+    softSpot: 'Steady eye contact and following her lead on morning movement',
+    extraInterests: ['Ocean Swims', 'Reformer Pilates', 'Breathwork', 'Farmers Markets', 'Beach Bonfires'],
+  },
+  'renee-creative-jaguar': {
+    idealSunday: 'Contemporary art museum stroll followed by a tucked-away jazz quartet',
+    softSpot: 'Calling her phone at 6 PM sharp instead of sending forty tiny texts',
+    extraInterests: ['Live Jazz', 'Contemporary Art', 'Tailored Style', 'Weekend Flights', 'Theater'],
+  },
+  'valerie-jaguar-trail': {
+    idealSunday: '6 AM canyon ridge summit before the heat, then stretching on the sun deck',
+    softSpot: 'Keeping pace on steep switchbacks and cooking Sunday pasta after',
+    extraInterests: ['6 AM Canyon Runs', 'Reformer Pilates', 'National Parks', 'Ocean Swims', 'Trail Maps'],
+  },
+  'lauren-dean-jaguar': {
+    idealSunday: 'Used-bookstore browsing on the Upper West Side and trading sharp banter over sushi',
+    softSpot: 'Quick literary wit and sweeping her into an unscripted afternoon',
+    extraInterests: ['Indie Bookstores', 'Omakase', 'Off-Broadway Theater', 'Crosswords', ' Sharp Banter'],
+  },
+  'margot-botanical-jaguar': {
+    idealSunday: 'Clipping fresh herbs in her coastal garden and rolling pasta dough barefoot',
+    softSpot: 'Cooking beside her in the kitchen with music on and nowhere to rush',
+    extraInterests: ['Coastal Gardens', 'Handmade Pasta', 'Rescue Dogs', 'Greenhouses', 'Outdoor Showers'],
+  },
+  'evelyn-mogul-jaguar': {
+    idealSunday: 'Phones off in a Beverly Hills bungalow with classic French New Wave films',
+    softSpot: 'Wanting nothing from her except her company and holding steady eye contact',
+    extraInterests: ['Film Festivals', 'Classic Cinema', 'Late-Night Jazz', 'Modern Art', 'Hotel Lounges'],
+  },
+  'colette-bistro-jaguar': {
+    idealSunday: 'Warm baguette, triple-cream brie, and a blanket under vineyard oaks',
+    softSpot: 'Meeting her at airport arrivals with coffee and a simple thoughtful picnic',
+    extraInterests: ['Meadow Picnics', 'Scenic Trains', 'Vineyard Walks', 'Cheese Boards', 'Travel Writing'],
+  },
+  'julianne-sailing-jaguar': {
+    idealSunday: 'Tacking her 36-foot sloop across the bay and shucking harbor oysters at sunset',
+    softSpot: 'Athletic stamina that actually keeps up with her all weekend',
+    extraInterests: ['Ocean Sailing', 'Harbor Oysters', 'Club Tennis', 'Coastal Hikes', 'Live Music'],
+  },
+  'sylvie-atelier-jaguar': {
+    idealSunday: 'Quiet design museum morning and laughing over midnight sourdough toast',
+    softSpot: 'Warm tactile affection behind closed doors that melts her cool exterior',
+    extraInterests: ['Design Museums', 'Sculpture Gardens', 'Jazz Vinyl', 'Architecture', 'Gallery Walks'],
+  },
+  'blythe-cabaret-panther': {
+    idealSunday: 'Late supper after curtain call beside a speakeasy piano',
+    softSpot: 'Walking into opening-night parties arm-in-arm with total pride',
+    extraInterests: ['Opening Nights', 'Speakeasy Piano', 'Stage Directing', 'Late Suppers', 'Dry Comedy'],
+  },
+  'vivienne-silver-panther': {
+    idealSunday: 'Morning swim in the sea, linen kaftan, and old Italian records on the terrace',
+    softSpot: 'Smiling past public double-takes while holding her hand across the piazza',
+    extraInterests: ['Sea Swimming', 'Runway Archives', 'Vinyl Jazz', 'Mediterranean Travel', 'Photography'],
+  },
+  'helen-couture-panther': {
+    idealSunday: 'Top-down drive in her vintage convertible before hosting a candlelit terrace salon',
+    softSpot: 'Bringing her morning tea in bed without trying to rearrange her life',
+    extraInterests: ['Vintage Convertibles', 'Terrace Salons', 'Art Auctions', 'Biography Books', 'Coastal Drives'],
+  },
+  'beatrice-vineyard-panther': {
+    idealSunday: 'Sunrise walk through her hillside vines with the dogs and dinner under string lights',
+    softSpot: 'Insisting on picking up the tab on Date #1 despite her vineyard estate',
+    extraInterests: ['Vineyard Hikes', 'Harvest Dinners', 'Golden Retrievers', 'Acoustic Guitar', 'Gardening'],
+  },
+  'leo-golden-cub': {
+    idealSunday: 'Tying on a washed linen apron, simmering Sunday sauce, and fixing squeaky hinges',
+    softSpot: 'When a cool Black Cat woman teases him and makes him earn her smile',
+    extraInterests: ['Handmade Pasta', 'Farmers Markets', 'Home Repairs', 'Clean Kitchens', 'Golden Retrievers'],
+  },
+  'colton-montana-cowboy-cub': {
+    idealSunday: 'Bonfire under big sky, acoustic guitar, and two-stepping across the kitchen floor',
+    softSpot: 'When she laughs at his Bozeman drawl and lets him carry both suitcases',
+    extraInterests: ['Montana Ranches', 'Country Two-Step', 'Bonfires', 'Pickup Trucks', 'Cabo Weekends'],
+  },
+  'kieran-anthropic-ai-cub': {
+    idealSunday: 'Morning cortados by the window, art bookstores, and searing brown-butter halibut',
+    softSpot: 'Powering his brain completely off at 8 PM with a sharp, self-made woman',
+    extraInterests: ['Brown-Butter Halibut', 'Art Bookstores', 'Coastal Drives', 'Vinyl Records', 'Quiet Luxury'],
+  },
+  'kayden-broke-dutch-cub': {
+    idealSunday: '3 AM Valorant with his three roommates and hunting 4:30 PM happy-hour coupons',
+    softSpot: 'Splitting seven edamame pods down to the exact $0.38 cent on Venmo',
+    extraInterests: ['Going Dutch', '3 AM Valorant', 'Happy Hour Deals', 'Campus Coupons', 'Roommate Chaos'],
+  },
+  'miles-millennial-cub': {
+    idealSunday: 'Sketching coastal houses, architectural bookshops, and a slow dinner for two',
+    softSpot: 'Accomplished women 45+ who know exactly what they like',
+    extraInterests: ['Architecture', 'Boutique Hotels', 'Home Cooking', 'Design Museums', 'Coastal Drives'],
+  },
+  'marcus-firefighter-cub': {
+    idealSunday: '8 AM beach run with his rescue mutt Otis, farmers market, and Cajun shrimp pasta',
+    softSpot: 'Pre-heating her passenger seat warmer before opening her car door',
+    extraInterests: ['Beach Runs', 'Rescue Dog Otis', 'Cajun Cooking', '90s R&B Vinyl', 'Strength Training'],
+  },
+  'liam-redhead-carpenter-cub': {
+    idealSunday: 'Dawn pine-ridge hike, woodshop sanding, and searing ribeye in cast iron',
+    softSpot: 'Building custom walnut shelves and fixing every cabinet door in her house',
+    extraInterests: ['Custom Woodworking', 'Mountain Hiking', 'Folk Vinyl', 'Cast-Iron Steaks', 'Rescue Dogs'],
+  },
+  'lucas-blonde-swimmer-cub': {
+    idealSunday: 'Morning ocean swim laps, poolside reading, and 90-second shoulder massages',
+    softSpot: 'Releasing tight Pilates shoulders and keeping the bedroom at 62°F',
+    extraInterests: ['Ocean Swimming', 'Sports Medicine', 'Club Tennis', 'Palm Springs', 'Coastal Runs'],
+  },
+  'theo-phd-campus-cub': {
+    idealSunday: 'Autumn campus walk, matinee world cinema, and tucked-away omakase sushi',
+    softSpot: 'Worldly women with accents who debate books and films past midnight',
+    extraInterests: ['Omakase Sushi', 'World Cinema', 'Neuroscience', '5x225 Lifting', 'Bookstores'],
+  },
+  'noah-surf-cub': {
+    idealSunday: 'Shaping surfboards at dawn, dialing in pour-over coffee, and acoustic vinyl',
+    softSpot: 'Showing up ten minutes early with flowers so she forgets he is 22',
+    extraInterests: ['Board Shaping', 'Latte Art', 'Dawn Surf', 'Acoustic Vinyl', 'Beach Bonfires'],
+  },
+  'devon-indie-cub': {
+    idealSunday: 'Shooting 35mm film portraits in golden light and digging through 70s soul crates',
+    softSpot: 'Making her laugh mid-photograph and skipping loud clubs for jazz bars',
+    extraInterests: ['35mm Film', 'Art Museums', '70s Soul Vinyl', 'Meadow Picnics', 'Darkroom Prints'],
+  },
+  'jin-souschef-cub': {
+    idealSunday: 'Morning granite bouldering, sheet-mask skincare, and midnight handmade dumplings',
+    softSpot: 'When she steals bites straight off his cutting board at 11 PM',
+    extraInterests: ['Rock Climbing', 'Handmade Dumplings', '10-Step Skincare', 'Vinyl Bars', 'Pour-Over Coffee'],
+  },
+  'dante-trail-cub': {
+    idealSunday: '6 AM coastal summit run, calf recovery stretch, and homemade Sunday pasta',
+    softSpot: 'Testing his sub-7 mile pace beside a woman who refuses to go easy on him',
+    extraInterests: ['Trail Running', 'Physical Therapy', 'Home Cooking', 'Live Jazz', 'Farmers Markets'],
+  },
+  'rafael-accented-gentleman-cub': {
+    idealSunday: 'Packing fresh figs and warm baguette for a meadow picnic before retro bowling',
+    softSpot: 'Old-world manners, ironed linen shirts, and slow dancing in the living room',
+    extraInterests: ['Meadow Picnics', 'Retro Neon Bowling', 'Family Pasta Recipes', 'Slow Dancing', 'Craftsmanship'],
+  },
+  'julian-oldsoul-cub': {
+    idealSunday: 'Spinning Sade on vinyl, coastal afternoon drive, and booking Friday before Wednesday',
+    softSpot: 'Fresh pink peonies and keeping his phone face-down all through dinner',
+    extraInterests: ['Sade & Vinyl', 'Architecture', 'Coastal Drives', 'Fresh Peonies', 'Home Cooking'],
+  },
+  'gavin-pilot-cub': {
+    idealSunday: 'Spontaneous coastal hop in a two-seater or lazy hotel pool afternoon',
+    softSpot: 'Making her the center of his universe every hour he is back on the ground',
+    extraInterests: ['Coastal Aviation', 'Island Getaways', 'Ocean Sailing', 'Hotel Pools', ' Grill Nights'],
+  },
+  'owen-sommelier-cub': {
+    idealSunday: 'Stirring cast-iron mushroom risotto while blind-tasting bottles in the kitchen',
+    softSpot: 'Carrying every heavy box up the stairs and cooking late after service',
+    extraInterests: ['Cast-Iron Risotto', 'Vinyl Jazz', 'Blind Tastings', 'Bistro Cooking', 'Weekend Travel'],
+  },
+  'grant-surgeon-cub': {
+    idealSunday: 'Phones completely off, morning tennis, and an unhurried coastal dinner',
+    softSpot: 'Accomplished women over 43 who never play twenty-something texting games',
+    extraInterests: ['Club Tennis', 'Opera & Jazz', 'Boutique Hotels', 'Coastal Drives', ' Sunday Cooking'],
+  },
+};
+
 export function getProfileDetails(profile: HerArchetype | HisArchetype) {
+  const delight = DELIGHT_DETAILS[profile.id];
+  const rawInterests = delight?.extraInterests ?? profile.interests ?? [
+    'Coastal Drives',
+    'Home Cooking',
+    'Live Music',
+    'Weekend Escapes',
+  ];
   return {
-    zodiac: profile.zodiac ?? '♏ Scorpio Sun • ♌ Leo Rising',
+    zodiac: (profile.zodiac ?? '♏ Scorpio Sun • ♌ Leo Rising').replace(/\s*[—–]\s*/g, ' • '),
     height: profile.height ?? '5\'8"',
-    loveLanguage: profile.loveLanguage ?? 'Intentional Effort & Touch',
+    loveLanguage: (profile.loveLanguage ?? 'Intentional Effort & Touch').replace(/\s*[—–]\s*/g, ', '),
     originOrAccent: profile.originOrAccent ?? 'Cosmopolitan Charm',
-    signatureDrink: profile.signatureDrink ?? 'Espresso Martini',
-    statusPill: profile.statusPill ?? 'Solo Sanctuary',
+    signatureDrink: (profile.signatureDrink ?? 'Espresso Martini').replace(/\s*[—–]\s*/g, ', '),
+    statusPill: (profile.statusPill ?? 'Solo Sanctuary').replace(/\s*[—–]\s*/g, ' • '),
+    interests: rawInterests.map((s) => s.trim()),
+    idealSunday:
+      delight?.idealSunday ?? 'Slow morning coffee, farmers market stroll, and unhurried dinner',
+    softSpot:
+      delight?.softSpot ?? 'Thoughtful plans, real curiosity, and keeping phones off the table',
+    petName: 'petName' in profile && profile.petName ? profile.petName.replace(/\s*[—–]\s*/g, ' • ') : undefined,
   };
 }
 
@@ -1938,17 +2239,17 @@ export function analyzePairing(
   const hisDetails = getProfileDetails(his);
   const herSign = herDetails.zodiac.split('•')[0].trim();
   const hisSign = hisDetails.zodiac.split('•')[0].trim();
-  const zodiacSpark = `${herSign} × ${hisSign} — High-voltage astrological magnetism (${herDetails.loveLanguage.split('&')[0].trim()} meets ${hisDetails.loveLanguage.split('&')[0].trim()})`;
+  const zodiacSpark = `${herSign} × ${hisSign} • High-voltage astrological magnetism (${herDetails.loveLanguage.split('&')[0].trim()} meets ${hisDetails.loveLanguage.split('&')[0].trim()})`;
 
   const hasBlackCat = her.subplotTags.includes('black_cat_energy');
   const hasGolden = his.subplotTags.includes('golden_retriever_energy');
   const energyPolarity =
     hasBlackCat && hasGolden
-      ? `🐈‍⬛ Black Cat ${TIER_LABELS[felineTier]} × 🐕 Golden Retriever Cub — She takes her time & pushes back at first; he beams brighter earning every inch of her warmth!`
+      ? `🐈‍⬛ Black Cat ${TIER_LABELS[felineTier]} × 🐕 Golden Retriever Cub • She takes her time & pushes back at first; he beams brighter earning every inch of her warmth!`
       : hasBlackCat
-        ? `🐈‍⬛ Black Cat Energy Active — Unhurried, selective & pushes back on rushed effort`
+        ? `🐈‍⬛ Black Cat Energy Active • Unhurried, selective & pushes back on rushed effort`
         : hasGolden
-          ? `🐕 Golden Retriever Cub Active — Sunny, unbothered devotion & zero ego games`
+          ? `🐕 Golden Retriever Cub Active • Sunny, unbothered devotion & zero ego games`
           : undefined;
 
   let codeSwitchTip: string;
@@ -1957,13 +2258,13 @@ export function analyzePairing(
       'Lynx Peer Alert: Same generational slang fluency, so skip the excuses and stand out with real reservation effort and emotional follow-through.';
   } else if (ageGap > 0 && ageGap < 10) {
     codeSwitchTip =
-      'Junior Cougar Alert: You share 80% of the same cultural references—lean into playful 2008 age-math banter and match her homeowner-era intentionality!';
+      'Junior Cougar Alert: You share 80% of the same cultural references, lean into playful 2008 age-math banter and match her homeowner-era intentionality!';
   } else if (herGeneration === 'millennial') {
     codeSwitchTip =
-      'Elder Millennial Alert: Drop skull emojis (💀) & lowercase "u tryna link"—text before you call her phone, send a 7:30 calendar link, and ditch the crew socks.';
+      'Elder Millennial Alert: Drop skull emojis (💀) & lowercase "u tryna link", text before you call her phone, send a 7:30 calendar link, and ditch the crew socks.';
   } else if (herGeneration === 'gen_x') {
     codeSwitchTip =
-      'Gen-X Alert: Skip all-day work micro-texting and Snapchat—make a confident 6 PM phone call, show up five minutes early, and never flake.';
+      'Gen-X Alert: Skip all-day work micro-texting and Snapchat, make a confident 6 PM phone call, show up five minutes early, and never flake.';
   } else {
     codeSwitchTip =
       'Icon Alert: Put your phone face-down all dinner, order with poise, call instead of DMing, and own every public glance with pride.';

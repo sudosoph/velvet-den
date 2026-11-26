@@ -196,7 +196,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
             </h3>
 
             <p className="text-sm font-medium text-[#3D2A45] leading-relaxed">
-              Once you move off the apps to real texting, send your custom 5-scene link—they play in 60 seconds and see how their instincts stack up against yours.
+              Once you move off the apps to real texting, send your custom 5-scene link, they play in 60 seconds and see how their instincts stack up against yours.
             </p>
 
             <div className="space-y-1.5">
@@ -221,7 +221,7 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
               {copiedState === 'audition' ? (
                 <>
                   <Check className="h-5 w-5" />
-                  <span>Audition Link Copied — Text It Now!</span>
+                  <span>Audition Link Copied • Text It Now!</span>
                 </>
               ) : (
                 <>

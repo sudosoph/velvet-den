@@ -71,12 +71,12 @@ const OBEDIENCE_DRILLS: ObedienceDrill[] = [
     id: 'drill-cubsplain',
     badge: 'Drill 1 of 4 • Impulse Control',
     wildImpulse: '🤓 Wild Cub Impulse: He clears his throat to "well actually" her career!',
-    cubBubbleBefore: '"Well actually, I heard on a 3-hr podcast—"',
-    cubBubbleAfter: '"Wait—tell me how YOU built it first 🥺✨"',
+    cubBubbleBefore: '"Well actually, I heard on a 3-hr podcast, "',
+    cubBubbleAfter: '"Wait, tell me how YOU built it first 🥺✨"',
     rightCmdLabel: '🔔 Clicker: "Sit & Listen!"',
     rightCmdSub: 'Mute the podcast brain & unlock active curiosity (+25 Obedience)',
     wrongCmdLabel: '😴 Let Him Cubsplain for 20 Mins',
-    wrongFeedback: 'BARK! Never reward a podcast lecture on Date #1—hit the Clicker!',
+    wrongFeedback: 'BARK! Never reward a podcast lecture on Date #1, hit the Clicker!',
     expressionBefore: 'smug',
     statLabel: 'Zero-Cubsplain Ears',
   },
@@ -85,11 +85,11 @@ const OBEDIENCE_DRILLS: ObedienceDrill[] = [
     badge: 'Drill 2 of 4 • Texting Roast',
     wildImpulse: '👻 Wild Cub Impulse: Two minutes into your Uber he types "for ur age + whats ur snap??"',
     cubBubbleBefore: '"u look crazy good for ur age 🔥 whats ur snap??"',
-    cubBubbleAfter: '"Deleted Snap in 2019 😅 7:30 wine bar Friday—here’s my real # 🍸"',
+    cubBubbleAfter: '"Deleted Snap in 2019 😅 7:30 wine bar Friday, here’s my real # 🍸"',
     rightCmdLabel: '📵 Command: "Drop the Snap!"',
     rightCmdSub: 'Roast teenage streak requests & train real calendar invites (+25 Housebroken)',
     wrongCmdLabel: '👻 Download Snapchat for Streaks',
-    wrongFeedback: 'YELP! You run a department and own a wine fridge—never reward "whats ur snap"!',
+    wrongFeedback: 'YELP! You run a department and own a wine fridge, never reward "whats ur snap"!',
     expressionBefore: 'sweat',
     statLabel: 'Zero-Snapchat Thumb',
   },
@@ -110,7 +110,7 @@ const OBEDIENCE_DRILLS: ObedienceDrill[] = [
     id: 'drill-good-boy-treat',
     badge: 'Drill 4 of 4 • Positive Reinforcement',
     wildImpulse: '🐕‍🦺 Final Exam: Phone face-down on Do Not Disturb & Friday 7:30 Resy locked!',
-    cubBubbleBefore: '"Phone’s tucked away all night—just excited to hear about your week 😊"',
+    cubBubbleBefore: '"Phone’s tucked away all night, just excited to hear about your week 😊"',
     cubBubbleAfter: '"CERTIFIED GOOD BOY™ UNLOCKED! 💖👑🥩"',
     rightCmdLabel: '🥩 Toss Grass-Fed Steak Treat ("Good Boy!")',
     rightCmdSub: 'Reward calm Golden-Retriever devotion & mint S-Rank Diploma (+25 Chemistry)',
@@ -138,7 +138,7 @@ const ROOM_HAZARDS: RoomHazard[] = [
     yPct: 62,
     redLabel: 'Unlidded Bathroom Trash Can',
     greenUpgrade: 'Matte-Black Lidded Bin & Hand Towel',
-    roastLine: 'Installed a lidded bathroom bin—civilization restored!',
+    roastLine: 'Installed a lidded bathroom bin, civilization restored!',
   },
   {
     id: 'haz-soap',
@@ -598,7 +598,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
             >
               {HIS_ARCHETYPES.map((cub) => (
                 <option key={cub.id} value={cub.id}>
-                  {cub.name} ({cub.age}M) — {cub.title}
+                  {cub.name} ({cub.age}M) • {cub.title}
                 </option>
               ))}
             </select>
@@ -774,7 +774,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
                     <span>OFFICIAL CUB OBEDIENCE DIPLOMA • RANK S</span>
                   </span>
                   <h2 className="font-display text-2xl sm:text-3xl text-[#18101E]">
-                    👑 {his.name} ({his.age}M) — Certified Good Boy™
+                    👑 {his.name} ({his.age}M) • Certified Good Boy™
                   </h2>
                   <p className="text-xs sm:text-sm font-semibold text-[#475569]">
                     Trained personally by <strong>{her.name} ({her.age}F)</strong>. Stamped as{' '}
@@ -893,7 +893,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
                 🕶️ Cougar X-Ray Shades: Inspect {his.name}’s Apartment!
               </h2>
               <p className="text-xs sm:text-sm font-medium text-[#475569]">
-                He stepped into the kitchen for sparkling water—tap all <strong>5 bachelor-pad red flags</strong> directly inside the room to upgrade his sanctuary!
+                He stepped into the kitchen for sparkling water, tap all <strong>5 bachelor-pad red flags</strong> directly inside the room to upgrade his sanctuary!
               </p>
             </div>
             <span className="rounded-full bg-[#ECFDF5] border border-[#059669]/30 px-3.5 py-1 text-xs font-extrabold text-[#065F46]">
@@ -1046,7 +1046,7 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
                   📖 {totalRoster}-Member Club Dateodex (👑 Crowned • 🤝 Friend • 🚩 Dumped)
                 </h2>
                 <p className="text-xs sm:text-sm font-medium text-[#475569]">
-                  Inspired by <em>Date Everything!</em> &amp; <em>Dream Daddy</em>—collect an S/A/B/C rank stamp on every Cougar, Puma, Jaguar &amp; Cub in the Club!
+                  Inspired by <em>Date Everything!</em> &amp; <em>Dream Daddy</em>, collect an S/A/B/C rank stamp on every Cougar, Puma, Jaguar &amp; Cub in the Club!
                 </p>
               </div>
               <div className="flex items-center gap-2 text-xs font-extrabold">

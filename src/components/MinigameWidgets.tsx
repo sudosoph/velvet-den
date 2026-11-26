@@ -437,10 +437,10 @@ const CheckDropReflexGame: React.FC<{
       onWin({ chivalry: 8, chemistry: 6 }, 'Quick-Draw Check Master');
     } else if (cursor < 34) {
       sfx.redFlag();
-      setResultMsg('😅 Too early—almost pulled out the Venmo tax calculator! Tap Retry.');
+      setResultMsg('😅 Too early, almost pulled out the Venmo tax calculator! Tap Retry.');
     } else {
       sfx.redFlag();
-      setResultMsg('😬 Hesitated too long—she almost reached for her Amex! Tap Retry.');
+      setResultMsg('😬 Hesitated too long, she almost reached for her Amex! Tap Retry.');
     }
   };
 
@@ -632,7 +632,7 @@ const RoomAuditHotspotGame: React.FC<{
 
       {allFixed && (
         <div className="text-xs font-semibold text-emerald-300">
-          ✨ Spotless Sanctuary Certified! +10 Maturity &amp; +10 EQ applied—now choose your Sunday scene move!
+          ✨ Spotless Sanctuary Certified! +10 Maturity &amp; +10 EQ applied, now choose your Sunday scene move!
         </div>
       )}
     </div>
@@ -648,7 +648,7 @@ const DOUBT_THOUGHTS = [
   {
     id: 'phase',
     spiral: '🌀 "What if I’m just a fun temporary chapter?"',
-    grounded: '💎 "Judge consistent effort & actions—not midnight fear."',
+    grounded: '💎 "Judge consistent effort & actions, not midnight fear."',
   },
   {
     id: 'martyr',
@@ -718,7 +718,7 @@ const DoubtSpiralGame: React.FC<{
 
       {allCleared && (
         <div className="text-xs font-semibold text-emerald-300">
-          💞 2 AM Spiral Cleared! +8 EQ &amp; +8 Maturity unlocked—now handle the real conversation below!
+          💞 2 AM Spiral Cleared! +8 EQ &amp; +8 Maturity unlocked, now handle the real conversation below!
         </div>
       )}
     </div>
@@ -785,7 +785,7 @@ const BenchPressCougarGame: React.FC<{
             onClick={handleRep}
             className="rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-sm font-semibold text-[#FAF7F5] active:scale-95 transition cursor-pointer"
           >
-            💪 Press Rep ({reps}/5) — Train for {herName}!
+            💪 Press Rep ({reps}/5) • Train for {herName}!
           </button>
         ) : (
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
@@ -999,17 +999,17 @@ const BigCarlWinePourGame: React.FC<{
 
 const BLACK_CAT_BEATS = [
   {
-    catPrompt: '🐈‍⬛ Beat 1: She raises one cool eyebrow—"Slow down, eager puppy. I don’t clear my Friday that easily."',
-    rightMove: '🐕 Grin Warmly & Match Her Unhurried Pace ("Zero rush—you’re worth waiting for")',
+    catPrompt: '🐈‍⬛ Beat 1: She raises one cool eyebrow, "Slow down, eager puppy. I don’t clear my Friday that easily."',
+    rightMove: '🐕 Grin Warmly & Match Her Unhurried Pace ("Zero rush, you’re worth waiting for")',
     rushTrap: '🚩 Love-Bomb 9 Texts in a Row ("PLS GIVE ME A CHANCE TONIGHT!!")',
   },
   {
-    catPrompt: '😼 Beat 2: Half-smile unlocked! She tests your ego—"Most guys sulk when I push back on Date #1."',
+    catPrompt: '😼 Beat 2: Half-smile unlocked! She tests your ego, "Most guys sulk when I push back on Date #1."',
     rightMove: '🐕 Laugh Unbothered ("Honestly? A woman with standards makes me 10x more interested")',
     rushTrap: '🚩 Get Defensive ("Why are you playing hard to get?!")',
   },
   {
-    catPrompt: '😻 Beat 3: Her shoulders soften—"Okay, Golden Boy… convince me softly."',
+    catPrompt: '😻 Beat 3: Her shoulders soften, "Okay, Golden Boy… convince me softly."',
     rightMove: '🐕 Hold Calm 7:30 Wine-Bar Plan & Let Her Choose Your Lap',
     rushTrap: '🚩 Crowd Her Space Before She Signals Ready',
   },
@@ -1039,7 +1039,7 @@ const BlackCatPaceGame: React.FC<{
   const handleRushMistake = () => {
     if (completed || step >= 3) return;
     sfx.redFlag();
-    setHissNote('🐈‍⬛ HISS! Too pushy—her Black Cat guard went right back up! Try the unbothered Golden-Retriever beat.');
+    setHissNote('🐈‍⬛ HISS! Too pushy, her Black Cat guard went right back up! Try the unbothered Golden-Retriever beat.');
   };
 
   const done = completed || step >= 3;
@@ -1261,7 +1261,7 @@ const RoommateKitchenEscapeGame: React.FC<{
           </button>
         ) : (
           <span className="text-xs font-semibold text-emerald-300">
-            ✓ Clean getaway with hot lattes—zero mixing-bowl trauma (+15 stats)!
+            ✓ Clean getaway with hot lattes, zero mixing-bowl trauma (+15 stats)!
           </span>
         )}
         {spottedMsg && <span className="text-xs text-rose-300">{spottedMsg}</span>}
@@ -1350,7 +1350,7 @@ const HobosexualBagInterceptGame: React.FC<{
 const TIMESHARE_QUESTIONS = [
   {
     id: 'deed',
-    prompt: '🤨 Ask: "Wait—is Hawaii YOUR home, or your parents’?"',
+    prompt: '🤨 Ask: "Wait, is Hawaii YOUR home, or your parents’?"',
     reveal: '💦 Confession #1: "Okay yeah… technically my parents have a Maui timeshare!"',
   },
   {
@@ -1421,7 +1421,7 @@ const TimeshareInterrogationGame: React.FC<{
 
       {done && (
         <div className="text-sm font-bold text-emerald-300">
-          🌺 Mom’s Maui Timeshare Exposed in 4K! Zero pull-out couches next to Linda—now deliver your verdict below!
+          🌺 Mom’s Maui Timeshare Exposed in 4K! Zero pull-out couches next to Linda, now deliver your verdict below!
         </div>
       )}
     </div>
@@ -1517,7 +1517,7 @@ const QigongMommyBreathGame: React.FC<{
 
       {cubsplainWarning && !done && (
         <div className="text-xs font-bold text-amber-300">
-          😼 Mommy-Domme Eyebrow Raise! Never Cubsplain 20 years of Qigong mastery, sweet boy—drop your shoulders and tap all 3 sync beats!
+          😼 Mommy-Domme Eyebrow Raise! Never Cubsplain 20 years of Qigong mastery, sweet boy, drop your shoulders and tap all 3 sync beats!
         </div>
       )}
 
@@ -1625,7 +1625,7 @@ const PINE_POLLEN_MISHAPS = [
   {
     id: 'silence',
     raw: '⏰ Mishap #2: Panicking after 2 hours of quiet ("u havent replied since 9 r u ghosting me??")',
-    decoded: '✓ Expectations Reset: She unplugs at 9:30 PM on work nights—adult silence ≠ rejection!',
+    decoded: '✓ Expectations Reset: She unplugs at 9:30 PM on work nights, adult silence ≠ rejection!',
   },
   {
     id: 'cadence',
@@ -1706,7 +1706,7 @@ const PinePollenFeelsDecoderGame: React.FC<{
 
       {dropperTrapWarning && !done && (
         <div className="text-xs font-bold text-amber-300">
-          🚨 Step away from the pine-pollen tincture! Mismatched texting speed isn’t ghosting—tap all 3 DECODE buttons to reset expectations cleanly!
+          🚨 Step away from the pine-pollen tincture! Mismatched texting speed isn’t ghosting, tap all 3 DECODE buttons to reset expectations cleanly!
         </div>
       )}
 

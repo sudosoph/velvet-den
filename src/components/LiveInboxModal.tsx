@@ -36,6 +36,10 @@ export type InboxAppPlatform = 'tinder' | 'imessage' | 'discord';
 interface LiveInboxModalProps {
   open: boolean;
   wallet: WalletState;
+  playerRole?: 'her' | 'him';
+  onChangePlayerRole?: (role: 'her' | 'him') => void;
+  preferredHerId?: string;
+  preferredHisId?: string;
   initialPlatform?: InboxAppPlatform;
   onClose: () => void;
   onJumpToWorld?: () => void;
@@ -52,6 +56,10 @@ interface InboxContact {
   zodiac: string;
   drink: string;
   loveLanguage: string;
+  interests: string[];
+  idealSunday: string;
+  softSpot: string;
+  petName?: string;
   tagline: string;
   title: string;
   bio: string;
@@ -211,6 +219,35 @@ function getDynamicQuickChips(
   ];
 }
 
+function stripDashes(text: string): string {
+  return text.replace(/\s*[—–]\s*/g, ', ').replace(/,\s*,/g, ',').trim();
+}
+
+function buildInterestIcebreaker(contact: InboxContact, interest: string): string {
+  const clean = interest.trim();
+  const lower = clean.toLowerCase();
+  if (/booktok|book|novel|reading/.test(lower)) {
+    return `Important question: what book are you reading right now?`;
+  }
+  if (/surf|ocean|swim|sailing/.test(lower)) {
+    return `Think I could keep up with you in the water this weekend?`;
+  }
+  if (/dog|bernedoodle|mochi|cat|puppy|otis/.test(lower)) {
+    const pet = contact.petName ? contact.petName.split(/[•(]/)[0].trim() : 'your pet';
+    return `Fair warning, winning over ${pet} is my top priority this week.`;
+  }
+  if (/pasta|cook|ramen|sushi|omakase|taco|oyster|risotto|halibut|dumpling/.test(lower)) {
+    return `Saw ${clean.toLowerCase()} on your profile. Friday at 7:30 on me?`;
+  }
+  if (/hike|canyon|trail|climb|tennis|volleyball|pilates|run/.test(lower)) {
+    return `Up for ${clean.toLowerCase()} Saturday morning, or drinks Friday first?`;
+  }
+  if (/vinyl|jazz|piano|symphony|music|country/.test(lower)) {
+    return `What album is on repeat for you this week?`;
+  }
+  return `Saw ${clean.toLowerCase()} on your profile. Tell me your favorite spot for it?`;
+}
+
 const INBOX_CONTACTS: InboxContact[] = [
   ...HER_ARCHETYPES.map((h) => {
     const details = getProfileDetails(h);
@@ -220,7 +257,7 @@ const INBOX_CONTACTS: InboxContact[] = [
         ? `Matched today • She won’t text first. Lead with poise, not 'hey'.`
         : h.age >= 40
           ? `Matched today • She waits for you to make the first move.`
-          : `Matched today • Your turn to break the ice (keep it to one good line).`;
+          : `Matched today • Your turn to break the ice with one good line.`;
 
     return {
       id: h.id,
@@ -230,9 +267,13 @@ const INBOX_CONTACTS: InboxContact[] = [
       zodiac: details.zodiac,
       drink: details.signatureDrink,
       loveLanguage: details.loveLanguage,
-      tagline: h.tagline,
-      title: h.title,
-      bio: h.vibeSummary,
+      interests: details.interests,
+      idealSunday: details.idealSunday,
+      softSpot: details.softSpot,
+      petName: details.petName,
+      tagline: stripDashes(h.tagline),
+      title: stripDashes(h.title),
+      bio: stripDashes(h.vibeSummary),
       role: 'her' as const,
       photoUrl: h.photoUrl,
       initiatesFirst: Boolean(boldMove),
@@ -251,9 +292,13 @@ const INBOX_CONTACTS: InboxContact[] = [
       zodiac: details.zodiac,
       drink: details.signatureDrink,
       loveLanguage: details.loveLanguage,
-      tagline: c.tagline,
-      title: c.title,
-      bio: c.vibeSummary,
+      interests: details.interests,
+      idealSunday: details.idealSunday,
+      softSpot: details.softSpot,
+      petName: details.petName,
+      tagline: stripDashes(c.tagline),
+      title: stripDashes(c.title),
+      bio: stripDashes(c.vibeSummary),
       role: 'him' as const,
       photoUrl: c.photoUrl,
       initiatesFirst: true,
@@ -290,9 +335,36 @@ async function sendAiFeedbackPing(payload: {
   }
 }
 
+function pickDefaultContactForPlayerRole(
+  pRole: 'her' | 'him',
+  preferredHerId?: string,
+  preferredHisId?: string,
+): InboxContact {
+  if (pRole === 'her') {
+    return (
+      (preferredHisId ? INBOX_CONTACTS.find((c) => c.id === preferredHisId) : undefined) ??
+      INBOX_CONTACTS.find((c) => c.role === 'him') ??
+      INBOX_CONTACTS[0]
+    );
+  }
+  const targetHerId =
+    preferredHerId && preferredHerId !== 'astrid-blonde-cougar'
+      ? preferredHerId
+      : 'claire-cougar-exec';
+  return (
+    INBOX_CONTACTS.find((c) => c.id === targetHerId) ??
+    INBOX_CONTACTS.find((c) => c.role === 'her') ??
+    INBOX_CONTACTS[0]
+  );
+}
+
 export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   open,
   wallet,
+  playerRole,
+  onChangePlayerRole,
+  preferredHerId,
+  preferredHisId,
   initialPlatform = 'tinder',
   onClose,
   onJumpToWorld,
@@ -308,10 +380,14 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const swipeStartXRef = useRef<number | null>(null);
 
   const [discordChannel, setDiscordChannel] = useState<DiscordChannelId>('first-dm-vetting');
-  const [roleFilter, setRoleFilter] = useState<'her' | 'him'>('her');
+  const [localPlayerRole, setLocalPlayerRole] = useState<'her' | 'him'>(playerRole ?? 'him');
+  const activePlayerRole: 'her' | 'him' = playerRole ?? localPlayerRole;
+  // Your inbox ONLY shows your matches: Women see Cubs ('him'), Younger Men see Women ('her')
+  const matchRole: 'her' | 'him' = activePlayerRole === 'her' ? 'him' : 'her';
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [selected, setSelected] = useState<InboxContact>(
-    () => INBOX_CONTACTS.find((c) => c.id === 'claire-cougar-exec') ?? INBOX_CONTACTS[0],
+  const [selected, setSelected] = useState<InboxContact>(() =>
+    pickDefaultContactForPlayerRole(activePlayerRole, preferredHerId, preferredHisId),
   );
   const [steamyMode, setSteamyMode] = useState(false);
   const [superLikedIds, setSuperLikedIds] = useState<string[]>([]);
@@ -350,19 +426,35 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [open, onClose]);
 
+  useEffect(() => {
+    setSelected((curr) => {
+      if (curr.role === matchRole) return curr;
+      return pickDefaultContactForPlayerRole(activePlayerRole, preferredHerId, preferredHisId);
+    });
+  }, [matchRole, activePlayerRole, preferredHerId, preferredHisId]);
+
+  const handleSwitchPlayerRole = (nextRole: 'her' | 'him') => {
+    sfx.messagePop();
+    setLocalPlayerRole(nextRole);
+    onChangePlayerRole?.(nextRole);
+    setSelected(pickDefaultContactForPlayerRole(nextRole, preferredHerId, preferredHisId));
+    setCallBanner(null);
+  };
+
   const filteredContacts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return INBOX_CONTACTS.filter((c) => {
-      if (c.role !== roleFilter) return false;
+      if (c.role !== matchRole) return false;
       if (!q) return true;
       return (
         c.name.toLowerCase().includes(q) ||
         String(c.age).includes(q) ||
         c.title.toLowerCase().includes(q) ||
-        c.zodiac.toLowerCase().includes(q)
+        c.zodiac.toLowerCase().includes(q) ||
+        c.interests.some((i) => i.toLowerCase().includes(q))
       );
     });
-  }, [roleFilter, searchQuery]);
+  }, [matchRole, searchQuery]);
 
   const threadKey = `${selected.id}:${steamyMode ? 'steamy' : 'vet'}`;
   const turns = turnsByThread[threadKey] ?? [];
@@ -370,8 +462,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const activePrompt = steamyMode ? selected.steamyPrompt : selected.openingPrompt;
   const playerTurnCount = turns.filter((t) => t.sender === 'player').length;
   const activeChips = getDynamicQuickChips(selected, steamyMode, playerTurnCount);
-  const herTotalCount = HER_ARCHETYPES.length;
-  const cubTotalCount = HIS_ARCHETYPES.length;
   const stageLabel =
     playerTurnCount < 2
       ? 'Stage 1/4 • First Spark'
@@ -511,7 +601,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       setTinderSubMode('messages');
       setCallBanner(
         dir === 'super'
-          ? `⭐ IT'S A SUPER MATCH! ${selected.name} saw your blue star — send your opener below!`
+          ? `⭐ IT'S A SUPER MATCH! ${selected.name} saw your blue star. Send your opener below!`
           : `🔥 IT'S A MATCH with ${selected.name}! Send your first message below!`,
       );
     }, 340);
@@ -613,11 +703,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   return (
     <section
       role="dialog"
-      aria-label="Survive Their Inbox — Live AI Texting Mode"
+      aria-label="Survive Their Inbox: Live AI Texting Mode"
       className="w-full space-y-4 animate-stage-in"
     >
       {/* =====================================================================
-       * TOP COMMAND & PLATFORM SWITCHER BAR
+       * TOP COMMAND & PLAYER IDENTITY BAR
        * ===================================================================== */}
       <div className="vice-panel rounded-3xl bg-white px-4 py-3 sm:px-5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
@@ -631,11 +721,44 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             <span>Back to Lobby</span>
           </button>
 
+          {/* Clean Top-Level Identity Switcher (sets your whole inbox to your matches, never mixing both!) */}
+          <div
+            role="group"
+            aria-label="Your dating identity"
+            className="inline-flex items-center rounded-full border border-[#18101E]/12 bg-[#F8FAFC] p-0.5 text-xs font-bold"
+          >
+            <span className="hidden sm:inline pl-2.5 pr-1.5 text-[11px] font-semibold text-[#64748B]">
+              You are:
+            </span>
+            <button
+              type="button"
+              onClick={() => handleSwitchPlayerRole('her')}
+              className={`h-8 rounded-full px-3 transition cursor-pointer ${
+                activePlayerRole === 'her'
+                  ? 'bg-[#E11D48] text-white shadow-2xs'
+                  : 'text-[#475569] hover:text-[#18101E]'
+              }`}
+            >
+              🐆 Woman
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSwitchPlayerRole('him')}
+              className={`h-8 rounded-full px-3 transition cursor-pointer ${
+                activePlayerRole === 'him'
+                  ? 'bg-[#F59E0B] text-[#18101E] shadow-2xs'
+                  : 'text-[#475569] hover:text-[#18101E]'
+              }`}
+            >
+              🥂 Younger Man
+            </button>
+          </div>
+
           {onJumpToWorld && (
             <button
               type="button"
               onClick={onJumpToWorld}
-              className="pop-btn hidden sm:inline-flex h-9 items-center gap-1.5 rounded-full bg-[#ECFDF5] hover:bg-[#D1FAE5] px-3 text-xs font-bold text-[#065F46] cursor-pointer"
+              className="pop-btn hidden md:inline-flex h-9 items-center gap-1.5 rounded-full bg-[#ECFDF5] hover:bg-[#D1FAE5] px-3 text-xs font-bold text-[#065F46] cursor-pointer"
             >
               <Gamepad2 className="h-4 w-4" />
               <span>8-Bit World</span>
@@ -800,34 +923,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 <span className="truncate text-sm font-extrabold text-white">
                   Cougars &amp; Cubs Club
                 </span>
-                <div className="inline-flex rounded bg-[#1E1F22] p-0.5 text-[10px] font-bold">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRoleFilter('her');
-                      const firstHer = INBOX_CONTACTS.find((c) => c.role === 'her');
-                      if (firstHer) setSelected(firstHer);
-                    }}
-                    className={`rounded px-2 py-0.5 cursor-pointer ${
-                      roleFilter === 'her' ? 'bg-[#5865F2] text-white' : 'text-[#949BA4]'
-                    }`}
-                  >
-                    Her
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRoleFilter('him');
-                      const firstHim = INBOX_CONTACTS.find((c) => c.role === 'him');
-                      if (firstHim) setSelected(firstHim);
-                    }}
-                    className={`rounded px-2 py-0.5 cursor-pointer ${
-                      roleFilter === 'him' ? 'bg-[#5865F2] text-white' : 'text-[#949BA4]'
-                    }`}
-                  >
-                    Cubs
-                  </button>
-                </div>
+                <span className="rounded bg-[#1E1F22] px-2 py-0.5 text-[10px] font-bold text-[#949BA4]">
+                  {matchRole === 'him' ? 'Cub Matches' : 'Her Matches'}
+                </span>
               </div>
 
               <div className="px-2.5 pt-2.5 pb-1.5 space-y-1">
@@ -875,7 +973,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               </div>
 
               <div className="px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#949BA4]">
-                Direct Messages — {filteredContacts.length} Online
+                Direct Messages • {filteredContacts.length} Online
               </div>
 
               <div className="flex-1 overflow-y-auto overscroll-contain px-2 space-y-0.5">
@@ -909,7 +1007,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                           {c.name}, {c.age}
                         </div>
                         <div className="truncate text-[10px] text-[#949BA4]">
-                          {c.role === 'him' ? '🎮 Playing Roblox DTI' : `🍸 ${c.drink.slice(0, 22)}`}
+                          {c.interests.slice(0, 2).join(' • ')}
                         </div>
                       </div>
                     </button>
@@ -948,38 +1046,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   <span className="ml-2 text-sm font-bold text-[#1C1C1E]">Messages</span>
                 </div>
 
-                <div className="inline-flex rounded-lg bg-[#E5E5EA] p-0.5 text-[11px] font-semibold">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRoleFilter('her');
-                      const firstHer = INBOX_CONTACTS.find((c) => c.role === 'her');
-                      if (firstHer) setSelected(firstHer);
-                    }}
-                    className={`rounded-md px-2.5 py-0.5 transition cursor-pointer ${
-                      roleFilter === 'her'
-                        ? 'bg-white text-[#1C1C1E] shadow-2xs'
-                        : 'text-[#636366]'
-                    }`}
-                  >
-                    Her ({herTotalCount})
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRoleFilter('him');
-                      const firstHim = INBOX_CONTACTS.find((c) => c.role === 'him');
-                      if (firstHim) setSelected(firstHim);
-                    }}
-                    className={`rounded-md px-2.5 py-0.5 transition cursor-pointer ${
-                      roleFilter === 'him'
-                        ? 'bg-white text-[#1C1C1E] shadow-2xs'
-                        : 'text-[#636366]'
-                    }`}
-                  >
-                    Cubs ({cubTotalCount})
-                  </button>
-                </div>
+                <span className="rounded-lg bg-[#E5E5EA] px-2.5 py-0.5 text-[11px] font-semibold text-[#636366]">
+                  {filteredContacts.length} Matches
+                </span>
               </div>
 
               <div className="relative">
@@ -1030,7 +1099,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 const preview =
                   threadTurns.length > 0
                     ? threadTurns[threadTurns.length - 1].text
-                    : rawOpening || '✨ New Match — Your move first';
+                    : rawOpening || '✨ New Match • Your move first';
 
                 return (
                   <button
@@ -1088,36 +1157,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 font-display text-base tracking-tight">
                   <Flame className="h-4 w-4 fill-white" />
-                  <span>tinder ({filteredContacts.length})</span>
+                  <span>tinder</span>
                 </div>
-                <div className="inline-flex rounded-full bg-black/20 p-0.5 text-[11px] font-bold">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRoleFilter('her');
-                      const firstHer = INBOX_CONTACTS.find((c) => c.role === 'her');
-                      if (firstHer) setSelected(firstHer);
-                    }}
-                    className={`rounded-full px-2.5 py-0.5 transition cursor-pointer ${
-                      roleFilter === 'her' ? 'bg-white text-[#FD267A]' : 'text-white/90'
-                    }`}
-                  >
-                    Her ({herTotalCount})
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRoleFilter('him');
-                      const firstHim = INBOX_CONTACTS.find((c) => c.role === 'him');
-                      if (firstHim) setSelected(firstHim);
-                    }}
-                    className={`rounded-full px-2.5 py-0.5 transition cursor-pointer ${
-                      roleFilter === 'him' ? 'bg-white text-[#FD267A]' : 'text-white/90'
-                    }`}
-                  >
-                    Cubs ({cubTotalCount})
-                  </button>
-                </div>
+                <span className="rounded-full bg-black/20 px-2.5 py-0.5 text-[11px] font-bold text-white/95">
+                  {filteredContacts.length} {matchRole === 'him' ? 'Cubs' : 'Matches'}
+                </span>
               </div>
 
               <div className="relative">
@@ -1182,7 +1226,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 const preview =
                   threadTurns.length > 0
                     ? threadTurns[threadTurns.length - 1].text
-                    : rawOpening || '✨ New Match — Your move first';
+                    : rawOpening || '✨ New Match • Your move first';
 
                 return (
                   <button
@@ -1497,7 +1541,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       </div>
                       <p className="text-xs font-medium text-[#64748B]">
                         {steamyMode
-                          ? `Date #1 went great — send one playful line to set up tonight.`
+                          ? `Date #1 went great. Send one playful line to set up tonight.`
                           : selected.matchTeaser}
                       </p>
                     </div>
@@ -1798,7 +1842,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </div>
               ) : turns.length === 0 ? (
                 <div className="mx-auto max-w-sm rounded-2xl border border-[#E5E5EA] bg-[#F2F2F7] px-4 py-3 text-center text-xs font-medium text-[#636366]">
-                  {selected.name} shared her number — {selected.matchTeaser.replace(/^Matched today • /, '')}
+                  {selected.name} shared her number. {selected.matchTeaser.replace(/^Matched today • /, '')}
                 </div>
               ) : null}
 
@@ -2090,7 +2134,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </div>
               ) : turns.length === 0 ? (
                 <div className="rounded-lg border border-[#3F4147] bg-[#2B2D31] px-3.5 py-2.5 text-xs text-[#B5BAC1]">
-                  ✨ <strong className="text-white">@{selected.name}</strong> is online — {selected.matchTeaser.replace(/^Matched today • /, '')}
+                  ✨ <strong className="text-white">@{selected.name}</strong> is online. {selected.matchTeaser.replace(/^Matched today • /, '')}
                 </div>
               ) : null}
 
@@ -2284,7 +2328,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         )}
 
         {/* -------------------------------------------------------------------
-         * COLUMN 3: SKIN-ADAPTIVE FULL PROFILE DOSSIER (Zero Truncation!)
+         * COLUMN 3: SKIN-ADAPTIVE FULL PROFILE DOSSIER (Full Face Portrait + Interests!)
          * ------------------------------------------------------------------- */}
         <aside
           className={`flex flex-col justify-between border-t lg:border-t-0 lg:border-l p-4 sm:p-5 space-y-4 lg:min-h-[680px] ${
@@ -2295,73 +2339,136 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 : 'border-[#E5E7EB] bg-[#FAF8F9] text-[#18101E]'
           }`}
         >
-          <div className="space-y-3">
-            <div className="relative overflow-hidden rounded-2xl border border-black/10 shadow-xs">
-              <img
-                src={selected.photoUrl}
-                alt={selected.name}
-                className="h-52 w-full object-cover object-top"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-3.5 text-white">
-                <div className="flex items-center gap-1.5 font-display text-xl">
-                  <span>
-                    {selected.name}, {selected.age}
-                  </span>
-                  <BadgeCheck className="h-4 w-4 fill-[#38BDF8] text-white" />
-                </div>
-                <div className="text-xs font-semibold text-white/95 leading-snug">
-                  {selected.title}
+          <div className="space-y-3.5">
+            {/* Responsive Portrait + Bio Layout: Side-by-side when underneath chat (<lg), stacked in narrow lg sidebar — 100% Full Face Visible! */}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-4 items-center sm:items-start lg:items-stretch">
+              <div className="relative w-full max-w-[260px] sm:w-56 lg:w-full lg:max-w-none shrink-0 aspect-[4/5] lg:aspect-[4/4.3] overflow-hidden rounded-2xl border border-black/10 bg-[#18101E] shadow-xs">
+                <img
+                  src={selected.photoUrl}
+                  alt={selected.name}
+                  className="h-full w-full object-cover object-[50%_15%]"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-3.5 text-white">
+                  <div className="flex items-center gap-1.5 font-display text-xl">
+                    <span>
+                      {selected.name}, {selected.age}
+                    </span>
+                    <BadgeCheck className="h-4 w-4 fill-[#38BDF8] text-white" />
+                  </div>
+                  <div className="text-xs font-semibold text-white/95 leading-snug">
+                    {selected.title}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Complete Vitals Pills */}
-            <div className="flex flex-wrap gap-1.5 text-[11px] font-bold">
-              <span
-                className={`rounded-full px-2.5 py-0.5 ${
-                  isDarkDiscord
-                    ? 'bg-[#313338] text-[#DBDEE1]'
-                    : 'border border-black/10 bg-white text-[#18101E]'
-                }`}
-              >
-                📏 {selected.height}
-              </span>
-              <span
-                className={`rounded-full px-2.5 py-0.5 ${
-                  isDarkDiscord
-                    ? 'bg-[#313338] text-[#DBDEE1]'
-                    : 'border border-black/10 bg-white text-[#18101E]'
-                }`}
-              >
-                ✨ {selected.zodiac}
-              </span>
-              <span
-                className={`rounded-full px-2.5 py-0.5 ${
-                  isDarkDiscord
-                    ? 'bg-[#5865F2]/25 text-[#DEE0FC]'
-                    : 'border border-[#E11D48]/20 bg-[#FFF1F2] text-[#BE123C]'
-                }`}
-              >
-                🍸 {selected.drink}
-              </span>
-            </div>
+              <div className="min-w-0 flex-1 space-y-3 w-full">
+                {/* Vitals Pills */}
+                <div className="flex flex-wrap gap-1.5 text-[11px] font-bold">
+                  <span
+                    className={`rounded-full px-2.5 py-0.5 ${
+                      isDarkDiscord
+                        ? 'bg-[#313338] text-[#DBDEE1]'
+                        : 'border border-black/10 bg-white text-[#18101E]'
+                    }`}
+                  >
+                    📏 {selected.height}
+                  </span>
+                  <span
+                    className={`rounded-full px-2.5 py-0.5 ${
+                      isDarkDiscord
+                        ? 'bg-[#313338] text-[#DBDEE1]'
+                        : 'border border-black/10 bg-white text-[#18101E]'
+                    }`}
+                  >
+                    ✨ {selected.zodiac.split('•')[0].trim()}
+                  </span>
+                  {selected.petName && (
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 ${
+                        isDarkDiscord
+                          ? 'bg-[#23A55A]/20 text-[#86EFAC]'
+                          : 'border border-[#10B981]/25 bg-[#ECFDF5] text-[#065F46]'
+                      }`}
+                    >
+                      🐾 {selected.petName.split('•')[0].trim()}
+                    </span>
+                  )}
+                </div>
 
-            {/* Full Untruncated Bio Card */}
-            <div
-              className={`rounded-2xl p-3.5 space-y-2 text-xs leading-relaxed ${
-                isDarkDiscord
-                  ? 'bg-[#111214] text-[#DBDEE1]'
-                  : 'border border-black/10 bg-white text-[#18101E]'
-              }`}
-            >
-              <p className="font-bold">{selected.tagline}</p>
-              <p className={isDarkDiscord ? 'text-[#B5BAC1]' : 'text-[#475569]'}>{selected.bio}</p>
-              <div
-                className={`pt-1 text-[11px] font-bold ${
-                  isDarkDiscord ? 'text-[#F47FFF]' : 'text-[#BE123C]'
-                }`}
-              >
-                💞 Love Language: {selected.loveLanguage}
+                {/* Clickable Interests Beyond Drinks (Tap any interest to spark a 1-line opener!) */}
+                <div className="space-y-1.5">
+                  <div
+                    className={`text-[10px] font-extrabold uppercase tracking-wider ${
+                      isDarkDiscord ? 'text-[#949BA4]' : 'text-[#64748B]'
+                    }`}
+                  >
+                    Interests &amp; Passions (tap to mention in chat)
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selected.interests.map((interest) => (
+                      <button
+                        key={interest}
+                        type="button"
+                        onClick={() => {
+                          sfx.messagePop();
+                          setInput(buildInterestIcebreaker(selected, interest));
+                        }}
+                        title={`Mention ${interest} in chat`}
+                        className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition cursor-pointer ${
+                          isDarkDiscord
+                            ? 'bg-[#313338] text-[#DEE0FC] hover:bg-[#5865F2] hover:text-white'
+                            : 'border border-[#FD267A]/20 bg-white text-[#18101E] hover:border-[#FD267A] hover:bg-[#FFF0F5]'
+                        }`}
+                      >
+                        {interest}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Full Natural Bio + Delight Details */}
+                <div
+                  className={`rounded-2xl p-3.5 space-y-2 text-xs leading-relaxed ${
+                    isDarkDiscord
+                      ? 'bg-[#111214] text-[#DBDEE1]'
+                      : 'border border-black/10 bg-white text-[#18101E]'
+                  }`}
+                >
+                  <p className="font-bold">{selected.tagline}</p>
+                  <p className={isDarkDiscord ? 'text-[#B5BAC1]' : 'text-[#475569]'}>
+                    {selected.bio}
+                  </p>
+                  <div
+                    className={`pt-2 border-t space-y-1 text-[11.5px] ${
+                      isDarkDiscord ? 'border-[#2B2D31]' : 'border-slate-100'
+                    }`}
+                  >
+                    <div>
+                      <span className="font-bold">☀️ Ideal Sunday: </span>
+                      <span className={isDarkDiscord ? 'text-[#DBDEE1]' : 'text-[#334155]'}>
+                        {selected.idealSunday}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-bold">💚 Secret Soft Spot: </span>
+                      <span className={isDarkDiscord ? 'text-[#DBDEE1]' : 'text-[#334155]'}>
+                        {selected.softSpot}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-bold">💞 Love Style: </span>
+                      <span className={isDarkDiscord ? 'text-[#F47FFF]' : 'text-[#BE123C]'}>
+                        {selected.loveLanguage}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-bold">🥂 Go-To Order: </span>
+                      <span className={isDarkDiscord ? 'text-[#B5BAC1]' : 'text-[#475569]'}>
+                        {selected.drink}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

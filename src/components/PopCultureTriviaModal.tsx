@@ -90,7 +90,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
             <p className="text-base font-medium text-[#34223B] leading-relaxed">
               {score >= 6
                 ? 'Certified Red-Carpet Cougar Historian! Jessica Alba, Sienna Miller, Cher, and Miley would let you sit at Table 1.'
-                : 'Solid run—brush up on your Alba, Sienna, Ellie & Miley lore and run it back!'}
+                : 'Solid run, brush up on your Alba, Sienna, Ellie & Miley lore and run it back!'}
             </p>
             {bonusClaimed && (
               <div className="rounded-2xl bg-[#D1FAE5] border-2 border-[#1E1022] px-4 py-3 text-sm font-extrabold text-[#065F46]">

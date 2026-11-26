@@ -48,7 +48,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Cougar Signature',
     badge: '🐆 Iconic Cougar Print Apron',
     cheekyPitch:
-      'Whether she wears it shaking espresso martinis or ties it onto her 26-year-old sous-chef on Sunday morning—spotted Cougar couture with deep pockets for his phone and thermometer.',
+      'Whether she wears it shaking espresso martinis or ties it onto her 26-year-old sous-chef on Sunday morning, spotted Cougar couture with deep pockets for his phone and thermometer.',
     whyItConverts: 'Instant visual Cougar wink for couples cooking nights and kitchen selfies.',
     merchantUrl: 'https://www.amazon.com/s?k=leopard+print+kitchen+apron+with+pockets',
   },
@@ -70,7 +70,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Funny Gift Pick',
     badge: '🍷 Self-Aware Cougar Barware',
     cheekyPitch:
-      'Unapologetic Cougar barware that leans all the way into the bit—ideal 40th/50th birthday, divorce-party glow-up, or 6-month Cub anniversary toast.',
+      'Unapologetic Cougar barware that leans all the way into the bit, ideal 40th/50th birthday, divorce-party glow-up, or 6-month Cub anniversary toast.',
     whyItConverts: 'High-intent self-referential gift search for Cougar birthdays & anniversaries.',
     merchantUrl: 'https://www.amazon.com/s?k=funny+cougar+wine+glass+gift+for+women',
   },
@@ -92,7 +92,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Cute Gift Pick',
     badge: '🐈‍⬛ Selective Cougar Counterpart',
     cheekyPitch:
-      'Pairs with his Golden-Retriever mug on the kitchen counter—for the poised, slow-burn Black-Cat Cougar whose calendar and standards stay undefeated.',
+      'Pairs with his Golden-Retriever mug on the kitchen counter, for the poised, slow-burn Black-Cat Cougar whose calendar and standards stay undefeated.',
     whyItConverts: 'Natural 2-item bundle pair alongside the Golden Retriever Boyfriend mug.',
     merchantUrl: 'https://www.amazon.com/s?k=black+cat+energy+funny+coffee+mug+gift',
   },
@@ -202,7 +202,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Amazon Pick',
     badge: '3 AM Perimenopause & Menopause Hero',
     cheekyPitch:
-      'For 10 PM sparks followed by 3 AM flash-furnace heat waves—wicks heat instantly so nobody has to kick the duvet across the room.',
+      'For 10 PM sparks followed by 3 AM flash-furnace heat waves, wicks heat instantly so nobody has to kick the duvet across the room.',
     whyItConverts: 'Directly solves the #1 sleep/intimacy complaint in 40s–60s relationships.',
     merchantUrl: 'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
   },
@@ -224,7 +224,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Fitness Pick',
     badge: 'Cub Bench-Press Essential',
     cheekyPitch:
-      'Because keeping up with a Cougar in her prime—and sweeping her up the stairs after espresso martinis—requires real chest and core reps.',
+      'Because keeping up with a Cougar in her prime, and sweeping her up the stairs after espresso martinis, requires real chest and core reps.',
     whyItConverts: 'Direct tie-in to the Cub Bench-Press Training minigame.',
     merchantUrl: 'https://www.amazon.com/s?k=foldable+adjustable+weight+bench+home+gym',
   },
@@ -246,7 +246,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Amazon Pick',
     badge: 'His Apartment "Her Drawer" MVP',
     cheekyPitch:
-      'For the elite Cub who protects her blowout, honey braids, and retinol barrier at his place—plus a spare claw clip so she never has to hunt in her purse.',
+      'For the elite Cub who protects her blowout, honey braids, and retinol barrier at his place, plus a spare claw clip so she never has to hunt in her purse.',
     whyItConverts: 'Direct tie-in to the Silk Pillowcase & Secret "Her Drawer" lifestyle episode.',
     merchantUrl: 'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
   },
@@ -279,7 +279,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Cheeky Pick',
     badge: 'Bernedoodle & Golden-Retriever Boyfriend Approved',
     cheekyPitch:
-      'Officially built for walking her tricolor Mini Bernedoodle "Miso" or rescue pup Barnaby—unofficially the funniest inside-joke gift for a Cub who loves staying on Mommy’s short leash.',
+      'Officially built for walking her tricolor Mini Bernedoodle "Miso" or rescue pup Barnaby, unofficially the funniest inside-joke gift for a Cub who loves staying on Mommy’s short leash.',
     whyItConverts: 'Double-entendre viral hit across Dog-Mom Puma, Bernedoodle Mommy, and Short-Leash Trail arcs.',
     merchantUrl: 'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp',
   },
@@ -301,7 +301,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Amazon Pick',
     badge: '6-Point Candlelit Menu Hero',
     cheekyPitch:
-      'Because trendy speakeasies print menus in microscopic grey italics in pitch darkness—and slipping on chic tortoiseshell frames beats borrowing his iPhone flashlight.',
+      'Because trendy speakeasies print menus in microscopic grey italics in pitch darkness, and slipping on chic tortoiseshell frames beats borrowing his iPhone flashlight.',
     whyItConverts: 'Laugh-out-loud relatable payoff to the Candlelit Menu Font & Seat-Warmer episode.',
     merchantUrl: 'https://www.amazon.com/s?k=oversized+tortoiseshell+reading+glasses+women+chic',
   },
@@ -312,18 +312,18 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Prime Video',
     badge: '"Tall Glass of Milk" Cinema Night',
     cheekyPitch:
-      'Queue up Nicole Kidman & Harris Dickinson’s iconic A24 hotel-bar power play for Friday movie night—tall glass of milk or dirty olive martini optional.',
+      'Queue up Nicole Kidman & Harris Dickinson’s iconic A24 hotel-bar power play for Friday movie night, tall glass of milk or dirty olive martini optional.',
     whyItConverts: 'Zero-return instant streaming rental/purchase directly from our #1 viral hotel-bar scene.',
     merchantUrl: 'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
   },
   {
     id: 'idea-of-you-movie-book',
-    name: 'The Idea of You — Robinne Lee Paperback & Prime Video Double Feature',
+    name: 'The Idea of You • Robinne Lee Paperback & Prime Video Double Feature',
     category: 'cinema_pop_culture',
     priceDisplay: 'Book & Prime',
     badge: '#1 Cougar × Cub Comfort Watch',
     cheekyPitch:
-      'From Anne Hathaway & Nicholas Galitzine’s Coachella VIP trailer meet-cute to Robinne Lee’s beloved novel—mandatory homework for every modern Cub.',
+      'From Anne Hathaway & Nicholas Galitzine’s Coachella VIP trailer meet-cute to Robinne Lee’s beloved novel, mandatory homework for every modern Cub.',
     whyItConverts: 'High-volume BookTok + streaming conversion from Celebrity & Cougar Cinema guides.',
     merchantUrl: 'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
   },
@@ -345,7 +345,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Prime Video',
     badge: 'OG NYC Cougar × Barista Rom-Com',
     cheekyPitch:
-      'Catherine Zeta-Jones (40) moves above a Manhattan coffee shop after her divorce and falls for 25-year-old Golden-Retriever nanny Justin Bartha—pure blueprint cinema.',
+      'Catherine Zeta-Jones (40) moves above a Manhattan coffee shop after her divorce and falls for 25-year-old Golden-Retriever nanny Justin Bartha, pure blueprint cinema.',
     whyItConverts: 'High-intent streaming rental/buy directly from our Master List of Cougar & Cub Movies.',
     merchantUrl: 'https://www.amazon.com/s?k=The+Rebound+Catherine+Zeta+Jones+Prime+Video+movie',
   },
@@ -356,7 +356,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Wellness Pantry',
     badge: '100% Seed-Oil-Free Mommy Approved',
     cheekyPitch:
-      'Retire canola and soybean oil before your Holistic Health-Nut Mommy inspects your kitchen—sear her grass-fed ribeye in pure ghee and polyphenol EVOO.',
+      'Retire canola and soybean oil before your Holistic Health-Nut Mommy inspects your kitchen, sear her grass-fed ribeye in pure ghee and polyphenol EVOO.',
     whyItConverts: 'Direct payoff to the Seed-Oil-Free & Tricolor Mini Bernedoodle Mommy audit minigame.',
     merchantUrl: 'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil',
   },
@@ -378,7 +378,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     priceDisplay: 'Travel Pick',
     badge: '18h Getaway • Sanctuary Approved',
     cheekyPitch:
-      'Sized cleanly for pressed linen, cedar parfum, and a spontaneous 18-hour hotel-sauna escape—intentionally too compact to smuggle a PS5 and gym laundry into her condo.',
+      'Sized cleanly for pressed linen, cedar parfum, and a spontaneous 18-hour hotel-sauna escape, intentionally too compact to smuggle a PS5 and gym laundry into her condo.',
     whyItConverts: 'Bridges the Spontaneous 18h Getaway and Hobosexual PS5 Bouncer episodes.',
     merchantUrl: 'https://www.amazon.com/s?k=mens+canvas+leather+overnight+weekender+duffel+bag',
   },

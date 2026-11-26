@@ -35,12 +35,12 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
   },
   {
     id: 'snapchatick',
-    text: 'Got asked "what’s your Snap?" past age 35—and felt your soul leave your body.',
+    text: 'Got asked "what’s your Snap?" past age 35, and felt your soul leave your body.',
     episodeId: 'code-switch-texting',
   },
   {
     id: 'seedoilbernedoodle',
-    text: 'Called a restaurant ahead for 100% gluten-free & seed-oil-free prep—while celebrating moving up the waitlist for a tricolor Mini Bernedoodle.',
+    text: 'Called a restaurant ahead for 100% gluten-free & seed-oil-free prep, while celebrating moving up the waitlist for a tricolor Mini Bernedoodle.',
     episodeId: 'seed-oil-gluten-free-bernedoodle-mommy',
   },
   {
@@ -60,7 +60,7 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
   },
   {
     id: 'hawaiitimeshare',
-    text: 'Had a skeptical-age college Cub invite you to "my place in Hawaii"—then admit it’s his parents’ timeshare.',
+    text: 'Had a skeptical-age college Cub invite you to "my place in Hawaii", then admit it’s his parents’ timeshare.',
     episodeId: 'parents-hawaii-timeshare-flex-trap',
   },
   {
@@ -144,7 +144,7 @@ function rankForScore(score: number): { title: string; subtitle: string; recomme
   if (score >= 76) {
     return {
       title: '👑 HALL-OF-FAME COUGAR DEN APEX',
-      subtitle: 'You didn’t just study age-gap courtship—you practically wrote the Cougars & Cubs Club handbook.',
+      subtitle: 'You didn’t just study age-gap courtship, you practically wrote the Cougars & Cubs Club handbook.',
       recommendedEp: 'babygirl-hotel-bar-milk-or-martini',
     };
   }
@@ -158,13 +158,13 @@ function rankForScore(score: number): { title: string; subtitle: string; recomme
   if (score >= 24) {
     return {
       title: '🍸 DAYLIGHT-BRUNCH CONTENDER',
-      subtitle: 'Solid instincts—now let’s see how you handle grown-son math & hotel check-ins!',
+      subtitle: 'Solid instincts, now let’s see how you handle grown-son math & hotel check-ins!',
       recommendedEp: 'hotel-checkin-two-queen-beds-mixup',
     };
   }
   return {
     title: '🐣 FRESH OUT THE DEN (ROOKIE)',
-    subtitle: 'Brand new to the age-slider magic—start your live training run right now!',
+    subtitle: 'Brand new to the age-slider magic, start your live training run right now!',
     recommendedEp: 'babygirl-hotel-bar-milk-or-martini',
   };
 }
@@ -237,7 +237,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
   };
 
   const handleShareScore = async () => {
-    const text = `🐆 Official Cougars & Cubs Experience Test: ${score}/100 (${rank.title}) — Checked ${checkedIds.length}/25 boxes 💀 Beat my score:`;
+    const text = `🐆 Official Cougars & Cubs Experience Test: ${score}/100 (${rank.title}) • Checked ${checkedIds.length}/25 boxes 💀 Beat my score:`;
     await shareOrCopy({
       title: 'Cougars & Cubs 25-Point Viral Score Test',
       text,
@@ -268,7 +268,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               The 25-Point Cougars &amp; Cubs Experience Test
             </h2>
             <p className="mt-1 text-xs sm:text-sm font-medium text-[#5A4664]">
-              Check every moment you’ve lived (or would survive)—share your 0–100 score for +2 Free Credits!
+              Check every moment you’ve lived (or would survive), share your 0–100 score for +2 Free Credits!
             </p>
           </div>
           <button

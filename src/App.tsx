@@ -152,7 +152,29 @@ export default function App() {
     return base;
   });
 
-  const [role, setRole] = useState<PlayerRole>(initialHerDeckIdx >= 0 ? 'him' : 'her');
+  const [role, setRoleState] = useState<PlayerRole>(() => {
+    if (initialHerDeckIdx >= 0) return 'him';
+    if (initialCubDeckIdx >= 0) return 'her';
+    if (!import.meta.env.VITEST && typeof window !== 'undefined') {
+      try {
+        const saved = window.localStorage.getItem('velvet_player_role_v1');
+        if (saved === 'her' || saved === 'him') return saved;
+      } catch {
+        // Ignore storage error
+      }
+    }
+    return 'her';
+  });
+  const setRole = (next: PlayerRole) => {
+    setRoleState(next);
+    if (!import.meta.env.VITEST && typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem('velvet_player_role_v1', next);
+      } catch {
+        // Ignore storage error
+      }
+    }
+  };
   const [her, setHer] = useState<HerArchetype>(HER_ARCHETYPES[0]);
   const [his, setHis] = useState<HisArchetype>(HIS_ARCHETYPES[0]);
   const [pacingMode, setPacingMode] = useState<RunPacingMode>('curated');
@@ -934,6 +956,10 @@ export default function App() {
           <LiveInboxModal
             open={true}
             wallet={wallet}
+            playerRole={role}
+            onChangePlayerRole={setRole}
+            preferredHerId={her.id}
+            preferredHisId={his.id}
             onClose={() => setActiveTab('game')}
             onJumpToWorld={() => setActiveTab('world')}
             onStartDateWithContact={(contactId, contactRole) => {

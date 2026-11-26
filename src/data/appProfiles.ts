@@ -58,7 +58,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'SaaS SDR • "Work hard play harder"',
     distance: '3 miles away',
     activeAgo: 'Active 2m ago',
-    spotifyAnthem: 'FE!N — Travis Scott',
+    spotifyAnthem: 'FE!N • Travis Scott',
     tinderBio:
       '6\'1" because apparently that matters 🙄 Boat days, bottle service & Sunday scaries. Never been with an older woman before 👀 bucket list?',
     hingePromptQuestion: 'Two truths and a lie',
@@ -67,7 +67,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     secondPromptAnswer: 'Recovering from Saturday table service until 4 PM.',
     ageShockZoom: true,
     ageShockQuipHer:
-      'WAIT—ZOOM IN ON 26?! I had a 401(k) and a mortgage while this boy was trading Pokémon cards at recess.',
+      'WAIT: ZOOM IN ON 26?! I had a 401(k) and a mortgage while this boy was trading Pokémon cards at recess.',
     ageShockQuipHim:
       'Study the competition: Connor’s Photo #1 pulls her in, then Photo #2 detonates his entire credibility.',
     lookingFor: 'Short-term, open to long',
@@ -81,7 +81,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 1 of 2 • Golden-Hour Coastal Cliff',
         shortTab: 'Photo 1 (The Bait)',
-        vibeNote: 'Sunlit jawline, fitted henley, killer smile—tap Photo 2 before you dare swipe right!',
+        vibeNote: 'Sunlit jawline, fitted henley, killer smile, tap Photo 2 before you dare swipe right!',
         variant: 'golden_trail_stud',
         photoUrl: './images/cast/connor-bait.jpg',
       },
@@ -106,7 +106,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Early Frontier-AI Researcher (Joined Pre-Hype)',
     distance: '2 miles away',
     activeAgo: 'Active 6m ago',
-    spotifyAnthem: 'Khruangbin — Texas Sun',
+    spotifyAnthem: 'Khruangbin • Texas Sun',
     tinderBio:
       'Joined Anthropic early, built cool safety infra, and realized my favorite evenings have zero startup talk ☕🍷 Age filter set strictly 38+ because self-made women with full lives, dry wit, and real standards beat 23yo clout-chasing every single time.',
     hingePromptQuestion: 'Green flags I bring to the table',
@@ -122,7 +122,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'QUIET CONFIDENCE MASTERCLASS: Zero net-worth bragging, real manners, and genuine admiration for accomplished women.',
     lookingFor: 'Long-term partnership with an accomplished, self-possessed woman (38–60)',
     lookingForSubtext:
-      'Financially independent at 28—wants an equal intellectual & emotional sanctuary, never a Sugar Mama or a trophy.',
+      'Financially independent at 28, wants an equal intellectual & emotional sanctuary, never a Sugar Mama or a trophy.',
     interests: ['Cortados', 'Burgundy Pinot', 'Home Cooking', 'Art Bookstores', 'Big Sur Drives'],
     openingDm:
       'Quick poll before I book Thursday: cozy wine bar or corner sushi counter?',
@@ -163,9 +163,9 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Firefighter / Paramedic & Station Chef',
     distance: '2 miles away',
     activeAgo: 'Active 4m ago',
-    spotifyAnthem: 'Maxwell — Ascension (Don’t Ever Wonder)',
+    spotifyAnthem: 'Maxwell • Ascension (Don’t Ever Wonder)',
     tinderBio:
-      '6\'2" firefighter, rescue-dog dad to Otis 🐾, and undefeated firehouse Cajun pasta champion. Raised by three aunties—so yes, your passenger seat warmer is already on Level 3 and I carry every Trader Joe’s bag in one trip.',
+      '6\'2" firefighter, rescue-dog dad to Otis 🐾, and undefeated firehouse Cajun pasta champion. Raised by three aunties, so yes, your passenger seat warmer is already on Level 3 and I carry every Trader Joe’s bag in one trip.',
     hingePromptQuestion: 'Green flags I bring to the table',
     hingePromptAnswer:
       'Silk-pillowcase respect, spare claw clip in my glovebox, 225-lb bench stamina, and a lidded bathroom bin.',
@@ -196,7 +196,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 1 of 3 • Sunset Beach Jog With Rescue Pup Otis',
         shortTab: '🏖️ Beach & Dog',
-        vibeNote: '💚 GREEN FLAG: Shirtless ocean mile with his scruffy rescue dog—pure effortless warmth.',
+        vibeNote: '💚 GREEN FLAG: Shirtless ocean mile with his scruffy rescue dog, pure effortless warmth.',
         variant: 'golden_trail_stud',
         photoUrl: './images/cast/marcus-26m.jpg',
       },
@@ -210,7 +210,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 3 of 3 • Washed Linen-Apron Pasta Prep',
         shortTab: '🍝 Chef Mode',
-        vibeNote: '💚 Spotless marble counters and homemade sauce—Certified Houseboy material.',
+        vibeNote: '💚 Spotless marble counters and homemade sauce, Certified Houseboy material.',
         variant: 'home_chef_linen',
         photoUrl: './images/cast/leo-25m.jpg',
       },
@@ -226,9 +226,9 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: '"Founder @ Stealth Crypto"',
     distance: '6 miles away',
     activeAgo: 'Active now',
-    spotifyAnthem: 'Nokia — Drake',
+    spotifyAnthem: 'Nokia • Drake',
     tinderBio:
-      'Just moved out of my parents’ pool house 💪 Barely check this app—drop ur Snap so we can streak 🔥',
+      'Just moved out of my parents’ pool house 💪 Barely check this app, drop ur Snap so we can streak 🔥',
     hingePromptQuestion: 'My simple pleasures',
     hingePromptAnswer: '2 AM FIFA with the boys, pre-workout dry scoops, and sleeping till noon.',
     secondPromptQuestion: 'Controversial opinion',
@@ -274,7 +274,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Custom Furniture Maker & Trail Runner',
     distance: '3 miles away',
     activeAgo: 'Active 6m ago',
-    spotifyAnthem: 'Hozier — Too Sweet',
+    spotifyAnthem: 'Hozier • Too Sweet',
     tinderBio:
       'Custom woodworker with copper hair, green eyes, and an actual toolbelt 🛠️ I build walnut dining tables by day, hike pine ridges at sunrise, and delight in fixing every squeaky cabinet hinge in your house.',
     hingePromptQuestion: 'Weirdest gift I’ll bring you',
@@ -298,7 +298,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Espresso',
     ],
     openingDm:
-      'I just finished sanding a walnut table and spotted your profile—can I take you for wood-fired pizza and good red wine Friday at 7:30?',
+      'I just finished sanding a walnut table and spotted your profile, can I take you for wood-fired pizza and good red wine Friday at 7:30?',
     xrayLeak:
       'X-RAY SCAN: Handbuilt solid walnut bedframe, botanical soap, cast-iron skillet seasoned to perfection.',
     isGreenFlagMatch: true,
@@ -336,11 +336,11 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Sports Medicine MD Fellow',
     distance: '4 miles away',
     activeAgo: 'Active 8m ago',
-    spotifyAnthem: ' Rüfüs Du Sol — Innerbloom',
+    spotifyAnthem: ' Rüfüs Du Sol • Innerbloom',
     tinderBio:
       'Former D1 swimmer turned sports-medicine doc 🏊‍♂️ Sun-bleached hair, ocean-blue eyes, and fluent in wine lists, SPF 50 shoulder rubs, and post-Pilates neck massages. Exclusively attracted to women who have their life dialed in.',
     hingePromptQuestion: 'Together, we could',
-    hingePromptAnswer: 'Escape to Palm Springs Friday afternoon—poolside cabanas, Sancerre, and zero stress.',
+    hingePromptAnswer: 'Escape to Palm Springs Friday afternoon, poolside cabanas, Sancerre, and zero stress.',
     secondPromptQuestion: 'My secret superpower',
     secondPromptAnswer: 'Releasing tight rotator cuffs in 90 seconds and keeping bedrooms at a crisp 62°F.',
     ageShockZoom: false,
@@ -359,7 +359,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Coastal Runs',
     ],
     openingDm:
-      'Between hospital rounds and morning laps I rarely swipe—until your smile stopped me cold. Drinks on the terrace Thursday at 7:30?',
+      'Between hospital rounds and morning laps I rarely swipe, until your smile stopped me cold. Drinks on the terrace Thursday at 7:30?',
     xrayLeak:
       'X-RAY SCAN: Bamboo cooling sheets, stocked sparkling water fridge, medical-grade shoulder massages.',
     isGreenFlagMatch: true,
@@ -367,7 +367,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 1 of 3 • Palm Springs Poolside Laps',
         shortTab: '🏊‍♂️ Poolside',
-        vibeNote: '💚 GREEN FLAG: Sunlit blonde, ocean-blue eyes, natural poolside grin—zero bathroom mirror cringe.',
+        vibeNote: '💚 GREEN FLAG: Sunlit blonde, ocean-blue eyes, natural poolside grin, zero bathroom mirror cringe.',
         variant: 'golden_trail_stud',
         photoUrl: './images/cast/lucas-30m.jpg',
       },
@@ -397,7 +397,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Fine-Dining Sous Chef & Boulderer',
     distance: '2 miles away',
     activeAgo: 'Active 11m ago',
-    spotifyAnthem: 'Daniel Caesar — Best Part',
+    spotifyAnthem: 'Daniel Caesar • Best Part',
     tinderBio:
       'Sous-chef at a Michelin bistro by night, outdoor rock climber by morning 🧗‍♂️ Better Korean skincare routine than your dermatologist, elite knife skills, and I never leave a single pan unwashed.',
     hingePromptQuestion: 'I’ll know it’s real when',
@@ -420,7 +420,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Vinyl Bars',
     ],
     openingDm:
-      'Sunday is my night off the line—let me take you to my favorite tucked-away wine bar at 7:30, or cook handmade pasta at yours?',
+      'Sunday is my night off the line, let me take you to my favorite tucked-away wine bar at 7:30, or cook handmade pasta at yours?',
     xrayLeak:
       'X-RAY SCAN: Japanese chef knives, snail-mucin & peptide shelf, spotless studio with lidded bin.',
     isGreenFlagMatch: true,
@@ -458,21 +458,21 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Doctor of Physical Therapy',
     distance: '2 miles away',
     activeAgo: 'Active 9m ago',
-    spotifyAnthem: 'Leon Bridges — Beyond',
+    spotifyAnthem: 'Leon Bridges • Beyond',
     tinderBio:
       'Own an oak bedframe, 600TC cotton sheets, AND a bathroom trash can with a lid. Seeking my 6 AM ridge-trail pace partner & Sunday pasta co-chef.',
     hingePromptQuestion: 'Green flags I look for',
     hingePromptAnswer: 'A woman who knows exactly what she wants and laughs when I tie on the kitchen apron.',
     ageShockZoom: true,
     ageShockQuipHer:
-      'Okay, 26 STILL triggers a double-take... wait—read that bio and tap through his photos.',
+      'Okay, 26 STILL triggers a double-take... wait, read that bio and tap through his photos.',
     ageShockQuipHim:
       'Textbook green-flag profile: active mornings, domestic competence, and a real reservation plan.',
     lookingFor: 'Intentional relationship',
     lookingForSubtext: 'Pays his own bills, stretches your calves after trail runs, shows up 5 minutes early.',
     interests: ['Trail Running', 'Home Cooking', 'Live Jazz', 'Farmers Markets', 'Physical Therapy'],
     openingDm:
-      'Your canyon trail photo caught my eye—though I’m pretty sure you’d drop me on mile four. Let me take you for tapas Thursday at 7:30? Real number attached.',
+      'Your canyon trail photo caught my eye, though I’m pretty sure you’d drop me on mile four. Let me take you for tapas Thursday at 7:30? Real number attached.',
     xrayLeak:
       'X-RAY SCAN: 600-thread-count percale sheets, eucalyptus hand soap, lidded bathroom bin, and fluent post-Title IX EQ.',
     isGreenFlagMatch: true,
@@ -511,11 +511,11 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Structural Engineer',
     distance: '4 miles away',
     activeAgo: 'Active 14m ago',
-    spotifyAnthem: 'Sade — Kiss of Life',
+    spotifyAnthem: 'Sade • Kiss of Life',
     tinderBio:
       'Old soul who opens passenger doors, books 7:30 wine-bar tables before Wednesday, and keeps my phone face-down all through dinner.',
     hingePromptQuestion: 'Together, we could',
-    hingePromptAnswer: 'Turn your brain completely off on Friday night—I’ll handle every detail.',
+    hingePromptAnswer: 'Turn your brain completely off on Friday night, I’ll handle every detail.',
     ageShockZoom: false,
     ageShockQuipHer:
       '27, 6\'2", listens to Sade, AND brings pink peonies? Hold on, let me find my reading glasses.',
@@ -525,7 +525,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     lookingForSubtext: 'Knows the difference between Pinot Noir and Vodka Red Bull.',
     interests: ['Architecture', 'Sade & Vinyl', 'Cooking', 'Coastal Drives', 'Wine Bars'],
     openingDm:
-      'You’ve probably made 400 decisions for everyone else this week—let me handle Friday at 8 at The Cougar Lounge? Peonies included.',
+      'You’ve probably made 400 decisions for everyone else this week, let me handle Friday at 8 at The Cougar Lounge? Peonies included.',
     xrayLeak:
       'X-RAY SCAN: Opens car doors automatically, never films entrées for TikTok, and smells like warm cedar & bergamot.',
     isGreenFlagMatch: true,
@@ -563,7 +563,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: '"Part-Time DJ / Model"',
     distance: '8 miles away',
     activeAgo: 'Active 1m ago',
-    spotifyAnthem: 'Shots — LMFAO',
+    spotifyAnthem: 'Shots • LMFAO',
     tinderBio:
       'Here for a good time not a long time 🔥 Looking for a rich cougar to fly me to Cabo on her Amex lol jk... unless?? 😏',
     hingePromptQuestion: 'First round is on me if',
@@ -608,11 +608,11 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: '"Streamer / Between Gigs"',
     distance: '5 miles away',
     activeAgo: 'Active 1m ago',
-    spotifyAnthem: '100 gecs — money machine',
+    spotifyAnthem: '100 gecs • money machine',
     tinderBio:
       'Looking for something discrete / lowkey after 10 PM 👀 Never dated someone born in the late 1900s before lol kinda wild!! Catch me on Roblox Dress to Impress w the boys till 4 AM 🎮',
     hingePromptQuestion: 'Ideal first linkup',
-    hingePromptAnswer: 'Come thru after 10:30 PM once my roommates hop on Roblox—no labels, keep it private 🤫',
+    hingePromptAnswer: 'Come thru after 10:30 PM once my roommates hop on Roblox, no labels, keep it private 🤫',
     secondPromptQuestion: 'Green flag about me',
     secondPromptAnswer: 'My mom still does my laundry on Sundays so my hoodies smell fresh.',
     ageShockZoom: true,
@@ -656,9 +656,9 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Cattle Rancher & Former College WR',
     distance: '4 miles away (Just landed from Bozeman)',
     activeAgo: 'Active 1m ago',
-    spotifyAnthem: 'Zach Bryan — Something in the Orange',
+    spotifyAnthem: 'Zach Bryan • Something in the Orange',
     tinderBio:
-      '6\'3" Montana ranch kid & ex-college wide receiver 🤠 Yes, I’m the guy who accidentally commented "I love you" from my boys’ shared ranch TikTok before sliding in properly. Glad you lowered your age slider—pack a carry-on for Cabo.',
+      '6\'3" Montana ranch kid & ex-college wide receiver 🤠 Yes, I’m the guy who accidentally commented "I love you" from my boys’ shared ranch TikTok before sliding in properly. Glad you lowered your age slider, pack a carry-on for Cabo.',
     hingePromptQuestion: 'Most impulsive green-flag move',
     hingePromptAnswer:
       'Booking a Friday flight from Bozeman just to open your car door, two-step in your kitchen, and carry your luggage.',
@@ -673,7 +673,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     lookingForSubtext: 'Holds your hand through airports and beams like he won the Super Bowl.',
     interests: ['Montana Ranches', 'Country Two-Step', 'Cabo Sunsets', 'Pickup Trucks', 'Bonfires', 'Golden Retrievers'],
     openingDm:
-      'Okay full confession—I almost DMed you from my buddies’ shared ranch account first 😅 Let me take you to steak and live guitar Friday at 7:30?',
+      'Okay full confession. I almost DMed you from my buddies’ shared ranch account first 😅 Let me take you to steak and live guitar Friday at 7:30?',
     xrayLeak:
       'X-RAY SCAN: Genuine yes-ma’am ranch manners, 6\'3" stairway-carry strength, and proudly posts you on main.',
     isGreenFlagMatch: true,
@@ -681,7 +681,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 1 of 3 • Golden-Hour Ranch Portrait',
         shortTab: '🤠 Ranch Glow',
-        vibeNote: '💚 GREEN FLAG: 6\'3", sunlit grin, zero frat-bathroom flexing—pure Montana Boyz energy.',
+        vibeNote: '💚 GREEN FLAG: 6\'3", sunlit grin, zero frat-bathroom flexing, pure Montana Boyz energy.',
         variant: 'golden_trail_stud',
         photoUrl: './images/cast/colton-25m.jpg',
       },
@@ -711,14 +711,14 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: '5th-Year Undergrad • "Strict 50/50 King"',
     distance: '1 mile away (Near Campus)',
     activeAgo: 'Active now',
-    spotifyAnthem: 'Lil Dicky — $ave Dat Money',
+    spotifyAnthem: 'Lil Dicky • $ave Dat Money',
     tinderBio:
       '21 & thrifty 💸 Big believer in going 50/50 Dutch on first dates down to the exact cent so nobody feels used!! Let’s hit sushi (only during 4:30 PM happy hour tho, my campus Dining Dollars don’t work off-campus lol).',
     hingePromptQuestion: 'First date non-negotiable',
     hingePromptAnswer:
       'Separate checks + I’ll Venmo-request you $3.19 if you eat 4 of the 7 edamame pods 🧮',
     secondPromptQuestion: 'My living situation',
-    secondPromptAnswer: '4 guys in a 2-bedroom—don’t mind Kyle eating Cheerios out of a mixing bowl!',
+    secondPromptAnswer: '4 guys in a 2-bedroom, don’t mind Kyle eating Cheerios out of a mixing bowl!',
     ageShockZoom: true,
     ageShockQuipHer:
       '21?! AND ITEMIZING EDAMAME PODS ON VENMO?! Drag that age slider right back up to 25 immediately!!',
@@ -761,9 +761,9 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Undergrad Business Junior • "Bi-Coastal Jetsetter"',
     distance: '2 miles away (Frat Row)',
     activeAgo: 'Active now',
-    spotifyAnthem: 'Jack Johnson — Banana Pancakes',
+    spotifyAnthem: 'Jack Johnson • Banana Pancakes',
     tinderBio:
-      '21 in undergrad 📚 Whenever older women get skeptical about my age I just invite them to my place in Maui for the week 🌺✈️ Oceanfront lanai, Mai Tais, zero stress—pack a bikini!',
+      '21 in undergrad 📚 Whenever older women get skeptical about my age I just invite them to my place in Maui for the week 🌺✈️ Oceanfront lanai, Mai Tais, zero stress, pack a bikini!',
     hingePromptQuestion: 'Wait… is "your place in Hawaii" actually your parents’?',
     hingePromptAnswer:
       'Haha okay yeah my mom & stepdad Greg have a biennial Marriott timeshare week!! They’ll just be in the master bedroom down the hall & we get pool-towel wristbands!',
@@ -772,7 +772,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'My mom says we have to sit through a 90-minute 8 AM lobby timeshare pitch on Tuesday for the free luau buffet vouchers 🌺',
     ageShockZoom: true,
     ageShockQuipHer:
-      '"COME TO MY PLACE IN HAWAII" — AND IT’S HIS MOM LINDA’S MARRIOTT TIMESHARE?! Trying to pimp himself out with his parents’ timeshare points while Linda sleeps down the hall!!',
+      '"COME TO MY PLACE IN HAWAII" • AND IT’S HIS MOM LINDA’S MARRIOTT TIMESHARE?! Trying to pimp himself out with his parents’ timeshare points while Linda sleeps down the hall!!',
     ageShockQuipHim:
       'COLLEGE RED FLAG HALL OF FAME: Never brag about "my place in Hawaii" when it’s your mom’s Week-14 timeshare binder.',
     lookingFor: 'Someone to split Uber to the airport (Mom booked the room)',
@@ -781,7 +781,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     openingDm:
       'i know ur skeptical bc im 21 & in college lol… let me take u to my place in Hawaii next month! (ok yeah technically my parents have a timeshare there haha u down??) 🌺✈️',
     xrayLeak:
-      'X-RAY SCAN: 🚨 MOM’S TIMESHARE FLEXER! Zero deed, zero flight money—his mom Linda & stepdad Greg own Week 14 at the Kāʻanapali Marriott and sleep on the other side of the kitchenette wall.',
+      'X-RAY SCAN: 🚨 MOM’S TIMESHARE FLEXER! Zero deed, zero flight money, his mom Linda & stepdad Greg own Week 14 at the Kāʻanapali Marriott and sleep on the other side of the kitchenette wall.',
     isGreenFlagMatch: false,
     photos: [
       {
@@ -812,18 +812,18 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Pediatric Nurse & Coastal Marathoner',
     distance: '2 miles away',
     activeAgo: 'Active 3m ago',
-    spotifyAnthem: 'Hozier — Work Song',
+    spotifyAnthem: 'Hozier • Work Song',
     tinderBio:
-      'Unapologetic Golden Retriever energy 🐕 Zero interest in instant-gratification chaos—I go weak in the knees for a cool, unhurried "Black Cat" older woman who takes her time, raises one eyebrow at my jokes, and pushes back a little at first. Don’t rush for me; earning your real smile by Date #3 is my favorite sport.',
+      'Unapologetic Golden Retriever energy 🐕 Zero interest in instant-gratification chaos. I go weak in the knees for a cool, unhurried "Black Cat" older woman who takes her time, raises one eyebrow at my jokes, and pushes back a little at first. Don’t rush for me; earning your real smile by Date #3 is my favorite sport.',
     hingePromptQuestion: 'My ultimate romantic kryptonite',
     hingePromptAnswer:
-      'When she says "Slow down, eager puppy—convince me" instead of folding on Day 1. Tail wagging immediately.',
+      'When she says "Slow down, eager puppy, convince me" instead of folding on Day 1. Tail wagging immediately.',
     secondPromptQuestion: 'How I handle slow-burn boundaries',
     secondPromptAnswer:
-      'Zero sulking, zero double-text panic—just steady 7:30 reservations, warm patience, and fresh flowers when you’re ready.',
+      'Zero sulking, zero double-text panic, just steady 7:30 reservations, warm patience, and fresh flowers when you’re ready.',
     ageShockZoom: false,
     ageShockQuipHer:
-      'Wait—a 26yo Golden Retriever who *likes* when I take my time and push back instead of whining that I’m "intimidating"?!',
+      'Wait, a 26yo Golden Retriever who *likes* when I take my time and push back instead of whining that I’m "intimidating"?!',
     ageShockQuipHim:
       'Study the #1 polarity secret: Golden-Retriever warmth + unbothered patience melts a Black Cat Cougar every single time.',
     lookingFor: 'Slow-burn Black Cat × Golden Retriever magic',
@@ -836,9 +836,9 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       'Slow-Burn Romance',
     ],
     openingDm:
-      'Something tells me you don’t hand out Friday nights easily—and honestly that’s my favorite green flag on here. Zero rush: iced matcha, post-run smoothie, or a cozy mocktail bar next week?',
+      'Something tells me you don’t hand out Friday nights easily, and honestly that’s my favorite green flag on here. Zero rush: iced matcha, post-run smoothie, or a cozy mocktail bar next week?',
     xrayLeak:
-      'X-RAY SCAN: 100% pure Golden-Retriever devotion—zero bruised ego when you push back, spotless apartment, and endless patience.',
+      'X-RAY SCAN: 100% pure Golden-Retriever devotion, zero bruised ego when you push back, spotless apartment, and endless patience.',
     isGreenFlagMatch: true,
     photos: [
       {
@@ -858,7 +858,7 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 3 of 3 • Coastal Trail Run',
         shortTab: '🏔️ Marathoner',
-        vibeNote: '💚 Built for the long run—literally and romantically.',
+        vibeNote: '💚 Built for the long run, literally and romantically.',
         variant: 'golden_trail_stud',
         photoUrl: './images/cast/mateo-26m.jpg',
       },
@@ -874,12 +874,12 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: '"Ancestral Wellness Podcaster & Gym Bro"',
     distance: '3 miles away',
     activeAgo: 'Active now (Typing…)',
-    spotifyAnthem: 'Drake — Marvin’s Room',
+    spotifyAnthem: 'Drake • Marvin’s Room',
     tinderBio:
       '24M optimizing my ancestral testosterone naturally w/ raw wildcrafted Pine Pollen tincture, cold plunges & sunning 🌲💪 Big communicator (if you take more than 45 mins to text back at night I WILL get all up in my feels and send 6 paragraphs asking what we are lol).',
     hingePromptQuestion: 'Communication style & expectations',
     hingePromptAnswer:
-      'Need 24/7 texting reassurance—if you put Do Not Disturb on at 9:30 PM my pine-pollen T-spike turns into midnight poetry 😭🌲',
+      'Need 24/7 texting reassurance, if you put Do Not Disturb on at 9:30 PM my pine-pollen T-spike turns into midnight poetry 😭🌲',
     secondPromptQuestion: 'Currently in my gym bag',
     secondPromptAnswer:
       '3 amber droppers of raw pine pollen, mouth tape, and a 9-screen Notes-app text draft.',
@@ -929,7 +929,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'VP of Product',
     distance: '3 miles away',
     activeAgo: 'Active 5m ago',
-    spotifyAnthem: 'Fleetwood Mac — Dreams',
+    spotifyAnthem: 'Fleetwood Mac • Dreams',
     tinderBio:
       'Mortgage paid, kids grown, passport stamped, zero interest in raising another teenager. Impress me with emotional maturity, reading dim candlelit menus for me without a joke, and a spot you booked yourself.',
     hingePromptQuestion: 'Don’t message me if',
@@ -939,7 +939,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: true,
     ageShockQuipHer: 'Claire sets the gold standard.',
     ageShockQuipHim:
-      '45F VP of Product—radiant, sharp, and smells incompetence from three zip codes away. Bring your A-game!',
+      '45F VP of Product, radiant, sharp, and smells incompetence from three zip codes away. Bring your A-game!',
     lookingFor: 'Intentional chemistry',
     lookingForSubtext: 'Vets your manners first; unlocks unforgettable weekends second.',
     interests: [
@@ -966,7 +966,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 2 of 4 • Tropical Waterfall Lagoon Swim',
         shortTab: '👙 Lagoon Swim',
-        vibeNote: '💚 Vacation bikini glow—proof PTO is for tropical canyons.',
+        vibeNote: '💚 Vacation bikini glow, proof PTO is for tropical canyons.',
         variant: 'golden_trail_stud',
         photoUrl: './images/cast/camila-39f.jpg',
       },
@@ -996,7 +996,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Entertainment Attorney • "Rich Auntie Era"',
     distance: '3 miles away',
     activeAgo: 'Active 2m ago',
-    spotifyAnthem: 'Sade — Cherish the Day',
+    spotifyAnthem: 'Sade • Cherish the Day',
     tinderBio:
       'Negotiates festival headliners all week; floats in Palm Springs pools in emerald bikinis all weekend 🌴 Waiters still card me like I’m 31. Bring real conversation, silk-pillowcase respect, and don’t embarrass me at the family cookout.',
     hingePromptQuestion: 'Non-negotiable sleepover law',
@@ -1006,7 +1006,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: true,
     ageShockQuipHer: 'Rich Auntie perfection.',
     ageShockQuipHim:
-      '44F entertainment attorney in her emerald cabana bikini—stunning, razor-sharp, and allergic to low effort!',
+      '44F entertainment attorney in her emerald cabana bikini, stunning, razor-sharp, and allergic to low effort!',
     lookingFor: 'Grown-man chivalry & slow-burn spark',
     lookingForSubtext: 'Financially set for three lifetimes; dates purely for chemistry and devotion.',
     interests: [
@@ -1056,17 +1056,17 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Biotech Founder & Malibu Surfer',
     distance: '4 miles away',
     activeAgo: 'Active 6m ago',
-    spotifyAnthem: ' Maggie Rogers — Alaska',
+    spotifyAnthem: ' Maggie Rogers • Alaska',
     tinderBio:
       'Malibu-salted biotech founder 🏄‍♀️ Sold my lab company at 39 so I could surf dawn patrol before 7 AM. Blonde, blue-eyed, competitive in a bikini, and looking for a Cub whose stamina survives ocean swells AND cedar saunas.',
     hingePromptQuestion: 'First date challenge',
-    hingePromptAnswer: 'Dawn surf at First Point followed by burritos on the tailgate—loser buys coffee.',
+    hingePromptAnswer: 'Dawn surf at First Point followed by burritos on the tailgate, loser buys coffee.',
     secondPromptQuestion: 'Secret soft spot',
     secondPromptAnswer: 'A younger man with strong shoulders who rubs warm oil into my back after cold water.',
     ageShockZoom: false,
     ageShockQuipHer: 'Nordic Malibu Cougar.',
     ageShockQuipHim:
-      '41F golden-blonde surfer founder with ice-blue eyes—better cardio and abs than half of Venice Beach!',
+      '41F golden-blonde surfer founder with ice-blue eyes, better cardio and abs than half of Venice Beach!',
     lookingFor: 'Athletic adventure & real warmth',
     lookingForSubtext: 'Zero makeup, salt-water hair, 100% authentic confidence.',
     interests: [
@@ -1116,17 +1116,17 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Osteria Chef-Owner & Master Sommelier',
     distance: '5 miles away',
     activeAgo: 'Active 9m ago',
-    spotifyAnthem: 'Florence + The Machine — Cosmic Love',
+    spotifyAnthem: 'Florence + The Machine • Cosmic Love',
     tinderBio:
-      '51, fiery copper curls, emerald-green eyes, unapologetic hourglass curves, and keys to a 900-bottle Italian wine cellar 🍷 Done with bland men who order light beer—bring an appetite, steady hands, and appreciation for a real woman.',
+      '51, fiery copper curls, emerald-green eyes, unapologetic hourglass curves, and keys to a 900-bottle Italian wine cellar 🍷 Done with bland men who order light beer, bring an appetite, steady hands, and appreciation for a real woman.',
     hingePromptQuestion: 'Best perk of dating a 51yo Chef Jaguar',
-    hingePromptAnswer: 'Midnight truffle pasta in a silk kimono after my restaurant closes—and zero pregnancy scares ever.',
+    hingePromptAnswer: 'Midnight truffle pasta in a silk kimono after my restaurant closes, and zero pregnancy scares ever.',
     secondPromptQuestion: 'Instant turn-on',
     secondPromptAnswer: 'A younger man who holds eye contact across a candlelit table and worships soft curves.',
     ageShockZoom: true,
     ageShockQuipHer: 'Curvy Copper Jaguar.',
     ageShockQuipHim:
-      '51F copper-redhead sommelier with emerald eyes beside an infinity pool—pure sensual Italian-cinema magnetism!',
+      '51F copper-redhead sommelier with emerald eyes beside an infinity pool, pure sensual Italian-cinema magnetism!',
     lookingFor: 'Sensual, devoted partnership',
     lookingForSubtext: 'Will ruin all restaurant food for you forever.',
     interests: [
@@ -1176,7 +1176,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'ER Physician • Golden-Retriever Mom',
     distance: '2 miles away',
     activeAgo: 'Active 7m ago',
-    spotifyAnthem: ' Norah Jones — Come Away With Me',
+    spotifyAnthem: ' Norah Jones • Come Away With Me',
     tinderBio:
       '35F ER doc + golden retriever Rani 🐕 After 12 hours saving lives under fluorescent hospital lights, I want sunlit canyon hikes, cast-iron ribeye when my iron tanks, and a younger man with zero mansplaining.',
     hingePromptQuestion: 'Veto power belongs to',
@@ -1184,7 +1184,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: false,
     ageShockQuipHer: 'Trail-boss Puma MD.',
     ageShockQuipHim:
-      '35F ER doctor hiking with her golden retriever—brilliant, radiant, and zero patience for flakes!',
+      '35F ER doctor hiking with her golden retriever, brilliant, radiant, and zero patience for flakes!',
     lookingFor: 'Intentional Puma × Cub spark',
     lookingForSubtext: 'Respect her hospital shift sleep and spoil her on days off.',
     interests: [
@@ -1234,15 +1234,15 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Principal Coastal Architect',
     distance: '4 miles away',
     activeAgo: 'Active 12m ago',
-    spotifyAnthem: 'Khruangbin — Texas Sun',
+    spotifyAnthem: 'Khruangbin • Texas Sun',
     tinderBio:
-      '48F architect designing cliffside ocean homes 🐈‍⬛ Certified Black Cat energy: I take my time, push back on smooth-talking rushers, and guard my peace fiercely—which somehow makes sunny Golden-Retriever Cubs try ten times harder.',
+      '48F architect designing cliffside ocean homes 🐈‍⬛ Certified Black Cat energy: I take my time, push back on smooth-talking rushers, and guard my peace fiercely, which somehow makes sunny Golden-Retriever Cubs try ten times harder.',
     hingePromptQuestion: 'Ideal weekend rhythm',
     hingePromptAnswer: 'Ocean infinity-pool swim, hand-pulled noodles or omakase, and zero loud small talk.',
     ageShockZoom: true,
     ageShockQuipHer: 'Quiet-luxury Cougar.',
     ageShockQuipHim:
-      '48F coastal architect lounging beside an ocean infinity pool—timeless poise and razor-sharp wit!',
+      '48F coastal architect lounging beside an ocean infinity pool, timeless poise and razor-sharp wit!',
     lookingFor: 'Refined chemistry & companionship',
     lookingForSubtext: 'Notices every detail from your fingernails to your manners with waitstaff.',
     interests: [
@@ -1292,7 +1292,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Former NYC Fashion Director',
     distance: '5 miles away',
     activeAgo: 'Active 15m ago',
-    spotifyAnthem: 'Grace Jones — La Vie En Rose',
+    spotifyAnthem: 'Grace Jones • La Vie En Rose',
     tinderBio:
       '61, waist-length silver braids, bronze swimwear on Mediterranean balconies, and thirty years of Paris runway stories. Only swipe right if you walk tall holding my hand in public and know how to pour a proper Negroni.',
     hingePromptQuestion: 'Age-gap rule #1',
@@ -1300,7 +1300,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: true,
     ageShockQuipHer: 'Legendary Silver-Braids Panther.',
     ageShockQuipHim:
-      '61F former NYC fashion director in bronze resort swimwear—commands the entire coastline effortlessly!',
+      '61F former NYC fashion director in bronze resort swimwear, commands the entire coastline effortlessly!',
     lookingFor: 'Bold, attentive younger gentleman',
     lookingForSubtext: 'Unapologetic romance, travel, and deep conversation.',
     interests: [
@@ -1320,7 +1320,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 1 of 3 • Mediterranean Stone Balcony Swimsuit & Ivory Kaftan',
         shortTab: '🏖️ Coastal Swim',
-        vibeNote: '💚 Silver braids, bronze swimsuit, gold hoops—pure Panther royalty.',
+        vibeNote: '💚 Silver braids, bronze swimsuit, gold hoops, pure Panther royalty.',
         variant: 'tailored_linen',
         photoUrl: './images/cast/vivienne-61f.jpg',
       },
@@ -1350,15 +1350,15 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Creative Director',
     distance: '4 miles away',
     activeAgo: 'Active 11m ago',
-    spotifyAnthem: 'Sabrina Carpenter — Espresso',
+    spotifyAnthem: 'Sabrina Carpenter • Espresso',
     tinderBio:
       'I make 400 executive decisions before Thursday. On Friday night I want fresh peonies, passenger-princess treatment, heated car seats, and zero mental load.',
     hingePromptQuestion: 'The way to win me over is',
-    hingePromptAnswer: 'Open my car door, hand me flowers, and say "Turn your brain off—I planned tonight."',
+    hingePromptAnswer: 'Open my car door, hand me flowers, and say "Turn your brain off. I planned tonight."',
     ageShockZoom: false,
     ageShockQuipHer: 'Soft-life royalty.',
     ageShockQuipHim:
-      'Secret unlocked: she does NOT want to boss you around—she wants chivalrous soft-life pampering!',
+      'Secret unlocked: she does NOT want to boss you around, she wants chivalrous soft-life pampering!',
     lookingFor: 'Chivalrous romance',
     lookingForSubtext: 'Do NOT text her "idk what do u wanna eat?"',
     interests: ['Peonies', 'Wine Bars', 'Silk Robes', 'Art Galleries', 'Coastal Drives'],
@@ -1401,7 +1401,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Pilates Studio Founder',
     distance: '5 miles away',
     activeAgo: 'Active 18m ago',
-    spotifyAnthem: 'Lenny Kravitz — Fly Away',
+    spotifyAnthem: 'Lenny Kravitz • Fly Away',
     tinderBio:
       'Swipe right only if your 25-year-old cardio can survive my 6 AM canyon switchbacks on a short leash. Call me at 6; don’t text me 40 memes at noon.',
     hingePromptQuestion: 'I’ll brag about you to my friends if',
@@ -1409,7 +1409,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockZoom: true,
     ageShockQuipHer: 'Apex Jaguar.',
     ageShockQuipHim:
-      '53F Jaguar in peak athletic form—get ready for a 6 PM phone call and a 6 AM canyon climb!',
+      '53F Jaguar in peak athletic form, get ready for a 6 PM phone call and a 6 AM canyon climb!',
     lookingFor: 'Active chemistry & real grit',
     lookingForSubtext: 'Gen-X rule: zero flakiness, zero Snapchat.',
     interests: ['6 AM Trail Runs', 'Reformer Pilates', 'Red Wine', 'Travel', 'Ocean Swims'],
@@ -1452,16 +1452,16 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Brand Strategist • Dog Mom',
     distance: '2 miles away',
     activeAgo: 'Active 4m ago',
-    spotifyAnthem: 'Kacey Musgraves — Justified',
+    spotifyAnthem: 'Kacey Musgraves • Justified',
     tinderBio:
-      'Happily divorced, child-free, and my rescue mutt Barnaby has veto power 🐾 Swiped past every bitter 42yo "still figuring out my goals" man in town—lowered my age filter to see if younger men actually bring enthusiasm.',
+      'Happily divorced, child-free, and my rescue mutt Barnaby has veto power 🐾 Swiped past every bitter 42yo "still figuring out my goals" man in town, lowered my age filter to see if younger men actually bring enthusiasm.',
     hingePromptQuestion: 'Quickest way to my heart',
     hingePromptAnswer:
       'Win over Barnaby first, know where the dishwasher pods go without a tutorial, and never trauma-dump about your ex over IPAs.',
     ageShockZoom: false,
     ageShockQuipHer: 'Child-free Puma perfection.',
     ageShockQuipHim:
-      '37F child-free dog-mom Puma—jaded by lazy 40yo Hinge guys and ready to melt for real effort + dog-guy charm!',
+      '37F child-free dog-mom Puma, jaded by lazy 40yo Hinge guys and ready to melt for real effort + dog-guy charm!',
     lookingFor: 'Real effort & dog-walk banter',
     lookingForSubtext: 'Allergic to weaponized incompetence and 41-year-old Peter Pans.',
     interests: ['Rescue Dogs', 'Patio Rosé', 'Travel', 'Zero Kids', 'Farmers Markets'],
@@ -1474,7 +1474,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
       {
         caption: 'Photo 1 of 3 • Patio Rosé With Rescue Pup Barnaby',
         shortTab: '🐾 Barnaby',
-        vibeNote: '💚 Child-free, divorced, sharp wit—and Barnaby is watching closely.',
+        vibeNote: '💚 Child-free, divorced, sharp wit, and Barnaby is watching closely.',
         variant: 'dog_park_coffee',
         photoUrl: './images/cast/chloe-37f.jpg',
       },
@@ -1504,7 +1504,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Boutique Hotel Designer • Junior Cougar',
     distance: '2 miles away',
     activeAgo: 'Active 3m ago',
-    spotifyAnthem: 'LCD Soundsystem — All My Friends',
+    spotifyAnthem: 'LCD Soundsystem • All My Friends',
     tinderBio:
       'Seeking my 6-year-gap match (31–33M): old enough to remember burning CDs, young enough that I still get to tease you about studying for 10th-grade geometry while I was legally ordering martinis.',
     hingePromptQuestion: 'The sweet spot of a 6-year Junior Cougar gap',
@@ -1515,7 +1515,7 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     ageShockQuipHim:
       '6-year Junior Cougar sweet spot: shared references, zero 20s roommate chaos, and electric banter!',
     lookingFor: 'Junior Cougar sweet-spot chemistry',
-    lookingForSubtext: 'Age-gap purists call under-10-years a Junior Cougar—she wears the badge proudly.',
+    lookingForSubtext: 'Age-gap purists call under-10-years a Junior Cougar, she wears the badge proudly.',
     interests: ['Vinyl & Wine Bars', 'Boutique Design', 'Weekend Getaways', 'Cooking', 'Palm Springs'],
     initiatesFirst: false,
     openingDm: 'Matched with Sienna • Break the ice with one sharp line.',
@@ -1556,9 +1556,9 @@ export const HER_SWIPE_PROFILES: SwipeProfile[] = [
     occupation: 'Qigong & Nervous-System Studio Founder • Wellness Mommy-Domme',
     distance: '3 miles away',
     activeAgo: 'Active 2m ago',
-    spotifyAnthem: 'Khruangbin — Texas Sun',
+    spotifyAnthem: 'Khruangbin • Texas Sun',
     tinderBio:
-      '6:30 AM bamboo-courtyard Qigong, 100% gluten-free & seed-oil-free (grass-fed ghee & olive oil ONLY), and #3 on the waitlist to adopt a tricolor Mini Bernedoodle 🧘‍♀️🐶 Soft Mommy-Domme praise for an attentive Cub who drops his shoulders when I say "breathe with Mommy"—and never tries to Cubsplain a podcast to me.',
+      '6:30 AM bamboo-courtyard Qigong, 100% gluten-free & seed-oil-free (grass-fed ghee & olive oil ONLY), and #3 on the waitlist to adopt a tricolor Mini Bernedoodle 🧘‍♀️🐶 Soft Mommy-Domme praise for an attentive Cub who drops his shoulders when I say "breathe with Mommy", and never tries to Cubsplain a podcast to me.',
     hingePromptQuestion: 'Two quickest ways to get my full Mommy-Domme praise',
     hingePromptAnswer:
       'Call the chef ahead to confirm zero canola/soybean oil & gluten-free prep, match my slow Tai Chi breathwork, and help me pick puppy names for my incoming tricolor Mini Bernedoodle.',

@@ -135,7 +135,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
             {copiedReply ? <Check className="h-5 w-5" /> : <Send className="h-5 w-5" />}
             <span>
               {copiedReply
-                ? `Score Copied — Text ${challenge.senderName}!`
+                ? `Score Copied • Text ${challenge.senderName}!`
                 : `Send My Score Back to ${challenge.senderName}`}
             </span>
           </button>

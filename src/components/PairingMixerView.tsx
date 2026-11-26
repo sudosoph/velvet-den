@@ -232,7 +232,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </h1>
 
             <p className="text-xs sm:text-sm font-medium text-[#475569] leading-relaxed">
-              Choose your perspective on the right, then pick any of the 4 ways to play below—or draft your pair right underneath.
+              Pick who you are on the right, then jump into any game mode below or match up your pair right underneath.
             </p>
           </div>
 
@@ -294,7 +294,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </div>
         </div>
 
-        {/* Clear 6-Path Mode Directory — Every Path Has Clean 2-Line Copy & Non-Wrapping Badges */}
+        {/* Clear 6-Path Mode Directory • Every Path Has Clean 2-Line Copy & Non-Wrapping Badges */}
         <div className="pt-4 border-t border-[#18101E]/8 space-y-2">
           <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-extrabold uppercase tracking-wider text-[#64748B]">
             <span>Choose a Game Mode (or Draft Your Pair Below to Start Your 8-Scene Date)</span>
@@ -335,7 +335,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 items-stretch">
             <button
               type="button"
-              aria-label="Live AI Texting Mode — Chat in Tinder, iMessage or Discord"
+              aria-label="Live AI Texting Mode: Chat in Tinder, iMessage or Discord"
               onClick={() => {
                 sfx.messagePop();
                 onOpenLiveInbox();
@@ -506,12 +506,12 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           } vice-panel rounded-3xl p-4 sm:p-5 flex-col justify-between gap-3.5 h-full`}
         >
           <div className="space-y-3">
-            <div className="relative h-56 sm:h-60 w-full overflow-hidden rounded-2xl border border-black/10 bg-[#18101E]">
+            <div className="relative mx-auto w-full max-w-[340px] lg:max-w-none aspect-[4/4.3] max-h-[340px] overflow-hidden rounded-2xl border border-black/10 bg-[#18101E]">
               <img
                 key={her.photoUrl}
                 src={her.photoUrl}
                 alt={`${her.name}, ${her.age}`}
-                className="h-full w-full object-cover object-top animate-stage-in"
+                className="h-full w-full object-cover object-[50%_15%] animate-stage-in"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
 
@@ -574,9 +574,21 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#E11D48]/20 bg-[#FFF5F7] px-3.5 py-2.5 space-y-1 text-xs sm:text-sm font-semibold text-[#18101E]">
-            <div>🍸 {herDetails.signatureDrink}</div>
-            <div className="text-[#BE123C]">💞 {herDetails.loveLanguage}</div>
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-1.5">
+              {herDetails.interests.slice(0, 4).map((interest) => (
+                <span
+                  key={interest}
+                  className="rounded-full border border-[#E11D48]/20 bg-white px-2.5 py-0.5 text-[11px] font-bold text-[#9F1239]"
+                >
+                  {interest}
+                </span>
+              ))}
+            </div>
+            <div className="rounded-xl border border-[#E11D48]/20 bg-[#FFF5F7] px-3.5 py-2.5 space-y-1 text-xs sm:text-sm font-semibold text-[#18101E]">
+              <div>☀️ {herDetails.idealSunday}</div>
+              <div className="text-[#BE123C]">💞 {herDetails.loveLanguage} • 🍸 {herDetails.signatureDrink}</div>
+            </div>
           </div>
         </div>
 
@@ -611,7 +623,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </div>
             </div>
 
-            {/* Live Tailored Story Preview — Updates Dynamically When Ages or Characters Change */}
+            {/* Live Tailored Story Preview • Updates Dynamically When Ages or Characters Change */}
             <div className="rounded-2xl border border-[#E11D48]/15 bg-[#FFF9FA] p-3 text-left space-y-1.5">
               <div className="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-[#BE123C]">
                 <span>🎬 {queuedEpisodes.length} Tailored Dates Queued</span>
@@ -709,12 +721,12 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           } vice-panel rounded-3xl p-4 sm:p-5 flex-col justify-between gap-3.5 h-full`}
         >
           <div className="space-y-3">
-            <div className="relative h-56 sm:h-60 w-full overflow-hidden rounded-2xl border border-black/10 bg-[#18101E]">
+            <div className="relative mx-auto w-full max-w-[340px] lg:max-w-none aspect-[4/4.3] max-h-[340px] overflow-hidden rounded-2xl border border-black/10 bg-[#18101E]">
               <img
                 key={his.photoUrl}
                 src={his.photoUrl}
                 alt={`${his.name}, ${his.age}`}
-                className="h-full w-full object-cover object-top animate-stage-in"
+                className="h-full w-full object-cover object-[50%_15%] animate-stage-in"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
 
@@ -777,9 +789,21 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#F59E0B]/25 bg-[#FFFBEB] px-3.5 py-2.5 space-y-1 text-xs sm:text-sm font-semibold text-[#18101E]">
-            <div>🥂 {hisDetails.signatureDrink}</div>
-            <div className="text-[#B45309]">💞 {hisDetails.loveLanguage}</div>
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-1.5">
+              {hisDetails.interests.slice(0, 4).map((interest) => (
+                <span
+                  key={interest}
+                  className="rounded-full border border-[#F59E0B]/35 bg-white px-2.5 py-0.5 text-[11px] font-bold text-[#92400E]"
+                >
+                  {interest}
+                </span>
+              ))}
+            </div>
+            <div className="rounded-xl border border-[#F59E0B]/25 bg-[#FFFBEB] px-3.5 py-2.5 space-y-1 text-xs sm:text-sm font-semibold text-[#18101E]">
+              <div>☀️ {hisDetails.idealSunday}</div>
+              <div className="text-[#B45309]">💞 {hisDetails.loveLanguage} • 🥂 {hisDetails.signatureDrink}</div>
+            </div>
           </div>
         </div>
       </section>

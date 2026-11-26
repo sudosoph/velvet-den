@@ -266,7 +266,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
         }
       } else if (nextVal <= 25) {
         setSliderBanner(
-          '🤠 KRISTIN CAVALLARI × MONTANA BOYZ ZONE (25+)! Unlocked Colton, 25M — 6\'3" Ranch Cowboy!',
+          '🤠 KRISTIN CAVALLARI × MONTANA BOYZ ZONE (25+)! Unlocked Colton, 25M • 6\'3" Ranch Cowboy!',
         );
         const cowboyIdx = deck.findIndex((d) => d.id === 'colton-montana-ranch-cub');
         if (cowboyIdx >= 0) {
@@ -275,7 +275,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
         }
       } else {
         setSliderBanner(
-          `Minimum Cub Age set to ${nextVal}+ — Prime Cougars & Cubs Club pool active.`,
+          `Minimum Cub Age set to ${nextVal}+ • Prime Cougars & Cubs Club pool active.`,
         );
       }
     } else {
@@ -296,7 +296,7 @@ export const AppSwipeStage: React.FC<AppSwipeStageProps> = ({
           setPhotoIdx(0);
         }
       } else {
-        setSliderBanner(`Max Discovery Age set up to ${nextVal} — Cougars & Pumas active.`);
+        setSliderBanner(`Max Discovery Age set up to ${nextVal} • Cougars & Pumas active.`);
       }
     }
   };

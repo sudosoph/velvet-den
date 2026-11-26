@@ -585,14 +585,14 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         let foundHint = '';
         for (const b of BUILDINGS) {
           if (Math.hypot(p.x - b.x, p.y - b.y) < 76) {
-            foundHint = `${b.emoji} Near ${b.title} — Press INTERACT (or Tap) to Enter!`;
+            foundHint = `${b.emoji} Near ${b.title} • Press INTERACT (or Tap) to Enter!`;
             break;
           }
         }
         if (!foundHint) {
           for (const n of WORLD_NODES) {
             if (Math.hypot(p.x - n.x, n.y - n.y) < 62) {
-              foundHint = `${n.emoji} Near ${n.label} — Press INTERACT for +35 XP Bonus!`;
+              foundHint = `${n.emoji} Near ${n.label} • Press INTERACT for +35 XP Bonus!`;
               break;
             }
           }
@@ -816,7 +816,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
 
   return (
     <section className="vice-panel rounded-3xl p-4 sm:p-6 space-y-4 bg-gradient-to-b from-[#FFFDF9] to-[#FFF4F7]">
-      {/* Top 8-Bit Arcade & Progression Header — Strictly Single-Row Aligned on Desktop */}
+      {/* Top 8-Bit Arcade & Progression Header • Strictly Single-Row Aligned on Desktop */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
@@ -840,7 +840,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
                 sfx.puppyBark();
                 onGainXp(35, { bernedoodleAdopted: true }, 'world_bernedoodle_adopt');
                 showWorldToast(
-                  '🐶 Tricolor Mini Bernedoodle "Miso" adopted from Waitlist #1—watch him trot behind you!',
+                  '🐶 Tricolor Mini Bernedoodle "Miso" adopted from Waitlist #1, watch him trot behind you!',
                 );
               } else {
                 sfx.puppyBark();
@@ -1261,7 +1261,7 @@ export const EightBitAdventureWorld: React.FC<EightBitAdventureWorldProps> = ({
         </div>
       </div>
 
-      {/* Equal-Height 3x2 Fast-Travel Hotspot Grid (Full Readable Titles — Zero Cutoff!) */}
+      {/* Equal-Height 3x2 Fast-Travel Hotspot Grid (Full Readable Titles • Zero Cutoff!) */}
       <div className="space-y-2">
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-extrabold uppercase tracking-wider text-[#64748B]">

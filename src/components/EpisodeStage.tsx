@@ -71,31 +71,31 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/hotel-pool-sauna.jpg',
       locationBadge: '🏨 Heated Midnight Pool & Cedar Sauna • 11:40 PM',
-      vibeReadHer: 'Steam curls off the water—his shoulders relax, holding warm eye contact without rushing.',
-      vibeReadHim: 'Candlelight catches her smile through the pool mist—zero small-talk nerves, pure magnetism.',
+      vibeReadHer: 'Steam curls off the water, his shoulders relax, holding warm eye contact without rushing.',
+      vibeReadHim: 'Candlelight catches her smile through the pool mist, zero small-talk nerves, pure magnetism.',
     };
   }
   if (id.includes('campus') || id.includes('sushi') || id.includes('dutch-calculator')) {
     return {
       imageUrl: './images/scenes/campus-autumn-sushi.jpg',
       locationBadge: '🍣 Lantern Quad & Omakase Sushi Counter • 7:45 PM',
-      vibeReadHer: 'Warm sake steam & cedar counter glow—one playful raised eyebrow sets the entire pace.',
-      vibeReadHim: 'Sneakers on brick quadstones, sharp wit across the sushi bar—every cue is live.',
+      vibeReadHer: 'Warm sake steam & cedar counter glow, one playful raised eyebrow sets the entire pace.',
+      vibeReadHim: 'Sneakers on brick quadstones, sharp wit across the sushi bar, every cue is live.',
     };
   }
   if (id.includes('bowling')) {
     return {
       imageUrl: './images/scenes/neon-bowling-lounge.jpg',
       locationBadge: '🎳 Retro Neon Bowling & Jukebox Lounge • 9:30 PM',
-      vibeReadHer: 'Warm neon gleams off the hardwood lane—he’s hyping your spare like the NBA Finals.',
-      vibeReadHim: 'She laces up retro bowling shoes laughing—playful trash talk beats stiff steakhouses.',
+      vibeReadHer: 'Warm neon gleams off the hardwood lane, he’s hyping your spare like the NBA Finals.',
+      vibeReadHim: 'She laces up retro bowling shoes laughing, playful trash talk beats stiff steakhouses.',
     };
   }
   if (id.includes('picnic') || id.includes('dog-park') || ep.sceneArt === 'trader_joes_aisle') {
     return {
       imageUrl: './images/cast/dog-park-picnic.jpg',
       locationBadge: '🧺 Golden-Hour Meadow & Park Stroll • 5:15 PM',
-      vibeReadHer: 'Fresh linen blanket, real strawberries, zero pretentiousness—effort shows in every detail.',
+      vibeReadHer: 'Fresh linen blanket, real strawberries, zero pretentiousness, effort shows in every detail.',
       vibeReadHim: 'Golden sunlight hits her sunglasses as she leans back on the blanket grinning.',
     };
   }
@@ -103,8 +103,8 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/palm-springs-resort.jpg',
       locationBadge: '🌴 Boutique Cabana & Sunset Terrace • 6:50 PM',
-      vibeReadHer: 'Warm resort breeze & clinking glasses—everyone else fades into background static.',
-      vibeReadHim: 'Poolside twilight & effortless confidence—hold your frame and enjoy the moment.',
+      vibeReadHer: 'Warm resort breeze & clinking glasses, everyone else fades into background static.',
+      vibeReadHim: 'Poolside twilight & effortless confidence, hold your frame and enjoy the moment.',
     };
   }
   if (
@@ -116,8 +116,8 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/canyon-sunrise-trail.jpg',
       locationBadge: '🏔️ Sunrise Ridge & Sculpt Club • 6:15 AM',
-      vibeReadHer: 'Endorphins high, posture locked—actions speak louder than brag texts out here.',
-      vibeReadHim: 'Crisp morning air and steady cadence—match her pace without showing off.',
+      vibeReadHer: 'Endorphins high, posture locked, actions speak louder than brag texts out here.',
+      vibeReadHim: 'Crisp morning air and steady cadence, match her pace without showing off.',
     };
   }
   if (
@@ -131,8 +131,8 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/sunday-kitchen-sanctuary.jpg',
       locationBadge: '🍝 Candlelit Marble Kitchen Sanctuary • Sunday 7:30 PM',
-      vibeReadHer: 'Rosemary hitting cast iron, peonies on marble—domestic competence is pure catnip.',
-      vibeReadHim: 'Warm pendant lights and two poured glasses—leave her kitchen cleaner than you found it.',
+      vibeReadHer: 'Rosemary hitting cast iron, peonies on marble, domestic competence is pure catnip.',
+      vibeReadHim: 'Warm pendant lights and two poured glasses, leave her kitchen cleaner than you found it.',
     };
   }
   if (
@@ -150,31 +150,31 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
     return {
       imageUrl: './images/scenes/luxury-bedroom-sanctuary.jpg',
       locationBadge: '🕯️ Rain-Lit Private Sanctuary • 11:15 PM',
-      vibeReadHer: 'Rain on glass and amber lamplight—unguarded honesty matters ten times more than lines.',
-      vibeReadHim: 'Quiet sanctuary hours—listen deeply, keep ego at zero, and let closeness breathe.',
+      vibeReadHer: 'Rain on glass and amber lamplight, unguarded honesty matters ten times more than lines.',
+      vibeReadHim: 'Quiet sanctuary hours, listen deeply, keep ego at zero, and let closeness breathe.',
     };
   }
   if (ep.sceneArt === 'princess_bouquet' || id.includes('foreign')) {
     return {
       imageUrl: './images/scenes/coastal-convertible.jpg',
       locationBadge: '🌅 Coastal Sunset Overlook & Wine Lounge • 6:40 PM',
-      vibeReadHer: 'Peonies on the passenger seat and ocean breeze—let someone else drive for once.',
-      vibeReadHim: 'Passenger door opened, playlist dialed—lead with warmth and zero hesitation.',
+      vibeReadHer: 'Peonies on the passenger seat and ocean breeze, let someone else drive for once.',
+      vibeReadHim: 'Passenger door opened, playlist dialed, lead with warmth and zero hesitation.',
     };
   }
   if (ep.sceneArt === 'waiter_shock' || id.includes('gala') || id.includes('wedding')) {
     return {
       imageUrl: './images/scenes/wedding-gala-cheers.jpg',
       locationBadge: '🥂 Skyline Lounge & Velvet Rope • 9:10 PM',
-      vibeReadHer: 'Every head turns as you step inside—calm, amused pride makes a couple untouchable.',
-      vibeReadHim: 'Hand steady at her waist—turn every double-take into your favorite shared joke.',
+      vibeReadHer: 'Every head turns as you step inside, calm, amused pride makes a couple untouchable.',
+      vibeReadHim: 'Hand steady at her waist, turn every double-take into your favorite shared joke.',
     };
   }
   if (ep.sceneArt === 'code_switch_phone') {
     return {
       imageUrl: './images/scenes/neon-bowling-lounge.jpg',
       locationBadge: '📱 Late-Night Velvet Booth & Glow • 10:05 PM',
-      vibeReadHer: 'Phone face-down on the table—direct adult communication beats streak games every time.',
+      vibeReadHer: 'Phone face-down on the table, direct adult communication beats streak games every time.',
       vibeReadHim: 'Drop the slang, hold steady eye contact, and lock in real plans like a grown man.',
     };
   }
@@ -182,8 +182,8 @@ function getSceneVisualSpec(ep: Episode): SceneVisualSpec {
   return {
     imageUrl: './images/scenes/wine-bar-booth.jpg',
     locationBadge: '🍷 Candlelit Corner Booth • Friday 8:20 PM',
-    vibeReadHer: 'Candlelight flickers across two glasses—you can tell in 30 seconds if he owns his frame.',
-    vibeReadHim: 'Warm booth glow and lingering eye contact—lead with generosity and zero games.',
+    vibeReadHer: 'Candlelight flickers across two glasses, you can tell in 30 seconds if he owns his frame.',
+    vibeReadHim: 'Warm booth glow and lingering eye contact, lead with generosity and zero games.',
   };
 }
 

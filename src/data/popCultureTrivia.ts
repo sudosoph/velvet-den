@@ -16,7 +16,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     options: ['Miley Cyrus', 'Dua Lipa', 'Selena Gomez', 'Billie Eilish'],
     correctIndex: 0,
     funFact:
-      'Miley Cyrus (33) & Maxx Morando (27) tied the knot in an intimate Palm Springs ceremony—proving the sub-10-year Junior Cougar sweet spot is pure rockstar magic!',
+      'Miley Cyrus (33) & Maxx Morando (27) tied the knot in an intimate Palm Springs ceremony, proving the sub-10-year Junior Cougar sweet spot is pure rockstar magic!',
   },
   {
     id: 'jessica-alba-danny',
@@ -36,7 +36,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     options: ['Kate Moss', 'Keira Knightley', 'Sienna Miller', 'Rosamund Pike'],
     correctIndex: 2,
     funFact:
-      'Sienna Miller & Oli Green owned the Met Gala and London red carpets while welcoming two children together—shattering Hollywood’s double standard.',
+      'Sienna Miller & Oli Green owned the Met Gala and London red carpets while welcoming two children together, shattering Hollywood’s double standard.',
   },
   {
     id: 'ellie-goulding-beau',
@@ -46,7 +46,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     options: ['Adele', 'Charli XCX', 'Florence Welch', 'Ellie Goulding'],
     correctIndex: 3,
     funFact:
-      'Ellie Goulding & Beau Minniear welcomed their daughter in spring 2026—living proof that late-30s/40s women write their own family timelines.',
+      'Ellie Goulding & Beau Minniear welcomed their daughter in spring 2026, living proof that late-30s/40s women write their own family timelines.',
   },
   {
     id: 'cher-rich-man-icon',
@@ -61,7 +61,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     ],
     correctIndex: 1,
     funFact:
-      '"Mom, I AM a rich man" is practically engraved over the front door of Cougars & Cubs Club—financial independence means dating purely for chemistry & joy!',
+      '"Mom, I AM a rich man" is practically engraved over the front door of Cougars & Cubs Club, financial independence means dating purely for chemistry & joy!',
   },
   {
     id: 'heidi-klum-tom',
@@ -95,13 +95,13 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       'Whenever TikTok debates Sam & Aaron Taylor-Johnson’s 23-year gap, what is The Cougar Den’s official "Cub Grooming" rule?',
     options: [
       'Ask for his Snapchat streak score',
-      '25+ baked prefrontal cortexes ONLY—and "groom" his beard oil, SPF 50 & linen collars!',
+      '25+ baked prefrontal cortexes ONLY, and "groom" his beard oil, SPF 50 & linen collars!',
       'Buy him a leased BMW',
       'Let him keep his 5-in-1 neon-blue shower gel',
     ],
     correctIndex: 1,
     funFact:
-      'Zero creepy teen power gaps—only consenting grown Cubs getting upgraded from 5-in-1 body wash to sandalwood beard oil and Santal cologne!',
+      'Zero creepy teen power gaps, only consenting grown Cubs getting upgraded from 5-in-1 body wash to sandalwood beard oil and Santal cologne!',
   },
   {
     id: 'kristin-cavallari-montana-boyz',
@@ -111,7 +111,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     options: ['Lauren Conrad', 'Kristin Cavallari', 'Audrina Patridge', 'Whitney Port'],
     correctIndex: 1,
     funFact:
-      'Mark Estes accidentally DMed Kristin Cavallari "I love you" from the shared Montana Boyz TikTok account before sliding in from his personal profile—sparking an iconic Cabo & Nashville Cougar-Cub whirlwind!',
+      'Mark Estes accidentally DMed Kristin Cavallari "I love you" from the shared Montana Boyz TikTok account before sliding in from his personal profile, sparking an iconic Cabo & Nashville Cougar-Cub whirlwind!',
   },
   {
     id: 'cougar-town-big-carl',
@@ -131,7 +131,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     options: ['A Dirty Martini', 'A Tall Glass of Milk', 'An Espresso Shot', 'Dom Pérignon'],
     correctIndex: 1,
     funFact:
-      'Director Halina Reijn revealed a younger Belgian actor actually sent her a glass of milk in a bar—sparking thousands of TikTok parodies and Nicole Kidman’s iconic milk toast!',
+      'Director Halina Reijn revealed a younger Belgian actor actually sent her a glass of milk in a bar, sparking thousands of TikTok parodies and Nicole Kidman’s iconic milk toast!',
   },
   {
     id: 'idea-of-you-coachella',
@@ -151,7 +151,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     options: ['Park Ranger', 'Sous Chef', 'Firefighter', 'Art Dealer'],
     correctIndex: 0,
     funFact:
-      'Roxster rescues Bridget and her kids from a tree in Hampstead Heath—celebrating widowed & divorced women rediscovering playful romance with high-EQ younger men!',
+      'Roxster rescues Bridget and her kids from a tree in Hampstead Heath, celebrating widowed & divorced women rediscovering playful romance with high-EQ younger men!',
   },
   {
     id: 'black-cat-golden-retriever-trope',
@@ -160,7 +160,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       'In modern romance & Cougars & Cubs Club slang, what happens when a sunny "Golden Retriever" Cub meets a cool, unhurried "Black Cat" older woman who pushes back a little at first?',
     options: [
       'He sulks and asks why she is playing hard to get',
-      'He becomes 10x more smitten—respecting her slow-burn pace until he earns her real smile!',
+      'He becomes 10x more smitten, respecting her slow-burn pace until he earns her real smile!',
       'He sends 14 consecutive question marks at 2 AM',
       'He asks to split the edamame on Venmo',
     ],
@@ -174,14 +174,14 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     question:
       'In Cougars & Cubs Club lore, what separates playful "Wellness Mommy / Mommy-Domme" polarity from "Sugar Mama" freeloading or "Cubsplaining"?',
     options: [
-      'They mean the exact same thing—hand over the platinum AmEx',
-      'Mommy-Domme is consensual romantic command, Qigong calm & "good boy" praise between self-supporting adults—while Sugar-Mama mooching & Cubsplaining get instant blocks!',
+      'They mean the exact same thing, hand over the platinum AmEx',
+      'Mommy-Domme is consensual romantic command, Qigong calm & "good boy" praise between self-supporting adults, while Sugar-Mama mooching & Cubsplaining get instant blocks!',
       'Cubs are supposed to lecture her for 20 minutes on Huberman podcasts',
       'Only men over 45 are allowed into dawn Tai Chi',
     ],
     correctIndex: 1,
     funFact:
-      'A Qigong or Pilates Wellness Mommy-Domme loves melting an attentive Cub with serene command ("Drop your shoulders and breathe with Mommy")—zero ATM freeloading and zero Cubsplaining allowed!',
+      'A Qigong or Pilates Wellness Mommy-Domme loves melting an attentive Cub with serene command ("Drop your shoulders and breathe with Mommy"), zero ATM freeloading and zero Cubsplaining allowed!',
   },
   {
     id: 'health-nut-mommy-bernedoodle',
@@ -196,7 +196,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     ],
     correctIndex: 1,
     funFact:
-      'Taking the ingredient-check mental load off a gluten-free, seed-oil-free Wellness Mommy—and hyping up her incoming tricolor Mini Bernedoodle—earns instant #1 Co-Pilot status!',
+      'Taking the ingredient-check mental load off a gluten-free, seed-oil-free Wellness Mommy, and hyping up her incoming tricolor Mini Bernedoodle, earns instant #1 Co-Pilot status!',
   },
   {
     id: 'zeta-jones-the-rebound',
@@ -206,7 +206,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     options: ['Justin Bartha', 'Penn Badgley', 'Adam Brody', 'Zac Efron'],
     correctIndex: 0,
     funFact:
-      'Catherine Zeta-Jones (Sandy, 40) & Justin Bartha (Aram, 25) wrote the modern Golden-Retriever Cub playbook in "The Rebound"—from coffee-shop meet-cutes to owning the 15-year gap in Manhattan!',
+      'Catherine Zeta-Jones (Sandy, 40) & Justin Bartha (Aram, 25) wrote the modern Golden-Retriever Cub playbook in "The Rebound", from coffee-shop meet-cutes to owning the 15-year gap in Manhattan!',
   },
   {
     id: 'natalie-portman-good-sex',
@@ -221,6 +221,6 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     ],
     correctIndex: 0,
     funFact:
-      'Netflix snapped up Lena Dunham & Natalie Portman’s "Good Sex" in a massive $55M deal—proving the older-woman / younger-man cinema wave is only getting hotter!',
+      'Netflix snapped up Lena Dunham & Natalie Portman’s "Good Sex" in a massive $55M deal, proving the older-woman / younger-man cinema wave is only getting hotter!',
   },
 ];

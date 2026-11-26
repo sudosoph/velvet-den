@@ -470,8 +470,21 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
       screen.getByRole('dialog', { name: /Survive Their Inbox/i }),
     ).toBeInTheDocument();
 
-    // Most women wait for the Cub to make the first move (zero bio-reciting pre-sent paragraph)
+    // App defaults to playing as Woman ('her'), so her inbox ONLY shows Cubs (Leo initiates first) and ZERO women mixed in!
+    expect(
+      screen.getAllByText(/Be honest: if I cook Friday/i).length,
+    ).toBeGreaterThanOrEqual(1);
+    expect(screen.queryByText(/Claire, 45/i)).not.toBeInTheDocument();
+
+    // Rich interests beyond drinks + Ideal Sunday & Secret Soft Spot render on profile dossier
+    expect(screen.getAllByText(/Handmade Pasta/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(/Ideal Sunday:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Secret Soft Spot:/i)).toBeInTheDocument();
+
+    // Switching top-level player identity to Younger Man switches entire inbox to Women (zero Cubs mixed in!)
+    fireEvent.click(screen.getByRole('button', { name: /🥂 Younger Man/i }));
     expect(screen.getByText(/You matched with Claire, 45/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Leo, 25/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/swiped right on a/i)).not.toBeInTheDocument();
 
     const input = screen.getByPlaceholderText(/Message Claire on Tinder/i);
@@ -483,12 +496,6 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     fireEvent.click(screen.getAllByRole('button', { name: /^Send$/i })[0]);
 
     expect(await screen.findByText(/VIBE CHECK PASSED/i)).toBeInTheDocument();
-
-    // When switching to Cubs (for women), Cubs initiate first with a crisp 1-liner!
-    fireEvent.click(screen.getByRole('button', { name: /^Cubs \(18\)$/i }));
-    expect(
-      screen.getAllByText(/Be honest: if I cook Friday/i).length,
-    ).toBeGreaterThanOrEqual(1);
   });
 
   it('handles Cloudflare Worker /api/health, /api/stats (KV), and /api/inbox-vet (Workers AI + fallback) cleanly', async () => {
@@ -738,7 +745,7 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     }
     expect(screen.getByText(/Full Tai Chi Cloud-Hands harmony unlocked/i)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /Yes, Mommy—podcast brain officially muted/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Yes, Mommy[,—]?\s*podcast brain officially muted/i }));
     expect(screen.getByText(/MOMMY-DOMME QIGONG SYNC!/i)).toBeInTheDocument();
   });
 
@@ -806,6 +813,7 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     window.history.replaceState({}, '', '/');
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: /Live AI Texting Mode/i }));
+    fireEvent.click(screen.getByRole('button', { name: /🥂 Younger Man/i }));
 
     // Defaults to full-web Tinder layout; switch across iMessage and Discord #boys-roblox-vc, then exit cleanly back to Lobby
     expect(screen.getByPlaceholderText(/Message Claire on Tinder/i)).toBeInTheDocument();
@@ -947,7 +955,7 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     // Jump into Crown Him or Dump Him Live Courtroom, vote on Today's Daily Drop & pitch a story
     fireEvent.click(screen.getByRole('button', { name: /Crown Him \/ Dump Him Court/i }));
     expect(
-      screen.getByText(/Crown Him or 🚩 Dump Him — Live Club Courtroom/i),
+      screen.getByText(/Crown Him or 🚩 Dump Him [•—] Live Club Courtroom/i),
     ).toBeInTheDocument();
 
     fireEvent.click(
