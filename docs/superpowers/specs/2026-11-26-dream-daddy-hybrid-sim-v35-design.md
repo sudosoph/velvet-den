@@ -101,11 +101,14 @@ When you cut a Hinge dud loose (*"Back to the Drawing Board—let's go out in th
 
 *(Builder Call: Each lead has one canonical primary intro—either Hinge OR their primary Wild Hotspot; visiting a secondary hotspot where an already-matched lead hangs out plays a bonus `3-beat Chemistry Cameo` (`+15% Chemistry`) without duplicating Chapter 1!)*
 
-### 4.4 Capped 6-Beat Tinder & Off-App iMessage Vetting + `🚩 Cut Loose` Mechanic
-- **Two-Stage Messaging (`Tinder App Chat` -> `Earned Off-App iMessage`)**:
-  - **Chat 1 (6 Beats on Tinder — or Direct Off-App iMessage if met In The Wild!)**: Tests initial intent, conversational effort, and subtle tells.
-  - **Chat 2 (6 Beats on iMessage — Post-Date #1)**: Tests evening availability (*"why does he vanish every night at 6:45 PM?"*), follow-through, and pacing.
-  - **Beat Options (Free-Typing Live AI + Curated Choices)**: On every beat, players can **either** tap a curated choice (`2` Free choices + `1` **💎 VIP Power Move (`1 Cr`)**) **or type anything freely in the live chat bar (`0 Cr` via role-aware `/api/inbox-vet`)** + persistent **`🚩 Cut Loose (Back to Drawing Board)`** button. Every free-typed turn or choice advances the 6-beat Spark Meter toward unlocking the Date (`🍸 Go on Date #1 →` button appears at Beat 6 without forcibly cutting off banter if they want to send another line first!).
+### 4.4 Multi-Match Roster Sync + Single Evolving Thread (`App DM` -> `Earned iMessage`) + `🚩 Cut Loose`
+- **Multi-Match Roster (Fixes `v34` Single-Match Bug)**: Every single person you match with on **📱 Hinge** or meet **🗺️ In The Wild** persists in a unified `activeThreads` store—matching with 3 or 5 people displays **all 3 or 5 threads** in `💬 Chats & Dates` with live unread badges and independent progress.
+- **No Dual Tinder/iMessage Tabs Before Graduation**: There are **zero separate Tinder vs. iMessage tabs** showing prematurely. Each match has **one evolving thread**:
+  - **Hinge Matches start exclusively in `App DM` UI** (showing the exact photo/prompt you liked). **iMessage does not appear** until Beat 6 when they earn off-app graduation (`📱 Give Him My Number` for `her` / `Earn Her Number` for `him`)—at which point that thread upgrades into **blue-bubble iMessage UI**! (*Wild Exclusives* start directly in iMessage since you swapped numbers in person.)
+- **Interconnected *Dream Daddy* Storyline & `S / A / B / C` Date Ranks**:
+  - Anchored by your **Chapter-Two fresh start in Velvet Palms** alongside your ride-or-die neighbor/bestie (**Jade** for `her`, **Sam** for `him`), where cast members naturally cross paths across the city (*Miles* renovated *The Velvet Room* patio where *Claire* drinks martinis; *Julian* TAs down the hall from *Prof. Elena*; *Søren* plays doubles two courts from *Brooke*).
+  - Every Date (`Date 1` -> `Date 2` -> `Date 3`) culminates in an **animated *Dream Daddy* Date Grade Screen (`S-RANK`, `A-RANK`, `B-RANK`, or `🚩 DISASTER`)**, Dateodex Polaroid unlock, and optional `2 Cr` **🔓 Secret Bestie Text POV Leak**.
+- **Beat Options (Free-Typing Live AI + Curated Choices)**: On every beat, players can **either** tap a curated choice (`2` Free choices + `1` **💎 VIP Power Move (`1 Cr`)**) **or type anything freely in the live chat bar (`0 Cr` via role-aware `/api/inbox-vet`)** + persistent **`🚩 Cut Loose (Back to Drawing Board)`** button. Every free-typed turn or choice advances the 6-beat Spark Meter toward unlocking the Date (`🍸 Go on Date #1 →` button appears at Beat 6 without forcibly cutting off banter if they want to send another line first!).
   - **Beat 4 Blurred Photo Drop (`2 Cr` / Free w/ VIP)**: Unblurs a character-specific candid scene into your permanent **Dateodex**.
   - **Payoff**: Surviving all 6 beats without getting unmatched—and without falling for a disguised trap—unlocks the next **Visual-Novel Date (`Date 1` -> `Date 2` -> `Date 3`)**.
 
