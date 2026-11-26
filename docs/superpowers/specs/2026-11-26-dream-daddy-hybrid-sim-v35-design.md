@@ -58,10 +58,11 @@ The North Star of the game is **winning a real, lasting Chapter-Two relationship
 
 ### 4.1 Campaign HUD & "Friday Night Hearts" (`TopHudBar.tsx`)
 - **Left**: `🐆 Cougars & Cubs` + Discernment Rank (`Lv.1 Sharp Eye`) + **3 Friday Hearts (`❤️❤️❤️`)** (protecting your peace—walking into a Date Disaster with a red-flag trap costs `1 Heart`; cutting a trap loose in Text/iMessage *saves* your Heart and grants `+25 Discernment XP`!).
-- **Center (3 Clean Primary Views)**:
+- **Center (4 Clean Primary Play Modes)**:
   - `📱 Hinge` (App Feed)
   - `🗺️ In The Wild` (10 Illustrated City Hotspots)
   - `💬 Chats & Dates` (Active Tinder / Earned iMessage threads + Bestie SMS)
+  - `🎓 Cub School` (**Cub Obedience School** — 12 Interactive Drills built from real `r/CougarsAndCubs` complaints!)
 - **Right (Always-Visible Monetization + Club Menu)**:
   - **`☕ Tip $5`** (rose-gold pill wired directly to live `tipJarUrl`, visible on mobile & desktop)
   - **`🛍️ Shop`** (32-item External Affiliate Boutique + `$29` Custom Cameo)
@@ -106,6 +107,22 @@ When you cut a Hinge dud loose (*"Back to the Drawing Board—let's go out in th
   - **Date 2 (`Real-Life Collision & Cub Training`)**: Meeting same-age parents, skeptical friends, or adult kids—plus an **animated dialogue-and-clicker *Cub Etiquette Sparring* scene** (replacing geometric stick figures!).
   - **Date 3 (`Vulnerability & True Relationship Verdict`)**: Navigating LAT vs. marriage, family timelines, and public hand-holding -> **S-Rank True Partnership**, **Bittersweet Fling**, or **Trap Explosion** (for players who ignored Text/iMessage red flags, with a `VIP / 2 Cr "Turn the Tables"` secret revenge climax on Wildcard Traps!).
 
+### 4.6 🎓 Cub Obedience School (`CubSchoolView.tsx`) — 12 Real `r/CougarsAndCubs` Complaint Drills
+Built directly from the **actual recurring complaints older women post on `r/CougarsAndCubs` and `r/Cougars_Den`**—and strictly quarantined to *Cub Obedience School* so none of these 12 gags ever repeat on Hinge cards, Chat traps, or Courtroom cases:
+1. **The Bathroom Lid & Hand-Towel Inspection**: Inviting a grown woman over when your bathroom has zero lidded trash can, zero hand towel, and a single 3-in-1 bottle on the tub floor.
+2. **The One-Flat-Pillow & Bare Mattress Crime**: Expecting a woman with linen bedding at home to sleep on one pancake college pillow and an escaping fitted sheet.
+3. **`"U Have Snap? WYLL?"` at 11:48 PM**: Asking a 44-year-old executive for disappearing-photo Snapchat or texting `"wyd"` with zero conversational effort.
+4. **`"Idk, What Do U Wanna Do?"` (Zero Date Planning)**: Making a woman who runs a team all week *also* pick the neighborhood, check OpenTable, and plan Friday night.
+5. **The Porn-Brain Sprint (*"Cubs With Zero Sex Ed"*)**: Skipping foreplay to attempt something he saw on mute at 2x speed instead of asking what she actually enjoys.
+6. **The `"Teach Me Everything"` Unpaid Professor Pitch**: Acting like a helpless student expecting free sex-therapy or mothering instead of bringing confident, curious peer energy.
+7. **Treating Youth Like a Charitable Donation**: Assuming abs and a 2000s birth year make her *"lucky to pull you"* when youth is not a personality trait.
+8. **The Online Sugar-Mama / PS5 Delusion**: Dropping rent sighs because TikTok convinced him 40-something women exist to subsidize his lifestyle.
+9. **The 3-Hour Board-Meeting Double-Text Pout**: Sending `"guess ur too busy for me 😔"` at 2:15 PM Tuesday because she has an actual career and family calendar.
+10. **The Sidewalk Hand-Drop**: Being affectionate in the Uber, then suddenly walking three feet ahead when guys his age pass on the sidewalk.
+11. **The STI-Panel Ego Tantrum**: Getting offended (*"do I look dirty to you?!"*) when a grown woman calmly asks to swap recent STI results before sleeping together.
+12. **Opening With Search-Bar Labels (`"Hey Cougar / Hey MILF"`)**: Treating her like a fetish category instead of opening on her actual wit, photos, or interests.
+- **Playable Both Ways + Viral Diploma**: Play as **🐆 Headmistress** (grading & correcting rookie mistakes with animated reactions) or **🎓 Cub Candidate** (passing the 12-scenario exam to earn a shareable **Certified Housebroken Cub Diploma** link to send a match!).
+
 ---
 
 ## 5. Complete 16-Character Cast (`8` When Playing as Her, `8` When Playing as Him)
@@ -119,7 +136,7 @@ When you cut a Hinge dud loose (*"Back to the Drawing Board—let's go out in th
 - **Disguised Red-Flag Traps (Goal: Spot the Tell in Chat/iMessage & Cut Loose!)**:
   6. **Connor (`"27M"` -> Actually `21M`, Hinge Trap)** (`./images/cast/connor-bait.jpg`): Beat 2 confession *"full disclosure I'm 21 Hinge locked my age lol, let me come cook at your place tonight"*.
   7. **Graham (`29M`, Hinge & 🍸 Velvet Room Trap)** (`./images/cast/chadwick-24m.jpg`): *Joseph Twist*—impeccable daytime texts, **never free after 7 PM or Sundays**, pale wedding-ring tan line.
-  8. **Devon (`24M`, Hinge Trap — The 48-Hour Love-Bomber Flake)** (`./images/cast/brandon-24m.jpg`): Writes three-paragraph soulmate poems Tuesday, calls you `"my dream MILF"`, then ghosts Friday at 4:15 PM unless cut loose first!
+  8. **Devon (`24M`, Hinge Trap — The Tuesday Poet / Friday 4:15 PM Cold-Feet Flake)** (`./images/cast/brandon-24m.jpg`): Gets swept up in the online fantasy writing three-paragraph Tuesday texts, then panics when it's time to meet a real confident woman IRL and drops weak excuses Friday afternoon unless cut loose first!
 
 ### 5.2 Playing as Him (`5` True Leads + `3` Disguised Red-Flag Traps = `8` Total)
 - **True Leads (Goal: Win Real S-Rank Relationship)**:
@@ -134,9 +151,22 @@ When you cut a Hinge dud loose (*"Back to the Drawing Board—let's go out in th
 
 ---
 
-## 6. Strict Non-Overlapping Content Vault & 55+ Question Due-Diligence Pop-Culture Canon
+## 6. The 7-Bucket Strict Humor Partition Matrix & 55+ Question Pop-Culture Canon
 
-- **Zero Repeated Jokes ("One-Joke, One-Home" Law)**: Enforced by unit test scanning across `hingeProfiles`, `wildVenues`, `chatChapters`, `dateScripts`, `courtroomCases`, `checklistItems`, and `popCultureTrivia`. Zero `pine pollen`, `qigong`, `tai chi`, `seed oil`, or `bernedoodle` filler anywhere in the repo.
+### 6.0 Zero Cross-Surface Joke Bleeding (Enforced by Automated Test Suite)
+To guarantee players are **continually surprised and never see the same joke bank recycled across frames, profiles, red flags, or mini-games**, every surface draws from its own **mutually exclusive humor & lore bucket** (`tests/v35-content-uniqueness.test.ts` fails CI if banned tropes or cross-bucket signature phrases overlap):
+
+| Bucket | Surface | Exclusive Humor / Lore Domain (Never Used Outside This Bucket) |
+|---|---|---|
+| **1** | **🎓 Cub Obedience School (`12` Drills)** | Everyday cub etiquette complaints from `r/CougarsAndCubs`: *bathroom trash-can lid & hand towel, one flat pillow, asking for Snapchat/`wyd`, zero date planning, porn-brain vs. foreplay, "teach me" unpaid therapist, youth-as-charity ego, sugar-mama myth, board-meeting double-text pout, sidewalk hand-drop, STI-panel ego bruise, "Hey Cougar/MILF" label openers*. |
+| **2** | **💬 Chat & iMessage `🚩 Cut Loose` Traps (`5` Arcs)** | Investigative relationship deceptions uncovered across 6 chat beats: *lying about age to bypass filters (`27` -> `21`), vanishing at 7 PM (`secretly married`), 48-hr Tuesday poet -> Friday 4 PM cold-feet flake, `"practically divorced"` shared-house mirage, ex-husband restaurant-booth pawn*. |
+| **3** | **📱 Hinge Profiles (`16` Cast Voices)** | Distinct character prompts, careers, & regional voice (*Hampstead `"half seven"` post-grad, tasting-spoon sous-chef, Trauma RN shift banter, M&A Living-Apart-Together boundary, walnut joinery*). |
+| **4** | **🗺️ 10 *In The Wild* Venues (`10` IRL Scenes)** | Situational real-world sparks & memes: *hotel conference martini bar, Campus Post-Grades Rule, Airport Luggage & Car-Coordinating Zaddy, Salsa partner rotation, Racquet mixed-doubles sub, Hospital 6:45 AM coffee bay, Left Bank Books reach, Lap Pool Earbuds Rule + NJ wildlife-officer gag, Cougarmarket lookalike aisle tap, Friend's-Aunt Backyard BBQ*. |
+| **5** | **👑 Crown or Dump (`30` Jury Cases)** | Long-term Chapter-Two gray areas: *Living Apart Together vs. cohabiting, adult kids' graduation seating, fertility/vasectomy candor, prenup framing, retirement-timeline travel, holiday split*. |
+| **6** | **✅ 25-Pt Experience Test (`25` Milestones)** | Shared generational rite-of-passage moments: *waiter saying `"and for your son?"`, explaining VHS/dial-up, getting carded asymmetrically, 1990s nostalgia gaps*. |
+| **7** | **🎬 55-Q Trailer & Pop Quiz (`80+` Refs)** | Verified movies, TV, books, songs, and 28 real celebrity woman-older couples (`0` fictional game characters or subreddit pet peeves mixed in). |
+
+- **Purged Forever**: `pine pollen`, `qigong`, `tai chi`, `seed oil`, and `bernedoodle` are 100% banned across the entire codebase.
 - **Every Embeddable YouTube ID Pre-Verified via `youtube.com/oembed` (`HTTP 200`)**: Served via privacy-enhanced `https://www.youtube-nocookie.com/embed/<id>` alongside verified open-licensed Wikimedia Commons portraits (`CC-BY` / `CC-BY-SA` / `PD`) with visible attribution captions.
 
 ### 6.1 Films (25 Canon Entries — 19 Official Trailer Embeds Verified)
