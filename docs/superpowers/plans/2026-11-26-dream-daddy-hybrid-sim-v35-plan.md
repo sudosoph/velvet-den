@@ -12,7 +12,8 @@
 
 ## Global Constraints
 
-- **Zero Banned Filler or Recycled `v34` Gags:** `pine pollen`, `qigong`, `tai chi`, `seed oil`, `bernedoodle`, plus overused `v34` crossover gags (`maui`, `timeshare`, `sheryl crow`, `james webb`, `tito`, `roblox`) must not appear anywhere in `src/`, `worker/`, or `public/guides/`.
+- **Zero Banned Filler, Recycled `v34` Gags, or Stage-Direction Pills:** `pine pollen`, `qigong`, `tai chi`, `seed oil`, `bernedoodle`, `maui`, `timeshare`, `sheryl crow`, `james webb`, `tito`, `roblox`, `venmo`, `oatmeal cashmere`, and `photo 1 of` must not appear anywhere in `src/`, `worker/`, or `public/guides/`.
+- **Real First-Person Hinge Profiles & Asymmetric Number Polarity:** Hinge profiles render clean interleaved photos, Vitals, and first-person prompts (`"My simple pleasures"`, `"Together, we could"`, `"A friend's review of me"`) with **zero** `"Photo X of 6"` counters, **zero** third-person photo descriptions, and **zero** top/tab pills (`Cortado`, `Kitchen`, `Booth`). When `playerRole === 'her'`, **he** tries to keep her interested to earn **her** number (`📱 Give Him My Number` vs. `🚩 Cut Him Loose`); when `playerRole === 'him'`, **he** earns **her** number.
 - **7-Bucket Strict Humor Partition (100% Original Rewrites):** `SEED_COURTROOM_STORIES` in `ClubCourtroomView.tsx` (15 brand-new cases), `COUGAR_CUB_CHECKLIST_ITEMS` in `CougarCubChecklistModal.tsx` (25 brand-new generational moments), and `AFFILIATE_CATALOG` pitches in `src/lib/affiliates.ts` are rewritten from scratch so zero jokes overlap across Cub School, Chat Traps, Hinge, Wild Venues, Crown/Dump, Have You Ever, or Trivia.
 - **10/10 "Variety of Hot" Cast Floor:** Every cast image referenced in `src/data/v35Cast.ts` must exist in `public/images/cast/`, exceed `45 KB` (no `16–38 KB` blurry Unsplash stock nerds/uglies), include at least 4 distinct blonde leads (`soren-26m`, `rory-24m`, `miles-zaddy-31m`, `chadwick-24m`, `elena-prof-44f`, `summer-blonde-33f`), and eliminate brown-haired lookalike clones.
 - **Editorial Luxury UI (No Amateur Clutter):** Retire `PairingMixerView.tsx`, `PixiCubAcademyStage.tsx`, `EightBitAdventureWorld.tsx`, `EpisodeStage.tsx`, `SceneChatInterface.tsx`, and `src/data/episodes.ts`. No front-page multi-banner clutter or Neo-Brutalist comic border soup.
@@ -208,8 +209,8 @@ git commit -m "feat(v35-economy): enforce one-time 3 starter credits, patron tip
 - [ ] **Step 1: Write the failing 7-bucket uniqueness, banned-trope purge, and 55-Q trailer quiz test in `tests/v35-content-uniqueness.test.ts`**
 
 Assert:
-1. Zero occurrences of `/pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle|timeshare|sheryl\s*crow|james\s*webb|roblox|1\.75l\s+bottle\s+of\s+tito/i` across `src/` and `worker/`.
-2. `V35_CAST_PROFILES` has `>= 20` profiles (`10` `main_lead` with 3+ Date scripts each, `5` `trap`, `>= 5` `cameo`), each with 6 unique slide URLs or captions and 3 Hinge prompts.
+1. Zero occurrences of `/pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle|timeshare|sheryl\s*crow|james\s*webb|roblox|1\.75l\s+bottle\s+of\s+tito|venmo|oatmeal\s+cashmere|photo\s+\d+\s+of\s+\d+/i` across `src/` and `worker/`.
+2. `V35_CAST_PROFILES` has `>= 20` profiles (`10` `main_lead` with 3+ Date scripts each, `5` `trap`, `>= 5` `cameo`), each with 6 clean photo URLs (optional natural Hinge photo prompt only, zero third-person narrator descriptions, zero room/outfit tab pills) and 3 casual first-person Hinge prompts.
 3. `V35_WILD_VENUES` has exact length `10` including Terminal B Zaddy luggage coordination & Hawthorne University Post-Grades Rule.
 4. `V35_CUB_SCHOOL_DRILLS` has exact length `12` covering the 12 real `r/CougarsAndCubs` complaints, and none of its 12 topics (`"trash can"`, `"flat pillow"`, `"whats ur snap"`, `"u have snap"`, `"charitable donation"`, `"sti panel"`) appear in `SEED_COURTROOM_STORIES`, `COUGAR_CUB_CHECKLIST_ITEMS`, `v35Cast.ts`, or `v35ChatsAndDates.ts`.
 5. `SEED_COURTROOM_STORIES` (`15` brand-new cases) and `COUGAR_CUB_CHECKLIST_ITEMS` (`25` brand-new generational items) share zero 5-word n-grams with each other or with any other `v35` module.
@@ -253,7 +254,7 @@ git commit -m "feat(v35-content): add 7-bucket partitioned cast, 10 wild venues,
 - [ ] **Step 1: Write the failing UI tests in `tests/v35-hinge-and-wild.test.tsx`**
 
 Test:
-1. `HingeFeedView` renders editorial Hinge profile card with Vitals strip (`Age`, `Height`, `Job`, `Looking For`), 6 scrollable slides, and 3 prompts; clicking a `❤️` button on a prompt opens the 3-opener sheet (`2` Free + `1 Cr` Smooth Opener) and firing a free opener calls `onSendHingeOpener` cleanly; clicking Pass advances with spring transition through the diverse cast (including blonde leads Søren and Rory).
+1. `HingeFeedView` renders an authentic vertical Hinge card (`Name` header, interleaved full-bleed `3:4` photos, Vitals strip with `Age`, `Height`, `Job`, `School`, `Looking For`, and 3 first-person prompts) with **zero** `"Photo 1 of 6"` text and **zero** wardrobe/room tab pills (`Cortado`, `Kitchen`, `Booth`, `Oatmeal Cashmere`); clicking a `❤️` button on any photo or prompt opens the 3-opener sheet (`2` Free + `1 Cr` Smooth Opener) and advances cleanly across the diverse cast (including blonde leads Søren and Rory).
 2. `InTheWildMapView` renders all 10 illustrated hotspots (`The Velvet Room`, `Hawthorne University`, `Terminal B Arrivals`, etc.); selecting `Terminal B Arrivals` as `her` plays Miles's luggage-taking & car/dinner-coordinating scene and calls `onUnlockWildLead('miles', 'terminal-b-airport', ...)`; visiting a hotspot whose lead is already in `activeLeadThreads` plays the `3-beat Chemistry Cameo` (`onCompleteCameo`) instead of duplicating Chapter 1.
 
 - [ ] **Step 2: Run test to verify it fails**
@@ -299,7 +300,7 @@ Test:
 2. Hitting `🚩 Cut Loose` on Genuine Lead `julian` opens the Bestie self-sabotage reality-check confirmation instead of awarding a false trap bonus.
 3. Completing all 6 beats on Genuine Lead `soren` unlocks **Date 1** on `DreamDaddyDateStage`, updates portrait expression state across beats, enforces *The Robert Night-1 Pacing Test*, and unlocks the `2 Cr` **Secret Bestie Text POV** modal.
 4. Ignoring Trap tells through Beat 6 into Date 1 triggers a **Date Disaster** (`fridayHearts` drops from `3` to `2`, offering `2 Cr` Time-Turner Rewind).
-5. `CubSchoolView` defaults to `🐆 Headmistress` framing when `role === 'her'` (and `🎓 Cub Candidate` when `role === 'him'`), steps through the 12 real-subreddit complaint drills, renders contextual Amazon *"Send Him the Fix"* partner link (`target="_blank"`), and produces the shareable Diploma; and `ChatsAndDatesView` when `role === 'her'` **never** renders `"Enroll in Cub Obedience School"` (only `him` sees Cub School brush-up on a fumble, while `her` sees `🚩 Cut Him Loose` / `🎓 Send Him a Cub School Link`).
+5. `CubSchoolView` defaults to `🐆 Headmistress` framing when `role === 'her'` (and `🎓 Cub Candidate` when `role === 'him'`), steps through the 12 real-subreddit complaint drills, renders contextual Amazon *"Send Him the Fix"* partner link (`target="_blank"`), and produces the shareable Diploma; and `ChatsAndDatesView` when `role === 'her'` **never** asks her to *"earn his number"* or *"Enroll in Cub Obedience School"*—instead *he* works to keep her interested and she chooses **`📱 Give Him My Number`** vs. **`🚩 Cut Him Loose`**.
 
 - [ ] **Step 2: Run test to verify it fails**
 
