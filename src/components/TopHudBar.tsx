@@ -2,18 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Award,
   BookOpen,
+  Camera,
   ChevronDown,
-  Coffee,
   Crown,
-  Flame,
-  Gamepad2,
+  Heart,
   Info,
   Menu,
-  MessageCircle,
   Music,
   Newspaper,
+  Send,
   ShoppingBag,
   Sparkles,
+  User,
   Volume2,
   VolumeX,
   Wrench,
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { MONETIZATION_CONFIG } from '../config/monetization';
+import { POP_CULTURE_TRIVIA } from '../data/popCultureTrivia';
 import type { WalletState } from '../domain/economy';
 import { trackEvent } from '../lib/analytics';
 import {
@@ -29,28 +30,30 @@ import {
   toggleLoungeMusic,
   toggleSoundMute,
 } from '../lib/sound';
+import type { BoutiqueSectionTab } from './BoutiqueAndVipModal';
 
 export type ClubTopTab =
-  | 'game'
-  | 'world'
+  | 'hinge'
+  | 'wild'
+  | 'chats'
+  | 'school'
   | 'journal'
-  | 'inbox'
-  | 'academy'
   | 'courtroom'
   | 'about';
 
 interface TopHudBarProps {
   wallet: WalletState;
   activeTab: ClubTopTab;
-  activePhase?: 'mixer' | 'swipes' | 'episodes' | 'outcome' | 'audition';
-  levelBadge?: string;
+  activeChatCount: number;
   onSelectTab: (tab: ClubTopTab) => void;
-  onOpenSwipeDeck?: () => void;
+  onOpenPersonaModal: () => void;
   onOpenFieldGuide: () => void;
-  onOpenBoutique: (initialTab?: 'shop' | 'vip' | 'waitlist') => void;
-  onOpenLiveInbox: () => void;
-  onOpenPopTrivia?: () => void;
-  onOpenChecklist?: () => void;
+  onOpenDateodex: () => void;
+  onOpenBoutique: (initialTab?: BoutiqueSectionTab) => void;
+  onOpenPopTrivia: () => void;
+  onOpenChecklist: () => void;
+  onSendPartnerAudition: () => void;
+  onResetHearts?: () => void;
   onRequestFounderModal?: () => void;
   onGoHome: () => void;
 }
@@ -58,36 +61,37 @@ interface TopHudBarProps {
 export const TopHudBar: React.FC<TopHudBarProps> = ({
   wallet,
   activeTab,
-  activePhase = 'mixer',
-  levelBadge,
+  activeChatCount,
   onSelectTab,
-  onOpenSwipeDeck,
+  onOpenPersonaModal,
   onOpenFieldGuide,
+  onOpenDateodex,
   onOpenBoutique,
-  onOpenLiveInbox,
   onOpenPopTrivia,
   onOpenChecklist,
+  onSendPartnerAudition,
+  onResetHearts,
   onRequestFounderModal,
   onGoHome,
 }) => {
   const [muted, setMuted] = useState(() => isSoundMuted());
   const [bgmOn, setBgmOn] = useState(() => isLoungeMusicPlaying());
-  const [loreOpen, setLoreOpen] = useState(false);
+  const [extrasOpen, setExtrasOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const loreRef = useRef<HTMLDivElement | null>(null);
+  const extrasRef = useRef<HTMLDivElement | null>(null);
   const tapCountRef = useRef(0);
   const resetTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!loreOpen) return;
+    if (!extrasOpen) return;
     const onDocClick = (e: MouseEvent) => {
-      if (loreRef.current && !loreRef.current.contains(e.target as Node)) {
-        setLoreOpen(false);
+      if (extrasRef.current && !extrasRef.current.contains(e.target as Node)) {
+        setExtrasOpen(false);
       }
     };
     document.addEventListener('mousedown', onDocClick);
     return () => document.removeEventListener('mousedown', onDocClick);
-  }, [loreOpen]);
+  }, [extrasOpen]);
 
   const handleLogoClick = () => {
     tapCountRef.current += 1;
@@ -106,246 +110,280 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
   };
 
   const liveTipUrl = MONETIZATION_CONFIG.tipJarUrl || MONETIZATION_CONFIG.kofiUrl;
+  const heartsDisplay =
+    wallet.fridayHearts > 0
+      ? '❤️'.repeat(wallet.fridayHearts) + '🤍'.repeat(Math.max(0, 3 - wallet.fridayHearts))
+      : '🤍🤍🤍';
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#18101E]/12 bg-white/95 backdrop-blur-md">
-      {/* Balanced 3-Zone Header: Left Brand • Center Play & Lore Nav • Right Shop/Tip/Credits/Audio */}
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
-        {/* ZONE 1: Brand Identity + Level Pill */}
+    <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-[#FFFDF9]/95 backdrop-blur-md">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2.5 px-3 py-2.5 sm:px-6">
+        {/* ZONE 1: Brand + Friday Hearts + Quick Persona Pill */}
         <div className="flex shrink-0 items-center gap-2">
           <button
             type="button"
             onClick={handleLogoClick}
             className="group flex shrink-0 items-center gap-2 text-left cursor-pointer"
           >
-            <span className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#FD267A] to-[#FF6036] text-base text-white group-hover:scale-105 transition">
+            <span className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#18101E] to-rose-700 text-base text-white group-hover:scale-105 transition">
               🐆
             </span>
-            <span className="font-display text-base sm:text-[17px] whitespace-nowrap text-[#18101E] group-hover:text-[#E11D48] transition-colors">
+            <span className="font-editorial text-base sm:text-lg font-bold whitespace-nowrap text-[#18101E] group-hover:text-rose-700 transition-colors">
               {BRAND_CONFIG.name}
             </span>
           </button>
 
-          {levelBadge && (
-            <span className="hidden sm:inline-flex h-6 items-center rounded-full bg-[#FEF3C7] border border-[#F59E0B]/40 px-2 text-[11px] font-extrabold text-[#92400E] whitespace-nowrap">
-              {levelBadge}
-            </span>
-          )}
-        </div>
-
-        {/* ZONE 2: Balanced Center Navigation (Desktop) */}
-        <nav
-          aria-label="Primary Club Navigation"
-          className="hidden lg:flex items-center justify-center gap-1.5"
-        >
-          <button
-            type="button"
-            onClick={() => {
-              if (activeTab === 'game' && activePhase === 'mixer' && onOpenSwipeDeck) {
-                onOpenSwipeDeck();
-              } else {
-                onGoHome();
-              }
-            }}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full border px-3 text-xs font-extrabold transition cursor-pointer ${
-              activeTab === 'game' && (activePhase === 'mixer' || activePhase === 'swipes')
-                ? 'border-transparent bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white shadow-2xs'
-                : 'border-[#FECDD3] bg-[#FFF1F2] text-[#E11D48] hover:bg-[#FFE4E6]'
-            }`}
+          <div
+            data-testid="hud-friday-hearts"
+            className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2.5 py-1 text-[11px] font-bold text-stone-700"
+            title="Friday Date Energy (3 Hearts)"
           >
-            <Flame className="h-3.5 w-3.5 shrink-0 fill-current" />
-            <span>Swipe</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => (activeTab === 'inbox' ? onSelectTab('game') : onOpenLiveInbox())}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full border px-3 text-xs font-extrabold transition cursor-pointer ${
-              activeTab === 'inbox'
-                ? 'border-transparent bg-[#007AFF] text-white'
-                : 'border-[#BFDBFE] bg-[#EFF6FF] text-[#1D4ED8] hover:bg-[#DBEAFE]'
-            }`}
-          >
-            <MessageCircle className="h-3.5 w-3.5 shrink-0" />
-            <span>Chats</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onSelectTab(activeTab === 'world' ? 'game' : 'world')}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full border px-3 text-xs font-extrabold transition cursor-pointer ${
-              activeTab === 'world'
-                ? 'border-transparent bg-[#059669] text-white'
-                : 'border-[#A7F3D0] bg-[#ECFDF5] text-[#065F46] hover:bg-[#D1FAE5]'
-            }`}
-          >
-            <Gamepad2 className="h-3.5 w-3.5 shrink-0" />
-            <span>Club Map</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onSelectTab(activeTab === 'academy' ? 'game' : 'academy')}
-            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full border px-3 text-xs font-extrabold transition cursor-pointer ${
-              activeTab === 'academy'
-                ? 'border-transparent bg-[#7C3AED] text-white'
-                : 'border-[#DDD6FE] bg-[#F5F3FF] text-[#6D28D9] hover:bg-[#EDE9FE]'
-            }`}
-          >
-            <Sparkles className="h-3.5 w-3.5 shrink-0" />
-            <span>Obedience</span>
-          </button>
-
-          {/* Grouped Lore & Quizzes Popover */}
-          <div ref={loreRef} className="relative">
-            <button
-              type="button"
-              onClick={() => setLoreOpen((v) => !v)}
-              aria-expanded={loreOpen}
-              className={`inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-3 text-xs font-extrabold transition cursor-pointer ${
-                loreOpen || activeTab === 'journal' || activeTab === 'courtroom'
-                  ? 'border-[#18101E] bg-[#18101E] text-white'
-                  : 'border-slate-200 bg-white text-[#18101E] hover:bg-slate-50'
-              }`}
-            >
-              <BookOpen className="h-3.5 w-3.5 text-[#F59E0B] shrink-0" />
-              <span>Lore &amp; Quizzes</span>
-              <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform ${loreOpen ? 'rotate-180' : ''}`}
-              />
-            </button>
-
-            {loreOpen && (
-              <div
-                role="menu"
-                className="absolute left-0 mt-2 w-64 rounded-2xl border-2 border-[#18101E] bg-white p-2 shadow-[4px_4px_0px_#18101E] space-y-1 z-50"
+            <span>{heartsDisplay}</span>
+            <span className="text-stone-400">•</span>
+            <span>{wallet.discernmentXp} XP</span>
+            {wallet.fridayHearts === 0 && onResetHearts && (
+              <button
+                type="button"
+                onClick={onResetHearts}
+                className="ml-1 rounded-full bg-rose-600 px-2 py-0.5 text-[10px] font-extrabold text-white cursor-pointer"
               >
-                {onOpenPopTrivia && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLoreOpen(false);
-                      onOpenPopTrivia();
-                    }}
-                    className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-extrabold text-[#18101E] hover:bg-[#FFFBEB] cursor-pointer"
-                  >
-                    <Award className="h-4 w-4 text-[#D97706] shrink-0" />
-                    <span>Pop-Culture Quiz (20 Qs)</span>
-                  </button>
-                )}
-
-                {onOpenChecklist && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLoreOpen(false);
-                      onOpenChecklist();
-                    }}
-                    className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-extrabold text-[#18101E] hover:bg-[#FFF1F2] cursor-pointer"
-                  >
-                    <Sparkles className="h-4 w-4 text-[#E11D48] shrink-0" />
-                    <span>Have You Ever? 25-Pt Test</span>
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoreOpen(false);
-                    onSelectTab('courtroom');
-                  }}
-                  className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-extrabold text-[#18101E] hover:bg-[#FEF3C7] cursor-pointer"
-                >
-                  <Crown className="h-4 w-4 text-[#D97706] shrink-0" />
-                  <span>Crown / Dump Courtroom</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoreOpen(false);
-                    onOpenFieldGuide();
-                  }}
-                  className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-extrabold text-[#18101E] hover:bg-slate-50 cursor-pointer"
-                >
-                  <BookOpen className="h-4 w-4 text-[#E11D48] shrink-0" />
-                  <span>Field Guide &amp; Icons</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoreOpen(false);
-                    onSelectTab('journal');
-                  }}
-                  className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-extrabold text-[#18101E] hover:bg-slate-50 cursor-pointer"
-                >
-                  <Newspaper className="h-4 w-4 text-[#059669] shrink-0" />
-                  <span>Club Guides &amp; 12-Sign Matcher</span>
-                </button>
-              </div>
+                New Friday
+              </button>
             )}
           </div>
 
           <button
             type="button"
-            onClick={() => onSelectTab(activeTab === 'about' ? 'game' : 'about')}
-            className={`inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-3 text-xs font-extrabold transition cursor-pointer ${
-              activeTab === 'about'
-                ? 'border-[#18101E] bg-[#18101E] text-white'
-                : 'border-slate-200 bg-white text-[#18101E] hover:bg-slate-50'
-            }`}
+            onClick={onOpenPersonaModal}
+            className="inline-flex h-7.5 items-center gap-1 rounded-full border border-stone-200 bg-stone-50 hover:bg-stone-100 px-2.5 text-[11px] font-bold text-stone-700 cursor-pointer"
           >
-            <Info className="h-3.5 w-3.5 shrink-0 text-[#64748B]" />
-            <span>About</span>
+            <User className="h-3 w-3 text-rose-600" />
+            <span>{wallet.playerName ? wallet.playerName : 'Persona'}</span>
           </button>
-        </nav>
+        </div>
 
-        {/* ZONE 3: Right Shop, Tip $5, Credits / VIP & Audio Controls */}
-        <div className="flex shrink-0 items-center gap-1.5">
+        {/* ZONE 2: Uncluttered 4-Tab Primary Sim Nav + Club Extras Drawer */}
+        <nav
+          aria-label="Primary Club Navigation"
+          className="hidden xl:flex items-center justify-center gap-1.5"
+        >
           <button
             type="button"
-            onClick={() => onOpenBoutique('shop')}
-            className="inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-[#F59E0B]/45 bg-[#FFFBEB] hover:bg-[#FEF3C7] px-2.5 text-xs font-extrabold text-[#92400E] transition cursor-pointer"
+            onClick={() => onSelectTab('hinge')}
+            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+              activeTab === 'hinge'
+                ? 'bg-[#18101E] text-white shadow-xs'
+                : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
+            }`}
           >
-            <ShoppingBag className="h-3.5 w-3.5 text-[#E11D48] shrink-0" />
-            <span>Shop</span>
+            <span>📱 Hinge</span>
           </button>
 
-          {liveTipUrl ? (
+          <button
+            type="button"
+            onClick={() => onSelectTab('wild')}
+            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+              activeTab === 'wild'
+                ? 'bg-[#18101E] text-white shadow-xs'
+                : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
+            }`}
+          >
+            <span>🗺️ In The Wild</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onSelectTab('chats')}
+            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+              activeTab === 'chats'
+                ? 'bg-[#007AFF] text-white shadow-xs'
+                : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
+            }`}
+          >
+            <span>💬 Chats &amp; Dates</span>
+            {activeChatCount > 0 && (
+              <span
+                className={`rounded-full px-1.5 py-0.2 text-[10px] font-extrabold ${
+                  activeTab === 'chats'
+                    ? 'bg-white text-[#007AFF]'
+                    : 'bg-rose-600 text-white'
+                }`}
+              >
+                {activeChatCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onSelectTab('school')}
+            className={`inline-flex h-8.5 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold transition cursor-pointer ${
+              activeTab === 'school'
+                ? 'bg-[#18101E] text-white shadow-xs'
+                : 'border border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
+            }`}
+          >
+            <span>🎓 Cub School</span>
+          </button>
+
+          <div ref={extrasRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setExtrasOpen((v) => !v)}
+              aria-expanded={extrasOpen}
+              className={`inline-flex h-8.5 items-center justify-center gap-1 rounded-full border px-3 text-xs font-bold transition cursor-pointer ${
+                extrasOpen ||
+                activeTab === 'journal' ||
+                activeTab === 'courtroom' ||
+                activeTab === 'about'
+                  ? 'border-[#18101E] bg-[#18101E] text-white'
+                  : 'border-stone-200 bg-white text-stone-800 hover:bg-stone-50'
+              }`}
+            >
+              <span>☰ Club Extras</span>
+              <ChevronDown
+                className={`h-3.5 w-3.5 transition-transform ${extrasOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {extrasOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 mt-2 w-72 rounded-3xl border border-stone-200 bg-white p-2.5 shadow-xl space-y-1 z-50"
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onOpenPopTrivia();
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-amber-50 cursor-pointer"
+                >
+                  <Award className="h-4 w-4 text-amber-600 shrink-0" />
+                  <span>🎬 {POP_CULTURE_TRIVIA.length}-Q Trailer &amp; Pop Quiz</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onSelectTab('courtroom');
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-amber-50 cursor-pointer"
+                >
+                  <Crown className="h-4 w-4 text-amber-600 shrink-0" />
+                  <span>👑 Crown or Dump Courtroom</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onOpenChecklist();
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-rose-50 cursor-pointer"
+                >
+                  <Sparkles className="h-4 w-4 text-rose-600 shrink-0" />
+                  <span>✅ 25-Pt Experience Test</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onSelectTab('journal');
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-stone-50 cursor-pointer"
+                >
+                  <Newspaper className="h-4 w-4 text-emerald-700 shrink-0" />
+                  <span>📖 16 Guides &amp; Zodiac Matcher</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onOpenDateodex();
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-stone-50 cursor-pointer"
+                >
+                  <Camera className="h-4 w-4 text-rose-600 shrink-0" />
+                  <span>📸 Dateodex &amp; Polaroids</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onOpenFieldGuide();
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-stone-50 cursor-pointer"
+                >
+                  <BookOpen className="h-4 w-4 text-rose-600 shrink-0" />
+                  <span>📚 Age-Gap Field Guide</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onSendPartnerAudition();
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-stone-50 cursor-pointer"
+                >
+                  <Send className="h-4 w-4 text-[#007AFF] shrink-0" />
+                  <span>🤝 Send 60s Partner Audition</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExtrasOpen(false);
+                    onSelectTab('about');
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-2xl px-3 py-2 text-left text-xs font-bold text-[#18101E] hover:bg-stone-50 cursor-pointer"
+                >
+                  <Info className="h-4 w-4 text-stone-500 shrink-0" />
+                  <span>ℹ️ About Cougars &amp; Cubs Club</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </nav>
+
+        {/* ZONE 3: Support This Project, Date-Night Shop, Credits/VIP & Audio */}
+        <div className="flex shrink-0 items-center gap-1.5">
+          {liveTipUrl && (
             <a
               href={liveTipUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent('tip_jar_clicked', { surface: 'top_hud' })}
-              className="hidden sm:inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-[#FECDD3] bg-[#FFF1F2] hover:bg-[#FFE4E6] px-2.5 text-xs font-extrabold text-[#BE123C] transition"
+              className="hidden sm:inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-amber-300 bg-amber-50 hover:bg-amber-100 px-3 text-xs font-extrabold text-amber-950 transition"
             >
-              <Coffee className="h-3.5 w-3.5 shrink-0" />
-              <span>Tip $5</span>
+              <Heart className="h-3.5 w-3.5 fill-amber-500 text-amber-600 shrink-0" />
+              <span>💛 Support This Project</span>
             </a>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                trackEvent('tip_jar_clicked', { surface: 'top_hud_modal' });
-                onOpenBoutique('vip');
-              }}
-              className="hidden sm:inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-[#FECDD3] bg-[#FFF1F2] hover:bg-[#FFE4E6] px-2.5 text-xs font-extrabold text-[#BE123C] transition cursor-pointer"
-            >
-              <Coffee className="h-3.5 w-3.5 shrink-0" />
-              <span>Tip $5</span>
-            </button>
           )}
 
           <button
             type="button"
+            onClick={() => onOpenBoutique('shop')}
+            className="inline-flex h-8.5 items-center justify-center gap-1 rounded-full border border-stone-200 bg-white hover:bg-stone-50 px-2.5 text-xs font-bold text-[#18101E] transition cursor-pointer"
+          >
+            <ShoppingBag className="h-3.5 w-3.5 text-rose-600 shrink-0" />
+            <span>Shop</span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => onOpenBoutique('vip')}
-            className="inline-flex h-8.5 items-center justify-center gap-1 rounded-full bg-[#18101E] hover:bg-[#2E1F38] px-3 text-xs font-extrabold text-white transition cursor-pointer"
+            className="inline-flex h-8.5 items-center justify-center gap-1 rounded-full bg-[#18101E] hover:bg-stone-800 px-3 text-xs font-extrabold text-white transition cursor-pointer"
           >
             {wallet.isFounderUnlimited ? (
-              <Wrench className="h-3.5 w-3.5 text-[#FBBF24] shrink-0" />
+              <Wrench className="h-3.5 w-3.5 text-amber-300 shrink-0" />
             ) : (
-              <Crown className="h-3.5 w-3.5 text-[#FBBF24] shrink-0" />
+              <Crown className="h-3.5 w-3.5 text-amber-300 shrink-0" />
             )}
             <span className="whitespace-nowrap">
               {wallet.isFounderUnlimited
@@ -365,11 +403,10 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             }}
             className={`hidden sm:inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border transition cursor-pointer ${
               bgmOn
-                ? 'border-[#E11D48] bg-[#E11D48] text-white'
-                : 'border-slate-200 bg-slate-50 text-[#475569] hover:bg-slate-100 hover:text-[#18101E]'
+                ? 'border-rose-600 bg-rose-600 text-white'
+                : 'border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
             }`}
             aria-label={bgmOn ? 'Pause lounge soundtrack' : 'Play lounge soundtrack'}
-            title="Toggle Cocktail Lounge Soundtrack"
           >
             <Music className="h-3.5 w-3.5" />
           </button>
@@ -383,70 +420,83 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             }}
             className={`hidden sm:inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border transition cursor-pointer ${
               muted
-                ? 'border-[#FECDD3] bg-[#FFF1F2] text-[#E11D48]'
-                : 'border-slate-200 bg-slate-50 text-[#475569] hover:bg-slate-100 hover:text-[#18101E]'
+                ? 'border-rose-200 bg-rose-50 text-rose-600'
+                : 'border-stone-200 bg-white text-stone-600 hover:bg-stone-50'
             }`}
             aria-label={muted ? 'Unmute game audio' : 'Mute game audio'}
-            title={muted ? 'Unmute game sound effects' : 'Mute game sound effects'}
           >
             {muted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
           </button>
 
-          {/* Mobile Drawer Button */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((v) => !v)}
             aria-label="Toggle Club Navigation Menu"
-            className="lg:hidden inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border border-slate-200 bg-white text-[#18101E] cursor-pointer"
+            className="xl:hidden inline-flex h-8.5 w-8.5 items-center justify-center rounded-full border border-stone-200 bg-white text-[#18101E] cursor-pointer"
           >
             {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
-      {/* Responsive Mobile Navigation Drawer (< lg) */}
+      {/* Compact Mobile Tab Strip (< xl) so 4 core tabs stay 1-tap everywhere */}
+      <div className="xl:hidden border-t border-stone-100 bg-[#FFFDF9] px-3 py-1.5 flex items-center justify-between gap-1 overflow-x-auto">
+        {(
+          [
+            ['hinge', '📱 Hinge'],
+            ['wild', '🗺️ Wild'],
+            ['chats', `💬 Chats${activeChatCount > 0 ? ` (${activeChatCount})` : ''}`],
+            ['school', '🎓 School'],
+          ] as const
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onSelectTab(id);
+            }}
+            className={`rounded-full px-3 py-1 text-xs font-bold whitespace-nowrap cursor-pointer ${
+              activeTab === id ? 'bg-[#18101E] text-white' : 'text-stone-700'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#18101E]/10 bg-white px-4 py-3 space-y-2">
-          <div className="grid grid-cols-2 gap-2 text-xs font-extrabold">
+        <div className="xl:hidden border-t border-stone-200 bg-white px-4 py-3 space-y-2">
+          <div className="grid grid-cols-2 gap-2 text-xs font-bold">
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onGoHome();
+                onOpenPopTrivia();
               }}
-              className="rounded-xl border border-[#FECDD3] bg-[#FFF1F2] px-3 py-2 text-left text-[#E11D48]"
+              className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-left text-amber-950"
             >
-              🔥 Phone &amp; Swipe
+              🎬 {POP_CULTURE_TRIVIA.length}-Q Trailer Quiz
             </button>
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenLiveInbox();
+                onSelectTab('courtroom');
               }}
-              className="rounded-xl border border-[#BFDBFE] bg-[#EFF6FF] px-3 py-2 text-left text-[#1D4ED8]"
+              className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-left text-[#18101E]"
             >
-              💬 Live Chats
+              👑 Crown or Dump
             </button>
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onSelectTab('world');
+                onOpenChecklist();
               }}
-              className="rounded-xl border border-[#A7F3D0] bg-[#ECFDF5] px-3 py-2 text-left text-[#065F46]"
+              className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-left text-rose-900"
             >
-              🗺️ 8-Bit Club Map
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onSelectTab('academy');
-              }}
-              className="rounded-xl border border-[#DDD6FE] bg-[#F5F3FF] px-3 py-2 text-left text-[#6D28D9]"
-            >
-              🦮 Cub Obedience
+              ✅ 25-Pt Experience Test
             </button>
             <button
               type="button"
@@ -454,9 +504,19 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                 setMobileMenuOpen(false);
                 onSelectTab('journal');
               }}
-              className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left text-[#18101E]"
+              className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-left text-[#18101E]"
             >
-              📖 Club Guides
+              📖 16 Guides &amp; Zodiac
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenDateodex();
+              }}
+              className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-left text-[#18101E]"
+            >
+              📸 Dateodex
             </button>
             <button
               type="button"
@@ -464,47 +524,21 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                 setMobileMenuOpen(false);
                 onSelectTab('about');
               }}
-              className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left text-[#18101E]"
+              className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-left text-[#18101E]"
             >
               ℹ️ About the Club
             </button>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
-            {onOpenPopTrivia && (
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenPopTrivia();
-                }}
-                className="rounded-full border border-[#FDE68A] bg-[#FFFBEB] px-3 py-1 text-xs font-bold text-[#92400E]"
-              >
-                🎬 Pop Quiz
-              </button>
-            )}
-            {onOpenChecklist && (
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenChecklist();
-                }}
-                className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-[#18101E]"
-              >
-                🔥 Have You Ever? 25-Pt
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenFieldGuide();
-              }}
-              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-[#18101E]"
+          {liveTipUrl && (
+            <a
+              href={liveTipUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-center text-xs font-extrabold text-amber-950"
             >
-              📚 Field Guide
-            </button>
-          </div>
+              💛 Support This Project ($5)
+            </a>
+          )}
         </div>
       )}
     </header>

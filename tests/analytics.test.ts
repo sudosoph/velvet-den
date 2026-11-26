@@ -67,11 +67,11 @@ describe('PostHog analytics contract & safe no-op guard', () => {
     }
   });
 
-  it('exposes posthogProxyActive and v34 health version on /api/health', async () => {
+  it('exposes posthogProxyActive and v35 health version on /api/health', async () => {
     const res = await worker.fetch(new Request('https://cougarsandcubs.club/api/health'), {});
     const data = (await res.json()) as Record<string, unknown>;
     expect(data.ok).toBe(true);
-    expect(data.version).toBe('v34-dream-daddy-coherence-phone-posthog');
+    expect(data.version).toBe('v35-dream-daddy-hybrid-sim');
     expect(data.posthogProxyActive).toBe(true);
   });
 });

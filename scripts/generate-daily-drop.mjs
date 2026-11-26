@@ -30,59 +30,59 @@ const PROHIBITED_ADULT_DOMAINS = [
 const AFFILIATE_URLS = {
   'houseboy-linen-apron': {
     name: 'Japanese Cross-Back Heavyweight Linen Apron (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men',
+    url: 'https://www.amazon.com/dp/B093GJW13K',
   },
   'trail-hydration-vest': {
     name: 'Ultralight Ridge-Run Hydration Vest (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=ultralight+trail+running+hydration+vest+pack',
+    url: 'https://www.amazon.com/dp/B0CS6BG78C',
   },
   'princess-mulberry-silk-robe': {
     name: '22-Momme Mulberry Silk Kimono Lounge Robe (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
+    url: 'https://www.amazon.com/dp/B08CDKTWDP',
   },
   'hosting-lidded-bin-soap': {
     name: 'Matte-Black Lidded Bathroom Bin + Botanical Hand Wash (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=matte+black+bathroom+trash+can+with+lid+and+hand+soap+set',
+    url: 'https://www.amazon.com/dp/B0C7CWK533',
   },
   'percale-hosting-sheets': {
     name: '600-Thread-Count Cotton Percale Sheet Set (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=long+staple+cotton+percale+sheet+set+queen+white',
+    url: 'https://www.amazon.com/dp/B0D2W3ZRVQ',
   },
   'date-night-oud-bergamot': {
     name: 'Warm Cedar, Bergamot & Amber Eau de Parfum (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men',
+    url: 'https://www.amazon.com/dp/B0987VCM34',
   },
   'espresso-martini-barware': {
     name: 'Weighted Copper Cocktail Shaker & Coupe Glasses (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
+    url: 'https://www.amazon.com/dp/B091D8N1DF',
   },
   'after-dark-couples-deck': {
     name: 'After-Dark Couples Conversation Card Deck (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
+    url: 'https://www.amazon.com/dp/B097N3W56F',
   },
   'cooling-bamboo-sheets': {
     name: '100% Organic Bamboo Viscose Cooling Sheet Set (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
+    url: 'https://www.amazon.com/dp/B0851BPRN9',
   },
   'cast-iron-steak-skillet': {
     name: '12-Inch Pre-Seasoned Cast-Iron Ribeye Skillet (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=12+inch+pre+seasoned+cast+iron+skillet',
+    url: 'https://www.amazon.com/dp/B00006JSUB',
   },
   'adjustable-dumbbell-bench': {
     name: 'Heavy-Duty Foldable Weight Bench (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=foldable+adjustable+weight+bench+home+gym',
+    url: 'https://www.amazon.com/dp/B07DNYSJ8W',
   },
   'cub-grooming-beard-skincare-kit': {
     name: 'Sandalwood Beard Oil & Men’s Skincare Kit (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set',
+    url: 'https://www.amazon.com/dp/B07CGMT4FB',
   },
   'silk-pillowcase-sleepover-duo': {
     name: '22-Momme Mulberry Silk Pillowcase & Claw-Clip Set (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
+    url: 'https://www.amazon.com/dp/B0CLXZ5LW7',
   },
   'zero-proof-botanical-mocktail-set': {
     name: 'Zero-Proof Botanical Aperitif & Mocktail Coupe Set (Check Price on Amazon)',
-    url: 'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
+    url: 'https://www.amazon.com/dp/B0C7R39X8G',
   },
 };
 
@@ -143,7 +143,7 @@ const discordPayload = {
       ].join('\n'),
       color: 16007006,
       footer: {
-        text: 'React 💚 = Train/Keep • 🚩 = Instant Ghost • Share link with your Cougar/Cub!',
+        text: 'React 💚 = Keep • 🚩 = Cut Loose • Share link with your Cougar/Cub!',
       },
     },
   ],
