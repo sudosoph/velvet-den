@@ -228,10 +228,63 @@ export function evaluateDmLocally(params: {
     );
   const isLazyHey =
     msg.length < 10 || /^(hey+|yo+|sup|wyd|u\s*up\??|hi+)$/i.test(msg.replace(/[!?.🔥😍👀]/g, '').trim());
+  const hasLivingTogetherTopic =
+    /\b(mov(?:e|ing)\s+in|live\s+together|living[- ]apart|separate\s+(?:houses?|places?|apartments?|keys)|own\s+(?:houses?|places?|apartments?|homes?)|two\s+(?:houses?|places?|apartments?|leases?)|merge\s+houses|cohabit)\b/.test(
+      lower,
+    );
+  const hasMoneyGapTopic =
+    /\b(money|income|salary|stipend|budget|afford|earn(?:s|ing)?\s+(?:more|less))\b/.test(lower);
+  const hasFamilyTopic =
+    /\b(mom|mother|parents|family|kids|children|son|daughter|friends\s+think)\b/.test(lower);
   const hasPlan =
     /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|half\s+seven|sorted|cheeky\s+drink|8:?00|6:?00|6:?30|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow|oolong|sauna|courtyard|cook|martini)\b/.test(
       lower,
     );
+
+  if (hasLivingTogetherTopic) {
+    return {
+      maturityDelta: 18,
+      chivalryDelta: 16,
+      chemistryDelta: 20,
+      herReply:
+        params.personaRole === 'him'
+          ? `Zero rush to merge leases—keeping two peaceful sanctuaries makes every weekend together feel electric.`
+          : `Living-Apart-Together is my favorite arrangement: deep commitment, shared weekends, and two separate sets of house keys.`,
+      coachNote: 'Direct alignment on living space & autonomy builds instant long-term trust.',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasMoneyGapTopic) {
+    return {
+      maturityDelta: 18,
+      chivalryDelta: 18,
+      chemistryDelta: 18,
+      herReply:
+        params.personaRole === 'him'
+          ? `When I invite you out, I plan inside my real budget and get the check cleanly—zero ego about your success.`
+          : `Alternating turns works best: plan dates you genuinely enjoy hosting, and let me spoil us when it’s my turn.`,
+      coachNote: 'Healthy, ego-free financial candor passes every Club test.',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasFamilyTopic) {
+    return {
+      maturityDelta: 18,
+      chivalryDelta: 16,
+      chemistryDelta: 18,
+      herReply:
+        params.personaRole === 'him'
+          ? `I prep my family warmly ahead of time and introduce the woman I’m dating with total pride.`
+          : `Warm advance prep and zero apologies win every room—confident couples set the tone for everyone else.`,
+      coachNote: 'Proud public partnership and thoughtful family boundaries shine.',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
 
   if (asksForNumberTooEarly && params.personaRole !== 'him') {
     return {

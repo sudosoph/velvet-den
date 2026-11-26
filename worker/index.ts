@@ -642,6 +642,49 @@ function fallbackEvaluateDm(req: {
   const msg = String(req.playerMessage || '').trim();
   const lower = msg.toLowerCase();
 
+  // Topic-aware responses first so open-ended questions (moving in together, finances, family, etc.) NEVER get generic reservation replies
+  if (/\b(mov(?:e|ing)\s+in|live\s+together|living[- ]apart|separate\s+(?:houses?|places?|apartments?|keys)|own\s+(?:houses?|places?|apartments?|homes?)|two\s+(?:houses?|places?|apartments?|leases?)|merge\s+houses|cohabit)\b/.test(lower)) {
+    return {
+      herReply:
+        role === 'him'
+          ? `Zero rush to merge leases. I love your sanctuary just as it is, and keeping two sets of keys keeps every weekend intentional.`
+          : `Living-Apart-Together is underrated magic. Keep two peaceful sanctuaries and choose each other every Friday on purpose.`,
+      maturityDelta: 20,
+      chivalryDelta: 18,
+      chemistryDelta: 20,
+      coachNote: 'Clear boundaries around living space & Living-Apart-Together build lasting respect.',
+      passedVibeCheck: true,
+    };
+  }
+
+  if (/\b(money|income|salary|stipend|budget|split|afford|earn(?:s|ing)?\s+(?:more|less))\b/.test(lower)) {
+    return {
+      herReply:
+        role === 'him'
+          ? `When I invite you out, I plan inside my real budget and handle the check cleanly. Your career success inspires me, never intimidates me.`
+          : `Alternating turns works effortlessly. Plan dates squarely in your comfort zone with pride, and let me spoil us when I host.`,
+      maturityDelta: 20,
+      chivalryDelta: 18,
+      chemistryDelta: 18,
+      coachNote: 'Financial candor without ego or freeloading is a signature green flag.',
+      passedVibeCheck: true,
+    };
+  }
+
+  if (/\b(mom|mother|parents|family|kids|children|son|daughter|friends\s+think)\b/.test(lower)) {
+    return {
+      herReply:
+        role === 'him'
+          ? `I always prep my family warmly ahead of time and claim my partner proudly in every room.`
+          : `Prep family a week ahead with warmth and zero apologies. When two adults are happy, everyone else adjusts fast.`,
+      maturityDelta: 18,
+      chivalryDelta: 18,
+      chemistryDelta: 18,
+      coachNote: 'Proud public alignment and thoughtful family prep pass every test.',
+      passedVibeCheck: true,
+    };
+  }
+
   if (role === 'him') {
     if (/\b(married|after\s*7|ring|real\s*age|id|21)\b/.test(lower)) {
       return {
@@ -1275,21 +1318,22 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
       const platformContext =
         platform === 'imessage'
-          ? 'PLATFORM CONTEXT (EARNED OFF-APP iMESSAGE): You already swapped real phone numbers! Text warmly like an off-app contact locking in your date.'
+          ? 'PLATFORM CONTEXT (EARNED OFF-APP iMESSAGE): You already swapped real phone numbers! React directly to the specific topic they brought up like an off-app romantic partner.'
           : platform === 'discord'
-            ? 'PLATFORM CONTEXT (CLUB DISCORD LOUNGE): You are bantering in the Cougars & Cubs Discord server. Keep it witty, self-aware, and playfully mysterious in one crisp sentence.'
+            ? `PLATFORM CONTEXT (CLUB DISCORD LOUNGE — answering as ${personaName}, ${personaTitle}): Directly answer the exact question, boundary, or dating scenario the member just asked about (e.g. moving in together vs Living-Apart-Together, income gaps, red flags, family, or flirting) with specific, witty insider wisdom! NEVER give unrelated generic date-budget advice if they asked about another topic.`
             : personaRole === 'him'
-              ? 'PLATFORM CONTEXT (HINGE APP DM — YOU ARE COURTING HER): The human player is an accomplished, magnetic woman. YOU are working to keep her interested and earn HER phone number at Beat 6! Never ask her to prove herself; step up with charm and concrete date initiative.'
-              : 'PLATFORM CONTEXT (HINGE APP DM — HE IS COURTING YOU): The human player is a younger man trying to earn your phone number. Reward decisive Friday plans and witty charm.';
+              ? 'PLATFORM CONTEXT (HINGE APP DM — YOU ARE COURTING HER): The human player is an accomplished, magnetic woman. Directly respond to the exact detail, question, or tease in her message while courting her warmly!'
+              : 'PLATFORM CONTEXT (HINGE APP DM — HE IS COURTING YOU): The human player is a younger man trying to earn your phone number. Directly react to what he actually wrote!';
 
       const coachPerspectiveRule =
         personaRole === 'him'
-          ? 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HER (the accomplished woman). Address coachNote strictly to HER evaluating him (e.g. "He locked in 7:30 cleanly—see if his follow-through holds."). NEVER tell her to enroll in Cub School or earn his number!'
+          ? 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HER (the accomplished woman). Address coachNote strictly to HER evaluating him (e.g. "He answered your question directly—see if his follow-through holds."). NEVER tell her to enroll in Cub School or earn his number!'
           : 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HIM (the younger man). Give him one playful tip on keeping her intrigued and earning her number.';
 
       const systemPrompt = [
         `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic-comedy dating simulation.`,
-        `STRICT ONE-LINE RULE: Send ONLY ONE short, punchy line (8 to 16 words MAX, 1 single sentence)!`,
+        `CRITICAL RELEVANCE RULE: Always respond directly to the SPECIFIC topic, question, or joke in the user's message!`,
+        `CONCISE RULE: Send 1 to 2 short, punchy sentences (10 to 26 words MAX)!`,
         `NEVER RECITE YOUR BIO: Keep your background subtle and natural.`,
         `STRICT PUNCTUATION RULE: NEVER use em-dashes, en-dashes, or semicolons.`,
         platformContext,

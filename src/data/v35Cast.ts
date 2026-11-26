@@ -11,6 +11,13 @@ export interface HingePromptItem {
   ];
 }
 
+export interface HingeVoicePrompt {
+  question: string;
+  duration: string;
+  transcript: string;
+  subtextTell: string;
+}
+
 export interface V35CastProfile {
   id: string;
   name: string;
@@ -33,6 +40,8 @@ export interface V35CastProfile {
   };
   slides: { url: string; caption: string; tag: string }[];
   prompts: [HingePromptItem, HingePromptItem, HingePromptItem];
+  voicePrompt?: HingeVoicePrompt;
+  fridayStoryHook?: string;
   trapTellSummary?: string;
   vulnerabilityNote?: string;
 }
@@ -1937,6 +1946,262 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     ],
   },
 ];
+
+const CAST_STORY_HOOKS_AND_VOICES: Record<
+  string,
+  { voicePrompt: HingeVoicePrompt; fridayStoryHook: string }
+> = {
+  julian: {
+    voicePrompt: {
+      question: 'My ideal Thursday night in 12 seconds',
+      duration: '0:12',
+      transcript:
+        '“Quiet corner wine bar at half seven, phones face-down in my coat pocket, and you telling me the unfiltered truth about the exhibition we just walked out of.”',
+      subtextTell: 'Warm Hampstead cadence, zero rehearsed pickup script—genuinely locks in on 1-on-1 conversation.',
+    },
+    fridayStoryHook:
+      'If you match: Shows up five minutes early with peonies—until your snooty gallery acquaintance mistakes him for “the new intern” in front of the room.',
+  },
+  soren: {
+    voicePrompt: {
+      question: 'A wager I will gladly make you',
+      duration: '0:14',
+      transcript:
+        '“One tiebreak set on clay before dinner. If you pass me down the line, cocktails are on me—and either way, I am not rushing our first night.”',
+      subtextTell: 'Unhurried Nordic confidence—treats chemistry like a slow-burn rally rather than a sprint.',
+    },
+    fridayStoryHook:
+      'If you match: Challenges you to twilight mixed doubles at Palisades Racquet—then drops a disarmingly honest confession over post-match spritzes.',
+  },
+  miles: {
+    voicePrompt: {
+      question: 'Proof I actually plan ahead',
+      duration: '0:13',
+      transcript:
+        '“Tell me your flight landed twenty minutes early and I am already waiting by baggage claim with two proper espressos and dinner booked.”',
+      subtextTell: 'Calm structural-engineer steadiness—zero flaking, zero chaos.',
+    },
+    fridayStoryHook:
+      'If you match: Turns a chaotic Terminal B delay into the smoothest impromptu bistro table in town.',
+  },
+  rafael: {
+    voicePrompt: {
+      question: 'How you know I like you',
+      duration: '0:11',
+      transcript:
+        '“I pull you onto the salsa floor during the brass break, spin you clean on the one, and save you the last plate of maduros.”',
+      subtextTell: 'Playful rhythm and direct eye contact—zero hesitation about leading.',
+    },
+    fridayStoryHook:
+      'If you match: Leads you onto the Havana Lounge brass floor before half the room realizes you only met ten minutes ago.',
+  },
+  marcus: {
+    voicePrompt: {
+      question: 'Sunday afternoon at my place sounds like',
+      duration: '0:15',
+      transcript:
+        '“Vinyl spinning low, oak smoke drifting off the patio, and me defending why slow-smoked brisket refuses to be rushed for anybody.”',
+      subtextTell: 'Grounded pitmaster patience—shows care through feeding people well.',
+    },
+    fridayStoryHook:
+      'If you match: Pulls two VIP plates off the smoker and tests whether you can handle friendly banter with his regular crew.',
+  },
+  graham: {
+    voicePrompt: {
+      question: 'Why my calendar looks ruthless',
+      duration: '0:13',
+      transcript:
+        '“Deal weeks get intense, so let’s grab an early 5:15 corner martini near Century City before my 6:45 client dinner—efficiency is romantic, right?”',
+      subtextTell: 'Polished Wharton baritone—yet listen closely to that suspiciously hard 6:45 PM cutoff.',
+    },
+    fridayStoryHook:
+      'If you match: Effortless 5:15 PM steakhouse charm—so why do three different men near Table 9 check their watches at 6:42 sharp?',
+  },
+  connor: {
+    voicePrompt: {
+      question: 'Quick disclaimer about my profile',
+      duration: '0:14',
+      transcript:
+        '“Okay swear Facebook glitched my birth year when I made this account, ignore the 27—anyway pull up to our rooftop pregame Friday, my boys are DJing!”',
+      subtextTell: 'Background bass thumping + three roommates yelling from a frat balcony mid-recording.',
+    },
+    fridayStoryHook:
+      'If you match: Swears an app glitch changed his age—while four undergrad roommates argue over speaker cables in his living room.',
+  },
+  devon: {
+    voicePrompt: {
+      question: 'My love language in one take',
+      duration: '0:12',
+      transcript:
+        '“Honestly I’m a cozy homebody king—why drop crazy money at loud restaurants when you could host me on your sectional and order takeout?”',
+      subtextTell: 'Calls himself a “low-key homebody,” yet every suggestion conveniently relies on your sofa and your tab.',
+    },
+    fridayStoryHook:
+      'If you match: Talks up a romantic Friday night, then tries to audit the appetizer math down to the penny.',
+  },
+  rory: {
+    voicePrompt: {
+      question: 'A hill I will happily die on',
+      duration: '0:13',
+      transcript:
+        '“Thirty-five millimeter grain beats digital perfection every single time—meet me ten minutes before trailers so we get third-row center.”',
+      subtextTell: 'Earnest film-school enthusiasm—wears his heart right on his sleeve.',
+    },
+    fridayStoryHook:
+      'If you match: Holds two prime revival-house seats and nervously asks your ruthless verdict on his rough cut afterward.',
+  },
+  jin: {
+    voicePrompt: {
+      question: 'After the curtain drops at ten',
+      duration: '0:11',
+      transcript:
+        '“Cello goes in the backseat, black tie comes undone, and we go straight to the one midnight noodle counter that still simmers broth twelve hours.”',
+      subtextTell: 'Quiet conservatory poise with a surprisingly dry late-night wit.',
+    },
+    fridayStoryHook:
+      'If you match: Sneaks you past the stage door after final bow for midnight broth and zero small talk.',
+  },
+  liam: {
+    voicePrompt: {
+      question: 'Best perk of my 48-hour shift schedule',
+      duration: '0:13',
+      transcript:
+        '“When I’m off duty Tuesday morning, the whole coast is empty—hop in the truck and I’ll cook breakfast burritos after dawn surf.”',
+      subtextTell: 'Steady station-house calm—shows up when he says he will.',
+    },
+    fridayStoryHook:
+      'If you match: Trades turnout gear for a coastal sunset overlook nobody else in Velvet Palms knows about.',
+  },
+  summer: {
+    voicePrompt: {
+      question: 'How to win me over before drinks arrive',
+      duration: '0:12',
+      transcript:
+        '“Pick the spot without making me project-manage Tuesday, laugh when things go slightly off-script, and never flinch at a woman with a bigger studio calendar.”',
+      subtextTell: 'Bright creative-director warmth—allergic to passive “idk wherever u want” texts.',
+    },
+    fridayStoryHook:
+      'If you match: Invites you to a rooftop wrap toast where her art-world friends immediately test your composure.',
+  },
+  sienna: {
+    voicePrompt: {
+      question: 'Fair warning before you match me',
+      duration: '0:13',
+      transcript:
+        '“I run negotiations all day, so when a man shows up on time with an actual reservation and zero ego games, my guard drops fast.”',
+      subtextTell: 'Direct courtroom-grade clarity paired with genuine warmth once you lead cleanly.',
+    },
+    fridayStoryHook:
+      'If you match: Gives you forty-five minutes between wine tastings to prove your banter holds up offline.',
+  },
+  elena: {
+    voicePrompt: {
+      question: 'Office hours are officially closed when',
+      duration: '0:14',
+      transcript:
+        '“Friday hits five o’clock, the red grading pen stays in my satchel, and someone brave enough to skip academic flattery asks me to sushi.”',
+      subtextTell: 'Velvet seminar-leader voice—spots hollow flattery in three seconds flat.',
+    },
+    fridayStoryHook:
+      'If you match: Leaves faculty politics behind at Hawthorne Gate—if you can hold your own across a candlelit omakase counter.',
+  },
+  claire: {
+    voicePrompt: {
+      question: 'What twenty-four hours of freedom looks like',
+      duration: '0:13',
+      transcript:
+        '“Board deck signed, out-of-office on, and one bold dinner invitation from someone who doesn’t treat my title like an interview panel.”',
+      subtextTell: 'Crisp M&A precision—craves playfulness, not a LinkedIn pitch.',
+    },
+    fridayStoryHook:
+      'If you match: Trades the executive lounge for a tucked-away jazz banquette where status games stay at the door.',
+  },
+  priya: {
+    voicePrompt: {
+      question: 'Post-night-shift decompression rule',
+      duration: '0:12',
+      transcript:
+        '“Feed me real street tacos, tell me one funny story from outside the hospital, and don’t ask me to diagnose your roommate’s sprained ankle.”',
+      subtextTell: 'Quick, grounded ER humor—values emotional steadiness over flash.',
+    },
+    fridayStoryHook:
+      'If you match: Meets you after a twelve-hour trauma shift where sincerity beats smooth lines every time.',
+  },
+  vanessa: {
+    voicePrompt: {
+      question: 'Why spontaneity is everything to me',
+      duration: '0:14',
+      transcript:
+        '“Montecito charity galas get exhausting—I just want discreet Thursday afternoon champagne at a hotel bar where nobody knows our last names.”',
+      subtextTell: 'Purring luxury cadence—notice how weekends and her own neighborhood are mysteriously off-limits.',
+    },
+    fridayStoryHook:
+      'If you match: Orders vintage Bollinger in a shadowy corner banquette—until her phone lights up with an estate security alert.',
+  },
+  brooke: {
+    voicePrompt: {
+      question: 'Energy check before we grab matcha',
+      duration: '0:13',
+      transcript:
+        '“Hold that grin right there—wait, turn ten degrees toward the ring light! Sorry babe, my followers eat up spontaneous older-woman younger-guy content.”',
+      subtextTell: 'You can literally hear a tripod clicking into place mid-sentence.',
+    },
+    fridayStoryHook:
+      'If you match: Turns a simple coffee date into an unannounced three-camera livestream audition.',
+  },
+  celeste: {
+    voicePrompt: {
+      question: 'What thirty years in cinema taught me',
+      duration: '0:14',
+      transcript:
+        '“Chemistry shows up in the first ninety seconds over martinis—either you know how to hold a woman’s gaze across a table, or the credits roll early.”',
+      subtextTell: 'Silver-screen poise and zero patience for rehearsal.',
+    },
+    fridayStoryHook:
+      'If you match: Sweeps into The Velvet Room twenty minutes before a private screening and dares you to keep pace.',
+  },
+  astrid: {
+    voicePrompt: {
+      question: 'Morning ritual I won’t compromise on',
+      duration: '0:12',
+      transcript:
+        '“Cold plunge at sunrise, cedar sauna breathwork right after, and a man whose nervous system isn’t permanently wired to push notifications.”',
+      subtextTell: 'Serene, hypnotic cadence—will 100% read your posture within five seconds.',
+    },
+    fridayStoryHook:
+      'If you match: Invites you to her coastal studio terrace to test whether your calm matches your opener.',
+  },
+  camila: {
+    voicePrompt: {
+      question: 'Fastest way into my good graces',
+      duration: '0:12',
+      transcript:
+        '“Walk into the gallery without pretending you read the press release, tell me which canvas actually moves you, and pour the mezcal neat.”',
+      subtextTell: 'Warm, incisive curator energy—loves bold honesty over art-school jargon.',
+    },
+    fridayStoryHook:
+      'If you match: Locks the gallery doors after closing toast and pours smoky mezcal in the back office.',
+  },
+  vivienne: {
+    voicePrompt: {
+      question: 'Three words you must never say at dinner',
+      duration: '0:13',
+      transcript:
+        '“Book the corner banquette at eight, order the Burgundy without flinching, and never utter the words ‘for your age’ unless you enjoy dining solo.”',
+      subtextTell: 'Effortless Left Bank wit—equal parts intimidating and magnetic.',
+    },
+    fridayStoryHook:
+      'If you match: Takes you to a midnight 35mm French New Wave screening and grades your third-act take over steak frites.',
+  },
+};
+
+for (const profile of V35_CAST_PROFILES) {
+  const extras = CAST_STORY_HOOKS_AND_VOICES[profile.id];
+  if (extras) {
+    profile.voicePrompt = extras.voicePrompt;
+    profile.fridayStoryHook = extras.fridayStoryHook;
+  }
+}
 
 export function getCastProfileById(id: string): V35CastProfile | undefined {
   return V35_CAST_PROFILES.find((p) => p.id === id);

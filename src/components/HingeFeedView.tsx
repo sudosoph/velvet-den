@@ -2,12 +2,17 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Briefcase,
+  Check,
+  Clapperboard,
   GraduationCap,
   Heart,
   MapPin,
   MessageCircle,
+  Pause,
+  Play,
   Ruler,
   Sparkles,
+  Volume2,
   X,
 } from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
@@ -19,6 +24,7 @@ import {
 } from '../data/v35Cast';
 import type { WalletState } from '../domain/economy';
 import { sfx } from '../lib/sound';
+import { liveAiInboxService } from '../services/adapters';
 
 export interface HingeFeedViewProps {
   role: 'her' | 'him';
@@ -33,18 +39,22 @@ export interface HingeFeedViewProps {
     cost: number,
     delta: number,
     outcome?: 'instant_match' | 'pending_like' | 'delayed_match',
+    isCustomOpener?: boolean,
   ) => boolean | void;
+  onDeliverCustomOpenerReply?: (leadId: string, replyText: string, chemistryDelta: number) => void;
   onSwitchRole: (role: 'her' | 'him') => void;
   onOpenWildMap: () => void;
   onOpenChats?: (leadId?: string) => void;
 }
 
 interface ActiveReplyTarget {
-  kind: 'prompt' | 'photo';
+  kind: 'prompt' | 'photo' | 'voice';
   label: string;
   previewText: string;
   prompt?: HingePromptItem;
 }
+
+const VOICE_WAVEFORM_BARS = [38, 68, 52, 88, 64, 95, 46, 78, 92, 58, 82, 44, 74, 60, 85, 48];
 
 export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   role,
@@ -53,6 +63,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   cutLooseIds,
   etiquetteBonusActive = false,
   onSendHingeOpener,
+  onDeliverCustomOpenerReply,
   onSwitchRole,
   onOpenWildMap,
   onOpenChats,
@@ -60,6 +71,9 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   const targetRole = role === 'her' ? 'him' : 'her';
 
   const [passedIds, setPassedIds] = useState<string[]>([]);
+  const [focusedLeadId, setFocusedLeadId] = useState<string | null>(null);
+  const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
+  const [heardVoiceIds, setHeardVoiceIds] = useState<string[]>([]);
   const [pendingLikes, setPendingLikes] = useState<{ leadId: string; name: string; swipesSince: number }[]>([]);
   const [replyTarget, setReplyTarget] = useState<ActiveReplyTarget | null>(null);
   const [customNote, setCustomNote] = useState('');
@@ -75,22 +89,52 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     job: string;
     portrait: string;
     isDelayed?: boolean;
+    customPlayerNote?: string;
+    liveCustomReply?: string;
+    loadingCustomReply?: boolean;
   } | null>(null);
+
+  const allHingeCast = useMemo(
+    () =>
+      V35_CAST_PROFILES.filter(
+        (p) =>
+          p.role === targetRole &&
+          p.discoveryDoor !== 'wild' &&
+          !cutLooseIds.includes(p.id),
+      ),
+    [targetRole, cutLooseIds],
+  );
 
   const deck = useMemo(() => {
     const pendingSet = new Set(pendingLikes.map((p) => p.leadId));
-    return V35_CAST_PROFILES.filter(
+    return allHingeCast.filter(
       (p) =>
-        p.role === targetRole &&
-        p.discoveryDoor !== 'wild' &&
         !matchedLeadIds.includes(p.id) &&
-        !cutLooseIds.includes(p.id) &&
         !passedIds.includes(p.id) &&
         !pendingSet.has(p.id),
     );
-  }, [targetRole, matchedLeadIds, cutLooseIds, passedIds, pendingLikes]);
+  }, [allHingeCast, matchedLeadIds, passedIds, pendingLikes]);
 
-  const currentProfile: V35CastProfile | undefined = deck[0];
+  const currentProfile: V35CastProfile | undefined = useMemo(() => {
+    if (focusedLeadId) {
+      const found = deck.find((p) => p.id === focusedLeadId);
+      if (found) return found;
+    }
+    return deck[0];
+  }, [deck, focusedLeadId]);
+
+  useEffect(() => {
+    setFocusedLeadId(null);
+    setPlayingVoiceId(null);
+  }, [role]);
+
+  useEffect(() => {
+    if (!playingVoiceId) return;
+    const timer = window.setTimeout(() => {
+      setPlayingVoiceId(null);
+    }, 3600);
+    return () => window.clearTimeout(timer);
+  }, [playingVoiceId]);
 
   const advancePendingCounter = (extraPending?: { leadId: string; name: string }) => {
     const updated = pendingLikes.map((item) => ({
@@ -142,6 +186,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     if (!currentProfile) return;
     sfx.swipeLeft();
     setReplyTarget(null);
+    setPlayingVoiceId(null);
+    setFocusedLeadId(null);
     setPassedIds((prev) => [...prev, currentProfile.id]);
     advancePendingCounter();
     if (!import.meta.env.VITEST && typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
@@ -179,73 +225,122 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     return () => window.removeEventListener('keydown', onKeyDown);
   });
 
-  const submitLike = (openerText: string, cost: number, delta: number) => {
+  const submitLike = (
+    openerText: string,
+    cost: number,
+    delta: number,
+    isCustomOpener = false,
+  ) => {
     if (!currentProfile || !replyTarget) return;
 
+    const targetPerson = currentProfile;
+    const targetPreview = replyTarget.previewText;
     const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
     const isFirstWelcomeSpark =
       matchedLeadIds.length === 0 &&
       pendingLikes.length === 0 &&
       delta > 0 &&
-      currentProfile.matchSelectivity !== 'standout';
+      targetPerson.matchSelectivity !== 'standout';
 
     const isRoseOrAttuned =
       cost > 0 ||
+      isCustomOpener ||
       boostedDelta >= 14 ||
       isFirstWelcomeSpark ||
-      currentProfile.matchSelectivity === 'warm' ||
-      currentProfile.tier === 'trap';
+      targetPerson.matchSelectivity === 'warm' ||
+      targetPerson.tier === 'trap';
 
     if (isRoseOrAttuned) {
       const accepted = onSendHingeOpener(
-        currentProfile.id,
+        targetPerson.id,
         replyTarget.label,
         openerText,
         cost,
         boostedDelta,
         'instant_match',
+        isCustomOpener,
       );
       if (accepted === false) {
         setReplyTarget(null);
         return;
       }
       sfx.swipeRight();
-      const matchedVis = V35_CAST_VISUALS[currentProfile.id];
+      setPlayingVoiceId(null);
+      setFocusedLeadId(null);
+      const matchedVis = V35_CAST_VISUALS[targetPerson.id];
       const poppedDelayed = advancePendingCounter();
       if (!poppedDelayed) {
         setStatusBanner({
           tone: 'match',
-          text: `🥂 It’s a Match with ${currentProfile.name}! Thread added to Chats & Dates.`,
-          leadId: currentProfile.id,
+          text: `🥂 It’s a Match with ${targetPerson.name}! Thread added to Chats & Dates.`,
+          leadId: targetPerson.id,
         });
         if (matchedVis) {
           setMatchCelebration({
-            leadId: currentProfile.id,
-            name: currentProfile.name,
-            age: currentProfile.age,
-            job: currentProfile.vitals.job,
+            leadId: targetPerson.id,
+            name: targetPerson.name,
+            age: targetPerson.age,
+            job: targetPerson.vitals.job,
             portrait: matchedVis.primaryPortrait,
+            customPlayerNote: isCustomOpener ? openerText : undefined,
+            loadingCustomReply: isCustomOpener,
           });
         }
       }
+
+      if (isCustomOpener) {
+        void liveAiInboxService
+          .evaluateOpeningDm({
+            personaId: targetPerson.id,
+            personaName: targetPerson.name,
+            personaAge: targetPerson.age,
+            personaTitle: targetPerson.vitals.job,
+            personaRole: targetPerson.role,
+            platform: 'tinder',
+            playerMessage: openerText,
+            history: [{ sender: 'match', text: targetPreview }],
+          })
+          .then((res) => {
+            onDeliverCustomOpenerReply?.(targetPerson.id, res.herReply, res.chemistryDelta);
+            setMatchCelebration((prev) =>
+              prev && prev.leadId === targetPerson.id
+                ? {
+                    ...prev,
+                    liveCustomReply: res.herReply,
+                    loadingCustomReply: false,
+                  }
+                : prev,
+            );
+          })
+          .catch(() => {
+            setMatchCelebration((prev) =>
+              prev && prev.leadId === targetPerson.id
+                ? { ...prev, loadingCustomReply: false }
+                : prev,
+            );
+          });
+      }
     } else {
       sfx.messagePop();
+      setPlayingVoiceId(null);
+      setFocusedLeadId(null);
       onSendHingeOpener(
-        currentProfile.id,
+        targetPerson.id,
         replyTarget.label,
         openerText,
         0,
         delta,
         'pending_like',
+        false,
       );
       const poppedDelayed = advancePendingCounter({
-        leadId: currentProfile.id,
-        name: currentProfile.name,
+        leadId: targetPerson.id,
+        name: targetPerson.name,
       });
       if (!poppedDelayed) {
         setStatusBanner({
           tone: 'pending',
-          text: `Sent Like • Pending — ${currentProfile.name} is selective! Read prompts closely (or send a 🌹 Standout Rose) to match right away.`,
+          text: `Sent Like • Pending — ${targetPerson.name} is selective! Read prompts closely (or send a 🌹 Standout Rose) to match right away.`,
         });
       }
     }
@@ -336,6 +431,92 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             </button>
           )}
         </div>
+      )}
+
+      {/* Tonight's Cast Strip — Jump Straight to Any Intriguing Character or Track Matches */}
+      {allHingeCast.length > 0 && (
+        <section
+          data-testid="hinge-cast-strip"
+          aria-label="Tonight's Hinge Lineup"
+          className="rounded-2xl border border-zinc-200/90 bg-white px-4 py-3 shadow-2xs"
+        >
+          <div className="mb-2.5 flex items-center justify-between gap-2 text-xs">
+            <span className="font-bold text-zinc-900">
+              Tonight’s {allHingeCast.length} Singles
+            </span>
+            <span className="text-[11px] font-medium text-zinc-500">
+              Tap any portrait to jump or open chat
+            </span>
+          </div>
+          <div className="flex items-center gap-3 overflow-x-auto pb-1">
+            {allHingeCast.map((person) => {
+              const vis = V35_CAST_VISUALS[person.id];
+              const isMatched = matchedLeadIds.includes(person.id);
+              const isPending = pendingLikes.some((p) => p.leadId === person.id);
+              const isPassed = passedIds.includes(person.id);
+              const isCurrent = currentProfile?.id === person.id;
+
+              return (
+                <button
+                  key={person.id}
+                  type="button"
+                  data-testid={`cast-jump-${person.id}`}
+                  onClick={() => {
+                    if (isMatched) {
+                      onOpenChats?.(person.id);
+                      return;
+                    }
+                    if (isPending) return;
+                    sfx.messagePop();
+                    setPlayingVoiceId(null);
+                    if (isPassed) {
+                      setPassedIds((prev) => prev.filter((id) => id !== person.id));
+                    }
+                    setFocusedLeadId(person.id);
+                  }}
+                  className={`group flex shrink-0 flex-col items-center gap-1 text-center transition cursor-pointer ${
+                    isPassed && !isCurrent ? 'opacity-55 hover:opacity-100' : ''
+                  }`}
+                >
+                  <div
+                    className={`relative h-12 w-12 rounded-full p-0.5 transition ${
+                      isCurrent
+                        ? 'ring-2 ring-[#B83253] ring-offset-1'
+                        : isMatched
+                          ? 'ring-2 ring-emerald-500'
+                          : isPending
+                            ? 'ring-2 ring-amber-400'
+                            : 'ring-1 ring-zinc-200 group-hover:ring-zinc-400'
+                    }`}
+                  >
+                    <img
+                      src={vis?.primaryPortrait || person.slides[0]?.url}
+                      alt={`${person.name} avatar`}
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                    {isMatched && (
+                      <span className="absolute -right-0.5 -bottom-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-white shadow-xs">
+                        <Check className="h-2.5 w-2.5 stroke-[3]" />
+                      </span>
+                    )}
+                    {isPending && !isMatched && (
+                      <span className="absolute -right-0.5 -bottom-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[9px] font-bold text-zinc-950 shadow-xs">
+                        ⏳
+                      </span>
+                    )}
+                  </div>
+                  <span
+                    className={`text-[11px] leading-tight whitespace-nowrap ${
+                      isCurrent ? 'font-bold text-[#B83253]' : 'font-medium text-zinc-700'
+                    }`}
+                  >
+                    {person.name}, {person.age}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
       )}
 
       {/* Empty Deck State */}
@@ -448,6 +629,104 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </button>
             </div>
 
+            {/* Interactive Real-Hinge Voice Prompt Card */}
+            {currentProfile.voicePrompt && (
+              <div
+                data-testid="hinge-voice-prompt"
+                className="relative rounded-2xl border border-zinc-200/90 bg-zinc-50/70 p-5 pr-16 space-y-3"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-600">
+                    <Volume2 className="h-3.5 w-3.5 text-[#B83253]" />
+                    <span>{currentProfile.voicePrompt.question}</span>
+                  </span>
+                  <span className="text-[11px] font-semibold tabular-nums text-zinc-400">
+                    {currentProfile.voicePrompt.duration}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    data-testid="hinge-voice-play-btn"
+                    aria-label={
+                      playingVoiceId === currentProfile.id
+                        ? `Pause ${currentProfile.name}'s voice prompt`
+                        : `Play ${currentProfile.name}'s voice prompt`
+                    }
+                    onClick={() => {
+                      sfx.messagePop();
+                      if (playingVoiceId === currentProfile.id) {
+                        setPlayingVoiceId(null);
+                      } else {
+                        setPlayingVoiceId(currentProfile.id);
+                        setHeardVoiceIds((prev) =>
+                          prev.includes(currentProfile.id) ? prev : [...prev, currentProfile.id],
+                        );
+                      }
+                    }}
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white hover:bg-[#B83253] transition cursor-pointer"
+                  >
+                    {playingVoiceId === currentProfile.id ? (
+                      <Pause className="h-4 w-4 fill-white" />
+                    ) : (
+                      <Play className="h-4 w-4 fill-white ml-0.5" />
+                    )}
+                  </button>
+
+                  <div className="flex flex-1 items-center gap-1 h-8" aria-hidden="true">
+                    {VOICE_WAVEFORM_BARS.map((pct, barIdx) => {
+                      const isPlaying = playingVoiceId === currentProfile.id;
+                      return (
+                        <span
+                          key={barIdx}
+                          style={{ height: `${isPlaying ? Math.min(100, pct + ((barIdx % 3) * 8)) : pct}%` }}
+                          className={`flex-1 rounded-full transition-all duration-300 ${
+                            isPlaying
+                              ? 'bg-[#B83253] animate-pulse'
+                              : heardVoiceIds.includes(currentProfile.id)
+                                ? 'bg-zinc-500'
+                                : 'bg-zinc-300'
+                          }`}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <p className="text-sm italic text-zinc-800 leading-relaxed">
+                  {currentProfile.voicePrompt.transcript}
+                </p>
+
+                {heardVoiceIds.includes(currentProfile.id) && (
+                  <div
+                    data-testid="hinge-voice-subtext"
+                    className="rounded-xl bg-white border border-zinc-200 px-3 py-2 text-xs font-medium text-zinc-700"
+                  >
+                    <span className="font-bold text-zinc-950">Bestie Read: </span>
+                    {currentProfile.voicePrompt.subtextTell}
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  aria-label={`Like voice prompt of ${currentProfile.name}`}
+                  onClick={() =>
+                    setReplyTarget({
+                      kind: 'voice',
+                      label: `${currentProfile.name}'s voice prompt`,
+                      previewText:
+                        currentProfile.voicePrompt?.transcript || currentProfile.prompts[0].answer,
+                      prompt: currentProfile.prompts[0],
+                    })
+                  }
+                  className="hinge-heart-fab absolute right-4 bottom-4 flex h-11 w-11 items-center justify-center rounded-full cursor-pointer"
+                >
+                  <Heart className="h-5 w-5" />
+                </button>
+              </div>
+            )}
+
             {/* Authentic Hinge Vitals Strip */}
             <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 space-y-3">
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-zinc-800">
@@ -533,6 +812,38 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 <Heart className="h-5 w-5" />
               </button>
             </div>
+
+            {/* Narrative Cliffhanger Hook: What Happens on Friday Night If You Match */}
+            {currentProfile.fridayStoryHook && (
+              <div
+                data-testid="hinge-story-hook"
+                className="rounded-2xl border border-rose-200 bg-rose-50/50 p-5 space-y-2.5"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#B83253]">
+                    <Clapperboard className="h-3.5 w-3.5" />
+                    <span>Friday Story Preview • What Happens Next</span>
+                  </span>
+                </div>
+                <p className="text-sm font-medium text-zinc-900 leading-relaxed">
+                  {currentProfile.fridayStoryHook}
+                </p>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setReplyTarget({
+                      kind: 'prompt',
+                      label: currentProfile.prompts[0].question,
+                      previewText: currentProfile.prompts[0].answer,
+                      prompt: currentProfile.prompts[0],
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#B83253] hover:text-zinc-950 transition-colors cursor-pointer"
+                >
+                  <span>Match with {currentProfile.name} to play this storyline →</span>
+                </button>
+              </div>
+            )}
 
             {/* Photo 3 — Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
             <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
@@ -748,12 +1059,15 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     const fallbackLikeText =
                       replyTarget.kind === 'photo'
                         ? 'Liked your photo ❤️'
-                        : 'Liked your answer ❤️';
-                    submitLike(fallbackLikeText, 0, 8);
+                        : replyTarget.kind === 'voice'
+                          ? 'Liked your voice prompt ❤️'
+                          : 'Liked your answer ❤️';
+                    submitLike(fallbackLikeText, 0, 8, false);
                     return;
                   }
-                  const earnedDelta = trimmed.length >= 12 ? 16 : -4;
-                  submitLike(trimmed, 0, earnedDelta);
+                  const isThoughtfulCustom = trimmed.length >= 12;
+                  const earnedDelta = isThoughtfulCustom ? 16 : -4;
+                  submitLike(trimmed, 0, earnedDelta, isThoughtfulCustom);
                 }}
                 className="flex gap-2 pt-1"
               >
@@ -819,6 +1133,30 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   graduate to personal iMessage &amp; unlock Date #1 (or hit 🚩 Cut Loose if red
                   flags drop!).
                 </p>
+                {matchCelebration.customPlayerNote && (
+                  <div
+                    data-testid="hinge-custom-live-reply"
+                    className="mt-3 rounded-2xl border border-zinc-200 bg-white p-3.5 text-left space-y-1.5"
+                  >
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                      Your Open-Ended Note: “{matchCelebration.customPlayerNote}”
+                    </div>
+                    <div className="text-xs sm:text-sm font-medium text-zinc-900 leading-snug">
+                      {matchCelebration.loadingCustomReply ? (
+                        <span className="text-zinc-500 italic">
+                          {matchCelebration.name} is typing a reply…
+                        </span>
+                      ) : (
+                        <>
+                          <span className="font-bold text-[#B83253]">
+                            {matchCelebration.name}:{' '}
+                          </span>
+                          {matchCelebration.liveCustomReply}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">

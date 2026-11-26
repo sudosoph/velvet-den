@@ -46,6 +46,7 @@ export function createInitialThread(
   leadId: string,
   originDoor: 'hinge' | 'wild',
   openerText?: string,
+  isCustomOpener = false,
 ): ActiveMatchThread {
   const chapter = V35_CHAT_CHAPTERS[leadId];
   const stage: 'app_dm' | 'imessage' = originDoor === 'wild' ? 'imessage' : 'app_dm';
@@ -55,8 +56,10 @@ export function createInitialThread(
   if (openerText) {
     seeded.push({ sender: 'player', text: openerText });
   }
-  for (const m of firstBeat?.incomingMessages ?? []) {
-    seeded.push({ sender: 'match', text: m });
+  if (!isCustomOpener) {
+    for (const m of firstBeat?.incomingMessages ?? []) {
+      seeded.push({ sender: 'match', text: m });
+    }
   }
 
   return {
@@ -133,6 +136,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [discordExtraMsgs, setDiscordExtraMsgs] = useState<
     Record<string, { sender: string; badge: string; text: string }[]>
   >({});
+  const [discordFreeInput, setDiscordFreeInput] = useState('');
+  const [sendingDiscordAi, setSendingDiscordAi] = useState(false);
   const [spicyMode, setSpicyMode] = useState(false);
   const [freeInput, setFreeInput] = useState('');
   const [sendingAi, setSendingAi] = useState(false);
@@ -372,6 +377,118 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const activeDiscord =
     V35_DISCORD_CHANNELS.find((c) => c.id === activeDiscordId) ?? V35_DISCORD_CHANNELS[0];
 
+  const DISCORD_CHANNEL_RESPONDERS: Record<
+    string,
+    { id: string; name: string; badge: string; age: number; title: string; role: 'her' | 'him' }
+  > = {
+    'velvet-lounge': {
+      id: 'jade-discord',
+      name: 'Jade_42F',
+      badge: '🐆 Velvet Palms Host',
+      age: 42,
+      title: 'Velvet Palms Host & Biotech Director',
+      role: 'her',
+    },
+    'red-flag-emergency': {
+      id: 'priya',
+      name: 'Priya_TraumaRN',
+      badge: '🏥 Night Shift',
+      age: 36,
+      title: 'Charge Trauma RN & Red-Flag Triage Lead',
+      role: 'her',
+    },
+    'ask-a-cougar': {
+      id: 'elena',
+      name: 'Prof_Elena',
+      badge: '🎓 Literature Chair',
+      age: 44,
+      title: 'Department Chair & Author',
+      role: 'her',
+    },
+    'spotted-in-the-wild': {
+      id: 'sam-discord',
+      name: 'Sam_27M',
+      badge: '🏡 Cul-de-Sac Neighbor',
+      age: 27,
+      title: 'Structural Engineer & Velvet Palms Regular',
+      role: 'him',
+    },
+    'blind-velvet-dm': {
+      id: 'anon-cedar',
+      name: 'Anon_Cedar_7',
+      badge: '🎭 Mystery Regular',
+      age: 39,
+      title: 'Velvet Room Insider',
+      role: 'her',
+    },
+  };
+
+  const handleDiscordFreeSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = discordFreeInput.trim();
+    if (!trimmed || sendingDiscordAi) return;
+
+    const channelId = activeDiscord.id;
+    const responder =
+      DISCORD_CHANNEL_RESPONDERS[channelId] ?? DISCORD_CHANNEL_RESPONDERS['ask-a-cougar'];
+    const senderLabel = wallet.playerName || (role === 'her' ? 'You (Queen)' : 'You');
+
+    sfx.messagePop();
+    if (activeDiscord.conspiracyClueId) {
+      onRecordConspiracyClue?.(activeDiscord.conspiracyClueId);
+    }
+
+    const recentMsgs = [
+      ...activeDiscord.seededMessages,
+      ...(discordExtraMsgs[channelId] || []),
+    ].slice(-5);
+
+    setSendingDiscordAi(true);
+    setDiscordFreeInput('');
+    setDiscordExtraMsgs((prev) => ({
+      ...prev,
+      [channelId]: [
+        ...(prev[channelId] || []),
+        {
+          sender: senderLabel,
+          badge: '✨ Member',
+          text: trimmed,
+        },
+      ],
+    }));
+
+    try {
+      const res = await liveAiInboxService.evaluateOpeningDm({
+        personaId: responder.id,
+        personaName: responder.name,
+        personaAge: responder.age,
+        personaTitle: `${responder.title} in ${activeDiscord.handleLabel}`,
+        personaRole: responder.role,
+        platform: 'discord',
+        playerMessage: trimmed,
+        history: recentMsgs.map((m) => ({
+          sender: m.sender === senderLabel ? ('player' as const) : ('match' as const),
+          text: `${m.sender}: ${m.text}`,
+        })),
+      });
+
+      const cleanReply = res.herReply.replace(/^[A-Za-z0-9_&]+:\s*/, '').trim();
+      setDiscordExtraMsgs((prev) => ({
+        ...prev,
+        [channelId]: [
+          ...(prev[channelId] || []),
+          {
+            sender: responder.name,
+            badge: responder.badge,
+            text: cleanReply || res.herReply,
+          },
+        ],
+      }));
+    } finally {
+      setSendingDiscordAi(false);
+    }
+  };
+
   return (
     <div className="mx-auto w-full max-w-6xl space-y-5 animate-stage-in">
       {/* Secret Table 9 Conspiracy Banner when Clues Collected */}
@@ -526,10 +643,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               ))}
             </div>
 
-            {/* Full-Sentence Wrapped Channel Suggestions (Zero Truncation!) */}
-            <div className="space-y-2 pt-2 border-t border-stone-100">
+            {/* Full-Sentence Wrapped Channel Suggestions + Live Open-Ended Discord Input */}
+            <div className="space-y-3 pt-3 border-t border-stone-100">
               <div className="text-xs font-bold uppercase tracking-wider text-stone-400">
-                Drop into {activeDiscord.handleLabel}
+                Quick Prompts or Ask Anything in {activeDiscord.handleLabel}
               </div>
               <div className="grid gap-2">
                 {(role === 'her'
@@ -544,7 +661,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       if (activeDiscord.conspiracyClueId) {
                         onRecordConspiracyClue?.(activeDiscord.conspiracyClueId);
                       }
+                      const roleReplies =
+                        role === 'her' ? activeDiscord.repliesHer : activeDiscord.repliesHim;
                       const reply =
+                        roleReplies?.[sIdx] ??
                         activeDiscord.botReplies[sIdx % activeDiscord.botReplies.length];
                       setDiscordExtraMsgs((prev) => ({
                         ...prev,
@@ -569,6 +689,30 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </button>
                 ))}
               </div>
+
+              <form
+                onSubmit={handleDiscordFreeSubmit}
+                className="flex items-center gap-2 pt-1"
+                data-testid="discord-open-form"
+              >
+                <input
+                  type="text"
+                  value={discordFreeInput}
+                  onChange={(e) => setDiscordFreeInput(e.target.value)}
+                  disabled={sendingDiscordAi}
+                  aria-label={`Message ${activeDiscord.handleLabel}`}
+                  placeholder={`Ask ${activeDiscord.handleLabel} anything (open-ended live AI)...`}
+                  className="flex-1 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-xs sm:text-sm text-[#18101E] focus:border-indigo-500 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  disabled={!discordFreeInput.trim() || sendingDiscordAi}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#5865F2] hover:bg-[#4752C4] disabled:opacity-50 px-4 py-2.5 text-xs font-bold text-white transition cursor-pointer"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                  <span>{sendingDiscordAi ? 'Typing…' : 'Post'}</span>
+                </button>
+              </form>
             </div>
           </section>
         </div>

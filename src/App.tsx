@@ -976,7 +976,7 @@ export default function App() {
             matchedLeadIds={threads.map((t) => t.leadId)}
             cutLooseIds={cutLooseIds}
             etiquetteBonusActive={cubSchoolStars >= 4}
-            onSendHingeOpener={(leadId, _label, openerText, cost, delta, outcome) => {
+            onSendHingeOpener={(leadId, _label, openerText, cost, delta, outcome, isCustomOpener) => {
               if (cost > 0) {
                 const spent = spendCredits(wallet, cost);
                 if (!spent.ok) {
@@ -989,12 +989,25 @@ export default function App() {
 
               setThreads((prev) => {
                 if (prev.some((t) => t.leadId === leadId)) return prev;
-                const created = createInitialThread(leadId, 'hinge', openerText);
+                const created = createInitialThread(leadId, 'hinge', openerText, Boolean(isCustomOpener));
                 created.chemistry = Math.max(25, Math.min(92, created.chemistry + delta));
                 return [created, ...prev];
               });
               setSelectedChatLeadId(leadId);
               return true;
+            }}
+            onDeliverCustomOpenerReply={(leadId, replyText, chemistryDelta) => {
+              setThreads((prev) =>
+                prev.map((t) =>
+                  t.leadId === leadId
+                    ? {
+                        ...t,
+                        chemistry: Math.max(15, Math.min(98, t.chemistry + Math.round(chemistryDelta / 2))),
+                        messages: [...t.messages, { sender: 'match', text: replyText }],
+                      }
+                    : t,
+                ),
+              );
             }}
             onSwitchRole={(nextRole) => setRole(nextRole)}
             onOpenWildMap={() => setActiveTab('wild')}

@@ -67,6 +67,8 @@ export interface DiscordChannelSpec {
   seededMessages: { sender: string; badge: string; text: string }[];
   suggestionsHer: string[];
   suggestionsHim: string[];
+  repliesHer: [string, string, string];
+  repliesHim: [string, string, string];
   botReplies: string[];
   conspiracyClueId?: string;
 }
@@ -98,6 +100,16 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
       'New to Velvet Palms: best florist open past six near Westwood?',
       'Taking notes so I never fumble a second date in this zip code.',
     ],
+    repliesHer: [
+      'Jade_42F: Slip straight into The Velvet Room’s back piano lounge or Left Bank’s courtyard—acoustic warmth, proper glassware, zero finance vests shouting.',
+      'Claire_M&A: If it’s Hampstead Julian, you are in very good hands—he arrives five minutes early and actually silences his phone.',
+      'Sienna_Design: Hard Club law! After 8:30 PM I am already in silk loungewear unless a confirmed Resy pin hit my phone by noon.',
+    ],
+    repliesHim: [
+      'Claire_M&A: Keep a small paper-wrapped bouquet in the trunk for the walk back to her car after dinner so she doesn’t carry stems across the bar.',
+      'Sienna_Design: Left Bank Botanica on Westwood stays open until 7:30 PM—ask for ivory ranunculus or pale peonies, zero baby’s breath.',
+      'Jade_42F: Confirm at noon Friday, stand up when she arrives, and listen twice as much as you pitch—you’ll outclass ninety percent of the city.',
+    ],
     botReplies: [
       'Jade_42F: Quiet corner banquette at 7:30 is undefeated—keep your phone off the table and you are golden.',
       'Claire_M&A: One single stem or small seasonal bouquet works wonders; carrying a parade float across the bar does not.',
@@ -128,6 +140,16 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
       'She says she is "practically divorced" while still sharing the Bel Air house—run for the hills?',
       'She insisted I wear a navy blazer and sit facing Table 9 where her ex dines every Friday.',
       'How do I tell normal post-divorce caution apart from someone using me as a rebound prop?',
+    ],
+    repliesHer: [
+      'Jade_42F: Trust your gut! Tokyo opens at 5 PM Pacific and closes Friday—a nightly + Sunday 6:45 blackout is 100% a Montecito marriage curfew. Hit Cut Loose!',
+      'Priya_TraumaRN: Instant Cut Loose! Nobody "accidentally" ages six years via Facebook—he deliberately bypassed women’s age filters.',
+      'Claire_M&A: Textbook Tuesday poet, Friday 4 PM flake. Love-bombing before Date #1 is fantasy projection, not real follow-through.',
+    ],
+    repliesHim: [
+      'Sam_27M: Sprint, brother! "Practically divorced in the same Bel Air house" means Lawrence is eating breakfast in that kitchen right now.',
+      'Jade_42F: That’s Brooke’s Friday revenge audition! Wait—Graham’s 6:45 vanish AND Table 9 are connected. Check #blind-velvet-dm!',
+      'Prof_Elena: Healthy caution protects her peace and moves steadily in private; a rebound prop only wants noisy public photo ops in front of an ex.',
     ],
     botReplies: [
       'Priya_TraumaRN: Clock it and hit Cut Loose! Saving your Friday night heart beats playing unpaid marriage counselor.',
@@ -161,6 +183,16 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
       'How early should I prep my mom before introducing a partner who is closer to her age?',
       'Does sending a calm confirmation text at noon on Friday still count as a top-tier green flag?',
     ],
+    repliesHer: [
+      'Prof_Elena: Let him plan and pay squarely inside his budget when he invites, then host weekend escapes you initiate. Alternate turns as equals—never mother him.',
+      'Priya_TraumaRN: Ten minutes of first-date nerves is endearing if he settles down and truly listens. Smooth players rehearse; real Cubs actually care what you think.',
+      'Claire_M&A: Toast to it early: "I want real commitment and great weekends together, and I am keeping my own house keys forever." Secure men love Living-Apart-Together clarity.',
+    ],
+    repliesHim: [
+      'Prof_Elena: Plan thoughtful dates squarely inside your budget and pay cleanly when you invite—pretension fails, sincerity wins.',
+      'Sienna_Design: Prep your mom warmly a full week ahead so she feels respected and zero people blink at Sunday dinner—never spring an ambush.',
+      'Claire_M&A: A noon Friday confirmation text ("Looking forward to 7:30 tonight, table is set") puts you in the top two percent.',
+    ],
     botReplies: [
       'Prof_Elena: Plan thoughtful dates squarely inside your budget and pay cleanly when you invite—pretension fails, sincerity wins.',
       'Claire_M&A: A noon Friday confirmation text ("Looking forward to 7:30 tonight, table is set") puts you in the top two percent.',
@@ -192,6 +224,16 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
       'Survived three weeks of polite nods at Dawn Lap Pool before saying hi at the smoothie counter. Worth every lap.',
       'Note to self: empty grocery baskets in the Rioja aisle fool zero women.',
     ],
+    repliesHer: [
+      'Jade_42F: That’s Søren on Court 3 at Palisades Racquet! Step onto the In The Wild map—he loves a fearless mixed-doubles challenge.',
+      'Claire_M&A: Guilty—Miles met me at Terminal B Baggage Claim and handled both weekender bags in one hand. Check Terminal B on the map!',
+      'Sienna_Design: That’s Rafael from Silver Lake! Catch him Thursday night at Havana & Vine before the brass band wraps.',
+    ],
+    repliesHim: [
+      'Prof_Elena: Punctual and ethically literate—meet me on the north quad bench at 5:01 PM sharp once registrar grades lock.',
+      'Priya_TraumaRN: Slow-burn lap-pool etiquette works every time—zero mid-set interruptions, warm conversation over smoothies after.',
+      'Sienna_Design: Haha put actual olive oil and figs in the basket first—we spot empty-basket aisle lurkers from thirty paces!',
+    ],
     botReplies: [
       'Sam_27M: Confirmed—half the best romances in Velvet Palms started curbside at Terminal B or by the fig counter.',
       'Jade_42F: Go check the In The Wild map before someone else claims that 8:15 corner table!',
@@ -222,6 +264,16 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
       'So Brooke only wanted me at that steakhouse to rattle Richard at Table 9—and Vanessa’s husband is in on it?!',
       'Anon_Cedar_7, drop one clue who you are in Velvet Palms.',
       'Logging this Table 9 receipt right now—nobody uses us as alibi props on Friday night.',
+    ],
+    repliesHer: [
+      'Anon_Cedar_7: Every word is true—three husbands split one cash ledger at Table 9 so none of their credit cards show The Velvet Room. Clue logged!',
+      'Anon_Cedar_7: Let’s just say I care deeply about room acoustics, cedar joinery, and making sure good women don’t waste Friday nights on liars.',
+      'Anon_Velvet_9: Dossier updated! Grab two more clues from #red-flag-emergency or Cut Loose vetting to unlock the Table 9 Takedown finale.',
+    ],
+    repliesHim: [
+      'Anon_Velvet_9: Bingo—Richard, Lawrence, and Graham run a three-way alibi ring out of Table 9 every Friday at 6:15 PM. Clue logged!',
+      'Anon_Cedar_7: Check Terminal B or the mahogany bar rail—I build the rooms where Velvet Palms regulars tell the truth.',
+      'Anon_Velvet_9: Receipt locked into your vault! Hit 3/3 clues to crash their Friday booth in the secret finale.',
     ],
     botReplies: [
       'Anon_Cedar_7: Sharp eye. Clock three Table 9 clues across your chats and venues to unlock the secret Friday Takedown episode.',
