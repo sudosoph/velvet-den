@@ -47,7 +47,27 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
       expect(
         screen.getByText(/Living-Apart-Together is my favorite arrangement/i),
       ).toBeInTheDocument();
+      // Second regular (Claire_M&A) also chimes in with a punchy co-sign!
+      expect(screen.getByText(/Keep both leases for at least year one/i)).toBeInTheDocument();
     });
+
+    // Test split-bill coherence in #ask-a-cougar (must call out Date #1 split fumble, never call it generous!)
+    fireEvent.change(input, {
+      target: { value: 'He invited me out and offered to split the bill on Date 1, what do I do?' },
+    });
+    fireEvent.submit(screen.getByTestId('discord-open-form'));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/pay your half with a warm smile so you owe him nothing/i),
+      ).toBeInTheDocument();
+    });
+
+    // Bounded scrollable feed + interactive Discord reactions work cleanly
+    expect(screen.getByTestId('discord-message-feed')).toBeInTheDocument();
+    const reactBtns = screen.getAllByRole('button', { name: /React 🥂/i });
+    fireEvent.click(reactBtns[0]);
+    expect(reactBtns[0].textContent).toContain('🥂 1');
   });
 
   it('equips every Hinge profile with Cast Strip jumping, playable Voice Prompt + Bestie subtext, Friday Story Preview, and live AI custom opener replies', async () => {

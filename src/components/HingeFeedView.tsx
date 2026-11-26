@@ -296,6 +296,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             personaAge: targetPerson.age,
             personaTitle: targetPerson.vitals.job,
             personaRole: targetPerson.role,
+            playerRole: role,
+            personaLore: `${targetPerson.tagline} ${targetPerson.trapTellSummary || targetPerson.vulnerabilityNote || ''}`.trim(),
             platform: 'tinder',
             playerMessage: openerText,
             history: [{ sender: 'match', text: targetPreview }],

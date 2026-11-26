@@ -542,16 +542,25 @@ function humanizeChatText(
 
   if (options?.singleLine) {
     const words = cleaned.split(/\s+/);
-    if (words.length > 20) {
+    if (words.length > 24) {
       const sentences = cleaned
         .split(/(?<=[.!?])\s+/)
         .map((s) => s.trim())
         .filter(Boolean);
       if (sentences.length >= 2) {
         const firstWords = sentences[0].split(/\s+/).length;
-        cleaned = firstWords <= 4 ? `${sentences[0]} ${sentences[1]}` : sentences[0];
+        cleaned = firstWords <= 6 ? `${sentences[0]} ${sentences[1]}` : sentences[0];
       }
     }
+  }
+
+  if (
+    cleaned.length > 0 &&
+    !/[.!?'"”’)\]]$/.test(cleaned) &&
+    !/\bxx?$/i.test(cleaned) &&
+    !/\p{Extended_Pictographic}$/u.test(cleaned)
+  ) {
+    cleaned = `${cleaned}.`;
   }
 
   return cleaned;
@@ -642,7 +651,22 @@ function fallbackEvaluateDm(req: {
   const msg = String(req.playerMessage || '').trim();
   const lower = msg.toLowerCase();
 
-  // Topic-aware responses first so open-ended questions (moving in together, finances, family, etc.) NEVER get generic reservation replies
+  // Topic-aware responses first so open-ended questions (splitting bills, moving in together, finances, family, etc.) NEVER get generic reservation replies
+  if (/\b(split\s+(?:the\s+)?(?:bill|check|tab)|went?\s+dutch|go\s+dutch|pay\s+half|50\s*\/\s*50)\b/.test(lower)) {
+    return {
+      herReply:
+        role === 'him'
+          ? `Zero 50/50 check math when I ask you out. Dinner is handled cleanly before you reach for your purse.`
+          : `If he invited you out on Date #1 and asked to split the check, pay your half with a polite smile so you owe him zero Date #2.`,
+      secondReply: `Hard agree. A thoughtful $30 wine bar he hosts proudly beats a pricey dinner with itemized calculator math.`,
+      maturityDelta: 20,
+      chivalryDelta: 18,
+      chemistryDelta: 18,
+      coachNote: 'Whoever extends the invitation handles the check cleanly.',
+      passedVibeCheck: true,
+    };
+  }
+
   if (/\b(mov(?:e|ing)\s+in|live\s+together|living[- ]apart|separate\s+(?:houses?|places?|apartments?|keys)|own\s+(?:houses?|places?|apartments?|homes?)|two\s+(?:houses?|places?|apartments?|leases?)|merge\s+houses|cohabit)\b/.test(lower)) {
     return {
       herReply:
@@ -1275,12 +1299,57 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
   });
 }
 
+const CAST_AI_LORE_BY_ID: Record<string, string> = {
+  julian:
+    '27yo Hampstead London architectural historian on a 1-year Westwood fellowship; punctual, affectionate British wit ("half seven", "sorted", "proper", trailing "x"), upfront about his academic stipend, phone stays off the table.',
+  soren:
+    '26yo Copenhagen architect & clay-court tennis regular; composed Nordic directness, unhurried slow-burn confidence, loves mixed-doubles wagers and candlelit raw bars.',
+  miles:
+    '31yo structural engineer & master builder; rock-steady, decisive, handles logistics effortlessly without asking twenty questions.',
+  rafael:
+    '26yo Silver Lake custom furniture maker & salsa lead; warm sensory charm, playful confidence, loves courtyard dancing and cooking.',
+  marcus:
+    '27yo coastal firefighter-paramedic & pitmaster; grounded, protective calm, dry humor, zero flakiness.',
+  graham:
+    '29yo Private Equity VP who is SECRETLY MARRIED in Montecito and ALWAYS invents a suspicious 6:45 PM "Tokyo market call" curfew to vanish before evening dinner! Stay smooth and charming, yet deflect or slip up subtly if grilled about post-6:45 evenings, weekends, left ring finger, or Table 9.',
+  connor:
+    '21yo undergrad frat kid pretending Facebook glitched his Hinge age to 27! Upbeat party-boy energy who accidentally drops tells about roommates, campus, pregames, or bouncers checking IDs.',
+  devon:
+    '24yo Echo Park indie guitarist who writes poetic Tuesday texts, angles to lounge on her sofa instead of booking real restaurants, and gets stingy/defensive about restaurant checks.',
+  rory: '24yo earnest indie film post-production fellow; enthusiastic 35mm cinema romantic.',
+  jin: '25yo conservatory cellist; poised, witty late-night ramen and chamber-music charm.',
+  liam: '28yo coastal firefighter & surfer; warm, dependable outdoorsman.',
+  elena:
+    '44yo Hawthorne University Literature Chair; razor-sharp wit, loves Sancerre and complete sentences, allergic to hollow flattery.',
+  claire:
+    '46yo M&A Deal Partner; decisive executive magnetism, zero patience for passive "idk where do you want to go" texts, loves bold reservations.',
+  sienna:
+    '39yo luxury interior designer in Velvet Palms; warm, aesthetic-minded, tests whether a younger man holds hands proudly in public.',
+  priya:
+    '36yo Charge Trauma RN; quick-witted, grounded, values post-shift peace and real tacos over showy posturing.',
+  summer:
+    '33yo Malibu creative director; sunny, playful, dates with real intention.',
+  vanessa:
+    '43yo Bel Air art patron who claims she is "practically divorced" even though her husband Lawrence still lives in the mansion! Purring luxury charm while dodging weekends and home visits.',
+  brooke:
+    '42yo Palisades lifestyle creator secretly booking Table 9 at The Velvet Room just to make her ex-husband Richard jealous! Obsessed with camera angles and sitting near Table 9.',
+  celeste: '58yo silver-screen cinema icon; continental elegance, dry martinis, zero tolerance for boredom.',
+  astrid: '41yo coastal movement & sauna studio founder; serene, perceptive, reads nervous energy instantly.',
+  camila: '39yo contemporary gallery curator; smoky mezcal, incisive art-world banter, hates pretentious jargon.',
+  vivienne: '61yo French film producer; Left Bank sophistication, Burgundy & 35mm revivals, instant walkout if anyone says "for your age."',
+};
+
 async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Response> {
   let body: {
+    personaId?: string;
     personaName?: string;
     personaAge?: number;
     personaTitle?: string;
     personaRole?: 'her' | 'him';
+    playerRole?: 'her' | 'him';
+    channelId?: string;
+    secondSpeakerName?: string;
+    personaLore?: string;
     personaOrigin?: string;
     platform?: string;
     playerMessage?: string;
@@ -1298,60 +1367,92 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
     return jsonResponse({ error: 'Missing playerMessage' }, 400);
   }
 
+  const personaId = String(body.personaId || '').slice(0, 40);
   const personaName = String(body.personaName || 'Claire').slice(0, 32);
   const personaAge = Math.min(75, Math.max(21, Number(body.personaAge || 45)));
   const personaTitle = String(body.personaTitle || 'M&A Partner').slice(0, 64);
   const personaRole = body.personaRole === 'him' ? 'him' : 'her';
+  const playerRole: 'her' | 'him' =
+    body.playerRole === 'her' || body.playerRole === 'him'
+      ? body.playerRole
+      : personaRole === 'him'
+        ? 'her'
+        : 'him';
   const platform = String(body.platform || 'tinder').slice(0, 16);
+  const secondSpeakerName = String(body.secondSpeakerName || 'Claire_M&A').slice(0, 32);
+  const castLore =
+    String(body.personaLore || '').slice(0, 260) || CAST_AI_LORE_BY_ID[personaId] || '';
 
   if (env.AI) {
     try {
-      const priorPlayerTurns = Array.isArray(body.history)
-        ? body.history.filter((t) => t.sender === 'player').length
-        : 0;
-      const stageContext =
-        priorPlayerTurns <= 1
-          ? 'STAGE 1 (First Spark): React to their line, tease playfully, and ask one fun follow-up question!'
-          : priorPlayerTurns <= 4
-            ? 'STAGE 2 (Pre-Date Chemistry): Flirt deeper and build momentum toward Friday drinks or dinner!'
-            : 'STAGE 3 (Off-App Chemistry): Banter warmly like two people excited for their upcoming date!';
+      let systemPrompt: string;
 
-      const platformContext =
-        platform === 'imessage'
-          ? 'PLATFORM CONTEXT (EARNED OFF-APP iMESSAGE): You already swapped real phone numbers! React directly to the specific topic they brought up like an off-app romantic partner.'
-          : platform === 'discord'
-            ? `PLATFORM CONTEXT (CLUB DISCORD LOUNGE — answering as ${personaName}, ${personaTitle}): Directly answer the exact question, boundary, or dating scenario the member just asked about (e.g. moving in together vs Living-Apart-Together, income gaps, red flags, family, or flirting) with specific, witty insider wisdom! NEVER give unrelated generic date-budget advice if they asked about another topic.`
+      if (platform === 'discord') {
+        const memberDesc =
+          playerRole === 'her'
+            ? 'an accomplished, self-possessed woman (a Cougar) posting to fellow Velvet Palms regulars'
+            : 'a younger man (a Cub) asking seasoned Velvet Palms regulars for honest courtship wisdom';
+
+        systemPrompt = [
+          `You run the lively Velvet Palms Club Discord Lounge in "Cougars & Cubs Club", a sharp, funny romantic-comedy age-gap dating game.`,
+          `The human member posting right now is ${memberDesc}.`,
+          `Primary responder: ${personaName} (${personaAge}, ${personaTitle}). Optional second responder chiming in right after: ${secondSpeakerName}.`,
+          `CRITICAL READING COMPREHENSION: Read every word of the member's message accurately!`,
+          `- If someone invited her out on Date #1 and offered to SPLIT the bill 50/50, NEVER call splitting generous! In this Club, whoever initiates the invite hosts and pays the check cleanly (splitting on Date #1 is a rookie fumble—tell her to pay her half cleanly so she owes him zero second date, or contrast it with alternating whole dates).`,
+          `- If they ask about moving in together vs Living-Apart-Together (separate places/keys): give concrete, witty Velvet Palms perspective (protecting your sanctuary, keeping two sets of keys, doing a Friday-to-Monday weekend test first, never merging leases out of pressure).`,
+          `- If they ask whether a younger guy or older woman is serious vs just curious: point to concrete tells (locking in Friday reservations by Wednesday, proud public hand-holding in front of friends, weekday consistency, zero 6:45 PM mystery curfews).`,
+          `- If they ask about income gaps: whoever invites plans squarely inside their real budget and pays cleanly; alternate turns hosting without mothering or ego.`,
+          `BANNED BLAND AI CLICHES: NEVER write generic fortune-cookie HR lines like "Consider his maturity level", "Communication is key", "Actions speak louder than words", or "Assess compatibility". Sound like witty, opinionated real regulars over wine!`,
+          `STRICT PUNCTUATION: No em-dashes, no semicolons. End every sentence with proper punctuation.`,
+          `Respond ONLY with valid single-line JSON (no markdown fences):`,
+          `{"herReply":"1 to 2 vivid, specific, witty sentences from ${personaName} (18-36 words) directly answering the post","secondReply":"1 punchy co-sign or funny side-remark from ${secondSpeakerName} (10-22 words)","maturityDelta":15,"chivalryDelta":15,"chemistryDelta":16,"coachNote":"Live lounge take","passedVibeCheck":true}`,
+        ].join(' ');
+      } else {
+        const priorPlayerTurns = Array.isArray(body.history)
+          ? body.history.filter((t) => t.sender === 'player').length
+          : 0;
+        const stageContext =
+          priorPlayerTurns <= 1
+            ? 'STAGE 1 (First Spark): React directly to their exact line, tease playfully, and ask one fun hook question!'
+            : priorPlayerTurns <= 4
+              ? 'STAGE 2 (Pre-Date Banter): Flirt back on the exact topic they raised and build anticipation toward Friday!'
+              : 'STAGE 3 (High Chemistry): Banter like two people genuinely hooked on each other!';
+
+        const platformContext =
+          platform === 'imessage'
+            ? 'PLATFORM CONTEXT (PERSONAL iMESSAGE): You already swapped numbers! Text naturally, warmly, and react directly to their exact words.'
             : personaRole === 'him'
-              ? 'PLATFORM CONTEXT (HINGE APP DM — YOU ARE COURTING HER): The human player is an accomplished, magnetic woman. Directly respond to the exact detail, question, or tease in her message while courting her warmly!'
-              : 'PLATFORM CONTEXT (HINGE APP DM — HE IS COURTING YOU): The human player is a younger man trying to earn your phone number. Directly react to what he actually wrote!';
+              ? 'PLATFORM CONTEXT (HINGE APP DM — YOU ARE COURTING HER): The player is a magnetic woman. Respond directly to what she just wrote—if she tests you or calls out a red flag, react in character!'
+              : 'PLATFORM CONTEXT (HINGE APP DM — HE IS COURTING YOU): The player is a younger man trying to earn your phone number. React directly to his exact words with wit and standards!';
 
-      const coachPerspectiveRule =
-        personaRole === 'him'
-          ? 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HER (the accomplished woman). Address coachNote strictly to HER evaluating him (e.g. "He answered your question directly—see if his follow-through holds."). NEVER tell her to enroll in Cub School or earn his number!'
-          : 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HIM (the younger man). Give him one playful tip on keeping her intrigued and earning her number.';
+        const coachPerspectiveRule =
+          personaRole === 'him'
+            ? 'AUDIENCE FOR coachNote: The player is HER. Write 1 playful Bestie whisper to HER about how he just responded (never tell her to go to Cub School).'
+            : 'AUDIENCE FOR coachNote: The player is HIM. Write 1 playful wingwoman tip to HIM about how his line landed with her.';
 
-      const systemPrompt = [
-        `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic-comedy dating simulation.`,
-        `CRITICAL RELEVANCE RULE: Always respond directly to the SPECIFIC topic, question, or joke in the user's message!`,
-        `CONCISE RULE: Send 1 to 2 short, punchy sentences (10 to 26 words MAX)!`,
-        `NEVER RECITE YOUR BIO: Keep your background subtle and natural.`,
-        `STRICT PUNCTUATION RULE: NEVER use em-dashes, en-dashes, or semicolons.`,
-        platformContext,
-        platform === 'discord' ? '' : coachPerspectiveRule,
-        platform === 'discord' ? '' : `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext}`,
-        buildGenerationalVoiceDirective(
-          personaAge,
-          personaRole,
-          String(body.personaOrigin || '').slice(0, 64),
-        ),
-        `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
-        platform === 'discord'
-          ? `{"herReply":"1 to 2 sharp, specific insider sentences (15-34 words max) directly answering their question","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short takeaway","passedVibeCheck":boolean}`
-          : `{"herReply":"1 to 2 short witty sentences (10-24 words max) directly answering what they wrote","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short role-accurate note without em-dashes","passedVibeCheck":boolean}`,
-      ].join(' ');
+        systemPrompt = [
+          `You are texting 1-on-1 in first person as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club".`,
+          castLore ? `YOUR SECRET CHARACTER BIBLE: ${castLore}` : '',
+          `CRITICAL COHERENCE RULE: Reply directly to the exact question, callout, tease, or joke the player just sent! Never ignore their topic or paste a canned dinner confirmation if they asked something else.`,
+          `LENGTH & VOICE: 1 to 2 punchy, natural texting sentences (10-28 words). Sound charismatic and human, NEVER robotic or corporate ("Transparency matters" is banned!).`,
+          `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons.`,
+          platformContext,
+          coachPerspectiveRule,
+          stageContext,
+          buildGenerationalVoiceDirective(
+            personaAge,
+            personaRole,
+            String(body.personaOrigin || '').slice(0, 64),
+          ),
+          `Respond ONLY with valid single-line JSON (no markdown fences):`,
+          `{"herReply":"1 to 2 witty in-character sentences (10-28 words) answering their exact message","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short Bestie read","passedVibeCheck":boolean}`,
+        ]
+          .filter(Boolean)
+          .join(' ');
+      }
 
       const recentTurns = Array.isArray(body.history)
-        ? body.history.slice(-16).map((t) => ({
+        ? body.history.slice(-14).map((t) => ({
             role: (t.sender === 'player' ? 'user' : 'assistant') as 'user' | 'assistant',
             content: String(t.text || '').slice(0, 280),
           }))
@@ -1363,8 +1464,8 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           ...recentTurns,
           { role: 'user' as const, content: playerMessage },
         ],
-        max_tokens: 240,
-        temperature: 0.7,
+        max_tokens: 300,
+        temperature: platform === 'discord' ? 0.6 : 0.68,
       };
 
       let rawResult: { response?: string | Record<string, unknown> };
@@ -1389,10 +1490,18 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
       if (parsed && typeof parsed.herReply === 'string' && parsed.herReply.trim()) {
         const cleanReply = humanizeChatText(parsed.herReply, {
-          role: personaRole,
+          role: platform === 'discord' ? undefined : personaRole,
           age: personaAge,
-          singleLine: platform !== 'discord',
-        }).slice(0, 280);
+          singleLine: false,
+        })
+          .replace(/^[A-Za-z0-9_&]+:\s*/, '')
+          .slice(0, 320);
+        const cleanSecondReply =
+          typeof parsed.secondReply === 'string' && parsed.secondReply.trim()
+            ? humanizeChatText(parsed.secondReply, { singleLine: false })
+                .replace(/^[A-Za-z0-9_&]+:\s*/, '')
+                .slice(0, 220)
+            : undefined;
         let cleanCoach = humanizeChatText(
           String(parsed.coachNote || 'Chemistry check complete!'),
         ).slice(0, 200);
@@ -1404,12 +1513,13 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           persona: `${personaName} (${personaAge})`,
           platform,
           playerMsg: playerMessage,
-          aiReply: cleanReply,
+          aiReply: cleanSecondReply ? `${cleanReply} || ${cleanSecondReply}` : cleanReply,
           passed,
           source: 'workers-ai',
         });
         return jsonResponse({
           herReply: cleanReply,
+          secondReply: cleanSecondReply,
           maturityDelta: Math.max(-25, Math.min(25, Number(parsed.maturityDelta ?? 10))),
           chivalryDelta: Math.max(-25, Math.min(25, Number(parsed.chivalryDelta ?? 10))),
           chemistryDelta: Math.max(-25, Math.min(25, Number(parsed.chemistryDelta ?? 12))),

@@ -26,6 +26,7 @@ export interface AiDmVettingResponse {
   chivalryDelta: number;
   chemistryDelta: number;
   herReply: string;
+  secondReply?: string;
   coachNote: string;
   passedVibeCheck: boolean;
   source: 'workers-ai' | 'local-heuristic';
@@ -39,6 +40,10 @@ export interface AiDmVettingService {
     personaAge: number;
     personaTitle: string;
     personaRole: 'her' | 'him';
+    playerRole?: 'her' | 'him';
+    channelId?: string;
+    secondSpeakerName?: string;
+    personaLore?: string;
     personaOrigin?: string;
     platform?: string;
     playerMessage: string;
@@ -177,6 +182,10 @@ export function evaluateDmLocally(params: {
   personaName: string;
   personaAge: number;
   personaRole: 'her' | 'him';
+  playerRole?: 'her' | 'him';
+  channelId?: string;
+  secondSpeakerName?: string;
+  personaLore?: string;
   personaOrigin?: string;
   platform?: string;
   playerMessage: string;
@@ -232,6 +241,14 @@ export function evaluateDmLocally(params: {
     /\b(mov(?:e|ing)\s+in|live\s+together|living[- ]apart|separate\s+(?:houses?|places?|apartments?|keys)|own\s+(?:houses?|places?|apartments?|homes?)|two\s+(?:houses?|places?|apartments?|leases?)|merge\s+houses|cohabit)\b/.test(
       lower,
     );
+  const hasSplitBillTopic =
+    /\b(split\s+(?:the\s+)?(?:bill|check|tab)|went?\s+dutch|go\s+dutch|pay\s+half|50\s*\/\s*50)\b/.test(
+      lower,
+    );
+  const hasSeriousOrCuriousTopic =
+    /\b(serious\s+about\s+me|just\s+curious|bucket\s+list|novelty|fetish|actually\s+serious|long[- ]term\s+or)\b/.test(
+      lower,
+    );
   const hasMoneyGapTopic =
     /\b(money|income|salary|stipend|budget|afford|earn(?:s|ing)?\s+(?:more|less))\b/.test(lower);
   const hasFamilyTopic =
@@ -241,7 +258,48 @@ export function evaluateDmLocally(params: {
       lower,
     );
 
+  if (hasSplitBillTopic) {
+    const isDiscord = platform === 'discord';
+    return {
+      maturityDelta: 18,
+      chivalryDelta: 18,
+      chemistryDelta: 18,
+      herReply: isDiscord
+        ? `If he invited you out on Date #1 and asked to split the check, pay your half with a warm smile so you owe him nothing—and cross him off your Friday roster.`
+        : params.personaRole === 'him'
+          ? `Zero 50/50 check math when I invite you out. The tab is handled before your coat is on.`
+          : `Whoever extends the invitation handles the check cleanly—splitting pennies on Date #1 kills the spark fast.`,
+      secondReply: isDiscord
+        ? `Hard co-sign. A man on a tight stipend who treats you to a great $28 wine bar beats a rich guy doing calculator math.`
+        : undefined,
+      coachNote: 'Whoever invites hosts the check cleanly—alternating turns beats splitting pennies.',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasSeriousOrCuriousTopic) {
+    const isDiscord = platform === 'discord';
+    return {
+      maturityDelta: 18,
+      chivalryDelta: 16,
+      chemistryDelta: 20,
+      herReply: isDiscord
+        ? `Ignore Tuesday compliments and watch three actions: does he lock in Friday plans by Wednesday, hold your hand in front of his friends, and remember small details from your week?`
+        : params.personaRole === 'him'
+          ? `I don’t do novelty flings—if I ask you out, I want real Friday reservations and introducing you proudly to my inner circle.`
+          : `Consistency tells on everyone by Week 3: real contenders plan ahead and never hide you in dimly lit corners.`,
+      secondReply: isDiscord
+        ? `Amen—curious tourists vanish after 9 PM texts; serious men show up five minutes early on Thursday.`
+        : undefined,
+      coachNote: 'Weekday consistency and proud public presence separate real contenders from tourists.',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
   if (hasLivingTogetherTopic) {
+    const isDiscord = platform === 'discord';
     return {
       maturityDelta: 18,
       chivalryDelta: 16,
@@ -250,6 +308,9 @@ export function evaluateDmLocally(params: {
         params.personaRole === 'him'
           ? `Zero rush to merge leases—keeping two peaceful sanctuaries makes every weekend together feel electric.`
           : `Living-Apart-Together is my favorite arrangement: deep commitment, shared weekends, and two separate sets of house keys.`,
+      secondReply: isDiscord
+        ? `Keep both leases for at least year one—missing each other between Tuesday and Friday keeps the chemistry undefeated.`
+        : undefined,
       coachNote: 'Direct alignment on living space & autonomy builds instant long-term trust.',
       passedVibeCheck: true,
       source: 'local-heuristic',
@@ -257,6 +318,7 @@ export function evaluateDmLocally(params: {
   }
 
   if (hasMoneyGapTopic) {
+    const isDiscord = platform === 'discord';
     return {
       maturityDelta: 18,
       chivalryDelta: 18,
@@ -265,6 +327,9 @@ export function evaluateDmLocally(params: {
         params.personaRole === 'him'
           ? `When I invite you out, I plan inside my real budget and get the check cleanly—zero ego about your success.`
           : `Alternating turns works best: plan dates you genuinely enjoy hosting, and let me spoil us when it’s my turn.`,
+      secondReply: isDiscord
+        ? `Effort and thoughtfulness always outrank flashy receipts in Velvet Palms.`
+        : undefined,
       coachNote: 'Healthy, ego-free financial candor passes every Club test.',
       passedVibeCheck: true,
       source: 'local-heuristic',
@@ -272,6 +337,7 @@ export function evaluateDmLocally(params: {
   }
 
   if (hasFamilyTopic) {
+    const isDiscord = platform === 'discord';
     return {
       maturityDelta: 18,
       chivalryDelta: 16,
@@ -280,6 +346,9 @@ export function evaluateDmLocally(params: {
         params.personaRole === 'him'
           ? `I prep my family warmly ahead of time and introduce the woman I’m dating with total pride.`
           : `Warm advance prep and zero apologies win every room—confident couples set the tone for everyone else.`,
+      secondReply: isDiscord
+        ? `Never spring a surprise ambush at Sunday brunch—one warm heads-up text makes everything effortless.`
+        : undefined,
       coachNote: 'Proud public partnership and thoughtful family boundaries shine.',
       passedVibeCheck: true,
       source: 'local-heuristic',
@@ -661,6 +730,10 @@ export const liveAiInboxService: AiDmVettingService = {
           if (typeof (data.herReply ?? data.reply) === 'string') {
             return {
               herReply: (data.herReply ?? data.reply) as string,
+              secondReply:
+                typeof data.secondReply === 'string' && data.secondReply.trim()
+                  ? data.secondReply.trim()
+                  : undefined,
               maturityDelta: Number(data.maturityDelta ?? 10),
               chivalryDelta: Number(data.chivalryDelta ?? 10),
               chemistryDelta: Number(data.chemistryDelta ?? 12),

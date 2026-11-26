@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Flame,
@@ -134,14 +134,34 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   );
   const [activeDiscordId, setActiveDiscordId] = useState<string>(V35_DISCORD_CHANNELS[0].id);
   const [discordExtraMsgs, setDiscordExtraMsgs] = useState<
-    Record<string, { sender: string; badge: string; text: string }[]>
+    Record<string, { sender: string; badge: string; text: string; isPlayer?: boolean }[]>
   >({});
+  const [discordAskedPrompts, setDiscordAskedPrompts] = useState<Record<string, string[]>>({});
+  const [discordReactions, setDiscordReactions] = useState<Record<string, string[]>>({});
+  const [discordTypingLabel, setDiscordTypingLabel] = useState<string | null>(null);
   const [discordFreeInput, setDiscordFreeInput] = useState('');
   const [sendingDiscordAi, setSendingDiscordAi] = useState(false);
   const [spicyMode, setSpicyMode] = useState(false);
   const [freeInput, setFreeInput] = useState('');
   const [sendingAi, setSendingAi] = useState(false);
+  const [dmTypingLabel, setDmTypingLabel] = useState<string | null>(null);
+  const [dmReactions, setDmReactions] = useState<Record<string, string>>({});
+  const [sparkToast, setSparkToast] = useState<{ delta: number; nonce: number } | null>(null);
   const [coachBanner, setCoachBanner] = useState<string | null>(null);
+
+  const dmFeedRef = useRef<HTMLDivElement | null>(null);
+  const discordFeedRef = useRef<HTMLDivElement | null>(null);
+  const pendingTimersRef = useRef<number[]>([]);
+  const isTestEnv = Boolean(import.meta.env.VITEST);
+
+  useEffect(() => {
+    return () => {
+      for (const id of pendingTimersRef.current) {
+        window.clearTimeout(id);
+      }
+      pendingTimersRef.current = [];
+    };
+  }, []);
   const [cutLooseModal, setCutLooseModal] = useState<{
     leadId: string;
     verdict: CutLooseVerdict;
@@ -185,6 +205,28 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const currentProfile = currentThread ? getCastProfileById(currentThread.leadId) : undefined;
   const currentChapter = currentThread ? V35_CHAT_CHAPTERS[currentThread.leadId] : undefined;
 
+  const latestThreadRef = useRef<ActiveMatchThread | undefined>(currentThread);
+  latestThreadRef.current = currentThread;
+
+  // Always auto-scroll 1-on-1 DM feed to the newest message / typing bubble so replies are never hidden off-screen
+  useEffect(() => {
+    const el = dmFeedRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [currentThread?.leadId, currentThread?.messages.length, dmTypingLabel, surface]);
+
+  // Always auto-scroll Discord Lounge feed to the newest message / typing bubble
+  useEffect(() => {
+    const el = discordFeedRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [
+    activeDiscordId,
+    discordExtraMsgs[activeDiscordId]?.length,
+    discordTypingLabel,
+    surface,
+  ]);
+
   if (activeDateModal) {
     const dateThread = threads.find((t) => t.leadId === activeDateModal.leadId);
     return (
@@ -223,7 +265,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     delta: number,
     cost = 0,
   ) => {
-    if (!currentThread || !currentChapter) return;
+    if (!currentThread || !currentChapter || !currentProfile || dmTypingLabel) return;
     if (cost > 0 && !onSpendCredits(cost)) return;
 
     sfx.messagePop();
@@ -231,25 +273,78 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       currentThread.stage === 'imessage' ? currentChapter.imessage : currentChapter.tinder;
     const nextBeatNum = currentThread.currentBeat + 1;
     const nextBeatObj = beatsArray.find((b) => b.beatNumber === nextBeatNum);
+    const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
+    const newChemistry = Math.max(0, Math.min(100, currentThread.chemistry + boostedDelta));
 
-    const appended: ActiveMatchThread['messages'] = [
-      ...currentThread.messages,
-      { sender: 'player', text: choiceText },
-      { sender: 'match', text: replyText },
-    ];
-    if (nextBeatObj) {
-      for (const m of nextBeatObj.incomingMessages) {
-        appended.push({ sender: 'match', text: m });
+    setSparkToast({ delta: boostedDelta, nonce: Date.now() });
+
+    if (isTestEnv) {
+      const appended: ActiveMatchThread['messages'] = [
+        ...currentThread.messages,
+        { sender: 'player', text: choiceText },
+        { sender: 'match', text: replyText },
+      ];
+      if (nextBeatObj) {
+        for (const m of nextBeatObj.incomingMessages) {
+          appended.push({ sender: 'match', text: m });
+        }
       }
+      onUpdateThread({
+        ...currentThread,
+        currentBeat: nextBeatNum,
+        chemistry: newChemistry,
+        messages: appended,
+      });
+      return;
     }
 
-    const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
-    onUpdateThread({
+    // Live human-paced 3-step texting flow:
+    // 1. Player message lands right away + typing indicator starts
+    const targetLeadId = currentThread.leadId;
+    const matchName = currentProfile.name;
+    const afterPlayer: ActiveMatchThread = {
       ...currentThread,
-      currentBeat: nextBeatNum,
-      chemistry: Math.max(0, Math.min(100, currentThread.chemistry + boostedDelta)),
-      messages: appended,
-    });
+      chemistry: newChemistry,
+      messages: [...currentThread.messages, { sender: 'player', text: choiceText }],
+    };
+    onUpdateThread(afterPlayer);
+    setDmTypingLabel(`${matchName} is typing`);
+
+    // 2. Match's direct reaction arrives after 620ms
+    const t1 = window.setTimeout(() => {
+      const latest =
+        latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : afterPlayer;
+      sfx.messagePop();
+      const withReply: ActiveMatchThread = {
+        ...latest,
+        currentBeat: nextBeatObj ? latest.currentBeat : nextBeatNum,
+        messages: [...latest.messages, { sender: 'match', text: replyText }],
+      };
+      onUpdateThread(withReply);
+
+      if (!nextBeatObj || nextBeatObj.incomingMessages.length === 0) {
+        setDmTypingLabel(null);
+        return;
+      }
+
+      // 3. Brief pause to read their reaction, then next beat's incoming prompt arrives!
+      const t2 = window.setTimeout(() => {
+        const latestStep2 =
+          latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : withReply;
+        sfx.messagePop();
+        onUpdateThread({
+          ...latestStep2,
+          currentBeat: nextBeatNum,
+          messages: [
+            ...latestStep2.messages,
+            ...nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })),
+          ],
+        });
+        setDmTypingLabel(null);
+      }, 780);
+      pendingTimersRef.current.push(t2);
+    }, 620);
+    pendingTimersRef.current.push(t1);
   };
 
   const handleGraduateToImessage = () => {
@@ -276,39 +371,65 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const handleFreeTextSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = freeInput.trim();
-    if (!trimmed || !currentThread || !currentProfile || sendingAi) return;
+    if (!trimmed || !currentThread || !currentProfile || sendingAi || dmTypingLabel) return;
 
+    const targetLeadId = currentThread.leadId;
+    const historySnapshot = currentThread.messages
+      .filter((m) => m.sender !== 'system')
+      .map((m) => ({
+        sender: (m.sender === 'player' ? 'player' : 'match') as 'player' | 'match',
+        text: m.text,
+      }));
+
+    sfx.messagePop();
     setSendingAi(true);
     setFreeInput('');
-    try {
-      const res = await liveAiInboxService.evaluateOpeningDm({
-        personaId: currentProfile.id,
-        personaName: currentProfile.name,
-        personaAge: currentProfile.age,
-        personaTitle: currentProfile.vitals.job,
-        personaRole: currentProfile.role,
-        platform: currentThread.stage === 'imessage' ? 'imessage' : 'tinder',
-        playerMessage: trimmed,
-        history: currentThread.messages
-          .filter((m) => m.sender !== 'system')
-          .map((m) => ({
-            sender: m.sender === 'player' ? 'player' : 'match',
-            text: m.text,
-          })),
-      });
 
+    // Show the player's own message immediately + typing indicator right away!
+    const withPlayerMsg: ActiveMatchThread = {
+      ...currentThread,
+      messages: [...currentThread.messages, { sender: 'player', text: trimmed }],
+    };
+    onUpdateThread(withPlayerMsg);
+    if (!isTestEnv) {
+      setDmTypingLabel(`${currentProfile.name} is typing`);
+    }
+
+    try {
+      const minHumanBeat = isTestEnv
+        ? Promise.resolve()
+        : new Promise((resolve) => window.setTimeout(resolve, 560));
+
+      const [res] = await Promise.all([
+        liveAiInboxService.evaluateOpeningDm({
+          personaId: currentProfile.id,
+          personaName: currentProfile.name,
+          personaAge: currentProfile.age,
+          personaTitle: currentProfile.vitals.job,
+          personaRole: currentProfile.role,
+          playerRole: role,
+          personaLore: `${currentProfile.tagline} ${currentProfile.trapTellSummary || currentProfile.vulnerabilityNote || ''}`.trim(),
+          platform: currentThread.stage === 'imessage' ? 'imessage' : 'tinder',
+          playerMessage: trimmed,
+          history: historySnapshot,
+        }),
+        minHumanBeat,
+      ]);
+
+      sfx.messagePop();
       setCoachBanner(res.coachNote);
+      setSparkToast({ delta: res.chemistryDelta, nonce: Date.now() });
+
+      const latest =
+        latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : withPlayerMsg;
       onUpdateThread({
-        ...currentThread,
-        currentBeat: currentThread.currentBeat,
-        chemistry: Math.max(0, Math.min(100, currentThread.chemistry + res.chemistryDelta)),
-        messages: [
-          ...currentThread.messages,
-          { sender: 'player', text: trimmed },
-          { sender: 'match', text: res.herReply },
-        ],
+        ...latest,
+        currentBeat: latest.currentBeat,
+        chemistry: Math.max(0, Math.min(100, latest.chemistry + res.chemistryDelta)),
+        messages: [...latest.messages, { sender: 'match', text: res.herReply }],
       });
     } finally {
+      setDmTypingLabel(null);
       setSendingAi(false);
     }
   };
@@ -379,7 +500,16 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
   const DISCORD_CHANNEL_RESPONDERS: Record<
     string,
-    { id: string; name: string; badge: string; age: number; title: string; role: 'her' | 'him' }
+    {
+      id: string;
+      name: string;
+      badge: string;
+      age: number;
+      title: string;
+      role: 'her' | 'him';
+      secondName: string;
+      secondBadge: string;
+    }
   > = {
     'velvet-lounge': {
       id: 'jade-discord',
@@ -388,6 +518,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       age: 42,
       title: 'Velvet Palms Host & Biotech Director',
       role: 'her',
+      secondName: 'Sienna_Design',
+      secondBadge: '🏡 Velvet Palms',
     },
     'red-flag-emergency': {
       id: 'priya',
@@ -396,6 +528,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       age: 36,
       title: 'Charge Trauma RN & Red-Flag Triage Lead',
       role: 'her',
+      secondName: 'Jade_42F',
+      secondBadge: '🐆 Velvet Palms Host',
     },
     'ask-a-cougar': {
       id: 'elena',
@@ -404,6 +538,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       age: 44,
       title: 'Department Chair & Author',
       role: 'her',
+      secondName: 'Claire_M&A',
+      secondBadge: '🍸 Deal Partner',
     },
     'spotted-in-the-wild': {
       id: 'sam-discord',
@@ -412,6 +548,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       age: 27,
       title: 'Structural Engineer & Velvet Palms Regular',
       role: 'him',
+      secondName: 'Claire_M&A',
+      secondBadge: '🍸 Deal Partner',
     },
     'blind-velvet-dm': {
       id: 'anon-cedar',
@@ -420,13 +558,70 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       age: 39,
       title: 'Velvet Room Insider',
       role: 'her',
+      secondName: 'Anon_Velvet_9',
+      secondBadge: '🕵️ Insider',
     },
+  };
+
+  const handleDiscordPresetClick = (sug: string, sIdx: number) => {
+    if (discordTypingLabel) return;
+    const channelId = activeDiscord.id;
+    const senderLabel = wallet.playerName || (role === 'her' ? 'You (Queen)' : 'You');
+    const roleReplies = role === 'her' ? activeDiscord.repliesHer : activeDiscord.repliesHim;
+    const reply =
+      roleReplies?.[sIdx] ?? activeDiscord.botReplies[sIdx % activeDiscord.botReplies.length];
+    const replySender = reply.split(':')[0].trim();
+    const replyBody = reply.split(':').slice(1).join(':').trim();
+
+    sfx.messagePop();
+    if (activeDiscord.conspiracyClueId) {
+      onRecordConspiracyClue?.(activeDiscord.conspiracyClueId);
+    }
+
+    setDiscordAskedPrompts((prev) => ({
+      ...prev,
+      [channelId]: [...new Set([...(prev[channelId] || []), sug])],
+    }));
+
+    if (isTestEnv) {
+      setDiscordExtraMsgs((prev) => ({
+        ...prev,
+        [channelId]: [
+          ...(prev[channelId] || []),
+          { sender: senderLabel, badge: '✨ You', text: sug, isPlayer: true },
+          { sender: replySender, badge: '💬 Lounge Regular', text: replyBody },
+        ],
+      }));
+      return;
+    }
+
+    setDiscordExtraMsgs((prev) => ({
+      ...prev,
+      [channelId]: [
+        ...(prev[channelId] || []),
+        { sender: senderLabel, badge: '✨ You', text: sug, isPlayer: true },
+      ],
+    }));
+    setDiscordTypingLabel(`${replySender} is typing`);
+
+    const tid = window.setTimeout(() => {
+      sfx.messagePop();
+      setDiscordExtraMsgs((prev) => ({
+        ...prev,
+        [channelId]: [
+          ...(prev[channelId] || []),
+          { sender: replySender, badge: '💬 Lounge Regular', text: replyBody },
+        ],
+      }));
+      setDiscordTypingLabel(null);
+    }, 640);
+    pendingTimersRef.current.push(tid);
   };
 
   const handleDiscordFreeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = discordFreeInput.trim();
-    if (!trimmed || sendingDiscordAi) return;
+    if (!trimmed || sendingDiscordAi || discordTypingLabel) return;
 
     const channelId = activeDiscord.id;
     const responder =
@@ -441,7 +636,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     const recentMsgs = [
       ...activeDiscord.seededMessages,
       ...(discordExtraMsgs[channelId] || []),
-    ].slice(-5);
+    ].slice(-6);
 
     setSendingDiscordAi(true);
     setDiscordFreeInput('');
@@ -451,28 +646,45 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         ...(prev[channelId] || []),
         {
           sender: senderLabel,
-          badge: '✨ Member',
+          badge: '✨ You',
           text: trimmed,
+          isPlayer: true,
         },
       ],
     }));
+    if (!isTestEnv) {
+      setDiscordTypingLabel(`${responder.name} is typing`);
+    }
 
     try {
-      const res = await liveAiInboxService.evaluateOpeningDm({
-        personaId: responder.id,
-        personaName: responder.name,
-        personaAge: responder.age,
-        personaTitle: `${responder.title} in ${activeDiscord.handleLabel}`,
-        personaRole: responder.role,
-        platform: 'discord',
-        playerMessage: trimmed,
-        history: recentMsgs.map((m) => ({
-          sender: m.sender === senderLabel ? ('player' as const) : ('match' as const),
-          text: `${m.sender}: ${m.text}`,
-        })),
-      });
+      const minBeat = isTestEnv
+        ? Promise.resolve()
+        : new Promise((resolve) => window.setTimeout(resolve, 580));
+
+      const [res] = await Promise.all([
+        liveAiInboxService.evaluateOpeningDm({
+          personaId: responder.id,
+          personaName: responder.name,
+          personaAge: responder.age,
+          personaTitle: `${responder.title} in ${activeDiscord.handleLabel}`,
+          personaRole: responder.role,
+          playerRole: role,
+          channelId,
+          secondSpeakerName: responder.secondName,
+          platform: 'discord',
+          playerMessage: trimmed,
+          history: recentMsgs.map((m) => ({
+            sender: m.sender === senderLabel ? ('player' as const) : ('match' as const),
+            text: `${m.sender}: ${m.text}`,
+          })),
+        }),
+        minBeat,
+      ]);
 
       const cleanReply = res.herReply.replace(/^[A-Za-z0-9_&]+:\s*/, '').trim();
+      const cleanSecond = res.secondReply?.replace(/^[A-Za-z0-9_&]+:\s*/, '').trim();
+
+      sfx.messagePop();
       setDiscordExtraMsgs((prev) => ({
         ...prev,
         [channelId]: [
@@ -482,8 +694,41 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             badge: responder.badge,
             text: cleanReply || res.herReply,
           },
+          ...(isTestEnv && cleanSecond
+            ? [
+                {
+                  sender: responder.secondName,
+                  badge: responder.secondBadge,
+                  text: cleanSecond,
+                },
+              ]
+            : []),
         ],
       }));
+
+      if (!isTestEnv && cleanSecond) {
+        setDiscordTypingLabel(`${responder.secondName} is typing`);
+        const tSecond = window.setTimeout(() => {
+          sfx.messagePop();
+          setDiscordExtraMsgs((prev) => ({
+            ...prev,
+            [channelId]: [
+              ...(prev[channelId] || []),
+              {
+                sender: responder.secondName,
+                badge: responder.secondBadge,
+                text: cleanSecond,
+              },
+            ],
+          }));
+          setDiscordTypingLabel(null);
+        }, 780);
+        pendingTimersRef.current.push(tSecond);
+      } else {
+        setDiscordTypingLabel(null);
+      }
+    } catch {
+      setDiscordTypingLabel(null);
     } finally {
       setSendingDiscordAi(false);
     }
@@ -622,77 +867,107 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               <p className="text-xs text-stone-500">{activeDiscord.topicSubtitle}</p>
             </header>
 
-            <div className="space-y-3">
+            <div
+              ref={discordFeedRef}
+              data-testid="discord-message-feed"
+              className="max-h-[420px] overflow-y-auto scroll-smooth space-y-3 pr-1"
+            >
               {[
-                ...activeDiscord.seededMessages,
+                ...activeDiscord.seededMessages.map((m) => ({ ...m, isPlayer: false })),
                 ...(discordExtraMsgs[activeDiscord.id] || []),
-              ].map((msg, idx) => (
-                <div
-                  key={`${msg.sender}-${idx}`}
-                  data-testid={idx === 0 ? 'discord-first-message' : undefined}
-                  className="rounded-2xl bg-stone-50 border border-stone-200/70 p-3.5 space-y-1"
-                >
-                  <div className="flex items-center gap-2 text-xs font-bold text-[#18101E]">
-                    <span>{msg.sender}</span>
-                    <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-semibold text-indigo-800">
-                      {msg.badge}
-                    </span>
+              ].map((msg, idx) => {
+                const reactionKey = `${activeDiscord.id}-${idx}`;
+                const pickedEmojis = discordReactions[reactionKey] || [];
+                const isPlayerPost = Boolean(msg.isPlayer);
+                return (
+                  <div
+                    key={`${msg.sender}-${idx}`}
+                    data-testid={idx === 0 ? 'discord-first-message' : undefined}
+                    className={`rounded-2xl p-3.5 space-y-1.5 transition ${
+                      isPlayerPost
+                        ? 'ml-6 bg-indigo-50 border border-indigo-200'
+                        : idx >= activeDiscord.seededMessages.length
+                          ? 'bg-white border border-indigo-200 border-l-4 border-l-[#5865F2] shadow-2xs'
+                          : 'bg-zinc-50 border border-zinc-200/80'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2 text-xs font-bold text-zinc-950">
+                      <div className="flex items-center gap-2">
+                        <span>{msg.sender}</span>
+                        <span
+                          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                            isPlayerPost
+                              ? 'bg-[#5865F2] text-white'
+                              : 'bg-indigo-50 text-indigo-800'
+                          }`}
+                        >
+                          {msg.badge}
+                        </span>
+                      </div>
+                      {!isPlayerPost && (
+                        <div className="flex items-center gap-1">
+                          {(['🥂', '🔥', '👑'] as const).map((emo) => {
+                            const active = pickedEmojis.includes(emo);
+                            return (
+                              <button
+                                key={emo}
+                                type="button"
+                                aria-label={`React ${emo} to ${msg.sender}`}
+                                onClick={() => {
+                                  sfx.messagePop();
+                                  setDiscordReactions((prev) => {
+                                    const cur = prev[reactionKey] || [];
+                                    return {
+                                      ...prev,
+                                      [reactionKey]: active
+                                        ? cur.filter((x) => x !== emo)
+                                        : [...cur, emo],
+                                    };
+                                  });
+                                }}
+                                className={`rounded-full px-1.5 py-0.5 text-[11px] transition cursor-pointer ${
+                                  active
+                                    ? 'bg-indigo-100 ring-1 ring-[#5865F2] font-bold'
+                                    : 'opacity-55 hover:opacity-100 hover:bg-zinc-200/60'
+                                }`}
+                              >
+                                {emo}
+                                {active ? ' 1' : ''}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-sm text-zinc-800 leading-relaxed">{msg.text}</p>
                   </div>
-                  <p className="text-sm text-stone-800 leading-relaxed">{msg.text}</p>
+                );
+              })}
+
+              {discordTypingLabel && (
+                <div
+                  data-testid="discord-typing-indicator"
+                  className="inline-flex items-center gap-2 rounded-2xl border border-indigo-200 bg-indigo-50/70 px-4 py-2.5 text-xs font-semibold text-indigo-950"
+                >
+                  <span className="inline-flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#5865F2] animate-bounce" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#5865F2] animate-bounce [animation-delay:120ms]" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#5865F2] animate-bounce [animation-delay:240ms]" />
+                  </span>
+                  <span>{discordTypingLabel}…</span>
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Full-Sentence Wrapped Channel Suggestions + Live Open-Ended Discord Input */}
             <div className="space-y-3 pt-3 border-t border-stone-100">
-              <div className="text-xs font-bold uppercase tracking-wider text-stone-400">
-                Quick Prompts or Ask Anything in {activeDiscord.handleLabel}
-              </div>
-              <div className="grid gap-2">
-                {(role === 'her'
-                  ? activeDiscord.suggestionsHer
-                  : activeDiscord.suggestionsHim
-                ).map((sug, sIdx) => (
-                  <button
-                    key={sug}
-                    type="button"
-                    onClick={() => {
-                      sfx.messagePop();
-                      if (activeDiscord.conspiracyClueId) {
-                        onRecordConspiracyClue?.(activeDiscord.conspiracyClueId);
-                      }
-                      const roleReplies =
-                        role === 'her' ? activeDiscord.repliesHer : activeDiscord.repliesHim;
-                      const reply =
-                        roleReplies?.[sIdx] ??
-                        activeDiscord.botReplies[sIdx % activeDiscord.botReplies.length];
-                      setDiscordExtraMsgs((prev) => ({
-                        ...prev,
-                        [activeDiscord.id]: [
-                          ...(prev[activeDiscord.id] || []),
-                          {
-                            sender: wallet.playerName || (role === 'her' ? 'You (Queen)' : 'You'),
-                            badge: '✨ Member',
-                            text: sug,
-                          },
-                          {
-                            sender: reply.split(':')[0],
-                            badge: '💬 Reply',
-                            text: reply.split(':').slice(1).join(':').trim(),
-                          },
-                        ],
-                      }));
-                    }}
-                    className="w-full rounded-2xl border border-stone-200 bg-white p-3.5 text-left text-xs sm:text-sm font-medium text-stone-800 whitespace-normal hover:border-indigo-400 hover:bg-indigo-50/30 transition cursor-pointer"
-                  >
-                    {sug}
-                  </button>
-                ))}
+              <div className="flex items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider text-zinc-500">
+                <span>Ask Anything or Tap an Icebreaker in {activeDiscord.handleLabel}</span>
               </div>
 
               <form
                 onSubmit={handleDiscordFreeSubmit}
-                className="flex items-center gap-2 pt-1"
+                className="flex items-center gap-2"
                 data-testid="discord-open-form"
               >
                 <input
@@ -701,18 +976,42 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   onChange={(e) => setDiscordFreeInput(e.target.value)}
                   disabled={sendingDiscordAi}
                   aria-label={`Message ${activeDiscord.handleLabel}`}
-                  placeholder={`Ask ${activeDiscord.handleLabel} anything (open-ended live AI)...`}
-                  className="flex-1 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-xs sm:text-sm text-[#18101E] focus:border-indigo-500 focus:outline-none"
+                  placeholder={`Write your own question or tea in ${activeDiscord.handleLabel}...`}
+                  className="flex-1 rounded-full border border-zinc-300 bg-white px-4 py-2.5 text-xs sm:text-sm text-zinc-950 focus:border-[#5865F2] focus:outline-none"
                 />
                 <button
                   type="submit"
-                  disabled={!discordFreeInput.trim() || sendingDiscordAi}
-                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#5865F2] hover:bg-[#4752C4] disabled:opacity-50 px-4 py-2.5 text-xs font-bold text-white transition cursor-pointer"
+                  disabled={!discordFreeInput.trim() || sendingDiscordAi || Boolean(discordTypingLabel)}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#5865F2] hover:bg-[#4752C4] disabled:opacity-50 px-5 py-2.5 text-xs font-bold text-white transition cursor-pointer"
                 >
                   <Send className="h-3.5 w-3.5" />
-                  <span>{sendingDiscordAi ? 'Typing…' : 'Post'}</span>
+                  <span>{sendingDiscordAi || discordTypingLabel ? 'Replying…' : 'Post'}</span>
                 </button>
               </form>
+
+              <div className="grid gap-2">
+                {(role === 'her'
+                  ? activeDiscord.suggestionsHer
+                  : activeDiscord.suggestionsHim
+                ).map((sug, sIdx) => {
+                  const alreadyAsked = (discordAskedPrompts[activeDiscord.id] || []).includes(sug);
+                  return (
+                    <button
+                      key={sug}
+                      type="button"
+                      disabled={Boolean(discordTypingLabel)}
+                      onClick={() => handleDiscordPresetClick(sug, sIdx)}
+                      className={`w-full rounded-2xl border p-3 text-left text-xs sm:text-sm font-medium whitespace-normal transition cursor-pointer ${
+                        alreadyAsked
+                          ? 'border-zinc-200 bg-zinc-50 text-zinc-400'
+                          : 'border-zinc-200 bg-white text-zinc-800 hover:border-[#5865F2] hover:bg-indigo-50/30'
+                      }`}
+                    >
+                      {alreadyAsked ? `✓ Asked: ${sug}` : sug}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </section>
         </div>
@@ -831,7 +1130,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     className="h-12 w-12 rounded-full object-cover"
                   />
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <h2 className="font-editorial text-xl font-bold text-[#18101E]">
                         {currentProfile.name}, {currentProfile.age}
                       </h2>
@@ -849,6 +1148,23 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             : 'Hinge App DM'}
                         </span>
                       </span>
+                      <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-700">
+                        {currentThread.chemistry}% Spark
+                      </span>
+                      {sparkToast && (
+                        <span
+                          key={sparkToast.nonce}
+                          className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold animate-bounce ${
+                            sparkToast.delta >= 0
+                              ? 'bg-emerald-100 text-emerald-900'
+                              : 'bg-rose-100 text-rose-900'
+                          }`}
+                        >
+                          {sparkToast.delta >= 0
+                            ? `+${sparkToast.delta}% Spark ✨`
+                            : `${sparkToast.delta}% Vibe`}
+                        </span>
+                      )}
                     </div>
                     <p className="text-xs text-stone-500">
                       {role === 'her'
@@ -932,8 +1248,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 </div>
               )}
 
-              {/* Message Stream */}
-              <div className="max-h-[420px] overflow-y-auto p-6 space-y-3 bg-white">
+              {/* Message Stream (Auto-Scrolls to Latest Message + Live Typing Indicator + iMessage Tapbacks) */}
+              <div
+                ref={dmFeedRef}
+                data-testid="dm-message-feed"
+                className="max-h-[440px] overflow-y-auto scroll-smooth p-6 space-y-3.5 bg-white"
+              >
                 {currentThread.messages.map((m, idx) => {
                   if (m.sender === 'system') {
                     return (
@@ -946,25 +1266,76 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     );
                   }
                   const isPlayer = m.sender === 'player';
+                  const msgKey = `${currentThread.leadId}-${idx}`;
+                  const activeTapback = dmReactions[msgKey];
                   return (
                     <div
                       key={`msg-${idx}`}
-                      className={`flex ${isPlayer ? 'justify-end' : 'justify-start'}`}
+                      className={`group flex flex-col ${isPlayer ? 'items-end' : 'items-start'}`}
                     >
-                      <div
-                        className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
-                          isPlayer
-                            ? currentThread.stage === 'imessage'
-                              ? 'bg-[#007AFF] text-white'
-                              : 'bg-[#18101E] text-white'
-                            : 'bg-stone-100 text-stone-900'
-                        }`}
-                      >
-                        {m.text}
+                      <div className="relative max-w-[82%]">
+                        <div
+                          className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                            isPlayer
+                              ? currentThread.stage === 'imessage'
+                                ? 'bg-[#007AFF] text-white'
+                                : 'bg-[#18101E] text-white'
+                              : 'bg-zinc-100 text-zinc-900 border border-zinc-200/60'
+                          }`}
+                        >
+                          {m.text}
+                        </div>
+                        {activeTapback && (
+                          <span className="absolute -top-2.5 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white border border-zinc-200 text-xs shadow-xs">
+                            {activeTapback}
+                          </span>
+                        )}
                       </div>
+
+                      {!isPlayer && (
+                        <div className="mt-1 flex items-center gap-1 opacity-70 group-hover:opacity-100 transition">
+                          {(['❤️', '🔥', '😂', '🚩'] as const).map((emo) => (
+                            <button
+                              key={emo}
+                              type="button"
+                              aria-label={`Tapback ${emo}`}
+                              onClick={() => {
+                                sfx.messagePop();
+                                setDmReactions((prev) => ({
+                                  ...prev,
+                                  [msgKey]: prev[msgKey] === emo ? '' : emo,
+                                }));
+                              }}
+                              className={`rounded-full px-1.5 py-0.5 text-[11px] transition cursor-pointer ${
+                                activeTapback === emo
+                                  ? 'bg-rose-50 ring-1 ring-rose-300'
+                                  : 'hover:bg-zinc-100'
+                              }`}
+                            >
+                              {emo}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
+
+                {dmTypingLabel && (
+                  <div
+                    data-testid="dm-typing-indicator"
+                    className="flex justify-start"
+                  >
+                    <div className="inline-flex items-center gap-2 rounded-2xl bg-zinc-100 border border-zinc-200 px-4 py-2.5 text-xs font-semibold text-zinc-600">
+                      <span className="inline-flex items-center gap-1">
+                        <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce [animation-delay:120ms]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce [animation-delay:240ms]" />
+                      </span>
+                      <span>{dmTypingLabel}…</span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Blurred Off-App / Candid Photo Drop on Beat 4 */}
                 {activeBeat?.photoDrop && (
@@ -1106,9 +1477,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           <button
                             key={c.text}
                             type="button"
+                            disabled={Boolean(dmTypingLabel)}
                             data-testid="chat-suggestion-btn"
                             onClick={() => handlePickChoice(c.text, c.reply, c.delta, cost)}
-                            className={`w-full rounded-2xl p-3.5 text-left text-xs sm:text-sm whitespace-normal transition cursor-pointer ${
+                            className={`w-full rounded-2xl p-3.5 text-left text-xs sm:text-sm whitespace-normal transition cursor-pointer disabled:opacity-55 ${
                               cost > 0
                                 ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E]'
                                 : 'border border-stone-200 bg-white font-medium text-stone-800 hover:border-stone-400'
@@ -1165,16 +1537,17 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     type="text"
                     value={freeInput}
                     onChange={(e) => setFreeInput(e.target.value)}
-                    placeholder={`Type anything freely to ${currentProfile.name} (0 Cr)...`}
-                    className="flex-1 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-sm text-[#18101E]"
+                    disabled={sendingAi || Boolean(dmTypingLabel)}
+                    placeholder={`Type anything freely to ${currentProfile.name} (open-ended AI, 0 Cr)...`}
+                    className="flex-1 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-sm text-[#18101E] focus:border-zinc-950 focus:outline-none"
                   />
                   <button
                     type="submit"
-                    disabled={sendingAi}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
+                    disabled={!freeInput.trim() || sendingAi || Boolean(dmTypingLabel)}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] disabled:opacity-50 px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
                   >
                     <Send className="h-3.5 w-3.5" />
-                    <span>{sendingAi ? '...' : 'Send'}</span>
+                    <span>{sendingAi || dmTypingLabel ? 'Typing…' : 'Send'}</span>
                   </button>
                 </form>
               </div>
