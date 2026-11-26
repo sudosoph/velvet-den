@@ -3,7 +3,7 @@ import { HER_ARCHETYPES, HIS_ARCHETYPES } from './taxonomy';
 export const DATEODEX_STORAGE_KEY = 'cc_dateodex_v1';
 
 export type DateodexVerdict = 'crowned' | 'friendzoned' | 'dumped';
-export type DateLetterRank = 'S' | 'A' | 'B' | 'C';
+export type DateLetterRank = 'S' | 'A' | 'B' | 'C' | 'F';
 
 export interface DateodexStamp {
   characterId: string;
@@ -56,8 +56,8 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
   {
     id: 'polaroid-kitchen-apron',
     title: 'Sunday Cast-Iron & Linen Apron',
-    caption: 'Grass-fed ghee sizzling, kitchen spotless before Monday.',
-    unlockHint: 'Complete your first full 8-Scene Date Run',
+    caption: 'Cast-iron ribeye sizzling, kitchen spotless before Monday.',
+    unlockHint: 'Complete your first Date Run',
     imageUrl: './images/scenes/sunday-kitchen-sanctuary.jpg',
     rotationClass: 'rotate-1',
   },
@@ -71,7 +71,7 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
   },
   {
     id: 'polaroid-bernedoodle-club',
-    title: 'Miso’s VIP Cabana Club',
+    title: 'Palm Springs VIP Cabana Club',
     caption: '5+ Roster legends vetted in your Club Dateodex.',
     unlockHint: 'Collect 4+ character stamps in your Dateodex',
     imageUrl: './images/scenes/palm-springs-resort.jpg',
@@ -80,7 +80,8 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
 ];
 
 export function computeDateLetterRank(scoreAvg: number, busted = false): DateLetterRank {
-  if (busted || scoreAvg < 48) return 'C';
+  if (busted) return 'F';
+  if (scoreAvg < 48) return 'C';
   if (scoreAvg >= 82) return 'S';
   if (scoreAvg >= 68) return 'A';
   return 'B';
@@ -140,7 +141,7 @@ export function stampDateodexCharacters(
 
   for (const item of entries) {
     const existing = nextStamps[item.characterId];
-    const rankOrder: Record<DateLetterRank, number> = { S: 4, A: 3, B: 2, C: 1 };
+    const rankOrder: Record<DateLetterRank, number> = { S: 5, A: 4, B: 3, C: 2, F: 1 };
     if (!existing || rankOrder[item.rank] >= rankOrder[existing.rank]) {
       nextStamps[item.characterId] = {
         characterId: item.characterId,

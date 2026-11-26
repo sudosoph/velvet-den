@@ -91,10 +91,19 @@ export function buildEpisodeQueue(
   };
 
   const pushCustomDateSpecials = () => {
+    if (tags.has('princess_treatment')) {
+      pushById('princess-soft-life');
+    }
+    if (tags.has('soft_mommy_domme')) {
+      pushById('soft-mommy-domme-good-boy-command');
+    }
+    if (tags.has('cub_daddy_zaddy')) {
+      pushById('cub-daddy-zaddy-dinner-takeover');
+    }
     if (tags.has('black_cat_energy') || tags.has('golden_retriever_energy')) {
       pushById('black-cat-pushback-golden-retriever-test');
     }
-    if (tags.has('seed_oil_bernedoodle_mommy') || tags.has('qigong_mommy_domme')) {
+    if (tags.has('seed_oil_bernedoodle_mommy')) {
       pushById('seed-oil-gluten-free-bernedoodle-mommy');
     }
     if (tags.has('qigong_mommy_domme')) {
@@ -399,7 +408,7 @@ export function buildEpisodeQueue(
  * Approach A Curated Game Routing:
  * Selects a tight, high-impact 8-scene arc across all 6 Relationship Stages so mobile & first-time
  * players experience their custom subplots, minigames, and trivia interludes and reach the viral
- * Vibe Receipt in ~3.5 minutes—without 28-scene fatigue!
+ * Vibe Receipt in ~3.5 minutes, without 28-scene fatigue!
  */
 const PRIORITY_CUSTOM_EPISODE_IDS = new Set([
   'black-cat-pushback-golden-retriever-test',
@@ -490,6 +499,66 @@ export function createRun(
     status: 'playing',
     swipes: [],
     episodeQueue,
+    currentEpisodeIndex: 0,
+    history: [],
+    badges: [],
+    completedMinigameEpisodeIds: [],
+  };
+}
+
+export function createCharacterDateRun(
+  pairing: PairingAnalysis,
+  dateStage: 0 | 1 | 2,
+  priorStats?: Stats,
+): GameRunState {
+  const fullQueue = buildEpisodeQueue(pairing);
+  const stageWindow =
+    dateStage === 0 ? [1, 2] : dateStage === 1 ? [3, 4] : [5, 6];
+  const inWindow = fullQueue.filter((ep) => stageWindow.includes(ep.stage));
+
+  const prioritized = [
+    ...inWindow.filter((ep) => PRIORITY_CUSTOM_EPISODE_IDS.has(ep.id)),
+    ...inWindow.filter(
+      (ep) =>
+        ep.id === 'princess-soft-life' ||
+        ep.id === 'soft-mommy-domme-good-boy-command' ||
+        ep.id === 'cub-daddy-zaddy-dinner-takeover' ||
+        ep.id === 'houseboy-sunday-sanctuary' ||
+        ep.id.startsWith('milestone-'),
+    ),
+    ...inWindow,
+    ...fullQueue,
+  ];
+
+  const picked: Episode[] = [];
+  for (const ep of prioritized) {
+    if (picked.length >= 3) break;
+    if (!picked.some((p) => p.id === ep.id)) {
+      picked.push(ep);
+    }
+  }
+
+  const initialStats: Stats = priorStats
+    ? {
+        maturity: clampStat(priorStats.maturity),
+        chivalry: clampStat(priorStats.chivalry),
+        eq: clampStat(priorStats.eq),
+        chemistry: clampStat(priorStats.chemistry),
+      }
+    : {
+        maturity: 50,
+        chivalry: 50,
+        eq: 50,
+        chemistry: 50,
+      };
+
+  return {
+    pairing,
+    stats: initialStats,
+    redFlags: 0,
+    status: 'playing',
+    swipes: [],
+    episodeQueue: picked,
     currentEpisodeIndex: 0,
     history: [],
     badges: [],
@@ -601,7 +670,7 @@ export function applyEpisodeChoice(run: GameRunState, choiceIndex: number): Game
   const nextStats = addDeltas(run.stats, effectiveDeltas);
   const nextRedFlags = Math.max(0, run.redFlags + effectiveDeltas.redFlags);
   const rawOutcomeText = failsHouseboyGate
-    ? 'Hold up—her peaceful solo sanctuary has standards! Because Maturity & EQ haven’t both cleared 60 yet, she keeps Sunday to patio coffee and friendly boundaries instead of unlocking Linen-Apron Houseboy privileges.'
+    ? 'Hold up, her peaceful solo sanctuary has standards! Because Maturity & EQ haven’t both cleared 60 yet, she keeps Sunday to patio coffee and friendly boundaries instead of unlocking Linen-Apron Houseboy privileges.'
     : run.pairing.role === 'her'
       ? choice.outcomeHer
       : choice.outcomeHim;
@@ -710,7 +779,7 @@ export function computeRunSummary(run: GameRunState): RunSummary {
   } else {
     rankTitle = 'CUB IN TRAINING (PROBATIONARY LEASH)';
     verdictLine =
-      'Promising spark with a few generational potholes—one more lesson in bathroom soap and calendar etiquette required.';
+      'Promising spark with a few generational potholes, one more lesson in bathroom soap and calendar etiquette required.';
   }
 
   const caughtBottleTrap = run.swipes.some(

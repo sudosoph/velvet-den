@@ -5,7 +5,8 @@ export interface AdventureProgressState {
   collectedItemIds: string[];
   defeatedGoblinIds: string[];
   solvedNodeIds: string[];
-  bernedoodleAdopted: boolean;
+  companionAdopted: boolean;
+  bernedoodleAdopted?: boolean;
   triviaIndex: number;
 }
 
@@ -18,11 +19,11 @@ export interface LevelInfo {
 }
 
 const LEVEL_TIERS: { minXp: number; title: string; badgeEmoji: string }[] = [
-  { minXp: 0, title: 'Fresh Out the Den', badgeEmoji: '🐣' },
-  { minXp: 100, title: 'Poolside Charmer', badgeEmoji: '🍸' },
-  { minXp: 240, title: 'Seed-Oil-Free Mommy’s Favorite', badgeEmoji: '🥑' },
-  { minXp: 420, title: 'Tricolor Bernedoodle Co-Parent', badgeEmoji: '🐶' },
-  { minXp: 650, title: 'Hall-of-Fame Club Legend', badgeEmoji: '👑' },
+  { minXp: 0, title: 'Smoothie-Bar Nod Rookie', badgeEmoji: '🐣' },
+  { minXp: 100, title: 'UV-Bouncer Survivor', badgeEmoji: '🪪' },
+  { minXp: 240, title: 'Off-App Blue-Bubble Pro', badgeEmoji: '💬' },
+  { minXp: 420, title: 'Certified Good Boy / Sanctuary Icon', badgeEmoji: '👑' },
+  { minXp: 650, title: 'Cougars & Cubs Club Legend', badgeEmoji: '🐆' },
 ];
 
 export function getLevelInfo(xp: number): LevelInfo {
@@ -59,6 +60,7 @@ export function createDefaultAdventureProgress(): AdventureProgressState {
     collectedItemIds: [],
     defeatedGoblinIds: [],
     solvedNodeIds: [],
+    companionAdopted: false,
     bernedoodleAdopted: false,
     triviaIndex: 0,
   };
@@ -72,12 +74,14 @@ export function loadAdventureProgress(): AdventureProgressState {
     const raw = window.localStorage.getItem(ADVENTURE_STORAGE_KEY);
     if (!raw) return createDefaultAdventureProgress();
     const parsed = JSON.parse(raw) as Partial<AdventureProgressState>;
+    const adopted = Boolean(parsed.companionAdopted ?? parsed.bernedoodleAdopted);
     return {
       xp: typeof parsed.xp === 'number' && Number.isFinite(parsed.xp) ? Math.max(0, parsed.xp) : 20,
       collectedItemIds: Array.isArray(parsed.collectedItemIds) ? parsed.collectedItemIds : [],
       defeatedGoblinIds: Array.isArray(parsed.defeatedGoblinIds) ? parsed.defeatedGoblinIds : [],
       solvedNodeIds: Array.isArray(parsed.solvedNodeIds) ? parsed.solvedNodeIds : [],
-      bernedoodleAdopted: Boolean(parsed.bernedoodleAdopted),
+      companionAdopted: adopted,
+      bernedoodleAdopted: adopted,
       triviaIndex: typeof parsed.triviaIndex === 'number' ? parsed.triviaIndex : 0,
     };
   } catch {
@@ -101,9 +105,13 @@ export function grantAdventureXp(
   patch?: Partial<AdventureProgressState>,
 ): { next: AdventureProgressState; leveledUp: boolean; levelInfo: LevelInfo } {
   const prevLvl = getLevelInfo(prev.xp).level;
+  const nextAdopted =
+    patch?.companionAdopted ?? patch?.bernedoodleAdopted ?? prev.companionAdopted;
   const next: AdventureProgressState = {
     ...prev,
     ...patch,
+    companionAdopted: nextAdopted,
+    bernedoodleAdopted: nextAdopted,
     xp: Math.max(0, prev.xp + deltaXp),
   };
   const levelInfo = getLevelInfo(next.xp);

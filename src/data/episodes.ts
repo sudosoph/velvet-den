@@ -298,47 +298,48 @@ export const EPISODES: Episode[] = [
     id: 'princess-soft-life',
     act: 2,
     stage: 2,
-    title: 'Princess Treatment: Dropping the 20-Year Mental Load',
-    loreQuote: 'Real-World Quote • "Just because I’m 43 doesn’t mean I want to boss him around, treat me like a princess!"',
+    title: 'Princess Cougar Romance: Peonies, Car Doors & Candlelit Tables',
+    loreQuote:
+      'Club Polarity Lore • "Across every decade from 30s Pumas to 60s Panthers: pure old-school courtship, fresh peonies, and zero planning homework."',
     isVip: false,
     creditCost: 0,
     requiredAnyTags: ['princess_treatment'],
     sceneArt: 'princess_bouquet',
     setupHer:
-      'You spent 50 hours this week directing adults who act like toddlers. You do NOT want to plan tonight, pick the restaurant, or play dominant boss, you want soft-life princess treatment from {hisName}.',
+      'Forget the internet cliché that dating younger means playing boss. Whether you are 33, 43, 53, or 63, tonight is about pure, sweeping old-school romance: fresh pink peonies, passenger doors opened, and seeing if {hisName} knows how to court a woman properly.',
     setupHim:
-      'Internet memes claim every Cougar wants to dominate, but you can tell {herName} is exhausted from running everything at work all week. How do you set the tone tonight?',
+      'Internet memes claim every older woman wants to run the show, when in reality {herName} lights up for classic, chivalrous courtship at any age: flowers in hand, dinner booked before Wednesday, and zero planning homework. How do you set the tone tonight?',
     recommendedAffiliateId: 'princess-mulberry-silk-robe',
     choices: [
       {
-        labelHer: 'He arrives with peonies, opens your passenger door, drapes his jacket over your shoulders, and whispers: "Zero decisions tonight. I planned every detail."',
-        labelHim: 'Bring fresh peonies, open her car door, handle the whole itinerary, and tell her: "Turn your brain off tonight, I’ve got you."',
+        labelHer: 'He arrives with peonies, opens your passenger door, kisses the back of your hand, and smiles: "Table for 7:30 is handled. Just enjoy tonight."',
+        labelHim: 'Arrive with fresh peonies, open her passenger door, handle the entire itinerary, and tell her: "Everything is booked for 7:30, tonight is all about spoiling you."',
         outcomeHer:
-          'You practically melt into the leather seat. Being adored and cared for, instead of managing everything, is the ultimate luxury.',
+          'You melt into the passenger seat smiling. Being courted with genuine chivalry and romance is timeless.',
         outcomeHim:
-          'Her shoulders visibly drop two inches as she exhales. Giving a strong woman space to feel cherished and soft wins her completely.',
-        toastBanner: 'PRINCESS TREATMENT UNLOCKED! • CHIVALRY +25',
+          'Her smile lights up the whole street. Sweeping romance without making her plan a single detail wins her completely.',
+        toastBanner: 'SWEEPING ROMANCE UNLOCKED! • CHIVALRY +25',
         deltas: { maturity: 15, chivalry: 25, eq: 20, chemistry: 20, redFlags: 0 },
-        badgeUnlocked: 'Soft-Life Princess Certifier',
+        badgeUnlocked: 'Princess Cougar Romancer',
       },
       {
-        labelHer: 'He texts at 7:45 PM: "idk whatever u wanna eat Mommy, u pick and drive?"',
-        labelHim: 'Text "idk wherever u wanna go boss lady, u choose!"',
+        labelHer: 'He texts at 7:45 PM: "idk whatever u wanna eat, u pick and drive?"',
+        labelHim: 'Text at 7:45 PM: "idk wherever u wanna go, u choose and drive!"',
         outcomeHer:
-          'Great, another unpaid project-management ticket disguised as a date. Hard pass.',
+          'Zero flowers, zero plan, and asking you to play chauffeur? Instant pass.',
         outcomeHim:
-          'Handing her MORE mental load on Friday night while calling her boss lady? Brutal miss.',
-        toastBanner: 'RED FLAG! • ZERO EFFORT / MENTAL LOAD DUMP',
+          'Dumping zero-effort logistics on Friday night evaporates romance on contact.',
+        toastBanner: 'RED FLAG! • ZERO COURTSHIP EFFORT',
         deltas: { maturity: -15, chivalry: -25, eq: -15, chemistry: -15, redFlags: 1 },
       },
       {
-        labelHer: 'He sends three thoughtful restaurant links with parking notes so you only have to tap A, B, or C.',
-        labelHim: 'Curate three vetted spots with reservations ready so she just picks her craving.',
+        labelHer: 'He sends two candlelit neighborhood spots already reserved so you just pick wine bar or coastal Italian.',
+        labelHim: 'Hold reservations at two great candlelit spots so she simply chooses red wine or coastal pasta.',
         outcomeHer:
-          'Executive-assistant level prep! Easy, low-stress, and considerate.',
+          'Thoughtful, romantic, and completely effortless on your end.',
         outcomeHim:
-          'Smart compromise, she picks B in five seconds and appreciates the prep work.',
-        toastBanner: 'EFFORT +15 • EQ +10',
+          'She picks coastal pasta in five seconds and loves the foresight.',
+        toastBanner: 'CHIVALRY +15 • EQ +10',
         deltas: { maturity: 10, chivalry: 15, eq: 10, chemistry: 10, redFlags: 0 },
       },
     ],
@@ -709,7 +710,7 @@ export const EPISODES: Episode[] = [
     setupHer:
       'At {herAge}, dating a {hisAge}-year-old brings a uniquely 30s Puma crossroads: with **Sienna Miller & Oli Green** and **Ellie Goulding & Beau Minniear** welcoming babies with their 20s Cubs all over the headlines, everyone assumes you’re either rushing a baby clock or playing casual, when you actually want real intentionality.',
     setupHim:
-      '{herName} is {herAge}, radiant, thriving, and crystal clear: whether a couple goes the **Sienna Miller / Ellie Goulding** Cougar-Cub baby route or stays one-and-done, she refuses to spend ages 36–41 in vague "let’s see where things go" situationship limbo.',
+      '{herName} is {herAge}, radiant, thriving, and crystal clear: whether a couple goes the **Sienna Miller / Ellie Goulding** Cougar-Cub baby route or stays one-and-done, she refuses to spend ages 36, 41 in vague "let’s see where things go" situationship limbo.',
     choices: [
       {
         labelHer: 'Align on an intentional 1-to-2 year partnership roadmap, exclusive, proud, and crystal clear on family goals.',
@@ -1142,7 +1143,7 @@ export const EPISODES: Episode[] = [
     stage: 6,
     allowedTiers: ['panther'],
     title: 'Stage 6 Finale: "When I’m 75 and You’re 45..."',
-    loreQuote: 'Real-World Quote • "25–35 year gaps, talking honestly about aging timelines and choosing real love today"',
+    loreQuote: 'Real-World Quote • "25, 35 year gaps, talking honestly about aging timelines and choosing real love today"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'fertility_talk',
@@ -1895,7 +1896,7 @@ export const EPISODES: Episode[] = [
     recommendedAffiliateId: 'after-dark-couples-deck',
     choices: [
       {
-        labelHer: 'Put concrete numbers on the table together, discovering that meeting in the middle (12–18 months, zero vague drifting) excites both of you.',
+        labelHer: 'Put concrete numbers on the table together, discovering that meeting in the middle (12, 18 months, zero vague drifting) excites both of you.',
         labelHim: 'Replace vague "someday" talk with a real shared timeline: "I don’t need six extra years, when you find the right person, you sync watches together."',
         outcomeHer:
           'All the 2 AM math anxiety vanished the moment he put real dates on the calendar willingly. Synced watches beat identical birth years every time.',
@@ -4070,48 +4071,48 @@ export const EPISODES: Episode[] = [
     stage: 2,
     minigame: 'qigong_breath_sync',
     recommendedAffiliateId: 'zero-proof-botanical-mocktail-set',
-    requiredAnyTags: ['qigong_mommy_domme', 'zero_proof_wellness'],
-    title: '🧘‍♀️ Qigong & Tai Chi Wellness Mommy-Domme: Cloud Hands, "Yes, Mommy" & Zero Cubsplaining!',
+    requiredAnyTags: ['qigong_mommy_domme'],
+    title: '🧘‍♀️ Dawn Bamboo-Courtyard Qigong & Tai Chi Cloud Hands',
     loreQuote:
-      'Wellness Mommy-Domme Lore • "Two fingers under his chin at 6:30 AM Qigong: \'Drop your shoulders and breathe with Mommy, good boy\', right before shutting down his podcast Cubsplain!"',
+      'Sedona Studio Lore • "6:30 AM bamboo-courtyard Qigong: unhurried breathwork, warm jasmine oolong, and zero podcast Cubsplaining."',
     isVip: false,
     creditCost: 0,
     sceneArt: 'ridge_trail_leash',
     setupHer:
-      '6:30 AM in your sunlit bamboo courtyard: you’re gliding through **Eight Brocades Qigong & Yang-style Tai Chi Cloud Hands** in olive silk-linen. {hisName} ({hisAge}M) arrives buzzing on cold brew, shoulders up by his ears, and five seconds in starts **Cubsplaining**: *"Well actually, I heard a biohacking podcast on vagus-nerve breathwork, "* You glide behind him, place two warm fingers lightly under his chin to lift his posture, and murmur in pure serene **Mommy-Domme** command: **"Shhh. Unclench your jaw, drop your shoulders, and breathe with Mommy, good boy."**',
+      '6:30 AM in your sunlit bamboo courtyard: you are gliding through Eight Brocades Qigong and Yang-style Tai Chi Cloud Hands. {hisName} ({hisAge}M) arrives buzzing on cold brew and five seconds in starts to Cubsplain a biohacking clip he saw on Tuesday. You adjust his posture calmly and invite him to match your slow breathing rhythm.',
     setupHim:
-      '6:30 AM Dawn Sanctuary Date! {herName} ({herAge}F) has practiced **Qigong & Tai Chi** for twenty years, and radiates magnetic, velvet-voiced **Wellness Mommy-Domme** authority. Halfway through opening your mouth to *Cubsplain* a 90-second biohacking clip you saw on Tuesday, she steps in close, adjusts your spine with effortless poise, and whispers: *"Less podcast chatter, sweet boy, sink into your stance and follow Mommy’s hands."* What do you do?',
+      '6:30 AM Courtyard Practice! {herName} ({herAge}F) has practiced Qigong and Tai Chi for twenty years. Halfway through opening your mouth to recite a 90-second breathwork podcast clip, she smiles serenely and invites you to drop your shoulders and mirror her Cloud Hands in silence.',
     choices: [
       {
-        labelHer: 'He melts instantly with a cheeky grin ("Yes, Mommy, podcast brain officially muted"), mirrors your slow Tai Chi Cloud Hands for 20 silent minutes, and pours warm jasmine oolong for two afterward!',
-        labelHim: 'Swallow the Cubsplain immediately with a self-aware grin ("Yes, Mommy, teach me properly"), sink into her slow Tai Chi Cloud-Hands rhythm, and serve warm jasmine oolong afterward.',
+        labelHer: 'He laughs at himself, mutes the podcast impulse immediately, mirrors your slow Cloud Hands for 20 peaceful minutes, and pours warm jasmine oolong afterward.',
+        labelHim: 'Catch the Cubsplain immediately with a grin, sink into her slow Tai Chi Cloud-Hands pace, and pour warm jasmine oolong for two afterward.',
         outcomeHer:
-          'Watching a 6-foot-plus Cub’s nervous system melt from jittery golden puppy to grounded devotion at "good boy", with ZERO Cubsplaining, is top-tier Wellness Mommy bliss!',
+          'Watching a jittery twenty-something settle into calm, grounded presence without lecturing is pure sanctuary bliss.',
         outcomeHim:
-          'Surrendering the know-it-all impulse to her 20-year mastery unlocks electric Mommy-Domme praise: she traces your jawline over oolong tea and whispers, "Fast learner. You’re invited back Sunday."',
-        toastBanner: '🧘‍♀️ MOMMY-DOMME QIGONG SYNC! • CHEMISTRY +30 • EQ +25',
+          'Trading know-it-all chatter for genuine curiosity and unhurried presence earns an immediate Sunday invite.',
+        toastBanner: '🧘‍♀️ COURTYARD BREATH SYNC! • CHEMISTRY +30 • EQ +25',
         deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 30, redFlags: 0 },
-        badgeUnlocked: 'Certified Qigong Mommy’s Good Boy',
+        badgeUnlocked: 'Cloud-Hands Sanctuary Partner',
         triggerTipPrompt: true,
       },
       {
-        labelHer: 'He interrupts your Tai Chi form three more times to "Cubsplain" what chi means from a YouTube short AND asks if "Wellness Mommy" means you’ll cover his equinox membership.',
-        labelHim: 'Keep Cubsplaining Qi meridians off Wikipedia while hinting that a "Mommy-Domme" should pay your gym membership.',
+        labelHer: 'He interrupts your form three more times to lecture you on breathwork off YouTube shorts.',
+        labelHim: 'Keep lecturing the studio founder off Wikipedia clips instead of following her lead.',
         outcomeHer:
-          'Cubsplaining Qigong to the studio founder AND confusing Mommy-Domme polarity with a Sugar Mama ATM?! You calmly bow him straight out the bamboo gate!',
+          'Cubsplaining Qigong to the woman who owns the studio? You calmly bow him out the courtyard gate.',
         outcomeHim:
-          'Double homicide: lecturing an expert woman ("Cubsplaining") + freeloading = permanent exile from the sanctuary.',
-        toastBanner: 'RED FLAG! • CUBSPLAINING + SUGAR-MAMA CONFUSION (-30)',
+          'Lecturing an expert instead of listening closes the sanctuary doors fast.',
+        toastBanner: 'RED FLAG! • PODCAST CUBSPLAINING (-30)',
         deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
       },
       {
-        labelHer: 'Guide his hands slowly through Pushing-Hands balance drills, teasing him gently every time he rushes the exhale until you’re both laughing.',
-        labelHim: 'Ask genuine questions about her favorite Qigong routine and book a couples cedar-sauna + cold-plunge recovery session for Friday.',
+        labelHer: 'Guide him through Pushing-Hands balance drills, teasing gently whenever he rushes the exhale.',
+        labelHim: 'Ask genuine questions about her practice and book a quiet cedar-sauna session for Friday.',
         outcomeHer:
-          'Playful Tai Chi Pushing-Hands tension + shared laughter is better than three espresso martinis.',
+          'Shared laughter and unhurried balance beat loud bar small talk every time.',
         outcomeHim:
-          'Curiosity + booking recovery logistics earns effortless Wellness Mommy adoration.',
-        toastBanner: 'TAI CHI PUSHING-HANDS SPARK +25',
+          'Real curiosity and thoughtful sauna logistics win her warm smile.',
+        toastBanner: 'COURTYARD SPARK +25',
         deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 25, redFlags: 0 },
       },
     ],
@@ -4122,49 +4123,198 @@ export const EPISODES: Episode[] = [
     stage: 2,
     minigame: 'seed_oil_audit',
     recommendedAffiliateId: 'seed-oil-free-ghee-evoo-set',
-    requiredAnyTags: ['seed_oil_bernedoodle_mommy', 'qigong_mommy_domme', 'zero_proof_wellness'],
-    title: '🥑 Health-Nut Wellness Mommy: Zero Seed Oils, Gluten-Free Bliss & The Tricolor Mini Bernedoodle Waitlist!',
+    requiredAnyTags: ['seed_oil_bernedoodle_mommy'],
+    title: '🥑 Santa Monica Clean Kitchen & Mini Bernedoodle Miso Check',
     loreQuote:
-      'Wellness Mommy Lore • "100% gluten-free, zero industrial seed oils, and #3 on the waitlist for a Tricolor Mini Bernedoodle, when he calls the chef ahead AND puppy-proofs his baseboards!"',
+      'Sloane’s Kitchen Rule • "100% gluten-free, grass-fed ghee & olive oil only, and apricot Mini Bernedoodle Miso approves every guest!"',
     isVip: false,
     creditCost: 0,
     sceneArt: 'houseboy_apron',
     setupHer:
-      'Your body is a temple, sweet boy: you are strictly **100% gluten-free and seed-oil-free** (grass-fed tallow, ghee & cold-pressed olive oil ONLY, not a drop of canola or soybean oil!), AND you just moved up to **#2 on the breeder’s waitlist to adopt a Tricolor Mini Bernedoodle puppy** named **Miso**. {hisName} ({hisAge}M) invites you over to cook Friday dinner at his place. What awaits you inside?',
+      'You cook strictly 100% gluten-free and seed-oil-free (grass-fed ghee, tallow & cold-pressed olive oil only), and your fluffy apricot Mini Bernedoodle Miso trots right to the front door to inspect {hisName} ({hisAge}M) before Friday dinner.',
     setupHim:
-      'High-Stakes Health-Nut Mommy Vetting! {herName} ({herAge}F) glows like sunlit marble because she’s strictly **gluten-free & seed-oil-free**, and her eyes light up every time she checks her email from the **Tricolor Mini Bernedoodle** waitlist. You’re cooking for her tonight. How do you prove you’re Mommy’s ultimate co-pilot?',
+      '{herName} ({herAge}F) eats strictly gluten-free and seed-oil-free, and her apricot Mini Bernedoodle Miso is watching your every move in the kitchen. How do you handle dinner tonight?',
     choices: [
       {
-        labelHer: 'He banished every bottle of canola oil and wheat flour, sears grass-fed ribeye in grass-fed ghee & cast iron with cassava sourdough, AND surprises you with a tiny woven collar tag engraved "MISO" for your incoming Tricolor Mini Bernedoodle!',
-        labelHim: 'Audit every ingredient (100% gluten-free cassava bread + grass-fed ghee & extra-virgin olive oil in cast iron, zero seed oils!), hide electrical cords at puppy-chew height, and surprise her with a handmade chew toy for her incoming Tricolor Mini Bernedoodle!',
+        labelHer: 'He banished canola oil, sears ribeye in grass-fed ghee with cassava sourdough, and brings a natural chew toy for Miso.',
+        labelHim: 'Cook 100% gluten-free with grass-fed ghee and Tuscan olive oil, and bring a pocket treat for Miso.',
         outcomeHer:
-          'Zero bloat, zero canola contraband, AND he’s already prepping for your Tricolor Mini Bernedoodle?! You pull him in by his linen apron strings and whisper: "Good boy. You just moved to #1 on Mommy’s waitlist too."',
+          'Zero canola contraband and Miso is already asleep on his shoes. Top-tier attentiveness.',
         outcomeHim:
-          'Remembering her exact gluten-free & seed-oil-free standards AND celebrating her incoming Tricolor Mini Bernedoodle unlocks instant Mommy-Domme devotion!',
-        toastBanner: '🥑🐶 SEED-OIL-FREE & BERNEDOODLE CO-PILOT! • +30 CHEMISTRY',
+          'Remembering her exact pantry rules and winning over Miso seals Date #2 on the spot.',
+        toastBanner: '🥑🐶 CLEAN-PANTRY & MISO APPROVED! • +30 CHEMISTRY',
         deltas: { maturity: 25, chivalry: 30, eq: 25, chemistry: 30, redFlags: 0 },
-        badgeUnlocked: 'Tricolor Mini Bernedoodle & Seed-Oil-Free MVP',
+        badgeUnlocked: 'Clean-Pantry & Miso Co-Pilot',
         triggerTipPrompt: true,
       },
       {
-        labelHer: 'He tries to "Cubsplain" that canola oil and gluten are "basically fine in moderation," serves wheat-breaded takeout fried in soybean oil, and calls Mini Bernedoodles "overpriced designer mops."',
-        labelHim: 'Cubsplain nutrition to a radiant Wellness Mommy while serving soybean-oil takeout and mocking her dream Tricolor Mini Bernedoodle.',
+        labelHer: 'He argues that soybean oil and wheat are "basically fine" while ignoring Miso.',
+        labelHim: 'Serve wheat takeout fried in soybean oil while rolling your eyes at her food rules.',
         outcomeHer:
-          'INSULTING THE TRICOLOR MINI BERNEDOODLE WHILE SERVING SOYBEAN OIL AND WHEAT?! Grab your organic matcha and block him before the elevator doors close!',
+          'Dismissing her pantry non-negotiables ends dinner before the plates warm up.',
         outcomeHim:
-          'Never Cubsplain her wellness non-negotiables, and NEVER disrespect the incoming Tricolor Mini Bernedoodle.',
-        toastBanner: 'RED FLAG! • CANOLA OIL + PUPPY SLANDER (-30)',
+          'Mocking your date’s health standards is an instant exit.',
+        toastBanner: 'RED FLAG! • PANTRY DISRESPECT (-30)',
         deltas: { maturity: -30, chivalry: -30, eq: -30, chemistry: -30, redFlags: 1 },
       },
       {
-        labelHer: 'Call the farm-to-table bistro chef together ahead of time to confirm 100% butter & olive-oil prep, then spend dessert comparing puppy crate setups.',
-        labelHim: 'Call the restaurant kitchen at 4 PM so the chef preps her entrée in 100% grass-fed butter & olive oil on a gluten-free pan, zero awkwardness at the table!',
+        labelHer: 'He called the farm-to-table bistro at 4 PM to confirm 100% butter and olive-oil prep ahead of time.',
+        labelHim: 'Call the restaurant chef at 4 PM so her entrée is prepped in 100% butter and olive oil without table awkwardness.',
         outcomeHer:
-          'A Cub who quietly handles the kitchen seed-oil & gluten check before you even sit down is pure soft-life luxury.',
+          'Quietly handling the chef check ahead of time is effortless thoughtfulness.',
         outcomeHim:
-          'Handling restaurant ingredient logistics ahead of time is top-1% chivalry.',
+          'Proactive restaurant prep earns immediate appreciation.',
         toastBanner: 'PROACTIVE CHEF CALL +25',
         deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'soft-mommy-domme-good-boy-command',
+    act: 2,
+    stage: 2,
+    recommendedAffiliateId: 'good-boy-brass-training-clicker',
+    requiredAnyTags: ['soft_mommy_domme'],
+    title: '👑 Soft Mommy-Domme Polarity: Velvet Command & "Good Boy" Praise',
+    loreQuote:
+      'Club Polarity Secret • "Two fingers under his chin, steady eye contact, and one quiet \'Good boy\' (or a British Cub’s \'Yes, Mummy xx\'), never an ATM!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'princess_bouquet',
+    setupHer:
+      'Across a candlelit booth, {hisName} ({hisAge}M) starts talking a mile a minute trying to impress you. You lean in calmly, rest two fingers lightly under his chin to slow him down, and murmur with a teasing half-smile: "Breathe. Eyes up here, and pour the wine properly."',
+    setupHim:
+      'Halfway through rambling nervously to impress {herName} ({herAge}F), she tilts one eyebrow, touches two fingers lightly under your chin, and says in pure velvet command: "Slow down. Pour the Pinot properly, good boy." What is your move?',
+    choices: [
+      {
+        labelHer: 'His ears turn pink with a shameless grin ("Yes, ma’am" / "Sorted, Mummy xx"), he pours the Pinot cleanly, and keeps his phone face-down all night.',
+        labelHim: 'Lean right into the playful polarity with a confident grin ("Yes, Mummy xx, consider it sorted"), pour her glass steadily, and match her calm gaze.',
+        outcomeHer:
+          'Zero fragile ego, zero freeloading, just electric consensual polarity between two self-supporting adults.',
+        outcomeHim:
+          'Owning the playful dynamic without flinching turns the chemistry up to 110 degrees.',
+        toastBanner: '👑 VELVET COMMAND UNLOCKED! • CHEMISTRY +30',
+        deltas: { maturity: 20, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Certified Velvet Good Boy',
+      },
+      {
+        labelHer: 'He immediately ruins it by asking if you will pay his rent or buy him sneakers.',
+        labelHim: 'Confuse romantic Mommy-Domme banter with asking her to venmo your car payment.',
+        outcomeHer:
+          'Rule #1 violated in four seconds flat: romantic authority NEVER means Sugar Mama ATM.',
+        outcomeHim:
+          'Treating a poised woman like a bank account gets you left with the bartender.',
+        toastBanner: 'RED FLAG! • FREELOADER CONFUSION (-30)',
+        deltas: { maturity: -25, chivalry: -30, eq: -25, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Keep the banter subtly playful at dinner and let him earn shoulder-massage duty back home.',
+        labelHim: 'Hold steady eye contact, pick up the cocktail tab smoothly, and ask where she wants to walk next.',
+        outcomeHer:
+          'Balanced poise and grown-man follow-through hit every note.',
+        outcomeHim:
+          'Confident reciprocity plus playful deference is unbeatable.',
+        toastBanner: 'POLARITY SPARK +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'cub-daddy-zaddy-dinner-takeover',
+    act: 2,
+    stage: 2,
+    recommendedAffiliateId: 'espresso-martini-barware',
+    requiredAnyTags: ['cub_daddy_zaddy'],
+    title: '🥂 The "Cub Daddy" Flip: Younger in Years, Full Lead at the Table',
+    loreQuote:
+      'Club Polarity Flip • "He may be 27 or 32, yet he books the corner booth on Tuesday, pre-heats your seat warmer, and intercepts the check without blinking."',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'tapas_check',
+    setupHer:
+      'Everyone assumes the older partner always leads, until {hisName} ({hisAge}M) texts the 7:30 corner-booth confirmation on Tuesday, opens your passenger door with the seat warmer already glowing, and calmly steers you past the velvet rope.',
+    setupHim:
+      'You may be younger on paper than {herName} ({herAge}F), yet your favorite move is bringing calm "Cub Daddy" leadership so she never has to play project manager on Friday night.',
+    choices: [
+      {
+        labelHer: 'Exhale happily, hand him the wine list ("You’ve got great instincts, surprise me"), and enjoy being thoroughly looked after.',
+        labelHim: 'Order her favorite aperitif cleanly, keep your phone off the table, and slip your card to the server quietly before dessert.',
+        outcomeHer:
+          'A younger man with decisive baritone calm and zero ego posturing is the rarest gem in the Club.',
+        outcomeHim:
+          'Calm leadership without arrogance makes her look at you like you hung the moon.',
+        toastBanner: '🥂 CUB DADDY POISE! • CHIVALRY +30',
+        deltas: { maturity: 25, chivalry: 30, eq: 20, chemistry: 25, redFlags: 0 },
+        badgeUnlocked: 'Cub Daddy Table Lead',
+      },
+      {
+        labelHer: 'He tries fake "alpha podcast" barking at the waiter instead of real gentleman poise.',
+        labelHim: 'Snap your fingers rudely at the server to look "dominant".',
+        outcomeHer:
+          'Being rude to waitstaff is the opposite of leadership. Immediate ick.',
+        outcomeHim:
+          'Confusing arrogance toward staff with confidence destroys attraction instantly.',
+        toastBanner: 'RED FLAG! • RUDE TO WAITSTAFF (-30)',
+        deltas: { maturity: -30, chivalry: -30, eq: -25, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Trade off smoothly: he leads Friday dinner, and you host Sunday brunch on your terrace.',
+        labelHim: 'Take full charge of Friday reservations while welcoming her favorite wine pairing pick.',
+        outcomeHer:
+          'Effortless give-and-take with zero scorekeeping.',
+        outcomeHim:
+          'Decisive planning paired with warm collaboration wins every time.',
+        toastBanner: 'GROWN-MAN LEAD +20',
+        deltas: { maturity: 20, chivalry: 20, eq: 20, chemistry: 20, redFlags: 0 },
+      },
+    ],
+  },
+  {
+    id: 'bucket-list-tourist-instant-block',
+    act: 2,
+    stage: 1,
+    recommendedAffiliateId: 'chic-candlelit-menu-readers',
+    title: '🪣 Vetting Gate: Spotting the "Bucket-List Tourist" & "Discrete" Spelling Test',
+    loreQuote:
+      'Forum Law #1 • "If he writes \'never been with an older woman, bucket list 👀\' or spells discreet as \'discrete\', send him straight to the exit!"',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'code_switch_phone',
+    setupHer:
+      'Before locking in Drinks #1, you run the classic two-second Club Tourist Filter: does {hisName} treat you like an intriguing woman he is genuinely excited to take to dinner in daylight, or like a hidden 10:30 PM "cougar bucket list" novelty?',
+    setupHim:
+      'Your roommates keep joking about "crossing an older woman off the bucket list," while you actually think {herName} ({herAge}F) is brilliant, magnetic, and way cooler than anyone you have met all year. How do you frame your intentions?',
+    choices: [
+      {
+        labelHer: 'He invites you to a sunlit 7:30 patio table on Friday, compliments your wit directly, and has zero weirdness about birth years.',
+        labelHim: 'Invite her to a real 7:30 Friday dinner in daylight and speak to her like a woman you genuinely admire, zero "bucket list" or age footnotes.',
+        outcomeHer:
+          'Daylight-proud, specific, and zero novelty fetishizing. Green light for Friday.',
+        outcomeHim:
+          'Treating her like a catch instead of a category puts you in the top 2% immediately.',
+        toastBanner: 'DAYLIGHT-PROUD INTENT! • MATURITY +25',
+        deltas: { maturity: 25, chivalry: 20, eq: 25, chemistry: 20, redFlags: 0 },
+        badgeUnlocked: 'Zero Tourist Energy',
+      },
+      {
+        labelHer: 'He texts: "ngl never been w someone from the late 1900s, bucket list!! keep it discrete after 10:30 PM?"',
+        labelHim: 'Text her "never been w a cougar before bucket list 👀 down for something discrete?"',
+        outcomeHer:
+          'Misspelling discreet while treating you like a novelty Xbox badge? Blocked in 0.3 seconds.',
+        outcomeHim:
+          'Calling a woman a "bucket list" item and hiding from daylight is an automatic lifetime ban.',
+        toastBanner: 'RED FLAG! • BUCKET-LIST TOURIST BLOCKED (-30)',
+        deltas: { maturity: -30, chivalry: -25, eq: -30, chemistry: -30, redFlags: 1 },
+      },
+      {
+        labelHer: 'Ask what made him swipe right first, his specific answer about your humor passes cleanly.',
+        labelHim: 'Reference a specific detail from her profile prompts instead of mentioning age at all.',
+        outcomeHer:
+          'Specific observation beats generic flattery every day of the week.',
+        outcomeHim:
+          'Reading her actual prompts proves real interest.',
+        toastBanner: 'SPECIFIC CHARM +20',
+        deltas: { maturity: 20, chivalry: 15, eq: 20, chemistry: 20, redFlags: 0 },
       },
     ],
   },
@@ -4245,7 +4395,7 @@ export const EPISODES: Episode[] = [
     recommendedAffiliateId: 'velvet-travel-weekender-duffel',
     title: '🧠 The Early-Anthropic AI Cub: Quiet Liquidity, Cashmere & Why He Filters 38+',
     loreQuote:
-      'Modern SF/NYC Twist • "He joined Anthropic at 24, quietly vested at 28, wears unbranded cashmere, and only dates women 38–58 because 23-year-olds treat him like a startup ATM."',
+      'Modern SF/NYC Twist • "He joined Anthropic at 24, quietly vested at 28, wears unbranded cashmere, and only dates women 38, 58 because 23-year-olds treat him like a startup ATM."',
     isVip: false,
     creditCost: 0,
     sceneArt: 'palm_springs_pool',

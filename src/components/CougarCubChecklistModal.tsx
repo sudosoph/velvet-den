@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { CheckSquare, Copy, Play, RotateCcw, Share2, Sparkles, Square, X } from 'lucide-react';
+import { CheckSquare, Play, RotateCcw, Share2, Sparkles, Square, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
-import { shareOrCopy } from '../lib/viral';
+import { trackEvent } from '../lib/analytics';
 import { sfx } from '../lib/sound';
+import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 interface CougarCubChecklistModalProps {
   open: boolean;
@@ -39,9 +40,9 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
     episodeId: 'code-switch-texting',
   },
   {
-    id: 'seedoilbernedoodle',
-    text: 'Called a restaurant ahead for 100% gluten-free & seed-oil-free prep, while celebrating moving up the waitlist for a tricolor Mini Bernedoodle.',
-    episodeId: 'seed-oil-gluten-free-bernedoodle-mommy',
+    id: 'softgoodboy',
+    text: 'Melted into an instant grin when she lifted your chin and murmured "Good boy" (or sent a proper British "Sorted, Mummy xx" text).',
+    episodeId: 'soft-mommy-domme-good-boy-command',
   },
   {
     id: 'twoqueens',
@@ -99,9 +100,9 @@ export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: 
     episodeId: 'cub-bench-press-cougar-training',
   },
   {
-    id: 'qigongmommy',
-    text: 'Melted into "Yes, Mommy" posture when a Tai Chi Wellness Mommy-Domme lifted your chin with two fingers.',
-    episodeId: 'qigong-tai-chi-wellness-mommy-domme',
+    id: 'bucketlistblock',
+    text: 'Instantly blocked a "never been with a cougar, bucket list" tourist who misspelled "discreet" as "discrete" in his bio.',
+    episodeId: 'bucket-list-tourist-instant-block',
   },
   {
     id: 'cubcoldplungespace',
@@ -164,7 +165,7 @@ function rankForScore(score: number): { title: string; subtitle: string; recomme
   }
   return {
     title: '🐣 FRESH OUT THE DEN (ROOKIE)',
-    subtitle: 'Brand new to the age-slider magic, start your live training run right now!',
+    subtitle: 'Brand new to the age-slider magic, start your live date run right now!',
     recommendedEp: 'babygirl-hotel-bar-milk-or-martini',
   };
 }
@@ -204,7 +205,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
   onPlayMatchedScenario,
 }) => {
   const [checkedIds, setCheckedIds] = useState<string[]>(() => loadChecklistCheckedIds());
-  const [shareToast, setShareToast] = useState<string | null>(null);
+  const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   React.useEffect(() => {
     if (open) {
@@ -236,131 +237,136 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
     setCheckedIds([]);
   };
 
-  const handleShareScore = async () => {
-    const text = `🐆 Official Cougars & Cubs Experience Test: ${score}/100 (${rank.title}) • Checked ${checkedIds.length}/25 boxes 💀 Beat my score:`;
-    await shareOrCopy({
-      title: 'Cougars & Cubs 25-Point Viral Score Test',
-      text,
-      url: checklistUrl,
+  const handleShareScore = () => {
+    onClaimChecklistReward('checklist_25pt_completed', 0);
+    trackEvent('checklist_shared', {
+      score,
+      checked_count: checkedIds.length,
     });
-    const granted = onClaimChecklistReward('viral_checklist_share', 2);
-    setShareToast(
-      granted
-        ? '🎉 Score card copied to clipboard (+2 Bonus Credits unlocked)! Drop it in TikTok/X/group chat!'
-        : '📤 Score card & referral link copied! Challenge your group chat or date.',
-    );
+    const text = `🐆 Have You Ever? 25-Pt Cougars & Cubs Club Score: ${score}/100 (${rank.title}) • Checked ${checkedIds.length}/25 boxes! Beat my score:`;
+    setSharePayload({
+      title: `Share 25-Pt Club Score (${score}/100)`,
+      message: text,
+      url: checklistUrl,
+      shareSurface: 'checklist_25pt',
+      discordMarkdown: `**🐆 Have You Ever? 25-Pt Cougars & Cubs Score: ${score}/100** (${rank.title})\nChecked **${checkedIds.length}/25** boxes • Take the test: ${checklistUrl}`,
+    });
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-5 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      aria-label="25-Point Cougars & Cubs Viral Experience Checklist"
-    >
-      <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl p-5 sm:p-7 space-y-4">
-        <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/12 pb-3">
-          <div>
-            <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
-              <Sparkles className="h-3.5 w-3.5" /> TikTok Green-Screen Ready • 0–100 Score Test
-            </span>
-            <h2 className="mt-1.5 font-display text-2xl sm:text-3xl text-[#1E1022] leading-tight">
-              The 25-Point Cougars &amp; Cubs Experience Test
-            </h2>
-            <p className="mt-1 text-xs sm:text-sm font-medium text-[#5A4664]">
-              Check every moment you’ve lived (or would survive), share your 0–100 score for +2 Free Credits!
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close Checklist"
-            className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        {/* Live Score Banner */}
-        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] px-4 py-3 shadow-[3px_3px_0px_#1E1022]">
-          <div>
-            <div className="text-xs font-extrabold uppercase text-[#1E1022]">{rank.title}</div>
-            <div className="text-xs font-semibold text-[#34223B]">{rank.subtitle}</div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="text-right">
-              <div className="font-display text-4xl leading-none text-[#1E1022]">{score}/100</div>
-              <div className="text-xs font-extrabold text-[#1E1022]">{checkedIds.length}/25 Checked</div>
+    <>
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-5 backdrop-blur-sm"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Have You Ever? 25-Point Cougars & Cubs Experience Test"
+      >
+        <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl p-5 sm:p-7 space-y-4">
+          <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/12 pb-3">
+            <div>
+              <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
+                <Sparkles className="h-3.5 w-3.5" /> Have You Ever? • 0 to 100 Club Score
+              </span>
+              <h2 className="mt-1.5 font-display text-2xl sm:text-3xl text-[#1E1022] leading-tight">
+                The 25-Point Cougars &amp; Cubs Experience Test
+              </h2>
+              <p className="mt-1 text-xs sm:text-sm font-medium text-[#5A4664]">
+                Check every moment you’ve lived (or would survive) and compare your 0 to 100 score with your group chat!
+              </p>
             </div>
-            {checkedIds.length > 0 && (
-              <button
-                type="button"
-                onClick={resetAll}
-                title="Reset checkboxes"
-                className="rounded-lg border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] cursor-pointer"
-              >
-                <RotateCcw className="h-4 w-4" />
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close Checklist"
+              className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Live Score Banner */}
+          <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] px-4 py-3 shadow-[3px_3px_0px_#1E1022]">
+            <div>
+              <div className="text-xs font-extrabold uppercase text-[#1E1022]">{rank.title}</div>
+              <div className="text-xs font-semibold text-[#34223B]">{rank.subtitle}</div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <div className="font-display text-4xl leading-none text-[#1E1022]">{score}/100</div>
+                <div className="text-xs font-extrabold text-[#1E1022]">{checkedIds.length}/25 Checked</div>
+              </div>
+              {checkedIds.length > 0 && (
+                <button
+                  type="button"
+                  onClick={resetAll}
+                  title="Reset checkboxes"
+                  className="rounded-lg border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] cursor-pointer"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* 25 Checkboxes */}
+          <div className="grid gap-2">
+            {COUGAR_CUB_CHECKLIST_ITEMS.map((item, idx) => {
+              const checked = checkedIds.includes(item.id);
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => toggleItem(item.id)}
+                  className={`flex items-start gap-2.5 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm transition cursor-pointer ${
+                    checked
+                      ? 'border-[#1E1022] bg-[#FFF4F7] text-[#1E1022] font-extrabold'
+                      : 'border-[#1E1022]/15 bg-white text-[#1E1022] font-medium hover:border-[#1E1022]'
+                  }`}
+                >
+                  {checked ? (
+                    <CheckSquare className="h-4 w-4 shrink-0 text-[#FF2E63] mt-0.5" />
+                  ) : (
+                    <Square className="h-4 w-4 shrink-0 text-[#5A4664] mt-0.5" />
+                  )}
+                  <span>
+                    <strong className="text-[#FF2E63] mr-1">#{idx + 1}.</strong>
+                    {item.text}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Bottom Share + Play Matched Scenario Funnel */}
+          <div className="flex flex-wrap items-center justify-between gap-2.5 border-t-2 border-[#1E1022]/12 pt-3">
+            <button
+              type="button"
+              onClick={handleShareScore}
+              className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FFBE0B] px-4 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+            >
+              <Share2 className="h-4 w-4" />
+              <span>Share 25-Pt Score ({score}/100)</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                onPlayMatchedScenario(rank.recommendedEp);
+              }}
+              className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-5 py-2.5 font-display text-lg text-white cursor-pointer"
+            >
+              <Play className="h-4 w-4 fill-white" />
+              <span>Play Matched Scenario →</span>
+            </button>
           </div>
         </div>
-
-        {/* 25 Checkboxes */}
-        <div className="grid gap-2">
-          {COUGAR_CUB_CHECKLIST_ITEMS.map((item, idx) => {
-            const checked = checkedIds.includes(item.id);
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => toggleItem(item.id)}
-                className={`flex items-start gap-2.5 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm transition cursor-pointer ${
-                  checked
-                    ? 'border-[#1E1022] bg-[#FFF4F7] text-[#1E1022] font-extrabold'
-                    : 'border-[#1E1022]/15 bg-white text-[#1E1022] font-medium hover:border-[#1E1022]'
-                }`}
-              >
-                {checked ? (
-                  <CheckSquare className="h-4 w-4 shrink-0 text-[#FF2E63] mt-0.5" />
-                ) : (
-                  <Square className="h-4 w-4 shrink-0 text-[#5A4664] mt-0.5" />
-                )}
-                <span>
-                  <strong className="text-[#FF2E63] mr-1">#{idx + 1}.</strong>
-                  {item.text}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Bottom Viral Share + Play Matched Scenario Funnel */}
-        <div className="flex flex-wrap items-center justify-between gap-2.5 border-t-2 border-[#1E1022]/12 pt-3">
-          <button
-            type="button"
-            onClick={handleShareScore}
-            className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FFBE0B] px-4 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
-          >
-            <Share2 className="h-4 w-4" />
-            <span>Share Score Receipt (+2 Cr)</span>
-            <Copy className="h-3.5 w-3.5 ml-0.5" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              onClose();
-              onPlayMatchedScenario(rank.recommendedEp);
-            }}
-            className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-5 py-2.5 font-display text-lg text-white cursor-pointer"
-          >
-            <Play className="h-4 w-4 fill-white" />
-            <span>Play Matched Scenario →</span>
-          </button>
-        </div>
-
-        {shareToast && <p className="text-xs font-extrabold text-[#065F46]">{shareToast}</p>}
       </div>
-    </div>
+
+      <SocialShareSheetModal
+        payload={sharePayload}
+        onClose={() => setSharePayload(null)}
+      />
+    </>
   );
 };

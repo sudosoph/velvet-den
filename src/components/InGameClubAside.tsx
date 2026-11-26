@@ -31,28 +31,28 @@ export const InGameClubAside: React.FC<InGameClubAsideProps> = ({
   onOpenFullChecklist,
 }) => {
   const seed = hashKey(seedKey);
-  const [mode, setMode] = useState<'viral' | 'pop'>(() => (seed % 2 === 0 ? 'viral' : 'pop'));
+  const [mode, setMode] = useState<'irl' | 'pop'>(() => (seed % 2 === 0 ? 'irl' : 'pop'));
   const [pickedOption, setPickedOption] = useState<number | null>(null);
-  const [viralAns, setViralAns] = useState<'lived' | 'dodged' | null>(() => {
+  const [irlAns, setIrlAns] = useState<'lived' | 'dodged' | null>(() => {
     const matched =
       COUGAR_CUB_CHECKLIST_ITEMS.find((c) => c.episodeId === matchedEpisodeId) ??
       COUGAR_CUB_CHECKLIST_ITEMS[seed % COUGAR_CUB_CHECKLIST_ITEMS.length];
     return loadChecklistCheckedIds().includes(matched.id) ? 'lived' : null;
   });
 
-  const viralItem =
+  const checklistItem =
     COUGAR_CUB_CHECKLIST_ITEMS.find((c) => c.episodeId === matchedEpisodeId) ??
     COUGAR_CUB_CHECKLIST_ITEMS[seed % COUGAR_CUB_CHECKLIST_ITEMS.length];
 
   const popItem = POP_CULTURE_TRIVIA[seed % POP_CULTURE_TRIVIA.length];
   const livedPct = 61 + (seed % 27);
 
-  const handleViralVote = (choice: 'lived' | 'dodged') => {
+  const handleIrlVote = (choice: 'lived' | 'dodged') => {
     sfx.messagePop();
-    setViralAns(choice);
+    setIrlAns(choice);
     const current = loadChecklistCheckedIds();
-    if (choice === 'lived' && !current.includes(viralItem.id)) {
-      toggleChecklistItemInStorage(viralItem.id);
+    if (choice === 'lived' && !current.includes(checklistItem.id)) {
+      toggleChecklistItemInStorage(checklistItem.id);
     }
   };
 
@@ -71,13 +71,13 @@ export const InGameClubAside: React.FC<InGameClubAsideProps> = ({
         <div className="inline-flex rounded-xl border-2 border-[#1E1022] bg-white p-0.5 text-xs font-extrabold">
           <button
             type="button"
-            onClick={() => setMode('viral')}
+            onClick={() => setMode('irl')}
             className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1 transition cursor-pointer ${
-              mode === 'viral' ? 'bg-[#FF2E63] text-white' : 'text-[#1E1022] hover:bg-[#FFF4F7]'
+              mode === 'irl' ? 'bg-[#FF2E63] text-white' : 'text-[#1E1022] hover:bg-[#FFF4F7]'
             }`}
           >
             <Flame className="h-3.5 w-3.5" />
-            <span>Viral IRL Check</span>
+            <span>Have You Ever? IRL Check</span>
           </button>
           <button
             type="button"
@@ -91,13 +91,13 @@ export const InGameClubAside: React.FC<InGameClubAsideProps> = ({
           </button>
         </div>
 
-        {mode === 'viral' && onOpenFullChecklist && (
+        {mode === 'irl' && onOpenFullChecklist && (
           <button
             type="button"
             onClick={onOpenFullChecklist}
             className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-white border border-[#18101E]/15 px-3 py-1 text-xs font-bold text-[#E11D48] hover:bg-[#FFF1F2] cursor-pointer"
           >
-            <span>IRL Score: {checkedCount * 4}/100 →</span>
+            <span>25-Pt Club Score: {checkedCount * 4}/100 →</span>
           </button>
         )}
         {mode === 'pop' && onOpenFullTrivia && (
@@ -106,32 +106,29 @@ export const InGameClubAside: React.FC<InGameClubAsideProps> = ({
             onClick={onOpenFullTrivia}
             className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 rounded-full bg-[#FFFBEB] border border-[#F59E0B]/40 px-3 py-1 text-xs font-bold text-[#92400E] hover:bg-[#FEF3C7] cursor-pointer"
           >
-            <span>Full Pop Quiz</span>
-            <span className="rounded-full bg-[#FDE68A] px-1.5 py-0.2 text-[10px] font-extrabold text-[#78350F] whitespace-nowrap">
-              +3 Cr
-            </span>
+            <span>Full Pop Quiz (20 Qs) →</span>
           </button>
         )}
       </div>
 
-      {mode === 'viral' ? (
+      {mode === 'irl' ? (
         <div className="space-y-3">
           <div className="text-base font-extrabold text-[#1E1022] leading-snug">
-            &ldquo;{viralItem.text}&rdquo;
+            &ldquo;{checklistItem.text}&rdquo;
           </div>
 
-          {viralAns === null ? (
+          {irlAns === null ? (
             <div className="flex flex-wrap gap-2.5">
               <button
                 type="button"
-                onClick={() => handleViralVote('lived')}
+                onClick={() => handleIrlVote('lived')}
                 className="pop-btn rounded-xl bg-[#FF2E63] px-4 py-2 text-sm font-extrabold text-white cursor-pointer"
               >
                 🙋‍♀️ Lived This IRL!
               </button>
               <button
                 type="button"
-                onClick={() => handleViralVote('dodged')}
+                onClick={() => handleIrlVote('dodged')}
                 className="pop-btn rounded-xl bg-white px-4 py-2 text-sm font-extrabold text-[#1E1022] cursor-pointer"
               >
                 🛡️ Dodged So Far
