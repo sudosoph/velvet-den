@@ -1,14 +1,14 @@
 /**
- * Cloudflare Worker API + Static SPA Asset Router for Cougars & Cubs Club.
+ * Cloudflare Worker API + Static SPA Asset Router for Cougars & Cubs Club (v35).
  * Endpoints:
  *   GET  /api/health
  *   GET  /api/stats?episodeId=<id>&choices=3
  *   POST /api/stats  { episodeId, choiceIndex, choiceCount? }
  *   POST /api/inbox-vet { personaName, personaAge, personaTitle, personaRole, playerMessage, history? }
  *   GET  /api/verify-checkout?session_id=<cs_...>
- *   GET  /api/go/:affiliateId?src=<placement>  (Protected Amazon Affiliate Gateway + Click Counter)
- *   POST /api/founder-auth   { passphrase }    (Salted SHA-256 Founder Password Verification)
- *   POST /api/founder-config { passphrase, amazonAssociateTag } (Live KV Affiliate Tag Vault)
+ *   GET|HEAD /api/go/:affiliateId?src=<placement>  (Specific /dp/<ASIN> Amazon Affiliate Gateway)
+ *   POST /api/founder-auth   { passphrase }
+ *   POST /api/founder-config { passphrase, amazonAssociateTag }
  */
 
 import { PostHog } from 'posthog-node/edge';
@@ -51,72 +51,42 @@ export interface WorkerEnv {
 const FOUNDER_SALT = 'cc_founder_v1:';
 const DEFAULT_FOUNDER_SHA256 =
   '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac';
+const DEFAULT_AMAZON_ASSOCIATE_TAG = 'cougarsandcub-20';
 
 const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
-  'trophy-boyfriend-cooking-apron':
-    'https://www.amazon.com/s?k=trophy+husband+funny+cooking+apron+for+men',
-  'leopard-print-cougar-apron':
-    'https://www.amazon.com/s?k=leopard+print+kitchen+apron+with+pockets',
-  'good-boy-brass-training-clicker':
-    'https://www.amazon.com/s?k=dog+training+clicker+wrist+strap+treat+pouch',
-  'funny-cougar-stemless-wine-glass':
-    'https://www.amazon.com/s?k=funny+cougar+wine+glass+gift+for+women',
-  'golden-retriever-boyfriend-mug':
-    'https://www.amazon.com/s?k=golden+retriever+energy+funny+mug+gift',
-  'black-cat-girlfriend-leopard-mug':
-    'https://www.amazon.com/s?k=black+cat+energy+funny+coffee+mug+gift',
-  'cougar-hunter-retro-trucker-hat':
-    'https://www.amazon.com/s?k=funny+cougar+trucker+hat+novelty+gift',
-  'houseboy-linen-apron':
-    'https://www.amazon.com/s?k=japanese+cross+back+washed+linen+apron+men',
-  'trail-hydration-vest':
-    'https://www.amazon.com/s?k=ultralight+trail+running+hydration+vest+pack',
-  'princess-mulberry-silk-robe':
-    'https://www.amazon.com/s?k=100+percent+mulberry+silk+robe+women+22+momme',
-  'hosting-lidded-bin-soap':
-    'https://www.amazon.com/s?k=matte+black+bathroom+trash+can+with+lid+and+hand+soap+set',
-  'percale-hosting-sheets':
-    'https://www.amazon.com/s?k=long+staple+cotton+percale+sheet+set+queen+white',
-  'date-night-oud-bergamot':
-    'https://www.amazon.com/s?k=bergamot+cedar+amber+eau+de+parfum+men',
-  'espresso-martini-barware':
-    'https://www.amazon.com/s?k=espresso+martini+cocktail+shaker+coupe+glasses+set',
-  'after-dark-couples-deck':
-    'https://www.amazon.com/s?k=couples+conversation+cards+date+night+game',
-  'cooling-bamboo-sheets':
-    'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
-  'cast-iron-steak-skillet':
-    'https://www.amazon.com/s?k=12+inch+pre+seasoned+cast+iron+skillet',
-  'adjustable-dumbbell-bench':
-    'https://www.amazon.com/s?k=foldable+adjustable+weight+bench+home+gym',
-  'cub-grooming-beard-skincare-kit':
-    'https://www.amazon.com/s?k=sandalwood+beard+oil+mens+skincare+grooming+gift+set',
-  'silk-pillowcase-sleepover-duo':
-    'https://www.amazon.com/s?k=22+momme+mulberry+silk+pillowcase+queen+claw+clip',
-  'zero-proof-botanical-mocktail-set':
-    'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
-  'fill-in-love-coupon-cards':
-    'https://www.amazon.com/s?k=fill+in+the+blank+love+coupons+cards+for+couples',
-  'short-leash-leather-dog-leash':
-    'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp',
-  'big-carl-giant-wine-glass':
-    'https://www.amazon.com/s?k=oversized+giant+full+bottle+wine+glass+funny+gift',
-  'chic-candlelit-menu-readers':
-    'https://www.amazon.com/s?k=oversized+tortoiseshell+reading+glasses+women+chic',
-  'babygirl-movie-prime':
-    'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
-  'idea-of-you-movie-book':
-    'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
-  'bridget-jones-cougar-town-watch':
-    'https://www.amazon.com/s?k=Bridget+Jones+Mad+About+the+Boy+Prime+Video',
-  'the-rebound-zeta-jones-prime':
-    'https://www.amazon.com/s?k=The+Rebound+Catherine+Zeta+Jones+Prime+Video+movie',
-  'seed-oil-free-ghee-evoo-set':
-    'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil',
-  'linen-picnic-insulated-tote':
-    'https://www.amazon.com/s?k=wicker+picnic+basket+for+2+with+waterproof+blanket',
-  'velvet-travel-weekender-duffel':
-    'https://www.amazon.com/s?k=mens+canvas+leather+overnight+weekender+duffel+bag',
+  'trophy-boyfriend-cooking-apron': 'https://www.amazon.com/dp/B0BXXDBB8F',
+  'leopard-print-cougar-apron': 'https://www.amazon.com/dp/B0GLPF6K39',
+  'good-boy-brass-training-clicker': 'https://www.amazon.com/dp/B08FQQ3R3S',
+  'funny-cougar-stemless-wine-glass': 'https://www.amazon.com/dp/B077TC25XQ',
+  'golden-retriever-boyfriend-mug': 'https://www.amazon.com/dp/B07MLLXW4Q',
+  'black-cat-girlfriend-leopard-mug': 'https://www.amazon.com/dp/B0DNJ8P9Z3',
+  'cougar-hunter-retro-trucker-hat': 'https://www.amazon.com/dp/B0D5BRYPVT',
+  'houseboy-linen-apron': 'https://www.amazon.com/dp/B093GJW13K',
+  'trail-hydration-vest': 'https://www.amazon.com/dp/B0D59W2JZX',
+  'princess-mulberry-silk-robe': 'https://www.amazon.com/dp/B0FD3H89H5',
+  'hosting-lidded-bin-soap': 'https://www.amazon.com/dp/B0FHH85CXQ',
+  'percale-hosting-sheets': 'https://www.amazon.com/dp/B0C7LGBLYJ',
+  'date-night-oud-bergamot': 'https://www.amazon.com/dp/B0DX3V4YC1',
+  'espresso-martini-barware': 'https://www.amazon.com/dp/B08KQCX9Z9',
+  'after-dark-couples-deck': 'https://www.amazon.com/dp/B0B7V56B7H',
+  'cooling-bamboo-sheets': 'https://www.amazon.com/dp/B08HR2WW6T',
+  'cast-iron-steak-skillet': 'https://www.amazon.com/dp/B0BFQ1SV7X',
+  'adjustable-dumbbell-bench': 'https://www.amazon.com/dp/B07HNLBZ4Y',
+  'cub-grooming-beard-skincare-kit': 'https://www.amazon.com/dp/B0B84DJXSW',
+  'silk-pillowcase-sleepover-duo': 'https://www.amazon.com/dp/B00V5WN3HE',
+  'zero-proof-botanical-mocktail-set': 'https://www.amazon.com/dp/B0B545FNBW',
+  'fill-in-love-coupon-cards': 'https://www.amazon.com/dp/B0D9LZGXXM',
+  'short-leash-leather-dog-leash': 'https://www.amazon.com/dp/B0H2XPRGDS',
+  'big-carl-giant-wine-glass': 'https://www.amazon.com/dp/B0053T01UM',
+  'chic-candlelit-menu-readers': 'https://www.amazon.com/dp/B088JPW8PD',
+  'no-hard-feelings-jlaw-prime': 'https://www.amazon.com/dp/B0C8BTYH4M',
+  'part-of-your-world-book': 'https://www.amazon.com/dp/1538704374',
+  'babygirl-movie-prime': 'https://www.amazon.com/dp/B0DTK694FD',
+  'idea-of-you-movie-book': 'https://www.amazon.com/dp/B01MQLZ12X',
+  'bridget-jones-cougar-town-watch': 'https://www.amazon.com/dp/0099584433',
+  'the-rebound-zeta-jones-prime': 'https://www.amazon.com/dp/B006JIL0AG',
+  'linen-picnic-insulated-tote': 'https://www.amazon.com/dp/B0GS1TFTY6',
+  'velvet-travel-weekender-duffel': 'https://www.amazon.com/dp/B0GTQF7ZK9',
 };
 
 const JSON_HEADERS = {
@@ -173,7 +143,7 @@ async function resolveActiveAmazonTag(env: WorkerEnv): Promise<string> {
       // Ignore KV read error
     }
   }
-  return '';
+  return DEFAULT_AMAZON_ASSOCIATE_TAG;
 }
 
 async function resolveActivePostHogToken(env: WorkerEnv): Promise<string> {
@@ -256,7 +226,8 @@ async function handlePostHogIngestProxy(
       headers: {
         'Access-Control-Allow-Origin': url.origin,
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-POSTHOG-DISTINCT-ID, X-POSTHOG-SESSION-ID',
+        'Access-Control-Allow-Headers':
+          'Content-Type, Authorization, X-POSTHOG-DISTINCT-ID, X-POSTHOG-SESSION-ID',
       },
     });
   }
@@ -320,22 +291,24 @@ async function handleAffiliateRedirect(
   dest.searchParams.set('utm_medium', 'affiliate');
   dest.searchParams.set('utm_campaign', src);
 
-  if (env.VELVET_KV) {
-    try {
-      const key = `aff_clicks:${safeId}`;
-      const raw = await env.VELVET_KV.get(key);
-      const count = (Number(raw) || 0) + 1;
-      await env.VELVET_KV.put(key, String(count));
-    } catch {
-      // Non-blocking click counter
+  if (request.method === 'GET') {
+    if (env.VELVET_KV) {
+      try {
+        const key = `aff_clicks:${safeId}`;
+        const raw = await env.VELVET_KV.get(key);
+        const count = (Number(raw) || 0) + 1;
+        await env.VELVET_KV.put(key, String(count));
+      } catch {
+        // Non-blocking click counter
+      }
     }
-  }
 
-  scheduleEdgePostHogEvent(request, env, ctx, 'affiliate_redirect_served', {
-    product_id: safeId,
-    placement: src,
-    affiliate_tag_configured: Boolean(activeTag),
-  });
+    scheduleEdgePostHogEvent(request, env, ctx, 'affiliate_redirect_served', {
+      product_id: safeId,
+      placement: src,
+      affiliate_tag_configured: Boolean(activeTag),
+    });
+  }
 
   return new Response(null, {
     status: 302,
@@ -407,8 +380,8 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
       'good-boy-brass-training-clicker',
       'houseboy-linen-apron',
       'princess-mulberry-silk-robe',
-      'cooling-bamboo-sheets',
-      'zero-proof-botanical-mocktail-set',
+      'no-hard-feelings-jlaw-prime',
+      'part-of-your-world-book',
     ]) {
       try {
         const val = await env.VELVET_KV.get(`aff_clicks:${id}`);
@@ -479,7 +452,10 @@ async function handleFounderConfig(request: Request, env: WorkerEnv): Promise<Re
 
   const cleanTag = String(body.amazonAssociateTag || '').trim();
   if (cleanTag && !/^[a-zA-Z0-9_-]{3,36}$/.test(cleanTag)) {
-    return jsonResponse({ ok: false, error: 'Invalid Amazon Associate Tag format (expected e.g. yourname-20)' }, 400);
+    return jsonResponse(
+      { ok: false, error: 'Invalid Amazon Associate Tag format (expected e.g. yourname-20)' },
+      400,
+    );
   }
 
   const cleanPhToken =
@@ -537,12 +513,10 @@ function humanizeChatText(
   let cleaned = raw
     .replace(/\s*[—–]+\s*/g, ', ')
     .replace(/\s*;\s*/g, '. ')
-    // Strip bio-reciting openers like "As a 41-year-old Malibu surfer, ..."
     .replace(/^\s*as\s+a\s+\d{2}(?:-year-old|yo)?\s+[^,.!?]+,\s*/i, '');
 
   if (options?.role === 'her') {
     const age = options.age ?? 45;
-    // Cougars never call matches "babe" or "bestie"
     cleaned = cleaned
       .replace(/^\s*(?:babe|bestie)\s*[,!.?]?\s*/i, '')
       .replace(/,\s*(?:babe|bestie)\b(?=\s*[,.!?]|$)/gi, '')
@@ -566,7 +540,6 @@ function humanizeChatText(
 
   cleaned = cleaned.replace(/\s{2,}/g, ' ').trim();
 
-  // Enforce punchy one-line pacing when the model tries to ramble across multiple long sentences
   if (options?.singleLine) {
     const words = cleaned.split(/\s+/);
     if (words.length > 20) {
@@ -576,10 +549,7 @@ function humanizeChatText(
         .filter(Boolean);
       if (sentences.length >= 2) {
         const firstWords = sentences[0].split(/\s+/).length;
-        cleaned =
-          firstWords <= 4
-            ? `${sentences[0]} ${sentences[1]}`
-            : sentences[0];
+        cleaned = firstWords <= 4 ? `${sentences[0]} ${sentences[1]}` : sentences[0];
       }
     }
   }
@@ -594,29 +564,29 @@ function buildGenerationalVoiceDirective(
 ): string {
   if (role === 'him') {
     if (/\b(london|british|hampstead|uk)\b/i.test(origin)) {
-      return `GENERATIONAL & UK CADENCE (${age}M Hampstead London British Cub): Use authentic British flirt markers naturally ("half seven", "sorted", "proper", "fancy a cheeky drink?", trailing "x" or "xx", and playful "Yes, Mummy xx" when teased). Zero American frat slang.`;
+      return `GENERATIONAL & UK CADENCE (${age}M Hampstead London British Match): Use natural British flirt markers ("half seven", "sorted", "proper", "fancy a cheeky drink?", trailing "x" or "xx"). Zero frat slang.`;
     }
     if (age >= 30) {
-      return `GENERATIONAL CADENCE (${age}M Composed Millennial Gentleman): Normal capitalization, 0 to 1 understated emoji (🥂 or none), zero Gen-Z slang ("fr", "ngl", "💀"), playful dry confidence.`;
+      return `GENERATIONAL CADENCE (${age}M Composed Younger Zaddy): Normal capitalization, 0 to 1 understated emoji (🥂 or none), zero Gen-Z slang, decisive warmth.`;
     }
     if (age >= 25) {
-      return `GENERATIONAL CADENCE (${age}M Articulate Late-20s Zillennial): Warm, witty, normal sentence capitalization, 0 to 1 light emoji (☕, 🍷, or ✨), zero teenager slang ("fr", "ngl", "💀").`;
+      return `GENERATIONAL CADENCE (${age}M Articulate Late-20s Gentleman): Warm, witty, normal sentence capitalization, 0 to 1 light emoji (☕, 🍷, or ✨), zero teenager slang.`;
     }
-    return `GENERATIONAL CADENCE (${age}M Early-20s Gen-Z Cub): Casual upbeat Golden-Retriever charm, 1 natural emoji, earnest and playful.`;
+    return `GENERATIONAL CADENCE (${age}M Early-20s Charmer): Casual upbeat Golden-Retriever charm, 1 natural emoji, earnest and playful.`;
   }
 
-  const hardBan = `STRICT FEMALE VOICE BAN: NEVER call him "babe", "bestie", or "bro". NEVER use Zoomer slang ("ngl", "fr", "rn", "tbh", "cooked", "💀", "😭"). NEVER sound like polite customer support ("I'm not interested in sharing my...").`;
+  const hardBan = `STRICT FEMALE VOICE BAN: NEVER call him "babe", "bestie", or "bro". NEVER use Zoomer slang ("ngl", "fr", "rn", "tbh", "cooked", "💀", "😭"). NEVER sound like polite customer support.`;
 
   if (age >= 60) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Silver-Screen Panther): Wickedly funny Continental elegance, crisp capitalization, terminal periods or warm "...", Sade/Prince vinyl touchstones, ZERO emojis and ZERO internet acronyms ("lol", "omg").`;
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Continental Icon): Wickedly funny elegance, crisp capitalization, terminal periods, Sade/Prince vinyl touchstones, ZERO emojis and ZERO internet acronyms.`;
   }
   if (age >= 50) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Classic Gen-X Jaguar): Bone-dry Gen-X wit, crisp terminal periods, uses "Haha" instead of "lol", occasional literal 👍 confirmation, Nirvana/Depeche Mode cultural fluency, loves a 6 PM phone call.`;
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Classic Gen-X Icon): Bone-dry Gen-X wit, crisp terminal periods, uses "Haha" instead of "lol", occasional 👍 confirmation, loves a quick 6 PM voice call.`;
   }
   if (age >= 40) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Composed Xennial/Millennial Cougar): Self-possessed rom-com wit, proper punctuation, Lauryn Hill/Resy/calendar poise, ZERO "lol", and at most 0 to 1 subtle icon (🍸 or none).`;
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Composed Chapter-Two Woman): Self-possessed rom-com wit, proper punctuation, Resy/calendar poise, ZERO "lol", and at most 0 to 1 subtle icon (🍸 or none).`;
   }
-  return `${hardBan} GENERATIONAL RESERVE (${age}F Millennial Puma): Quick-witted 30s Fleabag/Frank Ocean banter, normal capitalization, and at most 1 tasteful emoji (🍷, ✨, or 😏).`;
+  return `${hardBan} GENERATIONAL RESERVE (${age}F Witty 30s Woman): Quick-witted Fleabag banter, normal capitalization, and at most 1 tasteful emoji (🍷, ✨, or 😏).`;
 }
 
 function scrubPiiForLog(raw: string): string {
@@ -667,35 +637,46 @@ function fallbackEvaluateDm(req: {
 }) {
   const name = (req.personaName || 'Claire').slice(0, 32);
   const age = Number(req.personaAge || 45);
+  // personaRole === 'him' means the AI match is a younger man and the HUMAN PLAYER is HER (the Cougar)!
   const role = req.personaRole === 'him' ? 'him' : 'her';
   const msg = String(req.playerMessage || '').trim();
   const lower = msg.toLowerCase();
 
   if (role === 'him') {
-    if (msg.length < 10) {
+    if (/\b(married|after\s*7|ring|real\s*age|id|21)\b/.test(lower)) {
+      return {
+        herReply: `Fair question. My calendar is wide open past nine and my passport matches my profile.`,
+        maturityDelta: 20,
+        chivalryDelta: 18,
+        chemistryDelta: 20,
+        coachNote: `Sharp vetting! Keep testing whether ${name} backs up charm with real transparency.`,
+        passedVibeCheck: true,
+      };
+    }
+    if (msg.length < 8) {
       return {
         herReply:
           age >= 28
-            ? `Give me one hint on your mood and I'll lock in Thursday.`
-            : `Give me one clue: cozy wine bar or late-night tacos? 😊`,
-        maturityDelta: -6,
-        chivalryDelta: -4,
-        chemistryDelta: -4,
-        coachNote: 'Drop one playful cue on your Friday preference to test his follow-through.',
-        passedVibeCheck: false,
+            ? `Tell me your favorite neighborhood and I'll handle the 8:00 reservation.`
+            : `Tell me wine bar or coastal patio and I'll handle the rest 😊`,
+        maturityDelta: 8,
+        chivalryDelta: 10,
+        chemistryDelta: 8,
+        coachNote: `He is leaning in to earn your interest—watch whether he locks in a real plan.`,
+        passedVibeCheck: true,
       };
     }
     return {
       herReply:
         age >= 30
-          ? `7:30 sharp works. Corner booth is booked and my phone stays off the table.`
+          ? `Thursday at 7:30 is booked. Corner booth, and I've got the car sorted.`
           : age >= 25
-            ? `7:30 works great. Quiet corner table booked, zero startup talk all night 🍷`
-            : `7:30 works!! 😊 ironed a real shirt and booked us an actual table ✨`,
+            ? `7:30 is sorted. Quiet corner table booked and my phone stays in my pocket 🍷`
+            : `7:30 is booked!! 😊 ironed a proper shirt and picked a quiet corner table ✨`,
       maturityDelta: 18,
       chivalryDelta: 18,
       chemistryDelta: 22,
-      coachNote: 'Confident age-gap chemistry unlocked!',
+      coachNote: `${name} stepped up with a concrete plan—decide at Beat 6 if he gets your number!`,
       passedVibeCheck: true,
     };
   }
@@ -714,7 +695,7 @@ function fallbackEvaluateDm(req: {
       maturityDelta: -18,
       chivalryDelta: -15,
       chemistryDelta: -15,
-      coachNote: `Skip asking ${name} (${age}) for Snapchat. Offer your real number and an actual spot!`,
+      coachNote: `Skip asking ${name} (${age}) for Snapchat. Offer a real Friday venue instead!`,
       passedVibeCheck: false,
     };
   }
@@ -738,25 +719,6 @@ function fallbackEvaluateDm(req: {
     };
   }
 
-  if (/pine\s*pollen|all\s+up\s+in\s+(my|his)\s+feels|up\s+in\s+my\s+feels\s+rn/.test(lower)) {
-    const herReply =
-      age >= 60
-        ? `Kindly set the pine-pollen dropper aside. Adults do not panic after one quiet hour.`
-        : age >= 50
-          ? `Put the pine-pollen dropper down. My phone goes on silent at nine.`
-          : age >= 40
-            ? `Step away from the pine-pollen dropper. Reading after 9:30 PM isn't ghosting.`
-            : `Put the pine-pollen dropper down. One quiet hour isn't ghosting 🍷`;
-    return {
-      herReply,
-      maturityDelta: -24,
-      chivalryDelta: -16,
-      chemistryDelta: -24,
-      coachNote: 'Skip the pine-pollen jitters and send one calm sentence!',
-      passedVibeCheck: false,
-    };
-  }
-
   if (/\b(well\s+actually|let\s+me\s+explain|cubsplain|you\s+probably\s+don.?t\s+know|heard\s+a\s+podcast\s+on)\b/.test(lower)) {
     const herReply =
       age >= 60
@@ -771,7 +733,7 @@ function fallbackEvaluateDm(req: {
       maturityDelta: -22,
       chivalryDelta: -15,
       chemistryDelta: -20,
-      coachNote: 'Zero Cubsplaining! Curiosity beats podcast lectures every time.',
+      coachNote: 'Curiosity beats podcast lectures every single time.',
       passedVibeCheck: false,
     };
   }
@@ -788,26 +750,8 @@ function fallbackEvaluateDm(req: {
       maturityDelta: -20,
       chivalryDelta: -20,
       chemistryDelta: -18,
-      coachNote: 'Sugar-Mama freeloading gets an instant exit.',
+      coachNote: 'Freeloading gets an instant exit.',
       passedVibeCheck: false,
-    };
-  }
-
-  if (/\b(mommy-domme|yes,?\s*mommy|yes,?\s*mummy|sorted,?\s*mummy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(lower)) {
-    const herReply = /\bmummy\b/.test(lower)
-      ? `Haha. Keep that cheeky London 'Sorted, Mummy xx' energy and be on time at 7:30.`
-      : age >= 50
-        ? `Calm shoulders and zero lecturing. 7:30 sharp tomorrow.`
-        : age >= 40
-          ? `Good boy. 7:30 sharp tomorrow, and keep that exact poise 🍸`
-          : `Grounded energy and zero lecturing? 7:30 sharp tomorrow ✨`;
-    return {
-      herReply,
-      maturityDelta: 22,
-      chivalryDelta: 20,
-      chemistryDelta: 25,
-      coachNote: 'Playful polarity unlocked!',
-      passedVibeCheck: true,
     };
   }
 
@@ -825,7 +769,7 @@ function fallbackEvaluateDm(req: {
       maturityDelta: -10,
       chivalryDelta: -10,
       chemistryDelta: -8,
-      coachNote: 'Skip one-word openers and lead with a witty line or a Friday spot.',
+      coachNote: 'Skip one-word openers and lead with a witty line or a concrete Friday spot.',
       passedVibeCheck: false,
     };
   }
@@ -843,7 +787,7 @@ function fallbackEvaluateDm(req: {
     maturityDelta: 18,
     chivalryDelta: 18,
     chemistryDelta: 22,
-    coachNote: 'Confident 1-line courtship unlocked!',
+    coachNote: 'Confident courtship unlocked—keep building toward earning her number!',
     passedVibeCheck: true,
   };
 }
@@ -872,112 +816,185 @@ interface StoredCourtStory {
 
 const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
-    id: 'court-sheryl-crow-cold-plunge-laundry',
-    aslTag: '43F × 25M • Santa Barbara',
-    headline: 'Said Sheryl Crow Was His "Favorite Song When I Was 4," Then Folded My Laundry & Loaded the Dishwasher',
+    id: 'court-delta-hold-rebook-hero',
+    aslTag: '44F × 27M • Atlanta',
+    headline:
+      'Connecting Flight Cancelled at 10 PM; He Sat on Hold With Delta for 47 Minutes While I Showered',
     story:
-      'Sheryl Crow’s "Soak Up the Sun" came on in my car and he beamed, "Oh yeah, my favorite song when I was 4!" Nearly drove off PCH. Then Sunday he did a 6 AM cold plunge, briefed me on James Webb space news to impress me, folded all my laundry, and set up my dishwasher.',
-    vibeBadge: '☀️ Overachieving Cub',
-    crownHer: 94,
-    dumpHer: 6,
-    crownHim: 89,
-    dumpHim: 11,
-  },
-  {
-    id: 'daily-cast-iron-steak-venmo',
-    aslTag: '44F × 25M • Austin',
-    headline: 'Cooked Me Grass-Fed Ribeye, Then Sent a $19.50 Venmo at 8:15 AM',
-    story:
-      'He wore a linen apron, seared rosemary steak in ghee, and washed every dish before midnight. Next morning on my drive to work my phone buzzed: "$19.50 for your half of the butcher ribeye 🥩😊." Crown him or dump him?!',
-    vibeBadge: '💸 Dutch Math Emergency',
-    crownHer: 8,
-    dumpHer: 92,
-    crownHim: 46,
-    dumpHim: 54,
-  },
-  {
-    id: 'court-four-pillows-silk-clip',
-    aslTag: '47F × 27M • Chicago',
-    headline: 'Bought a 22-Momme Silk Pillowcase & Claw Clip After ONE Sleepover',
-    story:
-      'After our first sleepover I joked about cotton frizzing my blowout. Friday week two I walk into his apartment: 4 crisp percale pillows, a brand-new mulberry silk pillowcase on "my" side, lidded bathroom trash can, and my favorite zero-proof spritz chilled.',
-    vibeBadge: '🐕 Hall-of-Fame Golden Retriever',
+      'Landed stranded in Charlotte during summer storms. Without me asking, he conferenced the airline desk, rebooked me into seat 2A on the 7 AM departure, and had hot ginger tea waiting downstairs.',
+    vibeBadge: '✈️ Travel MVP',
     crownHer: 97,
     dumpHer: 3,
-    crownHim: 88,
-    dumpHim: 12,
+    crownHim: 92,
+    dumpHim: 8,
   },
   {
-    id: 'court-pine-pollen-midnight-spiral',
-    aslTag: '42F × 24M • Scottsdale',
-    headline: 'Blamed His 11:47 PM 9-Text Meltdown on "Pine Pollen Testosterone"',
+    id: 'court-close-friends-green-circle',
+    aslTag: '41F × 25M • Los Angeles',
+    headline: 'Posted Our Cabo Anniversary Dinner Exclusively to His 9-Person "Close Friends" Ring',
     story:
-      'Told him upfront I read in bed with tea at 9:30 PM on weeknights. Woke up at 6 AM to 9 unhinged texts ending with "sorry babe the wild pine-pollen tincture has my T surging & got me all up in my feels 🥺🌲."',
-    vibeBadge: '🌲 Biohacker Spiral',
-    crownHer: 9,
-    dumpHer: 91,
-    crownHim: 39,
-    dumpHim: 61,
+      'Four months of great dates, yet when he finally posted our beachfront toast I spotted the neon green circle—populated strictly by out-of-state cousins and zero local pals.',
+    vibeBadge: '🟢 Soft-Launch Dodge',
+    crownHer: 8,
+    dumpHer: 92,
+    crownHim: 29,
+    dumpHim: 71,
   },
   {
-    id: 'court-waiter-son-tip-move',
-    aslTag: '51F × 28M • Manhattan',
-    headline: 'Waiter Asked If I Wanted Separate Checks "For My Son." Watch His Move.',
+    id: 'court-allergen-brownies-soccer',
+    aslTag: '43F × 28M • Seattle',
+    headline: 'Baked Nut-Free Fudge Brownies From Scratch for My Teenager’s Regional Soccer Bus',
     story:
-      'Buzzy West Village bistro. Waiter sets the check down and asks if I am treating my son for graduation. Without blinking, my date slid his card in, grinned, kissed my hand, and said "Definitely one check, my girlfriend’s just genetically unfair."',
-    vibeBadge: '👑 Unshakeable Frame',
+      'Remembered from one passing comment six weeks earlier that my son’s goalkeeper has a tree-nut allergy, labeled every tin neatly, and cheered from the top bleacher.',
+    vibeBadge: '🧁 High-EQ King',
     crownHer: 98,
     dumpHer: 2,
-    crownHim: 91,
-    dumpHim: 9,
+    crownHim: 94,
+    dumpHim: 6,
   },
   {
-    id: 'court-maui-moms-timeshare',
-    aslTag: '39F × 23M • San Diego',
-    headline: 'Bragged About "His Place in Maui," Then His Parents Were in the Kitchen!',
+    id: 'court-roommates-crashed-sonoma',
+    aslTag: '46F × 24M • Napa',
+    headline: 'Two Uninvited Roommates Pulled Up to Our Vineyard Cottage Carrying Warm Seltzer Packs',
     story:
-      'Invited me for a romantic 4-day getaway to "my condo in Wailea." We open the front door with suitcases and his mom is standing at the blender in a visor asking if we want Costco turkey wraps.',
-    vibeBadge: '🌺 Timeshare Mirage',
-    crownHer: 14,
-    dumpHer: 86,
-    crownHim: 52,
-    dumpHim: 48,
+      'I booked a quiet Sonoma rental for our weekend escape. At 9 PM gravel crunches outside and his two buddies stroll in asking for the Wi-Fi password and pool towels.',
+    vibeBadge: '🚩 Boundary Crash',
+    crownHer: 4,
+    dumpHer: 96,
+    crownHim: 18,
+    dumpHim: 82,
   },
   {
-    id: 'court-perimenopause-bamboo-sheets',
-    aslTag: '49F × 30M • Seattle',
-    headline: '3 AM Hot Flash: He Wordlessly Flipped the Cooling Pillow & Grabbed Ice Water',
+    id: 'court-stick-shift-porsche-lessons',
+    aslTag: '49F × 29M • Scottsdale',
+    headline: 'Secretly Took Three Stick-Shift Lessons So He Could Drive My Classic Carrera Home',
     story:
-      'Woke up mortified kicking the duvet off at 3 AM. Zero weirdness. He sleepily kissed my shoulder, cracked the window two inches, handed me ice water, and ordered cooling bamboo sheets to his place the next afternoon.',
-    vibeBadge: '💚 Grown-Man EQ',
+      'Never acted weird that he didn’t drive manual—booked an instructor on his own dime and smoothly took the keys after our wine-pairing dinner.',
+    vibeBadge: '🏎️ Smooth Operator',
+    crownHer: 96,
+    dumpHer: 4,
+    crownHim: 95,
+    dumpHim: 5,
+  },
+  {
+    id: 'court-shut-down-buddy-joke',
+    aslTag: '45F × 26M • Chicago',
+    headline: 'Shut Down His Friend’s "Mrs. Robinson" Crack in Three Calm Words Without Raising His Voice',
+    story:
+      'At his friend’s birthday pub night, one guy made a tired movie joke. My boyfriend smiled deadpan, said "Show some class," and moved us to a cozy corner banquette.',
+    vibeBadge: '🛡️ Spine of Steel',
     crownHer: 99,
     dumpHer: 1,
     crownHim: 93,
     dumpHim: 7,
   },
   {
-    id: 'court-whats-ur-snap-1900s',
-    aslTag: '45F × 24M • Miami',
-    headline: 'Great Chemistry All Dinner, Then He Texted "u look crazy good for ur age 🔥 whats ur snap??"',
+    id: 'court-mature-skin-birthday-box',
+    aslTag: '42F × 25M • Boston',
+    headline: 'Wrapped Up a $180 Jar Labeled "Extra-Firming Mature Wrinkle Rescue" for My Birthday',
     story:
-      'Opened every door, laughed at my dry jokes, and walked me to my Uber. Two minutes into the ride my phone pings: "yo tonight was fire ngl 💀 u look crazy good for someone born in the late 1900s!! whats ur snap so we streak??"',
-    vibeBadge: '👻 Triple-Combo Ick',
-    crownHer: 4,
-    dumpHer: 96,
-    crownHim: 49,
-    dumpHim: 51,
+      'Swore the department-store clerk told him it was the luxury bestseller—sweetest handwritten card attached to the most mortifying label on earth.',
+    vibeBadge: '🎁 Clueless Sweetheart?',
+    crownHer: 38,
+    dumpHer: 62,
+    crownHim: 64,
+    dumpHim: 36,
   },
   {
-    id: 'court-titos-mattress-cubsplain',
-    aslTag: '43F × 25M • Denver',
-    headline: 'Tried to "Cubsplain" Mortgages From a Bare Floor Mattress Next to an Empty Tito’s Handle',
+    id: 'court-toothbrush-stays-in-bag',
+    aslTag: '51F × 30M • Denver',
+    headline: 'Kept His Charger & Toothbrush Inside His Duffel Until I Explicitly Offered Him a Drawer',
     story:
-      'I own two properties. We stop by his apartment to grab his jacket: 5-in-1 neon-blue body wash on the sink, unlidded trash can, bare mattress on the floor, and he spends 14 minutes lecturing me on fixed-rate amortization from a podcast.',
-    vibeBadge: '🤓 Podcast Cubsplainer',
+      'Zero stealth territory-marking in my townhouse for three straight months—waited until I cleared top-drawer space before leaving a single item behind.',
+    vibeBadge: '🧳 Sanctuary Respect',
+    crownHer: 95,
+    dumpHer: 5,
+    crownHim: 87,
+    dumpHim: 13,
+  },
+  {
+    id: 'court-four-monitor-snowstorm',
+    aslTag: '44F × 24M • Minneapolis',
+    headline: 'Set Up Four Curved Crypto Monitors on My Dining Table During a Two-Day Blizzard',
+    story:
+      'Came over before the snow hit carrying two suitcases of cables and turned my walnut dining room into a glowing day-trading command bunker until Tuesday.',
+    vibeBadge: '🖥️ Cable Squatting',
+    crownHer: 6,
+    dumpHer: 94,
+    crownHim: 27,
+    dumpHim: 73,
+  },
+  {
+    id: 'court-prepaid-valet-surprise',
+    aslTag: '48F × 28M • Miami',
+    headline: 'Pre-Paid Valet & Tipped the Hostess Ahead So My Wallet Never Left My Evening Clutch',
+    story:
+      'Took me out for my promotion celebration on his sous-chef paycheck—coordinated every detail with the restaurant at 4 PM so the evening glided seamlessly.',
+    vibeBadge: '🥂 Pure Class',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 91,
+    dumpHim: 9,
+  },
+  {
+    id: 'court-wedding-grandma-friend-dodge',
+    aslTag: '40F × 25M • Charleston',
+    headline: 'Introduced Me to His 82-Year-Old Grandmother at a Family Wedding as "My Good Friend"',
+    story:
+      'Claimed afterward he didn’t want Nana to spill punch on her dress from shock—after I flew two states in heels to be his date.',
+    vibeBadge: '💒 Plus-One Foul',
+    crownHer: 5,
+    dumpHer: 95,
+    crownHim: 22,
+    dumpHim: 78,
+  },
+  {
+    id: 'court-birthday-receipt-calculator',
+    aslTag: '43F × 26M • San Francisco',
+    headline: 'Pulled Out a Receipt-Scanning Tax App to Itemize Who Ate Which Calamari Ring',
+    story:
+      'Invited me out for HIS idea of tapas, then spent eleven minutes under the candle photographing the paper slip to calculate exact 8.625% tax.',
+    vibeBadge: '🧮 Itemized Ick',
     crownHer: 3,
     dumpHer: 97,
-    crownHim: 34,
-    dumpHim: 66,
+    crownHim: 19,
+    dumpHim: 81,
+  },
+  {
+    id: 'court-fixed-moms-wifi-printer',
+    aslTag: '47F × 27M • Portland',
+    headline: 'Spent Ninety Patient Minutes Fixing My 74-Year-Old Mom’s Wireless Printer & Wrote Big Labels',
+    story:
+      'Never sighed once, drew her a laminated three-step cheat sheet in thick marker, and stayed for lemon bars at her kitchen table.',
+    vibeBadge: '🖨️ Son-in-Law Tier',
+    crownHer: 99,
+    dumpHer: 1,
+    crownHim: 96,
+    dumpHim: 4,
+  },
+  {
+    id: 'court-kept-boyfriend-kitchen-reel',
+    aslTag: '45F × 23M • Dallas',
+    headline: 'Filmed a "Day in the Life of a Kept Boyfriend" Reel in My Marble Kitchen While I Worked',
+    story:
+      'Found my espresso machine and backyard pool trending with 90,000 views while he posed in my robe pretending I pay his car note.',
+    vibeBadge: '📱 Clout Tourist',
+    crownHer: 2,
+    dumpHer: 98,
+    crownHim: 14,
+    dumpHim: 86,
+  },
+  {
+    id: 'court-groomer-pickup-deposition',
+    aslTag: '50F × 29M • Washington DC',
+    headline: 'Left Work Early to Pick Up My Muddy Golden Retriever When My Deposition Ran Late',
+    story:
+      'Picked up Cooper before the kennel late fee hit, towel-dried every paw, walked him two miles, and had Thai curry waiting when I got home at eight.',
+    vibeBadge: '🐾 Ride-or-Die Partner',
+    crownHer: 99,
+    dumpHer: 1,
+    crownHim: 97,
+    dumpHim: 3,
   },
 ];
 
@@ -1240,7 +1257,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
   const personaName = String(body.personaName || 'Claire').slice(0, 32);
   const personaAge = Math.min(75, Math.max(21, Number(body.personaAge || 45)));
-  const personaTitle = String(body.personaTitle || 'VP of Product').slice(0, 64);
+  const personaTitle = String(body.personaTitle || 'M&A Partner').slice(0, 64);
   const personaRole = body.personaRole === 'him' ? 'him' : 'her';
   const platform = String(body.platform || 'tinder').slice(0, 16);
 
@@ -1251,38 +1268,40 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         : 0;
       const stageContext =
         priorPlayerTurns <= 1
-          ? 'STAGE 1 (First Spark): React to their opener/plan, tease playfully, and ask a fun follow-up question to keep the conversation rolling!'
+          ? 'STAGE 1 (First Spark): React to their line, tease playfully, and ask one fun follow-up question!'
           : priorPlayerTurns <= 4
-            ? 'STAGE 2 (Pre-Date Chemistry): The first date plan is taking shape! Flirt deeper, ask about their vibe/music/cooking/fitness, or test how they handle your age-gap dynamic.'
-            : priorPlayerTurns <= 7
-              ? 'STAGE 3 (After Date #1): Pretend Date #1 went great and you are texting the next day! Bring up a fun moment from last night and suggest what to do together this weekend.'
-              : 'STAGE 4 (Ongoing Relationship): You two have real momentum now! Banter like an ongoing couple/situationship with inside jokes, weekend plans, and playful affection.';
+            ? 'STAGE 2 (Pre-Date Chemistry): Flirt deeper and build momentum toward Friday drinks or dinner!'
+            : 'STAGE 3 (Off-App Chemistry): Banter warmly like two people excited for their upcoming date!';
 
       const platformContext =
         platform === 'imessage'
-          ? 'PLATFORM CONTEXT (EARNED OFF-APP iMESSAGE): They ALREADY passed your Tinder vetting and earned your personal phone number! Never act like you just matched on an app. Text warmly like an off-app contact locking in Friday, a quick 6 PM voice call, or Date #2.'
+          ? 'PLATFORM CONTEXT (EARNED OFF-APP iMESSAGE): You already swapped real phone numbers! Text warmly like an off-app contact locking in your date.'
           : platform === 'discord'
-            ? 'PLATFORM CONTEXT (ANONYMOUS CLUB DISCORD SERVER): You are bantering under an anonymous handle in the Cougars & Cubs Lounge server or mystery anon subplot DM. Keep it witty, self-aware, and playfully mysterious in one crisp sentence.'
-            : 'PLATFORM CONTEXT (TINDER MATCH VETTING): You matched on Tinder. If they demand your phone number on message #1 before proving themselves, playfully tell them to earn two good sentences on the app first. Reward decisive Friday plans and witty charm.';
+            ? 'PLATFORM CONTEXT (CLUB DISCORD LOUNGE): You are bantering in the Cougars & Cubs Discord server. Keep it witty, self-aware, and playfully mysterious in one crisp sentence.'
+            : personaRole === 'him'
+              ? 'PLATFORM CONTEXT (HINGE APP DM — YOU ARE COURTING HER): The human player is an accomplished, magnetic woman. YOU are working to keep her interested and earn HER phone number at Beat 6! Never ask her to prove herself; step up with charm and concrete date initiative.'
+              : 'PLATFORM CONTEXT (HINGE APP DM — HE IS COURTING YOU): The human player is a younger man trying to earn your phone number. Reward decisive Friday plans and witty charm.';
+
+      const coachPerspectiveRule =
+        personaRole === 'him'
+          ? 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HER (the accomplished woman). Address coachNote strictly to HER evaluating him (e.g. "He locked in 7:30 cleanly—see if his follow-through holds."). NEVER tell her to enroll in Cub School or earn his number!'
+          : 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HIM (the younger man). Give him one playful tip on keeping her intrigued and earning her number.';
 
       const systemPrompt = [
-        `You are texting as ${personaName} (${personaAge}, background: ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a playful, witty PG-13 dating sim inspired by Dream Daddy.`,
-        `STRICT ONE-LINE RULE: Send ONLY ONE short, punchy line at a time (8 to 16 words MAX, 1 single sentence)! NEVER send a paragraph or multiple long sentences!`,
-        `NEVER RECITE YOUR BIO: Real people NEVER say "You swiped right on a 41yo surfer" or list all their hobbies/diet/job in a text! Keep your background subtle and drop at most ONE tiny, funny breadcrumb ONLY when it fits naturally so they stay hooked turn after turn.`,
-        `DREAM DADDY COMEDIC SPARK: Be genuinely funny, cheeky, teasing, and quotable, NEVER stiff, corporate, or polite customer-service speak ("I'm not interested in sharing my Snapchat, how about..."). Even when roasting a red flag like Snapchat or 'for your age', do it with one razor-sharp, humorous line!`,
+        `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic-comedy sim inspired by Dream Daddy.`,
+        `STRICT ONE-LINE RULE: Send ONLY ONE short, punchy line (8 to 16 words MAX, 1 single sentence)!`,
+        `NEVER RECITE YOUR BIO: Keep your background subtle and natural.`,
         `STRICT PUNCTUATION RULE: NEVER use em-dashes, en-dashes, or semicolons.`,
         platformContext,
+        coachPerspectiveRule,
         `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext}`,
         buildGenerationalVoiceDirective(
           personaAge,
           personaRole,
           String(body.personaOrigin || '').slice(0, 64),
         ),
-        personaRole === 'her'
-          ? `Vibe: Confident ${personaAge}F poise. Reward decisive Friday plans and unbothered warmth; roast Snapchat requests, "for your age", podcast "well actually" Cubsplaining, pine-pollen midnight spirals, and Sugar-Mama freeloaders in ONE dry, hilarious line.`
-          : `Vibe: Charming ${personaAge}M Cub who initiates cleanly, books real tables, never sends Venmo math, and banters one playful line at a time.`,
         `Respond ONLY with a valid single-line JSON object matching this exact schema (no markdown fences):`,
-        `{"herReply":"ONE short witty sentence (8-16 words max), ZERO bio-reciting, ZERO em-dashes, ZERO 'babe' if female","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy coaching tip without em-dashes","passedVibeCheck":boolean}`,
+        `{"herReply":"ONE short witty sentence (8-16 words max)","maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short role-accurate note without em-dashes","passedVibeCheck":boolean}`,
       ].join(' ');
 
       const recentTurns = Array.isArray(body.history)
@@ -1328,9 +1347,12 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           age: personaAge,
           singleLine: true,
         }).slice(0, 240);
-        const cleanCoach = humanizeChatText(
-          String(parsed.coachNote || 'Live Vibe Check complete!'),
+        let cleanCoach = humanizeChatText(
+          String(parsed.coachNote || 'Chemistry check complete!'),
         ).slice(0, 200);
+        if (personaRole === 'him' && /cub\s*obedience|cub\s*school|earn\s*his\s*number/i.test(cleanCoach)) {
+          cleanCoach = `${personaName} is leaning in—decide at Beat 6 whether he gets your number.`;
+        }
         const passed = Boolean(parsed.passedVibeCheck);
         await appendAnonymizedAiLog(env, {
           persona: `${personaName} (${personaAge})`,
@@ -1395,7 +1417,6 @@ async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Respo
         reaction: String(body.reaction || '').slice(0, 16),
         aiReply: scrubPiiForLog(String(body.aiReply || '')),
         note: scrubPiiForLog(String(body.note || '')),
-        // Strictly opt-in: stored ONLY when the player explicitly volunteered their handle/email for Founder follow-up
         ...(optContact ? { optInContact: optContact } : {}),
       });
       await env.VELVET_KV.put('ai_feedback:recent', JSON.stringify(safe.slice(-200)), {
@@ -1424,7 +1445,7 @@ async function handleRayaWaitlist(
     return jsonResponse({ ok: false, error: 'Contact email or @handle required' }, 400);
   }
   const role = body.role === 'cub' ? 'cub' : 'cougar';
-  const city = scrubPiiForLog(String(body.city || 'Virtual Lounge').trim()).slice(0, 48);
+  const city = scrubPiiForLog(String(body.city || 'Velvet Palms').trim()).slice(0, 48);
   const vibe = scrubPiiForLog(String(body.vibe || '').trim()).slice(0, 140);
   let position = 142;
   if (env.VELVET_KV) {
@@ -1620,10 +1641,12 @@ async function handleVerifyCheckout(
     }
 
     const amt = typeof session.amount_total === 'number' ? session.amount_total : 0;
-    const isCameo = amt >= 2500 || session.metadata?.tier === 'cameo';
-    const isVip = isCameo || session.metadata?.tier === 'vip' || amt >= 600;
-    const isTip = !isVip && amt >= 450 && amt < 600;
-    const credits = isCameo ? 50 : isTip ? 10 : 15;
+    const tier = session.metadata?.tier || '';
+    const isCameo = tier === 'cameo' || amt >= 2500;
+    const isVip = isCameo || tier === 'vip' || amt >= 600;
+    const isTip = !isVip && (tier === 'tip' || (amt >= 450 && amt < 600));
+    const grantType = isVip ? 'vip' : isTip ? 'patron' : 'credits';
+    const credits = isCameo ? 50 : isTip ? 0 : 15;
 
     if (env.VELVET_KV) {
       await env.VELVET_KV.put(`redeemed_session:${sessionId}`, new Date().toISOString());
@@ -1634,14 +1657,14 @@ async function handleVerifyCheckout(
     }
 
     scheduleEdgePostHogEvent(request, env, ctx, 'checkout_verified_server', {
-      grant_type: isVip ? 'vip' : 'credits',
+      grant_type: grantType,
       credits,
       amount_cents: amt,
     });
 
     return jsonResponse({
       verified: true,
-      grantType: isVip ? 'vip' : 'credits',
+      grantType,
       credits,
     });
   } catch {
@@ -1665,7 +1688,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v34-dream-daddy-coherence-phone-posthog',
+        version: 'v35-dream-daddy-hybrid-sim',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
@@ -1677,7 +1700,7 @@ export default {
     }
 
     if (url.pathname.startsWith('/api/go/')) {
-      if (request.method === 'GET') {
+      if (request.method === 'GET' || request.method === 'HEAD') {
         const productId = decodeURIComponent(url.pathname.slice('/api/go/'.length));
         return handleAffiliateRedirect(request, url, productId, env, ctx);
       }

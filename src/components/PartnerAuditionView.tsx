@@ -1,14 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Check, Send } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
-import { EPISODES } from '../data/episodes';
-import { personalizeText } from '../domain/gameEngine';
-import { analyzePairing, HER_ARCHETYPES, HIS_ARCHETYPES } from '../domain/taxonomy';
 import { renderRichText } from '../lib/richText';
 import {
+  type AuditionScenario,
+  type ChallengePayload,
+  findAuditionScenario,
   scorePartnerAudition,
   shareOrCopy,
-  type ChallengePayload,
 } from '../lib/viral';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
@@ -45,30 +44,25 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
   const alignedPairs = challenge.episodeIds
     .map((id, idx) => ({
-      episode: EPISODES.find((e) => e.id === id),
+      scenario: findAuditionScenario(id),
       preferredChoiceIndex: challenge.preferredChoiceIndices[idx] ?? 0,
     }))
     .filter(
-      (item): item is { episode: NonNullable<typeof item.episode>; preferredChoiceIndex: number } =>
-        Boolean(item.episode),
+      (item): item is { scenario: AuditionScenario; preferredChoiceIndex: number } =>
+        Boolean(item.scenario),
     );
 
-  const episodes = alignedPairs.map((p) => p.episode);
+  const scenarios = alignedPairs.map((p) => p.scenario);
   const receiverRole = challenge.senderRole === 'her' ? 'him' : 'her';
-  const pairing = useMemo(() => {
-    const her = HER_ARCHETYPES.find((h) => h.id === challenge.herId) ?? HER_ARCHETYPES[0];
-    const his = HIS_ARCHETYPES.find((c) => c.id === challenge.hisId) ?? HIS_ARCHETYPES[0];
-    return analyzePairing(her, his, receiverRole);
-  }, [challenge.herId, challenge.hisId, receiverRole]);
 
-  if (episodes.length === 0) {
+  if (scenarios.length === 0) {
     return (
-      <div className="vice-panel rounded-3xl p-8 text-center space-y-4">
-        <p className="text-base text-[#1E1022] font-bold">This audition had no valid episodes.</p>
+      <div className="editorial-hinge-card mx-auto max-w-xl rounded-3xl bg-white p-8 text-center space-y-4">
+        <p className="text-base text-[#18101E] font-bold">This audition had no valid scenarios.</p>
         <button
           type="button"
           onClick={onExitToMainGame}
-          className="pop-btn rounded-2xl bg-[#FFBE0B] px-5 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+          className="rounded-full bg-[#18101E] px-6 py-3 text-sm font-extrabold text-white cursor-pointer"
         >
           Play Full Game
         </button>
@@ -82,11 +76,11 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
     setStep(step + 1);
   };
 
-  if (step >= episodes.length) {
+  if (step >= scenarios.length) {
     const result = scorePartnerAudition(
       {
         ...challenge,
-        episodeIds: alignedPairs.map((p) => p.episode.id),
+        episodeIds: alignedPairs.map((p) => p.scenario.id),
         preferredChoiceIndices: alignedPairs.map((p) => p.preferredChoiceIndex),
       },
       answers,
@@ -114,25 +108,25 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
     return (
       <>
-        <div className="mx-auto max-w-2xl vice-panel rounded-3xl p-6 sm:p-8 space-y-5 animate-stage-in">
-          <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold uppercase text-[#1E1022]">
+        <div className="mx-auto max-w-2xl editorial-hinge-card rounded-3xl bg-white p-6 sm:p-8 space-y-5 animate-stage-in">
+          <span className="inline-block rounded-full bg-amber-100 border border-amber-300 px-3.5 py-1 text-xs font-extrabold uppercase text-amber-950">
             Audition Complete for {challenge.senderName}
           </span>
 
           <div className="flex flex-wrap items-baseline gap-4">
-            <span className="font-display text-5xl sm:text-6xl text-[#FF2E63]">
+            <span className="font-editorial text-5xl sm:text-6xl font-bold text-rose-600">
               {result.matchPercent}%
             </span>
-            <span className="font-display text-2xl sm:text-3xl text-[#1E1022]">
+            <span className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
               {result.verdictTitle}
             </span>
           </div>
 
-          <ul className="space-y-2.5 text-sm sm:text-base font-semibold text-[#1E1022]">
+          <ul className="space-y-2.5 text-sm sm:text-base font-semibold text-stone-800">
             {result.roastNotes.map((note, idx) => (
               <li
                 key={idx}
-                className="rounded-2xl border-2 border-[#1E1022]/15 bg-[#FFF7F0] px-4 py-3"
+                className="rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3"
               >
                 {note}
               </li>
@@ -143,7 +137,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
             <button
               type="button"
               onClick={handleSendBack}
-              className="pop-btn flex-1 flex items-center justify-center gap-2 rounded-2xl bg-[#FF2E63] py-3.5 font-display text-lg text-white cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-2 rounded-full bg-rose-600 py-3.5 text-base font-bold text-white hover:bg-rose-700 cursor-pointer"
             >
               {copiedReply ? <Check className="h-5 w-5" /> : <Send className="h-5 w-5" />}
               <span>
@@ -155,7 +149,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
             <button
               type="button"
               onClick={onExitToMainGame}
-              className="pop-btn rounded-2xl bg-white px-6 py-3.5 font-display text-lg text-[#1E1022] cursor-pointer"
+              className="rounded-full border border-stone-300 bg-white px-6 py-3.5 text-base font-bold text-[#18101E] cursor-pointer"
             >
               Play Full Game →
             </button>
@@ -170,22 +164,19 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
     );
   }
 
-  const ep = episodes[step];
+  const ep = scenarios[step];
   const perm = ep.choices.length === 3 ? getAuditionPermutation(ep.id) : ep.choices.map((_, i) => i);
-  const setupCopy = personalizeText(
-    receiverRole === 'her' ? ep.setupHer : ep.setupHim,
-    pairing,
-  );
+  const setupCopy = receiverRole === 'her' ? ep.setupHer : ep.setupHim;
 
   return (
-    <div className="mx-auto max-w-2xl vice-panel rounded-3xl p-6 sm:p-8 space-y-5 animate-stage-in">
-      <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] px-4 py-3 font-display text-lg sm:text-xl text-[#1E1022]">
+    <div className="mx-auto max-w-2xl editorial-hinge-card rounded-3xl bg-white p-6 sm:p-8 space-y-5 animate-stage-in">
+      <div className="rounded-2xl bg-amber-100 border border-amber-300/70 px-4 py-3 font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
         🐆 {challenge.senderName} Sent You an Official Vetting Audition ({step + 1} /{' '}
-        {episodes.length})
+        {scenarios.length})
       </div>
 
-      <h2 className="font-display text-2xl sm:text-3xl text-[#1E1022]">{ep.title}</h2>
-      <p className="text-base font-medium leading-relaxed text-[#34223B]">
+      <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">{ep.title}</h2>
+      <p className="text-base font-medium leading-relaxed text-stone-700">
         {renderRichText(setupCopy)}
       </p>
 
@@ -193,18 +184,15 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
         {perm.map((originalIdx, displayIdx) => {
           const c = ep.choices[originalIdx];
           if (!c) return null;
-          const choiceCopy = personalizeText(
-            receiverRole === 'her' ? c.labelHer : c.labelHim,
-            pairing,
-          );
+          const choiceCopy = receiverRole === 'her' ? c.labelHer : c.labelHim;
           return (
             <button
               key={originalIdx}
               type="button"
               onClick={() => handlePick(originalIdx)}
-              className="pop-btn w-full rounded-2xl bg-white p-4 sm:p-5 text-left text-base font-bold text-[#1E1022] hover:bg-[#FFF4F7] cursor-pointer"
+              className="w-full rounded-2xl border border-stone-200 bg-stone-50/70 p-4 sm:p-5 text-left text-sm sm:text-base font-semibold whitespace-normal text-[#18101E] hover:border-stone-400 hover:bg-white transition cursor-pointer"
             >
-              <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-xl border border-[#1E1022] bg-[#FFBE0B] text-xs font-extrabold text-[#1E1022]">
+              <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#18101E] text-xs font-extrabold text-amber-300">
                 {String.fromCharCode(65 + displayIdx)}
               </span>
               {renderRichText(choiceCopy)}

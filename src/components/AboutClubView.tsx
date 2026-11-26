@@ -1,172 +1,181 @@
 import React from 'react';
 import {
-  Flame,
-  Gamepad2,
+  Compass,
   Heart,
   MessageCircle,
   ShieldCheck,
   ShoppingBag,
+  Smartphone,
   Sparkles,
 } from 'lucide-react';
-import { HER_ARCHETYPES, HIS_ARCHETYPES } from '../domain/taxonomy';
+import { V35_CAST_PROFILES } from '../data/v35Cast';
+import { V35_WILD_VENUES } from '../data/v35WildVenues';
 import { AFFILIATE_CATALOG } from '../lib/affiliates';
 
 interface AboutClubViewProps {
-  onGoToPhoneLanding: () => void;
+  onGoToHinge: () => void;
   onOpenChats: () => void;
-  onOpenCubAcademy: () => void;
-  onOpenWorldMap: () => void;
+  onOpenCubSchool: () => void;
+  onOpenWildMap: () => void;
   onOpenBoutique: () => void;
   onOpenGuides: () => void;
 }
 
 export const AboutClubView: React.FC<AboutClubViewProps> = ({
-  onGoToPhoneLanding,
+  onGoToHinge,
   onOpenChats,
-  onOpenCubAcademy,
-  onOpenWorldMap,
+  onOpenCubSchool,
+  onOpenWildMap,
   onOpenBoutique,
   onOpenGuides,
 }) => {
+  const herCount = V35_CAST_PROFILES.filter((p) => p.role === 'her').length;
+  const himCount = V35_CAST_PROFILES.filter((p) => p.role === 'him').length;
+
   return (
     <div className="w-full space-y-6 animate-stage-in">
-      {/* Hero Anchor */}
-      <section className="vice-panel rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#FFFDF9] via-[#FFF4F7] to-[#FFFBEB] space-y-4">
-        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
-          <Sparkles className="h-3.5 w-3.5 text-[#FF2E63]" /> Official Club Manifesto • 21+ Romantic Comedy Sim
+      <section className="editorial-hinge-card rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#FFFDF9] via-rose-50/40 to-amber-50/40 space-y-4">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300/70 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-amber-950">
+          <Sparkles className="h-3.5 w-3.5 text-rose-600" /> Official Club Manifesto • 21+ Romantic-Comedy Simulation
         </span>
-        <h1 className="font-display text-3xl sm:text-4xl text-[#1E1022] leading-tight">
+        <h1 className="font-editorial text-3xl sm:text-4xl font-bold text-[#18101E] leading-tight">
           What Is Cougars &amp; Cubs Club?
         </h1>
-        <p className="text-base sm:text-lg font-medium text-[#34223B] max-w-3xl leading-relaxed">
+        <p className="text-base sm:text-lg font-medium text-stone-700 max-w-3xl leading-relaxed">
           Inspired by narrative cult classics like <em>Dream Daddy</em> and real age-gap dating communities,{' '}
-          <strong>Cougars &amp; Cubs Club</strong> is a playable romantic-comedy dating simulator, multi-app AI chat studio, and etiquette handbook celebrating confident older women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
+          <strong>Cougars &amp; Cubs Club</strong> is a hybrid romantic-comedy dating simulation, evolving chat studio, and visual etiquette handbook celebrating confident older women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
         </p>
 
         <div className="flex flex-wrap gap-3 pt-1">
           <button
             type="button"
-            onClick={onGoToPhoneLanding}
-            className="pop-btn inline-flex items-center gap-2 rounded-2xl bg-[#FF2E63] px-5 py-3 text-sm font-extrabold text-white cursor-pointer"
+            onClick={onGoToHinge}
+            className="inline-flex items-center gap-2 rounded-full bg-[#18101E] px-5 py-3 text-xs sm:text-sm font-bold text-white cursor-pointer"
           >
-            <Flame className="h-4 w-4 fill-white" />
-            <span>Start Swiping on the Phone</span>
+            <Smartphone className="h-4 w-4" />
+            <span>Explore Hinge Profiles</span>
+          </button>
+          <button
+            type="button"
+            onClick={onOpenWildMap}
+            className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-5 py-3 text-xs sm:text-sm font-bold text-white cursor-pointer"
+          >
+            <Compass className="h-4 w-4" />
+            <span>Meet Offline In The Wild ({V35_WILD_VENUES.length} Venues)</span>
           </button>
           <button
             type="button"
             onClick={onOpenChats}
-            className="pop-btn inline-flex items-center gap-2 rounded-2xl bg-[#007AFF] px-5 py-3 text-sm font-extrabold text-white cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full bg-[#007AFF] px-5 py-3 text-xs sm:text-sm font-bold text-white cursor-pointer"
           >
             <MessageCircle className="h-4 w-4" />
-            <span>Open Tinder, iMessage &amp; Discord</span>
+            <span>Open Chats, Discord &amp; Dates</span>
           </button>
           <button
             type="button"
             onClick={onOpenGuides}
-            className="pop-btn inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white px-5 py-3 text-xs sm:text-sm font-bold text-[#18101E] cursor-pointer"
           >
-            <span>Read Complete Club Guides</span>
+            <span>Read 16 Shoppable Guides</span>
           </button>
         </div>
       </section>
 
-      {/* How the 4-Stage Coherent Game Loop Works */}
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 items-stretch">
-        <div className="vice-panel rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-[#FFE4E6] px-3 py-0.5 text-xs font-extrabold text-[#BE123C]">
-            Act 1 • Phone Discovery
+        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
+          <span className="inline-block rounded-full bg-rose-50 px-3 py-0.5 text-xs font-extrabold text-rose-700">
+            Door 1 • Selective Hinge
           </span>
-          <h2 className="font-display text-xl text-[#18101E]">6-Slide Hinge &amp; Tinder Vetting</h2>
-          <p className="text-sm font-medium text-[#475569] leading-relaxed">
-            Inspect full uncropped portraits, majors, careers, fun facts, and Photo #2 clues. Spot Tito’s mirror bottles, Mom’s Maui timeshares, and Venmo spreadsheets before swiping right.
+          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+            6 Bespoke Photos &amp; Real Prompts
+          </h2>
+          <p className="text-sm text-stone-600 leading-relaxed">
+            Every profile features 6 unique activity photos and casual first-person prompts. Low-effort openers sit in Pending Likes; thoughtful notes or a Standout Rose spark the match.
           </p>
         </div>
 
-        <div className="vice-panel rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-[#DBEAFE] px-3 py-0.5 text-xs font-extrabold text-[#1D4ED8]">
-            Act 2 • Off-App Progression
+        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
+          <span className="inline-block rounded-full bg-amber-100 px-3 py-0.5 text-xs font-extrabold text-amber-950">
+            Door 2 • In The Wild
           </span>
-          <h2 className="font-display text-xl text-[#18101E]">Tinder → iMessage &amp; Discord</h2>
-          <p className="text-sm font-medium text-[#475569] leading-relaxed">
-            Remember details from their bio for a <strong>Profile Memory Bonus</strong>, earn real off-app iMessage numbers, ask <code>#ask-the-den</code> with 1-tap advice pills, or send a 2-strike Cub to Obedience Rehab.
+          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+            {V35_WILD_VENUES.length} Illustrated Velvet Palms Venues
+          </h2>
+          <p className="text-sm text-stone-600 leading-relaxed">
+            Meet offline at Terminal B Arrivals, Hawthorne University, The Velvet Room Hotel Bar, Havana Social Salsa, and Palisades Racquet—going straight to real phone numbers.
           </p>
         </div>
 
-        <div className="vice-panel rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-[#FEF3C7] px-3 py-0.5 text-xs font-extrabold text-[#92400E]">
-            Act 3 • 3-Date Career Arc
+        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
+          <span className="inline-block rounded-full bg-sky-100 px-3 py-0.5 text-xs font-extrabold text-sky-900">
+            Act 2 • Evolving Vetting
           </span>
-          <h2 className="font-display text-xl text-[#18101E]">Date #1 Spark → Date #3 Sanctuary</h2>
-          <p className="text-sm font-medium text-[#475569] leading-relaxed">
-            Play cumulative 3-scene dates with tactile minigames so your Maturity and EQ carry forward to unlock Linen-Apron Houseboy Sunday and S-Rank Polaroids in your {HER_ARCHETYPES.length + HIS_ARCHETYPES.length}-member Dateodex.
+          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+            App DM → Earned iMessage &amp; Cut Loose
+          </h2>
+          <p className="text-sm text-stone-600 leading-relaxed">
+            Chat freely with live AI or curated replies, consult 5 distinct Club Discord channels, spot disguised Traps before Date #1 with <strong>🚩 Cut Loose</strong>, and graduate worthy matches to iMessage.
           </p>
         </div>
 
-        <div className="vice-panel rounded-3xl p-5 bg-white space-y-2.5">
-          <span className="inline-block rounded-full bg-[#ECFDF5] px-3 py-0.5 text-xs font-extrabold text-[#065F46]">
-            Act 4 • Neighborhood &amp; Social
+        <div className="editorial-hinge-card rounded-3xl p-5 bg-white space-y-2.5">
+          <span className="inline-block rounded-full bg-emerald-100 px-3 py-0.5 text-xs font-extrabold text-emerald-900">
+            Act 3 • Sunset Dates
           </span>
-          <h2 className="font-display text-xl text-[#18101E]">&ldquo;In The Wild&rdquo; Map &amp; Auditions</h2>
-          <p className="text-sm font-medium text-[#475569] leading-relaxed">
-            Walk 6 real-world date venues in 8-bit pixel art, adopt Barnaby the rescue Golden Retriever, and text 60-second Partner Auditions to your crush or group chat.
+          <h2 className="font-editorial text-xl font-bold text-[#18101E]">
+            Animated Multi-Date S-Rank Stage
+          </h2>
+          <p className="text-sm text-stone-600 leading-relaxed">
+            Experience full-bleed sunset dates with animated character expressions, free S-Rank replays, Secret Group-Chat Leaks, Velvet Cut Weekend Epilogues, and the hidden Table 9 Takedown.
           </p>
         </div>
       </section>
 
-      {/* Club House Rules & Cast Diversity */}
       <section className="grid gap-6 lg:grid-cols-2 items-stretch">
-        <div className="vice-panel rounded-3xl p-6 bg-[#FFFDF9] space-y-3">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#D1FAE5] border border-[#059669]/30 px-3 py-1 text-xs font-extrabold text-[#065F46]">
+        <div className="editorial-hinge-card rounded-3xl p-6 bg-[#FFFDF9] space-y-3">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-extrabold text-emerald-900">
             <ShieldCheck className="h-4 w-4" />
-            <span>House Rules of The Den</span>
+            <span>House Rules of The Club</span>
           </div>
-          <h2 className="font-display text-2xl text-[#1E1022]">
-            Consenting Grown Adults, Zero Sugar-Mama Mooching &amp; Zero Tourists
+          <h2 className="font-editorial text-2xl font-bold text-[#18101E]">
+            Consenting Grown Adults (21+), Zero Mooching &amp; Zero Tourists
           </h2>
-          <ul className="space-y-2 text-sm font-semibold text-[#34223B] leading-relaxed">
-            <li>• <strong>Adults Only (21+):</strong> Every character is a consenting adult, and our cheeky &ldquo;Cub Grooming&rdquo; joke strictly means upgrading a 25+ man’s beard oil, SPF 50, and linen collars.</li>
-            <li>• <strong>Never an ATM:</strong> Accomplished women date younger for chemistry, emotional openness, and joy, never to bankroll a freeloader’s rent.</li>
-            <li>• <strong>Every Polarity Celebrated:</strong> Play Any-Age Princess Romance (30s to 60s+), Soft Mommy-Domme &ldquo;Good boy&rdquo; praise, or decisive &ldquo;Cub Daddy&rdquo; dinner takeover.</li>
+          <ul className="space-y-2 text-sm font-medium text-stone-700 leading-relaxed">
+            <li>• <strong>Adults Only (21+):</strong> Every character is a consenting adult (including strict Post-Grades university boundaries).</li>
+            <li>• <strong>Never an ATM:</strong> Accomplished women date younger for chemistry, presence, and joy—never to bankroll a dependent.</li>
+            <li>• <strong>Every Polarity Celebrated:</strong> Play Princess Romance, Soft Mommy-Domme poise, or decisive Cub-Daddy dinner takeovers.</li>
           </ul>
         </div>
 
-        <div className="vice-panel rounded-3xl p-6 bg-white flex flex-col justify-between gap-4">
+        <div className="editorial-hinge-card rounded-3xl p-6 bg-white flex flex-col justify-between gap-4">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE3EC] px-3 py-1 text-xs font-extrabold text-[#D90452]">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-extrabold text-rose-700">
               <Heart className="h-4 w-4 fill-current" />
-              <span>{HER_ARCHETYPES.length} Women (30 to 64) × {HIS_ARCHETYPES.length} Cubs (21 to 33)</span>
+              <span>{herCount} Women × {himCount} Men • 132 Bespoke Photos</span>
             </div>
-            <h2 className="font-display text-2xl text-[#1E1022]">
-              Jump Straight Into Any Club Wing
+            <h2 className="font-editorial text-2xl font-bold text-[#18101E]">
+              Explore Every Corner of Velvet Palms
             </h2>
-            <p className="text-sm font-medium text-[#475569] leading-relaxed">
-              From petite 5&apos;1&Prime; corner-office executives, ER trauma nurses, 5:30 AM equestrians, and active 62F &ldquo;Glam-ma Gigi&rdquo; icons to firefighters, British structural engineers, sous-chefs, and Montana ranch cowboys.
+            <p className="text-sm text-stone-600 leading-relaxed">
+              Grade 12 real-world courtship scenarios in Cub Obedience School or browse all {AFFILIATE_CATALOG.length} studio-photographed date-night &amp; hosting picks.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <button
               type="button"
-              onClick={onOpenCubAcademy}
-              className="pop-btn rounded-2xl bg-[#F5F3FF] px-3.5 py-3 text-xs font-extrabold text-[#5B21B6] cursor-pointer"
+              onClick={onOpenCubSchool}
+              className="rounded-full bg-stone-100 hover:bg-stone-200 px-4 py-3 text-xs font-extrabold text-[#18101E] cursor-pointer"
             >
-              🦮 Cub Obedience Sim
-            </button>
-            <button
-              type="button"
-              onClick={onOpenWorldMap}
-              className="pop-btn rounded-2xl bg-[#ECFDF5] px-3.5 py-3 text-xs font-extrabold text-[#065F46] inline-flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <Gamepad2 className="h-4 w-4" />
-              <span>8-Bit Club Map</span>
+              🎓 Open 12-Module Cub School
             </button>
             <button
               type="button"
               onClick={onOpenBoutique}
-              className="pop-btn rounded-2xl bg-[#18101E] px-3.5 py-3 text-xs font-extrabold text-white inline-flex items-center justify-center gap-1.5 cursor-pointer"
+              className="rounded-full bg-[#18101E] px-4 py-3 text-xs font-extrabold text-white inline-flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <ShoppingBag className="h-4 w-4 text-[#FFBE0B]" />
-              <span>Shop ({AFFILIATE_CATALOG.length})</span>
+              <ShoppingBag className="h-4 w-4 text-amber-300" />
+              <span>Date-Night Shop ({AFFILIATE_CATALOG.length})</span>
             </button>
           </div>
         </div>

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Coffee,
   Copy,
   Crown,
   ExternalLink,
   Gift,
+  Heart,
   Mail,
-  RefreshCw,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
@@ -15,12 +14,7 @@ import {
 } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { MONETIZATION_CONFIG } from '../config/monetization';
-import {
-  MAX_VERIFIED_REFERRAL_CLAIMS,
-  VERIFIED_REFERRAL_REWARD_CREDITS,
-  WAITLIST_REWARD_CREDITS,
-  type WalletState,
-} from '../domain/economy';
+import type { WalletState } from '../domain/economy';
 import {
   AFFILIATE_CATALOG,
   buildAffiliateUrl,
@@ -32,7 +26,6 @@ import {
   trackEvent,
 } from '../lib/analytics';
 import { shareOrCopy } from '../lib/viral';
-import { fetchVerifiedReferralSlots } from '../services/adapters';
 import { ProductVisualThumbnail } from './ProductVisualThumbnail';
 
 export type BoutiqueSectionTab = 'shop' | 'vip' | 'rewards';
@@ -44,7 +37,6 @@ interface BoutiqueAndVipModalProps {
   onClose: () => void;
   onRedeemCode: (code: string) => boolean;
   onRestoreVipSuccess?: () => void;
-  onClaimQuestReward?: (rewardId: string, amount: number) => boolean;
   onSandboxGrantCredits: () => void;
   onSandboxUnlockVip: () => void;
   onClaimNewsletterBonus: (email: string) => boolean;
@@ -67,7 +59,6 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   onClose,
   onRedeemCode,
   onRestoreVipSuccess,
-  onClaimQuestReward,
   onSandboxGrantCredits,
   onSandboxUnlockVip,
   onClaimNewsletterBonus,
@@ -79,9 +70,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   const [newsletterMsg, setNewsletterMsg] = useState<string | null>(null);
   const [restoreEmail, setRestoreEmail] = useState('');
   const [restoreMsg, setRestoreMsg] = useState<string | null>(null);
-  const [tipStatusMsg, setTipStatusMsg] = useState<string | null>(null);
   const [questMsg, setQuestMsg] = useState<string | null>(null);
-  const [verifyingRef, setVerifyingRef] = useState(false);
   const [cameoEmail, setCameoEmail] = useState('');
   const [cameoBrief, setCameoBrief] = useState('');
   const [cameoMsg, setCameoMsg] = useState<string | null>(null);
@@ -111,9 +100,6 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
 
   const refCode = wallet.referralCode || 'vdclub1';
   const refUrl = `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}?ref=${encodeURIComponent(refCode)}`;
-  const refClaimedCount = [1, 2, 3].filter((n) =>
-    wallet.claimedRewards.includes(`ref_verified_${n}`),
-  ).length;
 
   const handleStripeCheckoutClick = (
     tier: 'credits_299' | 'vip_699' | 'tip_5' | 'cameo_29',
@@ -124,41 +110,6 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
       tier,
       credits_balance: wallet.credits,
     });
-  };
-
-  const handleVerifyReferrals = async () => {
-    setVerifyingRef(true);
-    try {
-      const status = await fetchVerifiedReferralSlots(refCode);
-      let newlyGranted = 0;
-      for (
-        let slot = 1;
-        slot <= Math.min(MAX_VERIFIED_REFERRAL_CLAIMS, status.claimableSlots);
-        slot++
-      ) {
-        const key = `ref_verified_${slot}`;
-        if (!wallet.claimedRewards.includes(key) && onClaimQuestReward) {
-          if (onClaimQuestReward(key, VERIFIED_REFERRAL_REWARD_CREDITS)) {
-            newlyGranted += VERIFIED_REFERRAL_REWARD_CREDITS;
-          }
-        }
-      }
-      if (newlyGranted > 0) {
-        setQuestMsg(
-          `🔥 Verified ${status.uniqueReferrals} real friend click(s)! +${newlyGranted} Den Credits added!`,
-        );
-      } else if (refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS) {
-        setQuestMsg(
-          '🔒 Maximum 3/3 friend referral bonuses claimed, grab +15 Credits ($2.99) or Lifetime VIP ($6.99)!',
-        );
-      } else {
-        setQuestMsg(
-          `Verified clicks so far: ${status.uniqueReferrals}/3. Drop your referral link in a group chat and tap Verify!`,
-        );
-      }
-    } finally {
-      setVerifyingRef(false);
-    }
   };
 
   const handlePromoSubmit = (e: React.FormEvent) => {
@@ -182,12 +133,8 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     }
     identifyPlayerWithContact(email, { signup_source: 'club_dispatch' });
     trackEvent('newsletter_subscribed', { source: 'boutique_modal' });
-    const granted = onClaimNewsletterBonus(email);
-    setNewsletterMsg(
-      granted
-        ? `🎉 Welcome to The Cougar Dispatch! +${MONETIZATION_CONFIG.newsletterRewardCredits} Bonus Credits added.`
-        : 'You’re on the list! (Newsletter bonus already claimed.)',
-    );
+    onClaimNewsletterBonus(email);
+    setNewsletterMsg('🎉 You’re on The Velvet Dispatch list for new episode & salon drops!');
     setEmail('');
   };
 
@@ -216,61 +163,68 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
     }
   };
 
+  const filteredProducts =
+    shopFilter === 'all'
+      ? AFFILIATE_CATALOG
+      : AFFILIATE_CATALOG.filter((item) => item.category === shopFilter);
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-6 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Cougars & Cubs Club VIP & Creator Lounge"
     >
-      <div className="vice-panel relative max-h-[90vh] w-full max-w-4xl overflow-x-hidden overflow-y-auto rounded-3xl p-4 sm:p-7 space-y-5">
-        <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/12 pb-4">
+      <div className="editorial-hinge-card relative max-h-[90vh] w-full max-w-4xl overflow-x-hidden overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-7 space-y-5 shadow-2xl">
+        <div className="flex items-start justify-between gap-3 border-b border-stone-200 pb-4">
           <div className="min-w-0">
-            <span className="inline-block rounded-full border-2 border-[#1E1022] bg-[#FFBE0B] px-3 py-0.5 text-xs font-extrabold uppercase tracking-wide text-[#1E1022]">
-              Visual Boutique • 5-Credit Economy • VIP Black Card
+            <span className="inline-block rounded-full bg-amber-100 border border-amber-300/70 px-3 py-0.5 text-xs font-extrabold uppercase tracking-wide text-amber-950">
+              Date-Night Shop • Desire Unlocks • VIP Black Card
             </span>
-            <h2 className="mt-1.5 font-display text-2xl sm:text-3xl text-[#1E1022]">
+            <h2 className="mt-1.5 font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
               Cougars &amp; Cubs Club Boutique &amp; VIP
             </h2>
-            <p className="text-xs sm:text-sm font-semibold text-[#5A4664]">
+            <p className="text-xs sm:text-sm font-semibold text-stone-600">
               Balance:{' '}
-              <strong className="text-[#D90452]">
+              <strong className="text-rose-700">
                 {wallet.isFounderUnlimited
                   ? '∞ Unlimited Founder Credits'
-                  : `${wallet.credits} Credits (${MONETIZATION_CONFIG.dailyFreeCredits}/day starter)`}
+                  : `${wallet.credits} Credits (${MONETIZATION_CONFIG.starterCredits} starter)`}
               </strong>{' '}
               {(wallet.isVip || wallet.isFounderUnlimited) && (
-                <strong className="text-[#065F46]">• VIP BLACK CARD ACTIVE</strong>
+                <strong className="text-emerald-700">• VIP BLACK CARD ACTIVE</strong>
+              )}
+              {wallet.hasPatronBadge && (
+                <strong className="text-amber-700"> • 💛 CLUB PATRON</strong>
               )}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="pop-btn shrink-0 rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
+            className="shrink-0 rounded-full border border-stone-200 bg-white p-2 text-stone-700 hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
             aria-label="Close Boutique"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* 3 Clean Section Tabs */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           {(
             [
-              ['shop', `🛍️ Visual Shop (${AFFILIATE_CATALOG.length})`],
+              ['shop', `🛍️ Date-Night Shop (${AFFILIATE_CATALOG.length})`],
               ['vip', '💎 Credits & VIP'],
-              ['rewards', '🗝️ Waitlist & Referrals'],
+              ['rewards', '🗝️ Salon Waitlist & Invite'],
             ] as const
           ).map(([tabId, label]) => (
             <button
               key={tabId}
               type="button"
               onClick={() => setActiveTab(tabId)}
-              className={`pop-btn rounded-2xl px-3 py-2.5 text-xs sm:text-sm font-extrabold cursor-pointer ${
+              className={`rounded-full px-4 py-2.5 text-xs sm:text-sm font-extrabold transition cursor-pointer ${
                 activeTab === tabId
-                  ? 'bg-[#FFBE0B] text-[#1E1022]'
-                  : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
+                  ? 'bg-[#18101E] text-white'
+                  : 'border border-stone-200 bg-white text-[#18101E] hover:bg-stone-50'
               }`}
             >
               {label}
@@ -280,18 +234,17 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
 
         {activeTab === 'vip' && (
           <div className="space-y-5">
-            {/* Equal-Height Tier Cards */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 items-stretch">
-              <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-4 flex flex-col justify-between h-full">
+              <div className="rounded-3xl border border-stone-200 bg-white p-5 flex flex-col justify-between h-full shadow-2xs">
                 <div>
-                  <span className="text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
-                    Action Pack
+                  <span className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
+                    Desire Pack
                   </span>
-                  <div className="font-display text-2xl text-[#1E1022] mt-1">
+                  <div className="font-editorial text-2xl font-bold text-[#18101E] mt-1">
                     +15 Den Credits • $2.99
                   </div>
-                  <p className="text-xs font-medium text-[#5A4664] mt-1.5 leading-relaxed">
-                    Unlock 2nd+ Off-App iMessage numbers (2 Cr), Chat Unmatch Rewinds (2 Cr), Early Flirt Boosts, and VIP episodes.
+                  <p className="text-xs font-medium text-stone-600 mt-2 leading-relaxed">
+                    Send Standout Roses (1 Cr), read Secret Group-Chat Leaks (2 Cr), unblur Candid Photo Drops (2 Cr), and play Velvet Cut Weekend Epilogues (3 Cr).
                   </p>
                 </div>
                 {MONETIZATION_CONFIG.stripeCreditPackUrl ? (
@@ -300,7 +253,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     onClick={() => handleStripeCheckoutClick('credits_299', 'credits')}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pop-btn mt-4 block rounded-xl bg-[#FF2E63] py-2.5 text-center text-sm font-extrabold text-white"
+                    className="mt-4 block rounded-full bg-rose-600 py-2.5 text-center text-sm font-extrabold text-white hover:bg-rose-700 transition"
                   >
                     Get +15 Credits ($2.99)
                   </a>
@@ -308,32 +261,28 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <button
                     type="button"
                     onClick={onSandboxGrantCredits}
-                    className="pop-btn mt-4 w-full rounded-xl bg-[#FF2E63] py-2.5 text-sm font-extrabold text-white cursor-pointer"
+                    className="mt-4 w-full rounded-full bg-rose-600 py-2.5 text-sm font-extrabold text-white cursor-pointer"
                   >
                     <Sparkles className="inline h-3.5 w-3.5 mr-1" />
                     Preview Unlock +15 Credits (Free Demo)
                   </button>
-                ) : (
-                  <div className="mt-4 rounded-xl border-2 border-[#1E1022]/20 bg-white py-2.5 text-center text-xs font-extrabold text-[#5A4664]">
-                    Checkout Opening Soon
-                  </div>
-                )}
+                ) : null}
               </div>
 
-              <div className="rounded-2xl border-[2.5px] border-[#1E1022] bg-[#FFFBEB] p-4 flex flex-col justify-between shadow-[4px_4px_0px_#1E1022] h-full">
+              <div className="rounded-3xl border-2 border-amber-400 bg-amber-50/60 p-5 flex flex-col justify-between shadow-md h-full">
                 <div>
-                  <span className="rounded-full border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-xs font-extrabold uppercase text-[#1E1022]">
+                  <span className="rounded-full bg-amber-300 px-2.5 py-0.5 text-xs font-extrabold uppercase text-[#18101E]">
                     Most Popular
                   </span>
-                  <div className="font-display text-2xl text-[#1E1022] mt-1.5">
+                  <div className="font-editorial text-2xl font-bold text-[#18101E] mt-1.5">
                     VIP Black Card • $6.99
                   </div>
-                  <p className="text-xs font-medium text-[#34223B] mt-1.5 leading-relaxed">
-                    Unlimited Off-App iMessage Unlocks, Unlimited Rewinds &amp; Flirt Mode, ALL Deep-Cut VIP episodes forever + 15 bonus credits.
+                  <p className="text-xs font-medium text-stone-700 mt-2 leading-relaxed">
+                    Unlimited Standout Roses, ALL Secret Group-Chat Leaks, Candid Photos &amp; Velvet Cut Weekend Epilogues forever + 15 bonus credits.
                   </p>
                 </div>
                 {wallet.isVip ? (
-                  <div className="mt-4 rounded-xl border-2 border-[#1E1022] bg-[#D1FAE5] py-2.5 text-center text-xs font-extrabold text-[#065F46]">
+                  <div className="mt-4 rounded-full bg-emerald-100 py-2.5 text-center text-xs font-extrabold text-emerald-900">
                     ✓ VIP Black Card Unlocked
                   </div>
                 ) : MONETIZATION_CONFIG.stripeVipPassUrl ? (
@@ -342,7 +291,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     onClick={() => handleStripeCheckoutClick('vip_699', 'vip')}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pop-btn mt-4 block rounded-xl bg-[#FFBE0B] py-2.5 text-center text-sm font-extrabold text-[#1E1022]"
+                    className="mt-4 block rounded-full bg-[#18101E] py-2.5 text-center text-sm font-extrabold text-amber-300 hover:bg-stone-800 transition"
                   >
                     <Crown className="inline h-3.5 w-3.5 mr-1" />
                     Unlock VIP Black Card ($6.99)
@@ -351,95 +300,63 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <button
                     type="button"
                     onClick={onSandboxUnlockVip}
-                    className="pop-btn mt-4 w-full rounded-xl bg-[#FFBE0B] py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+                    className="mt-4 w-full rounded-full bg-[#18101E] py-2.5 text-sm font-extrabold text-amber-300 cursor-pointer"
                   >
                     <Crown className="inline h-3.5 w-3.5 mr-1" />
                     Preview VIP Black Card (Free Demo)
                   </button>
-                ) : (
-                  <div className="mt-4 rounded-xl border-2 border-[#1E1022]/20 bg-white py-2.5 text-center text-xs font-extrabold text-[#5A4664]">
-                    VIP Checkout Opening Soon
-                  </div>
-                )}
+                ) : null}
               </div>
 
-              <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4 flex flex-col justify-between gap-3 h-full">
+              <div className="rounded-3xl border border-rose-200 bg-rose-50/40 p-5 flex flex-col justify-between gap-3 h-full">
                 <div>
-                  <span className="text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
-                    Espresso Martini Tip &amp; Cameos
+                  <span className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
+                    Indie Creator Support
                   </span>
-                  <div className="font-display text-2xl text-[#1E1022] mt-1">
-                    Immortalize Your Inside Joke
+                  <div className="font-editorial text-2xl font-bold text-[#18101E] mt-1">
+                    💛 Support This Project
                   </div>
-                  <p className="text-xs font-medium text-[#5A4664] mt-1.5 leading-relaxed">
-                    Buy the creator an Espresso Martini ($5), or sponsor a custom $29 Cougar/Cub character cameo!
+                  <p className="text-xs font-medium text-stone-600 mt-2 leading-relaxed">
+                    Keep Cougars &amp; Cubs Club ad-free with a $5 Espresso Martini tip (unlocks the 💛 Club Patron badge), or commission a $29 custom character cameo!
                   </p>
                 </div>
                 <div className="space-y-2">
-                  {liveTipUrl ? (
+                  {liveTipUrl && (
                     <a
                       href={liveTipUrl}
                       onClick={() => handleStripeCheckoutClick('tip_5', 'tip')}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="pop-btn flex items-center justify-center gap-1.5 rounded-xl bg-[#FF2E63] py-2 text-xs font-extrabold text-white"
+                      className="flex items-center justify-center gap-1.5 rounded-full bg-amber-300 py-2.5 text-xs font-extrabold text-[#18101E] hover:bg-amber-400 transition"
                     >
-                      <Coffee className="h-3.5 w-3.5" />
-                      <span>Tip an Espresso Martini ($5)</span>
+                      <Heart className="h-3.5 w-3.5 fill-rose-600 text-rose-600" />
+                      <span>💛 Support This Project ($5)</span>
                     </a>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setTipStatusMsg(
-                          '🍸 Tip Jar activating shortly, grab +3 Free Dispatch Credits below in the meantime!',
-                        )
-                      }
-                      className="pop-btn w-full flex items-center justify-center gap-1.5 rounded-xl bg-[#FF2E63] py-2 text-xs font-extrabold text-white cursor-pointer"
-                    >
-                      <Coffee className="h-3.5 w-3.5" />
-                      <span>Tip an Espresso Martini ($5)</span>
-                    </button>
                   )}
 
-                  {liveCameoUrl ? (
+                  {liveCameoUrl && (
                     <a
                       href={liveCameoUrl}
                       onClick={() => handleStripeCheckoutClick('cameo_29', 'cameo')}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="pop-btn flex items-center justify-center gap-1.5 rounded-xl bg-white py-2 text-xs font-extrabold text-[#1E1022]"
+                      className="flex items-center justify-center gap-1.5 rounded-full border border-stone-300 bg-white py-2 text-xs font-extrabold text-[#18101E]"
                     >
-                      <Gift className="h-3.5 w-3.5 text-[#FF2E63]" />
+                      <Gift className="h-3.5 w-3.5 text-rose-600" />
                       <span>Sponsor Custom Scenario ($29)</span>
                     </a>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setTipStatusMsg(
-                          '🎬 Custom $29 Cameo checkout opens right after Stripe verification!',
-                        )
-                      }
-                      className="pop-btn w-full flex items-center justify-center gap-1.5 rounded-xl bg-white py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
-                    >
-                      <Gift className="h-3.5 w-3.5 text-[#FF2E63]" />
-                      <span>Sponsor Custom Scenario ($29)</span>
-                    </button>
                   )}
-                  {tipStatusMsg && <p className="text-xs font-bold text-[#D90452]">{tipStatusMsg}</p>}
                 </div>
               </div>
             </div>
 
-            {/* Overflow-Proof Promo Code + Newsletter (+3 Cr) + Cross-Browser VIP Restore */}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 items-stretch">
               <form
                 onSubmit={handlePromoSubmit}
-                className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] p-4 space-y-2.5"
+                className="rounded-2xl border border-stone-200 bg-white p-4 space-y-2.5"
               >
-                <div className="text-xs font-extrabold uppercase text-[#1E1022]">
-                  Have a Stripe VIP or Creator Code?
+                <div className="text-xs font-extrabold uppercase text-[#18101E]">
+                  Have a VIP or Creator Code?
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
@@ -447,25 +364,25 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     placeholder={isSandbox ? 'Enter code (e.g. VELVETVIP)' : 'Enter VIP or promo code'}
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
-                    className="min-w-0 w-full flex-1 rounded-xl border-2 border-[#1E1022] bg-white px-3 py-2 text-xs font-bold text-[#1E1022]"
+                    className="min-w-0 w-full flex-1 rounded-xl border border-stone-300 bg-stone-50 px-3 py-2 text-xs font-bold text-[#18101E]"
                   />
                   <button
                     type="submit"
-                    className="pop-btn shrink-0 rounded-xl bg-white px-3.5 py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                    className="shrink-0 rounded-xl border border-stone-300 bg-white px-3.5 py-2 text-xs font-extrabold text-[#18101E] cursor-pointer"
                   >
                     Redeem
                   </button>
                 </div>
-                {codeMessage && <p className="text-xs font-bold text-[#D90452]">{codeMessage}</p>}
+                {codeMessage && <p className="text-xs font-bold text-rose-700">{codeMessage}</p>}
               </form>
 
               <form
                 onSubmit={handleNewsletterSubmit}
-                className="rounded-2xl border-2 border-[#1E1022] bg-[#FFFBEB] p-4 space-y-2.5"
+                className="rounded-2xl border border-stone-200 bg-white p-4 space-y-2.5"
               >
-                <div className="text-xs font-extrabold uppercase text-[#1E1022]">
-                  <Mail className="inline h-3.5 w-3.5 mr-1 text-[#FF2E63]" />
-                  The Cougar Dispatch (+{MONETIZATION_CONFIG.newsletterRewardCredits} Free Credits)
+                <div className="text-xs font-extrabold uppercase text-[#18101E]">
+                  <Mail className="inline h-3.5 w-3.5 mr-1 text-rose-600" />
+                  Join The Velvet Dispatch
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
@@ -474,23 +391,25 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     placeholder="you@domain.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="min-w-0 w-full flex-1 rounded-xl border-2 border-[#1E1022] bg-white px-3 py-2 text-xs font-bold text-[#1E1022]"
+                    className="min-w-0 w-full flex-1 rounded-xl border border-stone-300 bg-stone-50 px-3 py-2 text-xs font-bold text-[#18101E]"
                   />
                   <button
                     type="submit"
-                    className="pop-btn shrink-0 rounded-xl bg-[#FFBE0B] px-3.5 py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                    className="shrink-0 rounded-xl bg-[#18101E] px-3.5 py-2 text-xs font-extrabold text-white cursor-pointer"
                   >
-                    +{MONETIZATION_CONFIG.newsletterRewardCredits} Cr
+                    Join
                   </button>
                 </div>
-                {newsletterMsg && <p className="text-xs font-extrabold text-[#065F46]">{newsletterMsg}</p>}
+                {newsletterMsg && (
+                  <p className="text-xs font-extrabold text-emerald-800">{newsletterMsg}</p>
+                )}
               </form>
 
               <form
                 onSubmit={handleRestoreVip}
-                className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4 space-y-2.5"
+                className="rounded-2xl border border-stone-200 bg-white p-4 space-y-2.5"
               >
-                <div className="text-xs font-extrabold uppercase text-[#D90452]">
+                <div className="text-xs font-extrabold uppercase text-rose-700">
                   <ShieldCheck className="inline h-3.5 w-3.5 mr-1" />
                   Restore Paid VIP on New Device
                 </div>
@@ -501,104 +420,63 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     placeholder="Checkout email"
                     value={restoreEmail}
                     onChange={(e) => setRestoreEmail(e.target.value)}
-                    className="min-w-0 w-full flex-1 rounded-xl border-2 border-[#1E1022] bg-white px-3 py-2 text-xs font-bold text-[#1E1022]"
+                    className="min-w-0 w-full flex-1 rounded-xl border border-stone-300 bg-stone-50 px-3 py-2 text-xs font-bold text-[#18101E]"
                   />
                   <button
                     type="submit"
-                    className="pop-btn shrink-0 rounded-xl bg-[#FF2E63] px-3.5 py-2 text-xs font-extrabold text-white cursor-pointer"
+                    className="shrink-0 rounded-xl bg-rose-600 px-3.5 py-2 text-xs font-extrabold text-white cursor-pointer"
                   >
                     Restore
                   </button>
                 </div>
-                {restoreMsg && <p className="text-xs font-bold text-[#D90452]">{restoreMsg}</p>}
+                {restoreMsg && <p className="text-xs font-bold text-rose-700">{restoreMsg}</p>}
               </form>
-            </div>
-
-            <div className="flex items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-white p-3.5">
-              <div className="min-w-0">
-                <div className="text-xs font-extrabold text-[#1E1022]">
-                  🛍️ Looking for Date-Night Gifts, Silk Robes &amp; Official Brass Clickers?
-                </div>
-                <p className="text-[11px] font-medium text-[#5A4664]">
-                  Browse all {AFFILIATE_CATALOG.length} illustrated Cougar &amp; Cub picks in the Visual Shop tab.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setActiveTab('shop')}
-                className="pop-btn shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-[#FFBE0B] px-3.5 py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
-              >
-                <ShoppingBag className="h-3.5 w-3.5" />
-                <span>Open Shop</span>
-              </button>
             </div>
           </div>
         )}
 
         {activeTab === 'rewards' && (
           <div className="space-y-5">
-            {/* Verified Friend Referral Ladder (+3 Cr per real friend, max 3) */}
-            <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF4F7] p-4 space-y-3">
+            <div className="rounded-2xl border border-stone-200 bg-white p-4 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-xs font-extrabold uppercase text-[#1E1022]">
-                    <Users className="h-3 w-3" /> Verified Friend Referrals
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-950">
+                    <Users className="h-3 w-3" /> Invite Your Group Chat
                   </span>
-                  <h3 className="mt-1 font-display text-xl text-[#1E1022]">
-                    Earn +{VERIFIED_REFERRAL_REWARD_CREDITS} Credits Per Friend Who Opens Your Link (Max {MAX_VERIFIED_REFERRAL_CLAIMS})
+                  <h3 className="mt-1 font-editorial text-xl font-bold text-[#18101E]">
+                    Share Your Personal Club Invite Link
                   </h3>
                 </div>
-                <span className="rounded-full border-2 border-[#1E1022] bg-white px-3 py-1 text-xs font-extrabold text-[#1E1022]">
-                  {refClaimedCount} / {MAX_VERIFIED_REFERRAL_CLAIMS} Verified Friend Bonuses
-                </span>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 rounded-xl border-2 border-[#1E1022] bg-white p-3 text-xs">
-                <div className="min-w-0 truncate font-semibold text-[#1E1022]">
-                  <strong>Your Referral Link:</strong>{' '}
-                  <code className="text-[#D90452] font-bold">{refUrl}</code>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 rounded-xl border border-stone-200 bg-stone-50 p-3 text-xs">
+                <div className="min-w-0 break-all font-semibold text-[#18101E]">
+                  <strong>Your Link:</strong>{' '}
+                  <code className="text-rose-700 font-bold">{refUrl}</code>
                 </div>
-                <div className="flex flex-wrap shrink-0 gap-2">
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      trackEvent('share_triggered', {
-                        channel: 'copy_link',
-                        share_surface: 'audition',
-                        url: refUrl,
-                      });
-                      await shareOrCopy({
-                        title: 'Cougars & Cubs Club',
-                        text: 'Pass my 60-second Cougars & Cubs Vetting Test 🍸',
-                        url: refUrl,
-                      });
-                      setQuestMsg(
-                        `🔗 Referral link copied! Each real friend who opens it unlocks +${VERIFIED_REFERRAL_REWARD_CREDITS} Cr (up to 3 friends).`,
-                      );
-                    }}
-                    className="pop-btn inline-flex items-center gap-1 rounded-lg bg-white px-2.5 py-1.5 font-extrabold text-[#1E1022] cursor-pointer"
-                  >
-                    <Copy className="h-3 w-3" /> Copy Link
-                  </button>
-                  <button
-                    type="button"
-                    disabled={verifyingRef || refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS}
-                    onClick={handleVerifyReferrals}
-                    className="pop-btn inline-flex items-center gap-1 rounded-lg bg-[#FFBE0B] px-3 py-1.5 font-extrabold text-[#1E1022] disabled:opacity-60 cursor-pointer"
-                  >
-                    <RefreshCw className={`h-3 w-3 ${verifyingRef ? 'animate-spin' : ''}`} />
-                    <span>
-                      {refClaimedCount >= MAX_VERIFIED_REFERRAL_CLAIMS
-                        ? '✓ 3/3 Referrals Maxed'
-                        : `Verify Clicks (${refClaimedCount}/3)`}
-                    </span>
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    trackEvent('share_triggered', {
+                      channel: 'copy_link',
+                      share_surface: 'audition',
+                      url: refUrl,
+                    });
+                    await shareOrCopy({
+                      title: 'Cougars & Cubs Club',
+                      text: 'Pass my Cougars & Cubs Club Vetting Simulation 🍸',
+                      url: refUrl,
+                    });
+                    setQuestMsg('🔗 Invite link copied! Drop it in your group chat.');
+                  }}
+                  className="shrink-0 inline-flex items-center gap-1 rounded-full bg-[#18101E] px-4 py-2 font-extrabold text-white cursor-pointer"
+                >
+                  <Copy className="h-3 w-3" /> Copy Link
+                </button>
               </div>
-              {questMsg && <p className="text-xs font-extrabold text-[#D90452]">{questMsg}</p>}
+              {questMsg && <p className="text-xs font-extrabold text-emerald-800">{questMsg}</p>}
             </div>
 
-            {/* Raya-Style Velvet-Rope Club Waitlist (+2 Cr), Overflow-Proof Responsive Grid */}
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -628,9 +506,8 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   });
                   const data = (await res.json()) as { ok?: boolean; position?: number };
                   if (res.ok && data.ok) {
-                    onClaimQuestReward?.('raya_waitlist_join', WAITLIST_REWARD_CREDITS);
                     setWaitlistMsg(
-                      `🗝️ Velvet-Rope Application #${data.position ?? 142} received (+${WAITLIST_REWARD_CREDITS} Bonus Credits)! You’re on the list for our invite-only Virtual Trivia Salon.`,
+                      `🗝️ Velvet-Rope Application #${data.position ?? 142} received! You’re on the list for our invite-only Virtual Trivia Salon.`,
                     );
                     setWaitlistVibe('');
                     setWaitlistContact('');
@@ -638,24 +515,21 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     setWaitlistMsg('Please include a valid email or @handle so we can send your invite.');
                   }
                 } catch {
-                  onClaimQuestReward?.('raya_waitlist_join', WAITLIST_REWARD_CREDITS);
-                  setWaitlistMsg(
-                    `🗝️ Velvet-Rope Waitlist spot reserved (+${WAITLIST_REWARD_CREDITS} Bonus Credits)!`,
-                  );
+                  setWaitlistMsg('🗝️ Velvet-Rope Waitlist spot reserved!');
                 }
               }}
-              className="rounded-2xl border-2 border-[#1E1022] bg-gradient-to-r from-[#18101E] via-[#261633] to-[#18101E] p-4 sm:p-5 text-white space-y-3"
+              className="rounded-3xl bg-gradient-to-r from-[#18101E] via-[#261633] to-[#18101E] p-5 text-white space-y-3"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-[#FBBF24]">
-                  🗝️ Velvet-Rope Private Club Waitlist (+{WAITLIST_REWARD_CREDITS} Free Credits)
+                <div className="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-amber-300">
+                  🗝️ Velvet-Rope Private Club Waitlist
                 </div>
-                <span className="rounded-full bg-white/10 border border-white/15 px-2.5 py-0.5 text-[11px] font-bold text-[#FDE68A]">
+                <span className="rounded-full bg-white/10 border border-white/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-200">
                   Invite-Only Virtual Salons
                 </span>
               </div>
               <p className="text-xs text-white/85 leading-relaxed">
-                Apply for our vetted member cohort, starting with low-pressure <strong>Virtual Trivia &amp; Speed-Vetting Salons</strong>.
+                Apply for our vetted member cohort, starting with low-pressure Virtual Trivia &amp; Speed-Vetting Salons.
               </p>
               <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
                 <select
@@ -682,7 +556,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 <input
                   type="text"
                   maxLength={140}
-                  placeholder="Your vibe (e.g. British Cub, Glam-ma...)"
+                  placeholder="Your vibe"
                   value={waitlistVibe}
                   onChange={(e) => setWaitlistVibe(e.target.value)}
                   className="min-w-0 w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold text-white placeholder:text-white/55"
@@ -699,14 +573,13 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               </div>
               <button
                 type="submit"
-                className="pop-btn w-full sm:w-auto rounded-xl bg-[#FBBF24] px-5 py-2.5 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                className="w-full sm:w-auto rounded-full bg-amber-300 px-5 py-2.5 text-xs font-extrabold text-[#18101E] cursor-pointer"
               >
-                Apply to Velvet-Rope Waitlist (+{WAITLIST_REWARD_CREDITS} Cr)
+                Apply to Velvet-Rope Waitlist
               </button>
-              {waitlistMsg && <p className="text-xs font-extrabold text-[#6EE7B7]">{waitlistMsg}</p>}
+              {waitlistMsg && <p className="text-xs font-extrabold text-emerald-300">{waitlistMsg}</p>}
             </form>
 
-            {/* $29 Custom Scenario / Archetype Cameo Brief Submission */}
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -733,10 +606,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   setCameoMsg('🎬 Brief queued locally, thank you for sponsoring the next Club drop!');
                 }
               }}
-              className="rounded-2xl border-2 border-[#1E1022] bg-white p-4 space-y-2.5"
+              className="rounded-2xl border border-stone-200 bg-white p-4 space-y-2.5"
             >
-              <div className="text-xs font-extrabold uppercase text-[#1E1022]">
-                <Gift className="inline h-3.5 w-3.5 mr-1 text-[#FF2E63]" />
+              <div className="text-xs font-extrabold uppercase text-[#18101E]">
+                <Gift className="inline h-3.5 w-3.5 mr-1 text-rose-600" />
                 Sponsored a $29 Custom Cougar / Cub Scenario? Submit Your Brief:
               </div>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[220px_1fr_auto]">
@@ -746,7 +619,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   placeholder="Your Stripe checkout email"
                   value={cameoEmail}
                   onChange={(e) => setCameoEmail(e.target.value)}
-                  className="min-w-0 w-full rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-xs font-bold text-[#1E1022]"
+                  className="min-w-0 w-full rounded-xl border border-stone-300 bg-stone-50 px-3 py-2 text-xs font-bold text-[#18101E]"
                 />
                 <input
                   type="text"
@@ -756,16 +629,16 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   placeholder="Describe your custom character or couple inside joke..."
                   value={cameoBrief}
                   onChange={(e) => setCameoBrief(e.target.value)}
-                  className="min-w-0 w-full rounded-xl border-2 border-[#1E1022] bg-[#FFF7F0] px-3 py-2 text-xs font-bold text-[#1E1022]"
+                  className="min-w-0 w-full rounded-xl border border-stone-300 bg-stone-50 px-3 py-2 text-xs font-bold text-[#18101E]"
                 />
                 <button
                   type="submit"
-                  className="pop-btn rounded-xl bg-[#FFBE0B] px-4 py-2 text-xs font-extrabold text-[#1E1022] cursor-pointer"
+                  className="rounded-xl bg-[#18101E] px-4 py-2 text-xs font-extrabold text-white cursor-pointer"
                 >
                   Send Brief
                 </button>
               </div>
-              {cameoMsg && <p className="text-xs font-extrabold text-[#065F46]">{cameoMsg}</p>}
+              {cameoMsg && <p className="text-xs font-extrabold text-emerald-800">{cameoMsg}</p>}
             </form>
           </div>
         )}
@@ -773,25 +646,25 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         {activeTab === 'shop' && (
           <div className="space-y-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="font-display text-2xl text-[#1E1022]">
-                🛍️ Curated Cougar &amp; Cub Visual Shop ({AFFILIATE_CATALOG.length} Picks)
+              <h3 className="font-editorial text-2xl font-bold text-[#18101E]">
+                <ShoppingBag className="inline h-5 w-5 mr-1.5 text-rose-600" />
+                Curated Cougar &amp; Cub Date-Night Shop ({AFFILIATE_CATALOG.length} Picks)
               </h3>
-              <span className="text-xs font-semibold text-[#5A4664]">
+              <span className="text-xs font-semibold text-stone-500">
                 FTC Disclosure: Protected partner links may earn a small commission at zero extra cost.
               </span>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {(
                 [
                   ['all', `✨ All (${AFFILIATE_CATALOG.length})`],
                   ['cougar_cub_merch', '🐆 Cougar & Cub Merch'],
-                  ['funny_cute', '🐶 Cute & Funny'],
                   ['cinema_pop_culture', '🎬 Movies & Books'],
-                  ['houseboy', '🥂 Houseboy & Pantry'],
-                  ['princess_luxury', '👑 Soft-Life Luxury'],
-                  ['hosting_upgrade', '🛏️ Hosting & Travel'],
-                  ['date_night', '🍸 Date Night'],
+                  ['houseboy', '🥂 Kitchen & Aprons'],
+                  ['princess_luxury', '👑 Soft-Life Silk'],
+                  ['hosting_upgrade', '🛏️ Hosting & Bedding'],
+                  ['date_night', '🍸 Date Night & Grooming'],
                   ['trail_wellness', '🏔️ Trail & Gym'],
                 ] as const
               ).map(([cat, label]) => (
@@ -799,10 +672,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   key={cat}
                   type="button"
                   onClick={() => setShopFilter(cat)}
-                  className={`pop-btn h-9 rounded-xl px-3 text-xs cursor-pointer ${
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold cursor-pointer ${
                     shopFilter === cat
-                      ? 'bg-[#FFBE0B] text-[#1E1022]'
-                      : 'bg-white text-[#1E1022] hover:bg-[#FFF4F7]'
+                      ? 'bg-[#18101E] text-white'
+                      : 'border border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
                   }`}
                 >
                   {label}
@@ -810,43 +683,33 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 items-stretch">
-              {AFFILIATE_CATALOG.filter(
-                (item) => shopFilter === 'all' || item.category === shopFilter,
-              ).map((item) => (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+              {filteredProducts.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-2xl border-2 border-[#1E1022] bg-white p-4 shadow-[3px_3px_0px_#1E1022] flex flex-col justify-between gap-3 h-full"
+                  className="rounded-2xl border border-stone-200 bg-white p-4 flex flex-col justify-between gap-3 shadow-2xs"
                 >
-                  <div className="space-y-2.5">
+                  <div className="space-y-2">
                     <ProductVisualThumbnail item={item} />
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="rounded-full border border-[#1E1022] bg-[#FFBE0B] px-2.5 py-0.5 text-[11px] font-extrabold uppercase text-[#1E1022]">
-                        {item.badge}
-                      </span>
-                    </div>
-                    <h4 className="text-sm font-extrabold text-[#1E1022]">{item.name}</h4>
-                    <p className="text-xs font-medium text-[#5A4664] leading-relaxed">
-                      {item.cheekyPitch}
-                    </p>
+                    <span className="inline-block rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-extrabold text-amber-950">
+                      {item.badge}
+                    </span>
+                    <h4 className="text-sm font-bold text-[#18101E] leading-snug">{item.name}</h4>
+                    <p className="text-xs text-stone-600 leading-relaxed">{item.cheekyPitch}</p>
                   </div>
-
                   <a
-                    href={buildAffiliateUrl(item, 'boutique_modal')}
-                    onClick={() =>
-                      trackEvent('affiliate_clicked', {
-                        product_id: item.id,
-                        product_name: item.name,
-                        category: item.category,
-                        placement: 'boutique_modal',
-                      })
-                    }
+                    href={buildAffiliateUrl(item, 'boutique_shop')}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
-                    className="pop-btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#FF2E63] py-2.5 text-xs font-extrabold text-white"
+                    onClick={() =>
+                      trackEvent('affiliate_clicked', {
+                        item_id: item.id,
+                        surface: 'boutique_shop',
+                      })
+                    }
+                    className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#18101E] py-2.5 text-xs font-bold text-white hover:bg-stone-800 transition"
                   >
-                    <ShieldCheck className="h-3.5 w-3.5" />
-                    <span>Shop Protected Partner Link</span>
+                    <span>Shop on Amazon</span>
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 </div>

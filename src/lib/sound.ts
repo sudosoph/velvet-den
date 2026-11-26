@@ -161,7 +161,7 @@ export const sfx = {
   cardHoverTick() {
     playTone(480, 0.03, 'sine', 0.025);
   },
-  venmoSwat() {
+  redFlagSwat() {
     playTone(740, 0.07, 'triangle', 0.08, 0, 310);
     playTone(980, 0.09, 'sine', 0.06, 0.04, 1180);
   },

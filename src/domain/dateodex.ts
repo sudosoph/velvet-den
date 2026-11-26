@@ -1,4 +1,4 @@
-import { HER_ARCHETYPES, HIS_ARCHETYPES } from './taxonomy';
+import { V35_CAST_PROFILES } from '../data/v35Cast';
 
 export const DATEODEX_STORAGE_KEY = 'cc_dateodex_v1';
 
@@ -33,15 +33,15 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
     id: 'polaroid-obedience-s',
     title: 'Certified Good Boy™ Graduation',
     caption: 'Zero Cubsplaining, off-leash heel mastered & ribeye treat earned.',
-    unlockHint: 'Graduate a Cub in the 2D PixiJS Obedience Sim',
+    unlockHint: 'Graduate all 12 modules in Cub Obedience School',
     imageUrl: './images/cast/dog-park-picnic.jpg',
     rotationClass: '-rotate-1',
   },
   {
     id: 'polaroid-sanctuary-scan',
     title: '4-Pillow Percale Sanctuary',
-    caption: 'Lidded trash bin, bergamot soap & zero $41.63 Venmo drafts.',
-    unlockHint: 'Clear all 5 hazards in the 2D Apartment Red-Flag Scanner',
+    caption: 'Lidded trash bin, bergamot soap & zero $41.63 split-tab drafts.',
+    unlockHint: 'Complete a Chemistry Cameo at an In The Wild hotspot',
     imageUrl: './images/scenes/luxury-bedroom-sanctuary.jpg',
     rotationClass: 'rotate-1',
   },
@@ -70,7 +70,7 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
     rotationClass: '-rotate-1',
   },
   {
-    id: 'polaroid-bernedoodle-club',
+    id: 'polaroid-cabana-club',
     title: 'Palm Springs VIP Cabana Club',
     caption: '5+ Roster legends vetted in your Club Dateodex.',
     unlockHint: 'Collect 4+ character stamps in your Dateodex',
@@ -155,7 +155,7 @@ export function stampDateodexCharacters(
 
   const unlockedSet = new Set([...prev.unlockedPolaroidIds, ...extraPolaroidIds]);
   if (Object.keys(nextStamps).length >= 4) {
-    unlockedSet.add('polaroid-bernedoodle-club');
+    unlockedSet.add('polaroid-cabana-club');
   }
 
   const next: DateodexState = {
@@ -193,5 +193,5 @@ export function recordDateodexCourtVote(prev: DateodexState): DateodexState {
 }
 
 export function getTotalRosterCount(): number {
-  return HER_ARCHETYPES.length + HIS_ARCHETYPES.length;
+  return V35_CAST_PROFILES.length;
 }

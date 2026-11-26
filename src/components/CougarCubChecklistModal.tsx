@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CheckSquare, Play, RotateCcw, Share2, Sparkles, Square, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { trackEvent } from '../lib/analytics';
@@ -15,129 +16,129 @@ interface CougarCubChecklistModalProps {
 
 export const COUGAR_CUB_CHECKLIST_ITEMS: { id: string; text: string; episodeId: string }[] = [
   {
-    id: 'sherylcrow4',
-    text: 'Sheryl Crow’s "Soak Up the Sun" came on and the Cub beamed: "Oh yeah, that was my favorite song when I was 4!"',
-    episodeId: 'sheryl-crow-cold-plunge-impress-incident',
+    id: 'nirvana-tshirt-check',
+    text: 'Verified a date wearing a vintage Nirvana tee could actually name three songs off In Utero.',
+    episodeId: 'velvet-room',
   },
   {
-    id: 'late1900s',
-    text: 'Heard (or accidentally called) 1998 "back in the late 1900s" out loud.',
-    episodeId: 'generational-1900s-venmo-whiplash',
+    id: 'wasnt-born-yet-math',
+    text: 'Referenced a major 1990s cultural moment and heard the words "I wasn’t born yet" across the table.',
+    episodeId: 'hawthorne-campus',
   },
   {
-    id: 'liddedbin',
-    text: 'Inspected a 20-something’s bathroom for liquid hand soap and a trash can with a lid.',
-    episodeId: 'vip-apartment-soap-audit',
+    id: 'fearless-voice-call',
+    text: 'Answered or placed an actual voice phone call at 6 PM without needing three scheduling texts first.',
+    episodeId: 'terminal-b-airport',
   },
   {
-    id: 'titosbottle',
-    text: 'Caught a shirtless Tito’s mirror selfie or floor mattress hiding in Photo #2.',
-    episodeId: 'check-drop',
+    id: 'roll-window-crank',
+    text: 'Made the circular hand-crank "roll down the car window" gesture and watched a twenty-something blink in confusion.',
+    episodeId: 'velvet-palms-bbq',
   },
   {
-    id: 'snapchatick',
-    text: 'Got asked "what’s your Snap?" past age 35, and felt your soul leave your body.',
-    episodeId: 'code-switch-texting',
+    id: 'gmail-older-license',
+    text: 'Realized one partner’s firstname.lastname Gmail address is older than the other’s learner’s permit.',
+    episodeId: 'left-bank-books',
   },
   {
-    id: 'softgoodboy',
-    text: 'Melted into an instant grin when she lifted your chin and murmured "Good boy" (or sent a proper British "Sorted, Mummy xx" text).',
-    episodeId: 'soft-mommy-domme-good-boy-command',
+    id: 'two-day-hangover-gap',
+    text: 'Witnessed the unfair biological divide between bouncing back at 7 AM vs. needing electrolytes after two glasses of Cabernet.',
+    episodeId: 'dawn-lap-pool',
   },
   {
-    id: 'twoqueens',
-    text: 'Had a hotel clerk ask "Two Queen beds?" at check-in, or a waiter ask if you want separate checks "for you and your son."',
-    episodeId: 'hotel-checkin-two-queen-beds-mixup',
+    id: 'paper-checkbook-sighting',
+    text: 'Wrote (or watched your partner write) a physical paper check for a landscaper or contractor.',
+    episodeId: 'velvet-palms-bbq',
   },
   {
-    id: 'sameageshock',
-    text: 'Realized post-kiss he’s the EXACT same age as your baby sibling or grown son.',
-    episodeId: 'grown-son-same-age-collision',
+    id: 'myspace-html-mixtape',
+    text: 'Swapped stories about coding MySpace Top 8 layouts and burning Sharpie-labeled CD-R road-trip mixtapes.',
+    episodeId: 'left-bank-books',
   },
   {
-    id: 'robloxfriends',
-    text: 'Met his younger friends and found them AirDropping memes & playing Roblox at 10 PM.',
-    episodeId: 'cub-friends-memes-roblox-shock',
+    id: 'genx-period-punctuation',
+    text: 'Decoded that a text reading "Sounds good." with a period means genuine happiness, not impending doom.',
+    episodeId: 'velvet-room',
   },
   {
-    id: 'hawaiitimeshare',
-    text: 'Had a skeptical-age college Cub invite you to "my place in Hawaii", then admit it’s his parents’ timeshare.',
-    episodeId: 'parents-hawaii-timeshare-flex-trap',
+    id: 'cursive-vs-squiggle',
+    text: 'Compared flowing fountain-pen cursive on the dinner slip against an iPad fingertip squiggle.',
+    episodeId: 'velvet-room',
   },
   {
-    id: 'uvbouncer',
-    text: 'Watched a bouncer UV-scan HIS ID for 45 seconds while waving her straight inside.',
-    episodeId: 'cubsplaining-and-bouncer-id-check',
+    id: 'blockbuster-friday-aisle',
+    text: 'Explained the Friday-night heartbreak of shaking an empty plastic rental box behind the new-release cover at Blockbuster.',
+    episodeId: 'cougarmarket',
   },
   {
-    id: 'gymheadphones',
-    text: 'Respected the Sacred Gym Headphone Law for 3 weeks before saying hi at the smoothie bar.',
-    episodeId: 'gym-headphones-vs-three-week-nod',
+    id: 'thirty-second-quote-negotiation',
+    text: 'Watched an experienced homeowner calmly renegotiate a repair estimate in thirty seconds flat on speakerphone.',
+    episodeId: 'velvet-palms-bbq',
   },
   {
-    id: 'babygirlmilk',
-    text: 'Sent or received a cheeky "Babygirl" glass-of-milk wink (or dirty martini) at a solo hotel bar.',
-    episodeId: 'babygirl-hotel-bar-milk-or-martini',
+    id: 'printed-mapquest-pages',
+    text: 'Admitted to once navigating highway exits holding six stapled pages of printed MapQuest directions.',
+    episodeId: 'terminal-b-airport',
   },
   {
-    id: 'andrewtatevetting',
-    text: 'Dropped a casual test question on Date #1 just to verify he’s never quoted Andrew Tate or bought a clip-on podcast mic.',
-    episodeId: 'sheryl-crow-cold-plunge-impress-incident',
+    id: 'dialup-modem-imitation',
+    text: 'Imitated the screeching 56k dial-up internet handshake tone over late-night cocktails.',
+    episodeId: 'havana-salsa',
   },
   {
-    id: 'bamboo62',
-    text: 'Locked the bedroom at 62°F with bamboo cooling sheets for 3 AM perimenopause heat waves.',
-    episodeId: 'cougar-perimenopause-surge-nightsweats',
+    id: 'scandinavian-two-duvet-peace',
+    text: 'Discovered the relationship magic of keeping a cool bedroom and two separate linen duvets so nobody steals covers.',
+    episodeId: 'palisades-racquet',
   },
   {
-    id: 'cubgrooming',
-    text: '"Groomed" a Cub exclusively via beard oil, SPF 50 & retiring his 5-in-1 neon-blue body wash.',
-    episodeId: 'cub-grooming-red-carpet-glowup',
+    id: 'airport-arrival-philosophy',
+    text: 'Merged two airport philosophies: arriving comfortably for lounge espresso vs. sprinting to Gate 42 as boarding closes.',
+    episodeId: 'terminal-b-airport',
   },
   {
-    id: 'bench225',
-    text: 'Hit 5x225 on bench press specifically to unlock upstairs stairway-carry privileges.',
-    episodeId: 'cub-bench-press-cougar-training',
+    id: 'paper-menu-loyalty',
+    text: 'Bonded instantly over despising sticky tabletop QR codes in favor of heavy cream cardstock menus.',
+    episodeId: 'velvet-room',
   },
   {
-    id: 'bucketlistblock',
-    text: 'Instantly blocked a "never been with a cougar, bucket list" tourist who misspelled "discreet" as "discrete" in his bio.',
-    episodeId: 'bucket-list-tourist-instant-block',
+    id: 'alanis-car-singalong',
+    text: 'Belted every word of Alanis Morissette’s "You Oughta Know" with the convertible top down on Highway 1.',
+    episodeId: 'cougarmarket',
   },
   {
-    id: 'cubcoldplungespace',
-    text: 'Watched an eager Cub try way too hard to impress you with 6 AM 37°F cold plunges and passionate updates on James Webb space news.',
-    episodeId: 'sheryl-crow-cold-plunge-impress-incident',
+    id: 'velvet-rope-one-id',
+    text: 'Laughed when the cocktail-lounge doorman scrutinized only one driver’s license under a flashlight and waved the other straight through.',
+    episodeId: 'havana-salsa',
   },
   {
-    id: 'getaway18h',
-    text: 'Did a spontaneous 18-hour getaway: app video call → rooftop drinks → midnight hotel pool & sauna.',
-    episodeId: 'spontaneous-18h-pool-sauna-getaway',
+    id: 'blackberry-scrollwheel-lore',
+    text: 'Described the tactile click of a BlackBerry Pearl trackball or T9 pocket texting without looking at the screen.',
+    episodeId: 'st-jude-coffee',
   },
   {
-    id: 'blackcatgolden',
-    text: 'Lived the 🐈‍⬛ Black Cat Cougar × 🐕 Golden Retriever Cub dynamic: she took her time & pushed back at first, and his tail only wagged harder.',
-    episodeId: 'black-cat-pushback-golden-retriever-test',
+    id: 'dedicated-beverage-fridge',
+    text: 'Experienced the domestic luxury of a second garage or pantry fridge stocked exclusively with chilled sparkling water and white wine.',
+    episodeId: 'velvet-palms-bbq',
   },
   {
-    id: 'sameagemom',
-    text: 'Met his parents and realized you and his mom graduated high school the exact same year.',
-    episodeId: 'meeting-his-parents-same-age-mom',
+    id: 'early-dinner-convert',
+    text: 'Converted wholeheartedly to 7:15 PM candlelit reservations so you are both home in silk loungewear by ten.',
+    episodeId: 'velvet-room',
   },
   {
-    id: 'weddingplusone',
-    text: 'Walked into a wedding as each other’s +1 and owned the slow dance past Table 9’s whispers.',
-    episodeId: 'first-wedding-plus-one-debut',
+    id: 'kitchen-landline-jack',
+    text: 'Pointed out the mysterious rectangular wall plate where a coiled twenty-foot kitchen phone cord used to live.',
+    episodeId: 'velvet-palms-bbq',
   },
   {
-    id: 'houseboysunday',
-    text: 'Unlocked Linen-Apron Houseboy Sunday: he cooked from scratch, folded all your laundry, and loaded the dishwasher like an engineer.',
-    episodeId: 'houseboy-sunday-sanctuary',
+    id: 'unbothered-table-glances',
+    text: 'Turned five seconds of curious restaurant glances into an inside joke and got comped dessert by the bartender.',
+    episodeId: 'havana-salsa',
   },
   {
-    id: 'anniversary365',
-    text: 'Celebrated a 6-Month or 1-Year age-gap anniversary after skeptics gave it "two weekends."',
-    episodeId: 'milestone-one-year-anniversary',
+    id: 'outlasted-every-skeptic',
+    text: 'Toasted six months or a full year together long after nosy acquaintances predicted "two fun weekends."',
+    episodeId: 'terminal-b-airport',
   },
 ];
 
@@ -152,7 +153,7 @@ function rankForScore(score: number): { title: string; subtitle: string; recomme
   if (score >= 48) {
     return {
       title: '🔥 CERTIFIED SHORT-LEASH & LINEN-APRON PRO',
-      subtitle: 'Battle-tested across 1900s jokes, UV bouncers, and midnight hotel saunas.',
+      subtitle: 'Battle-tested across 1990s references, UV bouncers, and midnight hotel saunas.',
       recommendedEp: 'spontaneous-18h-pool-sauna-getaway',
     };
   }
@@ -253,24 +254,24 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
     });
   };
 
-  return (
+  const modalNode = (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1022]/60 p-3 sm:p-5 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-5 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
         aria-label="Have You Ever? 25-Point Cougars & Cubs Experience Test"
       >
-        <div className="vice-panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl p-5 sm:p-7 space-y-4">
-          <div className="flex items-start justify-between gap-3 border-b-2 border-[#1E1022]/12 pb-3">
+        <div className="editorial-hinge-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-7 space-y-4 shadow-2xl">
+          <div className="flex items-start justify-between gap-3 border-b border-stone-200 pb-4">
             <div>
-              <span className="inline-flex items-center gap-1 rounded-full border-2 border-[#1E1022] bg-[#FFE3EC] px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wide text-[#D90452]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-rose-700">
                 <Sparkles className="h-3.5 w-3.5" /> Have You Ever? • 0 to 100 Club Score
               </span>
-              <h2 className="mt-1.5 font-display text-2xl sm:text-3xl text-[#1E1022] leading-tight">
+              <h2 className="mt-1.5 font-editorial text-2xl sm:text-3xl font-bold text-[#18101E] leading-tight">
                 The 25-Point Cougars &amp; Cubs Experience Test
               </h2>
-              <p className="mt-1 text-xs sm:text-sm font-medium text-[#5A4664]">
+              <p className="mt-1 text-xs sm:text-sm font-medium text-stone-600">
                 Check every moment you’ve lived (or would survive) and compare your 0 to 100 score with your group chat!
               </p>
             </div>
@@ -278,29 +279,35 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               type="button"
               onClick={onClose}
               aria-label="Close Checklist"
-              className="pop-btn rounded-xl bg-[#FFF4F7] p-2 text-[#1E1022] hover:bg-[#FF2E63] hover:text-white cursor-pointer"
+              className="rounded-full border border-stone-200 bg-white p-2.5 text-stone-700 hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
           {/* Live Score Banner */}
-          <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-[#1E1022] bg-[#FFBE0B] px-4 py-3 shadow-[3px_3px_0px_#1E1022]">
+          <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-300/80 bg-gradient-to-r from-amber-50 via-[#FFFDF9] to-rose-50/70 px-4 py-3.5 shadow-sm">
             <div>
-              <div className="text-xs font-extrabold uppercase text-[#1E1022]">{rank.title}</div>
-              <div className="text-xs font-semibold text-[#34223B]">{rank.subtitle}</div>
+              <div className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
+                {rank.title}
+              </div>
+              <div className="text-xs font-medium text-stone-600">{rank.subtitle}</div>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <div className="font-display text-4xl leading-none text-[#1E1022]">{score}/100</div>
-                <div className="text-xs font-extrabold text-[#1E1022]">{checkedIds.length}/25 Checked</div>
+                <div className="font-editorial text-3xl sm:text-4xl font-bold leading-none text-[#18101E]">
+                  {score}/100
+                </div>
+                <div className="text-[11px] font-extrabold text-stone-600">
+                  {checkedIds.length}/25 Checked
+                </div>
               </div>
               {checkedIds.length > 0 && (
                 <button
                   type="button"
                   onClick={resetAll}
                   title="Reset checkboxes"
-                  className="rounded-lg border-2 border-[#1E1022] bg-white p-2 text-[#1E1022] cursor-pointer"
+                  className="rounded-full border border-stone-300 bg-white p-2 text-stone-700 hover:bg-stone-50 cursor-pointer"
                 >
                   <RotateCcw className="h-4 w-4" />
                 </button>
@@ -317,19 +324,19 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
                   key={item.id}
                   type="button"
                   onClick={() => toggleItem(item.id)}
-                  className={`flex items-start gap-2.5 rounded-xl border-2 px-3.5 py-2.5 text-left text-sm transition cursor-pointer ${
+                  className={`flex items-start gap-2.5 rounded-2xl border px-4 py-3 text-left text-sm transition cursor-pointer ${
                     checked
-                      ? 'border-[#1E1022] bg-[#FFF4F7] text-[#1E1022] font-extrabold'
-                      : 'border-[#1E1022]/15 bg-white text-[#1E1022] font-medium hover:border-[#1E1022]'
+                      ? 'border-rose-400 bg-rose-50/70 text-[#18101E] font-bold shadow-2xs'
+                      : 'border-stone-200 bg-white text-[#18101E] font-medium hover:border-stone-400 hover:bg-stone-50/60'
                   }`}
                 >
                   {checked ? (
-                    <CheckSquare className="h-4 w-4 shrink-0 text-[#FF2E63] mt-0.5" />
+                    <CheckSquare className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
                   ) : (
-                    <Square className="h-4 w-4 shrink-0 text-[#5A4664] mt-0.5" />
+                    <Square className="h-4 w-4 shrink-0 text-stone-400 mt-0.5" />
                   )}
-                  <span>
-                    <strong className="text-[#FF2E63] mr-1">#{idx + 1}.</strong>
+                  <span className="leading-relaxed">
+                    <strong className="text-rose-600 mr-1.5">#{idx + 1}.</strong>
                     {item.text}
                   </span>
                 </button>
@@ -338,11 +345,11 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
           </div>
 
           {/* Bottom Share + Play Matched Scenario Funnel */}
-          <div className="flex flex-wrap items-center justify-between gap-2.5 border-t-2 border-[#1E1022]/12 pt-3">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-stone-200 pt-4">
             <button
               type="button"
               onClick={handleShareScore}
-              className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FFBE0B] px-4 py-2.5 text-sm font-extrabold text-[#1E1022] cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-100 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-amber-950 hover:bg-amber-200/80 transition cursor-pointer"
             >
               <Share2 className="h-4 w-4" />
               <span>Share 25-Pt Score ({score}/100)</span>
@@ -354,7 +361,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
                 onClose();
                 onPlayMatchedScenario(rank.recommendedEp);
               }}
-              className="pop-btn inline-flex items-center gap-1.5 rounded-xl bg-[#FF2E63] px-5 py-2.5 font-display text-lg text-white cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-white hover:bg-rose-700 transition cursor-pointer"
             >
               <Play className="h-4 w-4 fill-white" />
               <span>Play Matched Scenario →</span>
@@ -369,4 +376,6 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
       />
     </>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalNode, document.body) : modalNode;
 };

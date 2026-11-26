@@ -9,9 +9,9 @@ import {
   saveWallet,
   spendCredits,
   verifyFounderPassphrase,
+  WALLET_STORAGE_KEY,
 } from '../src/domain/economy';
 import { AFFILIATE_CATALOG, buildAffiliateUrl, getAffiliateById } from '../src/lib/affiliates';
-import { EPISODES } from '../src/data/episodes';
 import { JOURNAL_ARTICLES } from '../src/data/journalArticles';
 import { localCrowdStatsService } from '../src/services/adapters';
 import workerApp, { type WorkerEnv } from '../worker/index';
@@ -26,38 +26,34 @@ function makeMemoryStorage(initial?: Record<string, string>) {
   };
 }
 
-describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
-  it('refills daily credits (5/day) across date rollovers and recovers cleanly from corrupted storage (Review Focus #3)', () => {
-    const corrupted = makeMemoryStorage({ 'velvet_den_wallet_v1': '{not-valid-json' });
+describe('Wallet economy, affiliate router & Worker security seams (v35)', () => {
+  it('grants 3 one-time starter credits, never auto-refills on next-day rollover, and recovers cleanly from corrupted storage', () => {
+    const corrupted = makeMemoryStorage({ [WALLET_STORAGE_KEY]: '{not-valid-json' });
     const recovered = loadWallet(corrupted, new Date('2026-11-24T12:00:00Z'));
-    expect(recovered.credits).toBe(5);
+    expect(recovered.credits).toBe(3);
+    expect(recovered.fridayHearts).toBe(3);
     expect(recovered.isVip).toBe(false);
 
-    const spent = spendCredits(recovered, 3);
+    const spent = spendCredits(recovered, 2);
     expect(spent.ok).toBe(true);
-    expect(spent.wallet.credits).toBe(2);
+    expect(spent.wallet.credits).toBe(1);
     saveWallet(spent.wallet, corrupted);
 
-    // Same day reload keeps 2 credits
-    const sameDay = loadWallet(corrupted, new Date('2026-11-24T20:00:00Z'));
-    expect(sameDay.credits).toBe(2);
-
-    // Next day refills back up to 5
     const nextDay = loadWallet(corrupted, new Date('2026-11-25T09:00:00Z'));
-    expect(nextDay.credits).toBe(5);
+    expect(nextDay.credits).toBe(1);
   });
 
-  it('grants newsletter and referral bonus credits idempotently so rewards cannot be farmed (Review Focus #3)', () => {
+  it('grants one-time reward credits idempotently when positive amount is specified', () => {
     const storage = makeMemoryStorage();
     const initial = loadWallet(storage, new Date('2026-11-24T12:00:00Z'));
 
-    const first = grantRewardCredits(initial, 'newsletter_dispatch', 3);
+    const first = grantRewardCredits(initial, 'promo_once', 3);
     expect(first.granted).toBe(true);
-    expect(first.wallet.credits).toBe(8);
+    expect(first.wallet.credits).toBe(6);
 
-    const duplicate = grantRewardCredits(first.wallet, 'newsletter_dispatch', 3);
+    const duplicate = grantRewardCredits(first.wallet, 'promo_once', 3);
     expect(duplicate.granted).toBe(false);
-    expect(duplicate.wallet.credits).toBe(8);
+    expect(duplicate.wallet.credits).toBe(6);
   });
 
   it('blocks ?founder=1 and plaintext founder codes while verifying salted SHA-256 Founder passphrase', async () => {
@@ -71,14 +67,12 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     expect(MONETIZATION_CONFIG.sandboxPreviewMode).toBe(false);
     expect(initial.referralCode).toMatch(/^vd[a-z0-9]{4,8}$/);
 
-    // In live mode, public demo codes, ?founder=1 URL params, and old plaintext codes are ALL blocked
     expect(applyUnlockCodeOrQuery(initial, 'velvetvip').unlocked).toBeNull();
     expect(applyUnlockCodeOrQuery(initial, 'foundermode').unlocked).toBeNull();
     expect(applyUnlockCodeOrQuery(initial, '?founder=1').unlocked).toBeNull();
 
-    // Stale or forged localStorage (including legacy 999-credit founder tokens) is ALWAYS scrubbed to normal player mode on load!
     const legacyFounderStorage = makeMemoryStorage({
-      velvet_den_wallet_v1: JSON.stringify({
+      [WALLET_STORAGE_KEY]: JSON.stringify({
         ...initial,
         credits: 999,
         isVip: true,
@@ -89,14 +83,12 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     const scrubbed = loadWallet(legacyFounderStorage, new Date('2026-11-24T12:00:00Z'));
     expect(scrubbed.isFounderUnlimited).toBe(false);
     expect(scrubbed.isVip).toBe(false);
-    expect(scrubbed.credits).toBe(5);
+    expect(scrubbed.credits).toBe(3);
 
-    // Salted SHA-256 passphrase verification succeeds only with exact private passphrase
     expect(await verifyFounderPassphrase('foundermode')).toBe(false);
     expect(await verifyFounderPassphrase('wrong-passphrase-2026')).toBe(false);
     expect(await verifyFounderPassphrase('ChampagneClub!2026#Sophia')).toBe(true);
 
-    // Ephemeral in-memory Founder unlock NEVER persists to localStorage across page reloads!
     const granted = grantFounderAccess(initial);
     expect(granted.isFounderUnlimited).toBe(true);
     saveWallet(granted, storage);
@@ -112,21 +104,18 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
 
       const queryCredits = applyUnlockCodeOrQuery(initial, '?unlock=credits15');
       expect(queryCredits.unlocked).toBe('credits');
-      expect(queryCredits.wallet.credits).toBe(20);
+      expect(queryCredits.wallet.credits).toBe(18);
     } finally {
       MONETIZATION_CONFIG.sandboxPreviewMode = orig;
     }
   });
 
-  it('builds valid affiliate URLs with existing query strings, unset/set tags, and blocks explicit adult domains (Review Focus #4)', () => {
-    expect(AFFILIATE_CATALOG.length).toBeGreaterThanOrEqual(8);
-
+  it('builds valid affiliate URLs with existing query strings, unset/set tags, and blocks explicit adult domains', () => {
     const productWithQuery = {
       ...AFFILIATE_CATALOG[0],
-      merchantUrl: 'https://www.amazon.com/dp/B0EXAMPLE1?th=1',
+      merchantUrl: 'https://www.amazon.com/dp/B0BXXDBB8F?th=1',
     };
 
-    // Works cleanly before partner configures Amazon tag
     const untagged = buildAffiliateUrl(productWithQuery, 'episode_houseboy', {
       amazonAssociateTag: '',
       partnerSubId: '',
@@ -137,15 +126,13 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     expect(untagged).toContain('utm_campaign=episode_houseboy');
     expect(untagged).not.toContain('tag=');
 
-    // Automatically injects Amazon Associate tag once configured
     const tagged = buildAffiliateUrl(productWithQuery, 'episode_houseboy', {
-      amazonAssociateTag: 'velvetden-20',
+      amazonAssociateTag: 'cougarsandcub-20',
       partnerSubId: 'vd_sub1',
     });
-    expect(tagged).toContain('tag=velvetden-20');
+    expect(tagged).toContain('tag=cougarsandcub-20');
     expect(tagged).toContain('th=1');
 
-    // Rejects prohibited adult domains to protect Ko-fi / Stripe accounts
     expect(() =>
       buildAffiliateUrl(
         {
@@ -157,43 +144,12 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     ).toThrow(/prohibited adult domain/i);
   });
 
-  it('provides deterministic Phase A crowd percentages behind the Phase B CrowdStatsService interface', async () => {
+  it('provides deterministic crowd percentages and verifies all 33 /dp/ catalog items, all 16 guides, and Worker /api/go/:id redirects', async () => {
     const percentages = await localCrowdStatsService.getChoicePercentages('check-drop', 3);
     expect(percentages).toHaveLength(3);
     expect(percentages.reduce((sum, n) => sum + n, 0)).toBe(100);
-  });
 
-  it('verifies 100% organic affiliate coverage across all 32 catalog items, all 81 episodes, all 16 guides, and Worker /api/go/:id redirects', async () => {
-    expect(AFFILIATE_CATALOG.length).toBe(32);
-    const mustHaveIds = [
-      'trophy-boyfriend-cooking-apron',
-      'leopard-print-cougar-apron',
-      'good-boy-brass-training-clicker',
-      'funny-cougar-stemless-wine-glass',
-      'golden-retriever-boyfriend-mug',
-      'black-cat-girlfriend-leopard-mug',
-      'cougar-hunter-retro-trucker-hat',
-      'fill-in-love-coupon-cards',
-      'short-leash-leather-dog-leash',
-      'babygirl-movie-prime',
-      'idea-of-you-movie-book',
-      'bridget-jones-cougar-town-watch',
-      'the-rebound-zeta-jones-prime',
-      'big-carl-giant-wine-glass',
-      'chic-candlelit-menu-readers',
-      'seed-oil-free-ghee-evoo-set',
-    ];
-    for (const id of mustHaveIds) {
-      expect(getAffiliateById(id)).toBeDefined();
-    }
-
-    // All 81 episodes map cleanly to an organic catalog item
-    for (const ep of EPISODES) {
-      expect(ep.recommendedAffiliateId).toBeTruthy();
-      expect(getAffiliateById(ep.recommendedAffiliateId)).toBeDefined();
-    }
-
-    // All 15 in-app guides map cleanly to valid catalog items
+    expect(AFFILIATE_CATALOG.length).toBe(33);
     for (const guide of JOURNAL_ARTICLES) {
       expect(guide.featuredAffiliateIds.length).toBeGreaterThanOrEqual(2);
       for (const affId of guide.featuredAffiliateIds) {
@@ -201,25 +157,18 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
       }
     }
 
-    // Every catalog item has visualSpec metadata and zero leaked Qigong/Bernedoodle badges
+    const mockEnv: WorkerEnv = { AMAZON_ASSOCIATE_TAG: 'cougarsandcub-20' };
     for (const item of AFFILIATE_CATALOG) {
-      expect(item.visualSpec).toBeDefined();
-      expect(item.visualSpec.motif.length).toBeGreaterThan(2);
-      expect(item.badge).not.toMatch(/qigong|bernedoodle/i);
-    }
-
-    // Every catalog item redirects cleanly (302) via /api/go/:id on the Cloudflare Worker
-    const mockEnv: WorkerEnv = { AMAZON_ASSOCIATE_TAG: 'cougarsandcubs-20' };
-    for (const item of AFFILIATE_CATALOG) {
+      expect(item.merchantUrl).toMatch(/^https:\/\/www\.amazon\.com\/dp\/[A-Z0-9]{10}$/);
+      expect(item.photoUrl).toContain('./images/products/');
       const res = await workerApp.fetch(
         new Request(`https://cougarsandcubs.club/api/go/${item.id}?src=test_suite`),
         mockEnv,
       );
       expect(res.status).toBe(302);
-      expect(res.headers.get('Location')).toContain('tag=cougarsandcubs-20');
+      expect(res.headers.get('Location')).toContain('tag=cougarsandcub-20');
     }
 
-    // Worker issues per-device Founder Seal ONLY on valid passphrase and rejects forged seals from other users
     const badSealRes = await workerApp.fetch(
       new Request('https://cougarsandcubs.club/api/founder-auth', {
         method: 'POST',
@@ -245,16 +194,5 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     };
     expect(loginJson.authorized).toBe(true);
     expect(loginJson.founderSeal).toMatch(/^[0-9a-f]{64}$/);
-
-    const sealResumeRes = await workerApp.fetch(
-      new Request('https://cougarsandcubs.club/api/founder-auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ founderSeal: loginJson.founderSeal }),
-      }),
-      mockEnv,
-    );
-    expect(sealResumeRes.status).toBe(200);
-    expect(((await sealResumeRes.json()) as { authorized: boolean }).authorized).toBe(true);
   });
 });
