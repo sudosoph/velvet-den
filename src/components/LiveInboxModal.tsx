@@ -159,7 +159,9 @@ const INBOX_CONTACTS: InboxContact[] = [
       openingPrompt:
         c.id === 'kayden-broke-dutch-cub'
           ? `yo ${c.name} here!! 😅 down to grab happy hour sushi tn if we split it 50/50 on venmo?? or come to my place in maui next month (ok yeah it's my mom linda's timeshare lol) 🌺`
-          : c.id === 'colton-montana-cowboy-cub'
+          : c.id === 'kieran-anthropic-ai-cub'
+            ? `hey! ${c.name} here ☕😊 escaped the frontier-ai lab before sunset and set my filter strictly to 38+ bc i want real conversation over a cortado or burgundy pinot, zero tech talk i promise lol. free thursday at 7:30? ✨`
+            : c.id === 'colton-montana-cowboy-cub'
             ? `okay busted 🤠😅 i accidentally commented "i love you" from my boys' shared ranch account before sliding in here lol. let me fly out and take you to dinner friday? 🥩✨`
             : c.id === 'rafael-accented-gentleman-cub'
               ? `hola ✨ ${c.name} here. packed fresh figs, warm baguette & espresso for a sunset picnic friday before retro bowling, if you'll let me take you out properly? 🥂`
@@ -186,6 +188,7 @@ async function sendAiFeedbackPing(payload: {
   reaction: string;
   aiReply?: string;
   note?: string;
+  optionalContact?: string;
 }) {
   if (typeof fetch !== 'function') return;
   try {
@@ -239,6 +242,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const [freeMessagesSent, setFreeMessagesSent] = useState(0);
   const [speakingTurnIdx, setSpeakingTurnIdx] = useState<number | null>(null);
   const [teaStory, setTeaStory] = useState('');
+  const [teaContact, setTeaContact] = useState('');
   const [teaSubmitted, setTeaSubmitted] = useState(false);
   const stopVoiceRef = useRef<(() => void) | null>(null);
   const chatScrollRef = useRef<HTMLDivElement | null>(null);
@@ -502,9 +506,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       persona: `${selected.name} (${selected.age})`,
       reaction: 'TEA_STORY',
       note: clean,
+      optionalContact: teaContact.trim().slice(0, 120) || undefined,
     });
     onGrantBonusCredits?.('tea_story_submitted', 3);
     setTeaStory('');
+    setTeaContact('');
     setTeaSubmitted(true);
   };
 
@@ -2296,25 +2302,39 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 ✓ Sent to the Club Writers’ Vault (+3 Credits)! Thank you for the tea 🥂
               </p>
             ) : (
-              <div className="flex gap-1.5">
+              <div className="space-y-1.5">
+                <div className="flex gap-1.5">
+                  <input
+                    type="text"
+                    value={teaStory}
+                    onChange={(e) => setTeaStory(e.target.value)}
+                    placeholder="Spill a real red flag or archetype idea..."
+                    maxLength={180}
+                    className={`min-w-0 flex-1 rounded-xl border px-2.5 py-1.5 text-xs focus:outline-none ${
+                      isDarkDiscord
+                        ? 'border-[#1E1F22] bg-[#1E1F22] text-white placeholder:text-[#80848E]'
+                        : 'border-black/15 bg-white text-[#18101E] placeholder:text-[#94A3B8]'
+                    }`}
+                  />
+                  <button
+                    type="submit"
+                    className="shrink-0 rounded-xl bg-[#F59E0B] px-3 py-1 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                  >
+                    Send
+                  </button>
+                </div>
                 <input
                   type="text"
-                  value={teaStory}
-                  onChange={(e) => setTeaStory(e.target.value)}
-                  placeholder="e.g. Sent 8 voice notes on pine pollen..."
-                  maxLength={180}
-                  className={`min-w-0 flex-1 rounded-xl border px-2.5 py-1.5 text-xs focus:outline-none ${
+                  value={teaContact}
+                  onChange={(e) => setTeaContact(e.target.value)}
+                  placeholder="Optional @handle / email for follow-up (blank = 100% anonymous)"
+                  maxLength={120}
+                  className={`w-full rounded-xl border px-2.5 py-1 text-[11px] focus:outline-none ${
                     isDarkDiscord
                       ? 'border-[#1E1F22] bg-[#1E1F22] text-white placeholder:text-[#80848E]'
-                      : 'border-black/15 bg-white text-[#18101E] placeholder:text-[#94A3B8]'
+                      : 'border-black/10 bg-white/90 text-[#18101E] placeholder:text-[#94A3B8]'
                   }`}
                 />
-                <button
-                  type="submit"
-                  className="shrink-0 rounded-xl bg-[#F59E0B] px-3 py-1 text-xs font-extrabold text-[#18101E] cursor-pointer"
-                >
-                  Send
-                </button>
               </div>
             )}
           </form>

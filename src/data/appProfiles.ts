@@ -96,6 +96,63 @@ export const APP_SWIPE_PROFILES: SwipeProfile[] = [
     ],
   },
   {
+    id: 'kieran-anthropic-ai-cub',
+    name: 'Kieran',
+    age: 28,
+    height: '6\'1"',
+    zodiac: 'Virgo',
+    lookBadge: '6\'1" • Early Anthropic Engineer • Quietly Vested 💚',
+    occupation: 'Early Frontier-AI Researcher (Joined Pre-Hype)',
+    distance: '2 miles away',
+    activeAgo: 'Active 6m ago',
+    spotifyAnthem: 'Khruangbin — Texas Sun',
+    tinderBio:
+      'Joined Anthropic early, built cool safety infra, and realized my favorite evenings have zero startup talk ☕🍷 Age filter set strictly 38+ because self-made women with full lives, dry wit, and real standards beat 23yo clout-chasing every single time.',
+    hingePromptQuestion: 'Green flags I bring to the table',
+    hingePromptAnswer:
+      'Zero Venmo math ever, phone stays face-down all through dinner, and I will never "Cubsplain" AI or mortgages to you.',
+    secondPromptQuestion: 'Ideal Sunday with you',
+    secondPromptAnswer:
+      'Farmers-market figs, morning cortados by the window, cooking brown-butter halibut in your kitchen (or mine), and 9:30 PM reading in bed.',
+    ageShockZoom: false,
+    ageShockQuipHer:
+      'EARLY ANTHROPIC EQUITY AT 28, OATMEAL CASHMERE, AND ALLERGIC TO 23YO CLOUT CHASERS?! Instant Super-Like!',
+    ageShockQuipHim:
+      'QUIET CONFIDENCE MASTERCLASS: Zero net-worth bragging, real manners, and genuine admiration for accomplished women.',
+    lookingFor: 'Long-term partnership with an accomplished, self-possessed woman (38–60)',
+    lookingForSubtext:
+      'Financially independent at 28—wants an equal intellectual & emotional sanctuary, never a Sugar Mama or a trophy.',
+    interests: ['Cortados', 'Burgundy Pinot', 'Home Cooking', 'Art Bookstores', 'Big Sur Drives'],
+    openingDm:
+      'Hey! Escaped the lab before sunset and your profile stopped me cold 😊 Zero tech talk I promise—can I book us a quiet corner wine bar Thursday at 7:30?',
+    xrayLeak:
+      'X-RAY SCAN: 💚 HALL-OF-FAME UNICORN CUB! Vested early-Anthropic equity, immaculate West Village / Pac Heights loft with 4 percale pillows, zero ego, and genuinely worships grown-woman confidence.',
+    isGreenFlagMatch: true,
+    photos: [
+      {
+        caption: 'Photo 1 of 3 • Sunlit Window Cortado & Cashmere',
+        shortTab: '☕ Cashmere Calm',
+        vibeNote: '💚 GREEN FLAG: Warm eye contact, vintage leather watch, zero mirror-selfie flexing.',
+        variant: 'tailored_linen',
+        photoUrl: './images/cast/kieran-28m.jpg',
+      },
+      {
+        caption: 'Photo 2 of 3 • Sunday Kitchen Prep',
+        shortTab: '🍝 Cooks Dinner',
+        vibeNote: '💚 Sears halibut from scratch and cleans every pan before sitting down.',
+        variant: 'home_chef_linen',
+        photoUrl: './images/cast/leo-25m.jpg',
+      },
+      {
+        caption: 'Photo 3 of 3 • Saturday Park Morning',
+        shortTab: '🐾 Morning Walk',
+        vibeNote: '💚 Daylight-proud, grounded, and protective of quiet weekends together.',
+        variant: 'dog_park_coffee',
+        photoUrl: './images/cast/dog-park-picnic.jpg',
+      },
+    ],
+  },
+  {
     id: 'marcus-firefighter-gentleman',
     name: 'Marcus',
     age: 26,

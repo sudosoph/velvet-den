@@ -29,14 +29,20 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     }
 
     expect(getSwipeDeckForRole('her')[0].id).toBe('connor-bottle-trap');
+    expect(getSwipeDeckForRole('her')[1].id).toBe('kieran-anthropic-ai-cub');
     expect(APP_SWIPE_PROFILES.some((p) => p.id === 'brandon-roblox-dl-trap')).toBe(true);
     expect(getSwipeDeckForRole('him')[0].id).toBe('her-claire-45');
   });
 
-  it('routes 82 subplots accurately—including Pine-Pollen Feels Spiral, Seed-Oil-Free & Bernedoodle Mommy, Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
-    expect(EPISODES.length).toBe(82);
+  it('routes 83 subplots accurately—including Early-Anthropic AI Cub, Pine-Pollen Feels Spiral, Seed-Oil-Free & Bernedoodle Mommy, Qigong Wellness Mommy-Domme, Zero-Proof Mocktails, Black Cat × Golden Retriever, Age-Slider Montana Cowboy, Broke Dutch-Splitter & Mom’s Hawaii Timeshare across both Marathon and Approach A Curated modes', () => {
+    expect(EPISODES.length).toBe(83);
     expect(HER_ARCHETYPES.length).toBe(39);
-    expect(HIS_ARCHETYPES.length).toBe(17);
+    expect(HIS_ARCHETYPES.length).toBe(18);
+    const kieran28 = HIS_ARCHETYPES.find((c) => c.id === 'kieran-anthropic-ai-cub')!;
+    expect(kieran28.age).toBe(28);
+    expect(
+      createRun(analyzePairing(HER_ARCHETYPES[0], kieran28, 'her')).episodeQueue.map((e) => e.id),
+    ).toContain('early-anthropic-ai-cub-quiet-generosity');
 
     const sedona46 = HER_ARCHETYPES.find((h) => h.id === 'sedona-qigong-mommy')!;
     const sloane42 = HER_ARCHETYPES.find((h) => h.id === 'sloane-seedoil-bernedoodle-mommy')!;
@@ -866,13 +872,13 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     // Launch 2D Cub Training Sim from the lobby Mode Directory
     fireEvent.click(screen.getAllByRole('button', { name: /2D Cub Training Sim/i })[0]);
     expect(
-      screen.getByText(/Cub Obedience Academy & 2D Room Scanner/i),
+      screen.getByText(/Cub Obedience Simulator & 2D Room Roast/i),
     ).toBeInTheDocument();
 
     // Complete all 4 Clicker Obedience Drills -> S-Rank Certified Good Boy Diploma!
     fireEvent.click(screen.getByRole('button', { name: /Sit & Listen!/i }));
-    fireEvent.click(screen.getByRole('button', { name: /Drop It!/i }));
-    fireEvent.click(screen.getByRole('button', { name: /Short-Leash Heel!/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Drop the Snap!/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Door & Seat-Warmer!/i }));
     fireEvent.click(screen.getByRole('button', { name: /Toss Grass-Fed Steak Treat/i }));
 
     expect(

@@ -260,6 +260,8 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
   const amazonAssociateTag = await resolveActiveAmazonTag(env);
   const clicks: Record<string, number> = {};
   let recentAiLogs: unknown[] = [];
+  let recentFeedback: unknown[] = [];
+  let waitlistEntries: unknown[] = [];
   if (env.VELVET_KV) {
     for (const id of [
       'trophy-boyfriend-cooking-apron',
@@ -278,11 +280,27 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
       }
     }
     try {
-      const rawLogs = await env.VELVET_KV.get('ai_logs:recent');
+      const [rawLogs, rawFeedback, rawWaitlist] = await Promise.all([
+        env.VELVET_KV.get('ai_logs:recent'),
+        env.VELVET_KV.get('ai_feedback:recent'),
+        env.VELVET_KV.get('waitlist:raya_applications'),
+      ]);
       if (rawLogs) {
         const parsedLogs = JSON.parse(rawLogs);
         if (Array.isArray(parsedLogs)) {
           recentAiLogs = parsedLogs.slice(-15).reverse();
+        }
+      }
+      if (rawFeedback) {
+        const parsedFb = JSON.parse(rawFeedback);
+        if (Array.isArray(parsedFb)) {
+          recentFeedback = parsedFb.slice(-20).reverse();
+        }
+      }
+      if (rawWaitlist) {
+        const parsedWl = JSON.parse(rawWaitlist);
+        if (Array.isArray(parsedWl)) {
+          waitlistEntries = parsedWl.slice(-25).reverse();
         }
       }
     } catch {
@@ -297,6 +315,8 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
     affiliateProtected: Boolean(amazonAssociateTag),
     sampleClicks: clicks,
     recentAiLogs,
+    recentFeedback,
+    waitlistEntries,
   });
 }
 
@@ -988,12 +1008,19 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 }
 
 async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { persona?: string; reaction?: string; aiReply?: string; note?: string } = {};
+  let body: {
+    persona?: string;
+    reaction?: string;
+    aiReply?: string;
+    note?: string;
+    optionalContact?: string;
+  } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ ok: false }, 400);
   }
+  const optContact = String(body.optionalContact || '').trim().slice(0, 120);
   if (env.VELVET_KV) {
     try {
       const raw = await env.VELVET_KV.get('ai_feedback:recent');
@@ -1002,9 +1029,11 @@ async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Respo
       safe.push({
         ts: new Date().toISOString(),
         persona: String(body.persona || '').slice(0, 32),
-        reaction: String(body.reaction || '').slice(0, 12),
+        reaction: String(body.reaction || '').slice(0, 16),
         aiReply: scrubPiiForLog(String(body.aiReply || '')),
         note: scrubPiiForLog(String(body.note || '')),
+        // Strictly opt-in: stored ONLY when the player explicitly volunteered their handle/email for Founder follow-up
+        ...(optContact ? { optInContact: optContact } : {}),
       });
       await env.VELVET_KV.put('ai_feedback:recent', JSON.stringify(safe.slice(-200)), {
         expirationTtl: 60 * 60 * 24 * 60,
@@ -1013,7 +1042,43 @@ async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Respo
       // Ignore KV write error
     }
   }
-  return jsonResponse({ ok: true });
+  return jsonResponse({ ok: true, anonymizedByDefault: !optContact });
+}
+
+async function handleRayaWaitlist(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { role?: string; city?: string; vibe?: string; contact?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ ok: false, error: 'Invalid JSON' }, 400);
+  }
+  const contact = String(body.contact || '').trim().slice(0, 120);
+  if (contact.length < 4) {
+    return jsonResponse({ ok: false, error: 'Contact email or @handle required' }, 400);
+  }
+  const role = body.role === 'cub' ? 'cub' : 'cougar';
+  const city = scrubPiiForLog(String(body.city || 'Virtual Lounge').trim()).slice(0, 48);
+  const vibe = scrubPiiForLog(String(body.vibe || '').trim()).slice(0, 140);
+  let position = 142;
+  if (env.VELVET_KV) {
+    try {
+      const raw = await env.VELVET_KV.get('waitlist:raya_applications');
+      const parsed = raw ? JSON.parse(raw) : [];
+      const list = Array.isArray(parsed) ? parsed : [];
+      list.push({
+        ts: new Date().toISOString(),
+        role,
+        city,
+        vibe,
+        contact,
+      });
+      position = 141 + list.length;
+      await env.VELVET_KV.put('waitlist:raya_applications', JSON.stringify(list.slice(-500)));
+    } catch {
+      // Ignore KV error
+    }
+  }
+  return jsonResponse({ ok: true, position });
 }
 
 async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Response> {
@@ -1203,7 +1268,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v27.1-snapchat-courtroom-niche-lore',
+        version: 'v28-anthropic-cub-raya-waitlist-feedback-vault',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
@@ -1258,6 +1323,11 @@ export default {
 
     if (url.pathname === '/api/ai-feedback') {
       if (request.method === 'POST') return handleAiFeedback(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/waitlist') {
+      if (request.method === 'POST') return handleRayaWaitlist(request, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

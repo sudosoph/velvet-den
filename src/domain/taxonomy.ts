@@ -27,7 +27,8 @@ export type SubplotTag =
   | 'golden_retriever_energy'
   | 'zero_proof_wellness'
   | 'qigong_mommy_domme'
-  | 'seed_oil_bernedoodle_mommy';
+  | 'seed_oil_bernedoodle_mommy'
+  | 'frontier_ai_cub';
 
 export interface HerArchetype {
   id: string;
@@ -1237,6 +1238,48 @@ export const HIS_ARCHETYPES: HisArchetype[] = [
       { label: '🐾 Dog Picnic', url: './images/cast/dog-park-picnic.jpg' },
     ],
     interests: ['Montana Ranches', 'Country Two-Step', 'Cabo Weekends', 'Pickup Trucks', 'Bonfires'],
+  },
+  {
+    id: 'kieran-anthropic-ai-cub',
+    name: 'Kieran',
+    age: 28,
+    title: 'Early-Anthropic AI Researcher • Vested SF/NYC Cub',
+    shortHook:
+      'Joined Anthropic early, quietly vested at 28, zero tech-bro flash—exclusively courts accomplished women 38–60.',
+    tagline:
+      'Early frontier-AI safety researcher with vested equity, oatmeal cashmere, and zero patience for 23-year-old clout chasers.',
+    vibeSummary:
+      'Joined Anthropic in the early pre-hype days and quietly hit financial independence before 28. Allergic to crypto/Lambo flexing and exhausted by 23-year-olds asking about his cap table on Date #1—he melts for a self-made Cougar with her own career, sharp wit, and calm presence who lets him power down his brain at 8 PM and cook her brown-butter halibut.',
+    secretInsecurity:
+      'Never mentions his early equity until Date #4 so he knows you actually like HIM—and privately hopes you won’t lump him in with awkward podcast tech bros.',
+    subplotTags: [
+      'frontier_ai_cub',
+      'golden_retriever_energy',
+      'princess_treatment',
+      'spontaneous_getaway',
+      'houseboy_eager',
+    ],
+    portraitVariant: 'architect',
+    photoUrl: './images/cast/kieran-28m.jpg',
+    lookBadge: 'Oatmeal Cashmere • Vintage Watch • Early AI',
+    statusPill: '🧠 Early Anthropic • Quietly Vested',
+    zodiac: '♍ Virgo Sun • ♉ Taurus Rising',
+    height: '6\'1"',
+    loveLanguage: 'Quiet Generosity, Zero Tech Talk & Home Cooking',
+    originOrAccent: 'Calm West-Village / Pac-Heights Warmth',
+    signatureDrink: 'Oat Cortado & Burgundy Pinot',
+    galleryPhotos: [
+      { label: '☕ Morning Cortado', url: './images/cast/kieran-28m.jpg' },
+      { label: '🍝 Kitchen Prep', url: './images/cast/leo-25m.jpg' },
+      { label: '🐾 Park Stroll', url: './images/cast/dog-park-picnic.jpg' },
+    ],
+    interests: [
+      'Frontier AI Safety',
+      'Quiet Luxury',
+      'Brown-Butter Halibut',
+      'Coastal Drives',
+      'Art Bookstores',
+    ],
   },
   {
     id: 'kayden-broke-dutch-cub',

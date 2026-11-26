@@ -221,7 +221,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           <div className="space-y-2 max-w-xl">
             <div className="inline-flex h-7 items-center gap-1.5 rounded-full border border-[#FD267A]/25 bg-[#FFF0F5] px-3 text-xs font-extrabold uppercase tracking-wider text-[#E11D48]">
               <Flame className="h-3.5 w-3.5 fill-[#FD267A] text-[#FD267A]" />
-              <span>56 Roster Profiles • 8-Scene Dates • 6 Map Hotspots</span>
+              <span>
+                {HER_ARCHETYPES.length + HIS_ARCHETYPES.length} Roster Profiles • 8-Scene Dates • 6 Map Hotspots
+              </span>
             </div>
 
             <h1 className="font-display text-2xl sm:text-[32px] text-[#18101E] leading-tight">
@@ -303,7 +305,20 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                   onClick={() => onOpenCubAcademy('dateodex')}
                   className="inline-flex items-center gap-1.5 text-[#7C3AED] hover:underline cursor-pointer normal-case font-bold text-xs"
                 >
-                  <span>📸 Club Dateodex &amp; Polaroids ({dateodexStampedCount}/56)</span>
+                  <span>
+                    📸 Club Dateodex &amp; Polaroids ({dateodexStampedCount}/
+                    {HER_ARCHETYPES.length + HIS_ARCHETYPES.length})
+                  </span>
+                </button>
+              )}
+              {onOpenBoutique && (
+                <button
+                  type="button"
+                  onClick={onOpenBoutique}
+                  className="inline-flex items-center gap-1.5 text-[#E11D48] hover:underline cursor-pointer normal-case font-bold text-xs"
+                >
+                  <Lock className="h-3.5 w-3.5 shrink-0" />
+                  <span>🗝️ Raya-Style Virtual Club Waitlist (+3 Cr)</span>
                 </button>
               )}
               <button
@@ -312,7 +327,7 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
                 className="inline-flex items-center gap-1.5 text-[#059669] hover:underline cursor-pointer normal-case font-bold text-xs"
               >
                 <Send className="h-3.5 w-3.5 shrink-0" />
-                <span>Send 2-Player Crush Audition Link (+3 Cr)</span>
+                <span>Text 2-Player Audition via iMessage / DM (+3 Cr)</span>
               </button>
             </div>
           </div>

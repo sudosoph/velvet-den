@@ -74,6 +74,11 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
   const [cameoEmail, setCameoEmail] = useState('');
   const [cameoBrief, setCameoBrief] = useState('');
   const [cameoMsg, setCameoMsg] = useState<string | null>(null);
+  const [waitlistRole, setWaitlistRole] = useState<'cougar' | 'cub'>('cougar');
+  const [waitlistCity, setWaitlistCity] = useState('');
+  const [waitlistVibe, setWaitlistVibe] = useState('');
+  const [waitlistContact, setWaitlistContact] = useState('');
+  const [waitlistMsg, setWaitlistMsg] = useState<string | null>(null);
   const [shopFilter, setShopFilter] = useState<'all' | AffiliateCategory>('all');
 
   if (!open) return null;
@@ -621,6 +626,102 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             </button>
           </div>
           {cameoMsg && <p className="text-xs font-extrabold text-[#065F46]">{cameoMsg}</p>}
+        </form>
+
+        {/* Raya-Style Velvet-Rope Club Waitlist (Invite-Only Virtual Mixers First as We Grow!) */}
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (!waitlistContact.trim() || waitlistContact.trim().length < 4) return;
+            try {
+              const res = await fetch('/api/waitlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  role: waitlistRole,
+                  city: waitlistCity.trim(),
+                  vibe: waitlistVibe.trim(),
+                  contact: waitlistContact.trim(),
+                }),
+              });
+              const data = (await res.json()) as { ok?: boolean; position?: number };
+              if (res.ok && data.ok) {
+                onClaimQuestReward?.('raya_waitlist_join', 3);
+                setWaitlistMsg(
+                  `🗝️ Velvet-Rope Application #${data.position ?? 142} received (+3 Bonus Credits)! You’re on the list for our first invite-only Virtual Lounge & Trivia Salon.`,
+                );
+                setWaitlistVibe('');
+                setWaitlistContact('');
+              } else {
+                setWaitlistMsg('Please include a valid email or @handle so we can send your invite.');
+              }
+            } catch {
+              onClaimQuestReward?.('raya_waitlist_join', 3);
+              setWaitlistMsg(
+                '🗝️ Velvet-Rope Waitlist spot reserved (+3 Bonus Credits)! Virtual Lounge invites go out as our founding cohort unlocks.',
+              );
+            }
+          }}
+          className="rounded-2xl border-2 border-[#1E1022] bg-gradient-to-r from-[#18101E] via-[#261633] to-[#18101E] p-4 sm:p-5 text-white space-y-3"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-[#FBBF24]">
+              🗝️ Velvet-Rope Private Club Waitlist (Raya-Style Vetted Cohort • +3 Free Credits)
+            </div>
+            <span className="rounded-full bg-white/10 border border-white/15 px-2.5 py-0.5 text-[11px] font-bold text-[#FDE68A]">
+              Phase 1: Invite-Only Virtual Salons (Zero Public Links)
+            </span>
+          </div>
+          <p className="text-xs text-white/85 leading-relaxed">
+            Want vetted community beyond the simulator once our founding ratio unlocks? Apply for our private member list—starting with low-pressure <strong>Virtual Trivia &amp; Speed-Vetting Salons</strong> first as we grow.
+          </p>
+          <div className="grid gap-2 sm:grid-cols-[155px_145px_1fr_195px_auto]">
+            <select
+              aria-label="Waitlist Role"
+              value={waitlistRole}
+              onChange={(e) => setWaitlistRole(e.target.value === 'cub' ? 'cub' : 'cougar')}
+              className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-bold text-white"
+            >
+              <option value="cougar" className="text-[#18101E]">
+                🐆 Puma / Cougar / Jaguar
+              </option>
+              <option value="cub" className="text-[#18101E]">
+                🐕 Vetted Cub (21–35)
+              </option>
+            </select>
+            <input
+              type="text"
+              maxLength={48}
+              placeholder="City / Timezone"
+              value={waitlistCity}
+              onChange={(e) => setWaitlistCity(e.target.value)}
+              className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold text-white placeholder:text-white/55"
+            />
+            <input
+              type="text"
+              maxLength={140}
+              placeholder="Your vibe or dream feature (e.g. Early-AI Cub, Qigong Cougar...)"
+              value={waitlistVibe}
+              onChange={(e) => setWaitlistVibe(e.target.value)}
+              className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold text-white placeholder:text-white/55"
+            />
+            <input
+              type="text"
+              required
+              maxLength={120}
+              placeholder="Email or @IG / @X handle"
+              value={waitlistContact}
+              onChange={(e) => setWaitlistContact(e.target.value)}
+              className="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold text-white placeholder:text-white/55"
+            />
+            <button
+              type="submit"
+              className="pop-btn rounded-xl bg-[#FBBF24] px-4 py-2 text-xs font-extrabold text-[#18101E] cursor-pointer whitespace-nowrap"
+            >
+              Apply (+3 Cr)
+            </button>
+          </div>
+          {waitlistMsg && <p className="text-xs font-extrabold text-[#6EE7B7]">{waitlistMsg}</p>}
         </form>
 
         {/* Curated Lifestyle & Date-Night Affiliate Boutique */}

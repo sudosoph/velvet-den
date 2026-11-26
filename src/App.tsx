@@ -203,8 +203,21 @@ export default function App() {
   );
   const [founderTagStatus, setFounderTagStatus] = useState<string | null>(null);
   const [founderApronClicks, setFounderApronClicks] = useState<number | null>(null);
+  const [founderVaultTab, setFounderVaultTab] = useState<'chats' | 'spills' | 'waitlist'>('chats');
   const [founderAiLogs, setFounderAiLogs] = useState<
     { persona?: string; platform?: string; playerMsg?: string; aiReply?: string; passed?: boolean }[]
+  >([]);
+  const [founderFeedbackLogs, setFounderFeedbackLogs] = useState<
+    {
+      persona?: string;
+      reaction?: string;
+      aiReply?: string;
+      note?: string;
+      optInContact?: string;
+    }[]
+  >([]);
+  const [founderWaitlistLogs, setFounderWaitlistLogs] = useState<
+    { role?: string; city?: string; vibe?: string; contact?: string }[]
   >([]);
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
@@ -299,6 +312,19 @@ export default function App() {
             aiReply?: string;
             passed?: boolean;
           }[];
+          recentFeedback?: {
+            persona?: string;
+            reaction?: string;
+            aiReply?: string;
+            note?: string;
+            optInContact?: string;
+          }[];
+          waitlistEntries?: {
+            role?: string;
+            city?: string;
+            vibe?: string;
+            contact?: string;
+          }[];
         };
         if (!cancelled && data.authorized === true) {
           setWallet((prev) => grantFounderAccess(prev));
@@ -314,6 +340,12 @@ export default function App() {
           }
           if (Array.isArray(data.recentAiLogs)) {
             setFounderAiLogs(data.recentAiLogs);
+          }
+          if (Array.isArray(data.recentFeedback)) {
+            setFounderFeedbackLogs(data.recentFeedback);
+          }
+          if (Array.isArray(data.waitlistEntries)) {
+            setFounderWaitlistLogs(data.waitlistEntries);
           }
         }
       })
@@ -396,6 +428,19 @@ export default function App() {
               aiReply?: string;
               passed?: boolean;
             }[];
+            recentFeedback?: {
+              persona?: string;
+              reaction?: string;
+              aiReply?: string;
+              note?: string;
+              optInContact?: string;
+            }[];
+            waitlistEntries?: {
+              role?: string;
+              city?: string;
+              vibe?: string;
+              contact?: string;
+            }[];
           };
           if (data.authorized === true) {
             authorized = true;
@@ -417,6 +462,12 @@ export default function App() {
             }
             if (Array.isArray(data.recentAiLogs)) {
               setFounderAiLogs(data.recentAiLogs);
+            }
+            if (Array.isArray(data.recentFeedback)) {
+              setFounderFeedbackLogs(data.recentFeedback);
+            }
+            if (Array.isArray(data.waitlistEntries)) {
+              setFounderWaitlistLogs(data.waitlistEntries);
             }
           }
         } else if (res.status === 401 || res.status === 400) {
@@ -763,24 +814,100 @@ export default function App() {
               </form>
             </div>
 
-            {founderAiLogs.length > 0 && (
-              <div className="border-t border-[#1E1022]/15 pt-2 space-y-1">
-                <div className="font-extrabold text-[#1E1022]">
-                  📊 Recent Anonymized Live AI Chats ({founderAiLogs.length})
-                </div>
-                <div className="max-h-28 overflow-y-auto space-y-1">
-                  {founderAiLogs.slice(0, 5).map((log, idx) => (
-                    <div
-                      key={idx}
-                      className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E1022]"
+            {(founderAiLogs.length > 0 ||
+              founderFeedbackLogs.length > 0 ||
+              founderWaitlistLogs.length > 0) && (
+              <div className="border-t border-[#1E1022]/15 pt-2.5 space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="font-extrabold text-[#1E1022]">
+                    📊 Live Idea &amp; Player Telemetry Vault (PII-Scrubbed by Default; Contacts Strictly Opt-In)
+                  </div>
+                  <div className="inline-flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setFounderVaultTab('chats')}
+                      className={`rounded-lg px-2.5 py-1 text-[11px] font-extrabold cursor-pointer ${
+                        founderVaultTab === 'chats'
+                          ? 'bg-[#18101E] text-white'
+                          : 'bg-white text-[#18101E]'
+                      }`}
                     >
-                      <strong>
-                        [{log.platform || 'chat'} • {log.persona}]
-                      </strong>{' '}
-                      “{log.playerMsg}” → <em>“{log.aiReply}”</em>{' '}
-                      {log.passed ? '💚' : '🚩'}
-                    </div>
-                  ))}
+                      💬 AI Chats ({founderAiLogs.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFounderVaultTab('spills')}
+                      className={`rounded-lg px-2.5 py-1 text-[11px] font-extrabold cursor-pointer ${
+                        founderVaultTab === 'spills'
+                          ? 'bg-[#18101E] text-white'
+                          : 'bg-white text-[#18101E]'
+                      }`}
+                    >
+                      🫖 Spills &amp; Tapbacks ({founderFeedbackLogs.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFounderVaultTab('waitlist')}
+                      className={`rounded-lg px-2.5 py-1 text-[11px] font-extrabold cursor-pointer ${
+                        founderVaultTab === 'waitlist'
+                          ? 'bg-[#18101E] text-white'
+                          : 'bg-white text-[#18101E]'
+                      }`}
+                    >
+                      🗝️ Raya Waitlist ({founderWaitlistLogs.length})
+                    </button>
+                  </div>
+                </div>
+
+                <div className="max-h-32 overflow-y-auto space-y-1">
+                  {founderVaultTab === 'chats' &&
+                    founderAiLogs.slice(0, 6).map((log, idx) => (
+                      <div
+                        key={idx}
+                        className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E101E]"
+                      >
+                        <strong>
+                          [{log.platform || 'chat'} • {log.persona}]
+                        </strong>{' '}
+                        “{log.playerMsg}” → <em>“{log.aiReply}”</em>{' '}
+                        {log.passed ? '💚' : '🚩'}
+                      </div>
+                    ))}
+
+                  {founderVaultTab === 'spills' &&
+                    founderFeedbackLogs.slice(0, 8).map((fb, idx) => (
+                      <div
+                        key={idx}
+                        className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E1022]"
+                      >
+                        <strong>
+                          [{fb.reaction || 'NOTE'} • {fb.persona || 'Club'}]
+                        </strong>{' '}
+                        {fb.note ? `“${fb.note}” ` : ''}
+                        {fb.aiReply ? <em>(on: “{fb.aiReply}”) </em> : null}
+                        {fb.optInContact ? (
+                          <span className="rounded bg-[#D1FAE5] px-1.5 py-0.5 font-bold text-[#065F46]">
+                            Opt-In Follow-Up: {fb.optInContact}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">(Anonymous)</span>
+                        )}
+                      </div>
+                    ))}
+
+                  {founderVaultTab === 'waitlist' &&
+                    founderWaitlistLogs.slice(0, 10).map((wl, idx) => (
+                      <div
+                        key={idx}
+                        className="rounded-lg bg-white/90 px-2.5 py-1 text-[11px] text-[#1E1022]"
+                      >
+                        <strong>
+                          [{wl.role === 'cub' ? '🐕 Cub' : '🐆 Cougar'} • {wl.city || 'Virtual'}]
+                        </strong>{' '}
+                        {wl.vibe ? `“${wl.vibe}” — ` : ''}
+                        <span className="font-bold text-[#D90452]">{wl.contact}</span>
+                      </div>
+                    ))}
                 </div>
               </div>
             )}

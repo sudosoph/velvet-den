@@ -82,35 +82,35 @@ const OBEDIENCE_DRILLS: ObedienceDrill[] = [
   },
   {
     id: 'drill-contraband',
-    badge: 'Drill 2 of 4 • Contraband Check',
-    wildImpulse: '🌲 Wild Cub Impulse: He reaches for Pine Pollen & a $41.63 Venmo draft!',
-    cubBubbleBefore: '"I’m all up in my feels, also edamame was $41.63…"',
-    cubBubbleAfter: '"Contraband trashed! Dinner’s 100% on me 🥂"',
-    rightCmdLabel: '🦴 Command: "Drop It!"',
-    rightCmdSub: 'Drop Snapchat, pine pollen & petty Venmo math into the bin (+25 Housebroken)',
-    wrongCmdLabel: '💸 Split the Edamame by Bite',
-    wrongFeedback: 'YELP! Itemized Venmo math is an instant kennel send—command "Drop It!"',
+    badge: 'Drill 2 of 4 • Texting Roast',
+    wildImpulse: '👻 Wild Cub Impulse: Two minutes into your Uber he types "for ur age + whats ur snap??"',
+    cubBubbleBefore: '"u look crazy good for ur age 🔥 whats ur snap??"',
+    cubBubbleAfter: '"Deleted Snap in 2019 😅 7:30 wine bar Friday—here’s my real # 🍸"',
+    rightCmdLabel: '📵 Command: "Drop the Snap!"',
+    rightCmdSub: 'Roast teenage streak requests & train real calendar invites (+25 Housebroken)',
+    wrongCmdLabel: '👻 Download Snapchat for Streaks',
+    wrongFeedback: 'YELP! You run a department and own a wine fridge—never reward "whats ur snap"!',
     expressionBefore: 'sweat',
-    statLabel: 'Contraband Dropped',
+    statLabel: 'Zero-Snapchat Thumb',
   },
   {
     id: 'drill-leash-heel',
-    badge: 'Drill 3 of 4 • Short-Leash Pacing',
-    wildImpulse: '🏃 Wild Cub Impulse: He sprints 12 steps ahead instead of opening her door!',
-    cubBubbleBefore: '"Hurry up babe, walking at 9 MPH!!"',
-    cubBubbleAfter: '"Right beside you—got the door for you, gorgeous 🚪✨"',
-    rightCmdLabel: '🦮 Gentle Tug: "Short-Leash Heel!"',
-    rightCmdSub: 'Match her unhurried Black-Cat stride & hold the door (+25 Chivalry)',
-    wrongCmdLabel: '📱 Chase After Him Texting',
-    wrongFeedback: 'WHOA! A Queen never chases—give the braided short-leash a gentle tug!',
+    badge: 'Drill 3 of 4 • Chivalry Reflex',
+    wildImpulse: '🚗 Wild Cub Impulse: He walks curb-side on his phone & forgets the passenger door!',
+    cubBubbleBefore: '"Wait oh did you want me to get the door??"',
+    cubBubbleAfter: '"Street-side locked, car door open & seat warmer pre-set to Level 2 ✨"',
+    rightCmdLabel: '🦮 Gentle Tug: "Door & Seat-Warmer!"',
+    rightCmdSub: 'Train automatic sidewalk etiquette & warm car doors (+25 Chivalry)',
+    wrongCmdLabel: '🥶 Open Your Own Freezing Door',
+    wrongFeedback: 'WHOA! Give the braided short-leash a playful tug so chivalry becomes muscle memory!',
     expressionBefore: 'rush',
-    statLabel: 'Short-Leash Heel',
+    statLabel: 'Seat-Warmer Chivalry',
   },
   {
     id: 'drill-good-boy-treat',
     badge: 'Drill 4 of 4 • Positive Reinforcement',
-    wildImpulse: '🐕‍🦺 Final Exam: Phone face-down, warm eye contact & Friday 7:30 Resy locked!',
-    cubBubbleBefore: '"7:30 corner booth booked—just excited to see you 😊"',
+    wildImpulse: '🐕‍🦺 Final Exam: Phone face-down on Do Not Disturb & Friday 7:30 Resy locked!',
+    cubBubbleBefore: '"Phone’s tucked away all night—just excited to hear about your week 😊"',
     cubBubbleAfter: '"CERTIFIED GOOD BOY™ UNLOCKED! 💖👑🥩"',
     rightCmdLabel: '🥩 Toss Grass-Fed Steak Treat ("Good Boy!")',
     rightCmdSub: 'Reward calm Golden-Retriever devotion & mint S-Rank Diploma (+25 Chemistry)',
@@ -571,10 +571,10 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
           <div>
             <h1 className="font-display text-2xl sm:text-3xl text-[#18101E]">
-              🐕 Cub Obedience Academy &amp; 2D Room Scanner
+              🐕 Cub Obedience Simulator &amp; 2D Room Roast
             </h1>
             <p className="text-xs sm:text-sm font-medium text-[#475569] mt-1">
-              Clicker-train <strong>{his.name} ({his.age}M)</strong> out of feral dating-app habits, scan his apartment for hidden red flags, and collect all {totalRoster} Dateodex stamps &amp; Polaroid CGs.
+              Pure satirical arcade sim: clicker-train <strong>{his.name} ({his.age}M)</strong> out of classic dating-app blunders, X-ray his bachelor pad, and collect all {totalRoster} Dateodex stamps &amp; Polaroid CGs.
             </p>
           </div>
 
@@ -1038,12 +1038,12 @@ export const PixiCubAcademyStage: React.FC<PixiCubAcademyStageProps> = ({
             </div>
           </section>
 
-          {/* 56-Character Dateodex Collection Grid */}
+          {/* Dynamic Character Dateodex Collection Grid */}
           <section className="vice-panel rounded-3xl p-5 sm:p-6 bg-white space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <h2 className="font-display text-xl sm:text-2xl text-[#18101E]">
-                  📖 56-Member Club Dateodex (👑 Crowned • 🤝 Friend • 🚩 Dumped)
+                  📖 {totalRoster}-Member Club Dateodex (👑 Crowned • 🤝 Friend • 🚩 Dumped)
                 </h2>
                 <p className="text-xs sm:text-sm font-medium text-[#475569]">
                   Inspired by <em>Date Everything!</em> &amp; <em>Dream Daddy</em>—collect an S/A/B/C rank stamp on every Cougar, Puma, Jaguar &amp; Cub in the Club!

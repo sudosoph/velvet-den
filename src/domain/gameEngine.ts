@@ -122,6 +122,9 @@ export function buildEpisodeQueue(
     if (tags.has('modest_accent_gentleman')) {
       pushById('retro-bowling-and-meadow-picnic');
     }
+    if (tags.has('frontier_ai_cub')) {
+      pushById('early-anthropic-ai-cub-quiet-generosity');
+    }
   };
 
   // Inject Stage 1 VIP if selected (e.g. Trader Joe's Wild Approach)

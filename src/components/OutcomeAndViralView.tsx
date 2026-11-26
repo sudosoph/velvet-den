@@ -192,11 +192,11 @@ export const OutcomeAndViralView: React.FC<OutcomeAndViralViewProps> = ({
             </span>
 
             <h3 className="font-display text-2xl sm:text-3xl text-[#1E1022]">
-              Send a 60-Second Vetting Audition to Your Cougar, Cub, or Match
+              Text a 60-Second Vetting Audition on iMessage, WhatsApp or IG DM
             </h3>
 
             <p className="text-sm font-medium text-[#3D2A45] leading-relaxed">
-              Your exact scene choices are encoded into a private challenge link. When they open it, they play 5 rapid scenes and see their live compatibility score against your standards.
+              Once you move off the apps to real texting, send your custom 5-scene link—they play in 60 seconds and see how their instincts stack up against yours.
             </p>
 
             <div className="space-y-1.5">

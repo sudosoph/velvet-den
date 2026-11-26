@@ -4238,4 +4238,66 @@ export const EPISODES: Episode[] = [
       },
     ],
   },
+  {
+    id: 'early-anthropic-ai-cub-quiet-generosity',
+    act: 2,
+    stage: 3,
+    recommendedAffiliateId: 'velvet-travel-weekender-duffel',
+    title: '🧠 The Early-Anthropic AI Cub: Quiet Liquidity, Cashmere & Why He Filters 38+',
+    loreQuote:
+      'Modern SF/NYC Twist • "He joined Anthropic at 24, quietly vested at 28, wears unbranded cashmere, and only dates women 38–58 because 23-year-olds treat him like a startup ATM."',
+    isVip: false,
+    creditCost: 0,
+    sceneArt: 'palm_springs_pool',
+    setupHer:
+      'On Dates #1 and #2, {hisName} ({hisAge}M) showed up in soft unbranded cashmere, kept his phone face-down, and never once dropped a startup buzzword. Then for Date #3 he casually unlocks a private Big Sur cliffside suite and omakase counter—laughing sheepishly when you raise an eyebrow: *"Okay full disclosure: I was an early engineer at Anthropic. I keep it quiet until Date #3 because 23-year-olds in the city get weird fast—whereas you already built your own life and actually roast my bad jokes."*',
+    setupHim:
+      'You joined Anthropic early and hit life-changing liquidity before 28—which made dating peers a minefield of clout-chasers asking about your equity on Date #1. Across from {herName} ({herAge}F), you finally feel zero transactional static: she owns her career, challenges your mind, and makes you want to shut your laptop at 7 PM sharp. Tonight you booked a private coastal suite and omakase counter—how do you frame generosity without sounding like a flexing tech bro?',
+    innerInsecurityBubble: {
+      herDoubt:
+        'Her amused inner monologue: "Wait—an under-30 man in tech who DOESN’T Cubsplain podcasts, already vested his shares, and specifically craves a grown woman’s calm?! Is he real?!"',
+      hisDoubt:
+        'His quiet hope: "Please don’t think booking the cliffside suite is me trying to buy points—I just love spoiling a woman who never needed saving."',
+    },
+    choices: [
+      {
+        labelHer:
+          'Smile warmly, clink your Pinot glass against his, and claim equal footing: "Love that for you—tonight’s omakase is all yours, and Sunday morning figs and espresso at my place are on me. Just promise you’ll never Cubsplain neural nets before coffee."',
+        labelHim:
+          'Keep it effortless and ego-free: "Zero strings and zero startup monologue, I promise—I just love planning a night where you get to turn your brain completely off."',
+        outcomeHer:
+          'Perfection! You welcomed his generosity without shrinking or making it weird—and watching a brilliant 28-year-old exhale into your calm feminine frame is pure magic.',
+        outcomeHim:
+          'Quiet generosity without an ounce of tech-bro ego melts every single wall—she leans in and kisses you before the first course lands.',
+        toastBanner: 'QUIET FRONTIER GENEROSITY! • CHEMISTRY +30 • EQ +25',
+        deltas: { maturity: 25, chivalry: 25, eq: 25, chemistry: 30, redFlags: 0 },
+        badgeUnlocked: 'Early-Anthropic Unicorn Match',
+        triggerTipPrompt: true,
+      },
+      {
+        labelHer:
+          'Interrogate his cap table for 30 minutes like a quarterly audit—or insist on Venmoing him half the omakase out of pride.',
+        labelHim:
+          'Ruin the mood by spending 35 minutes bragging about GPU clusters, secondary-market valuations, and "how AI will replace her industry."',
+        outcomeHer:
+          'Turning romance into a cap-table deposition kills the exact sanctuary he fell for.',
+        outcomeHim:
+          'Nothing evaporates a Cougar’s attraction faster than tech-bro valuation flexing and industry Cubsplaining.',
+        toastBanner: 'RED FLAG! • TECH-BRO CUBSPLAIN / AUDIT (-25)',
+        deltas: { maturity: -25, chivalry: -20, eq: -25, chemistry: -25, redFlags: 1 },
+      },
+      {
+        labelHer:
+          'Tease him playfully about keeping his laptop zipped all weekend, then let him drive the coastal highway while you curate the playlist.',
+        labelHim:
+          'Put your phone in airplane mode in the glovebox so she sees she has 100% of your presence all weekend.',
+        outcomeHer:
+          'Undivided presence + playful teasing locks in S-Rank chemistry.',
+        outcomeHim:
+          'Airplane-mode devotion speaks louder than any speech.',
+        toastBanner: 'AIRPLANE-MODE DEVOTION +25',
+        deltas: { maturity: 20, chivalry: 25, eq: 25, chemistry: 25, redFlags: 0 },
+      },
+    ],
+  },
 ];
