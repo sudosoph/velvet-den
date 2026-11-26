@@ -20,6 +20,8 @@ export const SOCIAL_SHARE_QUEST_IDS = [
 ] as const;
 
 export const MAX_VERIFIED_REFERRAL_CLAIMS = 3;
+export const VERIFIED_REFERRAL_REWARD_CREDITS = 3;
+export const WAITLIST_REWARD_CREDITS = 2;
 
 function generateReferralCode(): string {
   const alphabet = 'abcdefghjkmnpqrstuvwxyz23456789';

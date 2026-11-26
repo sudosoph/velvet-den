@@ -27,37 +27,37 @@ function makeMemoryStorage(initial?: Record<string, string>) {
 }
 
 describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
-  it('refills daily credits across date rollovers and recovers cleanly from corrupted storage (Review Focus #3)', () => {
+  it('refills daily credits (5/day) across date rollovers and recovers cleanly from corrupted storage (Review Focus #3)', () => {
     const corrupted = makeMemoryStorage({ 'velvet_den_wallet_v1': '{not-valid-json' });
     const recovered = loadWallet(corrupted, new Date('2026-11-24T12:00:00Z'));
-    expect(recovered.credits).toBe(10);
+    expect(recovered.credits).toBe(5);
     expect(recovered.isVip).toBe(false);
 
-    const spent = spendCredits(recovered, 6);
+    const spent = spendCredits(recovered, 3);
     expect(spent.ok).toBe(true);
-    expect(spent.wallet.credits).toBe(4);
+    expect(spent.wallet.credits).toBe(2);
     saveWallet(spent.wallet, corrupted);
 
-    // Same day reload keeps 4 credits
+    // Same day reload keeps 2 credits
     const sameDay = loadWallet(corrupted, new Date('2026-11-24T20:00:00Z'));
-    expect(sameDay.credits).toBe(4);
+    expect(sameDay.credits).toBe(2);
 
-    // Next day refills back up to 10
+    // Next day refills back up to 5
     const nextDay = loadWallet(corrupted, new Date('2026-11-25T09:00:00Z'));
-    expect(nextDay.credits).toBe(10);
+    expect(nextDay.credits).toBe(5);
   });
 
-  it('grants share and newsletter bonus credits idempotently so rewards cannot be farmed (Review Focus #3)', () => {
+  it('grants newsletter and referral bonus credits idempotently so rewards cannot be farmed (Review Focus #3)', () => {
     const storage = makeMemoryStorage();
     const initial = loadWallet(storage, new Date('2026-11-24T12:00:00Z'));
 
-    const first = grantRewardCredits(initial, 'first_share', 3);
+    const first = grantRewardCredits(initial, 'newsletter_dispatch', 3);
     expect(first.granted).toBe(true);
-    expect(first.wallet.credits).toBe(13);
+    expect(first.wallet.credits).toBe(8);
 
-    const duplicate = grantRewardCredits(first.wallet, 'first_share', 3);
+    const duplicate = grantRewardCredits(first.wallet, 'newsletter_dispatch', 3);
     expect(duplicate.granted).toBe(false);
-    expect(duplicate.wallet.credits).toBe(13);
+    expect(duplicate.wallet.credits).toBe(8);
   });
 
   it('blocks ?founder=1 and plaintext founder codes while verifying salted SHA-256 Founder passphrase', async () => {
@@ -89,7 +89,7 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
     const scrubbed = loadWallet(legacyFounderStorage, new Date('2026-11-24T12:00:00Z'));
     expect(scrubbed.isFounderUnlimited).toBe(false);
     expect(scrubbed.isVip).toBe(false);
-    expect(scrubbed.credits).toBe(10);
+    expect(scrubbed.credits).toBe(5);
 
     // Salted SHA-256 passphrase verification succeeds only with exact private passphrase
     expect(await verifyFounderPassphrase('foundermode')).toBe(false);
@@ -112,7 +112,7 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
 
       const queryCredits = applyUnlockCodeOrQuery(initial, '?unlock=credits15');
       expect(queryCredits.unlocked).toBe('credits');
-      expect(queryCredits.wallet.credits).toBe(25);
+      expect(queryCredits.wallet.credits).toBe(20);
     } finally {
       MONETIZATION_CONFIG.sandboxPreviewMode = orig;
     }
@@ -199,6 +199,13 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
       for (const affId of guide.featuredAffiliateIds) {
         expect(getAffiliateById(affId)).toBeDefined();
       }
+    }
+
+    // Every catalog item has visualSpec metadata and zero leaked Qigong/Bernedoodle badges
+    for (const item of AFFILIATE_CATALOG) {
+      expect(item.visualSpec).toBeDefined();
+      expect(item.visualSpec.motif.length).toBeGreaterThan(2);
+      expect(item.badge).not.toMatch(/qigong|bernedoodle/i);
     }
 
     // Every catalog item redirects cleanly (302) via /api/go/:id on the Cloudflare Worker

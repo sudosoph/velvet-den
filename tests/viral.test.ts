@@ -1,4 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import React from 'react';
+import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { analyzePairing, HER_ARCHETYPES, HIS_ARCHETYPES } from '../src/domain/taxonomy';
 import { applyEpisodeChoice, computeRunSummary, createRun } from '../src/domain/gameEngine';
 import {
@@ -11,6 +13,8 @@ import {
   scorePartnerAudition,
   type ChallengePayload,
 } from '../src/lib/viral';
+import { SocialShareSheetModal } from '../src/components/SocialShareSheetModal';
+import * as analytics from '../src/lib/analytics';
 
 describe('3-part viral engine: 2-player audition links, dilemma deep links & emoji receipts', () => {
   it('round-trips UTF-8 and emoji nicknames safely via Base64URL (Review Focus #1)', () => {
@@ -128,5 +132,44 @@ describe('3-part viral engine: 2-player audition links, dilemma deep links & emo
       expect(call.y).toBeGreaterThanOrEqual(120);
       expect(call.y).toBeLessThanOrEqual(1840);
     }
+  });
+
+  it('renders Instagram-style SocialShareSheetModal with all 9 channels and fires PostHog share_triggered', () => {
+    const spy = vi.spyOn(analytics, 'trackEvent');
+    render(
+      React.createElement(SocialShareSheetModal, {
+        payload: {
+          title: 'Send Profile to Bestie',
+          message: 'Would you swipe right on Marcus, 26?!',
+          url: 'https://cougarsandcubs.club/?dilemma=marcus-firefighter-cub',
+          shareSurface: 'bestie_profile',
+        },
+        onClose: () => {},
+      }),
+    );
+
+    for (const label of [
+      'iMessage / SMS',
+      'WhatsApp',
+      'Instagram',
+      'TikTok',
+      'Discord',
+      'X',
+      'Threads',
+      'Telegram',
+      'Copy Link',
+    ]) {
+      expect(screen.getByRole('button', { name: new RegExp(label, 'i') })).toBeInTheDocument();
+    }
+
+    fireEvent.click(screen.getByRole('button', { name: /Copy Link/i }));
+    expect(spy).toHaveBeenCalledWith(
+      'share_triggered',
+      expect.objectContaining({
+        channel: 'copy_link',
+        share_surface: 'bestie_profile',
+      }),
+    );
+    spy.mockRestore();
   });
 });

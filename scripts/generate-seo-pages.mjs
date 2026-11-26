@@ -96,12 +96,12 @@ const STATIC_GUIDES = [
     paragraphs: [
       'In older-woman / younger-man age-gap dating communities such as Cougars & Cubs Club, relationship labels follow clear community etiquette rather than tabloid clichés.',
       'A Puma refers to a woman in her 30s (under 40) dating a younger man. A Cougar is a woman aged 40 or older with at least a 10-year age gap with her younger male partner (Cub) or younger female partner (Kitten). Women in their 50s embrace Jaguar status, and confident women 60+ claim Panther or Sabertooth.',
-      'Above all, remember Rule #1: Cougar never means Sugar Mama, and many high-achieving women secretly love soft-life princess treatment—planned reservations, flowers, and car doors opened—after managing everyone else’s mental load all week.',
+      'Above all, remember Rule #1: Cougar never means Sugar Mama, and many high-achieving women secretly love soft-life princess treatment, planned reservations, flowers, and car doors opened, after managing everyone else’s mental load all week.',
     ],
     faqs: [
       {
         q: 'What age qualifies as a Cougar versus a Puma in dating?',
-        a: 'In age-gap dating etiquette, a Puma is a woman aged 30–39 dating a younger partner, while a Cougar is a woman aged 40+ who is at least 10 years older than her partner.',
+        a: 'In age-gap dating etiquette, a Puma is a woman aged 30, 39 dating a younger partner, while a Cougar is a woman aged 40+ who is at least 10 years older than her partner.',
       },
       {
         q: 'What does Cub mean in an older-woman younger-man relationship?',
@@ -126,14 +126,14 @@ const STATIC_GUIDES = [
       'Inviting an older woman back to your apartment in your 20s? Pass the bathroom and bedroom test: oak bedframe, cotton percale sheets, hand soap, and a lidded trash can.',
     episodeId: 'vip-apartment-soap-audit',
     paragraphs: [
-      'When an accomplished woman in her 40s or 50s visits a younger man’s apartment for the first time, square footage rarely matters—hygiene and adult preparation decide everything.',
+      'When an accomplished woman in her 40s or 50s visits a younger man’s apartment for the first time, square footage rarely matters, hygiene and adult preparation decide everything.',
       'Start with the non-negotiable bathroom checklist: botanical liquid hand soap (never dish soap), two fresh guest hand towels, a spotless mirror, and a bathroom trash can with a closed lid.',
       'In the bedroom, retire dark microfiber dorm sheets for breathable 600-thread-count cotton percale on a real bedframe with four supportive pillows.',
     ],
     faqs: [
       {
         q: 'Do older women care if a younger man lives in a small apartment?',
-        a: 'No—financial responsibility, spotless cleanliness, clean cotton sheets, and a lidded bathroom trash can matter far more than luxury square footage.',
+        a: 'No, financial responsibility, spotless cleanliness, clean cotton sheets, and a lidded bathroom trash can matter far more than luxury square footage.',
       },
     ],
     picks: [
@@ -186,11 +186,11 @@ const STATIC_GUIDES = [
     slug: 'millennial-vs-gen-z-age-gap-dating-code-switching',
     title: 'Millennial & Gen-X Women Dating Gen-Z Men: The Courting Code-Switch Guide',
     description:
-      'Why asking a 45-year-old woman for Snapchat is an instant red flag—and how younger men code-switch texting, emojis, phone calls, and chivalry across generations.',
+      'Why asking a 45-year-old woman for Snapchat is an instant red flag, and how younger men code-switch texting, emojis, phone calls, and chivalry across generations.',
     episodeId: 'code-switch-texting',
     paragraphs: [
       'Younger men who thrive in age-gap relationships master generational code-switching: keeping Gen-Z emotional literacy and consent awareness while dropping Snapchat requests, skull emojis, and vague "u tryna link" texts.',
-      'Calibrate to her cohort: Elder Millennial women (34–45) love a quick text before a phone call plus a calendar dinner invite, while Gen-X women (46–60) prefer a direct 6 PM phone call over all-day work texting.',
+      'Calibrate to her cohort: Elder Millennial women (34, 45) love a quick text before a phone call plus a calendar dinner invite, while Gen-X women (46, 60) prefer a direct 6 PM phone call over all-day work texting.',
     ],
     faqs: [
       {
@@ -240,7 +240,7 @@ const STATIC_GUIDES = [
     slug: 'celebrity-cougars-and-cubs-pop-culture-guide',
     title: 'Celebrity Cougars and Cubs: Jessica Alba, Sienna Miller, Ellie Goulding & Miley Cyrus',
     description:
-      'From Jessica Alba & Danny Ramirez and Sienna Miller & Oli Green to Ellie Goulding & Beau Minniear and newlyweds Miley Cyrus & Maxx Morando—how pop culture entered its Golden Cougar Era.',
+      'From Jessica Alba & Danny Ramirez and Sienna Miller & Oli Green to Ellie Goulding & Beau Minniear and newlyweds Miley Cyrus & Maxx Morando, how pop culture entered its Golden Cougar Era.',
     episodeId: 'pop-culture-cougar-renaissance',
     paragraphs: [
       'Hollywood’s double standard around older-woman / younger-man relationships has officially collapsed, led by a new generation of self-made women dating confident younger partners without apology.',
@@ -271,13 +271,13 @@ const STATIC_GUIDES = [
       'Honest advice on perimenopause libido surges, 3 AM hot flashes, menopause intimacy, cooling bamboo sheets, and high-EQ communication with a younger male partner.',
     episodeId: 'cougar-perimenopause-surge-nightsweats',
     paragraphs: [
-      'One of the best-kept secrets of 40s, 50s, and 60+ Cougar, Jaguar, and Panther relationships is how liberating intimacy becomes once communication replaces guesswork—including zero pregnancy scares in menopause.',
-      'In perimenopause (often ages 40–51), women frequently experience dramatic 10 PM desire surges paired with 3 AM night sweats and temperature swings. High-EQ Cubs keep bedrooms at 62°F, upgrade to 100% bamboo viscose cooling sheets, and treat estradiol patches and unhurried foreplay as normal adult teamwork.',
+      'One of the best-kept secrets of 40s, 50s, and 60+ Cougar, Jaguar, and Panther relationships is how liberating intimacy becomes once communication replaces guesswork, including zero pregnancy scares in menopause.',
+      'In perimenopause (often ages 40, 51), women frequently experience dramatic 10 PM desire surges paired with 3 AM night sweats and temperature swings. High-EQ Cubs keep bedrooms at 62°F, upgrade to 100% bamboo viscose cooling sheets, and treat estradiol patches and unhurried foreplay as normal adult teamwork.',
     ],
     faqs: [
       {
         q: 'How do couples handle perimenopause night sweats and menopause intimacy shifts?',
-        a: 'Pair breathable bamboo cooling sheets and a 62°F bedroom with unhurried warmup, open communication, and luxury bedside hydration—turning biology into effortless closeness.',
+        a: 'Pair breathable bamboo cooling sheets and a 62°F bedroom with unhurried warmup, open communication, and luxury bedside hydration, turning biology into effortless closeness.',
       },
     ],
     picks: [
@@ -304,7 +304,7 @@ const STATIC_GUIDES = [
     faqs: [
       {
         q: 'Does a 6-year age gap count as a Cougar relationship?',
-        a: 'Community purists playfully dub a 5-to-9 year older-woman / younger-man gap a "Junior Cougar" matchup—offering all the spark of age-gap chemistry with closely aligned life timelines.',
+        a: 'Community purists playfully dub a 5-to-9 year older-woman / younger-man gap a "Junior Cougar" matchup, offering all the spark of age-gap chemistry with closely aligned life timelines.',
       },
     ],
     picks: [
@@ -325,13 +325,13 @@ const STATIC_GUIDES = [
       'Real advice from Cougar and Cub couples on navigating grown children the same age as her partner, meeting his same-age parents, and attending your first wedding as a +1.',
     episodeId: 'grown-son-same-age-collision',
     paragraphs: [
-      'One of the most talked-about milestones in 18+ year older-woman / younger-man relationships happens when her adult son or daughter is within a year or two of her partner’s age—or when her partner’s mother graduated high school the exact same year she did.',
+      'One of the most talked-about milestones in 18+ year older-woman / younger-man relationships happens when her adult son or daughter is within a year or two of her partner’s age, or when her partner’s mother graduated high school the exact same year she did.',
       'Successful couples follow three golden rules: brief family warmly ahead of time instead of springing doorway ambushes, never try to play "stepdad" to a peer-aged adult child, and carry calm, unbothered pride onto the dance floor at your first wedding together as a +1.',
     ],
     faqs: [
       {
         q: 'How should a younger man act when meeting an older girlfriend’s grown children?',
-        a: 'Treat them with warm peer-level respect, zero step-parent posturing, and steady consistency—letting them see firsthand how happy and respected their mother is.',
+        a: 'Treat them with warm peer-level respect, zero step-parent posturing, and steady consistency, letting them see firsthand how happy and respected their mother is.',
       },
       {
         q: 'How do you prepare parents when your girlfriend is your mom’s age?',
@@ -356,7 +356,7 @@ const STATIC_GUIDES = [
       'Skip boring dinner interviews: why spontaneous 18-hour boutique hotel pool & sauna getaways, campus sushi strolls, sunlit picnics, and retro bowling spark unforgettable chemistry.',
     episodeId: 'spontaneous-18h-pool-sauna-getaway',
     paragraphs: [
-      'Accomplished women in their late 30s, 40s, 50s, and 60s have already sat through a lifetime of stiff corporate steakhouse dinners—what actually wins their hearts is playful energy, planning effort, and romance.',
+      'Accomplished women in their late 30s, 40s, 50s, and 60s have already sat through a lifetime of stiff corporate steakhouse dinners, what actually wins their hearts is playful energy, planning effort, and romance.',
       'Top fan-favorite dates include a spontaneous 18-hour boutique getaway (after a chemistry-tested video call) featuring sunset rooftop cocktails plus a heated hotel pool and cedar sauna, an autumn university quad stroll with omakase sushi, or a hand-packed meadow picnic paired with retro neon bowling.',
     ],
     faqs: [
@@ -442,9 +442,9 @@ const STATIC_GUIDES = [
       'The complete older-woman / younger-man movie master list: Catherine Zeta-Jones in The Rebound, Natalie Portman’s upcoming Netflix rom-com Good Sex, Babygirl, The Idea of You, Bridget Jones, How Stella Got Her Groove Back & Bull Durham.',
     episodeId: 'babygirl-hotel-bar-milk-or-martini',
     paragraphs: [
-      'From foundational Hollywood classics to the 2024–2026 streaming explosion, older-woman / younger-man ("Cougar & Cub") cinema has evolved into one of the sharpest, funniest, and highest-grossing romance genres on earth.',
+      'From foundational Hollywood classics to the 2024, 2026 streaming explosion, older-woman / younger-man ("Cougar & Cub") cinema has evolved into one of the sharpest, funniest, and highest-grossing romance genres on earth.',
       'Upcoming & New Wave: Natalie Portman leads Lena Dunham’s Netflix rom-com Good Sex as Ally, a 40-year-old NYC couples therapist torn between a 20-something Brooklyn creative (Tucker Pillsbury / Role Model) and a 50-something executive (Mark Ruffalo), right alongside Renée Zellweger & Leo Woodall in Bridget Jones: Mad About the Boy (2025), Nicole Kidman & Harris Dickinson in Babygirl (2024), Anne Hathaway & Nicholas Galitzine in The Idea of You (2024), Laura Dern & Liam Hemsworth in Lonely Planet (2024), and Nicole Kidman & Zac Efron in A Family Affair (2024).',
-      '2000s–2020s Rom-Com & Indie Favorites: Catherine Zeta-Jones set the modern post-divorce rom-com blueprint in The Rebound (2009) opposite 25-year-old coffee-shop barista Justin Bartha—joined by Good Luck to You, Leo Grande (Emma Thompson & Daryl McCormack), Cha Cha Real Smooth (Dakota Johnson & Cooper Raiff), Home Again (Reese Witherspoon & Pico Alexander), Hello I Must Be Going (Melanie Lynskey & Christopher Abbott), I Could Never Be Your Woman (Michelle Pfeiffer & Paul Rudd), Prime (Uma Thurman & Bryan Greenberg), and Keanu Reeves swooning over Diane Keaton in Something’s Gotta Give.',
+      '2000s, 2020s Rom-Com & Indie Favorites: Catherine Zeta-Jones set the modern post-divorce rom-com blueprint in The Rebound (2009) opposite 25-year-old coffee-shop barista Justin Bartha, joined by Good Luck to You, Leo Grande (Emma Thompson & Daryl McCormack), Cha Cha Real Smooth (Dakota Johnson & Cooper Raiff), Home Again (Reese Witherspoon & Pico Alexander), Hello I Must Be Going (Melanie Lynskey & Christopher Abbott), I Could Never Be Your Woman (Michelle Pfeiffer & Paul Rudd), Prime (Uma Thurman & Bryan Greenberg), and Keanu Reeves swooning over Diane Keaton in Something’s Gotta Give.',
       'Foundational Icons: Angela Bassett & Taye Diggs in How Stella Got Her Groove Back (1998), Susan Sarandon in both White Palace (1990, with James Spader) and Bull Durham (1988, mentoring rookie pitcher Tim Robbins), Harold and Maude (1971), The Graduate (1967), and All That Heaven Allows (1955).',
     ],
     faqs: [
@@ -467,7 +467,7 @@ const STATIC_GUIDES = [
         url: 'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
       },
       {
-        name: 'The Idea of You — Robinne Lee Paperback & Prime Video',
+        name: 'The Idea of You, Robinne Lee Paperback & Prime Video',
         url: 'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
       },
       {
@@ -480,16 +480,16 @@ const STATIC_GUIDES = [
     slug: 'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man',
     title: 'Best Older-Woman / Younger-Man Movies: Babygirl, The Idea of You, Bridget Jones & Lonely Planet',
     description:
-      'Loved Babygirl’s hotel-bar scene, The Idea of You, Bridget Jones: Mad About the Boy, or Lonely Planet? Explore the golden wave of Cougar & Cub cinema—and play the scenarios live.',
+      'Loved Babygirl’s hotel-bar scene, The Idea of You, Bridget Jones: Mad About the Boy, or Lonely Planet? Explore the golden wave of Cougar & Cub cinema, and play the scenarios live.',
     episodeId: 'babygirl-hotel-bar-milk-or-martini',
     paragraphs: [
-      'Cinema and streaming have entered a full-scale older-woman / younger-man renaissance—led by Nicole Kidman and Harris Dickinson in A24’s Babygirl (and its endlessly memed hotel-bar glass-of-milk power play), Anne Hathaway and Nicholas Galitzine in The Idea of You, Renée Zellweger and Leo Woodall in Bridget Jones: Mad About the Boy, and Laura Dern and Liam Hemsworth in Lonely Planet.',
-      'Across all four hits—plus classic comfort television like Courteney Cox’s Cougar Town—the modern narrative celebrates accomplished women reclaiming desire, humor, and autonomy alongside emotionally present younger men.',
+      'Cinema and streaming have entered a full-scale older-woman / younger-man renaissance, led by Nicole Kidman and Harris Dickinson in A24’s Babygirl (and its endlessly memed hotel-bar glass-of-milk power play), Anne Hathaway and Nicholas Galitzine in The Idea of You, Renée Zellweger and Leo Woodall in Bridget Jones: Mad About the Boy, and Laura Dern and Liam Hemsworth in Lonely Planet.',
+      'Across all four hits, plus classic comfort television like Courteney Cox’s Cougar Town, the modern narrative celebrates accomplished women reclaiming desire, humor, and autonomy alongside emotionally present younger men.',
     ],
     faqs: [
       {
         q: 'Why did the glass of milk scene in Babygirl go viral?',
-        a: 'In Babygirl, Harris Dickinson’s younger character sends Nicole Kidman’s CEO character a glass of milk across a hotel bar—a bold real-life moment borrowed from director Halina Reijn that sparked millions of TikTok parodies.',
+        a: 'In Babygirl, Harris Dickinson’s younger character sends Nicole Kidman’s CEO character a glass of milk across a hotel bar, a bold real-life moment borrowed from director Halina Reijn that sparked millions of TikTok parodies.',
       },
       {
         q: 'What are the best recent older-woman / younger-man romance movies to stream?',
@@ -502,7 +502,7 @@ const STATIC_GUIDES = [
         url: 'https://www.amazon.com/s?k=Babygirl+Nicole+Kidman+Prime+Video+movie',
       },
       {
-        name: 'The Idea of You — Robinne Lee Paperback & Prime Video',
+        name: 'The Idea of You, Robinne Lee Paperback & Prime Video',
         url: 'https://www.amazon.com/s?k=The+Idea+of+You+Robinne+Lee+book+and+movie',
       },
       {
@@ -519,7 +519,7 @@ const STATIC_GUIDES = [
     episodeId: 'gym-headphones-vs-three-week-nod',
     paragraphs: [
       'Younger men frequently ask where to meet confident women in their late 30s, 40s, and 50s offline without coming across as intrusive. Community veterans agree on rule #1: never interrupt a woman mid-workout when her headphones are on, and skip rehearsed grocery-aisle pickup lines.',
-      'Instead, focus on organic, high-trust settings: upscale hotel lobby bars where solo business travelers unwind, recurring fitness or climbing communities where three weeks of polite nods build natural rapport, trivia nights, and wine tastings—and never "Cubsplain" basic life skills she mastered twenty years ago.',
+      'Instead, focus on organic, high-trust settings: upscale hotel lobby bars where solo business travelers unwind, recurring fitness or climbing communities where three weeks of polite nods build natural rapport, trivia nights, and wine tastings, and never "Cubsplain" basic life skills she mastered twenty years ago.',
     ],
     faqs: [
       {
@@ -551,7 +551,7 @@ const STATIC_GUIDES = [
     episodeId: 'black-cat-pushback-golden-retriever-test',
     paragraphs: [
       'One of the strongest chemistry pairings in modern age-gap dating is the selective, unhurried "Black Cat" older woman matched with an enthusiastic, sunny "Golden Retriever" younger man.',
-      'Unlike insecure dates who get defensive when a woman sets boundaries or refuses to rush on Date #1, a true Golden-Retriever Cub loves the slow burn—smiling warmly when she pushes back a little and proving his reliability week after week.',
+      'Unlike insecure dates who get defensive when a woman sets boundaries or refuses to rush on Date #1, a true Golden-Retriever Cub loves the slow burn, smiling warmly when she pushes back a little and proving his reliability week after week.',
       'When an independent Cougar, Puma, or Jaguar finally lets down her guard after weeks of steady courtship, the earned intimacy outlasts fast love-bombing every time.',
     ],
     faqs: [
@@ -561,12 +561,12 @@ const STATIC_GUIDES = [
       },
       {
         q: 'Is pushing back early in age-gap dating a red flag or a green flag?',
-        a: 'Playful, honest pacing is a major green flag—it filters out impatient novelty-seekers and rewards partners who bring steady adult consistency.',
+        a: 'Playful, honest pacing is a major green flag, it filters out impatient novelty-seekers and rewards partners who bring steady adult consistency.',
       },
     ],
     picks: [
       {
-        name: 'Braided Leather "Short-Leash" Dog Leash (Miso & Golden-Retriever Approved)',
+        name: 'Braided Leather "Short-Leash" Dog Leash (Barnaby & Golden-Retriever Approved)',
         url: 'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp',
       },
       {
@@ -643,7 +643,7 @@ for (const g of STATIC_GUIDES) {
       ${g.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('\n      ')}
       <div class="cta">
         <strong>🎮 Ready to test your instincts in this exact scenario?</strong>
-        <p style="margin:6px 0 0;font-size:15px;">Play as Her (Vet &amp; Train) or Play as Him (Impress &amp; Commit)—then text a 60-second Vetting Audition link to your real-life Cougar or Cub.</p>
+        <p style="margin:6px 0 0;font-size:15px;">Play as Her (Vet &amp; Train) or Play as Him (Impress &amp; Commit), then text a 60-second Vetting Audition link to your real-life Cougar or Cub.</p>
         <a class="btn" href="../../?dilemma=${encodeURIComponent(g.episodeId)}">Play Interactive Scenario Free →</a>
       </div>
       <section class="picks">

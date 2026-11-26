@@ -10,6 +10,44 @@ export type AffiliateCategory =
   | 'hosting_upgrade'
   | 'date_night';
 
+export type AffiliateVisualMotif =
+  | 'apron_trophy'
+  | 'apron_leopard'
+  | 'clicker_brass'
+  | 'wine_goblet'
+  | 'mug_golden'
+  | 'mug_blackcat'
+  | 'trucker_cap'
+  | 'apron_linen'
+  | 'hydration_vest'
+  | 'silk_robe'
+  | 'lidded_bin_soap'
+  | 'percale_sheets'
+  | 'parfum_bottle'
+  | 'copper_shaker'
+  | 'card_deck'
+  | 'cooling_sheets'
+  | 'cast_iron'
+  | 'weight_bench'
+  | 'grooming_kit'
+  | 'silk_pillow'
+  | 'botanical_elixir'
+  | 'love_coupons'
+  | 'leash_leather'
+  | 'menu_readers'
+  | 'cinema_poster'
+  | 'ghee_olive'
+  | 'picnic_basket'
+  | 'weekender_bag';
+
+export interface AffiliateVisualSpec {
+  motif: AffiliateVisualMotif;
+  emoji: string;
+  accentFrom: string;
+  accentTo: string;
+  studioLabel: string;
+}
+
 export interface AffiliateProduct {
   id: string;
   name: string;
@@ -19,6 +57,7 @@ export interface AffiliateProduct {
   cheekyPitch: string;
   whyItConverts: string;
   merchantUrl: string;
+  visualSpec: AffiliateVisualSpec;
 }
 
 const PROHIBITED_ADULT_DOMAINS = [
@@ -29,7 +68,7 @@ const PROHIBITED_ADULT_DOMAINS = [
   'lelo.com',
 ];
 
-export const AFFILIATE_CATALOG: AffiliateProduct[] = [
+const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec'>[] = [
   {
     id: 'trophy-boyfriend-cooking-apron',
     name: '"Trophy Husband (In Training)" Funny Pocket Chef Apron',
@@ -203,7 +242,7 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     badge: '3 AM Perimenopause & Menopause Hero',
     cheekyPitch:
       'For 10 PM sparks followed by 3 AM flash-furnace heat waves, wicks heat instantly so nobody has to kick the duvet across the room.',
-    whyItConverts: 'Directly solves the #1 sleep/intimacy complaint in 40s–60s relationships.',
+    whyItConverts: 'Directly solves the #1 sleep/intimacy complaint in 40s, 60s relationships.',
     merchantUrl: 'https://www.amazon.com/s?k=100+percent+bamboo+viscose+cooling+sheets+queen',
   },
   {
@@ -255,10 +294,10 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     name: 'Zero-Proof Botanical Aperitif Elixir & Ribbed Mocktail Coupe Set',
     category: 'date_night',
     priceDisplay: 'Wellness Pick',
-    badge: 'Qigong Mommy & Sleep-First MVP',
+    badge: 'Sleep-First Botanical Spritz MVP',
     cheekyPitch:
-      'For Qigong & Tai Chi Wellness Mommies protecting 8 hours of beauty sleep and attentive Cubs who prefer 6:30 AM Cloud-Hands stamina over tequila hangovers.',
-    whyItConverts: 'Direct tie-in to the Qigong Wellness Mommy-Domme & Zero-Proof Mocktail episodes.',
+      'For sleep-first Cougars protecting 8 hours of beauty sleep and attentive Cubs who prefer 6:30 AM stamina over tequila hangovers.',
+    whyItConverts: 'Direct tie-in to Zero-Proof Mocktail & 8-Hour Sleep Sanctuary dates.',
     merchantUrl: 'https://www.amazon.com/s?k=non+alcoholic+botanical+aperitif+mocktail+coupe+glasses',
   },
   {
@@ -277,10 +316,10 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     name: 'Braided Leather Hands-Free "Short-Leash" Dog Leash & Brass Clasp',
     category: 'funny_cute',
     priceDisplay: 'Cheeky Pick',
-    badge: 'Bernedoodle & Golden-Retriever Boyfriend Approved',
+    badge: 'Rescue-Dog & Golden-Retriever Boyfriend Approved',
     cheekyPitch:
-      'Officially built for walking her tricolor Mini Bernedoodle "Miso" or rescue pup Barnaby, unofficially the funniest inside-joke gift for a Cub who loves staying on Mommy’s short leash.',
-    whyItConverts: 'Double-entendre viral hit across Dog-Mom Puma, Bernedoodle Mommy, and Short-Leash Trail arcs.',
+      'Officially built for walking rescue pup Barnaby or Otis, unofficially the funniest inside-joke gift for a Cub who loves staying on her playful short leash.',
+    whyItConverts: 'Double-entendre hit across Dog-Mom Puma, Cub Obedience School, and Short-Leash Trail arcs.',
     merchantUrl: 'https://www.amazon.com/s?k=braided+leather+short+traffic+dog+leash+brass+clasp',
   },
   {
@@ -354,10 +393,10 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     name: 'Grass-Fed Artisanal Ghee & Cold-Pressed Tuscan Extra-Virgin Olive Oil Duo',
     category: 'houseboy',
     priceDisplay: 'Wellness Pantry',
-    badge: '100% Seed-Oil-Free Mommy Approved',
+    badge: '100% Clean Pantry Chef Set',
     cheekyPitch:
-      'Retire canola and soybean oil before your Holistic Health-Nut Mommy inspects your kitchen, sear her grass-fed ribeye in pure ghee and polyphenol EVOO.',
-    whyItConverts: 'Direct payoff to the Seed-Oil-Free & Tricolor Mini Bernedoodle Mommy audit minigame.',
+      'Retire canola and soybean oil before inviting a discerning homeowner over: sear grass-fed ribeye in pure artisanal ghee and cold-pressed Tuscan olive oil.',
+    whyItConverts: 'High-converting gourmet kitchen upgrade for Sunday home-cooked dates.',
     merchantUrl: 'https://www.amazon.com/s?k=grass+fed+ghee+and+cold+pressed+extra+virgin+olive+oil',
   },
   {
@@ -383,6 +422,244 @@ export const AFFILIATE_CATALOG: AffiliateProduct[] = [
     merchantUrl: 'https://www.amazon.com/s?k=mens+canvas+leather+overnight+weekender+duffel+bag',
   },
 ];
+
+const VISUAL_SPEC_BY_ID: Record<string, AffiliateVisualSpec> = {
+  'trophy-boyfriend-cooking-apron': {
+    motif: 'apron_trophy',
+    emoji: '👨‍🍳',
+    accentFrom: '#FFF4E6',
+    accentTo: '#FDE68A',
+    studioLabel: 'Chef Apron',
+  },
+  'leopard-print-cougar-apron': {
+    motif: 'apron_leopard',
+    emoji: '🐆',
+    accentFrom: '#FEF3C7',
+    accentTo: '#FDBA74',
+    studioLabel: 'Cougar Print',
+  },
+  'good-boy-brass-training-clicker': {
+    motif: 'clicker_brass',
+    emoji: '🔔',
+    accentFrom: '#FFE4E6',
+    accentTo: '#FDE68A',
+    studioLabel: 'Obedience Prop',
+  },
+  'funny-cougar-stemless-wine-glass': {
+    motif: 'wine_goblet',
+    emoji: '🍷',
+    accentFrom: '#FFE4E6',
+    accentTo: '#FECDD3',
+    studioLabel: 'Cougar Barware',
+  },
+  'golden-retriever-boyfriend-mug': {
+    motif: 'mug_golden',
+    emoji: '🐕',
+    accentFrom: '#FEF9C3',
+    accentTo: '#FDE68A',
+    studioLabel: 'Golden Mug',
+  },
+  'black-cat-girlfriend-leopard-mug': {
+    motif: 'mug_blackcat',
+    emoji: '🐈‍⬛',
+    accentFrom: '#F3E8FF',
+    accentTo: '#FBCFE8',
+    studioLabel: 'Black Cat Mug',
+  },
+  'cougar-hunter-retro-trucker-hat': {
+    motif: 'trucker_cap',
+    emoji: '🧢',
+    accentFrom: '#E0F2FE',
+    accentTo: '#BAE6FD',
+    studioLabel: 'Retro Cap',
+  },
+  'houseboy-linen-apron': {
+    motif: 'apron_linen',
+    emoji: '🥂',
+    accentFrom: '#F5F5F4',
+    accentTo: '#E7E5E4',
+    studioLabel: 'Washed Linen',
+  },
+  'trail-hydration-vest': {
+    motif: 'hydration_vest',
+    emoji: '🏔️',
+    accentFrom: '#DCFCE7',
+    accentTo: '#A7F3D0',
+    studioLabel: '6 AM Trail',
+  },
+  'princess-mulberry-silk-robe': {
+    motif: 'silk_robe',
+    emoji: '👑',
+    accentFrom: '#FCE7F3',
+    accentTo: '#FBCFE8',
+    studioLabel: '22-Momme Silk',
+  },
+  'hosting-lidded-bin-soap': {
+    motif: 'lidded_bin_soap',
+    emoji: '🧴',
+    accentFrom: '#F3F4F6',
+    accentTo: '#FDE68A',
+    studioLabel: 'Lidded Bin + Soap',
+  },
+  'percale-hosting-sheets': {
+    motif: 'percale_sheets',
+    emoji: '🛏️',
+    accentFrom: '#EFF6FF',
+    accentTo: '#DBEAFE',
+    studioLabel: '600TC Percale',
+  },
+  'date-night-oud-bergamot': {
+    motif: 'parfum_bottle',
+    emoji: '🌲',
+    accentFrom: '#FEF3C7',
+    accentTo: '#E5E7EB',
+    studioLabel: 'Cedar & Bergamot',
+  },
+  'espresso-martini-barware': {
+    motif: 'copper_shaker',
+    emoji: '🍸',
+    accentFrom: '#FFEDD5',
+    accentTo: '#FDBA74',
+    studioLabel: 'Copper Shaker',
+  },
+  'after-dark-couples-deck': {
+    motif: 'card_deck',
+    emoji: '🃏',
+    accentFrom: '#FFE4E6',
+    accentTo: '#DDD6FE',
+    studioLabel: 'Couples Deck',
+  },
+  'cooling-bamboo-sheets': {
+    motif: 'cooling_sheets',
+    emoji: '❄️',
+    accentFrom: '#ECFEFF',
+    accentTo: '#CFFAFE',
+    studioLabel: '62°F Bamboo',
+  },
+  'cast-iron-steak-skillet': {
+    motif: 'cast_iron',
+    emoji: '🥩',
+    accentFrom: '#FFEDD5',
+    accentTo: '#FECACA',
+    studioLabel: '12" Cast Iron',
+  },
+  'adjustable-dumbbell-bench': {
+    motif: 'weight_bench',
+    emoji: '🏋️',
+    accentFrom: '#F1F5F9',
+    accentTo: '#CBD5E1',
+    studioLabel: 'Home Bench',
+  },
+  'cub-grooming-beard-skincare-kit': {
+    motif: 'grooming_kit',
+    emoji: '💈',
+    accentFrom: '#FEF3C7',
+    accentTo: '#FDE68A',
+    studioLabel: 'Barber Kit',
+  },
+  'silk-pillowcase-sleepover-duo': {
+    motif: 'silk_pillow',
+    emoji: '✨',
+    accentFrom: '#FDF2F8',
+    accentTo: '#FCE7F3',
+    studioLabel: 'Silk + Claw Clip',
+  },
+  'zero-proof-botanical-mocktail-set': {
+    motif: 'botanical_elixir',
+    emoji: '🌿',
+    accentFrom: '#ECFDF5',
+    accentTo: '#FBCFE8',
+    studioLabel: 'Botanical Coupe',
+  },
+  'fill-in-love-coupon-cards': {
+    motif: 'love_coupons',
+    emoji: '💌',
+    accentFrom: '#FFE4E6',
+    accentTo: '#FEF3C7',
+    studioLabel: 'Love Vouchers',
+  },
+  'short-leash-leather-dog-leash': {
+    motif: 'leash_leather',
+    emoji: '🦮',
+    accentFrom: '#FEF3C7',
+    accentTo: '#FED7AA',
+    studioLabel: 'Braided Leash',
+  },
+  'big-carl-giant-wine-glass': {
+    motif: 'wine_goblet',
+    emoji: '🍷',
+    accentFrom: '#FFE4E6',
+    accentTo: '#FDA4AF',
+    studioLabel: '750ml "Big Carl"',
+  },
+  'chic-candlelit-menu-readers': {
+    motif: 'menu_readers',
+    emoji: '👓',
+    accentFrom: '#FEF9C3',
+    accentTo: '#FED7AA',
+    studioLabel: 'Bistro Readers',
+  },
+  'babygirl-movie-prime': {
+    motif: 'cinema_poster',
+    emoji: '🎬',
+    accentFrom: '#FCE7F3',
+    accentTo: '#FDE68A',
+    studioLabel: '4K Cinema Night',
+  },
+  'idea-of-you-movie-book': {
+    motif: 'cinema_poster',
+    emoji: '📚',
+    accentFrom: '#E0E7FF',
+    accentTo: '#FCE7F3',
+    studioLabel: 'Book & Prime',
+  },
+  'bridget-jones-cougar-town-watch': {
+    motif: 'cinema_poster',
+    emoji: '🍿',
+    accentFrom: '#FFE4E6',
+    accentTo: '#FEF3C7',
+    studioLabel: 'Rom-Com Night',
+  },
+  'the-rebound-zeta-jones-prime': {
+    motif: 'cinema_poster',
+    emoji: '🎞️',
+    accentFrom: '#FEF3C7',
+    accentTo: '#FBCFE8',
+    studioLabel: 'Classic Stream',
+  },
+  'seed-oil-free-ghee-evoo-set': {
+    motif: 'ghee_olive',
+    emoji: '🫒',
+    accentFrom: '#ECFCCB',
+    accentTo: '#FEF08A',
+    studioLabel: 'Ghee & EVOO',
+  },
+  'linen-picnic-insulated-tote': {
+    motif: 'picnic_basket',
+    emoji: '🧺',
+    accentFrom: '#FEF3C7',
+    accentTo: '#DCFCE7',
+    studioLabel: 'Meadow Basket',
+  },
+  'velvet-travel-weekender-duffel': {
+    motif: 'weekender_bag',
+    emoji: '🧳',
+    accentFrom: '#F5F5F4',
+    accentTo: '#FDE68A',
+    studioLabel: '18h Weekender',
+  },
+};
+
+export const AFFILIATE_CATALOG: AffiliateProduct[] = RAW_AFFILIATE_CATALOG.map((item) => ({
+  ...item,
+  visualSpec: VISUAL_SPEC_BY_ID[item.id] ?? {
+    motif: 'card_deck',
+    emoji: '✨',
+    accentFrom: '#FFF4F7',
+    accentTo: '#FDE68A',
+    studioLabel: 'Club Pick',
+  },
+}));
 
 export interface AffiliateTagOverrides {
   amazonAssociateTag?: string;
