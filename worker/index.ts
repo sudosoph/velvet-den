@@ -1463,7 +1463,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           pacingDirective,
           `LENGTH & VOICE: 1 to 2 lively, natural texting sentences (12-30 words) ending with a fun hook or playful question so the player wants to reply! NEVER sound robotic or corporate.`,
           `ADAPTIVE NEXT-TURN SUGGESTIONS (CRITICAL!): Also generate "suggestedReplies": an array of 3 distinct, fun first-person responses (8-16 words each) written from the PLAYER'S voice (${playerVoiceDesc}) that directly answer or riff on YOUR new "herReply"! Option 1: witty/playful banter; Option 2: curious/skeptical tease or question back; Option 3: bold, high-spark flirty line.`,
-          `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons.`,
+          `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons, and ALWAYS use single quotes ('...') instead of double quotes inside string values so your JSON stays 100% valid.`,
           platformContext,
           coachPerspectiveRule,
           buildGenerationalVoiceDirective(
@@ -1511,7 +1511,18 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
       } else if (typeof rawResult?.response === 'string') {
         const jsonMatch = rawResult.response.trim().match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-          parsed = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
+          try {
+            parsed = JSON.parse(jsonMatch[0]) as Record<string, unknown>;
+          } catch {
+            // Salvage herReply if model used unescaped inner quotes
+            const replyGrab = jsonMatch[0].match(/"herReply"\s*:\s*"([\s\S]*?)"\s*,\s*"(?:secondReply|suggestedReplies|maturityDelta)"/);
+            if (replyGrab?.[1]) {
+              parsed = {
+                herReply: replyGrab[1].replace(/\\"/g, "'").replace(/"/g, "'"),
+                passedVibeCheck: !/"passedVibeCheck"\s*:\s*false/.test(jsonMatch[0]),
+              };
+            }
+          }
         }
       }
 
