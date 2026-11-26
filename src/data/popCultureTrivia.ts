@@ -378,6 +378,21 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "imageCredit": ""
   },
   {
+    "id": "caroline-stanbury-sergio-carrallo",
+    "badge": "🥂 18-Year Gap • RHODubai Royalty",
+    "question": "\"Ladies of London\" and \"The Real Housewives of Dubai\" star Caroline Stanbury married 18-years-younger Spanish husband Sergio Carrallo in 2021 after his athletic career with which famed football club’s system?",
+    "options": [
+      "FC Barcelona",
+      "Real Madrid",
+      "AC Milan",
+      "Paris Saint-Germain"
+    ],
+    "correctIndex": 1,
+    "funFact": "Former Real Madrid C & New York Cosmos player Sergio Carrallo and dry-witted Brit Caroline Stanbury are Bravo’s textbook \"Black Cat Cougar × Golden Retriever Husband\" duo.",
+    "imageUrl": "./images/icons/pop_caroline_sergio.jpg",
+    "imageCredit": ""
+  },
+  {
     "id": "miranda-july-all-fours",
     "badge": "✨ 2024 Literary Sensation",
     "question": "In Miranda July’s runaway 2024 bestseller \"All Fours,\" a 45-year-old artist sets out to drive from LA to New York, exits the freeway 30 minutes away in Monrovia, redecorates a motel room, and sparks with a younger rental-car worker named whom?",
@@ -873,6 +888,21 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "correctIndex": 3,
     "funFact": "\"I am big. It’s the pictures that got small!\" remains one of the most quoted lines in Hollywood history.",
     "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": ""
+  },
+  {
+    "id": "demi-moore-ashton-kutcher-watershed",
+    "badge": "📸 15-Year Gap • 2003 Watershed",
+    "question": "At which blockbuster June 2003 premiere did Demi Moore (then 40) and Ashton Kutcher (then 25) make their jaw-dropping red-carpet debut alongside Demi’s daughters and ex-husband Bruce Willis?",
+    "options": [
+      "\"Charlie’s Angels: Full Throttle\"",
+      "\"G.I. Jane\"",
+      "\"Ocean’s Twelve\"",
+      "\"Mr. & Mrs. Smith\""
+    ],
+    "correctIndex": 0,
+    "funFact": "Even though their eight-year marriage (2005–2013) eventually ended, Demi & Ashton’s fearless 2003 debut permanently shattered Hollywood’s double standard around women over 40 dating younger men.",
+    "imageUrl": "./images/icons/pop_demi_ashton.jpg",
     "imageCredit": ""
   },
   {

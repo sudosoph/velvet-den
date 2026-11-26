@@ -1906,12 +1906,22 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
   {
     id: 'pop_demi_ashton',
     label: 'Demi Moore & Ashton Kutcher',
-    ageRange: '15-Yr Gap • 2000s Cultural Watershed',
+    ageRange: '15-Yr Gap • 2003-2013 Cultural Watershed',
     category: 'pop_culture',
-    headline: 'The Red-Carpet Duo That Put "Cougar × Cub" on Every Magazine Cover',
+    headline: 'The Iconic 2000s Marriage That Shattered Hollywood’s Double Standard',
     insiderLore:
-      'Before dating apps even had age sliders, Demi Moore (40) and Ashton Kutcher (25) shattered 2003 Hollywood double standards and proved a 40s leading lady could own every premiere.',
-    signatureTell: 'Changed mainstream pop-culture vocabulary overnight.',
+      'Even though they parted ways in 2013 after an eight-year marriage, Demi Moore (then 40) and Ashton Kutcher (then 25) arriving at the 2003 *Charlie’s Angels: Full Throttle* premiere—alongside Bruce Willis and their daughters—permanently rewrote pop-culture rules for women over 40.',
+    signatureTell: 'Changed mainstream red-carpet vocabulary overnight and proved 40s leading ladies own every room.',
+  },
+  {
+    id: 'pop_caroline_sergio',
+    label: 'Caroline Stanbury & Sergio Carrallo',
+    ageRange: '18-Yr Gap • Bravo Dubai Royalty',
+    category: 'pop_culture',
+    headline: 'Posh British "Black Cat" Icon × Devoted Spanish Ex-Real Madrid Cub',
+    insiderLore:
+      '*Ladies of London* and *The Real Housewives of Dubai* star Caroline Stanbury married 18-years-younger former Real Madrid C footballer Sergio Carrallo in Dubai & Mauritius in 2021—giving Bravo viewers television’s purest real-life Black Cat wife × tail-wagging Golden Retriever husband.',
+    signatureTell: 'Dry British wit paired with a beaming Spanish husband who calls her "honey" in every room.',
   },
   {
     id: 'pop_kris_corey',

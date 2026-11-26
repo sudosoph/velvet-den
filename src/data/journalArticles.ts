@@ -316,8 +316,8 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
         body: 'Skeptics who claim age-gap romances are "just a phase" always forget Tina Turner & Erwin Bach (16-year gap, 38 years on Lake Zurich, where Erwin donated his kidney to save Tina’s life), Goldie Hawn & Kurt Russell (40+ years of laughter), Julianne Moore & Bart Freundlich (25+ years married), and Brigitte & Emmanuel Macron.',
       },
       {
-        heading: '2. Red-Carpet Powerhouses: Priyanka Chopra, Heidi Klum, Cher, Demi & Kris Jenner',
-        body: 'Priyanka Chopra & Nick Jonas (exact 10-year Cougar cutoff), Heidi Klum & Tom Kaulitz (16-year Capri yacht bliss), Kris Jenner & Corey Gamble (25-year gap going a decade strong), Demi Moore’s trailblazing 2003 watershed, and Cher ("Mom, I AM a rich man") turned woman-older confidence into global aspiration.',
+        heading: '2. Red-Carpet & Reality Powerhouses: Priyanka, Heidi, Caroline Stanbury, Demi & Kris',
+        body: 'Priyanka Chopra & Nick Jonas (exact 10-year Cougar cutoff), Heidi Klum & Tom Kaulitz (16-year Capri yacht bliss), *Real Housewives of Dubai* favorites Caroline Stanbury & Sergio Carrallo (18-year British Black Cat × Spanish Golden Retriever marriage), Kris Jenner & Corey Gamble (25-year gap going a decade strong), Demi Moore & Ashton Kutcher’s trailblazing 2003–2013 watershed marriage (which shattered Hollywood’s double standard overnight even though they later parted ways), and Cher ("Mom, I AM a rich man") turned woman-older confidence into global aspiration.',
       },
       {
         heading: '3. New-Wave Glow & Sweet-Spot Micro-Gaps: Alba, Sienna, Miley, Gabrielle & Meghan Markle',

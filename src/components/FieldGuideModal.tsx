@@ -102,6 +102,11 @@ const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; emojiBadge
     credit: 'Photo: Gabriel Hutchinson • CC BY-SA 4.0 via Wikimedia Commons',
     emojiBadge: '📸 2003 Watershed',
   },
+  pop_caroline_sergio: {
+    url: './images/icons/pop_caroline_sergio.jpg',
+    credit: 'Photo: Gilzetbase • CC BY-SA 4.0 via Wikimedia Commons',
+    emojiBadge: '🥂 18-Yr Dubai Royalty',
+  },
   pop_kris_corey: {
     url: './images/icons/pop_kris_corey.jpg',
     credit: 'Photo: Gage Skidmore • CC BY-SA 3.0 via Wikimedia Commons',
@@ -231,7 +236,7 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
               The Illustrated Age-Gap Field Guide
             </h2>
             <p className="text-sm text-zinc-600">
-              Puma → Cougar → Jaguar → Panther tiers, Golden Cubs vs. Tourists &amp; 23 Celebrity Icons.
+              Puma → Cougar → Jaguar → Panther tiers, Golden Cubs vs. Tourists &amp; 24 Celebrity Icons.
             </p>
           </div>
           <button
