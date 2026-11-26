@@ -1,6 +1,7 @@
 import { MONETIZATION_CONFIG } from '../config/monetization';
 
-export const WALLET_STORAGE_KEY = 'velvet_den_wallet_v1';
+export const WALLET_STORAGE_KEY = 'velvet_wallet_v35';
+export const LEGACY_WALLET_STORAGE_KEY = 'velvet_den_wallet_v1';
 
 export interface WalletState {
   credits: number;
@@ -8,6 +9,15 @@ export interface WalletState {
   isVip: boolean;
   isFounderUnlimited?: boolean;
   referralCode?: string;
+  playerName: string;
+  personaTag: string;
+  fridayHearts: number;
+  discernmentXp: number;
+  conspiracyClues: string[];
+  hasPatronBadge: boolean;
+  unlockedPovIds: string[];
+  unlockedPhotoIds: string[];
+  unlockedEpilogueIds: string[];
   unlockedEpisodeIds: string[];
   claimedRewards: string[];
   unlockedStamps: string[];
@@ -20,8 +30,8 @@ export const SOCIAL_SHARE_QUEST_IDS = [
 ] as const;
 
 export const MAX_VERIFIED_REFERRAL_CLAIMS = 3;
-export const VERIFIED_REFERRAL_REWARD_CREDITS = 3;
-export const WAITLIST_REWARD_CREDITS = 2;
+export const VERIFIED_REFERRAL_REWARD_CREDITS = 0;
+export const WAITLIST_REWARD_CREDITS = 0;
 
 function generateReferralCode(): string {
   const alphabet = 'abcdefghjkmnpqrstuvwxyz23456789';
@@ -68,7 +78,6 @@ function constantTimeEquals(a: string, b: string): boolean {
 
 export async function verifyFounderPassphrase(passphrase: string): Promise<boolean> {
   if (!import.meta.env.VITEST) {
-    // Production verification happens exclusively server-side at POST /api/founder-auth
     return false;
   }
   const trimmed = passphrase.trim();
@@ -100,17 +109,26 @@ export function revokeFounderAccess(wallet: WalletState): WalletState {
     isFounderUnlimited: false,
     isVip: hasRealVipClaim ? wallet.isVip : false,
     credits:
-      wallet.credits >= 900 ? MONETIZATION_CONFIG.dailyFreeCredits : wallet.credits,
+      wallet.credits >= 900 ? MONETIZATION_CONFIG.starterCredits : wallet.credits,
   };
 }
 
 export function createDefaultWallet(now: Date = new Date()): WalletState {
   return {
-    credits: MONETIZATION_CONFIG.dailyFreeCredits,
+    credits: MONETIZATION_CONFIG.starterCredits,
     lastRefillDate: toUtcDateKey(now),
     isVip: false,
     isFounderUnlimited: false,
     referralCode: generateReferralCode(),
+    playerName: '',
+    personaTag: '',
+    fridayHearts: 3,
+    discernmentXp: 0,
+    conspiracyClues: [],
+    hasPatronBadge: false,
+    unlockedPovIds: [],
+    unlockedPhotoIds: [],
+    unlockedEpilogueIds: [],
     unlockedEpisodeIds: [],
     claimedRewards: [],
     unlockedStamps: ['puma', 'cougar'],
@@ -129,6 +147,24 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
     const raw = store.getItem(WALLET_STORAGE_KEY);
     if (!raw) {
       const fresh = createDefaultWallet(now);
+      const legacyRaw = store.getItem(LEGACY_WALLET_STORAGE_KEY);
+      if (legacyRaw) {
+        try {
+          const legacyParsed = JSON.parse(legacyRaw) as Partial<WalletState>;
+          const legacyClaims = Array.isArray(legacyParsed?.claimedRewards)
+            ? legacyParsed.claimedRewards.filter(
+                (r): r is string =>
+                  typeof r === 'string' && (r.startsWith('stripe_') || r.startsWith('code_')),
+              )
+            : [];
+          if (legacyClaims.length > 0 && Boolean(legacyParsed?.isVip)) {
+            fresh.isVip = true;
+            fresh.claimedRewards = legacyClaims;
+          }
+        } catch {
+          // Ignore malformed legacy storage
+        }
+      }
       saveWallet(fresh, store);
       return fresh;
     }
@@ -159,23 +195,28 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
 
     const lastDate = typeof parsed.lastRefillDate === 'string' ? parsed.lastRefillDate : today;
     const baseCredits = hadLegacyFounderState
-      ? MONETIZATION_CONFIG.dailyFreeCredits
+      ? MONETIZATION_CONFIG.starterCredits
       : parsed.credits;
-    const credits =
-      lastDate < today
-        ? Math.max(baseCredits, MONETIZATION_CONFIG.dailyFreeCredits)
-        : Math.max(0, Math.floor(baseCredits));
+    // Strict one-time starter economy: NEVER auto-refill credits on next-day UTC boundary
+    const credits = Math.max(0, Math.floor(baseCredits));
 
     const referralCode =
       typeof parsed.referralCode === 'string' && /^vd[a-z0-9]{4,8}$/.test(parsed.referralCode)
         ? parsed.referralCode
         : generateReferralCode();
 
-    // CRITICAL SECURITY INVARIANT: Never auto-load Founder Mode or unverified VIP from localStorage!
-    // Every visitor & page load starts as a normal player unless unlocked in-memory via /api/founder-auth,
-    // or holding a verified Stripe / promo claim in claimedRewards.
     const verifiedVip = hasRealVipClaim && Boolean(parsed.isVip);
     const hadUnverifiedVip = Boolean(parsed.isVip) && !verifiedVip;
+
+    const fridayHearts =
+      typeof parsed.fridayHearts === 'number' && Number.isFinite(parsed.fridayHearts)
+        ? Math.max(0, Math.min(3, Math.floor(parsed.fridayHearts)))
+        : 3;
+
+    const discernmentXp =
+      typeof parsed.discernmentXp === 'number' && Number.isFinite(parsed.discernmentXp)
+        ? Math.max(0, Math.floor(parsed.discernmentXp))
+        : 0;
 
     const normalized: WalletState = {
       credits,
@@ -183,6 +224,17 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
       isVip: verifiedVip,
       isFounderUnlimited: false,
       referralCode,
+      playerName: typeof parsed.playerName === 'string' ? parsed.playerName.slice(0, 28) : '',
+      personaTag: typeof parsed.personaTag === 'string' ? parsed.personaTag.slice(0, 48) : '',
+      fridayHearts,
+      discernmentXp,
+      conspiracyClues: Array.isArray(parsed.conspiracyClues) ? parsed.conspiracyClues : [],
+      hasPatronBadge: Boolean(parsed.hasPatronBadge),
+      unlockedPovIds: Array.isArray(parsed.unlockedPovIds) ? parsed.unlockedPovIds : [],
+      unlockedPhotoIds: Array.isArray(parsed.unlockedPhotoIds) ? parsed.unlockedPhotoIds : [],
+      unlockedEpilogueIds: Array.isArray(parsed.unlockedEpilogueIds)
+        ? parsed.unlockedEpilogueIds
+        : [],
       unlockedEpisodeIds: Array.isArray(parsed.unlockedEpisodeIds) ? parsed.unlockedEpisodeIds : [],
       claimedRewards,
       unlockedStamps: Array.isArray(parsed.unlockedStamps)
@@ -190,7 +242,7 @@ export function loadWallet(storage?: StorageLike, now: Date = new Date()): Walle
         : ['puma', 'cougar'],
     };
 
-    if (lastDate < today || !parsed.referralCode || hadLegacyFounderState || hadUnverifiedVip) {
+    if (!parsed.referralCode || hadLegacyFounderState || hadUnverifiedVip) {
       saveWallet(normalized, store);
     }
     return normalized;
@@ -205,7 +257,6 @@ export function saveWallet(wallet: WalletState, storage?: StorageLike): void {
   const store = storage ?? getDefaultStorage();
   if (!store) return;
   try {
-    // Strip ephemeral Founder session flag so localStorage can NEVER auto-boot anyone into Founder Mode
     const { isFounderUnlimited: _ephemeralFounder, ...persisted } = wallet;
     store.setItem(
       WALLET_STORAGE_KEY,
@@ -220,7 +271,7 @@ export function spendCredits(
   wallet: WalletState,
   cost: number,
 ): { ok: boolean; wallet: WalletState } {
-  if (wallet.isFounderUnlimited || cost <= 0) return { ok: true, wallet };
+  if (wallet.isFounderUnlimited || wallet.isVip || cost <= 0) return { ok: true, wallet };
   if (wallet.credits < cost) {
     return { ok: false, wallet };
   }
@@ -229,6 +280,100 @@ export function spendCredits(
     wallet: {
       ...wallet,
       credits: wallet.credits - cost,
+    },
+  };
+}
+
+export function loseFridayHeart(wallet: WalletState): WalletState {
+  return {
+    ...wallet,
+    fridayHearts: Math.max(0, wallet.fridayHearts - 1),
+  };
+}
+
+export function resetFridayHearts(wallet: WalletState): WalletState {
+  return {
+    ...wallet,
+    fridayHearts: 3,
+  };
+}
+
+export function recordBulletDodged(
+  wallet: WalletState,
+  personaId: string,
+  clueId?: string,
+): WalletState {
+  const rewardTag = `dodged_${personaId}`;
+  const alreadyDodged = wallet.claimedRewards.includes(rewardTag);
+  const nextClues =
+    clueId && !wallet.conspiracyClues.includes(clueId)
+      ? [...wallet.conspiracyClues, clueId]
+      : wallet.conspiracyClues;
+
+  return {
+    ...wallet,
+    discernmentXp: alreadyDodged ? wallet.discernmentXp : wallet.discernmentXp + 25,
+    conspiracyClues: nextClues,
+    claimedRewards: alreadyDodged
+      ? wallet.claimedRewards
+      : [...wallet.claimedRewards, rewardTag],
+  };
+}
+
+export function addConspiracyClue(wallet: WalletState, clueId: string): WalletState {
+  if (!clueId || wallet.conspiracyClues.includes(clueId)) return wallet;
+  return {
+    ...wallet,
+    conspiracyClues: [...wallet.conspiracyClues, clueId],
+  };
+}
+
+export function updatePlayerPersona(
+  wallet: WalletState,
+  playerName: string,
+  personaTag: string,
+): WalletState {
+  return {
+    ...wallet,
+    playerName: playerName.trim().slice(0, 28),
+    personaTag: personaTag.trim().slice(0, 48),
+  };
+}
+
+export function grantPatronBadge(wallet: WalletState, rewardKey?: string): WalletState {
+  const nextRewards =
+    rewardKey && !wallet.claimedRewards.includes(rewardKey)
+      ? [...wallet.claimedRewards, rewardKey]
+      : wallet.claimedRewards;
+  return {
+    ...wallet,
+    hasPatronBadge: true,
+    claimedRewards: nextRewards,
+  };
+}
+
+export function unlockContentWithCredits(
+  wallet: WalletState,
+  bucket: 'unlockedPovIds' | 'unlockedPhotoIds' | 'unlockedEpilogueIds',
+  itemId: string,
+  cost: number,
+): { ok: boolean; wallet: WalletState } {
+  const currentList = wallet[bucket];
+  if (wallet.isFounderUnlimited || wallet.isVip || currentList.includes(itemId)) {
+    return {
+      ok: true,
+      wallet: currentList.includes(itemId)
+        ? wallet
+        : { ...wallet, [bucket]: [...currentList, itemId] },
+    };
+  }
+  const spent = spendCredits(wallet, cost);
+  if (!spent.ok) return spent;
+  return {
+    ok: true,
+    wallet: {
+      ...spent.wallet,
+      [bucket]: [...spent.wallet[bucket], itemId],
     },
   };
 }
@@ -287,12 +432,6 @@ export function grantRewardCredits(
   };
 }
 
-/**
- * Synchronous promo/sandbox unlock handler.
- * NOTE: Founder Mode is strictly blocked from URL query strings (?founder=1) and
- * plaintext codes; it requires cryptographic passphrase verification via
- * `verifyFounderPassphrase` / `/api/founder-auth`.
- */
 export function applyUnlockCodeOrQuery(
   wallet: WalletState,
   codeOrSearch: string,
@@ -316,7 +455,7 @@ export function applyUnlockCodeOrQuery(
         wallet: {
           ...wallet,
           isVip: true,
-          credits: wallet.credits + 10,
+          credits: wallet.credits + 15,
           claimedRewards: [...wallet.claimedRewards, `stripe_${token}`],
         },
       };
@@ -328,7 +467,6 @@ export function applyUnlockCodeOrQuery(
     return { unlocked: null, wallet };
   }
 
-  // Only accept public demo VIP codes while sandboxPreviewMode is enabled!
   if (!MONETIZATION_CONFIG.sandboxPreviewMode) {
     return { unlocked: null, wallet };
   }
@@ -342,7 +480,7 @@ export function applyUnlockCodeOrQuery(
       wallet: {
         ...wallet,
         isVip: true,
-        credits: already ? wallet.credits : wallet.credits + 10,
+        credits: already ? wallet.credits : wallet.credits + 15,
         claimedRewards: already ? wallet.claimedRewards : [...wallet.claimedRewards, rewardId],
       },
     };

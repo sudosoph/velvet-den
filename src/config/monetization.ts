@@ -1,7 +1,8 @@
 export interface MonetizationConfig {
-  dailyFreeCredits: 5;
+  starterCredits: 3;
+  dailyFreeCredits: 0;
   shareRewardCredits: 0;
-  newsletterRewardCredits: 3;
+  newsletterRewardCredits: 0;
   tipJarUrl: string;
   kofiUrl: string;
   stripeCreditPackUrl: string;
@@ -15,21 +16,22 @@ export interface MonetizationConfig {
 }
 
 /**
- * Single source of truth for Cougars & Cubs Club monetization (v34 Exit-Ready Economy).
+ * Single source of truth for Cougars & Cubs Club monetization (v35 Dream Daddy Hybrid Sim).
  * Strictly isolated from natalwealth.app: only populate URLs belonging to
- * the dedicated Cougars & Cubs Club Stripe sub-account / Ko-fi / Amazon tag.
+ * the dedicated Cougars & Cubs Club Stripe sub-account & Amazon Associates StoreID.
  */
 export const MONETIZATION_CONFIG: MonetizationConfig = {
-  dailyFreeCredits: 5,
+  starterCredits: 3,
+  dailyFreeCredits: 0,
   shareRewardCredits: 0,
-  newsletterRewardCredits: 3,
+  newsletterRewardCredits: 0,
   tipJarUrl: 'https://buy.stripe.com/bJe8wPbgZb9c8VR9i0fjG02',
   kofiUrl: '',
   stripeCreditPackUrl: 'https://buy.stripe.com/9B6eVdetb4KO5JF2TCfjG00',
   stripeVipPassUrl: 'https://buy.stripe.com/7sYfZhfxfgtw0pldygfjG01',
   cameoCommissionUrl: 'https://buy.stripe.com/aFaaEX0Clcdg0plgKsfjG03',
   newsletterActionUrl: '',
-  amazonAssociateTag: '',
+  amazonAssociateTag: 'cougarsandcub-20',
   partnerSubId: '',
   vipUnlockCodes: ['VELVETVIP', 'BLACKCARD', 'SHORTLEASH'],
   sandboxPreviewMode: false,
