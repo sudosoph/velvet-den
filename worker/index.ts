@@ -1572,22 +1572,93 @@ async function handleReferralStatus(url: URL, env: WorkerEnv): Promise<Response>
 }
 
 async function handleCameoBrief(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { email?: string; brief?: string } = {};
+  let body: { sessionId?: string; brief?: string } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ ok: false, error: 'Invalid JSON' }, 400);
   }
-  const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+  const sessionId = sanitizeId(body.sessionId ?? null, 120);
   const brief = String(body.brief || '').trim().slice(0, 500);
-  if (!email.includes('@') || brief.length < 10) {
-    return jsonResponse({ ok: false, error: 'Valid email and 10+ char brief required' }, 400);
+
+  if (!sessionId || !sessionId.startsWith('cs_')) {
+    return jsonResponse(
+      { ok: false, error: 'Verified $29 Stripe sponsorship session required' },
+      403,
+    );
   }
+  if (brief.length < 10) {
+    return jsonResponse({ ok: false, error: '10+ character character brief required' }, 400);
+  }
+
+  if (env.VELVET_KV) {
+    const alreadySubmitted = await env.VELVET_KV.get(`cameo_brief_used:${sessionId}`);
+    if (alreadySubmitted) {
+      return jsonResponse(
+        { ok: false, error: 'Brief already submitted for this sponsorship receipt' },
+        409,
+      );
+    }
+  }
+
+  let verifiedBuyer = env.VELVET_KV ? await env.VELVET_KV.get(`cameo_session:${sessionId}`) : null;
+
+  if (!verifiedBuyer) {
+    if (!env.STRIPE_SECRET_KEY) {
+      return jsonResponse(
+        { ok: false, error: 'Verified $29 Stripe sponsorship session required' },
+        403,
+      );
+    }
+    try {
+      const stripeRes = await fetch(
+        `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+          },
+        },
+      );
+      if (!stripeRes.ok) {
+        return jsonResponse(
+          { ok: false, error: 'Verified $29 Stripe sponsorship session required' },
+          403,
+        );
+      }
+      const session = (await stripeRes.json()) as {
+        payment_status?: string;
+        amount_total?: number;
+        metadata?: { tier?: string };
+        customer_details?: { email?: string };
+      };
+      const amt = typeof session.amount_total === 'number' ? session.amount_total : 0;
+      const isPaidCameo =
+        session.payment_status === 'paid' && (session.metadata?.tier === 'cameo' || amt >= 2500);
+      if (!isPaidCameo) {
+        return jsonResponse(
+          { ok: false, error: 'Verified $29 Stripe sponsorship session required' },
+          403,
+        );
+      }
+      verifiedBuyer = session.customer_details?.email?.trim().toLowerCase() || 'verified_patron';
+    } catch {
+      return jsonResponse({ ok: false, error: 'Could not verify Stripe session' }, 502);
+    }
+  }
+
   if (env.VELVET_KV) {
     try {
+      await env.VELVET_KV.put(`cameo_brief_used:${sessionId}`, new Date().toISOString());
       const raw = await env.VELVET_KV.get('cameo_briefs:list');
-      const list: { email: string; brief: string; createdAt: string }[] = raw ? JSON.parse(raw) : [];
-      list.push({ email, brief, createdAt: new Date().toISOString() });
+      const list: { sessionId: string; email: string; brief: string; createdAt: string }[] = raw
+        ? JSON.parse(raw)
+        : [];
+      list.push({
+        sessionId,
+        email: verifiedBuyer,
+        brief,
+        createdAt: new Date().toISOString(),
+      });
       await env.VELVET_KV.put('cameo_briefs:list', JSON.stringify(list.slice(-200)));
     } catch {
       // Non-blocking KV error
@@ -1654,6 +1725,9 @@ async function handleVerifyCheckout(
       if (isVip && buyerEmail) {
         await env.VELVET_KV.put(`vip_email:${buyerEmail}`, sessionId);
       }
+      if (isCameo) {
+        await env.VELVET_KV.put(`cameo_session:${sessionId}`, buyerEmail || 'verified_patron');
+      }
     }
 
     scheduleEdgePostHogEvent(request, env, ctx, 'checkout_verified_server', {
@@ -1666,6 +1740,7 @@ async function handleVerifyCheckout(
       verified: true,
       grantType,
       credits,
+      ...(isCameo ? { cameoSessionId: sessionId } : {}),
     });
   } catch {
     return jsonResponse({ verified: false }, 500);

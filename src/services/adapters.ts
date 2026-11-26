@@ -629,7 +629,12 @@ export const liveAiInboxService: AiDmVettingService = {
 export async function verifyStripeCheckoutSession(
   sessionId: string,
   tierHint = '',
-): Promise<{ verified: boolean; grantType?: 'vip' | 'credits' | 'patron'; credits?: number }> {
+): Promise<{
+  verified: boolean;
+  grantType?: 'vip' | 'credits' | 'patron';
+  credits?: number;
+  cameoSessionId?: string;
+}> {
   if (!sessionId || !isLiveBrowserRuntime()) return { verified: false };
   try {
     const q = new URLSearchParams({ session_id: sessionId });
@@ -640,6 +645,7 @@ export async function verifyStripeCheckoutSession(
       verified: boolean;
       grantType?: 'vip' | 'credits' | 'patron';
       credits?: number;
+      cameoSessionId?: string;
     };
   } catch {
     return { verified: false };

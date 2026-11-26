@@ -333,6 +333,15 @@ export default function App() {
   const [dateodexOpen, setDateodexOpen] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
   const [boutiqueInitialTab, setBoutiqueInitialTab] = useState<BoutiqueSectionTab>('vip');
+  const [verifiedCameoSessionId, setVerifiedCameoSessionId] = useState<string | null>(() => {
+    try {
+      return typeof window !== 'undefined'
+        ? window.localStorage.getItem('velvet_verified_cameo_session')
+        : null;
+    } catch {
+      return null;
+    }
+  });
   const [popTriviaOpen, setPopTriviaOpen] = useState(initialUrl.openQuiz);
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
 
@@ -467,10 +476,22 @@ export default function App() {
         tier: result.grantType ?? tierHint,
         credits: result.credits ?? 0,
       });
+      if (result.cameoSessionId) {
+        setVerifiedCameoSessionId(result.cameoSessionId);
+        try {
+          window.localStorage.setItem('velvet_verified_cameo_session', result.cameoSessionId);
+        } catch {
+          // Ignore storage block
+        }
+        setBoutiqueInitialTab('vip');
+        setBoutiqueOpen(true);
+      }
       setNoticeBanner(
-        result.grantType === 'patron' || tierHint === 'tip'
-          ? '💛 Thank you for supporting Cougars & Cubs Club! Your Club Patron badge is live.'
-          : '🎉 Stripe Checkout verified! Your VIP / Club Credits are live.',
+        result.cameoSessionId
+          ? '🎬 $29 Producer Sponsorship verified! Write your custom Cougar or Cub brief below.'
+          : result.grantType === 'patron' || tierHint === 'tip'
+            ? '💛 Thank you for supporting Cougars & Cubs Club! Your Club Patron badge is live.'
+            : '🎉 Stripe Checkout verified! Your VIP / Club Credits are live.',
       );
     });
   }, [initialUrl.stripeSessionId, wallet.claimedRewards]);
@@ -1299,6 +1320,15 @@ export default function App() {
         open={boutiqueOpen}
         wallet={wallet}
         initialSection={boutiqueInitialTab}
+        verifiedCameoSessionId={verifiedCameoSessionId}
+        onCameoBriefSubmitted={() => {
+          setVerifiedCameoSessionId(null);
+          try {
+            window.localStorage.removeItem('velvet_verified_cameo_session');
+          } catch {
+            // Ignore storage block
+          }
+        }}
         onClose={() => setBoutiqueOpen(false)}
         onRedeemCode={(code) => {
           const res = applyUnlockCodeOrQuery(wallet, code);
