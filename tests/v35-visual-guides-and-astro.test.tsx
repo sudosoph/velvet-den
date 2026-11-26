@@ -5,12 +5,12 @@ import { VelvetJournalView } from '../src/components/VelvetJournalView';
 import { JOURNAL_ARTICLES } from '../src/data/journalArticles';
 import { FIELD_GUIDE_ENTRIES } from '../src/domain/taxonomy';
 
-describe('v35 BuzzFeed & Top-Reddit Style Visual Club Guides, Illustrated Astro Toy & Full-Art Field Guide', () => {
+describe('v35 Illustrated Visual Club Guides, Astro Toy & Full-Art Field Guide', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
 
-  it('renders BuzzFeed-style visual section photo cards, upvoted Reddit-style community receipts, interactive 1-tap polls, and bespoke bubbles across all 16 guides', () => {
+  it('renders visual section photo cards, upvoted community receipts, interactive 1-tap polls, and bespoke bubbles across all 16 guides', () => {
     render(<VelvetJournalView onPlayScenario={vi.fn()} />);
 
     // Visual section cards with real photos break up every guide (zero wall of text)
@@ -20,11 +20,11 @@ describe('v35 BuzzFeed & Top-Reddit Style Visual Club Guides, Illustrated Astro 
       expect(card.querySelector('img')).not.toBeNull();
     }
 
-    // Reddit-style upvoted community receipt callout is present
+    // Community receipt callout is present
     expect(screen.getByTestId('guide-reddit-receipt')).toBeInTheDocument();
 
-    // Interactive BuzzFeed 1-tap Vibe Poll votes and reveals percentage bars
-    const poll = screen.getByTestId('guide-buzzfeed-poll');
+    // Interactive 1-tap Club Poll votes and reveals percentage bars
+    const poll = screen.getByTestId('guide-club-poll');
     const pollButtons = within(poll).getAllByRole('button');
     expect(pollButtons.length).toBeGreaterThanOrEqual(3);
     fireEvent.click(pollButtons[0]);
@@ -60,7 +60,7 @@ describe('v35 BuzzFeed & Top-Reddit Style Visual Club Guides, Illustrated Astro 
     const astroImgs = astro.querySelectorAll('img');
     expect(astroImgs.length).toBeGreaterThanOrEqual(3);
 
-    // 4 visual emoji compatibility progress bars break up the reading into scannable BuzzFeed meters
+    // 4 visual emoji compatibility progress bars break up the reading into scannable meters
     const meterGrid = within(astro).getByTestId('zodiac-meter-grid');
     expect(meterGrid.textContent).toMatch(/🔥/);
     expect(meterGrid.textContent).toMatch(/%/);

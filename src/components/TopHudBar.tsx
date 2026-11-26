@@ -5,7 +5,6 @@ import {
   Camera,
   ChevronDown,
   Crown,
-  Heart,
   Info,
   Menu,
   Newspaper,
@@ -22,7 +21,6 @@ import { BRAND_CONFIG } from '../config/brand';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import { POP_CULTURE_TRIVIA } from '../data/popCultureTrivia';
 import type { WalletState } from '../domain/economy';
-import { trackEvent } from '../lib/analytics';
 import { isSoundMuted, toggleSoundMute } from '../lib/sound';
 import { cn } from '../lib/utils';
 import type { BoutiqueSectionTab } from './BoutiqueAndVipModal';
@@ -106,46 +104,33 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
   const navItemClass = (isActive: boolean) =>
     cn(
-      'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer',
+      'relative inline-flex h-16 shrink-0 items-center justify-center gap-1.5 px-1 text-sm whitespace-nowrap transition-colors cursor-pointer border-b-2',
       isActive
-        ? 'bg-white text-zinc-950 shadow-2xs'
-        : 'text-zinc-600 hover:text-zinc-950',
+        ? 'border-rose-600 font-semibold text-zinc-950'
+        : 'border-transparent font-medium text-zinc-500 hover:text-zinc-950',
     );
 
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white">
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        {/* LEFT: Anchored Brand Wordmark + Subtle Persona Button */}
-        <div className="flex shrink-0 items-center gap-2.5">
-          <button
-            type="button"
-            onClick={handleLogoClick}
-            className="group flex shrink-0 items-center gap-2 text-left whitespace-nowrap cursor-pointer"
-          >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-900 text-sm text-white group-hover:bg-rose-600 transition-colors">
-              🐆
-            </span>
-            <span className="text-[15px] font-semibold tracking-tight whitespace-nowrap text-zinc-950">
-              {BRAND_CONFIG.name}
-            </span>
-          </button>
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
+        {/* LEFT: Clean Bold Typographic Brand Mark */}
+        <button
+          type="button"
+          onClick={handleLogoClick}
+          className="group flex shrink-0 items-center gap-2.5 text-left whitespace-nowrap cursor-pointer"
+        >
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-600 text-sm font-bold text-white shadow-2xs group-hover:bg-zinc-950 transition-colors">
+            🐆
+          </span>
+          <span className="text-base font-bold tracking-tight whitespace-nowrap text-zinc-950">
+            {BRAND_CONFIG.name}
+          </span>
+        </button>
 
-          <span className="hidden sm:inline text-zinc-200">|</span>
-
-          <button
-            type="button"
-            onClick={onOpenPersonaModal}
-            className="hidden sm:inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium whitespace-nowrap text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
-          >
-            <User className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
-            <span>{wallet.playerName ? wallet.playerName : 'Persona'}</span>
-          </button>
-        </div>
-
-        {/* CENTER: shadcn/ui Segmented TabsList (Uniform 14px text-sm, Clean Rounded-lg Track) */}
+        {/* CENTER: Pill-Free Editorial Underline Navigation */}
         <nav
           aria-label="Primary Club Navigation"
-          className="hidden lg:flex items-center gap-0.5 rounded-lg bg-zinc-100 p-1 shrink-0"
+          className="hidden lg:flex items-center gap-7 shrink-0"
         >
           <button
             type="button"
@@ -170,7 +155,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           >
             <span>Chats &amp; Dates</span>
             {activeChatCount > 0 && (
-              <span className="rounded-full bg-rose-600 px-1.5 py-0.5 text-xs leading-none font-semibold text-white">
+              <span className="rounded-full bg-rose-600 px-1.5 py-0.5 text-xs leading-none font-bold text-white">
                 {activeChatCount}
               </span>
             )}
@@ -199,8 +184,8 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               <span>Club Extras</span>
               <ChevronDown
                 className={cn(
-                  'h-3.5 w-3.5 shrink-0 text-zinc-500 transition-transform',
-                  extrasOpen && 'rotate-180',
+                  'h-3.5 w-3.5 shrink-0 text-zinc-400 transition-transform',
+                  extrasOpen && 'rotate-180 text-zinc-950',
                 )}
               />
             </button>
@@ -208,7 +193,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             {extrasOpen && (
               <div
                 role="menu"
-                className="absolute right-0 mt-2 w-64 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg space-y-0.5 z-50"
+                className="absolute right-0 top-14 w-64 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl space-y-0.5 z-50"
               >
                 {[
                   {
@@ -261,9 +246,9 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                         setExtrasOpen(false);
                         item.action();
                       }}
-                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium text-zinc-800 hover:bg-zinc-100 transition-colors cursor-pointer"
+                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium text-zinc-800 hover:bg-zinc-50 hover:text-rose-600 transition-colors cursor-pointer"
                     >
-                      <Icon className="h-4 w-4 text-zinc-500 shrink-0" />
+                      <Icon className="h-4 w-4 text-zinc-400 shrink-0" />
                       <span>{item.label}</span>
                     </button>
                   );
@@ -273,35 +258,30 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           </div>
         </nav>
 
-        {/* RIGHT: Uniform h-9 shadcn Actions */}
-        <div className="flex shrink-0 items-center gap-1.5">
-          {liveTipUrl && (
-            <a
-              href={liveTipUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Support This Project"
-              onClick={() => trackEvent('tip_jar_clicked', { surface: 'top_hud' })}
-              className="hidden sm:inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium whitespace-nowrap text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors"
-            >
-              <Heart className="h-3.5 w-3.5 text-rose-600 shrink-0" />
-              <span>Support</span>
-            </a>
-          )}
+        {/* RIGHT: Minimal Clean Actions (Zero Pill Clutter) */}
+        <div className="flex shrink-0 items-center gap-4">
+          <button
+            type="button"
+            onClick={onOpenPersonaModal}
+            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium whitespace-nowrap text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
+          >
+            <User className="h-4 w-4 shrink-0" />
+            <span>{wallet.playerName ? wallet.playerName : 'Persona'}</span>
+          </button>
 
           <button
             type="button"
             onClick={() => onOpenBoutique('shop')}
-            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium whitespace-nowrap text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-sm font-medium whitespace-nowrap text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
           >
-            <ShoppingBag className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
+            <ShoppingBag className="h-4 w-4 shrink-0" />
             <span>Shop</span>
           </button>
 
           <button
             type="button"
             onClick={() => onOpenBoutique('vip')}
-            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-3 text-xs font-semibold whitespace-nowrap text-white transition-colors cursor-pointer"
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-zinc-950 hover:bg-rose-600 px-3.5 text-xs font-semibold whitespace-nowrap text-white transition-colors cursor-pointer"
           >
             {wallet.isFounderUnlimited ? (
               <Wrench className="h-3.5 w-3.5 text-amber-300 shrink-0" />
@@ -323,12 +303,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               const nextMuted = toggleSoundMute();
               setMuted(nextMuted);
             }}
-            className={cn(
-              'hidden sm:inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition-colors cursor-pointer',
-              muted
-                ? 'bg-zinc-100 text-zinc-900'
-                : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900',
-            )}
+            className="hidden sm:inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-400 hover:text-zinc-950 transition-colors cursor-pointer"
             aria-label={muted ? 'Unmute game audio' : 'Mute game audio'}
           >
             {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}

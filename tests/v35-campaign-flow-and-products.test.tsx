@@ -5,13 +5,13 @@ import { computeCampaignProgress } from '../src/components/CampaignCompassBar';
 import { createInitialThread } from '../src/components/ChatsAndDatesView';
 import { createDefaultWallet } from '../src/domain/economy';
 
-describe('v35 Connected Dream Daddy Campaign Flow, Levels, 3-Date Hearts & Cub School Perk', () => {
+describe('v35 Connected Campaign Flow, Levels, 3-Date Hearts & Cub School Perk', () => {
   beforeEach(() => {
     window.localStorage.clear();
     window.history.replaceState({}, '', '/');
   });
 
-  it('computes Dream Daddy campaign levels (Lv.1 -> Lv.5), 3-Date hearts, and dynamic Next-Step guidance', () => {
+  it('computes campaign levels (Lv.1 -> Lv.5), 3-Date hearts, and dynamic Next-Step guidance', () => {
     const emptyWallet = createDefaultWallet(new Date('2026-11-26T12:00:00Z'));
 
     const startProg = computeCampaignProgress({

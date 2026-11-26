@@ -955,8 +955,8 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             </div>
           </div>
 
-          {/* 1-Tap Jump Bar (Clean shadcn Tabs) */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          {/* 1-Tap Jump Bar (Clean Pill-Free Underline Tabs) */}
+          <div className="flex flex-wrap items-center gap-6 border-b border-zinc-200">
             {[
               {
                 slug: 'cougar-vs-puma-vs-jaguar-dating-age-chart',
@@ -985,10 +985,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   key={pill.slug}
                   type="button"
                   onClick={() => handleSelectArticle(pill.slug)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
+                  className={`pb-3 text-sm whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
                     isCurrent
-                      ? 'bg-zinc-900 text-white'
-                      : 'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100'
+                      ? 'border-rose-600 font-semibold text-zinc-950'
+                      : 'border-transparent font-medium text-zinc-500 hover:text-zinc-950'
                   }`}
                 >
                   {pill.label}
@@ -1000,11 +1000,11 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
 
         <div className="grid gap-6 lg:grid-cols-[310px_1fr] items-start">
           {/* Illustrated Sidebar With Thumbnail Previews */}
-          <aside className="editorial-hinge-card rounded-3xl bg-white p-3.5 space-y-2 lg:sticky lg:top-20 max-h-[82vh] overflow-y-auto">
-            <div className="px-2 pb-1 text-xs font-extrabold uppercase tracking-wide text-stone-500">
-              🔥 All {JOURNAL_ARTICLES.length} Illustrated Club Guides
+          <aside className="editorial-hinge-card rounded-2xl bg-white p-3.5 space-y-2 lg:sticky lg:top-20 max-h-[82vh] overflow-y-auto">
+            <div className="px-2 pb-1 text-xs font-bold uppercase tracking-wider text-zinc-500">
+              All {JOURNAL_ARTICLES.length} Club Guides
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {JOURNAL_ARTICLES.map((art, idx) => {
                 const isSelected = art.slug === active.slug;
                 const artMeta = getGuideVisualMeta(art.slug);
@@ -1013,22 +1013,22 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     key={art.slug}
                     type="button"
                     onClick={() => handleSelectArticle(art.slug)}
-                    className={`w-full flex items-center gap-2.5 rounded-2xl border p-2.5 text-left text-xs font-semibold whitespace-normal transition cursor-pointer ${
+                    className={`w-full flex items-center gap-2.5 rounded-xl p-2 text-left text-xs font-medium whitespace-normal transition-colors cursor-pointer ${
                       isSelected
-                        ? 'border-[#18101E] bg-[#18101E] text-white shadow-sm'
-                        : 'border-stone-200/80 bg-stone-50/70 text-[#18101E] hover:border-stone-400 hover:bg-white'
+                        ? 'bg-zinc-950 text-white'
+                        : 'bg-white text-zinc-800 hover:bg-zinc-50'
                     }`}
                   >
                     <img
                       src={artMeta.heroPhoto}
                       alt=""
                       loading="lazy"
-                      className="h-11 w-11 shrink-0 rounded-xl object-cover object-top border border-white/20"
+                      className="h-11 w-11 shrink-0 rounded-lg object-cover object-top"
                     />
                     <div className="min-w-0 flex-1 space-y-0.5">
                       <div
-                        className={`text-[10px] font-extrabold uppercase tracking-wide ${
-                          isSelected ? 'text-amber-300' : 'text-rose-700'
+                        className={`text-xs font-semibold ${
+                          isSelected ? 'text-rose-400' : 'text-zinc-400'
                         }`}
                       >
                         #{String(idx + 1).padStart(2, '0')} • {art.readTime}
@@ -1041,35 +1041,20 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             </div>
           </aside>
 
-          <article className="editorial-hinge-card rounded-3xl bg-white p-5 sm:p-8 space-y-6">
-            {/* True 16:9 Widescreen Hero Editorial Photo (Zero Cropped Headshots or DVD Boxes!) */}
-            <div className="relative overflow-hidden rounded-3xl border border-stone-200 aspect-[16/9] bg-stone-900">
+          <article className="editorial-hinge-card rounded-2xl bg-white p-5 sm:p-8 space-y-6">
+            {/* True 16:9 Widescreen Hero Editorial Photo */}
+            <div className="relative overflow-hidden rounded-2xl border border-zinc-200 aspect-[16/9] bg-zinc-950">
               <img
                 src={visualMeta.heroPhoto}
                 alt={active.headline}
                 data-testid="guide-hero-photo"
                 className="h-full w-full object-cover object-center opacity-95"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/90 via-[#18101E]/25 to-transparent flex flex-col justify-end p-5 sm:p-7">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-block rounded-full bg-amber-300 px-3 py-1 text-xs font-extrabold text-[#18101E]">
-                      {visualMeta.categoryPill}
-                    </span>
-                    <span className="inline-block rounded-full bg-white/95 px-3 py-1 text-xs font-extrabold text-[#18101E]">
-                      ⏱️ {active.readTime}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleShareGuide}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-1.5 text-xs font-bold text-[#18101E] cursor-pointer"
-                  >
-                    <Share2 className="h-3.5 w-3.5 text-rose-600" />
-                    <span>Send to Group Chat</span>
-                  </button>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent flex flex-col justify-end p-5 sm:p-7">
+                <div className="text-xs font-bold uppercase tracking-widest text-rose-400">
+                  {active.readTime}
                 </div>
-                <h2 className="mt-2 font-editorial text-2xl sm:text-3xl font-bold text-white leading-tight">
+                <h2 className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight text-white leading-tight">
                   {active.headline}
                 </h2>
               </div>
@@ -1202,7 +1187,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   </div>
                 </div>
 
-                {/* Illustrated BuzzFeed Result Card: Cast Avatars + Scene Photo + 4 Visual Meters */}
+                {/* Illustrated Result Card: Cast Avatars + Scene Photo + 4 Visual Meters */}
                 <div className="rounded-3xl border border-stone-200 bg-white p-5 space-y-4 shadow-2xs">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-3">
                     <div>
@@ -1453,7 +1438,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
-            {/* BuzzFeed-Style Illustrated Numbered Listicle Cards (Zero Wall of Text!) */}
+            {/* Illustrated Numbered Section Cards */}
             <div className="space-y-5">
               {active.sections.map((sec, idx) => {
                 const photoUrl =
@@ -1466,34 +1451,31 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   <React.Fragment key={sec.heading}>
                     <section
                       data-testid="guide-section-visual-card"
-                      className="overflow-hidden rounded-3xl border border-stone-200 bg-[#FFFDF9] shadow-2xs"
+                      className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
                     >
                       <div className="grid md:grid-cols-[240px_1fr] items-stretch">
-                        <div className="relative min-h-[190px] bg-stone-900">
+                        <div className="relative min-h-[190px] bg-zinc-950">
                           <img
                             src={photoUrl}
                             alt={cleanHeading}
                             className="h-full w-full object-cover object-top"
                           />
-                          <div className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-[#18101E]/90 px-3 py-1 text-xs font-extrabold text-amber-300 shadow-sm">
+                          <div className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-md bg-zinc-950/85 px-2.5 py-1 text-xs font-bold text-white">
                             <span>#{String(idx + 1).padStart(2, '0')}</span>
-                            <span>{emoji}</span>
                           </div>
                         </div>
 
                         <div className="p-5 sm:p-6 space-y-3 flex flex-col justify-center">
-                          <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E] leading-snug">
+                          <h3 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950 leading-snug">
                             {emoji} {cleanHeading}
                           </h3>
                           <ul className="space-y-2">
                             {beats.map((beat, bIdx) => (
                               <li
                                 key={bIdx}
-                                className="flex items-start gap-2.5 rounded-2xl bg-white border border-stone-200/70 px-3.5 py-2.5 text-sm font-medium leading-relaxed text-stone-700"
+                                className="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-600"
                               >
-                                <span className="mt-0.5 shrink-0 text-rose-600 font-extrabold">
-                                  {bIdx === 0 ? '👉' : '✨'}
-                                </span>
+                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-600" />
                                 <span>{beat}</span>
                               </li>
                             ))}
@@ -1502,28 +1484,28 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                       </div>
                     </section>
 
-                    {/* Inject Upvoted Reddit-Style Community Receipt Right After Card #1! */}
+                    {/* Community Receipt Callout After Card #1 */}
                     {idx === 0 && (
                       <div
                         data-testid="guide-reddit-receipt"
-                        className="rounded-3xl border-2 border-amber-200 bg-gradient-to-r from-amber-50/70 via-white to-rose-50/50 p-5 space-y-2.5 shadow-2xs"
+                        className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 space-y-2.5"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#18101E]">
-                            <span className="rounded-full bg-orange-500 px-2 py-0.5 text-[10px] font-extrabold text-white">
-                              TOP CLUB THREAD
+                          <span className="inline-flex items-center gap-2 text-xs font-bold text-zinc-950">
+                            <span className="rounded bg-rose-600 px-2 py-0.5 text-xs font-bold text-white">
+                              CLUB RECEIPT
                             </span>
                             <span>{visualMeta.redditReceipt.handle}</span>
                           </span>
-                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-2.5 py-0.5 text-xs font-extrabold text-amber-950">
-                            <ArrowBigUp className="h-4 w-4 fill-orange-500 text-orange-600" />
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500">
+                            <ArrowBigUp className="h-4 w-4 text-rose-600" />
                             <span>{visualMeta.redditReceipt.upvotes} upvotes</span>
                           </span>
                         </div>
-                        <p className="text-sm sm:text-base font-semibold text-[#18101E] leading-relaxed">
+                        <p className="text-sm sm:text-base font-medium text-zinc-900 leading-relaxed">
                           &ldquo;{visualMeta.redditReceipt.quote}&rdquo;
                         </p>
-                        <div className="rounded-2xl bg-stone-100/90 px-3.5 py-2 text-xs font-bold text-stone-700">
+                        <div className="rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs font-medium text-zinc-600">
                           {visualMeta.redditReceipt.topReply}
                         </div>
                       </div>
@@ -1533,22 +1515,22 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               })}
             </div>
 
-            {/* Interactive BuzzFeed 1-Tap Vibe Poll */}
+            {/* Interactive 1-Tap Club Poll */}
             <div
-              data-testid="guide-buzzfeed-poll"
-              className="rounded-3xl border-2 border-stone-200 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/50 p-5 sm:p-6 space-y-3.5"
+              data-testid="guide-club-poll"
+              className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 sm:p-6 space-y-3.5"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-full bg-rose-600 px-3 py-0.5 text-[11px] font-extrabold uppercase tracking-wider text-white">
-                  ⚡ 5-Second BuzzFeed Club Poll
+                <span className="text-xs font-bold uppercase tracking-widest text-rose-600">
+                  5-Second Club Poll
                 </span>
-                <span className="text-xs font-bold text-stone-500">
+                <span className="text-xs font-medium text-zinc-500">
                   {selectedPollIdx !== undefined
                     ? '✓ Vote Counted • Live Club Split'
                     : 'Tap an answer to see how the Club voted'}
                 </span>
               </div>
-              <h3 className="font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950">
                 {visualMeta.poll.question}
               </h3>
               <div className="grid gap-2">

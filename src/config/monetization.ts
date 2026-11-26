@@ -16,7 +16,7 @@ export interface MonetizationConfig {
 }
 
 /**
- * Single source of truth for Cougars & Cubs Club monetization (v35 Dream Daddy Hybrid Sim).
+ * Single source of truth for Cougars & Cubs Club monetization.
  * Strictly isolated from natalwealth.app: only populate URLs belonging to
  * the dedicated Cougars & Cubs Club Stripe sub-account & Amazon Associates StoreID.
  */

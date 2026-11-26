@@ -659,7 +659,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 identifyPlayerWithContact(waitlistContact.trim(), {
                   role: waitlistRole,
                   city: waitlistCity.trim(),
-                  signup_source: 'raya_waitlist',
+                  signup_source: 'club_waitlist',
                 });
                 trackEvent('waitlist_submitted', {
                   role: waitlistRole,

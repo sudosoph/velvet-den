@@ -11,7 +11,7 @@ import {
   createInitialThread,
 } from '../src/components/ChatsAndDatesView';
 import { SEED_COURTROOM_STORIES } from '../src/components/ClubCourtroomView';
-import { DreamDaddyDateStage } from '../src/components/DreamDaddyDateStage';
+import { RomanticDateStage } from '../src/components/RomanticDateStage';
 import { InTheWildMapView } from '../src/components/InTheWildMapView';
 import { V35_DATE_SCRIPTS } from '../src/data/v35ChatsAndDates';
 import { CLUB_POLAROIDS, getTotalRosterCount, loadDateodex } from '../src/domain/dateodex';
@@ -26,7 +26,7 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
     window.history.replaceState({}, '', '/');
   });
 
-  it('Critical #1: DreamDaddyDateStage stays on finished summary when unlocking Secret Group-Chat POV Leak or hitting S-Rank lockout on final beat', () => {
+  it('Critical #1: RomanticDateStage stays on finished summary when unlocking Secret Group-Chat POV Leak or hitting S-Rank lockout on final beat', () => {
     const StatefulDateHarness: React.FC = () => {
       const [wallet, setWallet] = useState<economy.WalletState>(() => ({
         ...economy.createDefaultWallet(),
@@ -35,7 +35,7 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
       const [lockedOut, setLockedOut] = useState(false);
 
       return (
-        <DreamDaddyDateStage
+        <RomanticDateStage
           leadId="soren"
           dateNumber={1}
           role="her"

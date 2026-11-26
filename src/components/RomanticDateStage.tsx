@@ -23,7 +23,7 @@ import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 
-export interface DreamDaddyDateStageProps {
+export interface RomanticDateStageProps {
   leadId: string;
   dateNumber: 1 | 2 | 3 | 4;
   role: 'her' | 'him';
@@ -44,7 +44,7 @@ export interface DreamDaddyDateStageProps {
   onBackToChats: () => void;
 }
 
-export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
+export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
   leadId,
   dateNumber,
   role,
@@ -188,17 +188,18 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
         <button
           type="button"
           onClick={onBackToChats}
-          className="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-2 text-xs font-bold text-stone-800 hover:bg-stone-50 cursor-pointer"
+          className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Chats</span>
         </button>
 
-        <div className="flex items-center gap-2 text-xs font-bold text-stone-600">
-          <span className="rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-rose-900">
+        <div className="flex items-center gap-3 text-xs font-semibold text-zinc-600">
+          <span className="text-zinc-950">
             Date #{script.dateNumber} • {profile.name} ({profile.age})
           </span>
-          <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-amber-900">
+          <span className="text-zinc-300">•</span>
+          <span>
             {'❤️'.repeat(Math.max(0, wallet.fridayHearts)) || '💔 0 Hearts'}
           </span>
         </div>
@@ -206,12 +207,12 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
 
       {/* Optional Pre-Date #2 Boutique Touch Strip */}
       {!finished && prepProducts.length > 0 && (
-        <section className="editorial-hinge-card rounded-3xl p-4 sm:p-5 bg-gradient-to-r from-amber-50/70 via-white to-rose-50/60 space-y-3">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5 space-y-3 shadow-2xs">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-amber-900">
-              🛍️ Pre-Date Signature Touch (Optional Partner Picks)
+            <span className="text-xs font-bold uppercase tracking-wider text-zinc-900">
+              Pre-Date Signature Touch (Optional Partner Picks)
             </span>
-            <span className="text-[11px] font-medium text-stone-500">Opens on Amazon</span>
+            <span className="text-xs font-medium text-zinc-400">Opens on Amazon</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {prepProducts.map((prod) => (
@@ -220,16 +221,16 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                 href={buildAffiliateUrl(prod, `date2_prep_${leadId}`)}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-white p-2.5 hover:border-amber-400 transition"
+                className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50/60 p-2.5 hover:bg-zinc-100 transition-colors"
               >
                 <img
                   src={prod.photoUrl}
                   alt={prod.name}
-                  className="h-12 w-12 rounded-xl object-cover shrink-0"
+                  className="h-12 w-12 rounded-lg object-cover shrink-0"
                 />
                 <div className="min-w-0">
-                  <div className="text-xs font-bold text-[#18101E] line-clamp-1">{prod.name}</div>
-                  <div className="text-[11px] font-semibold text-rose-700 inline-flex items-center gap-1">
+                  <div className="text-xs font-semibold text-zinc-950 line-clamp-1">{prod.name}</div>
+                  <div className="text-xs font-medium text-rose-600 inline-flex items-center gap-1">
                     <span>{prod.priceDisplay}</span>
                     <ExternalLink className="h-3 w-3" />
                   </div>
@@ -241,25 +242,25 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
       )}
 
       {/* Full-Bleed Sunset Visual-Novel Stage */}
-      <section className="relative overflow-hidden rounded-3xl bg-[#140D19] text-white shadow-2xl">
+      <section className="relative overflow-hidden rounded-2xl bg-zinc-950 text-white shadow-xl">
         <div className="relative h-72 sm:h-96 w-full overflow-hidden">
           <img
             src={script.venueBackdrop}
             alt={script.title}
-            className="h-full w-full object-cover animate-ken-burns opacity-75"
+            className="h-full w-full object-cover animate-ken-burns opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#140D19] via-[#140D19]/35 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/35 to-transparent" />
 
           {/* Expressive Animated Character Bust */}
           <div className="absolute inset-x-6 bottom-4 flex items-end justify-between gap-4">
-            <div className="max-w-lg space-y-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/95 px-3 py-1 text-xs font-extrabold text-[#18101E]">
+            <div className="max-w-lg space-y-1.5">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-2.5 py-1 text-xs font-bold text-zinc-950">
                 <span>{preset.particle}</span>
                 <span>
                   {profile.name} • {preset.badge}
                 </span>
               </span>
-              <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-white drop-shadow-md">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-md">
                 {script.title}
               </h1>
             </div>
@@ -274,66 +275,66 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
               <img
                 src={portraitSrc}
                 alt={profile.name}
-                className={`h-40 w-30 sm:h-52 sm:w-40 rounded-2xl object-cover ring-3 shadow-2xl transition-all duration-300 ${preset.tintClass} ${preset.motionClass}`}
+                className={`h-40 w-30 sm:h-52 sm:w-40 rounded-xl object-cover ring-2 shadow-2xl transition-all duration-300 ${preset.tintClass} ${preset.motionClass}`}
               />
             </div>
           </div>
         </div>
 
-        {/* Frosted Velvet Dialogue Dock OR Date Rank Summary */}
-        <div className="velvet-stage-dock p-6 sm:p-8 space-y-5">
+        {/* Clean Dialogue Dock OR Date Rank Summary */}
+        <div className="border-t border-white/10 bg-zinc-950 p-6 sm:p-8 space-y-5">
           {!finished ? (
             <>
-              <div className="flex items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider text-amber-200/90">
+              <div className="flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
                 <span className="inline-flex items-center gap-1.5">
                   {script.beats.map((_, i) => (
                     <span
                       key={i}
-                      className={`h-2 w-5 rounded-full transition-all ${
-                        i <= beatIdx ? 'bg-amber-300' : 'bg-white/20'
+                      className={`h-1.5 w-6 rounded-full transition-all ${
+                        i <= beatIdx ? 'bg-rose-500' : 'bg-white/15'
                       }`}
                     />
                   ))}
-                  <span className="ml-1">
+                  <span className="ml-1.5 text-zinc-300">
                     Scene {beatIdx + 1} of {script.beats.length}
                   </span>
                 </span>
-                <span>Chase S-Rank ♥♥♥</span>
+                <span className="text-rose-400">Chase S-Rank ♥♥♥</span>
               </div>
 
               {currentBeat.bestiePopIn && (
-                <div className="rounded-2xl bg-white/10 border border-amber-200/30 px-4 py-2.5 text-xs sm:text-sm font-medium text-amber-200">
+                <div className="rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs sm:text-sm font-medium text-zinc-200">
                   📱 {currentBeat.bestiePopIn}
                 </div>
               )}
 
               {sparringToast && (
-                <div className="rounded-2xl bg-emerald-500/20 border border-emerald-300/40 px-4 py-2.5 text-xs font-bold text-emerald-200">
+                <div className="rounded-xl bg-emerald-500/15 border border-emerald-400/30 px-4 py-2.5 text-xs font-semibold text-emerald-200">
                   🔔 Etiquette Sparring Round Activated — Public Frame Held Under Fire!
                 </div>
               )}
 
               {lastFeedback && (
-                <div className="rounded-2xl bg-amber-300/15 border border-amber-300/30 px-4 py-3 text-sm italic text-amber-100">
+                <div className="rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm italic text-zinc-200">
                   {lastFeedback}
                 </div>
               )}
 
-              <p className="font-editorial text-lg sm:text-xl leading-relaxed text-white">
+              <p className="text-lg sm:text-xl font-medium leading-relaxed text-white">
                 {playerGreeting}
                 {currentBeat.dialogue}
               </p>
 
-              <div className="grid gap-3 pt-1">
+              <div className="grid gap-2.5 pt-1">
                 {currentBeat.choices.map((choice) => (
                   <button
                     key={choice.label}
                     type="button"
                     onClick={() => handleChoice(choice)}
-                    className={`w-full rounded-2xl p-4 text-left text-sm sm:text-base font-medium whitespace-normal transition cursor-pointer ${
+                    className={`w-full rounded-xl p-4 text-left text-sm sm:text-base font-medium whitespace-normal transition-colors cursor-pointer ${
                       choice.cost
-                        ? 'border border-amber-300/80 bg-gradient-to-r from-amber-400/20 to-rose-400/20 text-amber-100 hover:border-amber-200'
-                        : 'border border-white/20 bg-white/10 text-white hover:bg-white/20 hover:border-white/40'
+                        ? 'border border-rose-500/60 bg-rose-600/15 text-white hover:bg-rose-600/25'
+                        : 'border border-white/15 bg-white/5 text-white hover:bg-white/12 hover:border-white/30'
                     }`}
                   >
                     {choice.label}
@@ -343,15 +344,15 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
             </>
           ) : (
             <div className="space-y-5 animate-stage-in">
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/15 pb-4">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-amber-300">
-                    Dream Daddy Date Verdict • Date #{script.dateNumber} Complete
+                  <div className="text-xs font-bold uppercase tracking-widest text-rose-400">
+                    Date Night Verdict • Date #{script.dateNumber} Complete
                   </div>
-                  <h2 className="mt-1 font-editorial text-3xl sm:text-4xl font-bold text-white">
+                  <h2 className="mt-1 text-3xl sm:text-4xl font-bold tracking-tight text-white">
                     {rank === 'F' ? '🚩 DATE DISASTER' : `${rank}-RANK ROMANCE`}
                   </h2>
-                  <p className="mt-1 text-sm text-stone-300">
+                  <p className="mt-1 text-sm text-zinc-300">
                     {rank === 'S'
                       ? `Unblemished slow-burn chemistry with ${profile.name}! Polaroid unlocked in your Dateodex.`
                       : rank === 'F'
@@ -362,23 +363,23 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                   </p>
                 </div>
 
-                <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-amber-300 font-editorial text-4xl font-black text-[#18101E] shadow-xl">
+                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-rose-600 text-4xl font-extrabold text-white shadow-xl">
                   {rank}
                 </div>
               </div>
 
               {lastFeedback && (
-                <p className="text-sm text-amber-100/90 leading-relaxed">{lastFeedback}</p>
+                <p className="text-sm text-zinc-200 leading-relaxed">{lastFeedback}</p>
               )}
 
               {/* Secret Group-Chat Leak (2 Cr / Free w/ VIP) */}
-              <div className="rounded-2xl border border-amber-300/35 bg-white/5 p-4 space-y-3">
+              <div className="rounded-xl border border-white/15 bg-white/5 p-4 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <div className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                    <div className="text-xs font-bold uppercase tracking-wider text-rose-400">
                       🔓 Post-Date Group-Chat Leak ({script.secretBestiePovLeak.friendName})
                     </div>
-                    <p className="text-xs text-stone-300">
+                    <p className="text-xs text-zinc-300">
                       Read what {profile.name} texted right after leaving the restaurant.
                     </p>
                   </div>
@@ -392,7 +393,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                           setPovUnlocked(true);
                         }
                       }}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 px-4 py-2 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white px-3.5 text-xs font-semibold text-zinc-950 hover:bg-zinc-100 cursor-pointer"
                     >
                       {wallet.isVip ? <Unlock className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
                       <span>
@@ -403,7 +404,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                 </div>
 
                 {isPovUnlocked && (
-                  <div className="space-y-2 rounded-xl bg-black/40 p-3.5 text-xs sm:text-sm text-emerald-200">
+                  <div className="space-y-2 rounded-lg bg-black/40 p-3.5 text-xs sm:text-sm text-emerald-200">
                     {script.secretBestiePovLeak.messages.map((line) => (
                       <div key={line}>💬 {line}</div>
                     ))}
@@ -417,7 +418,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                   <button
                     type="button"
                     onClick={handleFreeReplay}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2.5 text-xs font-bold text-white hover:bg-white/20 cursor-pointer"
+                    className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 bg-white/5 px-3.5 text-xs font-semibold text-white hover:bg-white/15 cursor-pointer"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>Replay Date Free</span>
@@ -429,7 +430,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                       onClick={() =>
                         onLaunchNextDate((script.dateNumber + 1) as 1 | 2 | 3 | 4)
                       }
-                      className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-rose-500 cursor-pointer"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 px-4 text-xs font-semibold text-white hover:bg-rose-500 cursor-pointer"
                     >
                       <Sparkles className="h-3.5 w-3.5" />
                       <span>Continue to Date #{script.dateNumber + 1} →</span>
@@ -444,11 +445,11 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                           onLaunchNextDate(4);
                         }
                       }}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 px-5 py-2.5 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white px-4 text-xs font-semibold text-zinc-950 hover:bg-zinc-100 cursor-pointer"
                     >
                       <Award className="h-3.5 w-3.5" />
                       <span>
-                        🌙 Unlock Velvet Cut Weekend Epilogue ({wallet.isVip ? 'VIP Free' : '3 Cr'})
+                        Unlock Velvet Cut Weekend Epilogue ({wallet.isVip ? 'VIP Free' : '3 Cr'})
                       </span>
                     </button>
                   )}
@@ -463,7 +464,7 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                       });
                       setCopiedPolaroid(true);
                     }}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/25 px-4 py-2.5 text-xs font-bold text-white cursor-pointer"
+                    className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 px-3.5 text-xs font-semibold text-white hover:bg-white/10 cursor-pointer"
                   >
                     <Share2 className="h-3.5 w-3.5" />
                     <span>{copiedPolaroid ? 'Polaroid Copied!' : 'Share Polaroid'}</span>
@@ -474,10 +475,10 @@ export const DreamDaddyDateStage: React.FC<DreamDaddyDateStageProps> = ({
                   href={MONETIZATION_CONFIG.tipJarUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-amber-200/20 border border-amber-300/40 px-4 py-2 text-xs font-bold text-amber-200 hover:bg-amber-200/30"
+                  className="inline-flex h-9 items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-white transition-colors"
                 >
-                  <Heart className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                  <span>💛 Support This Project</span>
+                  <Heart className="h-3.5 w-3.5 text-rose-500" />
+                  <span>Support This Project</span>
                 </a>
               </div>
             </div>

@@ -254,53 +254,59 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     }
   };
 
-  return (
-    <div className="mx-auto w-full max-w-xl space-y-4 animate-stage-in">
-      {/* Clean shadcn Segmented Perspective Switcher */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="inline-flex rounded-lg bg-zinc-200/70 p-1">
-          <button
-            type="button"
-            onClick={() => {
-              setPassedIds([]);
-              setPendingLikes([]);
-              setStatusBanner(null);
-              setMatchCelebration(null);
-              onSwitchRole('her');
-            }}
-            className={`rounded-md px-3.5 py-1.5 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
-              role === 'her'
-                ? 'bg-white text-zinc-950 shadow-2xs'
-                : 'text-zinc-600 hover:text-zinc-950'
-            }`}
-          >
-            Playing as Her
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setPassedIds([]);
-              setPendingLikes([]);
-              setStatusBanner(null);
-              setMatchCelebration(null);
-              onSwitchRole('him');
-            }}
-            className={`rounded-md px-3.5 py-1.5 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
-              role === 'him'
-                ? 'bg-white text-zinc-950 shadow-2xs'
-                : 'text-zinc-600 hover:text-zinc-950'
-            }`}
-          >
-            Playing as Him
-          </button>
-        </div>
+  const showCompactRoleBar = matchedLeadIds.length > 0 || wallet.discernmentXp > 0;
 
-        <span className="text-xs font-medium text-zinc-500">
-          {pendingLikes.length > 0
-            ? `${pendingLikes.length} Sent Like • Pending`
-            : 'Press ← or tap ✕ to pass • Tap ♡ to like'}
-        </span>
-      </div>
+  return (
+    <div id="hinge-stage" className="mx-auto w-full max-w-xl space-y-4 animate-stage-in scroll-mt-20">
+      {/* Compact Role Switcher (Shown Only After Leaving Fresh Hero, Or Pending Likes Counter) */}
+      {(showCompactRoleBar || pendingLikes.length > 0) && (
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+          {showCompactRoleBar && (
+            <div className="inline-flex rounded-lg bg-zinc-200/70 p-0.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setPassedIds([]);
+                  setPendingLikes([]);
+                  setStatusBanner(null);
+                  setMatchCelebration(null);
+                  onSwitchRole('her');
+                }}
+                className={`rounded-md px-3 py-1 text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                  role === 'her'
+                    ? 'bg-white text-zinc-950 shadow-2xs'
+                    : 'text-zinc-600 hover:text-zinc-950'
+                }`}
+              >
+                Playing as Her
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setPassedIds([]);
+                  setPendingLikes([]);
+                  setStatusBanner(null);
+                  setMatchCelebration(null);
+                  onSwitchRole('him');
+                }}
+                className={`rounded-md px-3 py-1 text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                  role === 'him'
+                    ? 'bg-white text-zinc-950 shadow-2xs'
+                    : 'text-zinc-600 hover:text-zinc-950'
+                }`}
+              >
+                Playing as Him
+              </button>
+            </div>
+          )}
+
+          {pendingLikes.length > 0 && (
+            <span className="font-semibold text-zinc-600">
+              {pendingLikes.length} Sent Like • Pending
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Live Match / Pending Status Banner */}
       {statusBanner && (
@@ -737,7 +743,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           document.body,
         )}
 
-      {/* Celebratory Dream Daddy / Hinge Match Splash Overlay */}
+      {/* Celebratory Match Splash Overlay */}
       {matchCelebration &&
         createPortal(
           <div

@@ -42,7 +42,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
           What Is Cougars &amp; Cubs Club?
         </h1>
         <p className="text-sm sm:text-base text-zinc-600 max-w-3xl leading-relaxed">
-          Inspired by narrative cult classics like <em>Dream Daddy</em> and real age-gap dating communities,{' '}
+          Built as an original interactive romantic-comedy experience inspired by real age-gap dating communities,{' '}
           <strong className="font-semibold text-zinc-900">Cougars &amp; Cubs Club</strong> is a hybrid romantic-comedy dating simulation, evolving chat studio, and visual etiquette handbook celebrating confident older women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
         </p>
 

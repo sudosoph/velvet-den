@@ -733,6 +733,7 @@ export default function App() {
             completedCameoCount={completedCameoVenues.length}
             role={role}
             activeTab={activeTab}
+            onSwitchRole={(nextRole) => setRole(nextRole)}
             onNavigateStep={(step) => {
               if (step.leadId) setSelectedChatLeadId(step.leadId);
               setOpenConspiracyDirectly(Boolean(step.openConspiracy));
@@ -1002,81 +1003,81 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-zinc-200 bg-white py-8 text-sm text-zinc-600">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 grid gap-6 md:grid-cols-[1.4fr_1fr_1fr] items-start">
-          <div className="space-y-2">
+      <footer className="border-t border-zinc-200 bg-white py-10 text-sm text-zinc-600">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 grid gap-8 md:grid-cols-[1.5fr_1fr_1fr] items-start">
+          <div className="space-y-2.5">
             <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-900 text-xs text-white">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-600 text-xs font-bold text-white">
                 🐆
               </span>
-              <span className="text-sm font-semibold text-zinc-950">
+              <span className="text-sm font-bold text-zinc-950">
                 {BRAND_CONFIG.name}
               </span>
             </div>
             <p className="text-xs leading-relaxed text-zinc-500 max-w-sm">
-              Romantic-comedy dating simulation, live AI chat studio, and shoppable age-gap relationship guide for consenting adults (21+).
+              Original romantic-comedy dating simulation, live AI chat studio, and shoppable age-gap relationship guide for consenting adults (21+).
             </p>
           </div>
 
-          <div className="space-y-2">
-            <div className="text-xs font-semibold text-zinc-900">
-              Simulation Wings
+          <div className="space-y-2.5">
+            <div className="text-xs font-bold uppercase tracking-wider text-zinc-950">
+              Play
             </div>
-            <div className="flex flex-wrap gap-1.5 text-xs font-medium">
+            <div className="flex flex-col items-start gap-1.5 text-sm font-medium">
               <button
                 type="button"
                 onClick={() => setActiveTab('hinge')}
-                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
+                className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
                 Hinge Feed
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('wild')}
-                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
+                className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
                 In The Wild
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('chats')}
-                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
+                className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
                 Chats &amp; Dates
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('school')}
-                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
+                className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
                 Cub School
               </button>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <div className="text-xs font-semibold text-zinc-900">
-              Extras, Shop &amp; Support
+          <div className="space-y-2.5">
+            <div className="text-xs font-bold uppercase tracking-wider text-zinc-950">
+              Explore &amp; Support
             </div>
-            <div className="flex flex-wrap items-center gap-1.5 text-xs font-medium">
+            <div className="flex flex-col items-start gap-1.5 text-sm font-medium">
               <button
                 type="button"
                 onClick={() => setPopTriviaOpen(true)}
-                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
+                className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
                 Trailer Quiz
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('journal')}
-                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
+                className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
-                16 Guides
+                16 Club Guides
               </button>
               <button
                 type="button"
                 onClick={() => openBoutiqueWithTab('shop')}
-                className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-zinc-700 cursor-pointer"
+                className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
                 Date-Night Shop
               </button>
@@ -1084,9 +1085,9 @@ export default function App() {
                 href={MONETIZATION_CONFIG.tipJarUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md bg-zinc-900 hover:bg-zinc-800 px-2.5 py-1 font-medium text-white"
+                className="text-rose-600 hover:text-rose-700 font-semibold transition-colors"
               >
-                Support This Project
+                Support This Project →
               </a>
               <button
                 type="button"
@@ -1098,7 +1099,7 @@ export default function App() {
                     setFounderModalOpen(true);
                   }
                 }}
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold text-stone-400 hover:text-rose-600 transition cursor-pointer"
+                className="inline-flex items-center gap-1 pt-1 text-xs font-medium text-zinc-400 hover:text-zinc-700 transition-colors cursor-pointer"
                 aria-label="Founder Vault"
               >
                 <Lock className="h-3 w-3" />

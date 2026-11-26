@@ -245,7 +245,7 @@ export function evaluateDmLocally(params: {
             ? `Ambitious, darling. Earn a real conversation here before you get my number.`
             : `Whoa, speedrunner. Impress me with two good lines before asking for my digits ✨`,
       coachNote:
-        'Earn her number first! Land 2 green-flag replies on Tinder to unlock off-app iMessage.',
+        'Earn her number first! Land 2 green-flag replies in the app to unlock off-app iMessage.',
       passedVibeCheck: false,
       source: 'local-heuristic',
     };

@@ -71,7 +71,7 @@ describe('PostHog analytics contract & safe no-op guard', () => {
     const res = await worker.fetch(new Request('https://cougarsandcubs.club/api/health'), {});
     const data = (await res.json()) as Record<string, unknown>;
     expect(data.ok).toBe(true);
-    expect(data.version).toBe('v35-dream-daddy-hybrid-sim');
+    expect(data.version).toBe('v35-club-romance-sim');
     expect(data.posthogProxyActive).toBe(true);
   });
 });

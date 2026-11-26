@@ -66,11 +66,11 @@ const listingMarkdown = `# Cougars & Cubs Club — Deluxe HTML5 Edition (Itch.io
 - **Viewport Dimensions**: \`1120\` × \`760\` px
 - **Frame Options**: Check **Mobile friendly**, **Automatically start on page load**, and **Fullscreen button**
 - **Genre**: Visual Novel / Simulation / Comedy Romance
-- **Tags**: \`dating-sim\`, \`visual-novel\`, \`romance\`, \`comedy\`, \`interactive-fiction\`, \`dream-daddy\`, \`age-gap\`, \`minigames\`
+- **Tags**: \`dating-sim\`, \`visual-novel\`, \`romance\`, \`comedy\`, \`interactive-fiction\`, \`age-gap\`, \`minigames\`
 
 ## Copy-Paste Store Description (Includes DR 91 SEO Backlink)
 
-Lower your age slider, dodge the red flags, and find real chemistry in **Cougars & Cubs Club**—an animated romantic-comedy dating simulator & arcade game inspired by *Dream Daddy* and *Florence*!
+Lower your age slider, dodge the red flags, and find real chemistry in **Cougars & Cubs Club**—an original animated romantic-comedy dating simulator & etiquette game!
 
 - **54 Distinct Characters (Every Single Year From 30–64 & 21–33)**: Heights, star signs, signature cocktails & zero-proof mocktails, and custom plot twists.
 - **78 Animated Scenes & Tactile Arcade Toys**: Swat itemized \$41.63 edamame Venmo requests, escape 7 AM Cheerios roommates, bounce Week-3 "Hobosexual" PS5 bags, pour a *Cougar Town* Big Carl, and melt a cool Black Cat Cougar with patient Golden-Retriever warmth.

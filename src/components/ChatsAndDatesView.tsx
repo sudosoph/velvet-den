@@ -28,7 +28,7 @@ import type { WalletState } from '../domain/economy';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 import { liveAiInboxService } from '../services/adapters';
-import { DreamDaddyDateStage } from './DreamDaddyDateStage';
+import { RomanticDateStage } from './RomanticDateStage';
 
 export interface ActiveMatchThread {
   leadId: string;
@@ -183,7 +183,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   if (activeDateModal) {
     const dateThread = threads.find((t) => t.leadId === activeDateModal.leadId);
     return (
-      <DreamDaddyDateStage
+      <RomanticDateStage
         leadId={activeDateModal.leadId}
         dateNumber={activeDateModal.dateNumber}
         role={role}

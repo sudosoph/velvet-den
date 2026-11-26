@@ -7,7 +7,7 @@ import {
   createInitialThread,
 } from '../src/components/ChatsAndDatesView';
 import { CubSchoolView } from '../src/components/CubSchoolView';
-import { DreamDaddyDateStage } from '../src/components/DreamDaddyDateStage';
+import { RomanticDateStage } from '../src/components/RomanticDateStage';
 import {
   createDefaultWallet,
   loseFridayHeart,
@@ -72,7 +72,7 @@ function Harness({
   );
 }
 
-describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Dream Daddy Stage & Cub School', () => {
+describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date Stage & Cub School', () => {
   it('shows all matched threads simultaneously, starts Hinge matches in App DM (zero premature iMessage) until Beat 6 graduation, wraps suggestions without truncate, and gives 5 distinct Discord channels', () => {
     const threads = [
       createInitialThread('julian', 'hinge'),
@@ -147,14 +147,14 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Dream Daddy Sta
     expect(screen.getByTestId('wallet-summary').textContent).toContain('XP:25');
   });
 
-  it('plays DreamDaddyDateStage with live expression transitions, Night-1 Pacing Test, S/A/B Date Rank (free replay, zero Smooth Rewind), Secret Group-Chat Leak, and Disaster heart loss on Traps', () => {
+  it('plays RomanticDateStage with live expression transitions, Night-1 Pacing Test, S/A/B Date Rank (free replay, zero Smooth Rewind), Secret Group-Chat Leak, and Disaster heart loss on Traps', () => {
     const onCompleteDate = vi.fn();
     const onLoseHeart = vi.fn();
     const onUnlockPov = vi.fn(() => true);
     const wallet = createDefaultWallet();
 
     const { container, rerender } = render(
-      <DreamDaddyDateStage
+      <RomanticDateStage
         leadId="soren"
         dateNumber={1}
         role="her"
@@ -198,7 +198,7 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Dream Daddy Sta
 
     // Walking into Date 1 with Trap Graham triggers Date Disaster (-1 Friday Heart, zero Smooth Rewind!)
     rerender(
-      <DreamDaddyDateStage
+      <RomanticDateStage
         leadId="graham"
         dateNumber={1}
         role="her"

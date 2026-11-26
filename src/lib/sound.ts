@@ -46,7 +46,7 @@ export function isLoungeMusicPlaying(): boolean {
 }
 
 /**
- * Dream Daddy-inspired warm Rhodes / Velvet Cocktail Lounge Major-9th ambient loop.
+ * Warm electric-piano / cocktail lounge Major-9th ambient loop.
  * Pure WebAudio synthesis—zero external MP3 weight, instant toggle.
  */
 export function toggleLoungeMusic(): boolean {

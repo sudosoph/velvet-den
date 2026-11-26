@@ -1288,7 +1288,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           : 'CRITICAL AUDIENCE RULE FOR coachNote: The human player is HIM (the younger man). Give him one playful tip on keeping her intrigued and earning her number.';
 
       const systemPrompt = [
-        `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic-comedy sim inspired by Dream Daddy.`,
+        `You are texting as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a witty PG-13 romantic-comedy dating simulation.`,
         `STRICT ONE-LINE RULE: Send ONLY ONE short, punchy line (8 to 16 words MAX, 1 single sentence)!`,
         `NEVER RECITE YOUR BIO: Keep your background subtle and natural.`,
         `STRICT PUNCTUATION RULE: NEVER use em-dashes, en-dashes, or semicolons.`,
@@ -1429,7 +1429,7 @@ async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Respo
   return jsonResponse({ ok: true, anonymizedByDefault: !optContact });
 }
 
-async function handleRayaWaitlist(
+async function handleVipWaitlist(
   request: Request,
   env: WorkerEnv,
   ctx?: ExecutionContextLike,
@@ -1763,7 +1763,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v35-dream-daddy-hybrid-sim',
+        version: 'v35-club-romance-sim',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
@@ -1824,7 +1824,7 @@ export default {
     }
 
     if (url.pathname === '/api/waitlist') {
-      if (request.method === 'POST') return handleRayaWaitlist(request, env, ctx);
+      if (request.method === 'POST') return handleVipWaitlist(request, env, ctx);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 
