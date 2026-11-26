@@ -1336,7 +1336,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-300 px-3.5 py-1.5 text-xs font-bold text-rose-900 hover:bg-rose-100 cursor-pointer"
                       >
                         <Ban className="h-3.5 w-3.5 text-rose-700" />
-                        <span>🚫 Block / Cut Loose</span>
+                        <span>Block / Cut Loose</span>
                       </button>
                     </div>
                   </div>
@@ -1410,7 +1410,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-300 px-3.5 py-1.5 text-xs font-bold text-rose-900 hover:bg-rose-100 cursor-pointer"
                     >
                       <Flag className="h-3.5 w-3.5 text-rose-700" />
-                      <span>🚩 Block / Cut Loose</span>
+                      <span>Block / Cut Loose</span>
                     </button>
                   </div>
                 </header>
@@ -1727,7 +1727,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-rose-600 hover:bg-rose-700 px-3.5 py-1.5 text-xs font-bold text-white shadow-2xs transition cursor-pointer"
                     >
                       <Ban className="h-3.5 w-3.5" />
-                      <span>🚫 Block Number Now</span>
+                      <span>Block Number Now</span>
                     </button>
                   </div>
                 )}
