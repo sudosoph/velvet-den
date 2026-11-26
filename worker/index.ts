@@ -11,9 +11,15 @@
  *   POST /api/founder-config { passphrase, amazonAssociateTag } (Live KV Affiliate Tag Vault)
  */
 
+import { PostHog } from 'posthog-node/edge';
+
 export interface KvNamespaceBinding {
   get(key: string): Promise<string | null>;
   put(key: string, value: string, options?: { expirationTtl?: number }): Promise<void>;
+}
+
+export interface ExecutionContextLike {
+  waitUntil(promise: Promise<unknown>): void;
 }
 
 export interface WorkersAiBinding {
@@ -38,6 +44,8 @@ export interface WorkerEnv {
   STRIPE_SECRET_KEY?: string;
   AMAZON_ASSOCIATE_TAG?: string;
   FOUNDER_PASSWORD_HASH?: string;
+  POSTHOG_PROJECT_TOKEN?: string;
+  POSTHOG_HOST?: string;
 }
 
 const FOUNDER_SALT = 'cc_founder_v1:';
@@ -168,7 +176,130 @@ async function resolveActiveAmazonTag(env: WorkerEnv): Promise<string> {
   return '';
 }
 
-async function handleAffiliateRedirect(url: URL, productId: string, env: WorkerEnv): Promise<Response> {
+async function resolveActivePostHogToken(env: WorkerEnv): Promise<string> {
+  const fromEnv = (env.POSTHOG_PROJECT_TOKEN || '').trim();
+  if (fromEnv && fromEnv.startsWith('phc_') && fromEnv !== 'phc_your_project_token_here') {
+    return fromEnv;
+  }
+  if (env.VELVET_KV) {
+    try {
+      const fromKv = (await env.VELVET_KV.get('config:posthog_project_token'))?.trim() || '';
+      if (fromKv && fromKv.startsWith('phc_') && fromKv !== 'phc_your_project_token_here') {
+        return fromKv;
+      }
+    } catch {
+      // Ignore KV read error
+    }
+  }
+  return '';
+}
+
+function resolvePostHogIdentity(request: Request): { distinctId: string; sessionId?: string } {
+  const headerDistinct = (request.headers.get('X-POSTHOG-DISTINCT-ID') || '').trim();
+  const headerSession = (request.headers.get('X-POSTHOG-SESSION-ID') || '').trim();
+  const distinctId = /^cc_[a-zA-Z0-9_-]{4,80}$/.test(headerDistinct)
+    ? headerDistinct
+    : `cc_edge_${hashSeed(
+        `${request.headers.get('CF-Connecting-IP') || 'anon'}:${(request.headers.get('User-Agent') || '').slice(0, 64)}`,
+      )}`;
+  const sessionId = /^[a-zA-Z0-9_-]{6,80}$/.test(headerSession) ? headerSession : undefined;
+  return { distinctId, sessionId };
+}
+
+function scheduleEdgePostHogEvent(
+  request: Request,
+  env: WorkerEnv,
+  ctx: ExecutionContextLike | undefined,
+  event: string,
+  properties: Record<string, unknown>,
+): void {
+  const work = (async () => {
+    const token = await resolveActivePostHogToken(env);
+    if (!token) return;
+    const { distinctId, sessionId } = resolvePostHogIdentity(request);
+    const host = (env.POSTHOG_HOST || 'https://us.i.posthog.com').replace(/\/$/, '');
+    const client = new PostHog(token, {
+      host,
+      flushAt: 1,
+      flushInterval: 0,
+    });
+    try {
+      await client.captureImmediate({
+        distinctId,
+        event,
+        properties: {
+          ...properties,
+          app: 'cougars_and_cubs_club',
+          ...(sessionId ? { $session_id: sessionId } : {}),
+        },
+      });
+    } finally {
+      await client.shutdown();
+    }
+  })().catch(() => {
+    // Never fail user requests on telemetry network errors
+  });
+
+  if (ctx && typeof ctx.waitUntil === 'function') {
+    ctx.waitUntil(work);
+  }
+}
+
+async function handlePostHogIngestProxy(
+  request: Request,
+  url: URL,
+  env: WorkerEnv,
+): Promise<Response> {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': url.origin,
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-POSTHOG-DISTINCT-ID, X-POSTHOG-SESSION-ID',
+      },
+    });
+  }
+
+  const subPath = url.pathname.slice('/ingest'.length) || '/';
+  const upstreamOrigin = subPath.startsWith('/static/')
+    ? 'https://us-assets.i.posthog.com'
+    : (env.POSTHOG_HOST || 'https://us.i.posthog.com').replace(/\/$/, '');
+  const targetUrl = `${upstreamOrigin}${subPath}${url.search}`;
+
+  const outboundHeaders = new Headers(request.headers);
+  outboundHeaders.delete('host');
+  outboundHeaders.delete('cookie');
+  const clientIp = request.headers.get('CF-Connecting-IP');
+  if (clientIp) {
+    outboundHeaders.set('X-Forwarded-For', clientIp);
+  }
+
+  try {
+    const upstreamRes = await fetch(targetUrl, {
+      method: request.method,
+      headers: outboundHeaders,
+      body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : undefined,
+      redirect: 'follow',
+    });
+    const responseHeaders = new Headers(upstreamRes.headers);
+    responseHeaders.delete('set-cookie');
+    return new Response(upstreamRes.body, {
+      status: upstreamRes.status,
+      headers: responseHeaders,
+    });
+  } catch {
+    return jsonResponse({ ok: false, reason: 'PostHog upstream unreachable' }, 502);
+  }
+}
+
+async function handleAffiliateRedirect(
+  request: Request,
+  url: URL,
+  productId: string,
+  env: WorkerEnv,
+  ctx?: ExecutionContextLike,
+): Promise<Response> {
   const safeId = sanitizeId(productId, 64).toLowerCase();
   const baseMerchantUrl = AFFILIATE_REDIRECT_URLS[safeId];
   if (!baseMerchantUrl) {
@@ -199,6 +330,12 @@ async function handleAffiliateRedirect(url: URL, productId: string, env: WorkerE
       // Non-blocking click counter
     }
   }
+
+  scheduleEdgePostHogEvent(request, env, ctx, 'affiliate_redirect_served', {
+    product_id: safeId,
+    placement: src,
+    affiliate_tag_configured: Boolean(activeTag),
+  });
 
   return new Response(null, {
     status: 302,
@@ -258,6 +395,7 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
   }
 
   const amazonAssociateTag = await resolveActiveAmazonTag(env);
+  const activePostHogToken = await resolveActivePostHogToken(env);
   const clicks: Record<string, number> = {};
   let recentAiLogs: unknown[] = [];
   let recentFeedback: unknown[] = [];
@@ -313,6 +451,7 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
     founderSeal: verified.founderSeal,
     amazonAssociateTag,
     affiliateProtected: Boolean(amazonAssociateTag),
+    posthogConfigured: Boolean(activePostHogToken),
     sampleClicks: clicks,
     recentAiLogs,
     recentFeedback,
@@ -321,7 +460,12 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
 }
 
 async function handleFounderConfig(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { passphrase?: string; founderSeal?: string; amazonAssociateTag?: string } = {};
+  let body: {
+    passphrase?: string;
+    founderSeal?: string;
+    amazonAssociateTag?: string;
+    posthogProjectToken?: string;
+  } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -338,14 +482,29 @@ async function handleFounderConfig(request: Request, env: WorkerEnv): Promise<Re
     return jsonResponse({ ok: false, error: 'Invalid Amazon Associate Tag format (expected e.g. yourname-20)' }, 400);
   }
 
-  if (env.VELVET_KV) {
-    await env.VELVET_KV.put('config:amazon_associate_tag', cleanTag);
+  const cleanPhToken =
+    body.posthogProjectToken !== undefined ? String(body.posthogProjectToken || '').trim() : undefined;
+  if (cleanPhToken && !/^phc_[a-zA-Z0-9_-]{8,96}$/.test(cleanPhToken)) {
+    return jsonResponse({ ok: false, error: 'Invalid PostHog Project Token (expected phc_...)' }, 400);
   }
+
+  if (env.VELVET_KV) {
+    if (body.amazonAssociateTag !== undefined) {
+      await env.VELVET_KV.put('config:amazon_associate_tag', cleanTag);
+    }
+    if (cleanPhToken !== undefined) {
+      await env.VELVET_KV.put('config:posthog_project_token', cleanPhToken);
+    }
+  }
+
+  const activeTag = await resolveActiveAmazonTag(env);
+  const activePh = await resolveActivePostHogToken(env);
 
   return jsonResponse({
     ok: true,
-    amazonAssociateTag: cleanTag,
-    affiliateProtected: Boolean(cleanTag),
+    amazonAssociateTag: activeTag,
+    affiliateProtected: Boolean(activeTag),
+    posthogConfigured: Boolean(activePh),
   });
 }
 
@@ -1236,7 +1395,11 @@ async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Respo
   return jsonResponse({ ok: true, anonymizedByDefault: !optContact });
 }
 
-async function handleRayaWaitlist(request: Request, env: WorkerEnv): Promise<Response> {
+async function handleRayaWaitlist(
+  request: Request,
+  env: WorkerEnv,
+  ctx?: ExecutionContextLike,
+): Promise<Response> {
   let body: { role?: string; city?: string; vibe?: string; contact?: string } = {};
   try {
     body = (await request.json()) as typeof body;
@@ -1269,10 +1432,19 @@ async function handleRayaWaitlist(request: Request, env: WorkerEnv): Promise<Res
       // Ignore KV error
     }
   }
+  scheduleEdgePostHogEvent(request, env, ctx, 'waitlist_submitted_server', {
+    role,
+    city,
+    position,
+  });
   return jsonResponse({ ok: true, position });
 }
 
-async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Response> {
+async function handleSubscribe(
+  request: Request,
+  env: WorkerEnv,
+  ctx?: ExecutionContextLike,
+): Promise<Response> {
   let body: { email?: string } = {};
   try {
     body = (await request.json()) as typeof body;
@@ -1295,6 +1467,9 @@ async function handleSubscribe(request: Request, env: WorkerEnv): Promise<Respon
       // Ignore KV write error
     }
   }
+  scheduleEdgePostHogEvent(request, env, ctx, 'newsletter_subscribed_server', {
+    source: 'club_dispatch',
+  });
   return jsonResponse({ ok: true });
 }
 
@@ -1387,7 +1562,12 @@ async function handleCameoBrief(request: Request, env: WorkerEnv): Promise<Respo
   return jsonResponse({ ok: true });
 }
 
-async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response> {
+async function handleVerifyCheckout(
+  request: Request,
+  url: URL,
+  env: WorkerEnv,
+  ctx?: ExecutionContextLike,
+): Promise<Response> {
   const sessionId = sanitizeId(url.searchParams.get('session_id'), 120);
   if (!sessionId || !sessionId.startsWith('cs_')) {
     return jsonResponse({ verified: false, reason: 'Invalid session_id' }, 400);
@@ -1440,6 +1620,12 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
       }
     }
 
+    scheduleEdgePostHogEvent(request, env, ctx, 'checkout_verified_server', {
+      grant_type: isVip ? 'vip' : 'credits',
+      credits,
+      amount_cents: amt,
+    });
+
     return jsonResponse({
       verified: true,
       grantType: isVip ? 'vip' : 'credits',
@@ -1451,27 +1637,36 @@ async function handleVerifyCheckout(url: URL, env: WorkerEnv): Promise<Response>
 }
 
 export default {
-  async fetch(request: Request, env: WorkerEnv): Promise<Response> {
+  async fetch(request: Request, env: WorkerEnv, ctx?: ExecutionContextLike): Promise<Response> {
     const url = new URL(request.url);
 
+    if (url.pathname === '/ingest' || url.pathname.startsWith('/ingest/')) {
+      return handlePostHogIngestProxy(request, url, env);
+    }
+
     if (url.pathname === '/api/health') {
-      const activeTag = await resolveActiveAmazonTag(env);
+      const [activeTag, activePh] = await Promise.all([
+        resolveActiveAmazonTag(env),
+        resolveActivePostHogToken(env),
+      ]);
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v33-earned-imessage-discord-subplot-sheryl-crow-checklist',
+        version: 'v34-dream-daddy-coherence-phone-posthog',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
         affiliateGatewayActive: true,
         affiliateTagConfigured: Boolean(activeTag),
+        posthogProxyActive: true,
+        posthogConfigured: Boolean(activePh),
       });
     }
 
     if (url.pathname.startsWith('/api/go/')) {
       if (request.method === 'GET') {
         const productId = decodeURIComponent(url.pathname.slice('/api/go/'.length));
-        return handleAffiliateRedirect(url, productId, env);
+        return handleAffiliateRedirect(request, url, productId, env, ctx);
       }
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
@@ -1518,17 +1713,17 @@ export default {
     }
 
     if (url.pathname === '/api/waitlist') {
-      if (request.method === 'POST') return handleRayaWaitlist(request, env);
+      if (request.method === 'POST') return handleRayaWaitlist(request, env, ctx);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 
     if (url.pathname === '/api/verify-checkout') {
-      if (request.method === 'GET') return handleVerifyCheckout(url, env);
+      if (request.method === 'GET') return handleVerifyCheckout(request, url, env, ctx);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 
     if (url.pathname === '/api/subscribe') {
-      if (request.method === 'POST') return handleSubscribe(request, env);
+      if (request.method === 'POST') return handleSubscribe(request, env, ctx);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

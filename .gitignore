@@ -5,6 +5,9 @@ dist-social/
 .superpowers/
 .tavily/
 coverage/
+.env
+.env.*
+!.env.example
 *.local
 *.tsbuildinfo
 release/
