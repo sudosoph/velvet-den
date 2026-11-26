@@ -527,7 +527,12 @@ for (const g of STATIC_GUIDES) {
         <div class="bubble-bad"><strong>❌ Don’t Text This:</strong><br/>&ldquo;${escapeHtml(g.dontText)}&rdquo;</div>
         <div class="bubble-good"><strong>✅ S-Rank Blue Bubble:</strong><br/>&ldquo;${escapeHtml(g.doText)}&rdquo;</div>
       </div>
-      ${g.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('\n      ')}
+      ${g.paragraphs
+        .map(
+          (p, idx) =>
+            `<div style="margin:16px 0;padding:18px 20px;border-radius:20px;border:1px solid #E7E5E4;background:#FFFDF9;"><span style="display:inline-block;background:#18101E;color:#FCD34D;font-weight:800;font-size:11px;padding:3px 10px;border-radius:999px;margin-bottom:8px;">#${String(idx + 1).padStart(2, '0')} ✨ Club Takeaway</span><p style="margin:0;">${escapeHtml(p)}</p></div>`,
+        )
+        .join('\n      ')}
       <div class="cta">
         <strong>🎮 Ready to test your instincts in Velvet Palms?</strong>
         <p style="margin:6px 0 0;font-size:15px;">Step straight into this exact interactive venue as Her or as Him—and text a 60-second Partner Audition link to your real-life Cougar or Cub.</p>

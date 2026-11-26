@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  ArrowBigUp,
   CheckCircle2,
   CheckSquare,
   ExternalLink,
@@ -30,6 +31,10 @@ interface ZodiacSignInfo {
   element: 'Fire' | 'Earth' | 'Air' | 'Water';
   herVibe: string;
   himVibe: string;
+  herAvatar: string;
+  herCastName: string;
+  himAvatar: string;
+  himCastName: string;
 }
 
 const ZODIAC_SIGNS: ZodiacSignInfo[] = [
@@ -38,56 +43,84 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     label: 'Aries',
     symbol: '♈',
     element: 'Fire',
-    herVibe: 'Bold trailblazer who loves directness and spontaneous weekend escapes',
-    himVibe: 'Fearless, protective initiator who books Friday dinner in 90 seconds flat',
+    herVibe: 'Bold trailblazer who loves directness & spontaneous weekend escapes',
+    himVibe: 'Protective initiator who books Friday dinner in 90 seconds flat',
+    herAvatar: './images/cast/astrid-41f.jpg',
+    herCastName: 'Astrid Energy',
+    himAvatar: './images/cast/marcus-26m.jpg',
+    himCastName: 'Marcus Energy',
   },
   {
     id: 'taurus',
     label: 'Taurus',
     symbol: '♉',
     element: 'Earth',
-    herVibe: 'Sensory-luxury queen who notices thread counts, Sancerre, and slow touch',
-    himVibe: 'Steady linen-apron chef who cooks from scratch and never rushes her pace',
+    herVibe: 'Sensory-luxury queen who clocks thread counts, Sancerre & slow touch',
+    himVibe: 'Steady linen-apron chef who cooks from scratch & never rushes her pace',
+    herAvatar: './images/cast/sienna-38f.jpg',
+    herCastName: 'Sienna Energy',
+    himAvatar: './images/cast/rafael-hot-26m.jpg',
+    himCastName: 'Rafael Energy',
   },
   {
     id: 'gemini',
     label: 'Gemini',
     symbol: '♊',
     element: 'Air',
-    herVibe: 'Quick-witted conversationalist who needs playful banter before appetizers',
-    himVibe: 'Curious, charming storyteller who keeps every museum walk unpredictable',
+    herVibe: 'Quick-witted conversationalist who needs sharp banter before appetizers',
+    himVibe: 'Charming storyteller who keeps every museum walk unpredictable',
+    herAvatar: './images/cast/elena-prof-44f.jpg',
+    herCastName: 'Elena Energy',
+    himAvatar: './images/cast/rory-24m.jpg',
+    himCastName: 'Rory Energy',
   },
   {
     id: 'cancer',
     label: 'Cancer',
     symbol: '♋',
     element: 'Water',
-    herVibe: 'Warm sanctuary builder with soft Mommy-Domme intuition and fierce loyalty',
-    himVibe: 'Devoted Golden-Retriever caretaker who remembers her exact morning coffee',
+    herVibe: 'Warm sanctuary builder with soft intuition & fierce inner-circle loyalty',
+    himVibe: 'Devoted caretaker who remembers her exact morning coffee & shift hours',
+    herAvatar: './images/cast/camila-39f.jpg',
+    herCastName: 'Camila Energy',
+    himAvatar: './images/cast/liam-28m.jpg',
+    himCastName: 'Liam Energy',
   },
   {
     id: 'leo',
     label: 'Leo',
     symbol: '♌',
     element: 'Fire',
-    herVibe: 'Radiant main-character Cougar who thrives on grand chivalry and devotion',
-    himVibe: 'Sunny, proud +1 who pulls out her chair and beams past every stare',
+    herVibe: 'Radiant main-character Cougar who thrives on grand chivalry & pride',
+    himVibe: 'Sunny, proud +1 who pulls out her chair & beams past every stare',
+    herAvatar: './images/cast/brooke-glam-42f.jpg',
+    herCastName: 'Main-Character Glow',
+    himAvatar: './images/cast/rafael-2.jpg',
+    himCastName: 'Ballroom Lead',
   },
   {
     id: 'virgo',
     label: 'Virgo',
     symbol: '♍',
     element: 'Earth',
-    herVibe: 'Selective Black-Cat perfectionist who clocks a lidded bathroom bin instantly',
-    himVibe: 'Observant Acts-of-Service pro with spotless counters and 10-step skincare',
+    herVibe: 'Selective Black-Cat perfectionist who notices spotless counters instantly',
+    himVibe: 'Observant Acts-of-Service pro with crisp linens & 62°F sleep precision',
+    herAvatar: './images/cast/claire-2.jpg',
+    herCastName: 'Executive Precision',
+    himAvatar: './images/cast/soren-26m.jpg',
+    himCastName: 'Søren Energy',
   },
   {
     id: 'libra',
     label: 'Libra',
     symbol: '♎',
     element: 'Air',
-    herVibe: 'Effortless Princess-Cougar aesthete drawn to candlelit booths and peonies',
-    himVibe: 'Tailored old-soul gentleman with car-door manners and gallery memberships',
+    herVibe: 'Effortless Princess-Cougar aesthete drawn to candlelit booths & peonies',
+    himVibe: 'Tailored old-soul gentleman with car-door manners & gallery wit',
+    herAvatar: './images/cast/celeste-2.jpg',
+    herCastName: 'Celeste Energy',
+    himAvatar: './images/cast/julian-27m.jpg',
+    himCastName: 'Julian Energy',
   },
   {
     id: 'scorpio',
@@ -95,7 +128,11 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     symbol: '♏',
     element: 'Water',
     herVibe: 'Magnetic slow-burn powerhouse who sees straight through fake flexing',
-    himVibe: 'Intense, locked-in Cub who worships privacy, eye contact, and deep trust',
+    himVibe: 'Locked-in Cub who worships privacy, eye contact & earned trust',
+    herAvatar: './images/cast/claire-45f.jpg',
+    herCastName: 'Claire Energy',
+    himAvatar: './images/cast/jin-25m.jpg',
+    himCastName: 'Jin Energy',
   },
   {
     id: 'sagittarius',
@@ -104,139 +141,676 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     element: 'Fire',
     herVibe: 'Passport-ready adventurer with zero patience for clinginess or boredom',
     himVibe: 'Upbeat weekend co-pilot ready for 18-hour coastal drives on two hours’ notice',
+    herAvatar: './images/cast/elena-6.jpg',
+    herCastName: 'Highway 1 Rebel',
+    himAvatar: './images/cast/marcus-2.jpg',
+    himCastName: 'Ocean Co-Pilot',
   },
   {
     id: 'capricorn',
     label: 'Capricorn',
     symbol: '♑',
     element: 'Earth',
-    herVibe: 'Corner-office executive who craves turning her brain off at 7:30 PM',
-    himVibe: 'Composed "Cub Daddy" planner with grown-man follow-through well beyond his years',
+    herVibe: 'Corner-office closer who craves turning her decision brain off at 7:30 PM',
+    himVibe: 'Composed "Cub Daddy" planner with grown-man follow-through beyond his years',
+    herAvatar: './images/cast/claire-3.jpg',
+    herCastName: '34th-Floor Closer',
+    himAvatar: './images/cast/miles-zaddy-31m.jpg',
+    himCastName: 'Miles Energy',
   },
   {
     id: 'aquarius',
     label: 'Aquarius',
     symbol: '♒',
     element: 'Air',
-    herVibe: 'Unbothered rule-breaker who laughs at societal age-gap conventions',
-    himVibe: 'Indie creative thinker who loves her mind first and never crowds her autonomy',
+    herVibe: 'Unbothered rule-breaker who laughs at every outdated age-gap cliché',
+    himVibe: 'Indie creative thinker who loves her mind first & respects her solo space',
+    herAvatar: './images/cast/celeste-62f.jpg',
+    herCastName: 'Silver Icon Poise',
+    himAvatar: './images/cast/jin-2.jpg',
+    himCastName: 'Studio Creative',
   },
   {
     id: 'pisces',
     label: 'Pisces',
     symbol: '♓',
     element: 'Water',
-    herVibe: 'Dreamy, affectionate romantic who melts for handwritten notes and vinyl',
-    himVibe: 'Poetic, emotionally fluent sweetheart with 100% presence after dark',
+    herVibe: 'Affectionate romantic who melts for handwritten notes & rainy vinyl mornings',
+    himVibe: 'Emotionally fluent sweetheart with 100% phone-down presence after dark',
+    herAvatar: './images/cast/sienna-2.jpg',
+    herCastName: 'Courtyard Romantic',
+    himAvatar: './images/cast/julian-2.jpg',
+    himCastName: 'Poetic Old Soul',
   },
 ];
 
+const ELEMENT_BADGE_STYLE: Record<ZodiacSignInfo['element'], string> = {
+  Fire: 'bg-rose-100 text-rose-800 border-rose-200',
+  Earth: 'bg-emerald-100 text-emerald-900 border-emerald-200',
+  Air: 'bg-sky-100 text-sky-900 border-sky-200',
+  Water: 'bg-purple-100 text-purple-900 border-purple-200',
+};
+
 function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
   const pairKey = `${her.element}-${him.element}`;
-  let rating = '91% Slow-Burn Spark';
-  let polarity = 'Complementary Cross-Generational Pull';
-  let dateIdea = 'Candlelit corner wine booth + unhurried vinyl nightcap';
-  let vettingTip = 'Match her texting cadence and never rush intimacy before trust lands.';
+  let rating = '93% Slow-Burn Spark';
+  let polarity = '✨ Cross-Generational Magnetism';
+  let dateIdea = '🍷 Candlelit corner wine booth + unhurried vinyl nightcap';
+  let vettingTip = '⏳ Match her texting cadence and let trust build before rushing.';
+  let scenePhoto = './images/scenes/wine-bar-booth.jpg';
+  let meters = [
+    { label: '🔥 Bedroom & Banter Voltage', pct: 93 },
+    { label: '🛎️ Friday Planning & Chivalry', pct: 92 },
+    { label: '🛋️ Sunday Sanctuary Peace', pct: 94 },
+    { label: '🌶️ Slow-Burn Pushback Spark', pct: 91 },
+  ];
 
   if (her.id === him.id) {
-    rating = '94% Twin-Mirror Voltage';
-    polarity = `Double ${her.label} Recognition`;
-    dateIdea = 'Late-night omakase counter + trading war stories until midnight';
-    vettingTip = 'You share the exact same blind spots, so take turns leading Friday logistics!';
+    rating = '95% Twin-Mirror Voltage';
+    polarity = `🪞 Double ${her.label} Recognition`;
+    dateIdea = '🍣 Late-night omakase counter + trading war stories until midnight';
+    vettingTip = '⚡ You share identical blind spots—take turns owning Friday reservations!';
+    scenePhoto = './images/scenes/campus-autumn-sushi.jpg';
+    meters = [
+      { label: '🔥 Bedroom & Banter Voltage', pct: 96 },
+      { label: '🛎️ Friday Planning & Chivalry', pct: 91 },
+      { label: '🛋️ Sunday Sanctuary Peace', pct: 95 },
+      { label: '🌶️ Slow-Burn Pushback Spark', pct: 94 },
+    ];
   } else if (
     (her.element === 'Fire' && him.element === 'Air') ||
     (her.element === 'Air' && him.element === 'Fire')
   ) {
-    rating = '97% High-Octane Banter & Passport Chemistry';
-    polarity = `${her.element} × ${him.element} Combustible Spark`;
-    dateIdea = '18-hour boutique hotel rooftop + heated midnight pool escape';
-    vettingTip = 'Keep the banter playful and confirm Thursday reservations by Tuesday noon.';
+    rating = '97% High-Octane Banter & Passport Spark';
+    polarity = `🔥 ${her.element} × 💨 ${him.element} Combustible Chemistry`;
+    dateIdea = '🥂 18-hour boutique hotel rooftop + heated midnight pool escape';
+    vettingTip = '📅 Keep banter razor-sharp and lock in Thursday reservations by Tuesday noon.';
+    scenePhoto = './images/scenes/hotel-pool-sauna.jpg';
+    meters = [
+      { label: '🔥 Bedroom & Banter Voltage', pct: 98 },
+      { label: '🛎️ Friday Planning & Chivalry', pct: 95 },
+      { label: '🛋️ Sunday Sanctuary Peace', pct: 93 },
+      { label: '🌶️ Slow-Burn Pushback Spark', pct: 97 },
+    ];
   } else if (
     (her.element === 'Earth' && him.element === 'Water') ||
     (her.element === 'Water' && him.element === 'Earth')
   ) {
-    rating = '98% Sanctuary & Linen-Apron Soulmate Tier';
-    polarity = `${her.element} × ${him.element} Grounded Devotion`;
-    dateIdea = 'Farmers-market haul + handmade Sunday pasta in a 64°F lamp-lit apartment';
-    vettingTip = 'Consistency is oxygen here: follow through on every small promise.';
+    rating = '99% Sanctuary & Linen-Apron Soulmate Tier';
+    polarity = `🌿 ${her.element} × 🌊 ${him.element} Grounded Devotion`;
+    dateIdea = '🍝 Farmers-market figs + handmade Sunday pasta in a 62°F lamp-lit kitchen';
+    vettingTip = '💎 Consistency is pure oxygen here—follow through on every small promise.';
+    scenePhoto = './images/scenes/sunday-kitchen-sanctuary.jpg';
+    meters = [
+      { label: '🔥 Bedroom & Banter Voltage', pct: 97 },
+      { label: '🛎️ Friday Planning & Chivalry', pct: 99 },
+      { label: '🛋️ Sunday Sanctuary Peace', pct: 99 },
+      { label: '🌶️ Slow-Burn Pushback Spark', pct: 96 },
+    ];
   } else if (
     (her.element === 'Fire' && him.element === 'Earth') ||
     (her.element === 'Earth' && him.element === 'Fire')
   ) {
-    rating = '95% Powerhouse × Steady Anchor Polarity';
-    polarity = 'Glamour Meets Grounded Follow-Through';
-    dateIdea = '6 PM lobby dirty martinis + pre-booked corner steakhouse booth';
-    vettingTip = 'Earth handles the calendar and parking; Fire brings the fearless spark.';
+    rating = '96% Powerhouse × Steady Anchor Polarity';
+    polarity = '👑 Glamour Meets Grounded Follow-Through';
+    dateIdea = '🍸 6 PM hotel-bar three-olive Gibsons + pre-booked corner banquette';
+    vettingTip = '🗝️ Earth handles parking and logistics; Fire brings fearless public pride.';
+    scenePhoto = './images/scenes/velvet-room-bar.jpg';
+    meters = [
+      { label: '🔥 Bedroom & Banter Voltage', pct: 96 },
+      { label: '🛎️ Friday Planning & Chivalry', pct: 98 },
+      { label: '🛋️ Sunday Sanctuary Peace', pct: 94 },
+      { label: '🌶️ Slow-Burn Pushback Spark', pct: 95 },
+    ];
   } else if (pairKey === 'Fire-Fire' || pairKey === 'Water-Water') {
     rating = '96% All-In Magnetic Heat';
-    polarity = `Pure ${her.element}-Sign Immersion`;
-    dateIdea = 'Hotel lobby bar eye-contact game + coastal sunset drive';
-    vettingTip = 'Zero ego battles allowed; keep communication candid and generous.';
+    polarity = `⚡ Pure ${her.element}-Sign Immersion`;
+    dateIdea = '🌴 Top-down Highway 1 sunset drive + oceanfront terrace cocktails';
+    vettingTip = '🤝 Zero ego scorekeeping allowed—keep communication candid and generous.';
+    scenePhoto = './images/scenes/coastal-convertible.jpg';
+    meters = [
+      { label: '🔥 Bedroom & Banter Voltage', pct: 99 },
+      { label: '🛎️ Friday Planning & Chivalry', pct: 93 },
+      { label: '🛋️ Sunday Sanctuary Peace', pct: 92 },
+      { label: '🌶️ Slow-Burn Pushback Spark', pct: 97 },
+    ];
   } else {
-    rating = '92% Intriguing Black-Cat × Golden-Cub Contrast';
-    polarity = `${her.label} Poise × ${him.label} Curiosity`;
-    dateIdea = 'Thursday art gallery opening + retro neon bowling nightcap';
-    vettingTip = 'Bridge your styles by asking great questions instead of Cubsplaining.';
+    rating = '94% Black-Cat × Golden-Cub Intrigue';
+    polarity = `🐈‍⬛ ${her.label} Poise × 🐕 ${him.label} Curiosity`;
+    dateIdea = '🎳 Thursday gallery opening + competitive retro neon bowling nightcap';
+    vettingTip = '🎧 Bridge your styles by asking great questions instead of Cubsplaining.';
+    scenePhoto = './images/scenes/neon-bowling-lounge.jpg';
+    meters = [
+      { label: '🔥 Bedroom & Banter Voltage', pct: 94 },
+      { label: '🛎️ Friday Planning & Chivalry', pct: 93 },
+      { label: '🛋️ Sunday Sanctuary Peace', pct: 92 },
+      { label: '🌶️ Slow-Burn Pushback Spark', pct: 96 },
+    ];
   }
 
   return {
     rating,
     polarity,
-    summary: `Her (${her.symbol} ${her.label}): ${her.herVibe}. Him (${him.symbol} ${him.label}): ${him.himVibe}.`,
     dateIdea,
     vettingTip,
+    scenePhoto,
+    meters,
   };
 }
 
 interface GuideVisualMeta {
+  categoryPill: string;
   heroPhoto: string;
+  sectionPhotos: [string, string, string, string];
   dontText: string;
   doText: string;
   greenFlag: string;
   redFlag: string;
+  redditReceipt: {
+    handle: string;
+    upvotes: string;
+    quote: string;
+    topReply: string;
+  };
+  poll: {
+    question: string;
+    options: [
+      { label: string; pct: number },
+      { label: string; pct: number },
+      { label: string; pct: number },
+    ];
+  };
 }
 
 const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   'cougar-vs-puma-vs-jaguar-dating-age-chart': {
+    categoryPill: '🐆 Viral Club Taxonomy • #1 Most Shared',
     heroPhoto: './images/scenes/velvet-room-bar.jpg',
+    sectionPhotos: [
+      './images/cast/claire-45f.jpg',
+      './images/cast/miles-zaddy-31m.jpg',
+      './images/cast/celeste-62f.jpg',
+      './images/scenes/candlelit-cocktails.jpg',
+    ],
     dontText: 'ngl never been with a cougar before, bucket list check tonight??',
     doText: 'Booked us the quiet corner booth at 7:30 Friday—Sancerre is already on deck.',
     greenFlag: 'Knows Cougar never means Sugar Mama and takes Friday planning off her plate.',
-    redFlag: 'Treats accomplished women like a novelty badge or expects her to fund his rent.',
+    redFlag: 'Treats accomplished women like an Xbox achievement badge or expects rent money.',
+    redditReceipt: {
+      handle: 'u/VelvetJaguar_52F • 40s/50s Regular',
+      upvotes: '2.4k',
+      quote:
+        'PSA to every 25M entering the sub: I own my house, my car, and my retirement account. I don’t need a provider OR a dependent—I want a hot, emotionally present man who books a 7:30 booth.',
+      topReply: '↳ u/HampsteadCub_27M: Printed, framed, and taped above the espresso machine.',
+    },
+    poll: {
+      question: '🗳️ Quick Vibe Vote: Which polarity makes your knees weakest?',
+      options: [
+        { label: '🥂 Decisive "Cub Daddy" who handles every Friday detail', pct: 46 },
+        { label: '👑 Princess Cougar spoiled with peonies & car doors', pct: 34 },
+        { label: '😈 Soft Mommy-Domme eyebrow raise & "Good boy"', pct: 20 },
+      ],
+    },
   },
   'first-time-hosting-older-woman-apartment-checklist': {
+    categoryPill: '🏠 Viral 10-Point Hosting Audit',
     heroPhoto: './images/scenes/sunday-kitchen-sanctuary.jpg',
+    sectionPhotos: [
+      './images/scenes/luxury-bedroom-sanctuary.jpg',
+      './images/cast/soren-26m.jpg',
+      './images/scenes/wine-bar-booth.jpg',
+      './images/cast/rafael-4.jpg',
+    ],
     dontText: 'come thru whenever lol my roommate left dishes in the sink',
-    doText: 'Dinner is simmering, lamps are dimmed, and chilled Pellegrino is waiting whenever you arrive.',
+    doText: 'Dinner is simmering, lamps are dimmed, and chilled Pellegrino is poured whenever you arrive.',
     greenFlag: 'Lidded bathroom bin, botanical hand soap, four real pillows, and crisp cotton sheets.',
-    redFlag: 'Bare floor mattress, neon 5-in-1 body wash, and harsh overhead fluorescent lighting.',
+    redFlag: 'Bare floor mattress, neon 5-in-1 shower gel, and harsh surgical ceiling fluorescents.',
+    redditReceipt: {
+      handle: 'u/ManhattanBeach_46F • Verified Cougar',
+      upvotes: '3.1k',
+      quote:
+        'Walked into a 26-year-old’s studio expecting dorm chaos. Instead: warm table lamps, 64°F AC, Aesop soap, a lidded bathroom bin, and a spare MagSafe cord on my nightstand. Still dating him 14 months later.',
+      topReply: '↳ u/SilverLakeWoodworker: That spare nightstand charger has a 100% retention rate.',
+    },
+    poll: {
+      question: '🗳️ Instant Walk-Out Poll: Which apartment crime is the #1 mood killer?',
+      options: [
+        { label: '🗑️ Unlined wire bathroom bin + damp mystery towel', pct: 52 },
+        { label: '🛏️ Single pancaked pillow on shiny polyester sheets', pct: 33 },
+        { label: '💡 Blinding overhead "Big Light" left on at 10 PM', pct: 15 },
+      ],
+    },
   },
   'best-gifts-for-older-woman-girlfriend-dating-guide': {
+    categoryPill: '🎁 Gift & Soft-Life Playbook',
     heroPhoto: './images/scenes/palm-springs-resort.jpg',
+    sectionPhotos: [
+      './images/products/princess-mulberry-silk-robe.jpg',
+      './images/cast/rafael-2.jpg',
+      './images/products/date-night-oud-bergamot.jpg',
+      './images/scenes/candlelit-cocktails.jpg',
+    ],
     dontText: 'i didnt know what to get u since u already buy everything lol',
-    doText: 'Remembered the Sicilian olive oil you loved three weeks ago—plus Sunday dinner is on me.',
-    greenFlag: 'Gifts specific personal observation, sensory silk comfort, and cooked-from-scratch rituals.',
-    redFlag: 'Competes insecurely with her salary or panic-buys impersonal mall clutter.',
+    doText: 'Remembered the Sicilian olive oil you praised three Tuesdays ago—plus Sunday dinner is on me.',
+    greenFlag: 'Gifts tiny personal observations, sensory silk comfort, and homemade Sunday dinners.',
+    redFlag: 'Competes insecurely with her salary or panic-buys generic mall clutter.',
+    redditReceipt: {
+      handle: 'u/PasadenaCourtyard_39F • Interior Designer',
+      upvotes: '1.8k',
+      quote:
+        'He makes a third of what I make, yet gave me the best birthday gift of my life: a $28 bottle of the exact olive oil I mentioned once in October and handmade short-rib ragu in a linen apron.',
+      topReply: '↳ u/TraumaRN_36F: Observation > price tags ten times out of ten!!',
+    },
+    poll: {
+      question: '🗳️ Gift Check: What melts a woman who already buys her own luxury bags?',
+      options: [
+        { label: '🍝 Cooking from scratch + leaving her kitchen spotless', pct: 54 },
+        { label: '💐 Remembering an offhand favorite from 3 weeks ago', pct: 31 },
+        { label: '🧖‍♀️ 22-momme silk robe + zero-decision weekend getaway', pct: 15 },
+      ],
+    },
   },
   'millennial-vs-gen-z-age-gap-dating-code-switching': {
+    categoryPill: '📱 Generational Texting Decoder',
     heroPhoto: './images/scenes/wine-bar-booth.jpg',
+    sectionPhotos: [
+      './images/cast/elena-prof-44f.jpg',
+      './images/cast/julian-27m.jpg',
+      './images/scenes/velvet-room-bar.jpg',
+      './images/cast/claire-5.jpg',
+    ],
     dontText: 'yo u look crazy good for ur age whats ur snap??',
     doText: 'Here is my cell—free for a quick 6 PM call Thursday before our Friday 7:30 reservation?',
-    greenFlag: 'Exchanges real phone numbers, reads Gen-X punctuation calmly, and confirms dates.',
-    redFlag: 'Asks a 44-year-old executive for Snapchat or spirals over a sincere thumbs-up emoji.',
+    greenFlag: 'Trades real phone numbers, reads Gen-X punctuation calmly, and confirms at noon.',
+    redFlag: 'Asks a 45-year-old executive for Snapchat or spirals over a sincere 👍 emoji.',
+    redditReceipt: {
+      handle: 'u/LitChair_44F • Gen-X / Xennial Cusp',
+      upvotes: '2.9k',
+      quote:
+        'Sweetest 26-year-old texted asking if I was mad at him because I replied "Sounds good." with a period between budget meetings. Sweetheart, if I were mad, you wouldn’t be getting my Friday night!',
+      topReply: '↳ u/GenZ_Paramedic27: Learning that 👍 means "I adore you, see you at 8" saved my life.',
+    },
+    poll: {
+      question: '🗳️ Texting Crime Poll: Fastest way a younger guy fumbles in the DMs?',
+      options: [
+        { label: '👻 Asking "do u have snap??" past age 23', pct: 58 },
+        { label: '💀 Saying "you look amazing for your age!"', pct: 29 },
+        { label: '😴 Sending "wyd" at 11:15 PM with zero plan', pct: 13 },
+      ],
+    },
+  },
+  'older-woman-younger-man-relationship-problems-kids-stigma': {
+    categoryPill: '💬 Real Talk • Stares, Mirrors & Timelines',
+    heroPhoto: './images/scenes/cozy-rain-suite.jpg',
+    sectionPhotos: [
+      './images/cast/julian-5.jpg',
+      './images/cast/summer-2.jpg',
+      './images/scenes/wedding-gala-cheers.jpg',
+      './images/cast/miles-5.jpg',
+    ],
+    dontText: 'wait are those people at the next table staring at us??',
+    doText: 'Let them stare—gives the sommelier an excuse to comp our dessert.',
+    greenFlag: 'Talks kids/timelines honestly by Month 3 and holds your hand proudly in daylight.',
+    redFlag: 'Avoids future conversations for two years or shrinks back when acquaintances look over.',
+    redditReceipt: {
+      handle: 'u/LakeZurichEnergy • 14-Yr Gap Married',
+      upvotes: '2.2k',
+      quote:
+        'When a hotel clerk asked if we needed two Queen beds, my 28-year-old partner didn’t flinch—just smiled and said "One King is plenty, thanks." Confidence resets the whole room in three seconds.',
+      topReply: '↳ u/CopenhagenArchitect: Deadpan warmth undefeated every single time.',
+    },
+    poll: {
+      question: '🗳️ Public Side-Eye Poll: Best comeback when a waiter stumbles over the gap?',
+      options: [
+        { label: '🥂 Kiss her hand deadpan & joke into comped Champagne', pct: 61 },
+        { label: '😎 Smile unbothered—happy couples don’t explain themselves', pct: 28 },
+        { label: '😂 Wink and say "He’s here for my 90s vinyl collection"', pct: 11 },
+      ],
+    },
+  },
+  'black-cat-older-woman-golden-retriever-younger-man-dating-guide': {
+    categoryPill: '🐈‍⬛ × 🐕 #1 Fan-Favorite Polarity',
+    heroPhoto: './images/scenes/candlelit-cocktails.jpg',
+    sectionPhotos: [
+      './images/cast/claire-45f.jpg',
+      './images/cast/rory-24m.jpg',
+      './images/scenes/cozy-rain-suite.jpg',
+      './images/products/golden-retriever-boyfriend-mug.jpg',
+    ],
+    dontText: 'fine guess ur too busy for me then!!',
+    doText: 'Zero rush at all—held Thursday next week just in case, and my evening stays yours.',
+    greenFlag: 'Beams brighter when she paces the first three dates instead of taking boundaries personally.',
+    redFlag: 'Sulks, love-bombs, or demands instant girlfriend energy before Date #2.',
+    redditReceipt: {
+      handle: 'u/GoldenCub_25M • Happily Spoken For',
+      upvotes: '3.4k',
+      quote:
+        'Men her age got intimidated because she didn’t giggle at mediocre jokes on Date 1. Meanwhile, the first Friday she finally kicked off her heels and stole my hoodie felt like winning the Olympics.',
+      topReply: '↳ u/BlackCatM_and_A: Earned warmth > cheap flattery forever.',
+    },
+    poll: {
+      question: '🗳️ Polarity Check: Which side of the couch are you in a relationship?',
+      options: [
+        { label: '🐈‍⬛ Selective Black Cat who melts once trust is earned', pct: 49 },
+        { label: '🐕 Sunny Golden Retriever who loves the slow burn', pct: 37 },
+        { label: '🥂 Switch—cool in public, pure sap on Sunday morning', pct: 14 },
+      ],
+    },
+  },
+  'celebrity-cougars-and-cubs-pop-culture-guide': {
+    categoryPill: '✨ Red-Carpet Hall of Fame',
+    heroPhoto: './images/icons/pop_priyanka_nick.jpg',
+    sectionPhotos: [
+      './images/icons/pop_tina_erwin.jpg',
+      './images/icons/pop_cher_icons.jpg',
+      './images/icons/pop_sienna_oli.jpg',
+      './images/icons/pop_miley_maxx.jpg',
+    ],
+    dontText: 'wait celebrity age gaps never last more than a summer right??',
+    doText: 'Tina Turner & Erwin Bach went 38 years strong—queueing up our Capri era.',
+    greenFlag: 'Hypes her spotlight like Nick Jonas, Tom Kaulitz, and Erwin Bach with zero ego.',
+    redFlag: 'Gets competitive whenever she earns more or walks into a room as the headliner.',
+    redditReceipt: {
+      handle: 'u/RedCarpetHistorian • Pop Quiz Ace',
+      upvotes: '1.9k',
+      quote:
+        'Whenever trolls claim woman-older couples are "just a phase," remind them Erwin Bach married Tina Turner 16 years his senior, stayed 38 years, and literally donated his kidney to save her life.',
+      topReply: '↳ u/CapriYachtClub: Plus Goldie & Kurt at 42+ years and Julianne Moore at 28+ years!!',
+    },
+    poll: {
+      question: '🗳️ Hall of Fame Vote: Ultimate Patron Couple of Cougars & Cubs Club?',
+      options: [
+        { label: '👑 Tina Turner & Erwin Bach (16-yr gap • 38 yrs)', pct: 48 },
+        { label: '💎 Priyanka Chopra & Nick Jonas / Heidi & Tom', pct: 32 },
+        { label: '🎸 Cher ("Mom, I AM a rich man") & Sienna × Oli', pct: 20 },
+      ],
+    },
+  },
+  'dating-younger-man-perimenopause-menopause-intimacy': {
+    categoryPill: '🌙 62°F Sleep & Candid Intimacy Guide',
+    heroPhoto: './images/scenes/hotel-pool-sauna.jpg',
+    sectionPhotos: [
+      './images/scenes/luxury-bedroom-sanctuary.jpg',
+      './images/products/cooling-bamboo-sheets.jpg',
+      './images/cast/marcus-26m.jpg',
+      './images/products/silk-pillowcase-sleepover-duo.jpg',
+    ],
+    dontText: 'why do u have the bedroom AC cranked so cold lol',
+    doText: 'Bedroom is pre-chilled to 62°F, cooling bamboo sheets are on, and ice water is on your side.',
+    greenFlag: 'Treats 62°F thermostats, breathable bamboo sheets, and unhurried foreplay as standard.',
+    redFlag: 'Brings fragile ego into bedroom communication or complains about cool sleep temps.',
+    redditReceipt: {
+      handle: 'u/JaguarInFullBloom_51F • Verified',
+      upvotes: '2.6k',
+      quote:
+        'My ex acted personally offended by 3 AM hot flashes. My 31-year-old partner bought cooling bamboo sheets before our second weekend and keeps chilled Pellegrino on my nightstand without being asked.',
+      topReply: '↳ u/PlayaVistaMedic: Happy, well-rested partner = undefeated Sunday mornings.',
+    },
+    poll: {
+      question: '🗳️ Sacred Sleep Poll: Ideal bedroom temperature for an elite stayover?',
+      options: [
+        { label: '❄️ Crisp 62°F–64°F + breathable bamboo/linen layers', pct: 67 },
+        { label: '🌬️ 65°F–67°F + two separate Scandinavian duvets', pct: 26 },
+        { label: '🔥 Over 70°F (straight to Cub Obedience School!)', pct: 7 },
+      ],
+    },
+  },
+  'junior-cougar-6-year-age-gap-relationship-guide': {
+    categoryPill: '🥂 5-to-9 Year "Junior Cougar" Sweet Spot',
+    heroPhoto: './images/scenes/cougarmarket-wine.jpg',
+    sectionPhotos: [
+      './images/cast/sienna-38f.jpg',
+      './images/icons/pop_miley_maxx.jpg',
+      './images/icons/pop_eva_ryan.jpg',
+      './images/scenes/wedding-gala-cheers.jpg',
+    ],
+    dontText: 'six years barely even counts as an age gap lol',
+    doText: 'You had a parallel-parked car in 2009 while I was in sophomore geometry—definitely counts.',
+    greenFlag: 'Blends shared pop-culture overlap with proud public hand-holding and clear timelines.',
+    redFlag: 'Uses a smaller gap as an excuse for Peter-Pan laziness or sloppy date planning.',
+    redditReceipt: {
+      handle: 'u/JuniorCougar_39F • 6-Yr Gap',
+      upvotes: '1.5k',
+      quote:
+        'The 18-year-gap Jaguars tease us at the door, then pour us wine—because 39F × 33M has zero public stares AND all the playful "wait, what grade were you in during 2009?!" comedy.',
+      topReply: '↳ u/PalmSpringsDrummer: Miley & Maxx, Eva & Ryan, Cameron & Benji—undefeated lane.',
+    },
+    poll: {
+      question: '🗳️ Gatekeeper Debate: Does a 6-to-8 year woman-older gap get a Club seat?',
+      options: [
+        { label: '🥂 100% Yes—proud "Junior Cougar" badge unlocked!', pct: 64 },
+        { label: '🐆 Honorary Puma/Junior seat (10+ yrs = full Cougar)', pct: 29 },
+        { label: '📏 Only if he still opens every car door!', pct: 7 },
+      ],
+    },
+  },
+  'older-woman-grown-son-same-age-meeting-parents-guide': {
+    categoryPill: '🥂 Grown Kids, Same-Age Moms & Wedding +1s',
+    heroPhoto: './images/scenes/wedding-gala-cheers.jpg',
+    sectionPhotos: [
+      './images/cast/claire-4.jpg',
+      './images/cast/marcus-4.jpg',
+      './images/cast/rafael-6.jpg',
+      './images/scenes/sunday-kitchen-sanctuary.jpg',
+    ],
+    dontText: 'so since im dating ur mom im basically in charge now right??',
+    doText: 'Already told my mom all about you—she cannot wait to swap 90s concert stories on Sunday.',
+    greenFlag: 'Peer-level warmth with her college/adult kids + prepping his parents a full week ahead.',
+    redFlag: 'Playing fake "stepdad" to a 22-year-old or springing a holiday doorway ambush on Mom.',
+    redditReceipt: {
+      handle: 'u/StanfordLawMom_46F • 20-Yr Gap',
+      upvotes: '2.7k',
+      quote:
+        'My 22-year-old son met my 26-year-old partner at Manhattan Beach brunch. Zero weird authority posturing—they talked surf breaks for twenty minutes and my son texted afterward: "Okay Mom, he’s solid."',
+      topReply: '↳ u/Station14Mom_49F: And thank heaven my son prepped me on Tuesday instead of Thanksgiving!',
+    },
+    poll: {
+      question: '🗳️ Milestone Poll: Which real-world boss level felt most nerve-wracking?',
+      options: [
+        { label: '🥞 Brunch with her adult kid who is within 4 years of you', pct: 44 },
+        { label: '🍷 Sunday dinner with his mom who graduated the same year', pct: 35 },
+        { label: '💃 First formal wedding slow-dance in front of Table 9', pct: 21 },
+      ],
+    },
+  },
+  'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man': {
+    categoryPill: '🗺️ Anti-Boring Date Blueprint',
+    heroPhoto: './images/scenes/campus-autumn-sushi.jpg',
+    sectionPhotos: [
+      './images/scenes/hotel-pool-sauna.jpg',
+      './images/scenes/neon-bowling-lounge.jpg',
+      './images/products/linen-picnic-insulated-tote.jpg',
+      './images/scenes/coastal-convertible.jpg',
+    ],
+    dontText: 'wanna just come sit on my couch and scroll streaming menus??',
+    doText: 'Packed figs, Brie, and crusty baguette—bluff overlook at 5:30, then neon bowling at 8?',
+    greenFlag: 'Beats stiff corporate dinner interviews with playful movement and real planning.',
+    redFlag: 'Fake trust-fund flexing or dumping "idk where should we go" onto her Friday.',
+    redditReceipt: {
+      handle: 'u/FellowshipCub_27M • Early-Career Wins',
+      upvotes: '2.1k',
+      quote:
+        'You don’t need a yacht budget to sweep a 44-year-old executive off her feet. A $35 hand-packed meadow picnic with fresh figs, chilled crisp white, and competitive retro bowling beat every $400 steakhouse.',
+      topReply: '↳ u/WestsidePuma_38F: Effort + playfulness > corporate expense-account dinners ALWAYS.',
+    },
+    poll: {
+      question: '🗳️ Friday Date Draft: Pick this weekend’s S-Rank itinerary!',
+      options: [
+        { label: '🧖‍♀️ 18-hour boutique hotel rooftop + midnight pool & sauna', pct: 51 },
+        { label: '🧺 Sunset bluff fig-and-Brie picnic + retro neon bowling', pct: 31 },
+        { label: '🍣 Autumn campus stroll + 12-seat sushi/vinyl bar', pct: 18 },
+      ],
+    },
+  },
+  'cougar-town-pop-culture-age-gap-dating-history': {
+    categoryPill: '🍷 Big Carl & Sitcom History',
+    heroPhoto: './images/icons/pop_cougar_town.jpg',
+    sectionPhotos: [
+      './images/products/big-carl-giant-wine-glass.jpg',
+      './images/scenes/cougarmarket-wine.jpg',
+      './images/scenes/wedding-gala-cheers.jpg',
+      './images/products/bridget-jones-cougar-town-watch.jpg',
+    ],
+    dontText: 'arent divorced women in their 40s supposed to stay home quietly??',
+    doText: 'Brought Pinot Noir and an oversized Big Carl goblet to toast our six-month mark.',
+    greenFlag: 'Celebrates post-divorce joy, loud Cul-de-Sac friendships, and milestone anniversaries.',
+    redFlag: 'Treats her second act like something she should tone down or apologize for.',
+    redditReceipt: {
+      handle: 'u/CulDeSacCrew_43F • Big Carl Owner',
+      upvotes: '1.7k',
+      quote:
+        'Acquaintances gave me and my 28-year-old boyfriend "two fun weekends" right after my divorce finalized. Last Friday we clinked giant Big Carl wine glasses on our two-year anniversary!',
+      topReply: '↳ u/PasadenaSam: Living happily ever after is the loudest flex in the zip code.',
+    },
+    poll: {
+      question: '🗳️ Cul-de-Sac Poll: Official beverage vessel for Friday movie night?',
+      options: [
+        { label: '🍷 Comically oversized "Big Carl" Pinot goblet', pct: 53 },
+        { label: '🍸 Ice-cold three-olive Gibson or Espresso Martini', pct: 33 },
+        { label: '🌿 Zero-proof yuzu botanical spritz in crystal', pct: 14 },
+      ],
+    },
+  },
+  'astrology-zodiac-compatibility-older-woman-younger-man': {
+    categoryPill: '🔮 Interactive 12×12 Star-Sign Toy',
+    heroPhoto: './images/scenes/havana-salsa-studio.jpg',
+    sectionPhotos: [
+      './images/cast/astrid-41f.jpg',
+      './images/cast/claire-45f.jpg',
+      './images/cast/elena-prof-44f.jpg',
+      './images/scenes/coastal-convertible.jpg',
+    ],
+    dontText: 'astrology is dumb lol anyway wyd tonight',
+    doText: 'Texted my mom at lunch for my exact birth minute—tell me our Friday forecast.',
+    greenFlag: 'Texts his mom for his exact birth time with playful curiosity and zero eye-rolling.',
+    redFlag: 'Launches a 15-minute condescending lecture mocking things she enjoys for fun.',
+    redditReceipt: {
+      handle: 'u/ScorpioCougar_45F • Taurus Cub Partner',
+      upvotes: '2.0k',
+      quote:
+        'Mentioned Co-Star once over martinis; within four minutes he texted his mom for his hospital birth certificate time. Reader, Scorpio Her × Taurus Cub really IS 99% sanctuary magic.',
+      topReply: '↳ u/LeoQueen_48F: Aries/Leo Fire women with grounded Earth Cubs = chef’s kiss.',
+    },
+    poll: {
+      question: '🗳️ Star-Sign Poll: Which Cub element brings the highest Husband/Partner EQ?',
+      options: [
+        { label: '🌿 Earth Cubs (Taurus, Virgo, Capricorn) — culinary & steady', pct: 45 },
+        { label: '🌊 Water Cubs (Cancer, Scorpio, Pisces) — locked-in devotion', pct: 33 },
+        { label: '🔥💨 Fire & Air Cubs — fearless banter & passport energy', pct: 22 },
+      ],
+    },
+  },
+  'master-list-cougar-cub-movies-older-woman-younger-man': {
+    categoryPill: '🎬 Definitive 22-Film Watchlist',
+    heroPhoto: './images/products/no-hard-feelings-jlaw-prime.jpg',
+    sectionPhotos: [
+      './images/products/bridget-jones-cougar-town-watch.jpg',
+      './images/products/babygirl-movie-prime.jpg',
+      './images/products/the-rebound-zeta-jones-prime.jpg',
+      './images/icons/pop_stella_cinema.jpg',
+    ],
+    dontText: 'never heard of any of those movies lol put on sports highlights',
+    doText: 'Chilled two glasses—starting with The Rebound or No Hard Feelings tonight?',
+    greenFlag: 'Queues up Stella, Babygirl, or The Rebound with takeout already ordered.',
+    redFlag: 'Scrolls streaming menus for 50 minutes until you both fall asleep annoyed.',
+    redditReceipt: {
+      handle: 'u/CinemaArchivist_41F • 22/22 Watched',
+      upvotes: '2.5k',
+      quote:
+        'Justice for Catherine Zeta-Jones & Justin Bartha in The Rebound (2009)!! Everyone talks about Babygirl and The Idea of You, yet 25-year-old coffee-shop Aram wrote the Golden-Retriever Cub blueprint.',
+      topReply: '↳ u/HampsteadRoxster: Pairing The Rebound + Bridget Jones: Mad About the Boy this Friday!',
+    },
+    poll: {
+      question: '🗳️ Cinema Crown Poll: Pick the #1 Watch-Night Essential!',
+      options: [
+        { label: '🥛 Babygirl / The Idea of You (high-voltage streaming era)', pct: 42 },
+        { label: '😂 No Hard Feelings / Bridget Jones: Mad About the Boy', pct: 33 },
+        { label: '👑 How Stella Got Her Groove Back / The Rebound classics', pct: 25 },
+      ],
+    },
+  },
+  'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man': {
+    categoryPill: '🍿 Friday Watch-Night Pairing Guide',
+    heroPhoto: './images/products/babygirl-movie-prime.jpg',
+    sectionPhotos: [
+      './images/scenes/velvet-room-bar.jpg',
+      './images/products/idea-of-you-movie-book.jpg',
+      './images/products/the-rebound-zeta-jones-prime.jpg',
+      './images/scenes/cozy-rain-suite.jpg',
+    ],
+    dontText: 'idk pick whatever movie u want i guess',
+    doText: 'Want hotel-bar tension (Babygirl), vacation glow (Stella), or London laughs (Bridget)?',
+    greenFlag: 'Matches the movie vibe to her week—escapism after chaos, tension on date night.',
+    redFlag: 'Spoils the ending ten minutes in or checks work Slack during the best scene.',
+    redditReceipt: {
+      handle: 'u/HalinaBarScene • Hotel-Bar Regular',
+      upvotes: '1.9k',
+      quote:
+        'Learning that director Halina Reijn borrowed the Babygirl hotel-bar drink send from a real younger actor in Brussels made that scene ten times hotter.',
+      topReply: '↳ u/VelvetRoomBartender: Three-olive Gibson orders jumped 300% this year.',
+    },
+    poll: {
+      question: '🗳️ Mood Matcher: Which Friday watch-night energy are you picking tonight?',
+      options: [
+        { label: '🍸 High-voltage hotel-bar tension (Babygirl / White Palace)', pct: 44 },
+        { label: '🌴 Sun-drenched vacation chemistry (Stella / Idea of You)', pct: 34 },
+        { label: '🧣 Cozy witty rom-com (Bridget Jones / The Rebound)', pct: 22 },
+      ],
+    },
+  },
+  'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette': {
+    categoryPill: '🗺️ IRL "In The Wild" Field Manual',
+    heroPhoto: './images/scenes/terminal-b-arrivals.jpg',
+    sectionPhotos: [
+      './images/scenes/canyon-sunrise-trail.jpg',
+      './images/scenes/velvet-room-bar.jpg',
+      './images/cast/marcus-3.jpg',
+      './images/scenes/cougarmarket-wine.jpg',
+    ],
+    dontText: 'hey wave wave take off ur headphones mid-squat real quick!!',
+    doText: 'Waited until you wrapped up at the smoothie counter—I’m Marcus, by the way.',
+    greenFlag: 'Respects the sacred gym headphone rule, builds warm familiarity, and never Cubsplains.',
+    redFlag: 'Interrupts her workout mid-set or lectures her on wine tannins she mastered in 2005.',
+    redditReceipt: {
+      handle: 'u/DawnLapPool_42F • Met IRL',
+      upvotes: '3.0k',
+      quote:
+        'He reracked his weights cleanly and shared a polite nod for three straight weeks without interrupting my headphones once. The morning my AirPods came out at the coffee counter, he introduced himself—smooth as silk.',
+      topReply: '↳ u/RacquetClubSøren: Situational awareness beats pickup lines 100% of the time.',
+    },
+    poll: {
+      question: '🗳️ IRL Venue Poll: Highest-success "In The Wild" spot to meet organically?',
+      options: [
+        { label: '🍸 Upscale hotel lobby bar or wine tasting (6–8:30 PM)', pct: 49 },
+        { label: '🎾 Racquet club, run club, or post-workout smoothie bar', pct: 32 },
+        { label: '📚 Independent bookstore, museum night, or salsa class', pct: 19 },
+      ],
+    },
   },
 };
 
 function getGuideVisualMeta(slug: string): GuideVisualMeta {
   return (
-    GUIDE_VISUAL_BY_SLUG[slug] ?? {
-      heroPhoto: './images/scenes/hotel-pool-sauna.jpg',
-      dontText: 'idk what do u wanna do tonight?? u pick',
-      doText: 'Reserved two seats at 7:30—wear whatever feels effortless and I will handle the rest.',
-      greenFlag: 'Brings emotional fluency, calm public confidence, and unhurried follow-through.',
-      redFlag: 'Dumps decision fatigue onto her calendar or hides behind vague midnight texts.',
-    }
+    GUIDE_VISUAL_BY_SLUG[slug] ??
+    GUIDE_VISUAL_BY_SLUG['cougar-vs-puma-vs-jaguar-dating-age-chart']
   );
+}
+
+const SECTION_EMOJIS = ['🔥', '💡', '🥂', '👑'];
+
+function splitIntoScannableBeats(body: string): string[] {
+  const lines = body
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean);
+  if (lines.length > 1) {
+    return lines.map((l) => l.replace(/^[•-]\s*/, ''));
+  }
+  const sentences = body
+    .split(/(?<=[.!?])\s+(?=[A-Z"“‘(0-9])/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return sentences.length > 0 ? sentences : [body];
 }
 
 const CHECKLIST_INLINE_PRODUCT_IDS: string[] = [
@@ -286,6 +860,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   const [hostingChecks, setHostingChecks] = useState<number[]>(() => loadHostingChecks());
   const [herSignId, setHerSignId] = useState<string>('scorpio');
   const [himSignId, setHimSignId] = useState<string>('taurus');
+  const [pollVotesBySlug, setPollVotesBySlug] = useState<Record<string, number>>({});
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   const active =
@@ -320,10 +895,21 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
     const guideUrl = `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}guides/${active.slug}/`;
     setSharePayload({
       title: active.headline,
-      message: `📖 Cougars & Cubs Club Field Guide: "${active.headline}" (${active.readTime})`,
+      message: `📖 Cougars & Cubs Club Guide: "${active.headline}" (${active.readTime})`,
       url: guideUrl,
       shareSurface: 'guide',
       discordMarkdown: `**📖 ${active.headline}** (${active.readTime})\n${active.metaDescription}\nRead & play scenario: ${guideUrl}`,
+    });
+  };
+
+  const handleShareZodiac = () => {
+    const astroUrl = `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}?journal=astrology-zodiac-compatibility-older-woman-younger-man`;
+    setSharePayload({
+      title: `${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub`,
+      message: `🔮 Cougars & Cubs Astro Match: ${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub — ${zodiacMatch.rating}! Test your signs:`,
+      url: astroUrl,
+      shareSurface: 'guide',
+      discordMarkdown: `**🔮 ${herSign.symbol} ${herSign.label} Her × ${himSign.symbol} ${himSign.label} Cub — ${zodiacMatch.rating}**\n${zodiacMatch.dateIdea}\nTest your signs: ${astroUrl}`,
     });
   };
 
@@ -331,97 +917,161 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
     active.slug === 'master-list-cougar-cub-movies-older-woman-younger-man' ||
     active.slug === 'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man';
 
+  const selectedPollIdx = pollVotesBySlug[active.slug];
+
   return (
     <>
-      <div className="w-full space-y-6 animate-stage-in">
-        {/* Editorial Magazine Header */}
-        <div className="editorial-hinge-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-[#FFFDF9] via-rose-50/40 to-amber-50/40">
-          <div className="space-y-2 max-w-3xl">
-            <span className="inline-block rounded-full bg-amber-100 border border-amber-300/70 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-amber-950">
-              Cougars &amp; Cubs Club • Visual Field Manual &amp; Shoppable Date Guides
-            </span>
-            <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
-              Real Etiquette, 10-Point Hosting Audit, 12-Sign Matcher &amp; Curated Picks
-            </h1>
-            <p className="text-xs sm:text-sm font-medium text-stone-600">
-              Reader Disclosure: When you shop curated picks below, we may earn a small affiliate commission at no extra cost to you.
-            </p>
+      <div className="w-full space-y-5 animate-stage-in">
+        {/* BuzzFeed × Top-Reddit Magazine Header + 1-Tap Feature Pills */}
+        <div className="editorial-hinge-card rounded-3xl p-5 sm:p-7 space-y-4 bg-gradient-to-r from-[#FFFDF9] via-rose-50/45 to-amber-50/45">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1.5 max-w-3xl">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300/70 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wide text-amber-950">
+                ⚡ Club Magazine • Visual Listicles, Upvoted Receipts &amp; Interactive Toys
+              </span>
+              <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
+                16 Illustrated Insider Guides, Live Polls &amp; 12×12 Astro Matcher
+              </h1>
+              <p className="text-xs font-medium text-stone-600">
+                Reader Disclosure: Curated shopping picks below may earn a small affiliate commission at no extra cost to you.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handleShareGuide}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-xs sm:text-sm font-bold text-[#18101E] cursor-pointer"
+              >
+                <Share2 className="h-4 w-4 text-rose-600" />
+                <span>Share Guide</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => onPlayScenario(active.featuredEpisodeId)}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-rose-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-rose-700 cursor-pointer"
+              >
+                <Play className="h-4 w-4 fill-white" />
+                <span>Play Scenario Free</span>
+              </button>
+            </div>
           </div>
 
-          <div className="flex flex-wrap gap-2.5 shrink-0">
-            <button
-              type="button"
-              onClick={handleShareGuide}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-xs sm:text-sm font-bold text-[#18101E] cursor-pointer"
-            >
-              <Share2 className="h-4 w-4 text-rose-600" />
-              <span>Share Guide</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => onPlayScenario(active.featuredEpisodeId)}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-rose-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-rose-700 cursor-pointer"
-            >
-              <Play className="h-4 w-4 fill-white" />
-              <span>Play Scenario Free</span>
-            </button>
+          {/* 1-Tap Viral Jump Bar */}
+          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-stone-200/70">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-stone-500 mr-1">
+              Jump To:
+            </span>
+            {[
+              {
+                slug: 'cougar-vs-puma-vs-jaguar-dating-age-chart',
+                label: '🐆 Feline Age Chart',
+              },
+              {
+                slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
+                label: '🔮 12×12 Astro Matcher',
+              },
+              {
+                slug: 'first-time-hosting-older-woman-apartment-checklist',
+                label: '🏠 10-Pt Apartment Audit',
+              },
+              {
+                slug: 'black-cat-older-woman-golden-retriever-younger-man-dating-guide',
+                label: '🐈‍⬛ Black Cat × 🐕 Golden Cub',
+              },
+              {
+                slug: 'master-list-cougar-cub-movies-older-woman-younger-man',
+                label: '🎬 22-Film Watchlist',
+              },
+            ].map((pill) => {
+              const isCurrent = active.slug === pill.slug;
+              return (
+                <button
+                  key={pill.slug}
+                  type="button"
+                  onClick={() => handleSelectArticle(pill.slug)}
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-extrabold transition cursor-pointer ${
+                    isCurrent
+                      ? 'bg-[#18101E] text-white shadow-xs'
+                      : 'border border-stone-200 bg-white text-[#18101E] hover:border-rose-300 hover:bg-rose-50/50'
+                  }`}
+                >
+                  {pill.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[320px_1fr] items-start">
-          <aside className="editorial-hinge-card rounded-3xl bg-white p-4 space-y-2 lg:sticky lg:top-24">
+        <div className="grid gap-6 lg:grid-cols-[310px_1fr] items-start">
+          {/* Illustrated Sidebar With Thumbnail Previews */}
+          <aside className="editorial-hinge-card rounded-3xl bg-white p-3.5 space-y-2 lg:sticky lg:top-20 max-h-[82vh] overflow-y-auto">
             <div className="px-2 pb-1 text-xs font-extrabold uppercase tracking-wide text-stone-500">
-              All {JOURNAL_ARTICLES.length} Complete Club Guides
+              🔥 All {JOURNAL_ARTICLES.length} Illustrated Club Guides
             </div>
             <div className="space-y-1.5">
               {JOURNAL_ARTICLES.map((art, idx) => {
                 const isSelected = art.slug === active.slug;
+                const artMeta = getGuideVisualMeta(art.slug);
                 return (
                   <button
                     key={art.slug}
                     type="button"
                     onClick={() => handleSelectArticle(art.slug)}
-                    className={`w-full flex items-start gap-2.5 rounded-2xl border p-3 text-left text-xs sm:text-sm font-semibold whitespace-normal transition cursor-pointer ${
+                    className={`w-full flex items-center gap-2.5 rounded-2xl border p-2.5 text-left text-xs font-semibold whitespace-normal transition cursor-pointer ${
                       isSelected
                         ? 'border-[#18101E] bg-[#18101E] text-white shadow-sm'
                         : 'border-stone-200/80 bg-stone-50/70 text-[#18101E] hover:border-stone-400 hover:bg-white'
                     }`}
                   >
-                    <span
-                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-extrabold ${
-                        isSelected ? 'bg-amber-300 text-[#18101E]' : 'bg-rose-100 text-rose-800'
-                      }`}
-                    >
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <span className="leading-snug">{art.seoTitle}</span>
+                    <img
+                      src={artMeta.heroPhoto}
+                      alt=""
+                      loading="lazy"
+                      className="h-11 w-11 shrink-0 rounded-xl object-cover object-top border border-white/20"
+                    />
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <div
+                        className={`text-[10px] font-extrabold uppercase tracking-wide ${
+                          isSelected ? 'text-amber-300' : 'text-rose-700'
+                        }`}
+                      >
+                        #{String(idx + 1).padStart(2, '0')} • {art.readTime}
+                      </div>
+                      <div className="leading-snug line-clamp-2">{art.seoTitle}</div>
+                    </div>
                   </button>
                 );
               })}
             </div>
           </aside>
 
-          <article className="editorial-hinge-card rounded-3xl bg-white p-6 sm:p-8 space-y-6">
+          <article className="editorial-hinge-card rounded-3xl bg-white p-5 sm:p-8 space-y-6">
             {/* Hero Editorial Photo */}
             <div className="relative overflow-hidden rounded-3xl border border-stone-200 aspect-[21/9] bg-stone-900">
               <img
                 src={visualMeta.heroPhoto}
                 alt={active.headline}
                 data-testid="guide-hero-photo"
-                className="h-full w-full object-cover opacity-90"
+                className="h-full w-full object-cover object-center opacity-90"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/85 via-[#18101E]/25 to-transparent flex flex-col justify-end p-5 sm:p-7">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/90 via-[#18101E]/30 to-transparent flex flex-col justify-end p-5 sm:p-7">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="inline-block rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-rose-700">
-                    ⏱️ {active.readTime}
-                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-block rounded-full bg-amber-300 px-3 py-1 text-xs font-extrabold text-[#18101E]">
+                      {visualMeta.categoryPill}
+                    </span>
+                    <span className="inline-block rounded-full bg-white/90 px-3 py-1 text-xs font-extrabold text-rose-700">
+                      ⏱️ {active.readTime}
+                    </span>
+                  </div>
                   <button
                     type="button"
                     onClick={handleShareGuide}
                     className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-1.5 text-xs font-bold text-[#18101E] cursor-pointer"
                   >
                     <Share2 className="h-3.5 w-3.5 text-rose-600" />
-                    <span>Send to Date or Group Chat</span>
+                    <span>Send to Group Chat</span>
                   </button>
                 </div>
                 <h2 className="mt-2 font-editorial text-2xl sm:text-3xl font-bold text-white leading-tight">
@@ -430,7 +1080,285 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             </div>
 
-            <p className="text-base font-medium leading-relaxed text-stone-700">{active.intro}</p>
+            {/* TL;DR Hook Strip */}
+            <div className="rounded-2xl border-l-4 border-rose-500 bg-rose-50/45 px-4 py-3.5 text-sm sm:text-base font-semibold leading-relaxed text-[#18101E]">
+              <span className="font-extrabold text-rose-700 uppercase text-xs tracking-wider block mb-0.5">
+                ✨ 10-Second Club TL;DR
+              </span>
+              {active.intro}
+            </div>
+
+            {/* Interactive 12-Sign Her x Him Illustrated Astro Toy (Placed right at top when selected!) */}
+            {active.slug === 'astrology-zodiac-compatibility-older-woman-younger-man' && (
+              <div
+                className="rounded-3xl border-2 border-rose-200 bg-gradient-to-br from-[#FFFDF9] via-rose-50/40 to-amber-50/50 p-5 sm:p-6 space-y-5 shadow-sm"
+                data-testid="zodiac-12x12-matcher"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-3 py-0.5 text-xs font-extrabold uppercase text-amber-950">
+                      <Sparkles className="h-3.5 w-3.5 text-rose-600" /> 144 Combinations • Illustrated Club Toy
+                    </span>
+                    <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E]">
+                      🔮 Pick Her Sign × His Sign
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleShareZodiac}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-2 text-xs font-extrabold text-white hover:bg-stone-800 cursor-pointer"
+                  >
+                    <Share2 className="h-3.5 w-3.5 text-amber-300" />
+                    <span>Share Astro Card</span>
+                  </button>
+                </div>
+
+                {/* 1-Tap Emoji Sign Chips + Accessible Selects */}
+                <div className="grid gap-4 lg:grid-cols-2">
+                  <div className="rounded-2xl border border-rose-200/80 bg-white p-3.5 space-y-2.5">
+                    <label className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
+                        🐆 Her Star Sign
+                      </span>
+                      <select
+                        aria-label="Her Star Sign"
+                        value={herSignId}
+                        onChange={(e) => {
+                          sfx.messagePop();
+                          setHerSignId(e.target.value);
+                        }}
+                        className="rounded-xl border border-stone-300 bg-stone-50 px-2.5 py-1 text-xs font-bold text-[#18101E]"
+                      >
+                        {ZODIAC_SIGNS.map((s) => (
+                          <option key={s.id} value={s.id}>
+                            {s.symbol} {s.label} ({s.element})
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+                      {ZODIAC_SIGNS.map((s) => {
+                        const activeChip = s.id === herSignId;
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            data-testid={`her-sign-chip-${s.id}`}
+                            onClick={() => {
+                              sfx.messagePop();
+                              setHerSignId(s.id);
+                            }}
+                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1 text-[11px] font-bold transition cursor-pointer ${
+                              activeChip
+                                ? 'border-rose-600 bg-rose-600 text-white shadow-xs'
+                                : 'border-stone-200 bg-stone-50/70 text-[#18101E] hover:border-rose-300'
+                            }`}
+                          >
+                            <span className="text-sm leading-none">{s.symbol}</span>
+                            <span className="mt-0.5 truncate max-w-full">{s.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-stone-200 bg-white p-3.5 space-y-2.5">
+                    <label className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-extrabold uppercase tracking-wide text-[#18101E]">
+                        🥂 His Star Sign
+                      </span>
+                      <select
+                        aria-label="His Star Sign"
+                        value={himSignId}
+                        onChange={(e) => {
+                          sfx.messagePop();
+                          setHimSignId(e.target.value);
+                        }}
+                        className="rounded-xl border border-stone-300 bg-stone-50 px-2.5 py-1 text-xs font-bold text-[#18101E]"
+                      >
+                        {ZODIAC_SIGNS.map((s) => (
+                          <option key={s.id} value={s.id}>
+                            {s.symbol} {s.label} ({s.element})
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+                      {ZODIAC_SIGNS.map((s) => {
+                        const activeChip = s.id === himSignId;
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            data-testid={`him-sign-chip-${s.id}`}
+                            onClick={() => {
+                              sfx.messagePop();
+                              setHimSignId(s.id);
+                            }}
+                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1 text-[11px] font-bold transition cursor-pointer ${
+                              activeChip
+                                ? 'border-[#18101E] bg-[#18101E] text-white shadow-xs'
+                                : 'border-stone-200 bg-stone-50/70 text-[#18101E] hover:border-stone-400'
+                            }`}
+                          >
+                            <span className="text-sm leading-none">{s.symbol}</span>
+                            <span className="mt-0.5 truncate max-w-full">{s.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Illustrated BuzzFeed Result Card: Cast Avatars + Scene Photo + 4 Visual Meters */}
+                <div className="rounded-3xl border border-stone-200 bg-white p-5 space-y-4 shadow-2xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-3">
+                    <div>
+                      <div className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E]">
+                        {herSign.symbol} {herSign.label} Her × {himSign.symbol} {himSign.label} Cub
+                      </div>
+                      <div className="text-xs font-extrabold uppercase tracking-wide text-rose-700 mt-0.5">
+                        {zodiacMatch.polarity}
+                      </div>
+                    </div>
+                    <span className="rounded-full bg-gradient-to-r from-rose-600 to-amber-500 px-4 py-1.5 text-xs sm:text-sm font-extrabold text-white shadow-xs">
+                      💘 {zodiacMatch.rating}
+                    </span>
+                  </div>
+
+                  {/* Dual Portrait Cards + Date Scene Visual */}
+                  <div className="grid gap-3 md:grid-cols-3 items-stretch">
+                    <div className="flex items-center gap-3 rounded-2xl border border-rose-100 bg-rose-50/40 p-3">
+                      <img
+                        src={herSign.herAvatar}
+                        alt={`${herSign.label} Her archetype`}
+                        className="h-16 w-16 shrink-0 rounded-2xl object-cover object-top border border-rose-200"
+                      />
+                      <div className="min-w-0 space-y-1">
+                        <span
+                          className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-extrabold ${ELEMENT_BADGE_STYLE[herSign.element]}`}
+                        >
+                          {herSign.symbol} {herSign.element} • {herSign.herCastName}
+                        </span>
+                        <p className="text-xs font-semibold text-[#18101E] leading-snug">
+                          {herSign.herVibe}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-stone-50/60 p-3">
+                      <img
+                        src={himSign.himAvatar}
+                        alt={`${himSign.label} Cub archetype`}
+                        className="h-16 w-16 shrink-0 rounded-2xl object-cover object-top border border-stone-300"
+                      />
+                      <div className="min-w-0 space-y-1">
+                        <span
+                          className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-extrabold ${ELEMENT_BADGE_STYLE[himSign.element]}`}
+                        >
+                          {himSign.symbol} {himSign.element} • {himSign.himCastName}
+                        </span>
+                        <p className="text-xs font-semibold text-[#18101E] leading-snug">
+                          {himSign.himVibe}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="relative overflow-hidden rounded-2xl border border-amber-200 min-h-[96px]">
+                      <img
+                        src={zodiacMatch.scenePhoto}
+                        alt="Signature date vibe"
+                        className="h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/85 via-[#18101E]/25 to-transparent flex items-end p-3">
+                        <p className="text-[11px] font-extrabold text-white leading-snug">
+                          {zodiacMatch.dateIdea}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 4 Visual Emoji Compatibility Meters */}
+                  <div
+                    data-testid="zodiac-meter-grid"
+                    className="grid gap-2.5 sm:grid-cols-2 rounded-2xl border border-stone-200/80 bg-stone-50/60 p-3.5"
+                  >
+                    {zodiacMatch.meters.map((m) => (
+                      <div key={m.label} className="space-y-1">
+                        <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
+                          <span>{m.label}</span>
+                          <span className="text-rose-700">{m.pct}%</span>
+                        </div>
+                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-stone-200">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-rose-600 to-amber-500 transition-all duration-300"
+                            style={{ width: `${m.pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-200 bg-amber-50/60 px-4 py-2.5 text-xs font-bold text-[#18101E]">
+                    <span>🛡️ Club Cheat Code: {zodiacMatch.vettingTip}</span>
+                    <button
+                      type="button"
+                      onClick={() => onPlayScenario(active.featuredEpisodeId)}
+                      className="rounded-full bg-rose-600 px-3.5 py-1.5 text-xs font-extrabold text-white hover:bg-rose-700 cursor-pointer"
+                    >
+                      Play This Vibe →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* "Text This, Not That" iMessage Bubbles + Green/Red Flag Visual Split */}
+            <div className="grid gap-4 md:grid-cols-2">
+              <div
+                data-testid="guide-text-this-not-that"
+                className="rounded-3xl border border-stone-200 bg-stone-50/70 p-5 space-y-3"
+              >
+                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-stone-700">
+                  <MessageCircle className="h-3.5 w-3.5 text-[#007AFF]" />
+                  <span>📱 Text This, Not That</span>
+                </div>
+                <div className="rounded-2xl bg-rose-50 border border-rose-200 px-3.5 py-2.5 text-xs font-medium text-rose-950">
+                  <div className="font-extrabold uppercase text-[10px] text-rose-700 mb-0.5">
+                    ❌ Instant Left-on-Read
+                  </div>
+                  &ldquo;{visualMeta.dontText}&rdquo;
+                </div>
+                <div className="rounded-2xl bg-[#007AFF] px-3.5 py-2.5 text-xs font-medium text-white shadow-xs">
+                  <div className="font-extrabold uppercase text-[10px] text-sky-100 mb-0.5">
+                    ✅ S-Rank Blue Bubble
+                  </div>
+                  &ldquo;{visualMeta.doText}&rdquo;
+                </div>
+              </div>
+
+              <div
+                data-testid="guide-green-red-flags"
+                className="rounded-3xl border border-stone-200 bg-stone-50/70 p-5 space-y-3"
+              >
+                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-stone-700">
+                  <Flag className="h-3.5 w-3.5 text-emerald-600" />
+                  <span>🚦 Green Flag vs. Dealbreaker</span>
+                </div>
+                <div className="rounded-2xl bg-emerald-50 border border-emerald-200 px-3.5 py-2.5 text-xs text-emerald-950">
+                  <div className="inline-flex items-center gap-1 font-extrabold text-[11px] text-emerald-800 mb-0.5">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Certified Green Flag
+                  </div>
+                  <p className="leading-relaxed">{visualMeta.greenFlag}</p>
+                </div>
+                <div className="rounded-2xl bg-rose-50 border border-rose-200 px-3.5 py-2.5 text-xs text-rose-950">
+                  <div className="inline-flex items-center gap-1 font-extrabold text-[11px] text-rose-800 mb-0.5">
+                    <Flag className="h-3.5 w-3.5" /> Instant Cut-Loose Tell
+                  </div>
+                  <p className="leading-relaxed">{visualMeta.redFlag}</p>
+                </div>
+              </div>
+            </div>
 
             {/* ABOVE-THE-FOLD Shoppable Product Strip (Real Product Photography) */}
             <section
@@ -483,54 +1411,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             </section>
 
-            {/* "Text This, Not That" iMessage Visual Callout + Green/Red Flag Split */}
-            <div className="grid gap-4 md:grid-cols-2">
-              <div
-                data-testid="guide-text-this-not-that"
-                className="rounded-3xl border border-stone-200 bg-stone-50/70 p-5 space-y-3"
-              >
-                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-stone-700">
-                  <MessageCircle className="h-3.5 w-3.5 text-[#007AFF]" />
-                  <span>Text This, Not That</span>
-                </div>
-                <div className="rounded-2xl bg-rose-50 border border-rose-200 px-3.5 py-2.5 text-xs font-medium text-rose-950">
-                  <div className="font-extrabold uppercase text-[10px] text-rose-700 mb-0.5">
-                    ❌ Instant Left-on-Read
-                  </div>
-                  &ldquo;{visualMeta.dontText}&rdquo;
-                </div>
-                <div className="rounded-2xl bg-[#007AFF] px-3.5 py-2.5 text-xs font-medium text-white shadow-xs">
-                  <div className="font-extrabold uppercase text-[10px] text-sky-100 mb-0.5">
-                    ✅ S-Rank Blue Bubble
-                  </div>
-                  &ldquo;{visualMeta.doText}&rdquo;
-                </div>
-              </div>
-
-              <div
-                data-testid="guide-green-red-flags"
-                className="rounded-3xl border border-stone-200 bg-stone-50/70 p-5 space-y-3"
-              >
-                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-stone-700">
-                  <Flag className="h-3.5 w-3.5 text-emerald-600" />
-                  <span>Green Flag vs. Red Flag</span>
-                </div>
-                <div className="rounded-2xl bg-emerald-50 border border-emerald-200 px-3.5 py-2.5 text-xs text-emerald-950">
-                  <div className="inline-flex items-center gap-1 font-extrabold text-[11px] text-emerald-800 mb-0.5">
-                    <CheckCircle2 className="h-3.5 w-3.5" /> Green Flag Standard
-                  </div>
-                  <p className="leading-relaxed">{visualMeta.greenFlag}</p>
-                </div>
-                <div className="rounded-2xl bg-rose-50 border border-rose-200 px-3.5 py-2.5 text-xs text-rose-950">
-                  <div className="inline-flex items-center gap-1 font-extrabold text-[11px] text-rose-800 mb-0.5">
-                    <Flag className="h-3.5 w-3.5" /> Dealbreaker Tell
-                  </div>
-                  <p className="leading-relaxed">{visualMeta.redFlag}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Interactive 10-Point Apartment Hosting Checklist (100% Shoppable Inline Links) */}
+            {/* Interactive 10-Point Apartment Hosting Checklist */}
             {active.checklistItems && active.checklistItems.length > 0 && (
               <div
                 data-testid="guide-hosting-checklist"
@@ -542,7 +1423,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                       <Sparkles className="h-3.5 w-3.5" /> Interactive Pre-Date Audit
                     </span>
                     <h3 className="mt-1 font-editorial text-xl font-bold text-[#18101E]">
-                      Check Off All {active.checklistItems.length} Hosting Essentials
+                      ✅ Check Off All {active.checklistItems.length} Hosting Essentials
                     </h3>
                   </div>
                   <div className="rounded-full border border-stone-300 bg-white px-3.5 py-1.5 text-xs sm:text-sm font-extrabold text-[#18101E]">
@@ -597,6 +1478,148 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
+            {/* BuzzFeed-Style Illustrated Numbered Listicle Cards (Zero Wall of Text!) */}
+            <div className="space-y-5">
+              {active.sections.map((sec, idx) => {
+                const photoUrl =
+                  visualMeta.sectionPhotos[idx % visualMeta.sectionPhotos.length];
+                const cleanHeading = sec.heading.replace(/^\d+\.\s*/, '');
+                const emoji = SECTION_EMOJIS[idx % SECTION_EMOJIS.length];
+                const beats = splitIntoScannableBeats(sec.body);
+
+                return (
+                  <React.Fragment key={sec.heading}>
+                    <section
+                      data-testid="guide-section-visual-card"
+                      className="overflow-hidden rounded-3xl border border-stone-200 bg-[#FFFDF9] shadow-2xs"
+                    >
+                      <div className="grid md:grid-cols-[240px_1fr] items-stretch">
+                        <div className="relative min-h-[190px] bg-stone-900">
+                          <img
+                            src={photoUrl}
+                            alt={cleanHeading}
+                            loading="lazy"
+                            className="h-full w-full object-cover object-top"
+                          />
+                          <div className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-[#18101E]/90 px-3 py-1 text-xs font-extrabold text-amber-300 shadow-sm">
+                            <span>#{String(idx + 1).padStart(2, '0')}</span>
+                            <span>{emoji}</span>
+                          </div>
+                        </div>
+
+                        <div className="p-5 sm:p-6 space-y-3 flex flex-col justify-center">
+                          <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E] leading-snug">
+                            {emoji} {cleanHeading}
+                          </h3>
+                          <ul className="space-y-2">
+                            {beats.map((beat, bIdx) => (
+                              <li
+                                key={bIdx}
+                                className="flex items-start gap-2.5 rounded-2xl bg-white border border-stone-200/70 px-3.5 py-2.5 text-sm font-medium leading-relaxed text-stone-700"
+                              >
+                                <span className="mt-0.5 shrink-0 text-rose-600 font-extrabold">
+                                  {bIdx === 0 ? '👉' : '✨'}
+                                </span>
+                                <span>{beat}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </section>
+
+                    {/* Inject Upvoted Reddit-Style Community Receipt Right After Card #1! */}
+                    {idx === 0 && (
+                      <div
+                        data-testid="guide-reddit-receipt"
+                        className="rounded-3xl border-2 border-amber-200 bg-gradient-to-r from-amber-50/70 via-white to-rose-50/50 p-5 space-y-2.5 shadow-2xs"
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#18101E]">
+                            <span className="rounded-full bg-orange-500 px-2 py-0.5 text-[10px] font-extrabold text-white">
+                              TOP CLUB THREAD
+                            </span>
+                            <span>{visualMeta.redditReceipt.handle}</span>
+                          </span>
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-2.5 py-0.5 text-xs font-extrabold text-amber-950">
+                            <ArrowBigUp className="h-4 w-4 fill-orange-500 text-orange-600" />
+                            <span>{visualMeta.redditReceipt.upvotes} upvotes</span>
+                          </span>
+                        </div>
+                        <p className="text-sm sm:text-base font-semibold text-[#18101E] leading-relaxed">
+                          &ldquo;{visualMeta.redditReceipt.quote}&rdquo;
+                        </p>
+                        <div className="rounded-2xl bg-stone-100/90 px-3.5 py-2 text-xs font-bold text-stone-700">
+                          {visualMeta.redditReceipt.topReply}
+                        </div>
+                      </div>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+
+            {/* Interactive BuzzFeed 1-Tap Vibe Poll */}
+            <div
+              data-testid="guide-buzzfeed-poll"
+              className="rounded-3xl border-2 border-stone-200 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/50 p-5 sm:p-6 space-y-3.5"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="rounded-full bg-rose-600 px-3 py-0.5 text-[11px] font-extrabold uppercase tracking-wider text-white">
+                  ⚡ 5-Second BuzzFeed Club Poll
+                </span>
+                <span className="text-xs font-bold text-stone-500">
+                  {selectedPollIdx !== undefined
+                    ? '✓ Vote Counted • Live Club Split'
+                    : 'Tap an answer to see how the Club voted'}
+                </span>
+              </div>
+              <h3 className="font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
+                {visualMeta.poll.question}
+              </h3>
+              <div className="grid gap-2">
+                {visualMeta.poll.options.map((opt, oIdx) => {
+                  const hasVoted = selectedPollIdx !== undefined;
+                  const isPicked = selectedPollIdx === oIdx;
+                  return (
+                    <button
+                      key={opt.label}
+                      type="button"
+                      onClick={() => {
+                        sfx.messagePop();
+                        setPollVotesBySlug((prev) => ({ ...prev, [active.slug]: oIdx }));
+                      }}
+                      className={`relative overflow-hidden rounded-2xl border px-4 py-3 text-left text-xs sm:text-sm font-bold transition cursor-pointer ${
+                        isPicked
+                          ? 'border-rose-600 bg-rose-50 text-[#18101E] shadow-xs'
+                          : 'border-stone-200 bg-white text-[#18101E] hover:border-stone-400'
+                      }`}
+                    >
+                      {hasVoted && (
+                        <div
+                          className={`absolute inset-y-0 left-0 transition-all duration-300 ${
+                            isPicked ? 'bg-rose-200/60' : 'bg-stone-100'
+                          }`}
+                          style={{ width: `${opt.pct}%` }}
+                        />
+                      )}
+                      <div className="relative flex items-center justify-between gap-3">
+                        <span>
+                          {isPicked ? '✓ ' : ''}
+                          {opt.label}
+                        </span>
+                        {hasVoted && (
+                          <span className="shrink-0 font-extrabold text-rose-700">
+                            {opt.pct}%
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Shoppable Cinema Watchlist Strip on Movie Guides */}
             {isMovieGuide && (
               <div className="rounded-3xl border border-rose-200 bg-rose-50/40 p-5 space-y-3">
@@ -624,117 +1647,21 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
-            {/* Interactive 12-Sign Her x Him Zodiac Chemistry Matcher */}
-            {active.slug === 'astrology-zodiac-compatibility-older-woman-younger-man' && (
-              <div
-                className="rounded-3xl border border-stone-200 bg-gradient-to-br from-rose-50/50 via-white to-amber-50/50 p-5 sm:p-6 space-y-4"
-                data-testid="zodiac-12x12-matcher"
-              >
-                <div className="space-y-1">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-950">
-                    <Sparkles className="h-3.5 w-3.5" /> All 12 Signs × All 12 Signs
-                  </span>
-                  <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E]">
-                    Interactive Her × Him Star-Sign Chemistry Matcher
-                  </h3>
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="block space-y-1.5">
-                    <span className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
-                      Her Star Sign (12 Signs)
-                    </span>
-                    <select
-                      aria-label="Her Star Sign"
-                      value={herSignId}
-                      onChange={(e) => setHerSignId(e.target.value)}
-                      className="w-full rounded-2xl border border-stone-300 bg-white px-3.5 py-2.5 text-sm font-bold text-[#18101E]"
-                    >
-                      {ZODIAC_SIGNS.map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s.symbol} {s.label} ({s.element})
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label className="block space-y-1.5">
-                    <span className="text-xs font-extrabold uppercase tracking-wide text-[#18101E]">
-                      His Star Sign (12 Signs)
-                    </span>
-                    <select
-                      aria-label="His Star Sign"
-                      value={himSignId}
-                      onChange={(e) => setHimSignId(e.target.value)}
-                      className="w-full rounded-2xl border border-stone-300 bg-white px-3.5 py-2.5 text-sm font-bold text-[#18101E]"
-                    >
-                      {ZODIAC_SIGNS.map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s.symbol} {s.label} ({s.element})
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
-
-                <div className="rounded-2xl border border-stone-200 bg-white p-4 space-y-2.5">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-editorial text-xl font-bold text-[#18101E]">
-                      {herSign.symbol} {herSign.label} Her × {himSign.symbol} {himSign.label} Cub
-                    </span>
-                    <span className="rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-extrabold text-rose-700">
-                      {zodiacMatch.rating}
-                    </span>
-                  </div>
-                  <div className="text-xs font-extrabold uppercase tracking-wide text-stone-500">
-                    {zodiacMatch.polarity}
-                  </div>
-                  <p className="text-sm font-medium leading-relaxed text-stone-700">
-                    {zodiacMatch.summary}
-                  </p>
-                  <div className="grid gap-2 sm:grid-cols-2 pt-1 text-xs font-semibold text-[#18101E]">
-                    <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
-                      <strong className="text-rose-700">🍸 Signature Date:</strong>{' '}
-                      {zodiacMatch.dateIdea}
-                    </div>
-                    <div className="rounded-xl border border-stone-200 bg-stone-50 p-3">
-                      <strong className="text-emerald-800">🛡️ Club Playbook Tip:</strong>{' '}
-                      {zodiacMatch.vettingTip}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="space-y-4">
-              {active.sections.map((sec) => (
-                <section
-                  key={sec.heading}
-                  className="rounded-2xl border border-stone-200/80 bg-stone-50/50 p-5 space-y-2"
-                >
-                  <h3 className="font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
-                    {sec.heading}
-                  </h3>
-                  <p className="whitespace-pre-line text-[15px] font-medium leading-relaxed text-stone-700">
-                    {sec.body}
-                  </p>
-                </section>
-              ))}
-            </div>
-
             {active.faqs.length > 0 && (
               <div className="space-y-3 border-t border-stone-200 pt-5">
                 <h3 className="font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
-                  Quick Club FAQ
+                  💬 Rapid-Fire Club Q&amp;A
                 </h3>
-                <div className="grid gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   {active.faqs.map((faq) => (
                     <div
                       key={faq.question}
-                      className="rounded-2xl border border-stone-200 bg-white p-4 space-y-1"
+                      className="rounded-2xl border border-stone-200 bg-stone-50/60 p-4 space-y-1.5"
                     >
-                      <div className="text-sm font-bold text-[#18101E]">{faq.question}</div>
-                      <p className="text-sm font-medium text-stone-600 leading-relaxed">
+                      <div className="text-sm font-extrabold text-[#18101E]">
+                        ❓ {faq.question}
+                      </div>
+                      <p className="text-xs sm:text-sm font-medium text-stone-600 leading-relaxed">
                         {faq.answer}
                       </p>
                     </div>

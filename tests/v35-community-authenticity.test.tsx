@@ -105,16 +105,16 @@ describe('v35 Bespoke 10-Lead Subreddit Scenarios, Fixed Local Field Guide Portr
       expect(stat.size).toBeGreaterThan(15000);
     }
 
-    // Render FieldGuideModal and verify local ./images/icons/ portraits + editorial-hinge-card
+    // Render FieldGuideModal and verify all 39 local ./images/ portraits + editorial-hinge-card
     const { unmount } = render(
       <FieldGuideModal open={true} unlockedStamps={['pop_tina_erwin']} onClose={vi.fn()} />,
     );
     const dialog = screen.getByRole('dialog', { name: /Age-Gap Dating Field Guide/i });
     expect(dialog.innerHTML).toContain('editorial-hinge-card');
     const imgs = Array.from(dialog.querySelectorAll('img'));
-    expect(imgs.length).toBeGreaterThanOrEqual(15);
+    expect(imgs.length).toBeGreaterThanOrEqual(39);
     for (const img of imgs) {
-      expect(img.getAttribute('src')).toMatch(/^\.\/images\/icons\/pop_[a-z_]+\.jpg$/);
+      expect(img.getAttribute('src')).toMatch(/^\.\/images\/(icons|cast|scenes)\/[a-z0-9_-]+\.jpg$/);
     }
     unmount();
 
