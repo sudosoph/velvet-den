@@ -203,5 +203,43 @@ describe('Wallet economy, affiliate router & Phase B/C service seams', () => {
       expect(res.status).toBe(302);
       expect(res.headers.get('Location')).toContain('tag=cougarsandcubs-20');
     }
+
+    // Worker issues per-device Founder Seal ONLY on valid passphrase and rejects forged seals from other users
+    const badSealRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/founder-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ founderSeal: 'a'.repeat(64) }),
+      }),
+      mockEnv,
+    );
+    expect(badSealRes.status).toBe(401);
+
+    const goodLoginRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/founder-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passphrase: 'ChampagneClub!2026#Sophia' }),
+      }),
+      mockEnv,
+    );
+    expect(goodLoginRes.status).toBe(200);
+    const loginJson = (await goodLoginRes.json()) as {
+      authorized: boolean;
+      founderSeal: string;
+    };
+    expect(loginJson.authorized).toBe(true);
+    expect(loginJson.founderSeal).toMatch(/^[0-9a-f]{64}$/);
+
+    const sealResumeRes = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/founder-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ founderSeal: loginJson.founderSeal }),
+      }),
+      mockEnv,
+    );
+    expect(sealResumeRes.status).toBe(200);
+    expect(((await sealResumeRes.json()) as { authorized: boolean }).authorized).toBe(true);
   });
 });

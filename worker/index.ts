@@ -194,16 +194,50 @@ async function handleAffiliateRedirect(url: URL, productId: string, env: WorkerE
   });
 }
 
+async function resolveFounderDeviceSeal(env: WorkerEnv): Promise<string> {
+  if (env.VELVET_KV) {
+    try {
+      let secret = await env.VELVET_KV.get('config:founder_seal_secret');
+      if (!secret) {
+        secret = `${crypto.randomUUID()}-${crypto.randomUUID()}`;
+        await env.VELVET_KV.put('config:founder_seal_secret', secret);
+      }
+      return sha256Hex(`cc_founder_seal_v2:${secret}`);
+    } catch {
+      // Fall back to deterministic server-side hash derivation
+    }
+  }
+  const expected = (env.FOUNDER_PASSWORD_HASH || DEFAULT_FOUNDER_SHA256).trim().toLowerCase();
+  return sha256Hex(`cc_founder_seal_fallback_v2:${expected}`);
+}
+
+async function verifyFounderRequest(
+  body: { passphrase?: string; founderSeal?: string },
+  env: WorkerEnv,
+): Promise<{ ok: boolean; founderSeal?: string }> {
+  const expectedSeal = await resolveFounderDeviceSeal(env);
+  if (typeof body.founderSeal === 'string' && body.founderSeal.length === 64) {
+    if (constantTimeEquals(body.founderSeal.trim().toLowerCase(), expectedSeal)) {
+      return { ok: true, founderSeal: expectedSeal };
+    }
+  }
+  const passOk = await verifyFounderPassOnWorker(String(body.passphrase || ''), env);
+  if (passOk) {
+    return { ok: true, founderSeal: expectedSeal };
+  }
+  return { ok: false };
+}
+
 async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { passphrase?: string } = {};
+  let body: { passphrase?: string; founderSeal?: string } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ authorized: false }, 400);
   }
 
-  const ok = await verifyFounderPassOnWorker(String(body.passphrase || ''), env);
-  if (!ok) {
+  const verified = await verifyFounderRequest(body, env);
+  if (!verified.ok) {
     return jsonResponse({ authorized: false, error: 'Invalid Founder passphrase' }, 401);
   }
 
@@ -234,6 +268,7 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
 
   return jsonResponse({
     authorized: true,
+    founderSeal: verified.founderSeal,
     amazonAssociateTag,
     affiliateProtected: Boolean(amazonAssociateTag),
     sampleClicks: clicks,
@@ -242,15 +277,15 @@ async function handleFounderAuth(request: Request, env: WorkerEnv): Promise<Resp
 }
 
 async function handleFounderConfig(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { passphrase?: string; amazonAssociateTag?: string } = {};
+  let body: { passphrase?: string; founderSeal?: string; amazonAssociateTag?: string } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ ok: false, error: 'Invalid JSON' }, 400);
   }
 
-  const ok = await verifyFounderPassOnWorker(String(body.passphrase || ''), env);
-  if (!ok) {
+  const verified = await verifyFounderRequest(body, env);
+  if (!verified.ok) {
     return jsonResponse({ ok: false, error: 'Unauthorized' }, 401);
   }
 

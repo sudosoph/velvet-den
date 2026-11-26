@@ -77,6 +77,8 @@ import {
   verifyStripeCheckoutSession,
 } from './services/adapters';
 
+const FOUNDER_DEVICE_SEAL_KEY = 'cc_founder_device_seal_v2';
+
 type ScreenPhase = 'mixer' | 'swipes' | 'episodes' | 'outcome' | 'audition';
 
 function readInitialUrlState() {
@@ -183,6 +185,15 @@ export default function App() {
   const [founderModalOpen, setFounderModalOpen] = useState(false);
   const [founderPassInput, setFounderPassInput] = useState('');
   const [founderSessionPass, setFounderSessionPass] = useState('');
+  const [founderDeviceSeal, setFounderDeviceSeal] = useState<string>(() => {
+    try {
+      return typeof window !== 'undefined'
+        ? window.localStorage.getItem(FOUNDER_DEVICE_SEAL_KEY) || ''
+        : '';
+    } catch {
+      return '';
+    }
+  });
   const [founderAuthError, setFounderAuthError] = useState<string | null>(null);
   const [founderTagInput, setFounderTagInput] = useState(
     MONETIZATION_CONFIG.amazonAssociateTag || '',
@@ -257,6 +268,61 @@ export default function App() {
     }
   };
 
+  // Restore Founder Mode ONLY on this specific browser if it holds a server-verified KV Founder Seal
+  useEffect(() => {
+    if (!founderDeviceSeal || import.meta.env.VITEST || typeof fetch !== 'function') return;
+    let cancelled = false;
+    fetch('/api/founder-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ founderSeal: founderDeviceSeal }),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          if (res.status === 401) {
+            try {
+              window.localStorage.removeItem(FOUNDER_DEVICE_SEAL_KEY);
+            } catch {}
+            if (!cancelled) setFounderDeviceSeal('');
+          }
+          return;
+        }
+        const data = (await res.json()) as {
+          authorized?: boolean;
+          amazonAssociateTag?: string;
+          affiliateProtected?: boolean;
+          sampleClicks?: Record<string, number>;
+          recentAiLogs?: {
+            persona?: string;
+            platform?: string;
+            playerMsg?: string;
+            aiReply?: string;
+            passed?: boolean;
+          }[];
+        };
+        if (!cancelled && data.authorized === true) {
+          setWallet((prev) => grantFounderAccess(prev));
+          if (data.amazonAssociateTag !== undefined) {
+            setFounderTagInput(data.amazonAssociateTag);
+            setFounderTagProtected(Boolean(data.affiliateProtected));
+          }
+          if (
+            data.sampleClicks &&
+            typeof data.sampleClicks['houseboy-linen-apron'] === 'number'
+          ) {
+            setFounderApronClicks(data.sampleClicks['houseboy-linen-apron']);
+          }
+          if (Array.isArray(data.recentAiLogs)) {
+            setFounderAiLogs(data.recentAiLogs);
+          }
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [founderDeviceSeal]);
+
   useEffect(() => {
     if (
       initialUrl.refCode &&
@@ -319,6 +385,7 @@ export default function App() {
         if (res.ok) {
           const data = (await res.json()) as {
             authorized?: boolean;
+            founderSeal?: string;
             amazonAssociateTag?: string;
             affiliateProtected?: boolean;
             sampleClicks?: Record<string, number>;
@@ -332,6 +399,12 @@ export default function App() {
           };
           if (data.authorized === true) {
             authorized = true;
+            if (data.founderSeal) {
+              setFounderDeviceSeal(data.founderSeal);
+              try {
+                window.localStorage.setItem(FOUNDER_DEVICE_SEAL_KEY, data.founderSeal);
+              } catch {}
+            }
             if (data.amazonAssociateTag !== undefined) {
               setFounderTagInput(data.amazonAssociateTag);
               setFounderTagProtected(Boolean(data.affiliateProtected));
@@ -364,20 +437,19 @@ export default function App() {
       return;
     }
 
-    // Ephemeral in-memory session unlock ONLY — saveWallet strips Founder flags so refreshes & links NEVER stay in Founder Mode!
     setWallet((prev) => grantFounderAccess(prev));
     setFounderSessionPass(trimmed);
     setFounderPassInput('');
     setFounderAuthError(null);
     setFounderModalOpen(false);
     setNoticeBanner(
-      '👑 Founder Playtest & Affiliate Vault ACTIVE (this tab session only — reloading returns to normal player mode).',
+      '👑 Founder Vault unlocked & remembered on THIS browser only (every other visitor stays in normal 10-Credit player mode).',
     );
   };
 
   const handleSaveFounderAmazonTag = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!founderSessionPass) {
+    if (!founderSessionPass && !founderDeviceSeal) {
       setFounderModalOpen(true);
       setFounderAuthError('Re-enter your Founder passphrase once to update KV config.');
       return;
@@ -388,7 +460,8 @@ export default function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          passphrase: founderSessionPass,
+          passphrase: founderSessionPass || undefined,
+          founderSeal: founderDeviceSeal || undefined,
           amazonAssociateTag: cleanTag,
         }),
       });
@@ -416,8 +489,12 @@ export default function App() {
   const handleLockFounderMode = () => {
     updateWallet(revokeFounderAccess(wallet));
     setFounderSessionPass('');
+    setFounderDeviceSeal('');
+    try {
+      window.localStorage.removeItem(FOUNDER_DEVICE_SEAL_KEY);
+    } catch {}
     setFounderTagStatus(null);
-    setNoticeBanner('🔒 Founder Mode locked — viewing normal player wallet & VIP state.');
+    setNoticeBanner('🔒 Founder Mode locked — viewing exact normal player wallet & VIP state.');
   };
 
   const handleFounderPlaytestJump = (target: 'mixer' | 'swipes' | 'episodes' | 'outcome') => {
