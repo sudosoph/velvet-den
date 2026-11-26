@@ -154,8 +154,20 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   };
 
   useEffect(() => {
-    if (!currentProfile || replyTarget || matchCelebration) return;
     const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (replyTarget) {
+          e.preventDefault();
+          setReplyTarget(null);
+          return;
+        }
+        if (matchCelebration) {
+          e.preventDefault();
+          setMatchCelebration(null);
+          return;
+        }
+      }
+      if (!currentProfile || replyTarget || matchCelebration) return;
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       if (e.key === 'ArrowLeft') {
@@ -187,6 +199,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         'instant_match',
       );
       if (accepted === false) {
+        setReplyTarget(null);
         return;
       }
       sfx.swipeRight();
@@ -232,6 +245,13 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
     setReplyTarget(null);
     setCustomNote('');
+    if (!import.meta.env.VITEST && typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      try {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch {
+        // Ignore scroll error
+      }
+    }
   };
 
   return (
@@ -601,17 +621,21 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         </article>
       )}
 
-      {/* Hinge Opener & Standout Rose Modal Sheet (Portaled to document.body for true viewport centering) */}
+      {/* Hinge Opener & Standout Rose Modal Sheet (Portaled to document.body, Crisp Dim Scrim, Zero Blur Glitch) */}
       {replyTarget &&
         currentProfile &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/55 p-3 sm:p-5 backdrop-blur-xs"
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-[#18101E]/50 p-3 sm:p-5"
             role="dialog"
             aria-modal="true"
             aria-label={`Reply to ${currentProfile.name}`}
+            onClick={() => setReplyTarget(null)}
           >
-            <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl space-y-4">
+            <div
+              className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-stone-400">
@@ -632,7 +656,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </div>
 
               {replyTarget.prompt && (
-                <div className="space-y-2.5">
+                <div className="space-y-2">
+                  <div className="text-xs font-semibold text-stone-500">
+                    Tap an opener to send right away, or just hit Send Like below:
+                  </div>
                   {replyTarget.prompt.openers.map((opt) => {
                     const isVip = 'isVipSmooth' in opt && Boolean(opt.isVipSmooth);
                     const cost = isVip ? 1 : 0;
@@ -642,13 +669,24 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                         type="button"
                         data-testid="hinge-opener-option"
                         onClick={() => submitLike(opt.text, cost, opt.delta)}
-                        className={`w-full rounded-2xl p-4 text-left text-sm whitespace-normal transition cursor-pointer ${
+                        className={`group w-full rounded-2xl p-4 text-left text-sm whitespace-normal transition cursor-pointer ${
                           isVip
-                            ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E] hover:border-amber-400'
-                            : 'border border-stone-200 bg-stone-50/70 font-medium text-stone-800 hover:border-stone-400 hover:bg-white'
+                            ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E] hover:border-rose-400 hover:shadow-sm'
+                            : 'border border-stone-200 bg-stone-50/80 font-medium text-stone-800 hover:border-[#18101E] hover:bg-white hover:shadow-xs'
                         }`}
                       >
-                        <div className="leading-relaxed">{opt.text}</div>
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="leading-relaxed">{opt.text}</div>
+                          <span
+                            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold transition ${
+                              isVip
+                                ? 'bg-rose-600 text-white group-hover:bg-rose-700'
+                                : 'bg-stone-200/80 text-[#18101E] group-hover:bg-[#18101E] group-hover:text-white'
+                            }`}
+                          >
+                            {isVip ? '🌹 Rose →' : 'Send →'}
+                          </span>
+                        </div>
                         {isVip && (
                           <div className="mt-1.5 text-xs font-bold text-rose-800">
                             🌹 Send a Standout Rose ({wallet.isVip ? 'Included w/ VIP' : '1 Cr'}) • Instant Top-of-Queue Match
@@ -660,12 +698,19 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 </div>
               )}
 
-              {/* Free Custom Opener Input */}
+              {/* Free Custom Opener OR 1-Tap Plain Hinge Like (Works Even When Input Is Empty!) */}
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   const trimmed = customNote.trim();
-                  if (!trimmed) return;
+                  if (!trimmed) {
+                    const fallbackLikeText =
+                      replyTarget.kind === 'photo'
+                        ? 'Liked your photo ❤️'
+                        : 'Liked your answer ❤️';
+                    submitLike(fallbackLikeText, 0, 8);
+                    return;
+                  }
                   const earnedDelta = trimmed.length >= 24 ? 16 : -4;
                   submitLike(trimmed, 0, earnedDelta);
                 }}
@@ -673,16 +718,18 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               >
                 <input
                   type="text"
+                  name="hinge_custom_note"
+                  aria-label={`Optional comment for ${currentProfile.name}`}
                   value={customNote}
                   onChange={(e) => setCustomNote(e.target.value)}
-                  placeholder={`Or write your own note to ${currentProfile.name}...`}
+                  placeholder={`Optional: write your own note to ${currentProfile.name}...`}
                   className="flex-1 rounded-full border border-stone-300 px-4 py-2.5 text-sm text-[#18101E]"
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
+                  className="shrink-0 rounded-full bg-[#B83253] hover:bg-[#9E2846] px-5 py-2.5 text-xs font-bold text-white shadow-xs transition cursor-pointer"
                 >
-                  Send Like
+                  {customNote.trim() ? 'Send Like + Note' : 'Send Like'}
                 </button>
               </form>
             </div>
@@ -695,11 +742,15 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         createPortal(
           <div
             data-testid="hinge-match-celebration"
-            className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/70 p-4 backdrop-blur-xs"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-4"
             role="dialog"
             aria-label={`Matched with ${matchCelebration.name}`}
+            onClick={() => setMatchCelebration(null)}
           >
-            <div className="editorial-hinge-card w-full max-w-md rounded-3xl bg-[#FFFDF9] p-6 text-center shadow-2xl space-y-4">
+            <div
+              className="editorial-hinge-card w-full max-w-md rounded-3xl bg-[#FFFDF9] p-6 text-center shadow-2xl space-y-4"
+              onClick={(e) => e.stopPropagation()}
+            >
               <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-rose-900">
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>

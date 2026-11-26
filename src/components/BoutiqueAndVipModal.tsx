@@ -207,12 +207,16 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
 
   const modalNode = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/70 p-3 sm:p-6 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label="Cougars & Cubs Club VIP & Creator Lounge"
+      onClick={onClose}
     >
-      <div className="editorial-hinge-card relative max-h-[92vh] w-full max-w-5xl overflow-x-hidden overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-8 space-y-6 shadow-2xl">
+      <div
+        className="editorial-hinge-card relative max-h-[92vh] w-full max-w-5xl overflow-x-hidden overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-8 space-y-6 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Clean Consumer Header */}
         <div className="flex items-start justify-between gap-4 border-b border-stone-200 pb-5">
           <div className="space-y-1.5 min-w-0">

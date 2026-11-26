@@ -64,4 +64,32 @@ describe('v35 Clean Consumer Nav Bar (Zero Overflow/Pill Soup) & Unobstructed Re
     expect(screen.getByTestId('hud-friday-hearts').textContent).toContain('❤️❤️❤️');
     expect(container.querySelectorAll('header .border-stone-200').length).toBeLessThanOrEqual(4);
   });
+
+  it('keeps the Hinge Like modal crisp (no backdrop-blur veil), sends a plain Like immediately when clicking Send Like without typing, and dismisses via backdrop click or Escape', () => {
+    render(<App />);
+
+    // 1. Open Hinge Like modal on Photo 1 of Julian
+    const likePhotoBtn = screen.getByRole('button', { name: /Like photo 1 of Julian/i });
+    fireEvent.click(likePhotoBtn);
+
+    const dialog = screen.getByRole('dialog', { name: /Reply to Julian/i });
+    expect(dialog.className).not.toContain('backdrop-blur');
+
+    // 2. Escape closes the modal cleanly
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(screen.queryByRole('dialog', { name: /Reply to Julian/i })).toBeNull();
+
+    // 3. Re-open and click the dim backdrop outside the modal card -> closes cleanly
+    fireEvent.click(likePhotoBtn);
+    const reopened = screen.getByRole('dialog', { name: /Reply to Julian/i });
+    fireEvent.click(reopened);
+    expect(screen.queryByRole('dialog', { name: /Reply to Julian/i })).toBeNull();
+
+    // 4. Re-open and click "Send Like" with an empty comment box -> sends Like immediately & advances to Søren!
+    fireEvent.click(likePhotoBtn);
+    const sendLikeBtn = screen.getByRole('button', { name: /^Send Like$/i });
+    fireEvent.click(sendLikeBtn);
+    expect(screen.queryByRole('dialog', { name: /Reply to Julian/i })).toBeNull();
+    expect(screen.getByRole('heading', { name: /Søren/i })).toBeInTheDocument();
+  });
 });
