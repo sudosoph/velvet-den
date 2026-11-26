@@ -44,6 +44,7 @@ The North Star of the game is **winning a real, lasting Chapter-Two relationship
 3. **Zero Front-Page Clutter**: Never dump 57 cards or 8 competing banners on screen 1.
 4. **Zero Endless Chatbot Drift**: Every chat chapter resolves in `<= 6` beats into a Date unlock, Photo Drop, or Cut-Loose / Unmatch outcome.
 5. **Zero Free Credit Farming**: Quizzes, checklists, courtroom votes, tea spills, newsletters, waitlists, and referrals award **XP / Badges / Polaroids only (`0` Credits)**.
+6. **Zero Audience / Role-Perspective Inversion (`playerRole === 'her'` vs. `'him'`)**: Never tell a player playing **as the Cougar (`her`)** to *"enroll in Cub Obedience School"* or coach her like a rookie Cub! Every UI label, fail/recovery screen, Bestie pop-in, Cub School framing (**🐆 Headmistress Grading Mode** for `her` vs. **🎓 Certification Exam** for `him`), and `/api/inbox-vet` AI `coachNote` strictly honors who the player actually is.
 
 ---
 

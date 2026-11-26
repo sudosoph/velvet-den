@@ -19,6 +19,7 @@
 - **Strict Economy & Live Links:** Preserve all 4 live `buy.stripe.com` URLs in `src/config/monetization.ts`. New storage key `velvet_wallet_v35` grants `3` one-time starter credits (`0` daily refill, `0` free credits from quizzes, courtroom, checklists, shares, newsletters, waitlists, or referrals). Friendly `💛 Support This Project` button stays visible in `TopHudBar` and ending/diploma cards.
 - **Verified Post-Answer Media Reveal (No Spoilers, No Caption Clutter):** In `PopCultureTriviaModal.tsx`, neither `imageUrl` nor `youtubeEmbedUrl` renders before `selectedOpt !== null`; both reveal *after* answering with zero `<figcaption>` attribution text at the bottom.
 - **Real Product Photos & Visual Shoppable Guides (Above-the-Fold Affiliates):** Every product in `AFFILIATE_CATALOG` maps to a real studio/lifestyle photograph under `public/images/products/*.jpg` (retiring SVG box placeholders in `ProductVisualThumbnail.tsx`). Both `VelvetJournalView.tsx` and `scripts/generate-seo-pages.mjs` lead with a `16:9` hero image, an **above-the-fold visual product strip**, interactive `"Text This, Not That"` & `Green Flag vs. Red Flag` cards, and **inline `/api/go/:id` affiliate links on every checklist/watchlist item** instead of burying text links at the bottom.
+- **Strict Role-Perspective Symmetry (`playerRole === 'her'` vs. `'him'`):** Never show `"Enroll in Cub Obedience School"` or Cub-targeted coaching to a Cougar player (`playerRole === 'her'`). For `her`, chat fizzles offer `🚩 Cut Him Loose`, `↺ Rewind Beat (2 Cr)`, `🗺️ Meet Better Men In The Wild`, or a cheeky `🎓 Send Him an Obedience Referral Link` share button; `CubSchoolView` defaults to **🐆 Headmistress Mode** for `her` and **🎓 Cub Exam Mode** for `him`; and `/api/inbox-vet` + `adapters.ts` explicitly tailor `coachNote` to the player's role.
 - **Zero-404 Compatibility:** Preserve `?challenge=` (`PartnerAuditionView`), `?session_id=` (`/api/verify-checkout`), `/api/go/:id` (`GET` and `HEAD`), and all 16 `/guides/<slug>/` `?dilemma=<slug>` deep links.
 
 ## Review Focus
@@ -145,7 +146,7 @@ Test:
 2. `loadWallet()` across a simulated next-day UTC boundary does **not** refill credits (`0` daily refill), and migrates `isVip: true` if `velvet_den_wallet_v1` contains `stripe_session_cs_live_123`, while resetting unverified legacy credits to `3`.
 3. `AFFILIATE_CATALOG` contains `no-hard-feelings-jlaw-prime` and `part-of-your-world-book`, and contains zero `seed-oil` IDs or descriptions.
 4. `worker.fetch(new Request('https://cougarsandcubs.club/api/go/no-hard-feelings-jlaw-prime', { method: 'HEAD' }), { AMAZON_ASSOCIATE_TAG: 'sophia-20' })` returns `302` with `tag=sophia-20` and `linkCode=ll2` in `Location`.
-5. `worker/index.ts` source contains zero matches for `/pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle/i`.
+5. `worker/index.ts` source contains zero matches for `/pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle/i`, and `POST /api/inbox-vet` with `personaRole: 'him'` (meaning human player is `her`) instructs AI / heuristic `coachNote` from the Cougar's perspective (never lecturing her like a Cub).
 
 - [ ] **Step 2: Run test to verify it fails**
 
@@ -298,7 +299,7 @@ Test:
 2. Hitting `🚩 Cut Loose` on Genuine Lead `julian` opens the Bestie self-sabotage reality-check confirmation instead of awarding a false trap bonus.
 3. Completing all 6 beats on Genuine Lead `soren` unlocks **Date 1** on `DreamDaddyDateStage`, updates portrait expression state across beats, enforces *The Robert Night-1 Pacing Test*, and unlocks the `2 Cr` **Secret Bestie Text POV** modal.
 4. Ignoring Trap tells through Beat 6 into Date 1 triggers a **Date Disaster** (`fridayHearts` drops from `3` to `2`, offering `2 Cr` Time-Turner Rewind).
-5. `CubSchoolView` steps through the 12 real-subreddit complaint drills, renders contextual Amazon *"Send Him the Fix"* partner link (`target="_blank"`), and produces the shareable Diploma.
+5. `CubSchoolView` defaults to `🐆 Headmistress` framing when `role === 'her'` (and `🎓 Cub Candidate` when `role === 'him'`), steps through the 12 real-subreddit complaint drills, renders contextual Amazon *"Send Him the Fix"* partner link (`target="_blank"`), and produces the shareable Diploma; and `ChatsAndDatesView` when `role === 'her'` **never** renders `"Enroll in Cub Obedience School"` (only `him` sees Cub School brush-up on a fumble, while `her` sees `🚩 Cut Him Loose` / `🎓 Send Him a Cub School Link`).
 
 - [ ] **Step 2: Run test to verify it fails**
 
