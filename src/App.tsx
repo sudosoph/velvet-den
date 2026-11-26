@@ -4,6 +4,7 @@ import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AppSwipeStage } from './components/AppSwipeStage';
 import { BoutiqueAndVipModal } from './components/BoutiqueAndVipModal';
+import { ClubCourtroomView } from './components/ClubCourtroomView';
 import { CougarCubChecklistModal } from './components/CougarCubChecklistModal';
 import { EightBitAdventureWorld } from './components/EightBitAdventureWorld';
 import { EpisodeStage } from './components/EpisodeStage';
@@ -12,11 +13,21 @@ import { LiveInboxModal } from './components/LiveInboxModal';
 import { OutcomeAndViralView } from './components/OutcomeAndViralView';
 import { PairingMixerView } from './components/PairingMixerView';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
+import { PixiCubAcademyStage } from './components/PixiCubAcademyStage';
 import { PopCultureTriviaModal } from './components/PopCultureTriviaModal';
 import { TopHudBar } from './components/TopHudBar';
 import { VelvetJournalView } from './components/VelvetJournalView';
 import { APP_SWIPE_PROFILES, HER_SWIPE_PROFILES } from './data/appProfiles';
 import { EPISODES } from './data/episodes';
+import {
+  computeDateLetterRank,
+  computeDateodexVerdict,
+  loadDateodex,
+  recordDateodexCourtVote,
+  stampDateodexCharacters,
+  unlockDateodexPolaroid,
+  type DateodexState,
+} from './domain/dateodex';
 import {
   applyUnlockCodeOrQuery,
   grantFounderAccess,
@@ -80,6 +91,8 @@ function readInitialUrlState() {
       refCode: null as string | null,
       openChecklist: false,
       openWorld: false,
+      openAcademy: false,
+      openCourt: false,
     };
   }
   const params = new URLSearchParams(window.location.search);
@@ -93,6 +106,8 @@ function readInitialUrlState() {
   const refCode = params.get('ref');
   const openChecklist = params.get('checklist') === '1';
   const openWorld = params.get('world') === '1';
+  const openAcademy = params.get('academy') === '1';
+  const openCourt = params.get('court') === '1';
 
   return {
     challenge: decoded,
@@ -104,6 +119,8 @@ function readInitialUrlState() {
     refCode,
     openChecklist,
     openWorld,
+    openAcademy,
+    openCourt,
   };
 }
 
@@ -142,8 +159,22 @@ export default function App() {
   const [adventureProgress, setAdventureProgress] = useState<AdventureProgressState>(() =>
     loadAdventureProgress(),
   );
-  const [activeTab, setActiveTab] = useState<'game' | 'world' | 'journal' | 'inbox'>(
-    initialUrl.journalSlug ? 'journal' : initialUrl.openWorld ? 'world' : 'game',
+  const [dateodex, setDateodex] = useState<DateodexState>(() => loadDateodex());
+  const [academySubTab, setAcademySubTab] = useState<'obedience' | 'scanner' | 'dateodex'>(
+    'obedience',
+  );
+  const [activeTab, setActiveTab] = useState<
+    'game' | 'world' | 'journal' | 'inbox' | 'academy' | 'courtroom'
+  >(
+    initialUrl.journalSlug
+      ? 'journal'
+      : initialUrl.openWorld
+        ? 'world'
+        : initialUrl.openAcademy
+          ? 'academy'
+          : initialUrl.openCourt
+            ? 'courtroom'
+            : 'game',
   );
   const [fieldGuideOpen, setFieldGuideOpen] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
@@ -733,6 +764,76 @@ export default function App() {
               return true;
             }}
           />
+        ) : activeTab === 'academy' ? (
+          <PixiCubAcademyStage
+            role={role}
+            her={her}
+            his={his}
+            dateodex={dateodex}
+            initialSubTab={academySubTab}
+            onBackToRoster={() => setActiveTab('game')}
+            onSelectHis={setHis}
+            onSelectHer={setHer}
+            onGraduateCub={(hisId, herId) => {
+              handleGainAdventureXp(45);
+              setDateodex((prev) =>
+                stampDateodexCharacters(
+                  prev,
+                  [
+                    {
+                      characterId: hisId,
+                      verdict: 'crowned',
+                      rank: 'S',
+                      note: 'Certified Good Boy™ (PixiJS Obedience S-Rank)',
+                    },
+                    {
+                      characterId: herId,
+                      verdict: 'crowned',
+                      rank: 'S',
+                      note: 'Master Clicker Trainer',
+                    },
+                  ],
+                  ['polaroid-obedience-s'],
+                ),
+              );
+              const res = grantRewardCredits(wallet, 'cub_academy_grad', 3);
+              if (res.granted) updateWallet(res.wallet);
+              return res.granted;
+            }}
+            onCompleteRoomScan={(hisId) => {
+              handleGainAdventureXp(30);
+              setDateodex((prev) => {
+                const withPol = unlockDateodexPolaroid(prev, 'polaroid-sanctuary-scan');
+                return stampDateodexCharacters(withPol, [
+                  {
+                    characterId: hisId,
+                    verdict: 'crowned',
+                    rank: 'A',
+                    note: '4-Pillow Sanctuary Approved',
+                  },
+                ]);
+              });
+            }}
+            onOpenCourtroom={() => setActiveTab('courtroom')}
+          />
+        ) : activeTab === 'courtroom' ? (
+          <ClubCourtroomView
+            role={role}
+            onBackToRoster={() => setActiveTab('game')}
+            onOpenCubAcademy={() => {
+              setAcademySubTab('obedience');
+              setActiveTab('academy');
+            }}
+            onCastCourtVote={() => {
+              handleGainAdventureXp(15);
+              setDateodex((prev) => recordDateodexCourtVote(prev));
+            }}
+            onGrantBonusCredits={(key, amt) => {
+              const res = grantRewardCredits(wallet, key, amt);
+              if (res.granted) updateWallet(res.wallet);
+              return res.granted;
+            }}
+          />
         ) : activeTab === 'journal' ? (
           <VelvetJournalView
             initialSlug={initialUrl.journalSlug}
@@ -822,7 +923,45 @@ export default function App() {
             }}
             onShareDilemma={handleShareDilemma}
             onOpenBoutique={() => setBoutiqueOpen(true)}
-            onFinishRun={() => setPhase('outcome')}
+            onFinishRun={() => {
+              if (run) {
+                const avg = Math.round(
+                  (run.stats.maturity +
+                    run.stats.chivalry +
+                    run.stats.eq +
+                    run.stats.chemistry) /
+                    4,
+                );
+                const busted = run.status === 'busted';
+                const rank = computeDateLetterRank(avg, busted);
+                const verdict = computeDateodexVerdict(avg, busted);
+                const extraPols = ['polaroid-kitchen-apron'];
+                if (run.stats.chemistry >= 75 && !busted) {
+                  extraPols.push('polaroid-coastal-sunset');
+                }
+                setDateodex((prev) =>
+                  stampDateodexCharacters(
+                    prev,
+                    [
+                      {
+                        characterId: run.pairing.her.id,
+                        verdict,
+                        rank,
+                        note: 'Date Run Complete',
+                      },
+                      {
+                        characterId: run.pairing.his.id,
+                        verdict,
+                        rank,
+                        note: 'Date Run Complete',
+                      },
+                    ],
+                    extraPols,
+                  ),
+                );
+              }
+              setPhase('outcome');
+            }}
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
           />
@@ -911,6 +1050,12 @@ export default function App() {
             onQuickCreateAudition={handleQuickCreateAudition}
             onOpenFieldGuide={() => setFieldGuideOpen(true)}
             onOpenWorldTab={() => setActiveTab('world')}
+            onOpenCubAcademy={(sub = 'obedience') => {
+              setAcademySubTab(sub);
+              setActiveTab('academy');
+            }}
+            onOpenCourtroom={() => setActiveTab('courtroom')}
+            dateodexStampedCount={Object.keys(dateodex.stamps).length}
             adventureProgress={adventureProgress}
             onGainAdventureXp={handleGainAdventureXp}
             onJumpToMapScene={(episodeId) => {
@@ -964,6 +1109,23 @@ export default function App() {
                 className="rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 px-3 py-1 text-[#18101E] cursor-pointer"
               >
                 Live AI Texting
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAcademySubTab('obedience');
+                  setActiveTab('academy');
+                }}
+                className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] hover:bg-[#EDE9FE] px-3 py-1 text-[#5B21B6] cursor-pointer"
+              >
+                2D Cub Training Sim
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('courtroom')}
+                className="rounded-full border border-[#FDE68A] bg-[#FFFBEB] hover:bg-[#FEF3C7] px-3 py-1 text-[#92400E] cursor-pointer"
+              >
+                Crown Him / Dump Him
               </button>
               <button
                 type="button"

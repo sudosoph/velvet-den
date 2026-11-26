@@ -438,14 +438,250 @@ function fallbackEvaluateDm(req: {
   };
 }
 
+function baselineRoleCounts(episodeId: string, choiceCount: number, role: 'her' | 'him'): number[] {
+  const arr: number[] = [];
+  for (let i = 0; i < choiceCount; i++) {
+    const shift = role === 'her' ? (i === 0 ? 19 : -6) : i === 0 ? -5 : 14;
+    arr.push(Math.max(6, 18 + (hashSeed(`${episodeId}:${role}:${i}`) % 39) + shift));
+  }
+  return arr;
+}
+
+interface StoredCourtStory {
+  id: string;
+  aslTag: string;
+  headline: string;
+  story: string;
+  vibeBadge: string;
+  crownHer: number;
+  dumpHer: number;
+  crownHim: number;
+  dumpHim: number;
+  communitySubmitted?: boolean;
+}
+
+const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
+  {
+    id: 'daily-cast-iron-steak-venmo',
+    aslTag: '44F × 25M • Austin',
+    headline: 'Cooked Me Grass-Fed Ribeye… Then Sent a $19.50 Venmo at 8:15 AM',
+    story:
+      'He wore a linen apron, seared rosemary steak in ghee, and washed every dish before midnight. Next morning on my drive to work my phone buzzed: "$19.50 — your half of the butcher ribeye 🥩😊." Crown him or dump him?!',
+    vibeBadge: '💸 Dutch Math Emergency',
+    crownHer: 8,
+    dumpHer: 92,
+    crownHim: 46,
+    dumpHim: 54,
+  },
+  {
+    id: 'court-four-pillows-silk-clip',
+    aslTag: '47F × 27M • Chicago',
+    headline: 'Bought a 22-Momme Silk Pillowcase & Claw Clip After ONE Sleepover',
+    story:
+      'After our first sleepover I joked about cotton frizzing my blowout. Friday week two I walk into his apartment: 4 crisp percale pillows, a brand-new mulberry silk pillowcase on "my" side, lidded bathroom trash can, and my favorite zero-proof spritz chilled.',
+    vibeBadge: '🐕 Hall-of-Fame Golden Retriever',
+    crownHer: 97,
+    dumpHer: 3,
+    crownHim: 88,
+    dumpHim: 12,
+  },
+  {
+    id: 'court-pine-pollen-midnight-spiral',
+    aslTag: '42F × 24M • Scottsdale',
+    headline: 'Blamed His 11:47 PM 9-Text Meltdown on "Pine Pollen Testosterone"',
+    story:
+      'Told him upfront I read in bed with tea at 9:30 PM on weeknights. Woke up at 6 AM to 9 unhinged texts ending with "sorry babe the wild pine-pollen tincture has my T surging & got me all up in my feels 🥺🌲."',
+    vibeBadge: '🌲 Biohacker Spiral',
+    crownHer: 9,
+    dumpHer: 91,
+    crownHim: 39,
+    dumpHim: 61,
+  },
+  {
+    id: 'court-waiter-son-tip-move',
+    aslTag: '51F × 28M • Manhattan',
+    headline: 'Waiter Asked If I Wanted Separate Checks "For My Son"—Watch His Move',
+    story:
+      'Buzzy West Village bistro. Waiter sets the check down and asks if I am treating my son for graduation. Without blinking, my date slid his card in, grinned, kissed my hand, and said "Definitely one check—my girlfriend’s just genetically unfair."',
+    vibeBadge: '👑 Unshakeable Frame',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 91,
+    dumpHim: 9,
+  },
+  {
+    id: 'court-maui-moms-timeshare',
+    aslTag: '39F × 23M • San Diego',
+    headline: 'Bragged About "His Place in Maui"—His Parents Were in the Kitchen!',
+    story:
+      'Invited me for a romantic 4-day getaway to "my condo in Wailea." We open the front door with suitcases and his mom is standing at the blender in a visor asking if we want Costco turkey wraps.',
+    vibeBadge: '🌺 Timeshare Mirage',
+    crownHer: 14,
+    dumpHer: 86,
+    crownHim: 52,
+    dumpHim: 48,
+  },
+  {
+    id: 'court-perimenopause-bamboo-sheets',
+    aslTag: '49F × 30M • Seattle',
+    headline: '3 AM Hot Flash—He Wordlessly Flipped the Cooling Pillow & Grabbed Ice Water',
+    story:
+      'Woke up mortified kicking the duvet off at 3 AM. Zero weirdness—he sleepily kissed my shoulder, cracked the window two inches, handed me ice water, and ordered cooling bamboo sheets to his place the next afternoon.',
+    vibeBadge: '💚 Grown-Man EQ',
+    crownHer: 99,
+    dumpHer: 1,
+    crownHim: 93,
+    dumpHim: 7,
+  },
+];
+
+async function handleCourtroomGet(env: WorkerEnv): Promise<Response> {
+  let community: StoredCourtStory[] = [];
+  if (env.VELVET_KV) {
+    try {
+      const raw = await env.VELVET_KV.get('courtroom:stories');
+      if (raw) {
+        const parsed = JSON.parse(raw) as unknown;
+        if (Array.isArray(parsed)) {
+          community = parsed.slice(-20).reverse() as StoredCourtStory[];
+        }
+      }
+    } catch {
+      community = [];
+    }
+  }
+
+  const all = [...community, ...DEFAULT_COURTROOM_STORIES];
+  if (env.VELVET_KV) {
+    for (const item of all) {
+      try {
+        const vRaw = await env.VELVET_KV.get(`courtroom:votes:${item.id}`);
+        if (vRaw) {
+          const v = JSON.parse(vRaw) as Partial<StoredCourtStory>;
+          item.crownHer += Number(v.crownHer || 0);
+          item.dumpHer += Number(v.dumpHer || 0);
+          item.crownHim += Number(v.crownHim || 0);
+          item.dumpHim += Number(v.dumpHim || 0);
+        }
+      } catch {
+        // Ignore single vote read error
+      }
+    }
+  }
+
+  return jsonResponse({ ok: true, stories: all });
+}
+
+async function handleCourtroomVote(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { storyId?: string; verdict?: string; role?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+  const storyId = sanitizeId(body.storyId ?? null, 64);
+  const verdict = body.verdict === 'crown' ? 'crown' : body.verdict === 'dump' ? 'dump' : null;
+  const role = body.role === 'him' ? 'him' : 'her';
+  if (!storyId || !verdict) {
+    return jsonResponse({ error: 'Invalid storyId or verdict' }, 400);
+  }
+
+  if (env.VELVET_KV) {
+    try {
+      const key = `courtroom:votes:${storyId}`;
+      const existing = await env.VELVET_KV.get(key);
+      const tallies = existing
+        ? (JSON.parse(existing) as {
+            crownHer?: number;
+            dumpHer?: number;
+            crownHim?: number;
+            dumpHim?: number;
+          })
+        : {};
+      const next = {
+        crownHer: Number(tallies.crownHer || 0) + (role === 'her' && verdict === 'crown' ? 1 : 0),
+        dumpHer: Number(tallies.dumpHer || 0) + (role === 'her' && verdict === 'dump' ? 1 : 0),
+        crownHim: Number(tallies.crownHim || 0) + (role === 'him' && verdict === 'crown' ? 1 : 0),
+        dumpHim: Number(tallies.dumpHim || 0) + (role === 'him' && verdict === 'dump' ? 1 : 0),
+      };
+      await env.VELVET_KV.put(key, JSON.stringify(next));
+    } catch {
+      // Non-blocking
+    }
+  }
+
+  return jsonResponse({ ok: true });
+}
+
+async function handleCourtroomSubmit(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { aslTag?: string; headline?: string; story?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+  const aslTag = scrubPiiForLog(String(body.aslTag || '42F × 26M • Club Member')).slice(0, 36);
+  const headline = scrubPiiForLog(String(body.headline || '').trim()).slice(0, 95);
+  const story = scrubPiiForLog(String(body.story || '').trim()).slice(0, 260);
+
+  if (headline.length < 6 || story.length < 15) {
+    return jsonResponse({ error: 'Headline and story required' }, 400);
+  }
+
+  const created: StoredCourtStory = {
+    id: `user-${Date.now().toString(36)}`,
+    aslTag,
+    headline,
+    story,
+    vibeBadge: '✨ Player Field Report',
+    crownHer: 4,
+    dumpHer: 4,
+    crownHim: 4,
+    dumpHim: 4,
+    communitySubmitted: true,
+  };
+
+  if (env.VELVET_KV) {
+    try {
+      const raw = await env.VELVET_KV.get('courtroom:stories');
+      const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+      const list = Array.isArray(parsed) ? (parsed as StoredCourtStory[]) : [];
+      list.push(created);
+      await env.VELVET_KV.put('courtroom:stories', JSON.stringify(list.slice(-40)));
+    } catch {
+      // Non-blocking
+    }
+  }
+
+  return jsonResponse({ ok: true, story: created });
+}
+
 async function handleStatsGet(url: URL, env: WorkerEnv): Promise<Response> {
   const episodeId = sanitizeId(url.searchParams.get('episodeId')) || 'check-drop';
   const choiceCount = Math.min(6, Math.max(2, Number(url.searchParams.get('choices') || 3)));
   const base = baselineCounts(episodeId, choiceCount);
+  let herCombined = baselineRoleCounts(episodeId, choiceCount, 'her');
+  let himCombined = baselineRoleCounts(episodeId, choiceCount, 'him');
 
   if (env.VELVET_KV) {
     try {
-      const stored = await env.VELVET_KV.get(`stats:${episodeId}`);
+      const [stored, herStored, himStored] = await Promise.all([
+        env.VELVET_KV.get(`stats:${episodeId}`),
+        env.VELVET_KV.get(`stats_her:${episodeId}`),
+        env.VELVET_KV.get(`stats_him:${episodeId}`),
+      ]);
+      if (herStored) {
+        const hp = JSON.parse(herStored) as unknown;
+        if (Array.isArray(hp) && hp.length === choiceCount) {
+          herCombined = herCombined.map((b, i) => b + (Number(hp[i]) || 0));
+        }
+      }
+      if (himStored) {
+        const mp = JSON.parse(himStored) as unknown;
+        if (Array.isArray(mp) && mp.length === choiceCount) {
+          himCombined = himCombined.map((b, i) => b + (Number(mp[i]) || 0));
+        }
+      }
       if (stored) {
         const parsed = JSON.parse(stored) as unknown;
         if (Array.isArray(parsed) && parsed.length === choiceCount) {
@@ -453,6 +689,8 @@ async function handleStatsGet(url: URL, env: WorkerEnv): Promise<Response> {
           return jsonResponse({
             episodeId,
             percentages: countsToPercentages(combined),
+            herPercentages: countsToPercentages(herCombined),
+            himPercentages: countsToPercentages(himCombined),
             source: 'kv',
           });
         }
@@ -465,12 +703,14 @@ async function handleStatsGet(url: URL, env: WorkerEnv): Promise<Response> {
   return jsonResponse({
     episodeId,
     percentages: countsToPercentages(base),
+    herPercentages: countsToPercentages(herCombined),
+    himPercentages: countsToPercentages(himCombined),
     source: 'baseline',
   });
 }
 
 async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { episodeId?: string; choiceIndex?: number; choiceCount?: number } = {};
+  let body: { episodeId?: string; choiceIndex?: number; choiceCount?: number; role?: string } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -480,6 +720,7 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
   const episodeId = sanitizeId(body.episodeId ?? null);
   const idx = Number(body.choiceIndex);
   const choiceCount = Math.min(6, Math.max(2, Number(body.choiceCount || 3)));
+  const role = body.role === 'him' ? 'him' : 'her';
 
   if (!episodeId || !Number.isInteger(idx) || idx < 0 || idx >= choiceCount) {
     return jsonResponse({ error: 'Invalid episodeId or choiceIndex' }, 400);
@@ -489,7 +730,11 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
   if (env.VELVET_KV) {
     try {
       const key = `stats:${episodeId}`;
-      const existing = await env.VELVET_KV.get(key);
+      const roleKey = `stats_${role}:${episodeId}`;
+      const [existing, roleExisting] = await Promise.all([
+        env.VELVET_KV.get(key),
+        env.VELVET_KV.get(roleKey),
+      ]);
       if (existing) {
         const parsed = JSON.parse(existing) as unknown;
         if (Array.isArray(parsed) && parsed.length === choiceCount) {
@@ -497,7 +742,20 @@ async function handleStatsPost(request: Request, env: WorkerEnv): Promise<Respon
         }
       }
       liveCounts[idx] += 1;
-      await env.VELVET_KV.put(key, JSON.stringify(liveCounts));
+
+      let roleCounts = new Array<number>(choiceCount).fill(0);
+      if (roleExisting) {
+        const rp = JSON.parse(roleExisting) as unknown;
+        if (Array.isArray(rp) && rp.length === choiceCount) {
+          roleCounts = rp.map((n) => Number(n) || 0);
+        }
+      }
+      roleCounts[idx] += 1;
+
+      await Promise.all([
+        env.VELVET_KV.put(key, JSON.stringify(liveCounts)),
+        env.VELVET_KV.put(roleKey, JSON.stringify(roleCounts)),
+      ]);
     } catch {
       // Non-blocking KV error
     }
@@ -862,7 +1120,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v24-aligned-hub-polish',
+        version: 'v25-dream-daddy-phase1',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
@@ -892,6 +1150,21 @@ export default {
     if (url.pathname === '/api/stats') {
       if (request.method === 'GET') return handleStatsGet(url, env);
       if (request.method === 'POST') return handleStatsPost(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/courtroom') {
+      if (request.method === 'GET') return handleCourtroomGet(env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/courtroom/vote') {
+      if (request.method === 'POST') return handleCourtroomVote(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/courtroom/submit') {
+      if (request.method === 'POST') return handleCourtroomSubmit(request, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

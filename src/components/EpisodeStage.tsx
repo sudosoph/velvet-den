@@ -23,7 +23,11 @@ import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { parseChoiceCardSpec } from '../lib/choiceParser';
 import { renderRichText } from '../lib/richText';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
-import { getLocalChoicePercentagesSync, localCrowdStatsService } from '../services/adapters';
+import {
+  getSplitChoicePercentagesSync,
+  localCrowdStatsService,
+  type SplitCrowdStats,
+} from '../services/adapters';
 import { InGameClubAside } from './InGameClubAside';
 import { MinigameWidget, resolveSceneGameType } from './MinigameWidgets';
 import { buildEpisodeChatSpec, EpisodeChatFeed } from './SceneChatInterface';
@@ -237,9 +241,10 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
   onOpenChecklist,
 }) => {
   const [showingOutcomeForEpId, setShowingOutcomeForEpId] = useState<string | null>(null);
-  const [crowdPcts, setCrowdPcts] = useState<number[]>(() =>
-    getLocalChoicePercentagesSync('check-drop', 3),
+  const [splitCrowd, setSplitCrowd] = useState<SplitCrowdStats>(() =>
+    getSplitChoicePercentagesSync('check-drop', 3),
   );
+  const crowdPcts = splitCrowd.overall;
   const [particleBurst, setParticleBurst] = useState<string | null>(null);
   const [statFlyups, setStatFlyups] = useState<{ id: string; text: string; positive: boolean }[]>(
     [],
@@ -291,11 +296,11 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
 
   useEffect(() => {
     let cancelled = false;
-    const syncBase = getLocalChoicePercentagesSync(activeEpIdForStats, 3);
-    setCrowdPcts(syncBase);
-    localCrowdStatsService.getChoicePercentages(activeEpIdForStats, 3).then((live) => {
-      if (!cancelled && live.join(',') !== syncBase.join(',')) {
-        setCrowdPcts(live);
+    const syncBase = getSplitChoicePercentagesSync(activeEpIdForStats, 3);
+    setSplitCrowd(syncBase);
+    localCrowdStatsService.getSplitChoicePercentages(activeEpIdForStats, 3).then((live) => {
+      if (!cancelled) {
+        setSplitCrowd(live);
       }
     });
     return () => {
@@ -360,7 +365,7 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
 
     setShowingOutcomeForEpId(currentEpisode.id);
     onSelectChoice(idx);
-    localCrowdStatsService.recordChoice(currentEpisode.id, idx);
+    localCrowdStatsService.recordChoice(currentEpisode.id, idx, role);
   };
 
   const handleRewindClick = () => {
@@ -766,12 +771,28 @@ export const EpisodeStage: React.FC<EpisodeStageProps> = ({
             {renderRichText(lastEntry.outcomeText)}
           </p>
 
-          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3 text-sm sm:text-base font-bold text-[#1E1022]">
-            Global Club Pulse:{' '}
-            <strong className="text-[#FF2E63]">
-              {crowdPcts[lastEntry.choiceIndex] ?? 48}%
-            </strong>{' '}
-            of players made this exact move.
+          <div className="rounded-2xl border-2 border-[#1E1022] bg-[#FFF7F0] px-4 py-3.5 space-y-2 text-sm sm:text-base font-bold text-[#1E1022]">
+            <div>
+              Global Club Pulse:{' '}
+              <strong className="text-[#FF2E63]">
+                {crowdPcts[lastEntry.choiceIndex] ?? 48}%
+              </strong>{' '}
+              of players made this exact move.
+            </div>
+            <div className="flex flex-wrap items-center gap-4 text-xs font-extrabold text-[#475569] pt-1 border-t border-[#1E1022]/10">
+              <span>
+                🐆 Cougars Voted:{' '}
+                <strong className="text-[#E11D48]">
+                  {splitCrowd.her[lastEntry.choiceIndex] ?? 52}%
+                </strong>
+              </span>
+              <span>
+                🐕 Cubs Thought:{' '}
+                <strong className="text-[#D97706]">
+                  {splitCrowd.him[lastEntry.choiceIndex] ?? 38}%
+                </strong>
+              </span>
+            </div>
           </div>
 
           {/* Embedded Pop-Culture & Viral IRL Club Aside Right Inside Scene Flow! */}

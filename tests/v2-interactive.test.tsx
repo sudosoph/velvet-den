@@ -859,4 +859,65 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(screen.getByText(/Live 14-Year Age Gap/i)).toBeInTheDocument();
     expect(screen.getByText(/14-Year Official Puma × Cub Matchup/i)).toBeInTheDocument();
   });
+
+  it('graduates a Cub in the 2D PixiJS Obedience Sim, scans all 5 apartment hazards, stamps the Dateodex, and votes in Crown Him or Dump Him Courtroom', () => {
+    render(<App />);
+
+    // Launch 2D Cub Training Sim from the lobby Mode Directory
+    fireEvent.click(screen.getAllByRole('button', { name: /2D Cub Training Sim/i })[0]);
+    expect(
+      screen.getByText(/Cub Obedience Academy & 2D Room Scanner/i),
+    ).toBeInTheDocument();
+
+    // Complete all 4 Clicker Obedience Drills -> S-Rank Certified Good Boy Diploma!
+    fireEvent.click(screen.getByRole('button', { name: /Sit & Listen!/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Drop It!/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Short-Leash Heel!/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Toss Grass-Fed Steak Treat/i }));
+
+    expect(
+      screen.getByText(/OFFICIAL CUB OBEDIENCE DIPLOMA • RANK S/i),
+    ).toBeInTheDocument();
+
+    // Switch to Apartment X-Ray Scanner & upgrade all 5 bachelor-pad hazards
+    fireEvent.click(screen.getByRole('button', { name: /Scan His Apartment Next/i }));
+    fireEvent.click(screen.getByRole('button', { name: /1 Flat Yellowed College Pillow/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Unlidded Bathroom Trash Can/i }));
+    fireEvent.click(screen.getByRole('button', { name: /5-in-1 Body\/Hair\/Dish\/Engine Wash/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Draft \$19\.50 Ribeye Venmo Request/i }));
+    fireEvent.click(screen.getByRole('button', { name: /11:47 PM Pine-Pollen Tincture/i }));
+    expect(screen.getByText(/5 \/ 5 Upgraded/i)).toBeInTheDocument();
+
+    // Open Dateodex & Polaroids -> verify 2/6 Polaroid CGs unlocked & Crowned stamps recorded
+    fireEvent.click(screen.getByRole('button', { name: /Open Unlocked Polaroid/i }));
+    expect(screen.getByText(/Unlockable Club Polaroid Memories \(2\/6\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Certified Good Boy™ Graduation/i)).toBeInTheDocument();
+    expect(screen.getByText(/4-Pillow Percale Sanctuary/i)).toBeInTheDocument();
+
+    // Jump into Crown Him or Dump Him Live Courtroom, vote on Today's Daily Drop & pitch a story
+    fireEvent.click(screen.getByRole('button', { name: /Crown Him \/ Dump Him Court/i }));
+    expect(
+      screen.getByText(/Crown Him or 🚩 Dump Him — Live Club Courtroom/i),
+    ).toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /Dump Him \(Straight to Jail\)/i }),
+    );
+    expect(
+      screen.getByText(/Live Blind-Spot Split: 🐆 How Cougars Voted vs\. 🐕 How Cubs Thought/i),
+    ).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText(/Headline/i), {
+      target: { value: 'Brought Sourdough & Fixed My Espresso Machine' },
+    });
+    fireEvent.change(screen.getByLabelText(/What Happened\?/i), {
+      target: {
+        value: 'He showed up at 9 AM Saturday with warm sourdough and calibrated my burr grinder.',
+      },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Submit Case to Courtroom/i }));
+    expect(
+      screen.getByText(/Brought Sourdough & Fixed My Espresso Machine/i),
+    ).toBeInTheDocument();
+  });
 });

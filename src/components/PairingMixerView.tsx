@@ -70,6 +70,9 @@ interface PairingMixerViewProps {
   onQuickCreateAudition: () => void;
   onOpenFieldGuide: () => void;
   onOpenWorldTab?: () => void;
+  onOpenCubAcademy?: (subTab?: 'obedience' | 'scanner' | 'dateodex') => void;
+  onOpenCourtroom?: () => void;
+  dateodexStampedCount?: number;
   onJumpToMapScene?: (episodeId: string) => void;
   adventureProgress?: AdventureProgressState;
   onGainAdventureXp?: (
@@ -108,6 +111,9 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
   onQuickCreateAudition,
   onOpenFieldGuide,
   onOpenWorldTab,
+  onOpenCubAcademy,
+  onOpenCourtroom,
+  dateodexStampedCount = 0,
   onJumpToMapScene,
   adventureProgress,
   onGainAdventureXp,
@@ -286,21 +292,32 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
           </div>
         </div>
 
-        {/* Clear 4-Path Mode Directory — Every Path Has Clean 2-Line Copy & Non-Wrapping Badges */}
+        {/* Clear 6-Path Mode Directory — Every Path Has Clean 2-Line Copy & Non-Wrapping Badges */}
         <div className="pt-4 border-t border-[#18101E]/8 space-y-2">
           <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-extrabold uppercase tracking-wider text-[#64748B]">
             <span>Choose a Game Mode (or Draft Your Pair Below to Start Your 8-Scene Date)</span>
-            <button
-              type="button"
-              onClick={onQuickCreateAudition}
-              className="inline-flex items-center gap-1.5 text-[#059669] hover:underline cursor-pointer normal-case font-bold text-xs"
-            >
-              <Send className="h-3.5 w-3.5 shrink-0" />
-              <span>Send 2-Player Crush Audition Link (+3 Cr)</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-4">
+              {onOpenCubAcademy && (
+                <button
+                  type="button"
+                  onClick={() => onOpenCubAcademy('dateodex')}
+                  className="inline-flex items-center gap-1.5 text-[#7C3AED] hover:underline cursor-pointer normal-case font-bold text-xs"
+                >
+                  <span>📸 Club Dateodex &amp; Polaroids ({dateodexStampedCount}/56)</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={onQuickCreateAudition}
+                className="inline-flex items-center gap-1.5 text-[#059669] hover:underline cursor-pointer normal-case font-bold text-xs"
+              >
+                <Send className="h-3.5 w-3.5 shrink-0" />
+                <span>Send 2-Player Crush Audition Link (+3 Cr)</span>
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 items-stretch">
             <button
               type="button"
               aria-label="Live AI Texting Mode — Chat in Tinder, iMessage or Discord"
@@ -321,6 +338,50 @@ export const PairingMixerView: React.FC<PairingMixerViewProps> = ({
               </div>
               <div className="text-[11.5px] font-medium text-white/90 leading-snug mt-1">
                 Ongoing 4-stage chat in real Tinder, Apple iMessage &amp; Discord
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                sfx.messagePop();
+                if (onOpenCubAcademy) onOpenCubAcademy('obedience');
+              }}
+              className="pop-btn min-h-[76px] w-full rounded-2xl bg-[#F5F3FF] hover:bg-[#EDE9FE] p-3.5 flex flex-col justify-between text-left text-[#5B21B6] cursor-pointer"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold">
+                  <Sparkles className="h-4 w-4 shrink-0 text-[#7C3AED]" />
+                  <span>2D Cub Training Sim</span>
+                </span>
+                <span className="rounded-full bg-[#DDD6FE] px-2 py-0.5 text-[10px] font-extrabold text-[#5B21B6] whitespace-nowrap">
+                  PixiJS • +3 Cr
+                </span>
+              </div>
+              <div className="text-[11.5px] font-medium text-[#6D28D9] leading-snug mt-1">
+                Clicker-train your Cub, tug the short leash &amp; scan his apartment
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                sfx.messagePop();
+                if (onOpenCourtroom) onOpenCourtroom();
+              }}
+              className="pop-btn min-h-[76px] w-full rounded-2xl bg-[#18101E] hover:bg-[#2A1B35] p-3.5 flex flex-col justify-between text-left text-white border-transparent cursor-pointer"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold">
+                  <Crown className="h-4 w-4 shrink-0 text-[#FBBF24]" />
+                  <span>Crown Him or Dump Him</span>
+                </span>
+                <span className="rounded-full bg-[#FBBF24] px-2 py-0.5 text-[10px] font-extrabold text-[#18101E] whitespace-nowrap">
+                  Daily +2 Cr
+                </span>
+              </div>
+              <div className="text-[11.5px] font-medium text-white/85 leading-snug mt-1">
+                Vote on real date stories, Cougar vs. Cub splits &amp; pitch episodes
               </div>
             </button>
 

@@ -26,10 +26,10 @@ import {
 
 interface TopHudBarProps {
   wallet: WalletState;
-  activeTab: 'game' | 'world' | 'journal' | 'inbox';
+  activeTab: 'game' | 'world' | 'journal' | 'inbox' | 'academy' | 'courtroom';
   activePhase?: 'mixer' | 'swipes' | 'episodes' | 'outcome' | 'audition';
   levelBadge?: string;
-  onSelectTab: (tab: 'game' | 'world' | 'journal' | 'inbox') => void;
+  onSelectTab: (tab: 'game' | 'world' | 'journal' | 'inbox' | 'academy' | 'courtroom') => void;
   onOpenSwipeDeck?: () => void;
   onOpenFieldGuide: () => void;
   onOpenBoutique: () => void;
@@ -136,7 +136,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             type="button"
             title="Live AI Chat on Tinder, iMessage & Discord"
             onClick={() => (activeTab === 'inbox' ? onSelectTab('game') : onOpenLiveInbox())}
-            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-1.5 text-[11px] font-bold transition cursor-pointer ${
               activeTab === 'inbox'
                 ? 'border-transparent bg-[#007AFF] text-white'
                 : 'border-[#BFDBFE] bg-[#EFF6FF] text-[#1D4ED8] hover:bg-[#DBEAFE]'
@@ -148,8 +148,22 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
           <button
             type="button"
+            title="2D PixiJS Cub Obedience Sim, Apartment Scanner & Dateodex"
+            onClick={() => onSelectTab(activeTab === 'academy' ? 'game' : 'academy')}
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-1.5 text-[11px] font-bold transition cursor-pointer ${
+              activeTab === 'academy'
+                ? 'border-transparent bg-[#7C3AED] text-white'
+                : 'border-[#DDD6FE] bg-[#F5F3FF] text-[#6D28D9] hover:bg-[#EDE9FE]'
+            }`}
+          >
+            <Sparkles className="h-3.5 w-3.5 shrink-0" />
+            <span>Cub Sim</span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => onSelectTab(activeTab === 'world' ? 'game' : 'world')}
-            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-1.5 text-[11px] font-bold transition cursor-pointer ${
               activeTab === 'world'
                 ? 'border-transparent bg-[#059669] text-white'
                 : 'border-[#A7F3D0] bg-[#ECFDF5] text-[#065F46] hover:bg-[#D1FAE5]'
@@ -164,7 +178,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               type="button"
               onClick={onOpenPopTrivia}
               title="Pop-Culture Cougar & Cub Quiz (+3 Cr)"
-              className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-[#FDE68A] bg-[#FFFBEB] hover:bg-[#FEF3C7] px-2 text-[11px] font-bold text-[#92400E] transition cursor-pointer"
+              className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-[#FDE68A] bg-[#FFFBEB] hover:bg-[#FEF3C7] px-1.5 text-[11px] font-bold text-[#92400E] transition cursor-pointer"
             >
               <Award className="h-3.5 w-3.5 text-[#D97706] shrink-0" />
               <span className="whitespace-nowrap">Quiz</span>
@@ -179,7 +193,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               type="button"
               onClick={onOpenChecklist}
               title="25-Point Viral Age-Gap Score Test (+2 Cr)"
-              className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white hover:bg-[#FFF1F2] px-2 text-[11px] font-bold text-[#18101E] transition cursor-pointer"
+              className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white hover:bg-[#FFF1F2] px-1.5 text-[11px] font-bold text-[#18101E] transition cursor-pointer"
             >
               <Sparkles className="h-3.5 w-3.5 text-[#E11D48] shrink-0" />
               <span className="whitespace-nowrap">25-Pt</span>
@@ -189,7 +203,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={onOpenFieldGuide}
-            className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white px-2 text-[11px] font-bold text-[#18101E] hover:bg-slate-50 transition cursor-pointer"
+            className="shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border border-slate-200 bg-white px-1.5 text-[11px] font-bold text-[#18101E] hover:bg-slate-50 transition cursor-pointer"
           >
             <BookOpen className="h-3.5 w-3.5 text-[#E11D48] shrink-0" />
             <span>Field Guide</span>
@@ -198,7 +212,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onSelectTab(activeTab === 'journal' ? 'game' : 'journal')}
-            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-2 text-[11px] font-bold transition cursor-pointer ${
+            className={`shrink-0 whitespace-nowrap inline-flex h-8 items-center justify-center gap-1 rounded-full border px-1.5 text-[11px] font-bold transition cursor-pointer ${
               activeTab === 'journal'
                 ? 'border-[#18101E] bg-[#18101E] text-white'
                 : 'border-slate-200 bg-white text-[#18101E] hover:bg-slate-50'

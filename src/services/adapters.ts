@@ -4,9 +4,16 @@
  * cougarsandcubs.club, while falling back cleanly to deterministic local logic offline or in Vitest.
  */
 
+export interface SplitCrowdStats {
+  overall: number[];
+  her: number[];
+  him: number[];
+}
+
 export interface CrowdStatsService {
   getChoicePercentages(episodeId: string, choiceCount: number): Promise<number[]>;
-  recordChoice(episodeId: string, choiceIndex: number): Promise<void>;
+  getSplitChoicePercentages(episodeId: string, choiceCount: number): Promise<SplitCrowdStats>;
+  recordChoice(episodeId: string, choiceIndex: number, role?: 'her' | 'him'): Promise<void>;
 }
 
 export interface LiveInboxTurn {
@@ -68,6 +75,34 @@ export function getLocalChoicePercentagesSync(
   return rounded;
 }
 
+export function getSplitChoicePercentagesSync(
+  episodeId: string,
+  choiceCount: number,
+): SplitCrowdStats {
+  const overall = getLocalChoicePercentagesSync(episodeId, choiceCount);
+  const buildRole = (role: 'her' | 'him') => {
+    if (choiceCount <= 0) return [];
+    if (choiceCount === 1) return [100];
+    const weights: number[] = [];
+    let total = 0;
+    for (let i = 0; i < choiceCount; i++) {
+      const shift = role === 'her' ? (i === 0 ? 19 : -6) : i === 0 ? -5 : 14;
+      const w = Math.max(6, 18 + (hashSeed(`${episodeId}:${role}:${i}`) % 39) + shift);
+      weights.push(w);
+      total += w;
+    }
+    const rounded = weights.map((w) => Math.round((w / total) * 100));
+    const drift = 100 - rounded.reduce((a, b) => a + b, 0);
+    rounded[0] += drift;
+    return rounded;
+  };
+  return {
+    overall,
+    her: buildRole('her'),
+    him: buildRole('him'),
+  };
+}
+
 function isLiveBrowserRuntime(): boolean {
   if (typeof window === 'undefined' || typeof fetch === 'undefined') return false;
   const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
@@ -77,31 +112,58 @@ function isLiveBrowserRuntime(): boolean {
 
 export const localCrowdStatsService: CrowdStatsService = {
   async getChoicePercentages(episodeId: string, choiceCount: number): Promise<number[]> {
+    const split = await this.getSplitChoicePercentages(episodeId, choiceCount);
+    return split.overall;
+  },
+
+  async getSplitChoicePercentages(
+    episodeId: string,
+    choiceCount: number,
+  ): Promise<SplitCrowdStats> {
+    const fallback = getSplitChoicePercentagesSync(episodeId, choiceCount);
     if (isLiveBrowserRuntime()) {
       try {
         const res = await fetch(
           `/api/stats?episodeId=${encodeURIComponent(episodeId)}&choices=${choiceCount}`,
         );
         if (res.ok) {
-          const data = (await res.json()) as { percentages?: number[] };
+          const data = (await res.json()) as {
+            percentages?: number[];
+            herPercentages?: number[];
+            himPercentages?: number[];
+          };
           if (Array.isArray(data.percentages) && data.percentages.length === choiceCount) {
-            return data.percentages;
+            return {
+              overall: data.percentages,
+              her:
+                Array.isArray(data.herPercentages) && data.herPercentages.length === choiceCount
+                  ? data.herPercentages
+                  : fallback.her,
+              him:
+                Array.isArray(data.himPercentages) && data.himPercentages.length === choiceCount
+                  ? data.himPercentages
+                  : fallback.him,
+            };
           }
         }
       } catch {
         // Fall through to deterministic baseline
       }
     }
-    return getLocalChoicePercentagesSync(episodeId, choiceCount);
+    return fallback;
   },
 
-  async recordChoice(episodeId: string, choiceIndex: number): Promise<void> {
+  async recordChoice(
+    episodeId: string,
+    choiceIndex: number,
+    role: 'her' | 'him' = 'her',
+  ): Promise<void> {
     if (!isLiveBrowserRuntime()) return;
     try {
       await fetch('/api/stats', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ episodeId, choiceIndex }),
+        body: JSON.stringify({ episodeId, choiceIndex, role }),
       });
     } catch {
       // Non-blocking telemetry
