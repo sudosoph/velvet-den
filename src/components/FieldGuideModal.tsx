@@ -60,7 +60,7 @@ const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; emojiBadge
     emojiBadge: '🚩 Instant Unmatch',
   },
   black_cat_golden_retriever: {
-    url: './images/scenes/cozy-rain-suite.jpg',
+    url: './images/cast/hero-couple.jpg',
     emojiBadge: '🐈‍⬛ × 🐕 #1 Polarity',
   },
   dm_goblin: {
@@ -68,11 +68,11 @@ const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; emojiBadge
     emojiBadge: '🚨 Block On Sight',
   },
   kitten: {
-    url: './images/cast/astrid-41f.jpg',
+    url: './images/cast/isla-31f.jpg',
     emojiBadge: '🌸 Younger Her',
   },
   mountain_lion: {
-    url: './images/scenes/velvet-room-bar.jpg',
+    url: './images/cast/miles-32m.jpg',
     emojiBadge: '🍸 Silver Counterpart',
   },
 
@@ -202,7 +202,6 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
   const [activeFilter, setActiveFilter] = useState<
     'all' | 'feline_scale' | 'cub_taxonomy' | 'crossover_lore' | 'pop_culture'
   >('all');
-  const [hiddenPortraits, setHiddenPortraits] = useState<Record<string, boolean>>({});
 
   if (!open) return null;
 
@@ -213,12 +212,16 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
 
   const modalNode = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label="Age-Gap Dating Field Guide"
+      onClick={onClose}
     >
-      <div className="editorial-hinge-card relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-8 space-y-5 shadow-2xl">
+      <div
+        className="editorial-hinge-card relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-8 space-y-5 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex items-start justify-between gap-4 border-b border-stone-200 pb-4">
           <div className="space-y-1.5">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300/70 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-amber-950">
@@ -269,7 +272,7 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
             const stamped = unlockedStamps.includes(entry.id);
             const isPop = entry.category === 'pop_culture';
             const portrait = ENTRY_PORTRAITS[entry.id] ?? {
-              url: './images/scenes/velvet-room-bar.jpg',
+              url: './images/cast/hero-couple.jpg',
               emojiBadge: '✨ Club Lore',
             };
             return (
@@ -283,22 +286,20 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
               >
                 <div className="space-y-3">
                   <div className="flex items-start gap-3.5">
-                    {!hiddenPortraits[entry.id] && (
-                      <div className="relative shrink-0">
-                        <img
-                          src={portrait.url}
-                          alt={entry.label}
-                          loading="lazy"
-                          onError={() =>
-                            setHiddenPortraits((prev) => ({ ...prev, [entry.id]: true }))
-                          }
-                          className="h-22 w-18 rounded-2xl border border-stone-200 object-cover object-top shadow-2xs"
-                        />
-                        <span className="absolute -top-2 -left-2 rounded-full bg-[#18101E] px-2 py-0.5 text-[10px] font-extrabold text-amber-300">
-                          #{idx + 1}
-                        </span>
-                      </div>
-                    )}
+                    <div className="relative shrink-0">
+                      <img
+                        src={portrait.url}
+                        alt={entry.label}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = './images/cast/hero-couple.jpg';
+                        }}
+                        className="h-24 w-20 sm:h-28 sm:w-22 rounded-2xl border border-stone-200 bg-stone-100 object-cover object-top shadow-2xs"
+                      />
+                      <span className="absolute -top-2 -left-2 rounded-full bg-[#18101E] px-2 py-0.5 text-[10px] font-extrabold text-amber-300">
+                        #{idx + 1}
+                      </span>
+                    </div>
                     <div className="min-w-0 flex-1 space-y-1">
                       <div className="flex flex-wrap items-center gap-1.5">
                         <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-extrabold text-amber-950">
@@ -326,7 +327,7 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                   <p className="rounded-2xl border border-amber-200/80 bg-amber-50/70 px-3.5 py-2 text-xs font-bold text-[#18101E]">
                     👀 <span className="text-rose-700">Instant Tell:</span> {entry.signatureTell}
                   </p>
-                  {portrait.credit && !hiddenPortraits[entry.id] && (
+                  {portrait.credit && (
                     <p className="text-[10px] font-medium text-stone-400">{portrait.credit}</p>
                   )}
                 </div>

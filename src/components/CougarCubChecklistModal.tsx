@@ -257,12 +257,16 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
   const modalNode = (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-5 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#18101E]/65 p-3 sm:p-5"
         role="dialog"
         aria-modal="true"
         aria-label="Have You Ever? 25-Point Cougars & Cubs Experience Test"
+        onClick={onClose}
       >
-        <div className="editorial-hinge-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-7 space-y-4 shadow-2xl">
+        <div
+          className="editorial-hinge-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-[#FFFDF9] p-5 sm:p-7 space-y-4 shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="flex items-start justify-between gap-3 border-b border-stone-200 pb-4">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-rose-700">

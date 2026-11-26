@@ -71,10 +71,15 @@ describe('v35 BuzzFeed & Top-Reddit Style Visual Club Guides, Illustrated Astro 
     expect(within(astro).getByText(/♈ Aries Her × ♎ Libra Cub/i)).toBeInTheDocument();
   });
 
-  it('illustrates all 33 FieldGuideModal cards (including Feline Scale, Cub Taxonomy & Polarity Lore — zero text-only cards)', () => {
+  it('illustrates all 39 FieldGuideModal cards eagerly with real person portraits (zero lazy-load blanks, zero empty room crops, zero hidden images)', () => {
     render(<FieldGuideModal open={true} unlockedStamps={[]} onClose={vi.fn()} />);
     const dialog = screen.getByRole('dialog', { name: /Age-Gap Dating Field Guide/i });
-    const imgs = dialog.querySelectorAll('img');
+    expect(dialog.className).not.toContain('backdrop-blur');
+    const imgs = Array.from(dialog.querySelectorAll('img'));
     expect(imgs.length).toBe(FIELD_GUIDE_ENTRIES.length);
+    for (const img of imgs) {
+      expect(img.getAttribute('loading')).toBeNull();
+      expect(img.getAttribute('src')).toMatch(/^\.\/images\/(cast|icons)\/.+\.jpg$/);
+    }
   });
 });
