@@ -592,6 +592,30 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     crownHim: 93,
     dumpHim: 7,
   },
+  {
+    id: 'court-whats-ur-snap-1900s',
+    aslTag: '45F × 24M • Miami',
+    headline: 'Great Chemistry All Dinner… Then He Texted "u look crazy good for ur age 🔥 whats ur snap??"',
+    story:
+      'Opened every door, laughed at my dry jokes, and walked me to my Uber. Two minutes into the ride my phone pings: "yo tonight was fire ngl 💀 u look crazy good for someone born in the late 1900s!! whats ur snap so we streak??"',
+    vibeBadge: '👻 Triple-Combo Ick',
+    crownHer: 4,
+    dumpHer: 96,
+    crownHim: 49,
+    dumpHim: 51,
+  },
+  {
+    id: 'court-titos-mattress-cubsplain',
+    aslTag: '43F × 25M • Denver',
+    headline: 'Tried to "Cubsplain" Mortgages From a Bare Floor Mattress Next to an Empty Tito’s Handle',
+    story:
+      'I own two properties. We stop by his apartment to grab his jacket: 5-in-1 neon-blue body wash on the sink, unlidded trash can, bare mattress on the floor—and he spends 14 minutes lecturing me on fixed-rate amortization from a podcast.',
+    vibeBadge: '🤓 Podcast Cubsplainer',
+    crownHer: 3,
+    dumpHer: 97,
+    crownHim: 34,
+    dumpHim: 66,
+  },
 ];
 
 async function handleCourtroomGet(env: WorkerEnv): Promise<Response> {
@@ -1179,7 +1203,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v27-self-referential-cougar-cub-merch',
+        version: 'v27.1-snapchat-courtroom-niche-lore',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
