@@ -535,7 +535,7 @@ function humanizeChatText(
   options?: { role?: 'her' | 'him'; age?: number; singleLine?: boolean },
 ): string {
   let cleaned = raw
-    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/\s*[, , ]\s*/g, ', ')
     .replace(/\s*;\s*/g, '. ')
     // Strip bio-reciting openers like "As a 41-year-old Malibu surfer, ..."
     .replace(/^\s*as\s+a\s+\d{2}(?:-year-old|yo)?\s+[^,.!?]+,\s*/i, '');
@@ -587,8 +587,15 @@ function humanizeChatText(
   return cleaned;
 }
 
-function buildGenerationalVoiceDirective(age: number, role: 'her' | 'him'): string {
+function buildGenerationalVoiceDirective(
+  age: number,
+  role: 'her' | 'him',
+  origin = '',
+): string {
   if (role === 'him') {
+    if (/\b(london|british|hampstead|uk)\b/i.test(origin)) {
+      return `GENERATIONAL & UK CADENCE (${age}M Hampstead London British Cub): Use authentic British flirt markers naturally ("half seven", "sorted", "proper", "fancy a cheeky drink?", trailing "x" or "xx", and playful "Yes, Mummy xx" when teased). Zero American frat slang.`;
+    }
     if (age >= 30) {
       return `GENERATIONAL CADENCE (${age}M Composed Millennial Gentleman): Normal capitalization, 0 to 1 understated emoji (🥂 or none), zero Gen-Z slang ("fr", "ngl", "💀"), playful dry confidence.`;
     }
@@ -601,15 +608,15 @@ function buildGenerationalVoiceDirective(age: number, role: 'her' | 'him'): stri
   const hardBan = `STRICT FEMALE VOICE BAN: NEVER call him "babe", "bestie", or "bro". NEVER use Zoomer slang ("ngl", "fr", "rn", "tbh", "cooked", "💀", "😭"). NEVER sound like polite customer support ("I'm not interested in sharing my...").`;
 
   if (age >= 60) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Silver-Screen Panther): Wickedly funny, classic Continental/editorial elegance, crisp capitalization and periods, ZERO emojis and ZERO internet acronyms ("lol", "omg"). Effortless one-liner wit.`;
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Silver-Screen Panther): Wickedly funny Continental elegance, crisp capitalization, terminal periods or warm "...", Sade/Prince vinyl touchstones, ZERO emojis and ZERO internet acronyms ("lol", "omg").`;
   }
   if (age >= 50) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Classic Gen-X Jaguar): Bone-dry, unbothered, playfully sharp Gen-X wit, proper capitalization and periods, ZERO internet acronyms ("lol", "omg", "bc") and ZERO emojis. Loves a real 6 PM call and roasts nonsense in one deadpan line.`;
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Classic Gen-X Jaguar): Bone-dry Gen-X wit, crisp terminal periods, uses "Haha" instead of "lol", occasional literal 👍 confirmation, Nirvana/Depeche Mode cultural fluency, loves a 6 PM phone call.`;
   }
   if (age >= 40) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Composed Cougar): Self-possessed, teasing, razor-sharp romantic-comedy wit with proper capitalization and punctuation, ZERO "lol", and at most 0 to 1 subtle icon (🍸 or none). Never gush on Turn 1; make him smile and work for Friday.`;
+    return `${hardBan} GENERATIONAL RESERVE (${age}F Composed Xennial/Millennial Cougar): Self-possessed rom-com wit, proper punctuation, Lauryn Hill/Resy/calendar poise, ZERO "lol", and at most 0 to 1 subtle icon (🍸 or none).`;
   }
-  return `${hardBan} GENERATIONAL RESERVE (${age}F Millennial Puma): Quick-witted, playful 30s Millennial banter, normal capitalization, and at most 1 tasteful emoji (🍷, ✨, or 😏).`;
+  return `${hardBan} GENERATIONAL RESERVE (${age}F Millennial Puma): Quick-witted 30s Fleabag/Frank Ocean banter, normal capitalization, and at most 1 tasteful emoji (🍷, ✨, or 😏).`;
 }
 
 function scrubPiiForLog(raw: string): string {
@@ -786,19 +793,20 @@ function fallbackEvaluateDm(req: {
     };
   }
 
-  if (/\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(lower)) {
-    const herReply =
-      age >= 50
-        ? `Calm shoulders and zero lecturing. Courtyard at 6:30 sharp tomorrow.`
+  if (/\b(mommy-domme|yes,?\s*mommy|yes,?\s*mummy|sorted,?\s*mummy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(lower)) {
+    const herReply = /\bmummy\b/.test(lower)
+      ? `Haha. Keep that cheeky London 'Sorted, Mummy xx' energy and be on time at 7:30.`
+      : age >= 50
+        ? `Calm shoulders and zero lecturing. 7:30 sharp tomorrow.`
         : age >= 40
-          ? `Good boy. Courtyard at 6:30 sharp, and don't make me fix your posture twice 🍵`
-          : `Grounded energy and zero lecturing? Courtyard at 6:30 sharp tomorrow ✨`;
+          ? `Good boy. 7:30 sharp tomorrow, and keep that exact poise 🍸`
+          : `Grounded energy and zero lecturing? 7:30 sharp tomorrow ✨`;
     return {
       herReply,
       maturityDelta: 22,
       chivalryDelta: 20,
       chemistryDelta: 25,
-      coachNote: 'Playful Wellness Mommy-Domme polarity unlocked!',
+      coachNote: 'Playful polarity unlocked!',
       passedVibeCheck: true,
     };
   }
@@ -1213,6 +1221,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
     personaAge?: number;
     personaTitle?: string;
     personaRole?: 'her' | 'him';
+    personaOrigin?: string;
     platform?: string;
     playerMessage?: string;
     history?: { sender: 'player' | 'match'; text: string }[];
@@ -1264,7 +1273,11 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
         `STRICT PUNCTUATION RULE: NEVER use em-dashes, en-dashes, or semicolons.`,
         platformContext,
         `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext}`,
-        buildGenerationalVoiceDirective(personaAge, personaRole),
+        buildGenerationalVoiceDirective(
+          personaAge,
+          personaRole,
+          String(body.personaOrigin || '').slice(0, 64),
+        ),
         personaRole === 'her'
           ? `Vibe: Confident ${personaAge}F poise. Reward decisive Friday plans and unbothered warmth; roast Snapchat requests, "for your age", podcast "well actually" Cubsplaining, pine-pollen midnight spirals, and Sugar-Mama freeloaders in ONE dry, hilarious line.`
           : `Vibe: Charming ${personaAge}M Cub who initiates cleanly, books real tables, never sends Venmo math, and banters one playful line at a time.`,

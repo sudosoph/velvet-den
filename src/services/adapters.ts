@@ -39,6 +39,7 @@ export interface AiDmVettingService {
     personaAge: number;
     personaTitle: string;
     personaRole: 'her' | 'him';
+    personaOrigin?: string;
     platform?: string;
     playerMessage: string;
     history?: LiveInboxTurn[];
@@ -175,6 +176,7 @@ export function evaluateDmLocally(params: {
   personaName: string;
   personaAge: number;
   personaRole: 'her' | 'him';
+  personaOrigin?: string;
   platform?: string;
   playerMessage: string;
   history?: LiveInboxTurn[];
@@ -182,6 +184,7 @@ export function evaluateDmLocally(params: {
   const msg = params.playerMessage.trim();
   const lower = msg.toLowerCase();
   const age = params.personaAge;
+  const isBritish = /\b(london|british|hampstead|uk)\b/i.test(params.personaOrigin || '');
   const turnIdx = Array.isArray(params.history)
     ? Math.max(0, params.history.filter((t) => t.sender === 'player').length - 1)
     : 0;
@@ -199,12 +202,16 @@ export function evaluateDmLocally(params: {
       lower,
     );
   const hasSugarFreeloader =
-    /\b(sugar\s*mama|allowance|spoil\s*me|amex|pay\s*my|cougar\s*bucket)\b/.test(lower) ||
-    /^(hey+|yo+|sup)\s+mommy[!?.🔥😍👀]*$/i.test(msg);
+    /\b(sugar\s*mama|allowance|spoil\s*me|amex|pay\s*my|cougar\s*bucket|bucket\s*list)\b/.test(lower) ||
+    /^(hey+|yo+|sup)\s+(mommy|mummy)[!?.🔥😍👀]*$/i.test(msg);
   const hasPlayfulMommyOrQigong =
     !hasSugarFreeloader &&
     !hasCubsplaining &&
-    /\b(mommy-domme|yes,?\s*mommy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(
+    /\b(mommy-domme|yes,?\s*mommy|yes,?\s*mummy|whatever\s+you\s+say,?\s*mummy|sorted,?\s*mummy|breathe\s+with\s+mommy|qigong|tai\s*chi|cloud\s*hands|jasmine\s*oolong|seed[- ]oil|gluten[- ]free|ghee|tallow|bernedoodle)\b/.test(
+      lower,
+    );
+  const hasNirvanaOrGenXTouchstone =
+    /\b(nirvana|in\s+utero|unplugged|sade|lauryn\s+hill|thumbs[- ]up|period\s+at\s+the\s+end)\b/.test(
       lower,
     );
   const hasForYourAge = /for\s+(your|ur)\s+age/.test(lower) || /\blook\s+good\s+for\b/.test(lower);
@@ -218,7 +225,7 @@ export function evaluateDmLocally(params: {
   const isLazyHey =
     msg.length < 10 || /^(hey+|yo+|sup|wyd|u\s*up\??|hi+)$/i.test(msg.replace(/[!?.🔥😍👀]/g, '').trim());
   const hasPlan =
-    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|6:?30|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow|oolong|sauna|courtyard|cook|martini)\b/.test(
+    /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|half\s+seven|sorted|cheeky\s+drink|8:?00|6:?00|6:?30|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow|oolong|sauna|courtyard|cook|martini)\b/.test(
       lower,
     );
 
@@ -268,6 +275,22 @@ export function evaluateDmLocally(params: {
               : `give me one hint so i plan friday right 😊 wine or tacos?`,
         coachNote: 'Drop one playful cue so you can test how fast he plans!',
         passedVibeCheck: false,
+        source: 'local-heuristic',
+      };
+    }
+    if (isBritish) {
+      const ukLines = [
+        `Half seven is sorted. Corner booth booked, peonies riding shotgun, Yes, Mummy xx`,
+        `Fancy a cheeky drink first? Proper Cabernet is breathing and my mobile stays off the table x`,
+        `Whatever you say, Mummy xx, I'll ring you at six sharp before heading round.`,
+      ];
+      return {
+        maturityDelta: 20,
+        chivalryDelta: 22,
+        chemistryDelta: 24,
+        herReply: ukLines[turnIdx % ukLines.length],
+        coachNote: 'Proper British Cub banter unlocked ("half seven", "sorted", and shameless "xx")!',
+        passedVibeCheck: true,
         source: 'local-heuristic',
       };
     }
@@ -373,18 +396,39 @@ export function evaluateDmLocally(params: {
     };
   }
 
+  if (hasNirvanaOrGenXTouchstone && !hasSnap && !hasForYourAge) {
+    return {
+      maturityDelta: 20,
+      chivalryDelta: 18,
+      chemistryDelta: 24,
+      herReply:
+        age >= 60
+          ? `Sade on vinyl and actual liner notes... you were raised properly. Friday at 7:30.`
+          : age >= 50
+            ? `Haha. Knowing Nirvana isn't just a Target t-shirt brand wins you Friday. 👍`
+            : `Actual album taste and zero panic over punctuation? Hold that 7:30 booth 🍸`,
+      coachNote: 'Generational touchstone bullseye! Knowing the music & syntax skips the rookie line.',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
   if (hasPlayfulMommyOrQigong && !hasSnap && !hasForYourAge) {
+    const isUkMummy = /\bmummy\b/i.test(lower);
     return {
       maturityDelta: 22,
       chivalryDelta: 20,
       chemistryDelta: 26,
-      herReply:
-        age >= 50
-          ? `Calm shoulders and zero lecturing. Courtyard at 6:30 sharp tomorrow.`
+      herReply: isUkMummy
+        ? age >= 50
+          ? `Haha. 'Sorted, Mummy' in a British accent might actually work on me. 7:30 sharp.`
+          : `Good boy. Keep that cheeky London 'Mummy xx' energy and don't be late 🍸`
+        : age >= 50
+          ? `Calm shoulders and zero lecturing. 7:30 sharp tomorrow.`
           : age >= 40
-            ? `Good boy. Courtyard at 6:30 sharp, and don't make me fix your posture twice 🍵`
-            : `Grounded energy and zero lecturing? Courtyard at 6:30 sharp tomorrow ✨`,
-      coachNote: 'Wellness Mommy-Domme bullseye! Playful poise + real effort melts her fast.',
+            ? `Good boy. 7:30 sharp tomorrow, and keep that exact poise 🍸`
+            : `Grounded energy and zero lecturing? 7:30 sharp tomorrow ✨`,
+      coachNote: 'Playful polarity bullseye! Confident poise + real effort melts her fast.',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -551,7 +595,7 @@ export const liveAiInboxService: AiDmVettingService = {
               chivalryDelta: Number(data.chivalryDelta ?? 10),
               chemistryDelta: Number(data.chemistryDelta ?? 12),
               coachNote:
-                data.coachNote ?? 'Live AI Vibe Check complete—keep matching their energy!',
+                data.coachNote ?? 'Live AI Vibe Check complete, keep matching their energy!',
               passedVibeCheck: Boolean(data.passedVibeCheck ?? true),
               source: 'workers-ai',
             };
