@@ -412,3 +412,122 @@
 .animate-hotspot-ping {
   animation: hotspotPing 1.8s ease-out infinite;
 }
+
+
+/* ============================================================================
+   v35 Editorial Luxury & Dream Daddy Portrait Stage System
+   ============================================================================ */
+
+.editorial-hinge-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(24, 16, 30, 0.08);
+  box-shadow:
+    0 18px 42px -14px rgba(24, 16, 30, 0.09),
+    0 4px 12px -2px rgba(24, 16, 30, 0.04);
+}
+
+.editorial-prompt-card {
+  background: linear-gradient(180deg, #FDFBF9 0%, #FAF6F2 100%);
+  border: 1px solid rgba(24, 16, 30, 0.07);
+}
+
+.hinge-heart-fab {
+  background-color: #FFFFFF;
+  color: #B83253;
+  border: 1px solid rgba(24, 16, 30, 0.08);
+  box-shadow: 0 8px 20px rgba(24, 16, 30, 0.14);
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.16s ease, color 0.16s ease;
+}
+
+.hinge-heart-fab:hover {
+  background-color: #B83253;
+  color: #FFFFFF;
+  transform: scale(1.08);
+}
+
+.velvet-stage-dock {
+  background: linear-gradient(180deg, rgba(24, 15, 29, 0.88) 0%, rgba(16, 10, 20, 0.95) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(253, 230, 138, 0.22);
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes v35IdleBreathe {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.008);
+  }
+}
+
+@keyframes v35SmirkTilt {
+  0% {
+    transform: scale(0.97) rotate(-1.2deg);
+  }
+  60% {
+    transform: scale(1.02) rotate(0.8deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes v35LaughSpring {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  30% {
+    transform: translateY(-8px) scale(1.025);
+  }
+  60% {
+    transform: translateY(-3px) scale(1.01);
+  }
+}
+
+@keyframes v35BlushWarm {
+  0% {
+    transform: scale(0.98);
+    filter: saturate(1);
+  }
+  50% {
+    transform: scale(1.025);
+    filter: saturate(1.14) brightness(1.03);
+  }
+  100% {
+    transform: scale(1.01);
+    filter: saturate(1.08);
+  }
+}
+
+@keyframes v35IckedRecoil {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px) rotate(-1deg);
+  }
+  65% {
+    transform: translateX(5px) rotate(0.8deg);
+  }
+}
+
+.v35-portrait-breathe {
+  animation: v35IdleBreathe 4.2s ease-in-out infinite;
+}
+
+.v35-portrait-smirk {
+  animation: v35SmirkTilt 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.v35-portrait-laugh {
+  animation: v35LaughSpring 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.v35-portrait-blush {
+  animation: v35BlushWarm 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.v35-portrait-icked {
+  animation: v35IckedRecoil 0.44s ease-in-out both;
+}
