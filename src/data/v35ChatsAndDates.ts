@@ -1100,7 +1100,7 @@ function buildTrapChapter(
       note: 'Jade nodding: Classic 48-hour love-bomber! Writes Big Sur sonnets on Tuesday and panics before Friday appetizers. You just saved your whole evening!',
     },
     vanessa: {
-      m1: 'Darling, just so there’s zero confusion—Julian and I are practically divorced, we simply still live in the same Bel Air house for property taxes.',
+      m1: 'Darling, just so there’s zero confusion—Lawrence and I are practically divorced, we simply still live in the same Bel Air house for property taxes.',
       m2: 'Let’s meet strictly between 1 PM and 4 PM Wednesdays at a hotel bar near your side of town—never call after six because the house gets loud.',
       m3: 'Also if a tall guy in a golf vest ever walks into The Velvet Room near Table 9, pretend you’re my interior-lighting consultant!',
       headline: '🏆 BULLET DODGED: "Practically Divorced" Same-House Mirage!',

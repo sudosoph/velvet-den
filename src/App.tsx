@@ -755,6 +755,9 @@ export default function App() {
             }}
             onOpenCubSchool={() => setActiveTab('school')}
             onOpenWildMap={() => setActiveTab('wild')}
+            onOpenPopTrivia={() => setPopTriviaOpen(true)}
+            onOpenChecklist={() => setChecklistOpen(true)}
+            onOpenGuides={() => setActiveTab('journal')}
             onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
           />
         )}

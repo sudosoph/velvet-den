@@ -180,6 +180,9 @@ interface CampaignCompassBarProps {
   onSelectMatchChat: (leadId: string) => void;
   onOpenCubSchool: () => void;
   onOpenWildMap: () => void;
+  onOpenPopTrivia?: () => void;
+  onOpenChecklist?: () => void;
+  onOpenGuides?: () => void;
   onResetHearts?: () => void;
 }
 
@@ -196,6 +199,9 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onSelectMatchChat,
   onOpenCubSchool,
   onOpenWildMap,
+  onOpenPopTrivia,
+  onOpenChecklist,
+  onOpenGuides,
   onResetHearts,
 }) => {
   const activeThreads = threads.filter((t) => !cutLooseIds.includes(t.leadId));
@@ -222,37 +228,38 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
         aria-label="Campaign Progress and Next Step"
         className="w-full border-b border-zinc-200 bg-white"
       >
-        <div className="mx-auto w-full max-w-6xl px-4 py-7 sm:px-6 sm:py-9">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl space-y-2.5">
-              <div className="flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-widest text-rose-600">
-                <span>Interactive Rom-Com Dating Game</span>
+        <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 sm:py-7">
+          {/* Top Zone: The Main Story Game */}
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl space-y-1.5 sm:space-y-2">
+              <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold uppercase tracking-widest text-rose-600">
+                <span>The Dating Sim</span>
                 <span className="text-zinc-300">•</span>
                 <span
                   data-testid="hud-friday-hearts"
                   className="text-zinc-600 font-semibold normal-case tracking-normal"
                   title="Friday Date Energy (3 Hearts)"
                 >
-                  {heartsDisplay} 3 Friday Hearts
+                  {heartsDisplay} 3 Hearts
                 </span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 leading-[1.08]">
+              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 leading-[1.1]">
                 Lower your age slider.{' '}
                 <span className="text-rose-600">Dodge the red flags.</span>
               </h2>
-              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-xl">
-                Pick your role, send a sharp opener below (or meet offline In The Wild), earn their real number on iMessage, and survive three Friday dates.
+              <p className="text-xs sm:text-base text-zinc-600 leading-relaxed max-w-xl">
+                Swipe below or step out In The Wild—spot the traps, graduate real catches to iMessage, and survive three Friday dates.
               </p>
             </div>
 
-            <div className="flex flex-col items-start lg:items-end gap-3 shrink-0">
+            <div className="flex flex-col items-start lg:items-end gap-2.5 shrink-0">
               {onSwitchRole && (
                 <div className="inline-flex rounded-lg bg-zinc-100 p-1">
                   <button
                     type="button"
                     onClick={() => onSwitchRole('her')}
                     className={cn(
-                      'rounded-md px-3.5 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer',
+                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer',
                       role === 'her'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -264,7 +271,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     type="button"
                     onClick={() => onSwitchRole('him')}
                     className={cn(
-                      'rounded-md px-3.5 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer',
+                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer',
                       role === 'him'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -275,24 +282,62 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 </div>
               )}
 
-              <div className="flex flex-wrap items-center gap-2.5">
+              <div className="flex flex-wrap items-center gap-2">
                 <a
                   href="#hinge-stage"
-                  className="inline-flex h-10 items-center gap-2 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-sm font-semibold text-white shadow-xs transition-colors"
+                  className="inline-flex h-9 sm:h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-3.5 sm:px-4 text-xs sm:text-sm font-semibold text-white shadow-xs transition-colors"
                 >
-                  <span>Start Swiping Below ↓</span>
+                  <span>Start Swiping ↓</span>
                 </a>
                 <button
                   type="button"
                   onClick={onOpenWildMap}
-                  className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-semibold text-zinc-900 transition-colors cursor-pointer"
+                  className="inline-flex h-9 sm:h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 sm:px-4 text-xs sm:text-sm font-semibold text-zinc-900 transition-colors cursor-pointer"
                 >
-                  <span>Explore 10 Wild Spots</span>
-                  <ArrowRight className="h-4 w-4 text-zinc-400" />
+                  <span>10 Wild Spots</span>
+                  <ArrowRight className="h-3.5 w-3.5 text-zinc-400" />
                 </button>
               </div>
             </div>
           </div>
+
+          {/* Bottom Zone: Distinct Quick Party Quizzes & Club Lore */}
+          {(onOpenPopTrivia || onOpenChecklist || onOpenGuides) && (
+            <div className="mt-3.5 pt-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <span className="font-bold uppercase tracking-wider text-zinc-400">
+                60-Sec Party Quizzes &amp; Lore
+              </span>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 font-semibold">
+                {onOpenPopTrivia && (
+                  <button
+                    type="button"
+                    onClick={onOpenPopTrivia}
+                    className="text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
+                  >
+                    🎬 Pop-Culture &amp; Movie Quiz →
+                  </button>
+                )}
+                {onOpenChecklist && (
+                  <button
+                    type="button"
+                    onClick={onOpenChecklist}
+                    className="text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
+                  >
+                    ✅ 25-Pt &ldquo;Have You Ever?&rdquo; Score →
+                  </button>
+                )}
+                {onOpenGuides && (
+                  <button
+                    type="button"
+                    onClick={onOpenGuides}
+                    className="text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
+                  >
+                    🔮 Zodiac &amp; 16 Club Guides →
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </section>
     );

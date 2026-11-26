@@ -68,11 +68,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open to yours, content without',
     },
     slides: makeSlides('julian', [
-      'Stole five minutes of Amalfi sun between archive days',
-      '6 AM single scull before the river gets choppy',
-      'Happiest up a library ladder with dusty blueprints',
-      'Rainy Hampstead pub garden—still miss proper cask ale',
-      'Sunday saffron risotto test batch',
+      '',
+      '6 AM river miles—promise I’m much calmer by dinner',
+      'Yes I climb library ladders for work, yes I carry allergy pills',
+      'Still mourning proper Hampstead cask ale',
+      'My Sunday saffron risotto audition—brutal honesty welcome',
       '',
     ]),
     prompts: [
@@ -493,22 +493,22 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     primaryWildVenueId: 'velvet-room',
     matchSelectivity: 'warm',
     activeStatusLabel: 'Active 5 PM – 6:40 PM weekdays only',
-    tagline: 'Private equity VP who loves early 5:30 PM martinis before "Tokyo calls."',
+    tagline: 'Private equity VP who loves early 5:15 PM martinis before "Tokyo calls."',
     vitals: {
       height: '6\'1"',
-      job: 'Managing Director, Private Equity',
+      job: 'Vice President, Private Equity',
       school: 'Wharton',
       neighborhood: 'Montecito / Downtown',
       lookingFor: 'Discreet connection',
       kidsStance: 'Prefer not to say',
     },
     slides: makeSlides('graham', [
-      'Harbor sunset before heading north',
-      'Quick nine before markets open',
-      'Nine-iron on the coastal par three',
-      'Always watching the clock before my 6:45 Tokyo call',
-      'Downtown espresso between boardrooms',
-      'Hotel suite balcony view',
+      '',
+      'Quick nine before markets open (left hand stays in pocket for balance)',
+      'Par-three club championship—please don’t tag me lol',
+      'Hard stop at 6:42 PM sharp for my nightly Tokyo portfolio call',
+      '',
+      'Strictly cash at hotel bars—keeps corporate expense reports clean',
     ]),
     prompts: [
       {
@@ -533,7 +533,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'graham-p2',
         question: 'Green flags I look for',
         answer:
-          'Total discretion, zero social-media tagging, and appreciating quality two-hour weekday escapes.',
+          'Total discretion, zero social-media tagging, and appreciating quality ninety-minute weekday escapes.',
         openers: [
           { text: 'I hate social media too!', delta: 14 },
           {
@@ -551,11 +551,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'graham-p3',
         question: 'Unusual skills',
         answer:
-          'Knowing every back booth in town—plus casually mentioning "my place in Maui" before admitting it’s my parents’ Week-14 timeshare.',
+          'Knowing every dimly lit back table downtown, paying exclusively in crisp twenties "for compliance," and guarding my weekend calendar like state secrets.',
         openers: [
-          { text: 'Love a quiet booth!', delta: 14 },
+          { text: 'Love a quiet spot!', delta: 14 },
           {
-            text: 'Hiding from the yacht club or hiding from a shared joint checking account?',
+            text: 'Hiding from SEC compliance or hiding from a shared joint checking account?',
             delta: 18,
           },
           {
@@ -578,29 +578,29 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     discoveryDoor: 'hinge',
     matchSelectivity: 'warm',
     activeStatusLabel: 'Active now',
-    tagline: 'Athletic model & "entrepreneur" who swears Hinge glitched his birth year.',
+    tagline: 'Campus "founder" & model who swears Hinge glitched his birth year.',
     vitals: {
       height: '6\'0"',
-      job: 'Brand Model / Day Trader',
+      job: 'Stealth Founder / Campus Rep',
       school: 'USC',
-      neighborhood: 'West Hollywood',
+      neighborhood: 'West Hollywood / University Park',
       lookingFor: 'Figuring out my dating goals',
       kidsStance: 'Not sure yet',
     },
     slides: makeSlides('connor', [
-      'Golden hour after training',
-      '2 AM bathroom mirror check—ignore the bottle of Tito’s on the sink',
-      'Turf sprints before noon',
-      'Malibu sunset session',
-      'Rooftop nights',
-      'Iced coffee recovery walk',
+      '',
+      '2 AM bathroom mirror check—ignore the bottle of Tito’s on the sink lol',
+      'Swear I wake up before noon at least twice a week',
+      'Who wants to come to "my place in Maui" (it’s my parents’ Week-14 timeshare)',
+      '',
+      'Recovery iced coffee walk after frat formal',
     ]),
     prompts: [
       {
         id: 'connor-p1',
         question: 'Two truths and a lie',
         answer:
-          'I played varsity lacrosse, I make killer microwave quesadillas, and Hinge totally locked my age wrong when I linked Facebook lol.',
+          'I played club lacrosse, I casually flex "my place in Maui" before admitting it’s my parents’ Week-14 timeshare, and Hinge totally locked my age wrong when I linked Facebook lol.',
         openers: [
           { text: 'Haha wait how old are you really?', delta: 16 },
           {
@@ -673,12 +673,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Someday maybe',
     },
     slides: makeSlides('devon', [
-      'Chasing golden light',
-      'Porch songwriting session on the 1968 Gibson',
-      'Rainy notebook morning',
-      'Digging through dusty Blue Note vinyl',
-      'Thursday acoustic set',
-      'Ocean pier walk clearing my head',
+      '',
+      'Already writing verse two about our future Big Sur cabin',
+      'Rainy Echo Park lyric notebook—feel everything at volume eleven',
+      'Digging through dusty Blue Note vinyl I definitely couldn’t afford',
+      '',
+      'Clearing my head on the pier before Friday overthinking kicks in',
     ]),
     prompts: [
       {
@@ -761,12 +761,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Great with kids & dogs',
     },
     slides: makeSlides('rory', [
-      'First month under California palms instead of London drizzle',
-      'Inspecting the heritage oaks—best office view on earth',
-      'Made a muddy new best mate on the meadow trail',
-      'Two hot chocolates at the Sunday market (one has your name on it)',
-      'Botanical conservatory twilight check',
-      'Proof I own a proper velvet dinner jacket',
+      '',
+      'Inspecting the heritage oaks—still pinch myself this is my day job',
+      'Not my dog, just my favorite muddy Tuesday trail regular',
+      'Bought two hot chocolates at the Sunday market (one has your name on it)',
+      '',
+      'Proof I clean up out of ranger boots when you book dinner',
     ]),
     prompts: [
       {
@@ -844,12 +844,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Doesn’t want kids',
     },
     slides: makeSlides('jin', [
-      'Chalk dust and V7 overhangs',
-      'Contact-sheet review in the studio',
-      'Late vinyl listening bar in Little Tokyo',
-      'Medium-format lens test in natural morning light',
-      'Chalking up before the roof problem',
-      'Rain-slicked rooftop after wrap',
+      '',
+      'Contact-sheet edits—I promise I never photograph dinner plates',
+      'Twelve-seat vinyl bar in Little Tokyo (saving the stool beside me)',
+      'Testing 120mm film in morning window light',
+      'Chalking up for the overhang project that humbled me twice',
+      '',
     ]),
     prompts: [
       {
@@ -927,12 +927,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open to kids',
     },
     slides: makeSlides('liam', [
-      'Golden ridge check before dusk',
-      'Setting the main cedar ridge beam',
-      'Stacking birch before the first frost',
-      'Glass-calm sunrise paddle in the cedar canoe I built',
-      'Deck pour-over before the crew arrives',
-      'Traded flannel for wool at the lodge bar',
+      '',
+      'Raising the main cedar ridge beam before mountain weather rolls in',
+      'Winter firewood stacked—cast-iron peach cobbler goes in next',
+      'Sunrise paddle in the cedar canoe I built last autumn',
+      '',
+      'Traded sawdust and flannel for wool at the lodge bar',
     ]),
     prompts: [
       {
@@ -1188,12 +1188,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Done / Happy auntie',
     },
     slides: makeSlides('sienna', [
-      'Golden hour in the studio lounge',
-      'Styling olive branches in our latest courtyard project',
-      'Travertine and velvet morning decisions',
-      'Backyard string-light rosé with my favorite people',
-      'Rose Bowl Sunday antique hunt',
-      'Desert plunge pool weekend',
+      '',
+      'Styling hundred-year-old olive branches for our newest courtyard install',
+      'Arguing with myself over travertine samples before nine',
+      'String lights, chilled rosé, and zero tolerance for secret dating',
+      '7 AM Rose Bowl vintage brass haul—bring strong arms',
+      '',
     ]),
     prompts: [
       {
@@ -1360,12 +1360,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Wants kids in the next few years',
     },
     slides: makeSlides('summer', [
-      'Golden hour after clinic hours—SPF 50 still undefeated',
-      'Stepping out between Beverly Hills consults',
-      'Dawn longboard session before rounds',
-      'Sunday market peonies and iced matcha',
-      'Coastal terrace sunset',
-      'Ocean-view anniversary rehearsal—now accepting applications',
+      '',
+      'Between Beverly Hills consults—mineral SPF 50 remains undefeated',
+      'Dawn longboard before clinic rounds (yes I reapplied on my neck)',
+      'Sunday farmers-market peonies and iced matcha',
+      '',
+      'Practicing my oceanfront anniversary toast—now taking applications',
     ]),
     prompts: [
       {
@@ -1447,12 +1447,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Prefer not to say',
     },
     slides: makeSlides('vanessa', [
-      'Hotel terrace aperitivo',
-      'Resort infinity edge',
-      'Private cellar tasting',
-      'Afternoon daybed escape',
-      'Chandelier lounge coupe',
-      'Mediterranean charter week',
+      '',
+      'Wednesday 2 PM hotel infinity pool—my favorite quiet window',
+      'Private tasting far away from noisy Bel Air dinner schedules',
+      'Phones go on airplane mode after 6:30 PM, darling',
+      '',
+      'Spontaneous afternoon escapes > complicated labels',
     ]),
     prompts: [
       {
@@ -1533,12 +1533,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Done',
     },
     slides: makeSlides('brooke', [
-      'Mixed-doubles golden hour on Court 1',
-      'Cabana spritz season',
-      'Valet arrival for the museum ball',
-      'Club garden brunch',
-      'Post-match iced matcha',
-      'Sunset marina deck',
+      '',
+      'Club patio spritzes—bonus points if you look sharp in a navy blazer',
+      'Museum gala arrival (yes the photographers were right on cue)',
+      'Sunday racquet-club brunch debrief with the girls',
+      '',
+      '8 PM Friday patio reservation is already locked—just bring great posture',
     ]),
     prompts: [
       {
@@ -1622,12 +1622,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Grown kids • Proud Gigi',
     },
     slides: makeSlides('celeste', [
-      'Desert pool morning before gallery hours',
-      'Opening reception toast',
-      'Top down past the San Jacinto palms',
-      'Morning walk through the sculpture garden',
-      'Courtyard candlelight under the bougainvillea',
-      'Quiet espresso before collectors arrive',
+      '',
+      'Gallery opening toast—icy Gibson up, cocktail onion required',
+      'Top down past the San Jacinto palms with Chet Baker on',
+      'Quiet sculpture-garden coffee before collectors arrive',
+      'Candlelight under the bougainvillea beats loud nightclubs every time',
+      '',
     ]),
     prompts: [
       {
@@ -1705,12 +1705,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Child-free by choice',
     },
     slides: makeSlides('astrid', [
-      'Point-break salt air beats meetings',
-      'Checking solid-oak curves in the studio',
-      'Cross-country tracks back north',
-      'Sunset cedar sauna by the water',
-      'Summer teak boat days on the archipelago',
-      'Natural wine in a quiet corner',
+      '',
+      'Inspecting solid-oak joinery—zero nails, zero shortcuts',
+      'Back home in Sweden where nobody complains about cold water',
+      'Post-ocean-plunge cedar sauna—three minutes minimum, no speeches',
+      '',
+      'Natural wine with zero small talk',
     ]),
     prompts: [
       {
@@ -1789,12 +1789,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open',
     },
     slides: makeSlides('camila', [
-      'Waterfall swim on my one week off',
-      'Barrel thief cellar check before service',
-      'Tweezers out on the wood-fired pass',
-      'Boardwalk sunset walk after menu tasting',
-      'Wednesday morning fig & herb haul',
-      'Rare slow Sunday when someone else pours the coffee',
+      '',
+      'Cellar barrel check before sixty covers walk through the door',
+      'Tweezers out on the wood-fired pass—don’t ask me to cook on Mondays',
+      '8 AM Wednesday fig & heirloom tomato raid',
+      '',
+      'Rare slow Sunday when someone else finally makes the coffee',
     ]),
     prompts: [
       {
@@ -1872,12 +1872,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Grown daughter in Paris',
     },
     slides: makeSlides('vivienne', [
-      'Coastal terrace light between festival cuts',
-      'Private screening room notes—always sit third row center',
-      'Morning walk along the Croisette',
-      'Late summer table in Provence',
-      'First draft pages with Paris espresso',
-      'Premiere night in emerald velvet',
+      '',
+      'Screening-room notes—third row center is non-negotiable',
+      'Morning espresso along the Croisette before festival madness',
+      'Late-August table in Provence that ran until midnight',
+      '',
+      'Premiere night—first man to say "for your age" walks home',
     ]),
     prompts: [
       {

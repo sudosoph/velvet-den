@@ -104,7 +104,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
   const navItemClass = (isActive: boolean) =>
     cn(
-      'relative inline-flex h-16 shrink-0 items-center justify-center gap-1.5 px-1 text-sm whitespace-nowrap transition-colors cursor-pointer border-b-2',
+      'relative inline-flex h-14 lg:h-16 shrink-0 items-center justify-center gap-1.5 px-1 text-sm whitespace-nowrap transition-colors cursor-pointer border-b-2',
       isActive
         ? 'border-rose-600 font-semibold text-zinc-950'
         : 'border-transparent font-medium text-zinc-500 hover:text-zinc-950',
@@ -112,158 +112,180 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
+      <div className="mx-auto flex h-14 lg:h-16 w-full max-w-6xl items-center justify-between gap-3 sm:gap-5 px-3.5 sm:px-6">
         {/* LEFT: Clean Bold Typographic Brand Mark */}
         <button
           type="button"
           onClick={handleLogoClick}
-          className="group flex shrink-0 items-center gap-2.5 text-left whitespace-nowrap cursor-pointer"
+          className="group flex shrink-0 items-center gap-2 text-left whitespace-nowrap cursor-pointer"
         >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-600 text-sm font-bold text-white shadow-2xs group-hover:bg-zinc-950 transition-colors">
+          <span className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-rose-600 text-sm font-bold text-white shadow-2xs group-hover:bg-zinc-950 transition-colors">
             🐆
           </span>
-          <span className="text-base font-bold tracking-tight whitespace-nowrap text-zinc-950">
+          <span className="text-sm sm:text-base font-bold tracking-tight whitespace-nowrap text-zinc-950">
             {BRAND_CONFIG.name}
           </span>
         </button>
 
-        {/* CENTER: Pill-Free Editorial Underline Navigation */}
-        <nav
-          aria-label="Primary Club Navigation"
-          className="hidden lg:flex items-center gap-7 shrink-0"
-        >
-          <button
-            type="button"
-            onClick={() => onSelectTab('hinge')}
-            className={navItemClass(activeTab === 'hinge')}
+        {/* CENTER: Core Game Navigation + Highlighted Party Quizzes */}
+        <div className="hidden lg:flex items-center gap-5 shrink-0">
+          <nav
+            aria-label="Primary Club Navigation"
+            className="flex items-center gap-5 shrink-0"
           >
-            <span>Hinge</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onSelectTab('wild')}
-            className={navItemClass(activeTab === 'wild')}
-          >
-            <span>In The Wild</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onSelectTab('chats')}
-            className={navItemClass(activeTab === 'chats')}
-          >
-            <span>Chats &amp; Dates</span>
-            {activeChatCount > 0 && (
-              <span className="rounded-full bg-rose-600 px-1.5 py-0.5 text-xs leading-none font-bold text-white">
-                {activeChatCount}
-              </span>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onSelectTab('school')}
-            className={navItemClass(activeTab === 'school')}
-          >
-            <span>Cub School</span>
-          </button>
-
-          <div ref={extrasRef} className="relative shrink-0">
             <button
               type="button"
-              onClick={() => setExtrasOpen((v) => !v)}
-              aria-expanded={extrasOpen}
-              className={navItemClass(
-                extrasOpen ||
-                  activeTab === 'journal' ||
-                  activeTab === 'courtroom' ||
-                  activeTab === 'about',
-              )}
+              onClick={() => onSelectTab('hinge')}
+              className={navItemClass(activeTab === 'hinge')}
             >
-              <span>Club Extras</span>
-              <ChevronDown
-                className={cn(
-                  'h-3.5 w-3.5 shrink-0 text-zinc-400 transition-transform',
-                  extrasOpen && 'rotate-180 text-zinc-950',
-                )}
-              />
+              <span>Hinge</span>
             </button>
 
-            {extrasOpen && (
-              <div
-                role="menu"
-                className="absolute right-0 top-14 w-64 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl space-y-0.5 z-50"
-              >
-                {[
-                  {
-                    icon: Award,
-                    label: `${POP_CULTURE_TRIVIA.length}-Q Trailer & Pop Quiz`,
-                    action: () => onOpenPopTrivia(),
-                  },
-                  {
-                    icon: Crown,
-                    label: 'Crown or Dump Courtroom',
-                    action: () => onSelectTab('courtroom'),
-                  },
-                  {
-                    icon: Sparkles,
-                    label: '25-Pt Experience Test',
-                    action: () => onOpenChecklist(),
-                  },
-                  {
-                    icon: Newspaper,
-                    label: '16 Guides & Zodiac Matcher',
-                    action: () => onSelectTab('journal'),
-                  },
-                  {
-                    icon: Camera,
-                    label: 'Dateodex & Polaroids',
-                    action: () => onOpenDateodex(),
-                  },
-                  {
-                    icon: BookOpen,
-                    label: 'Age-Gap Field Guide',
-                    action: () => onOpenFieldGuide(),
-                  },
-                  {
-                    icon: Send,
-                    label: 'Send 60s Partner Audition',
-                    action: () => onSendPartnerAudition(),
-                  },
-                  {
-                    icon: Info,
-                    label: 'About Cougars & Cubs Club',
-                    action: () => onSelectTab('about'),
-                  },
-                ].map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.label}
-                      type="button"
-                      onClick={() => {
-                        setExtrasOpen(false);
-                        item.action();
-                      }}
-                      className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium text-zinc-800 hover:bg-zinc-50 hover:text-rose-600 transition-colors cursor-pointer"
-                    >
-                      <Icon className="h-4 w-4 text-zinc-400 shrink-0" />
-                      <span>{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </nav>
+            <button
+              type="button"
+              onClick={() => onSelectTab('wild')}
+              className={navItemClass(activeTab === 'wild')}
+            >
+              <span>In The Wild</span>
+            </button>
 
-        {/* RIGHT: Minimal Clean Actions (Zero Pill Clutter) */}
-        <div className="flex shrink-0 items-center gap-4">
+            <button
+              type="button"
+              onClick={() => onSelectTab('chats')}
+              className={navItemClass(activeTab === 'chats')}
+            >
+              <span>Chats &amp; Dates</span>
+              {activeChatCount > 0 && (
+                <span className="rounded-full bg-rose-600 px-1.5 py-0.5 text-xs leading-none font-bold text-white">
+                  {activeChatCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSelectTab('school')}
+              className={navItemClass(activeTab === 'school')}
+            >
+              <span>Cub School</span>
+            </button>
+
+            <div ref={extrasRef} className="relative shrink-0">
+              <button
+                type="button"
+                onClick={() => setExtrasOpen((v) => !v)}
+                aria-expanded={extrasOpen}
+                className={navItemClass(
+                  extrasOpen ||
+                    activeTab === 'journal' ||
+                    activeTab === 'courtroom' ||
+                    activeTab === 'about',
+                )}
+              >
+                <span>Club Extras</span>
+                <ChevronDown
+                  className={cn(
+                    'h-3.5 w-3.5 shrink-0 text-zinc-400 transition-transform',
+                    extrasOpen && 'rotate-180 text-zinc-950',
+                  )}
+                />
+              </button>
+
+              {extrasOpen && (
+                <div
+                  role="menu"
+                  className="absolute right-0 top-14 w-64 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl space-y-0.5 z-50"
+                >
+                  {[
+                    {
+                      icon: Award,
+                      label: `${POP_CULTURE_TRIVIA.length}-Q Trailer & Pop Quiz`,
+                      action: () => onOpenPopTrivia(),
+                    },
+                    {
+                      icon: Crown,
+                      label: 'Crown or Dump Courtroom',
+                      action: () => onSelectTab('courtroom'),
+                    },
+                    {
+                      icon: Sparkles,
+                      label: '25-Pt Experience Test',
+                      action: () => onOpenChecklist(),
+                    },
+                    {
+                      icon: Newspaper,
+                      label: '16 Guides & Zodiac Matcher',
+                      action: () => onSelectTab('journal'),
+                    },
+                    {
+                      icon: Camera,
+                      label: 'Dateodex & Polaroids',
+                      action: () => onOpenDateodex(),
+                    },
+                    {
+                      icon: BookOpen,
+                      label: 'Age-Gap Field Guide',
+                      action: () => onOpenFieldGuide(),
+                    },
+                    {
+                      icon: Send,
+                      label: 'Send 60s Partner Audition',
+                      action: () => onSendPartnerAudition(),
+                    },
+                    {
+                      icon: Info,
+                      label: 'About Cougars & Cubs Club',
+                      action: () => onSelectTab('about'),
+                    },
+                  ].map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <button
+                        key={item.label}
+                        type="button"
+                        onClick={() => {
+                          setExtrasOpen(false);
+                          item.action();
+                        }}
+                        className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium text-zinc-800 hover:bg-zinc-50 hover:text-rose-600 transition-colors cursor-pointer"
+                      >
+                        <Icon className="h-4 w-4 text-zinc-400 shrink-0" />
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </nav>
+
+          <span className="hidden xl:inline-block h-5 w-px bg-zinc-200" aria-hidden="true" />
+
+          {/* Highlighted Fun Party Mini-Games (1-Click Pop Quiz & 25-Pt Checklist) */}
+          <div className="hidden xl:flex items-center gap-4 shrink-0">
+            <button
+              type="button"
+              onClick={onOpenPopTrivia}
+              className="inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap text-rose-600 hover:text-rose-700 transition-colors cursor-pointer"
+            >
+              <span>🎬 Pop Quiz</span>
+            </button>
+            <button
+              type="button"
+              onClick={onOpenChecklist}
+              className="inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap text-zinc-700 hover:text-rose-600 transition-colors cursor-pointer"
+            >
+              <span>✅ 25-Pt Test</span>
+            </button>
+          </div>
+        </div>
+
+        {/* RIGHT: Minimal Clean Actions */}
+        <div className="flex shrink-0 items-center gap-2.5 sm:gap-3.5">
           <button
             type="button"
             onClick={onOpenPersonaModal}
-            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium whitespace-nowrap text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
+            className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium whitespace-nowrap text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
           >
             <User className="h-4 w-4 shrink-0" />
             <span>{wallet.playerName ? wallet.playerName : 'Persona'}</span>
@@ -272,16 +294,16 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           <button
             type="button"
             onClick={() => onOpenBoutique('shop')}
-            className="inline-flex items-center gap-1.5 text-sm font-medium whitespace-nowrap text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1 text-xs sm:text-sm font-medium whitespace-nowrap text-zinc-600 hover:text-zinc-950 transition-colors cursor-pointer"
           >
-            <ShoppingBag className="h-4 w-4 shrink-0" />
+            <ShoppingBag className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
             <span>Shop</span>
           </button>
 
           <button
             type="button"
             onClick={() => onOpenBoutique('vip')}
-            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-zinc-950 hover:bg-rose-600 px-3.5 text-xs font-semibold whitespace-nowrap text-white transition-colors cursor-pointer"
+            className="inline-flex h-8 sm:h-9 shrink-0 items-center gap-1.5 rounded-lg bg-zinc-950 hover:bg-rose-600 px-2.5 sm:px-3.5 text-xs font-semibold whitespace-nowrap text-white transition-colors cursor-pointer"
           >
             {wallet.isFounderUnlimited ? (
               <Wrench className="h-3.5 w-3.5 text-amber-300 shrink-0" />
@@ -320,14 +342,14 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
         </div>
       </div>
 
-      {/* Compact Mobile Tab Strip (< lg) */}
-      <div className="lg:hidden border-t border-zinc-200 bg-zinc-50 px-3 py-1.5 flex items-center justify-between gap-1 overflow-x-auto">
+      {/* Mobile Navigation Bar (< lg): Core Game + 1-Tap Quiz & 25-Pt Test */}
+      <div className="lg:hidden border-t border-zinc-100 bg-white px-2 flex items-center justify-between gap-0.5 overflow-x-auto no-scrollbar">
         {(
           [
             ['hinge', 'Hinge'],
-            ['wild', 'In The Wild'],
+            ['wild', 'Wild'],
             ['chats', `Chats${activeChatCount > 0 ? ` (${activeChatCount})` : ''}`],
-            ['school', 'Cub School'],
+            ['school', 'School'],
           ] as const
         ).map(([id, label]) => (
           <button
@@ -338,13 +360,39 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               onSelectTab(id);
             }}
             className={cn(
-              'rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer',
-              activeTab === id ? 'bg-zinc-900 text-white' : 'text-zinc-600',
+              'py-2 px-2 text-xs whitespace-nowrap border-b-2 transition-colors cursor-pointer',
+              activeTab === id
+                ? 'border-rose-600 font-bold text-zinc-950'
+                : 'border-transparent font-medium text-zinc-500',
             )}
           >
             {label}
           </button>
         ))}
+
+        <span className="h-3.5 w-px bg-zinc-200 shrink-0" aria-hidden="true" />
+
+        <button
+          type="button"
+          onClick={() => {
+            setMobileMenuOpen(false);
+            onOpenPopTrivia();
+          }}
+          className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-rose-600 cursor-pointer"
+        >
+          🎬 Quiz
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setMobileMenuOpen(false);
+            onOpenChecklist();
+          }}
+          className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-zinc-700 cursor-pointer"
+        >
+          ✅ 25-Pt
+        </button>
       </div>
 
       {mobileMenuOpen && (

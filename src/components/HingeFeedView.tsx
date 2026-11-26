@@ -183,9 +183,16 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     if (!currentProfile || !replyTarget) return;
 
     const boostedDelta = delta > 0 && etiquetteBonusActive ? delta + 4 : delta;
+    const isFirstWelcomeSpark =
+      matchedLeadIds.length === 0 &&
+      pendingLikes.length === 0 &&
+      delta > 0 &&
+      currentProfile.matchSelectivity !== 'standout';
+
     const isRoseOrAttuned =
       cost > 0 ||
       boostedDelta >= 14 ||
+      isFirstWelcomeSpark ||
       currentProfile.matchSelectivity === 'warm' ||
       currentProfile.tier === 'trap';
 
@@ -301,8 +308,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           )}
 
           {pendingLikes.length > 0 && (
-            <span className="font-semibold text-zinc-600">
-              {pendingLikes.length} Sent Like • Pending
+            <span className="font-semibold text-rose-600">
+              ⏳ {pendingLikes.length} Sent Like • Pending (matches pop in within 2 swipes)
             </span>
           )}
         </div>
@@ -385,28 +392,35 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           </header>
 
           <div className="space-y-4 px-4 pb-6 sm:px-6">
-            {/* Photo 1 — Unobstructed Full-Bleed Portrait (Zero Top Caption Bar) */}
-            <div className="relative overflow-hidden rounded-2xl bg-stone-100 aspect-[3/4]">
-              <img
-                src={currentProfile.slides[0].url}
-                alt={currentProfile.name}
-                className="h-full w-full object-cover"
-              />
-              <button
-                type="button"
-                aria-label={`Like photo 1 of ${currentProfile.name}`}
-                onClick={() =>
-                  setReplyTarget({
-                    kind: 'photo',
-                    label: `${currentProfile.name}'s first photo`,
-                    previewText: `${currentProfile.name}'s photo`,
-                    prompt: currentProfile.prompts[0],
-                  })
-                }
-                className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
-              >
-                <Heart className="h-5 w-5" />
-              </button>
+            {/* Photo 1 — Unobstructed Full-Bleed Lead Portrait */}
+            <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
+              <div className="relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                <img
+                  src={currentProfile.slides[0].url}
+                  alt={currentProfile.name}
+                  className="h-full w-full object-cover"
+                />
+                <button
+                  type="button"
+                  aria-label={`Like photo 1 of ${currentProfile.name}`}
+                  onClick={() =>
+                    setReplyTarget({
+                      kind: 'photo',
+                      label: `${currentProfile.name}'s first photo`,
+                      previewText: currentProfile.slides[0].caption || `${currentProfile.name}'s photo`,
+                      prompt: currentProfile.prompts[0],
+                    })
+                  }
+                  className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
+                >
+                  <Heart className="h-5 w-5" />
+                </button>
+              </div>
+              {currentProfile.slides[0].caption && (
+                <div className="border-t border-zinc-100 bg-white px-4 py-3 text-sm font-medium text-zinc-800 leading-snug">
+                  {currentProfile.slides[0].caption}
+                </div>
+              )}
             </div>
 
             {/* Prompt 1 */}
@@ -435,57 +449,64 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             </div>
 
             {/* Authentic Hinge Vitals Strip */}
-            <div className="rounded-2xl border border-stone-200/80 bg-white p-4 space-y-3">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-stone-800">
+            <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 space-y-3">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-zinc-800">
                 <span className="inline-flex items-center gap-1.5">
-                  <Ruler className="h-3.5 w-3.5 text-stone-400" />
+                  <Ruler className="h-3.5 w-3.5 text-zinc-400" />
                   {currentProfile.vitals.height}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Briefcase className="h-3.5 w-3.5 text-stone-400" />
+                  <Briefcase className="h-3.5 w-3.5 text-zinc-400" />
                   {currentProfile.vitals.job}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <GraduationCap className="h-3.5 w-3.5 text-stone-400" />
+                  <GraduationCap className="h-3.5 w-3.5 text-zinc-400" />
                   {currentProfile.vitals.school}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5 text-stone-400" />
+                  <MapPin className="h-3.5 w-3.5 text-zinc-400" />
                   {currentProfile.vitals.neighborhood}
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2 border-t border-stone-100 pt-2.5 text-xs font-medium text-stone-600">
-                <span className="rounded-full bg-stone-100 px-3 py-1">
+              <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2.5 text-xs font-medium text-zinc-600">
+                <span className="rounded-md bg-zinc-100 px-2.5 py-1">
                   {currentProfile.vitals.lookingFor}
                 </span>
-                <span className="rounded-full bg-stone-100 px-3 py-1">
+                <span className="rounded-md bg-zinc-100 px-2.5 py-1">
                   {currentProfile.vitals.kidsStance}
                 </span>
               </div>
             </div>
 
-            {/* Photo 2 — Clean Unobstructed Photo */}
-            <div className="relative overflow-hidden rounded-2xl bg-stone-100 aspect-[3/4]">
-              <img
-                src={currentProfile.slides[1].url}
-                alt={`${currentProfile.name} lifestyle`}
-                className="h-full w-full object-cover"
-              />
-              <button
-                type="button"
-                aria-label={`Like photo 2 of ${currentProfile.name}`}
-                onClick={() =>
-                  setReplyTarget({
-                    kind: 'photo',
-                    label: `${currentProfile.name}'s photo`,
-                    previewText: `${currentProfile.name}'s photo`,
-                    prompt: currentProfile.prompts[1],
-                  })
-                }
-                className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
-              >
-                <Heart className="h-5 w-5" />
-              </button>
+            {/* Photo 2 — Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
+            <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
+              <div className="relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                <img
+                  src={currentProfile.slides[1].url}
+                  alt={`${currentProfile.name} lifestyle`}
+                  className="h-full w-full object-cover"
+                />
+                <button
+                  type="button"
+                  aria-label={`Like photo 2 of ${currentProfile.name}`}
+                  onClick={() =>
+                    setReplyTarget({
+                      kind: 'photo',
+                      label: `${currentProfile.name}'s photo`,
+                      previewText: currentProfile.slides[1].caption || `${currentProfile.name}'s photo`,
+                      prompt: currentProfile.prompts[1],
+                    })
+                  }
+                  className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
+                >
+                  <Heart className="h-5 w-5" />
+                </button>
+              </div>
+              {currentProfile.slides[1].caption && (
+                <div className="border-t border-zinc-100 bg-white px-4 py-3 text-sm font-medium text-zinc-800 leading-snug">
+                  {currentProfile.slides[1].caption}
+                </div>
+              )}
             </div>
 
             {/* Prompt 2 */}
@@ -513,28 +534,35 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </button>
             </div>
 
-            {/* Photo 3 — Clean Unobstructed Photo */}
-            <div className="relative overflow-hidden rounded-2xl bg-stone-100 aspect-[3/4]">
-              <img
-                src={currentProfile.slides[2].url}
-                alt={`${currentProfile.name} candid`}
-                className="h-full w-full object-cover"
-              />
-              <button
-                type="button"
-                aria-label={`Like photo 3 of ${currentProfile.name}`}
-                onClick={() =>
-                  setReplyTarget({
-                    kind: 'photo',
-                    label: `${currentProfile.name}'s photo`,
-                    previewText: `${currentProfile.name}'s photo`,
-                    prompt: currentProfile.prompts[2],
-                  })
-                }
-                className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
-              >
-                <Heart className="h-5 w-5" />
-              </button>
+            {/* Photo 3 — Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
+            <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
+              <div className="relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                <img
+                  src={currentProfile.slides[2].url}
+                  alt={`${currentProfile.name} candid`}
+                  className="h-full w-full object-cover"
+                />
+                <button
+                  type="button"
+                  aria-label={`Like photo 3 of ${currentProfile.name}`}
+                  onClick={() =>
+                    setReplyTarget({
+                      kind: 'photo',
+                      label: `${currentProfile.name}'s photo`,
+                      previewText: currentProfile.slides[2].caption || `${currentProfile.name}'s photo`,
+                      prompt: currentProfile.prompts[2],
+                    })
+                  }
+                  className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
+                >
+                  <Heart className="h-5 w-5" />
+                </button>
+              </div>
+              {currentProfile.slides[2].caption && (
+                <div className="border-t border-zinc-100 bg-white px-4 py-3 text-sm font-medium text-zinc-800 leading-snug">
+                  {currentProfile.slides[2].caption}
+                </div>
+              )}
             </div>
 
             {/* Prompt 3 */}
@@ -562,32 +590,39 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               </button>
             </div>
 
-            {/* Photos 4, 5, 6 — Clean Unobstructed Photos */}
+            {/* Photos 4, 5, 6 — Unobstructed Photos + Authentic Below-Photo 1st-Person Captions */}
             {currentProfile.slides.slice(3).map((slide, extraIdx) => (
               <div
                 key={slide.url}
-                className="relative overflow-hidden rounded-2xl bg-stone-100 aspect-[3/4]"
+                className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white"
               >
-                <img
-                  src={slide.url}
-                  alt={`${currentProfile.name} moment`}
-                  className="h-full w-full object-cover"
-                />
-                <button
-                  type="button"
-                  aria-label={`Like photo ${extraIdx + 4} of ${currentProfile.name}`}
-                  onClick={() =>
-                    setReplyTarget({
-                      kind: 'photo',
-                      label: `${currentProfile.name}'s photo`,
-                      previewText: `${currentProfile.name}'s photo`,
-                      prompt: currentProfile.prompts[extraIdx % 3],
-                    })
-                  }
-                  className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
-                >
-                  <Heart className="h-5 w-5" />
-                </button>
+                <div className="relative overflow-hidden bg-zinc-100 aspect-[3/4]">
+                  <img
+                    src={slide.url}
+                    alt={`${currentProfile.name} moment`}
+                    className="h-full w-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    aria-label={`Like photo ${extraIdx + 4} of ${currentProfile.name}`}
+                    onClick={() =>
+                      setReplyTarget({
+                        kind: 'photo',
+                        label: `${currentProfile.name}'s photo`,
+                        previewText: slide.caption || `${currentProfile.name}'s photo`,
+                        prompt: currentProfile.prompts[extraIdx % 3],
+                      })
+                    }
+                    className="hinge-heart-fab absolute right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full cursor-pointer"
+                  >
+                    <Heart className="h-5 w-5" />
+                  </button>
+                </div>
+                {slide.caption && (
+                  <div className="border-t border-zinc-100 bg-white px-4 py-3 text-sm font-medium text-zinc-800 leading-snug">
+                    {slide.caption}
+                  </div>
+                )}
               </div>
             ))}
 
@@ -717,7 +752,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     submitLike(fallbackLikeText, 0, 8);
                     return;
                   }
-                  const earnedDelta = trimmed.length >= 24 ? 16 : -4;
+                  const earnedDelta = trimmed.length >= 12 ? 16 : -4;
                   submitLike(trimmed, 0, earnedDelta);
                 }}
                 className="flex gap-2 pt-1"

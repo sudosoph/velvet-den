@@ -25,7 +25,7 @@ const ICONIC_SINGLE_USE_JOKES: {
   { name: "Tito's mirror bottle", regex: /\btito['’]?s\b/i, expectedOwnerId: 'connor' },
   { name: 'Venmo split math', regex: /\bvenmo\b/i, expectedOwnerId: 'devon' },
   { name: 'Roblox stay-home excuse', regex: /\broblox\b/i, expectedOwnerId: 'devon' },
-  { name: 'Parents Maui timeshare flex', regex: /\btimeshare\b/i, expectedOwnerId: 'graham' },
+  { name: 'Parents Maui timeshare flex', regex: /\btimeshare\b/i, expectedOwnerId: 'connor' },
   { name: 'Sheryl Crow coastal stereo', regex: /sheryl\s*crow/i, expectedOwnerId: 'elena' },
   { name: 'Qigong / Tai Chi / Seed-Oil wellness', regex: /qigong|tai\s*chi|seed[- ]oil/i, expectedOwnerId: 'astrid' },
 ];
