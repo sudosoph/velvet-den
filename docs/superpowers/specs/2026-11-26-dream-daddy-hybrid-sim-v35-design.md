@@ -28,7 +28,7 @@ The North Star of the game is **winning a real, lasting Chapter-Two relationship
 - **Clean Two-Door Discovery (`📱 Hinge` + `🗺️ In The Wild`)**: Going *"back to the drawing board"* after cutting an app red-flag loose feels fresh because **half the romanceable cast are *"In The Wild Exclusives"*** who refuse dating apps (like the `5'2"` tenured Literature Professor at Hawthorne University, the M&A Partner at the Downtown Hotel Martini Bar, the Airport-Pickup Younger Zaddy, and the Custom Carpenter).
 - **Authentic Hinge Scrolling & ❤️ Prompt-Reply**: Vertical iOS Hinge cards with **6 character-specific slides**, **Vitals Strip** (`Age`, `Height`, `Job`, `School`, `Looking For`, `Kids / Marriage Stance`), and **3 Prompts** where tapping ❤️ on any photo/prompt opens 3 witty openers.
 - **Capped 6-Beat Text & iMessage Vetting -> 3 Animated Visual-Novel Dates**: Structured choices (`2` free + `1 Cr` VIP smooth/spicy + optional `1 Cr` Custom AI Riff), **`2 Cr` Blurred Photo Drops**, active **`🚩 Cut Loose`** discernment button, and **3 Dates** culminating in True Love (S/A), Bittersweet Fling (B), or Roasted Disaster endings.
-- **40+ Question Wikimedia & Official YouTube Trailer Quiz**: Verified `CC-BY`/`PD` portraits + verified official studio YouTube trailers & music videos (`youtube-nocookie.com/embed/...`) across movies, TV, books, songs, and celebrity couples (3-to-25+ year gaps).
+- **55+ Question Wikimedia & Official YouTube Trailer Quiz**: Verified `CC-BY`/`PD` portraits + 23 `oembed`-verified official studio YouTube trailers & music videos (`youtube-nocookie.com/embed/...`) across movies (headlined by Jennifer Lawrence's *No Hard Feelings*, *Babygirl*, *The Idea of You*, *Bridget Jones: Mad About the Boy*, *American Pie*, *Prime*, *Good Luck to You, Leo Grande*, *The Graduate*, *How Stella Got Her Groove Back*, and more), TV, books, songs, and 25+ celebrity couples (3-to-40 year woman-older gaps).
 - **Tight Unit Economics**: Keep your 4 live Stripe links (`$2.99` `15 Cr`, `$6.99` `VIP Pass`, `$5` `Tip Jar`, `$29` `Custom Cameo`), strict **one-time `3` starter credits** (`0` daily refill, `0` free referral/waitlist/newsletter credits), prominent **☕ Tip Jar**, and external **Affiliate Boutique** (`/api/go/:id`).
 
 ### Non-Goals
@@ -66,7 +66,7 @@ The North Star of the game is **winning a real, lasting Chapter-Two relationship
   - **`☕ Tip $5`** (rose-gold pill wired directly to live `tipJarUrl`, visible on mobile & desktop)
   - **`🛍️ Shop`** (32-item External Affiliate Boutique + `$29` Custom Cameo)
   - **`💎 3 Cr • VIP`** (`$2.99 / 15 Cr` & `$6.99 VIP Black Card`)
-  - **`☰ Club Extras`** drawer: `🎬 40-Q Trailer & Pop Quiz` | `👑 Crown or Dump (30 Cases)` | `✅ 25-Pt Experience Test` | `📖 16 Guides & Zodiac Matcher` | `📸 Dateodex` | `ℹ️ About`.
+  - **`☰ Club Extras`** drawer: `🎬 55-Q Trailer & Pop Quiz` | `👑 Crown or Dump (30 Cases)` | `✅ 25-Pt Experience Test` | `📖 16 Guides & Zodiac Matcher` | `📸 Dateodex` | `ℹ️ About`.
 
 ### 4.2 Door #1: Authentic Hinge Feed (`HingeFeedView.tsx`) — 4 True Leads + 4 Disguised Traps per Role
 - Because **half of Hinge is disguised traps** (just like real dating apps!), players must genuinely read all **6 slides**, **Vitals** (`Age`, `Height`, `Job`, `School`, `Looking For`, `Kids / Marriage Stance`), and **3 Prompts** instead of blindly swiping right.
@@ -134,11 +134,51 @@ When you cut a Hinge dud loose (*"Back to the Drawing Board—let's go out in th
 
 ---
 
-## 6. Strict Non-Overlapping Content Vault & 40+ Question Trailer Quiz
+## 6. Strict Non-Overlapping Content Vault & 55+ Question Due-Diligence Pop-Culture Canon
 
-- **Zero Repeated Jokes**: Enforced by unit test scanning across `hingeProfiles`, `wildVenues`, `chatChapters`, `dateScripts`, `courtroomCases`, `checklistItems`, and `popCultureTrivia`.
-- **40+ Question Pop-Culture & Official YouTube Trailer Quiz**:
-  - Verified privacy-enhanced `youtube-nocookie.com/embed/<id>` players for **10+ official movie trailers & music videos** (*Babygirl* `-8Sx6U6Ou0Q`, *The Idea of You* `V8i6PB0gGOA`, *Bridget Jones: Mad About the Boy* `DhAcAgULwYY`, *A Family Affair* `Ytc2eifpiuQ`, *Lonely Planet* `lTu7j2GOGwQ`, *The Graduate* `KVNFaxJspMQ`, *How Stella Got Her Groove Back* `r3wbXFzPqcs`, *Something's Gotta Give* `3d9UYuqXz0I`, *"Stacy's Mom"* `dZLfasMPOU4`, *"Mrs. Robinson"* `WTxS7RrjqqY`) + verified Wikimedia `CC-BY`/`PD` portraits across **Books** (*Chéri*, *Part of Your World*, *The Only Story*, *Mrs. Fletcher*), **TV** (*Samantha & Smith*, *Rebecca & Sam* in *Ted Lasso*, *Cougar Town*, *Younger*), **Films** (*Prime*, *Good Luck to You, Leo Grande*, *Harold and Maude*), and **Celebrity Couples** (`3`-to-`25+` year woman-older gaps).
+- **Zero Repeated Jokes ("One-Joke, One-Home" Law)**: Enforced by unit test scanning across `hingeProfiles`, `wildVenues`, `chatChapters`, `dateScripts`, `courtroomCases`, `checklistItems`, and `popCultureTrivia`. Zero `pine pollen`, `qigong`, `tai chi`, `seed oil`, or `bernedoodle` filler anywhere in the repo.
+- **Every Embeddable YouTube ID Pre-Verified via `youtube.com/oembed` (`HTTP 200`)**: Served via privacy-enhanced `https://www.youtube-nocookie.com/embed/<id>` alongside verified open-licensed Wikimedia Commons portraits (`CC-BY` / `CC-BY-SA` / `PD`) with visible attribution captions.
+
+### 6.1 Films (25 Canon Entries — 19 Official Trailer Embeds Verified)
+1. ***No Hard Feelings* (2023)** — Jennifer Lawrence (Maddie, 32) & Andrew Barth Feldman (Percy, 19): Montauk Craigslist Buick Regal deal, Percy's tender piano cover of Hall & Oates's *"Maneater"*, and the fearless beach fight (`kIcLb0KAJAs` Sony green-band embed / `P15S6ND8kbQ` Sony red-band).
+2. ***Babygirl* (2024)** — Nicole Kidman (Romy) & Harris Dickinson (Samuel): Halina Reijn's A24 CEO-intern thriller & the viral hotel-bar glass of milk scene (`-8Sx6U6Ou0Q`).
+3. ***The Idea of You* (2024)** — Anne Hathaway (Solène, 40) & Nicholas Galitzine (Hayes Campbell, 24): Silver Lake gallery owner steps into August Moon's Coachella VIP trailer (`V8i6PB0gGOA`).
+4. ***Bridget Jones: Mad About the Boy* (2025)** — Renée Zellweger (Bridget, 51) & Leo Woodall (Roxster, 29): Hampstead Heath park-ranger tree rescue (`DhAcAgULwYY`).
+5. ***Good Luck to You, Leo Grande* (2022)** — Emma Thompson (Nancy Stokes, retired teacher) & Daryl McCormack (Leo Grande) (`TJcbZoJFLTU`).
+6. ***The Graduate* (1967)** — Anne Bancroft (Mrs. Robinson, 35 IRL) & Dustin Hoffman (Benjamin Braddock, 29 IRL — only a 6-year real actor gap!) (`KVNFaxJspMQ`).
+7. ***How Stella Got Her Groove Back* (1998)** — Angela Bassett (Stella, 40) & Taye Diggs (Winston, 20): inspired by Terry McMillan's real Jamaica vacation (`r3wbXFzPqcs`).
+8. ***American Pie* (1999)** — Jennifer Coolidge (Stifler's Mom) & Eddie Kaye Thomas (Finch): launched `"MILF"` into global pop culture (`lp9Z4gc-9UA`).
+9. ***Something's Gotta Give* (2003)** — Diane Keaton (Erica Barry) & Keanu Reeves (Dr. Julian Mercer, 36yo ER doctor courting her) (`3d9UYuqXz0I`).
+10. ***Prime* (2005)** — Uma Thurman (Rafi, 37) & Bryan Greenberg (David, 23), with Meryl Streep as her therapist—and unwittingly David's mother.
+11. ***A Family Affair* (2024)** — Nicole Kidman & Zac Efron (`Ytc2eifpiuQ`).
+12. ***Lonely Planet* (2024)** — Laura Dern & Liam Hemsworth in Morocco (`lTu7j2GOGwQ`).
+13. ***Magic Mike's Last Dance* (2023)** — Salma Hayek Pinault & Channing Tatum in London (`pBIGdw-BRxw`).
+14. ***Cha Cha Real Smooth* (2022)** — Dakota Johnson & Cooper Raiff (`QRyyagJ9GPo`).
+15. ***The Proposal* (2009)** — Sandra Bullock & Ryan Reynolds (real 12-year woman-older gap!) (`Wbhhokv84K4`).
+16. ***Home Again* (2017)** — Reese Witherspoon & Pico Alexander (`TOyit5_mEQA`).
+17. ***The Rebound* (2009)** — Catherine Zeta-Jones & Justin Bartha (`PlCsLXcmxaA`).
+18. ***Happiness for Beginners* (2023)** — Ellie Kemper & Luke Grimes on the Appalachian Trail.
+19. ***The Good Girl* (2002)** — Jennifer Aniston & 22yo Jake Gyllenhaal (`dLRRX2iK7tQ`).
+20. ***I Could Never Be Your Woman* (2007)** — Michelle Pfeiffer & Paul Rudd (directed by Amy Heckerling).
+21. ***Bull Durham* (1988)** — Susan Sarandon & Tim Robbins, sparking their real 21-year partnership (`qnWSvSrb1-I`).
+22. ***White Palace* (1990)** — Susan Sarandon (Nora, 43yo St. Louis waitress) & James Spader (Max, 27yo ad exec).
+23. ***Harold and Maude* (1971)** — Ruth Gordon (79) & Bud Cort (20) with Cat Stevens soundtrack (`_ckWTn-y5Rw`).
+24. ***Sunset Boulevard* (1950)** — Gloria Swanson (Norma Desmond) & William Holden (Joe Gillis).
+25. ***Adore* (2013)** / ***Unfaithful* (2002)** / ***Notes on a Scandal* (2006)** / ***The Reader* (2008)** — arthouse & thriller touchstones.
+
+### 6.2 Television (11 Canon Entries)
+*Sex and the City* (Samantha Jones & Smith Jerrod), *Ted Lasso* (Rebecca Welton & Sam Obisanya on *Bantr*), *Succession* (Gerri Kellman & Roman Roy), *Emily in Paris* (Sylvie Grateau & Erik), *The White Lotus* (Tanya / resort arcs), *Younger* (Liza & Josh across 7 seasons), *Cougar Town* (Jules Cobb & *"Big Carl"*), *Mrs. Fletcher* (Kathryn Hahn), *Hacks* (Deborah Vance), *Desperate Housewives* (Gabrielle Solis), and *30 Rock* (Liz Lemon & Criss Chros).
+
+### 6.3 Books & Literature (10 Canon Entries)
+Colette's *Chéri* (1920), Abby Jimenez's *Part of Your World* (2022), Robinne Lee's *The Idea of You* (2017 — book vs. movie ending!), Terry McMillan's *How Stella Got Her Groove Back* (1996), Miranda July's *All Fours* (2024), Julia May Jonas's *Vladimir* (2022), Katherine Center's *Happiness for Beginners* (2015), Tracey Garvis Graves's *On the Island* (2011), Julian Barnes's *The Only Story* (2018), and Jane Porter's *Flirting with Forty* (2006).
+
+### 6.4 Songs & Music Video Moments (8 Canon Entries — 4 VEVO/Official Video Embeds Verified)
+Fountains of Wayne *"Stacy's Mom"* (`dZLfasMPOU4`), Simon & Garfunkel *"Mrs. Robinson"* (`WTxS7RrjqqY`), Daryl Hall & John Oates *"Maneater"* (`yRYFKcMa_Ek`), Yung Gravy *"Betty (Get Money)"* (`8oE5Z2GLhNc` + bringing Sheri Easterling to the 2022 MTV VMAs), Rod Stewart *"Maggie May"*, Cher (*"Mom, I AM a rich man"*), Madonna *"Hung Up"*, and Mariah Carey *"Touch My Body"* (where she met Nick Cannon on set).
+
+### 6.5 Real Celebrity Woman-Older Couples (28 Canon Entries — `3` to `40` Year Gaps)
+- **15–40 Years**: Cher & AE Edwards (`40`), Kris Jenner & Corey Gamble (`25`), Brigitte & Emmanuel Macron (`24`), Kate Beckinsale & Pete Davidson (`20`), Sandra Bullock & Ryan Gosling (`16`), Tina Turner & Erwin Bach (`16`), Heidi Klum & Tom Kaulitz (`16`), Demi Moore & Ashton Kutcher (`15`), Sienna Miller & Oli Green (`15`).
+- **10–14 Years**: Kim Cattrall & Russell Thomas (`14`), Kristin Cavallari & Mark Estes (`13`), Deborra-Lee Furness & Hugh Jackman (`13`), Lisa Bonet & Jason Momoa (`12`), Britney Spears & Sam Asghari (`12`), Mariah Carey & Nick Cannon (`11`), Ellie Goulding & Beau Minniear (`11`), Priyanka Chopra & Nick Jonas (`10`), Shakira & Gerard Piqué (`10` — strawberry jam jar!), Olivia Wilde & Harry Styles (`10`).
+- **3–9 Years**: Gabrielle Union & Dwyane Wade (`9`), Julianne Moore & Bart Freundlich (`9`), Vanessa Hudgens & Cole Tucker (`8`), Eva Mendes & Ryan Gosling (`7`), Cameron Diaz & Benji Madden (`7`), Elsa Pataky & Chris Hemsworth (`7`), Miley Cyrus & Maxx Morando (`6`), Goldie Hawn & Kurt Russell (`5.5`), Yvonne McGuinness & Cillian Murphy (`4`), Halle Berry & Van Hunt (`3`), Meghan Markle & Prince Harry (`3`).
 
 ---
 
