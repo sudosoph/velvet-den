@@ -175,6 +175,7 @@ export function evaluateDmLocally(params: {
   personaName: string;
   personaAge: number;
   personaRole: 'her' | 'him';
+  platform?: string;
   playerMessage: string;
   history?: LiveInboxTurn[];
 }): AiDmVettingResponse {
@@ -207,12 +208,37 @@ export function evaluateDmLocally(params: {
       lower,
     );
   const hasForYourAge = /for\s+(your|ur)\s+age/.test(lower) || /\blook\s+good\s+for\b/.test(lower);
+  const platform = params.platform || 'tinder';
+  const asksForNumberTooEarly =
+    platform === 'tinder' &&
+    turnIdx === 0 &&
+    /\b(whats?\s+(your|ur)\s+number|give\s+me\s+(your|ur)\s+number|can\s+i\s+get\s+(your|ur)\s+number|drop\s+(your|ur)\s+digits)\b/.test(
+      lower,
+    );
   const isLazyHey =
     msg.length < 10 || /^(hey+|yo+|sup|wyd|u\s*up\??|hi+)$/i.test(msg.replace(/[!?.🔥😍👀]/g, '').trim());
   const hasPlan =
     /\b(friday|thursday|saturday|sunday|dinner|tapas|wine|coffee|espresso|7:?30|8:?00|6:?00|6:?30|reservation|table|trail|peonies|call|bench|ribeye|bamboo|silk|upstairs|pillow|oolong|sauna|courtyard|cook|martini)\b/.test(
       lower,
     );
+
+  if (asksForNumberTooEarly && params.personaRole !== 'him') {
+    return {
+      maturityDelta: -8,
+      chivalryDelta: -6,
+      chemistryDelta: -6,
+      herReply:
+        age >= 50
+          ? `Slow down. Earn two real sentences on the app before asking for my cell.`
+          : age >= 40
+            ? `Ambitious, darling. Earn a real conversation here before you get my number.`
+            : `Whoa, speedrunner. Impress me with two good lines before asking for my digits ✨`,
+      coachNote:
+        'Earn her number first! Land 2 green-flag replies on Tinder to unlock off-app iMessage.',
+      passedVibeCheck: false,
+      source: 'local-heuristic',
+    };
+  }
 
   if (params.personaRole === 'him') {
     if (/\bvenmo\b/.test(lower) || /\blinda\b/.test(lower)) {

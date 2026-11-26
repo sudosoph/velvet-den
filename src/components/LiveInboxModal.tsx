@@ -3,11 +3,13 @@ import {
   ArrowLeft,
   ArrowUp,
   BadgeCheck,
+  CheckCircle2,
   Flame,
   Gamepad2,
   Hash,
   Headphones,
   Heart,
+  Lock,
   MessageCircle,
   Mic,
   Phone,
@@ -17,6 +19,7 @@ import {
   Send,
   Sparkles,
   Star,
+  Unlock,
   Video,
   Volume2,
   VolumeX,
@@ -78,6 +81,68 @@ interface DiscordBuddyRemark {
   text: string;
 }
 
+interface DiscordSeedPost {
+  id: string;
+  handle: string;
+  badge: string;
+  color: string;
+  time: string;
+  text: string;
+  isMysteryClue?: boolean;
+}
+
+type DiscordChannelId =
+  | 'general-lounge'
+  | 'vetting-hotline'
+  | 'boys-roblox-vc'
+  | 'mystery-subplot';
+
+const PROGRESSION_STORAGE_KEY = 'velvet_inbox_progression_v32';
+
+interface PersistedInboxProgression {
+  unlockedImessageIds: string[];
+  flirtUnlockedIds: string[];
+  subplotStageByRole: { her: number; him: number };
+}
+
+function loadInboxProgression(): PersistedInboxProgression {
+  if (!import.meta.env.VITEST && typeof window !== 'undefined') {
+    try {
+      const raw = window.localStorage.getItem(PROGRESSION_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<PersistedInboxProgression>;
+        return {
+          unlockedImessageIds: Array.isArray(parsed.unlockedImessageIds)
+            ? parsed.unlockedImessageIds
+            : [],
+          flirtUnlockedIds: Array.isArray(parsed.flirtUnlockedIds) ? parsed.flirtUnlockedIds : [],
+          subplotStageByRole: {
+            her: Number(parsed.subplotStageByRole?.her || 0),
+            him: Number(parsed.subplotStageByRole?.him || 0),
+          },
+        };
+      }
+    } catch {
+      // Ignore storage read issues
+    }
+  }
+  return {
+    unlockedImessageIds: [],
+    flirtUnlockedIds: [],
+    subplotStageByRole: { her: 0, him: 0 },
+  };
+}
+
+function saveInboxProgression(next: PersistedInboxProgression) {
+  if (!import.meta.env.VITEST && typeof window !== 'undefined') {
+    try {
+      window.localStorage.setItem(PROGRESSION_STORAGE_KEY, JSON.stringify(next));
+    } catch {
+      // Ignore storage write issues
+    }
+  }
+}
+
 const TAPBACK_OPTIONS = ['❤️', '😂', '‼️', '👍', '👎', '❓'] as const;
 const QUICK_EMOJIS = ['😏', '🍸', '😍', '😭', '💀', '🔥', '👀', '✨', '🥂', '🚩'] as const;
 
@@ -117,10 +182,64 @@ const CUB_ONE_LINE_OPENERS: Record<string, string> = {
   'grant-surgeon-cub': 'Long hospital day immediately fixed by matching with you. Free Thursday?',
 };
 
-function getDynamicQuickChips(
+function stripDashes(text: string): string {
+  return text.replace(/\s*[—–]\s*/g, ', ').replace(/,\s*,/g, ',').trim();
+}
+
+function formatCellNumber(contact: InboxContact): string {
+  let hash = 0;
+  for (let i = 0; i < contact.id.length; i++) {
+    hash = (hash * 31 + contact.id.charCodeAt(i)) % 9000;
+  }
+  const suffix = String(1000 + (hash % 8999)).padStart(4, '0');
+  const area = contact.role === 'her' ? (contact.age >= 50 ? '212' : '310') : '415';
+  return `(${area}) 555-${suffix}`;
+}
+
+function buildOffAppOpeningText(contact: InboxContact, steamyMode: boolean): string {
+  if (steamyMode) {
+    if (contact.role === 'him') {
+      return contact.age >= 27
+        ? `Still thinking about last night. Tell me what time I can cook for you tonight.`
+        : `haven't stopped smiling since last night ✨ free around 8?`;
+    }
+    if (contact.age >= 50) {
+      return `Last night passed every test. Pouring a glass at eight if you are free.`;
+    }
+    return `You officially earned a repeat invite. What time are you coming over tonight?`;
+  }
+
+  if (contact.role === 'him') {
+    if (contact.id === 'kieran-anthropic-ai-cub') {
+      return `Glad we escaped the app. Saved your number and locked in our 7:30 corner booth.`;
+    }
+    if (contact.age >= 28) {
+      return `Officially off the app. Saved your contact, should I call you at six Thursday?`;
+    }
+    return `Officially off Tinder 🙌 Saved your number, any food allergies before I plan Friday?`;
+  }
+
+  if (contact.id === 'sedona-qigong-mommy') {
+    return `Good boy, you earned my real cell. Tea is steeping for Friday, don't be late.`;
+  }
+  if (contact.age >= 60) {
+    return `Consider yourself promoted off that noisy app. Call this number at six Thursday.`;
+  }
+  if (contact.age >= 50) {
+    return `You survived the app gauntlet. Save this number and call me at six tomorrow.`;
+  }
+  if (contact.age >= 40) {
+    return `Officially out of Tinder purgatory. Save my number and send the 7:30 pin for Friday.`;
+  }
+  return `Okay, you earned my real number ✨ Save my contact and send our Friday spot!`;
+}
+
+function getTinderQuickChips(
   contact: InboxContact,
   steamyMode: boolean,
   turnCount: number,
+  sparksCount: number,
+  isNumberEarned: boolean,
 ): string[] {
   if (contact.role === 'him') {
     if (steamyMode) {
@@ -136,18 +255,18 @@ function getDynamicQuickChips(
             'Wait, how many pillows do you actually own right now?',
           ];
     }
+    if (sparksCount >= 1 && !isNumberEarned) {
+      return [
+        '📱 Ready to get off this app? Text my real cell to lock in Friday.',
+        'Phone stays face-down at dinner, deal?',
+        'Only if Maui isn’t your mother Linda’s timeshare.',
+      ];
+    }
     if (turnCount === 0) {
       return [
         '7:30 works, assuming you actually make a reservation 🍸',
         'Bold opener. Impress me with the spot and I’m in.',
         'Quick test first: what happens when the check hits the table?',
-      ];
-    }
-    if (turnCount === 1) {
-      return [
-        'Phone stays face-down at dinner, deal?',
-        'Careful, flattery works fast after 6 PM. Can you actually cook?',
-        'Only if Maui isn’t your mother Linda’s timeshare.',
       ];
     }
     return [
@@ -157,7 +276,6 @@ function getDynamicQuickChips(
     ];
   }
 
-  // Player messaging Her (one short playful Dream-Daddy-style line at a time!)
   const isQigongMommy =
     contact.id === 'sedona-qigong-mommy' || contact.id === 'sloane-seedoil-bernedoodle-mommy';
 
@@ -181,6 +299,14 @@ function getDynamicQuickChips(
         ];
   }
 
+  if (sparksCount >= 1 && !isNumberEarned) {
+    return [
+      '📱 Let’s escape Tinder. Can I get your real number for Friday at 7:30?',
+      'Take all the time you want. Worth the wait, table is held for 7:30 🥂',
+      'well actually let me explain wine regions from a podcast i heard',
+    ];
+  }
+
   if (turnCount === 0) {
     if (isQigongMommy) {
       return [
@@ -196,31 +322,125 @@ function getDynamicQuickChips(
     ];
   }
 
-  if (turnCount === 1) {
-    return [
-      'Take all the time you want. Worth the wait.',
-      'Zero planning on your end, just tell me red, white, or martinis 🥂',
-      'well actually let me explain wine regions from a podcast i heard',
-    ];
-  }
-
-  if (turnCount === 2) {
-    return [
-      'I’ll call you at six sharp Thursday to confirm, zero texting spam.',
-      'Fair warning, I cook a dangerously good Sunday pasta.',
-      'brooo took 2 droppers of pine pollen and im all up in my feels rn 😭🌲',
-    ];
-  }
-
   return [
     'Deal. Friday at 7:30 is officially my favorite plan all week ✨',
-    'Should I dress sharp, or are you outshining me either way?',
-    'Wait do you want to split appetizers 50/50 on Venmo??',
+    'I’ll call you at six sharp Thursday to confirm, zero texting spam.',
+    'brooo took 2 droppers of pine pollen and im all up in my feels rn 😭🌲',
   ];
 }
 
-function stripDashes(text: string): string {
-  return text.replace(/\s*[—–]\s*/g, ', ').replace(/,\s*,/g, ',').trim();
+function getOffAppImessageChips(
+  contact: InboxContact,
+  steamyMode: boolean,
+  turnCount: number,
+): string[] {
+  if (contact.role === 'him') {
+    if (steamyMode) {
+      return [
+        'Come over at eight and bring that bottle you promised 🍷',
+        'Phone stays in the kitchen once you walk in ✨',
+        'Still smiling about last night. Cook for me Sunday?',
+      ];
+    }
+    return turnCount === 0
+      ? [
+          'Saved your number ✨ Call me at six Thursday so we lock in Friday.',
+          'Much better off that app. Surprise me with the 7:30 spot 🍸',
+          'Fair warning, my phone goes on silent at 9:30 PM on weeknights.',
+        ]
+      : [
+          'Pick me up at 7:15 sharp, and zero Venmo math after dinner.',
+          'What are you cooking if you earn a Sunday invite?',
+          'Good answer. Looking forward to Friday night 🥂',
+        ];
+  }
+
+  if (steamyMode) {
+    return [
+      'Picking up wine and cooking dinner at my place at eight 🍷',
+      'Four crisp percale pillows ready and phone on silent all night ✨',
+      'Still thinking about last night. Free after eight tonight?',
+    ];
+  }
+
+  return turnCount === 0
+    ? [
+        'Saved your number ✨ Sending our 7:30 Friday corner-table pin now.',
+        'Glad we escaped the app. Quick 6 PM call Thursday to confirm?',
+        'Saved! Want me to pick you up at 7:15 or meet you at the wine bar?',
+      ]
+    : [
+        'Reservation confirmed under my name for 7:30 Friday 🥂',
+        'If Friday goes as well as I think, I’m cooking you Sunday pasta.',
+        'Zero texting spam till Thursday at six. Have a great week ✨',
+      ];
+}
+
+function getDiscordChips(
+  channel: DiscordChannelId,
+  playerRole: 'her' | 'him',
+  subplotStage: number,
+): string[] {
+  if (channel === 'mystery-subplot') {
+    if (playerRole === 'him') {
+      return subplotStage <= 1
+        ? [
+            'Wait, mid-century courtyards and dirty martinis? Are you in San Francisco?',
+            'Promise I book 7:30 tables without twenty questions. Give me one more hint.',
+            'Careful, you sound suspiciously like my favorite match in this club.',
+          ]
+        : [
+            'Wait... sketching courtyards on Sundays? You’re Claire, aren’t you?!',
+            'Blue-cheese olive martini gave you away. Drop the anon mask!',
+            'If I guess your real name right now, do I earn your real number?',
+          ];
+    }
+    return subplotStage <= 1
+      ? [
+          'Frontier AI lab alum who bakes Sunday sourdough? Tell me you live in SF.',
+          'Lead with the sourdough AND book the 7:30 wine bar. Give me another clue.',
+          'Hold on, did you leave an AI safety lab at 28? You sound very familiar.',
+        ]
+      : [
+          'Sourdough focaccia in Noe Valley... wait, Kieran is that you?!',
+          'Busted! Drop the anon handle and text me for Thursday.',
+          'I know exactly which 28yo AI researcher this is 🥂',
+        ];
+  }
+
+  if (channel === 'vetting-hotline') {
+    return playerRole === 'him'
+      ? [
+          'Anon 26M check: booked a 7:30 wine bar Friday. Flowers too much on Date #1?',
+          'Asking a 44yo woman for Snapchat in the Uber deserves immediate exile 💀',
+          'Pro tip for fellow Cubs: call at 6 PM instead of texting "wyd" all week.',
+        ]
+      : [
+          'Immediate jail for "whats ur snap." Real reservation or nothing 🍸',
+          'Tell her the 7:30 spot and save the peonies for Date #2!',
+          'Anon Cougar rule: four pillows and a lidded bathroom bin or we Uber home.',
+        ];
+  }
+
+  if (channel === 'boys-roblox-vc') {
+    return [
+      'Booked a quiet corner table Friday at 7:30, peonies included 🍸',
+      'Four percale pillows on the bed and cast-iron ribeye ready for Friday.',
+      'yo u look crazy good for ur age whats ur snap??',
+    ];
+  }
+
+  return playerRole === 'him'
+    ? [
+        'Anon Cub checking in: confirmed a 7:30 Friday corner booth, wish me luck 🥂',
+        'Wait @midnight_martini_45 I fold for decisive Friday plans too, hi 👀',
+        'Honest poll for the Cougars here: wine bar or handmade pasta on Date #2?',
+      ]
+    : [
+        'Anon Cougar co-signing the 6 PM phone call rule. Texting marathons are exhausting.',
+        'Wait @sourdough_alignment_28 lead with the wine bar and save sourdough for Sunday ✨',
+        'Poll for the room: best green flag a younger guy pulled on Date #1?',
+      ];
 }
 
 function buildInterestIcebreaker(contact: InboxContact, interest: string): string {
@@ -314,7 +534,107 @@ const INBOX_CONTACTS: InboxContact[] = [
   }),
 ];
 
-type DiscordChannelId = 'first-dm-vetting' | 'after-dark-flirt' | 'boys-roblox-vc';
+function getDiscordSeeds(
+  channel: DiscordChannelId,
+  playerRole: 'her' | 'him',
+): DiscordSeedPost[] {
+  const mysteryHandle =
+    playerRole === 'him' ? '@midnight_martini_45' : '@sourdough_alignment_28';
+  const mysteryText =
+    playerRole === 'him'
+      ? 'Unpopular opinion: if a younger guy books a 7:30 corner booth without twenty questions and orders me a dirty martini, I fold.'
+      : 'Left a frontier AI lab early and still get nervous asking out a woman in her 40s. Do I lead with a 7:30 wine bar or homemade sourdough?';
+
+  if (channel === 'general-lounge') {
+    return [
+      {
+        id: 'seed-1',
+        handle: '@sancerre_panther_51',
+        badge: '🐆 ANON JAGUAR',
+        color: '#F47FFF',
+        time: 'Today at 9:12 PM',
+        text: 'PSA for the younger men lurking in here: one 6 PM phone call beats forty "how is your Tuesday" texts.',
+      },
+      {
+        id: 'seed-2',
+        handle: '@cast_iron_cub_26',
+        badge: '🥂 ANON CUB',
+        color: '#57F287',
+        time: 'Today at 9:18 PM',
+        text: 'Took lounge advice, bought four percale pillows + lidded bathroom bin, and got invited back for Sunday.',
+      },
+      {
+        id: 'seed-3',
+        handle: mysteryHandle,
+        badge: '🕵️ MYSTERY REGULAR',
+        color: '#FEE75C',
+        time: 'Today at 9:26 PM',
+        text: mysteryText,
+        isMysteryClue: true,
+      },
+    ];
+  }
+
+  if (channel === 'vetting-hotline') {
+    return [
+      {
+        id: 'vet-1',
+        handle: '@malibu_biotech_anon',
+        badge: '🐆 ANON COUGAR',
+        color: '#F47FFF',
+        time: 'Today at 8:54 PM',
+        text: 'Vetting check: 27M opened every door and paid smoothly, then texted "u look crazy good for ur age whats ur snap." Salvageable or exile?',
+      },
+      {
+        id: 'vet-2',
+        handle: '@golden_barista_24',
+        badge: '🥂 ANON CUB',
+        color: '#57F287',
+        time: 'Today at 9:05 PM',
+        text: 'Quick check before Friday: taking a 43F creative director to a jazz lounge. Too eager if I confirm Thursday at 6 PM?',
+      },
+    ];
+  }
+
+  if (channel === 'mystery-subplot') {
+    return [
+      {
+        id: 'mys-1',
+        handle: mysteryHandle,
+        badge: '🕵️ ENCRYPTED ANON DM',
+        color: '#FEE75C',
+        time: 'Just now',
+        text:
+          playerRole === 'him'
+            ? 'Okay, your take in the lounge actually made me laugh. Promise not to blow my cover if I drop one hint? My Sundays are strictly espresso and sketching mid-century courtyards.'
+            : 'Your advice in the lounge saved my Friday. Promise not to expose me? I spend Sundays baking sourdough focaccia with vintage sci-fi paperbacks in Noe Valley.',
+        isMysteryClue: true,
+      },
+    ];
+  }
+
+  return [
+    {
+      id: 'rblx-1',
+      handle: 'Kyle_DTI_RunwayKing',
+      badge: 'ROBLOX DTI',
+      color: '#57F287',
+      time: 'Today at 9:34 PM',
+      text: 'Drop your best Friday opener in here and the Dress to Impress lobby will score your rizz live 🫡',
+    },
+  ];
+}
+
+const ANON_ONLINE_ROSTER = [
+  { handle: '@midnight_martini_45', role: '🐆 Anon Cougar', status: 'Sketching & sipping martinis' },
+  { handle: '@sancerre_panther_51', role: '🐆 Anon Jaguar', status: 'Phone on DND after 9:30 PM' },
+  { handle: '@malibu_biotech_anon', role: '🐆 Anon Cougar', status: 'Dawn surf, zero Snapchat' },
+  { handle: '@pilates_noir_43', role: '🐆 Anon Cougar', status: 'Judging restaurant acoustics' },
+  { handle: '@sourdough_alignment_28', role: '🥂 Anon Cub', status: 'Baking focaccia in SF' },
+  { handle: '@cast_iron_cub_26', role: '🥂 Anon Cub', status: 'Seasoning ribeye skillet' },
+  { handle: 'Kyle_DTI_RunwayKing', role: '🎮 Roblox VC', status: 'Playing Dress to Impress' },
+  { handle: 'BrodyLifts225', role: '🎮 Roblox VC', status: 'Bulgarian split squats' },
+] as const;
 
 async function sendAiFeedbackPing(payload: {
   persona: string;
@@ -379,11 +699,15 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const [isSwipeDragging, setIsSwipeDragging] = useState(false);
   const swipeStartXRef = useRef<number | null>(null);
 
-  const [discordChannel, setDiscordChannel] = useState<DiscordChannelId>('first-dm-vetting');
+  const [discordChannel, setDiscordChannel] = useState<DiscordChannelId>('general-lounge');
   const [localPlayerRole, setLocalPlayerRole] = useState<'her' | 'him'>(playerRole ?? 'him');
   const activePlayerRole: 'her' | 'him' = playerRole ?? localPlayerRole;
-  // Your inbox ONLY shows your matches: Women see Cubs ('him'), Younger Men see Women ('her')
   const matchRole: 'her' | 'him' = activePlayerRole === 'her' ? 'him' : 'her';
+
+  const [progression, setProgression] = useState<PersistedInboxProgression>(() =>
+    loadInboxProgression(),
+  );
+  const [subplotGuessFeedback, setSubplotGuessFeedback] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selected, setSelected] = useState<InboxContact>(() =>
@@ -392,7 +716,16 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const [steamyMode, setSteamyMode] = useState(false);
   const [superLikedIds, setSuperLikedIds] = useState<string[]>([]);
   const [turnsByThread, setTurnsByThread] = useState<
-    Record<string, (LiveInboxTurn & { passed?: boolean; buddy?: DiscordBuddyRemark })[]>
+    Record<
+      string,
+      (LiveInboxTurn & {
+        passed?: boolean;
+        buddy?: DiscordBuddyRemark;
+        authorHandle?: string;
+        authorBadge?: string;
+        unlockedOffAppNow?: boolean;
+      })[]
+    >
   >({});
   const [coachByThread, setCoachByThread] = useState<
     Record<string, { note: string; deltas: string; passed: boolean; source: string }>
@@ -411,8 +744,20 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const stopVoiceRef = useRef<(() => void) | null>(null);
   const chatScrollRef = useRef<HTMLDivElement | null>(null);
 
+  const updateProgression = (
+    updater: (prev: PersistedInboxProgression) => PersistedInboxProgression,
+  ) => {
+    setProgression((prev) => {
+      const next = updater(prev);
+      saveInboxProgression(next);
+      return next;
+    });
+  };
+
   useEffect(() => {
     setPlatform(initialPlatform);
+    setCallBanner(null);
+    setOpenTapbackMenuKey(null);
   }, [initialPlatform, open]);
 
   useEffect(() => {
@@ -433,14 +778,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     });
   }, [matchRole, activePlayerRole, preferredHerId, preferredHisId]);
 
-  const handleSwitchPlayerRole = (nextRole: 'her' | 'him') => {
-    sfx.messagePop();
-    setLocalPlayerRole(nextRole);
-    onChangePlayerRole?.(nextRole);
-    setSelected(pickDefaultContactForPlayerRole(nextRole, preferredHerId, preferredHisId));
-    setCallBanner(null);
-  };
-
   const filteredContacts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return INBOX_CONTACTS.filter((c) => {
@@ -456,54 +793,200 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     });
   }, [matchRole, searchQuery]);
 
-  const threadKey = `${selected.id}:${steamyMode ? 'steamy' : 'vet'}`;
+  const getSparksForContact = (contactId: string): number => {
+    const vetTurns = turnsByThread[`tinder:${contactId}:vet`] ?? [];
+    const flirtTurns = turnsByThread[`tinder:${contactId}:flirt`] ?? [];
+    return (
+      vetTurns.filter((t) => t.sender === 'match' && t.passed).length +
+      flirtTurns.filter((t) => t.sender === 'match' && t.passed).length
+    );
+  };
+
+  const sparksForSelected = getSparksForContact(selected.id);
+  const isNumberEarnedForSelected = progression.unlockedImessageIds.includes(selected.id);
+  const isFlirtEarnedForSelected =
+    progression.flirtUnlockedIds.includes(selected.id) ||
+    isNumberEarnedForSelected ||
+    sparksForSelected >= 2;
+
+  const earnedImessageContacts = useMemo(
+    () => filteredContacts.filter((c) => progression.unlockedImessageIds.includes(c.id)),
+    [filteredContacts, progression.unlockedImessageIds],
+  );
+  const lockedTinderContacts = useMemo(
+    () => filteredContacts.filter((c) => !progression.unlockedImessageIds.includes(c.id)),
+    [filteredContacts, progression.unlockedImessageIds],
+  );
+
+  const subplotStage = progression.subplotStageByRole[activePlayerRole] ?? 0;
+  const mysteryHandle =
+    activePlayerRole === 'him' ? '@midnight_martini_45' : '@sourdough_alignment_28';
+  const mysteryTargetContact = useMemo(() => {
+    const targetId =
+      activePlayerRole === 'him' ? 'claire-cougar-exec' : 'kieran-anthropic-ai-cub';
+    return INBOX_CONTACTS.find((c) => c.id === targetId) ?? selected;
+  }, [activePlayerRole, selected]);
+
+  const mysterySuspects = useMemo(() => {
+    const ids =
+      activePlayerRole === 'him'
+        ? ['sienna-junior-cougar', 'claire-cougar-exec', 'evelyn-mogul-jaguar']
+        : ['leo-golden-cub', 'kieran-anthropic-ai-cub', 'miles-millennial-cub'];
+    return ids
+      .map((id) => INBOX_CONTACTS.find((c) => c.id === id))
+      .filter((c): c is InboxContact => Boolean(c));
+  }, [activePlayerRole]);
+
+  // Separate thread keys per platform so Tinder, earned iMessage, and Anon Discord NEVER share messages!
+  const threadKey =
+    platform === 'discord'
+      ? `discord:${activePlayerRole}:${discordChannel}`
+      : platform === 'imessage'
+        ? `imessage:${selected.id}:${steamyMode ? 'flirt' : 'offapp'}`
+        : `tinder:${selected.id}:${steamyMode ? 'flirt' : 'vet'}`;
+
   const turns = turnsByThread[threadKey] ?? [];
   const lastCoach = coachByThread[threadKey];
-  const activePrompt = steamyMode ? selected.steamyPrompt : selected.openingPrompt;
   const playerTurnCount = turns.filter((t) => t.sender === 'player').length;
-  const activeChips = getDynamicQuickChips(selected, steamyMode, playerTurnCount);
+
+  const activeTinderPrompt = steamyMode ? selected.steamyPrompt : selected.openingPrompt;
+  const activeImessagePrompt = buildOffAppOpeningText(selected, steamyMode);
+
+  const activeChips =
+    platform === 'discord'
+      ? getDiscordChips(discordChannel, activePlayerRole, subplotStage)
+      : platform === 'imessage'
+        ? getOffAppImessageChips(selected, steamyMode, playerTurnCount)
+        : getTinderQuickChips(
+            selected,
+            steamyMode,
+            playerTurnCount,
+            sparksForSelected,
+            isNumberEarnedForSelected,
+          );
+
   const stageLabel =
-    playerTurnCount < 2
-      ? 'Stage 1/4 • First Spark'
-      : playerTurnCount < 5
-        ? 'Stage 2/4 • Pre-Date Banter'
-        : playerTurnCount < 8
-          ? 'Stage 3/4 • After Date #1'
-          : 'Stage 4/4 • Going Steady (Ongoing)';
+    platform === 'imessage'
+      ? steamyMode
+        ? 'Off-App VIP • After Hours'
+        : playerTurnCount < 2
+          ? 'Off-App Win • Real Cell'
+          : 'Off-App Steady • Date Locked'
+      : playerTurnCount < 2
+        ? 'Stage 1/4 • App Vetting'
+        : playerTurnCount < 5
+          ? 'Stage 2/4 • Pre-Date Spark'
+          : playerTurnCount < 8
+            ? 'Stage 3/4 • After Date #1'
+            : 'Stage 4/4 • Going Steady';
 
   useEffect(() => {
     if (chatScrollRef.current) {
       chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
     }
-  }, [turns.length, typing, selected.id, platform, tinderSubMode]);
+  }, [turns.length, typing, selected.id, platform, tinderSubMode, discordChannel]);
 
   if (!open) return null;
+
+  const switchPlatform = (nextPlatform: InboxAppPlatform) => {
+    sfx.messagePop();
+    setPlatform(nextPlatform);
+    setCallBanner(null);
+    setOpenTapbackMenuKey(null);
+    setSubplotGuessFeedback(null);
+    setInput('');
+    if (nextPlatform === 'imessage') {
+      if (
+        earnedImessageContacts.length > 0 &&
+        !progression.unlockedImessageIds.includes(selected.id)
+      ) {
+        setSelected(earnedImessageContacts[0]);
+      }
+    } else if (nextPlatform === 'tinder') {
+      if (!isFlirtEarnedForSelected && steamyMode) {
+        setSteamyMode(false);
+      }
+    }
+  };
+
+  const handleSwitchPlayerRole = (nextRole: 'her' | 'him') => {
+    sfx.messagePop();
+    setLocalPlayerRole(nextRole);
+    onChangePlayerRole?.(nextRole);
+    const nextDefault = pickDefaultContactForPlayerRole(nextRole, preferredHerId, preferredHisId);
+    setSelected(nextDefault);
+    setSteamyMode(false);
+    setCallBanner(null);
+    setSubplotGuessFeedback(null);
+  };
+
+  const unlockContactOffApp = (contactId: string, grantRewardKey?: string) => {
+    updateProgression((prev) => ({
+      ...prev,
+      unlockedImessageIds: prev.unlockedImessageIds.includes(contactId)
+        ? prev.unlockedImessageIds
+        : [...prev.unlockedImessageIds, contactId],
+      flirtUnlockedIds: prev.flirtUnlockedIds.includes(contactId)
+        ? prev.flirtUnlockedIds
+        : [...prev.flirtUnlockedIds, contactId],
+    }));
+    if (grantRewardKey) {
+      onGrantBonusCredits?.(grantRewardKey, 2);
+    }
+  };
+
+  const handleGuessMysterySuspect = (suspect: InboxContact) => {
+    if (suspect.id === mysteryTargetContact.id) {
+      sfx.victoryFanfare();
+      updateProgression((prev) => ({
+        unlockedImessageIds: prev.unlockedImessageIds.includes(mysteryTargetContact.id)
+          ? prev.unlockedImessageIds
+          : [...prev.unlockedImessageIds, mysteryTargetContact.id],
+        flirtUnlockedIds: prev.flirtUnlockedIds.includes(mysteryTargetContact.id)
+          ? prev.flirtUnlockedIds
+          : [...prev.flirtUnlockedIds, mysteryTargetContact.id],
+        subplotStageByRole: {
+          ...prev.subplotStageByRole,
+          [activePlayerRole]: 3,
+        },
+      }));
+      onGrantBonusCredits?.(`discord_subplot_${activePlayerRole}`, 3);
+      setSubplotGuessFeedback(
+        `🎭 BUSTED! ${mysteryHandle} is ${mysteryTargetContact.name}, ${mysteryTargetContact.age}! +3 Bonus Credits & real iMessage number unlocked!`,
+      );
+    } else {
+      sfx.redFlag();
+      setSubplotGuessFeedback(
+        `Not ${suspect.name}! Re-read the Sunday ritual clue in ${mysteryHandle}'s messages and guess again.`,
+      );
+    }
+  };
 
   const greenTurnCount = turns.filter((t) => t.sender === 'match' && t.passed).length;
   const vibePercent = Math.min(
     100,
     Math.max(
       15,
-      38 +
-        greenTurnCount * 32 -
+      (isNumberEarnedForSelected ? 68 : 38) +
+        greenTurnCount * 22 -
         turns.filter((t) => t.sender === 'match' && t.passed === false).length * 20,
     ),
   );
 
-  const buildBuddyRemark = (passed: boolean, name: string): DiscordBuddyRemark => {
+  const buildBuddyRemark = (passed: boolean, label: string): DiscordBuddyRemark => {
     if (passed) {
       return {
         author: 'Kyle_DTI_RunwayKing',
         color: '#57F287',
         badge: 'ROBLOX DTI',
-        text: `🫡 W RIZZ IN #${discordChannel.toUpperCase()}!! write that down boys, ${name} actually smiled!!`,
+        text: `🫡 W RIZZ IN #${discordChannel.toUpperCase()}!! write that down boys, ${label} approved that line!!`,
       };
     }
     return {
       author: 'BrodyLifts225',
       color: '#FEE75C',
       badge: 'COOKED',
-      text: `💀 BRO GOT COOKED IN 4K BY ${name.toUpperCase()}!! pack it up and hop back on Dress to Impress`,
+      text: `💀 BRO GOT COOKED IN 4K IN #${discordChannel.toUpperCase()}!! pack it up and hop back on Dress to Impress`,
     };
   };
 
@@ -554,7 +1037,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
   const handleAppendEmoji = (emoji: string) => {
     sfx.messagePop();
-    setInput((prev) => `${prev}${prev && !prev.endsWith(' ') ? ' ' : ''}${emoji}`);
+    setInput((prev) => `${prev && !prev.endsWith(' ') ? ' ' : ''}${emoji}`);
   };
 
   const pool = filteredContacts.length > 0 ? filteredContacts : INBOX_CONTACTS;
@@ -564,6 +1047,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
   const handleNextMatch = () => {
     sfx.swipeLeft();
     setSelected(nextContact);
+    setSteamyMode(false);
     setCallBanner(null);
   };
 
@@ -571,10 +1055,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     sfx.messagePop();
     const prev = pool[(currentIdx - 1 + pool.length) % pool.length] ?? pool[0];
     setSelected(prev);
+    setSteamyMode(false);
     setCallBanner(null);
   };
 
-  // Interactive Tinder Swipe Motion right inside Tinder Web!
   const handleTinderDeckAction = (dir: 'left' | 'right' | 'super') => {
     if (swipeFly) return;
     setSwipeFly(dir);
@@ -601,8 +1085,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       setTinderSubMode('messages');
       setCallBanner(
         dir === 'super'
-          ? `⭐ IT'S A SUPER MATCH! ${selected.name} saw your blue star. Send your opener below!`
-          : `🔥 IT'S A MATCH with ${selected.name}! Send your first message below!`,
+          ? `⭐ IT'S A SUPER MATCH! ${selected.name} saw your blue star. Land 2 smooth lines to earn ${selected.role === 'her' ? 'her' : 'his'} real number!`
+          : `🔥 IT'S A MATCH with ${selected.name}! Earn 2 sparks to unlock Flirt Mode & ${selected.role === 'her' ? 'her' : 'his'} real iMessage number!`,
       );
     }, 340);
   };
@@ -611,6 +1095,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     e.preventDefault();
     const trimmed = input.trim();
     if (!trimmed || typing) return;
+
+    if (platform === 'imessage' && !isNumberEarnedForSelected) {
+      return;
+    }
 
     if (
       freeMessagesSent >= 3 &&
@@ -624,46 +1112,165 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     setFreeMessagesSent((n) => n + 1);
 
     sfx.messagePop();
+    const activeThreadKey = threadKey;
     const nextTurns = [...turns, { sender: 'player' as const, text: trimmed }];
-    setTurnsByThread((prev) => ({ ...prev, [threadKey]: nextTurns }));
+    setTurnsByThread((prev) => ({ ...prev, [activeThreadKey]: nextTurns }));
     setInput('');
     setTyping(true);
 
+    // Anonymous Discord Server Mode uses mystery/community personas rather than exposing Tinder match bios
+    const targetContact =
+      platform === 'discord' ? mysteryTargetContact : selected;
+    const seedPrompt =
+      platform === 'tinder'
+        ? activeTinderPrompt
+        : platform === 'imessage'
+          ? activeImessagePrompt
+          : '';
+
     const priorHistory: LiveInboxTurn[] = [
-      ...(activePrompt ? [{ sender: 'match' as const, text: activePrompt }] : []),
+      ...(seedPrompt ? [{ sender: 'match' as const, text: seedPrompt }] : []),
       ...nextTurns,
     ];
+
     const verdict = await liveAiInboxService.evaluateOpeningDm({
-      personaId: selected.id,
-      personaName: selected.name,
-      personaAge: selected.age,
-      personaTitle: steamyMode ? `${selected.title} (Flirty Slow-Burn Mode)` : selected.title,
-      personaRole: selected.role,
+      personaId: targetContact.id,
+      personaName:
+        platform === 'discord' && subplotStage < 3
+          ? mysteryHandle
+          : targetContact.name,
+      personaAge: targetContact.age,
+      personaTitle:
+        platform === 'discord'
+          ? 'Anonymous Velvet Lounge Regular'
+          : steamyMode
+            ? `${targetContact.title} (Earned Flirt Mode)`
+            : platform === 'imessage'
+              ? `${targetContact.title} (Earned Off-App iMessage)`
+              : targetContact.title,
+      personaRole: targetContact.role,
       platform,
       playerMessage: trimmed,
       history: priorHistory,
     });
 
     setTyping(false);
-    if (verdict.passedVibeCheck) {
-      sfx.greenFlag();
+
+    // Check if this Tinder reply just earned Flirt Mode & Off-App iMessage Number!
+    let justEarnedOffApp = false;
+    if (platform === 'tinder' && verdict.passedVibeCheck) {
+      const newSparkTotal = sparksForSelected + 1;
+      const askedOffApp =
+        /\b(number|digits|imessage|off[- ]?app|real\s+cell|text\s+my\s+real)\b/i.test(trimmed);
+      if (
+        !isNumberEarnedForSelected &&
+        (newSparkTotal >= 2 || (askedOffApp && sparksForSelected >= 1))
+      ) {
+        justEarnedOffApp = true;
+        sfx.victoryFanfare();
+        unlockContactOffApp(selected.id, 'first_off_app_win');
+      } else {
+        sfx.greenFlag();
+      }
+    } else if (platform === 'discord') {
+      if (verdict.passedVibeCheck) {
+        sfx.greenFlag();
+        if (discordChannel === 'mystery-subplot') {
+          const nextStage = Math.min(3, Math.max(2, subplotStage + 1));
+          updateProgression((prev) => ({
+            ...prev,
+            unlockedImessageIds:
+              nextStage >= 3 && !prev.unlockedImessageIds.includes(mysteryTargetContact.id)
+                ? [...prev.unlockedImessageIds, mysteryTargetContact.id]
+                : prev.unlockedImessageIds,
+            flirtUnlockedIds:
+              nextStage >= 3 && !prev.flirtUnlockedIds.includes(mysteryTargetContact.id)
+                ? [...prev.flirtUnlockedIds, mysteryTargetContact.id]
+                : prev.flirtUnlockedIds,
+            subplotStageByRole: {
+              ...prev.subplotStageByRole,
+              [activePlayerRole]: nextStage,
+            },
+          }));
+          if (nextStage >= 3 && subplotStage < 3) {
+            sfx.victoryFanfare();
+            onGrantBonusCredits?.(`discord_subplot_${activePlayerRole}`, 3);
+          }
+        } else if (subplotStage === 0) {
+          updateProgression((prev) => ({
+            ...prev,
+            subplotStageByRole: {
+              ...prev.subplotStageByRole,
+              [activePlayerRole]: 1,
+            },
+          }));
+        }
+      } else {
+        sfx.redFlag();
+      }
     } else {
-      sfx.redFlag();
+      if (verdict.passedVibeCheck) sfx.greenFlag();
+      else sfx.redFlag();
     }
 
     const updatedPlayerTurns = nextTurns.map((t, idx) =>
       idx === nextTurns.length - 1 ? { ...t, passed: verdict.passedVibeCheck } : t,
     );
 
+    const replyText =
+      platform === 'discord' &&
+      discordChannel === 'mystery-subplot' &&
+      verdict.passedVibeCheck &&
+      subplotStage === 1
+        ? activePlayerRole === 'him'
+          ? `${verdict.herReply} Clue two: my dog is none, my weakness is a pulled-out chair and a dirty martini.`
+          : `${verdict.herReply} Clue two: I left an AI safety lab at 28 and never split checks.`
+        : platform === 'discord' &&
+            discordChannel === 'mystery-subplot' &&
+            verdict.passedVibeCheck &&
+            subplotStage >= 2
+          ? activePlayerRole === 'him'
+            ? `Okay busted, it's Claire. Keep my anon handle secret and text my real cell on iMessage.`
+            : `Okay busted, it's Kieran. Don't expose my anon handle, text my real iMessage instead!`
+          : verdict.herReply;
+
+    const replyHandle =
+      platform === 'discord'
+        ? discordChannel === 'mystery-subplot'
+          ? subplotStage >= 2 && verdict.passedVibeCheck
+            ? `${mysteryTargetContact.name} (${mysteryHandle})`
+            : mysteryHandle
+          : discordChannel === 'vetting-hotline'
+            ? activePlayerRole === 'him'
+              ? '@malibu_biotech_anon'
+              : '@cast_iron_cub_26'
+            : mysteryHandle
+        : undefined;
+
+    const replyBadge =
+      platform === 'discord'
+        ? discordChannel === 'mystery-subplot'
+          ? '🕵️ MYSTERY SUBPLOT'
+          : activePlayerRole === 'him'
+            ? '🐆 ANON COUGAR'
+            : '🥂 ANON CUB'
+        : undefined;
+
     setTurnsByThread((prev) => ({
       ...prev,
-      [threadKey]: [
+      [activeThreadKey]: [
         ...updatedPlayerTurns,
         {
           sender: 'match',
-          text: verdict.herReply,
+          text: replyText,
           passed: verdict.passedVibeCheck,
-          buddy: buildBuddyRemark(verdict.passedVibeCheck, selected.name),
+          authorHandle: replyHandle,
+          authorBadge: replyBadge,
+          unlockedOffAppNow: justEarnedOffApp,
+          buddy: buildBuddyRemark(
+            verdict.passedVibeCheck,
+            platform === 'discord' ? 'the lounge' : selected.name,
+          ),
         },
       ],
     }));
@@ -671,8 +1278,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
     const sign = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
     setCoachByThread((prev) => ({
       ...prev,
-      [threadKey]: {
-        note: verdict.coachNote,
+      [activeThreadKey]: {
+        note: justEarnedOffApp
+          ? `🎉 Off-App Win! You earned ${selected.name}'s real number AND unlocked Flirt Mode!`
+          : verdict.coachNote,
         deltas: `Maturity ${sign(verdict.maturityDelta)} • Chivalry ${sign(verdict.chivalryDelta)} • Chemistry ${sign(verdict.chemistryDelta)}`,
         passed: verdict.passedVibeCheck,
         source: verdict.source === 'workers-ai' ? 'Live AI' : 'Instant Vibe',
@@ -699,6 +1308,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
   const isDarkDiscord = platform === 'discord';
   const isAppleMessages = platform === 'imessage';
+  const playerAnonHandle =
+    activePlayerRole === 'her' ? '@anon_cougar_vip' : '@anon_younger_man';
 
   return (
     <section
@@ -707,7 +1318,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
       className="w-full space-y-4 animate-stage-in"
     >
       {/* =====================================================================
-       * TOP COMMAND & PLAYER IDENTITY BAR
+       * TOP COMMAND, IDENTITY & PROGRESSION LEVEL SWITCHER BAR
        * ===================================================================== */}
       <div className="vice-panel rounded-3xl bg-white px-4 py-3 sm:px-5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
@@ -721,7 +1332,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             <span>Back to Lobby</span>
           </button>
 
-          {/* Clean Top-Level Identity Switcher (sets your whole inbox to your matches, never mixing both!) */}
+          {/* Single-Gender Match Identity Switcher */}
           <div
             role="group"
             aria-label="Your dating identity"
@@ -766,28 +1377,30 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           )}
 
           <div className="hidden xl:block pl-1">
-            <div className="font-display text-sm sm:text-base text-[#18101E] leading-tight">
-              Dynamic Multi-Turn AI Chat • {stageLabel}
+            <div className="font-display text-sm text-[#18101E] leading-tight">
+              {platform === 'tinder'
+                ? `Level 1: Tinder Match Vetting (${sparksForSelected}/2 Sparks)`
+                : platform === 'imessage'
+                  ? `Level 2: Earned Off-App iMessage (${earnedImessageContacts.length} Unlocked)`
+                  : `Anon Lounge: Club Discord & Mystery Subplot`}
             </div>
             <div className="text-[11px] font-semibold text-[#64748B]">
-              {freeMessagesSent < 3
-                ? `🎁 ${3 - freeMessagesSent} free replies left • Evolves across 4 relationship stages`
-                : wallet.isVip || wallet.isFounderUnlimited
-                  ? '👑 VIP Unlimited Ongoing Chat Active'
-                  : `Ongoing Chat Active • Wallet: ${wallet.credits} Credits`}
+              {platform === 'tinder'
+                ? 'Land 2 green-flag lines to earn Flirt Mode & move off-app to iMessage'
+                : platform === 'imessage'
+                  ? 'Personal numbers you earned off Tinder with separate off-app threads'
+                  : 'Anonymous community chat + unmask the Mystery Regular (+3 Cr)'}
             </div>
           </div>
         </div>
 
-        {/* 3 Authentic Native App Switchers: Tinder + iMessage + Discord */}
+        {/* 3 Distinct Levels/Modes: Tinder (Vetting) -> iMessage (Earned #) -> Discord (Anon Lounge) */}
         <div className="flex flex-wrap items-center gap-2">
           <div className="inline-flex rounded-full border border-[#18101E]/12 bg-[#F8FAFC] p-1 text-xs sm:text-sm font-bold">
             <button
               type="button"
-              onClick={() => {
-                sfx.messagePop();
-                setPlatform('tinder');
-              }}
+              onClick={() => switchPlatform('tinder')}
+              aria-label="Tinder"
               className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3.5 transition cursor-pointer ${
                 platform === 'tinder'
                   ? 'bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white shadow-xs'
@@ -797,12 +1410,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               <Flame className="h-3.5 w-3.5 fill-current" />
               <span>Tinder</span>
             </button>
+
             <button
               type="button"
-              onClick={() => {
-                sfx.messagePop();
-                setPlatform('imessage');
-              }}
+              onClick={() => switchPlatform('imessage')}
+              aria-label="iMessage"
               className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3.5 transition cursor-pointer ${
                 platform === 'imessage'
                   ? 'bg-[#007AFF] text-white shadow-xs'
@@ -811,13 +1423,25 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             >
               <MessageCircle className="h-3.5 w-3.5 fill-current" />
               <span>iMessage</span>
+              {earnedImessageContacts.length > 0 ? (
+                <span
+                  className={`rounded-full px-1.5 py-0.2 text-[10px] font-extrabold ${
+                    platform === 'imessage'
+                      ? 'bg-white text-[#007AFF]'
+                      : 'bg-[#007AFF] text-white'
+                  }`}
+                >
+                  {earnedImessageContacts.length}
+                </span>
+              ) : (
+                <Lock className="h-3 w-3 opacity-70" />
+              )}
             </button>
+
             <button
               type="button"
-              onClick={() => {
-                sfx.messagePop();
-                setPlatform('discord');
-              }}
+              onClick={() => switchPlatform('discord')}
+              aria-label="Discord"
               className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3.5 transition cursor-pointer ${
                 platform === 'discord'
                   ? 'bg-[#5865F2] text-white shadow-xs'
@@ -826,46 +1450,74 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             >
               <Hash className="h-3.5 w-3.5" />
               <span>Discord</span>
+              {subplotStage >= 1 && subplotStage < 3 && (
+                <span className="rounded-full bg-[#FEE75C] px-1.5 text-[9px] font-extrabold text-[#18101E]">
+                  DM!
+                </span>
+              )}
             </button>
           </div>
 
-          <div className="inline-flex rounded-full border border-[#18101E]/12 bg-[#F8FAFC] p-0.5 text-xs font-bold">
-            <button
-              type="button"
-              onClick={() => {
-                setSteamyMode(false);
-                if (discordChannel === 'after-dark-flirt') setDiscordChannel('first-dm-vetting');
-              }}
-              className={`h-8 rounded-full px-3 transition cursor-pointer ${
-                !steamyMode ? 'bg-[#18101E] text-white' : 'text-[#475569]'
-              }`}
-            >
-              🍸 First DM
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setSteamyMode(true);
-                if (platform === 'discord') setDiscordChannel('after-dark-flirt');
-              }}
-              className={`inline-flex h-8 items-center gap-1 rounded-full px-3 transition cursor-pointer ${
-                steamyMode
-                  ? 'bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white'
-                  : 'text-[#E11D48]'
-              }`}
-            >
-              <Flame className="h-3 w-3" />
-              <span>Flirt Mode</span>
-            </button>
-          </div>
+          {/* Earned Flirt Mode Switcher (Only for 1-on-1 Tinder & Earned iMessage; locked until 2 sparks!) */}
+          {platform !== 'discord' && (
+            <div className="inline-flex rounded-full border border-[#18101E]/12 bg-[#F8FAFC] p-0.5 text-xs font-bold">
+              <button
+                type="button"
+                onClick={() => {
+                  sfx.messagePop();
+                  setSteamyMode(false);
+                }}
+                className={`h-8 rounded-full px-3 transition cursor-pointer ${
+                  !steamyMode ? 'bg-[#18101E] text-white' : 'text-[#475569]'
+                }`}
+              >
+                {platform === 'imessage' ? '📱 Off-App' : '🍸 First DM'}
+              </button>
+              <button
+                type="button"
+                aria-label="Flirt Mode"
+                onClick={() => {
+                  if (!isFlirtEarnedForSelected) {
+                    sfx.redFlag();
+                    setCallBanner(
+                      `🔒 Flirt Mode is earned! Land 2 green-flag replies with ${selected.name} (${sparksForSelected}/2 sparks) before turning up the heat.`,
+                    );
+                    return;
+                  }
+                  sfx.messagePop();
+                  setSteamyMode(true);
+                  setCallBanner(null);
+                }}
+                className={`inline-flex h-8 items-center gap-1 rounded-full px-3 transition cursor-pointer ${
+                  steamyMode
+                    ? 'bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-white'
+                    : isFlirtEarnedForSelected
+                      ? 'text-[#E11D48] hover:bg-[#FFF0F5]'
+                      : 'text-[#64748B] opacity-85'
+                }`}
+              >
+                {isFlirtEarnedForSelected ? (
+                  <Flame className="h-3 w-3" />
+                ) : (
+                  <Lock className="h-3 w-3" />
+                )}
+                <span>
+                  {isFlirtEarnedForSelected
+                    ? 'Flirt Mode'
+                    : `Flirt Mode (${sparksForSelected}/2)`}
+                </span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* =====================================================================
-       * FULL NATIVE 3-COLUMN APP SHELL (TINDER WEB vs APPLE MESSAGES vs DISCORD)
+       * ISOLATED PLATFORM SHELL (key={platform} guarantees ZERO superimposed DOM!)
        * ===================================================================== */}
       <div
-        className={`overflow-hidden rounded-3xl border shadow-[0_20px_50px_-14px_rgba(15,23,42,0.22)] grid grid-cols-1 lg:grid-cols-[300px_1fr_340px] items-start ${
+        key={platform}
+        className={`animate-stage-in overflow-hidden rounded-3xl border shadow-[0_20px_50px_-14px_rgba(15,23,42,0.22)] grid grid-cols-1 lg:grid-cols-[300px_1fr_340px] items-start ${
           isDarkDiscord
             ? 'border-[#1F2023] bg-[#313338] text-[#DBDEE1]'
             : isAppleMessages
@@ -874,31 +1526,22 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         }`}
       >
         {/* -------------------------------------------------------------------
-         * COLUMN 1: PLATFORM-AUTHENTIC SIDEBAR (Tinder / Apple Messages / Discord)
+         * COLUMN 1: PLATFORM-SPECIFIC SIDEBAR
          * ------------------------------------------------------------------- */}
         {isDarkDiscord ? (
-          /* DISCORD AUTHENTIC SERVER RAIL + CHANNELS/DMS SIDEBAR */
+          /* DISCORD ANONYMOUS COMMUNITY SERVER + MYSTERY SUBPLOT SIDEBAR */
           <aside className="flex h-[360px] lg:h-[680px] border-b lg:border-b-0 lg:border-r border-[#1F2023] bg-[#2B2D31]">
-            {/* Far-Left 56px Discord Server Rail */}
             <div className="hidden sm:flex w-14 shrink-0 flex-col items-center gap-2.5 bg-[#1E1F22] py-3">
               <button
                 type="button"
-                onClick={() => setDiscordChannel('first-dm-vetting')}
-                title="Direct Messages"
-                className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#5865F2] text-white shadow-md cursor-pointer"
-              >
-                <MessageCircle className="h-5 w-5 fill-current" />
-              </button>
-              <div className="h-0.5 w-7 rounded-full bg-[#35363C]" />
-              <button
-                type="button"
-                onClick={() => setDiscordChannel('first-dm-vetting')}
-                title="Cougars & Cubs Club Server"
-                className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#E11D48] to-[#F59E0B] text-lg shadow-sm cursor-pointer"
+                onClick={() => setDiscordChannel('general-lounge')}
+                title="Velvet Lounge Anon Server"
+                className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#5865F2] to-[#E11D48] text-lg text-white shadow-md cursor-pointer"
               >
                 <span className="absolute -left-1.5 h-7 w-1 rounded-r-full bg-white" />
-                🐆
+                🎭
               </button>
+              <div className="h-0.5 w-7 rounded-full bg-[#35363C]" />
               <button
                 type="button"
                 onClick={() => setDiscordChannel('boys-roblox-vc')}
@@ -917,114 +1560,117 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               </button>
             </div>
 
-            {/* Inner Channels + Direct Messages List */}
-            <div className="flex min-w-0 flex-1 flex-col">
-              <div className="flex items-center justify-between border-b border-[#1F2023] px-3.5 py-3">
-                <span className="truncate text-sm font-extrabold text-white">
-                  Cougars &amp; Cubs Club
-                </span>
-                <span className="rounded bg-[#1E1F22] px-2 py-0.5 text-[10px] font-bold text-[#949BA4]">
-                  {matchRole === 'him' ? 'Cub Matches' : 'Her Matches'}
-                </span>
-              </div>
-
-              <div className="px-2.5 pt-2.5 pb-1.5 space-y-1">
-                <div className="px-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#949BA4]">
-                  Text Channels
+            <div className="flex min-w-0 flex-1 flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between border-b border-[#1F2023] px-3.5 py-3">
+                  <span className="truncate text-sm font-extrabold text-white">
+                    Velvet Lounge (Anon)
+                  </span>
+                  <span className="rounded bg-[#1E1F22] px-2 py-0.5 text-[10px] font-bold text-[#57F287]">
+                    8 Online
+                  </span>
                 </div>
-                {(
-                  [
-                    ['first-dm-vetting', false],
-                    ['after-dark-flirt', true],
-                    ['boys-roblox-vc', false],
-                  ] as const
-                ).map(([id, isSteamy]) => {
-                  const active = discordChannel === id;
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => {
-                        sfx.messagePop();
-                        setDiscordChannel(id);
-                        setSteamyMode(isSteamy);
-                      }}
-                      className={`w-full flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold transition cursor-pointer ${
-                        active
-                          ? 'bg-[#404249] text-white'
-                          : 'text-[#949BA4] hover:bg-[#35373C] hover:text-[#DBDEE1]'
-                      }`}
-                    >
-                      <Hash className="h-4 w-4 shrink-0 text-[#80848E]" />
-                      <span className="truncate">{id}</span>
-                    </button>
-                  );
-                })}
-              </div>
 
-              <div className="px-2.5 py-1.5">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Find or start a conversation"
-                  className="w-full rounded bg-[#1E1F22] px-2.5 py-1.5 text-xs text-[#DBDEE1] placeholder:text-[#80848E] focus:outline-none"
-                />
-              </div>
-
-              <div className="px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#949BA4]">
-                Direct Messages • {filteredContacts.length} Online
-              </div>
-
-              <div className="flex-1 overflow-y-auto overscroll-contain px-2 space-y-0.5">
-                {filteredContacts.map((c) => {
-                  const active = c.id === selected.id;
-                  return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => {
-                        sfx.messagePop();
-                        setSelected(c);
-                        setCallBanner(null);
-                      }}
-                      className={`w-full flex items-center gap-2.5 rounded-md px-2 py-1.5 text-left transition cursor-pointer ${
-                        active
-                          ? 'bg-[#404249] text-white'
-                          : 'text-[#949BA4] hover:bg-[#35373C] hover:text-[#DBDEE1]'
-                      }`}
-                    >
-                      <div className="relative shrink-0">
-                        <img
-                          src={c.photoUrl}
-                          alt={c.name}
-                          className="h-8 w-8 rounded-full object-cover object-top"
-                        />
-                        <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#2B2D31] bg-[#23A55A]" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="truncate text-xs font-bold text-[#F2F3F5]">
-                          {c.name}, {c.age}
+                <div className="px-2.5 space-y-1">
+                  <div className="px-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#949BA4]">
+                    Anon Community Channels
+                  </div>
+                  {(
+                    [
+                      ['general-lounge', 'Cougar & Cub Lounge'],
+                      ['vetting-hotline', 'Anon Advice & Roasts'],
+                      ['boys-roblox-vc', 'Roblox DTI Locker Room'],
+                    ] as const
+                  ).map(([id, subtitle]) => {
+                    const active = discordChannel === id;
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => {
+                          sfx.messagePop();
+                          setDiscordChannel(id);
+                        }}
+                        className={`w-full flex items-center justify-between gap-1.5 rounded-md px-2 py-2 text-left text-xs font-semibold transition cursor-pointer ${
+                          active
+                            ? 'bg-[#404249] text-white'
+                            : 'text-[#949BA4] hover:bg-[#35373C] hover:text-[#DBDEE1]'
+                        }`}
+                      >
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <Hash className="h-4 w-4 shrink-0 text-[#80848E]" />
+                            <span className="truncate font-bold">{id}</span>
+                          </div>
+                          <div className="pl-5.5 truncate text-[10px] text-[#949BA4]">
+                            {subtitle}
+                          </div>
                         </div>
-                        <div className="truncate text-[10px] text-[#949BA4]">
-                          {c.interests.slice(0, 2).join(' • ')}
-                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Anonymous Mystery Subplot DM Section */}
+                <div className="px-2.5 pt-2 space-y-1.5 border-t border-[#1F2023]">
+                  <div className="px-1.5 flex items-center justify-between text-[10px] font-extrabold uppercase tracking-wider text-[#FEE75C]">
+                    <span>🕵️ Mystery Subplot DM</span>
+                    <span>{subplotStage}/3</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (subplotStage === 0) {
+                        sfx.redFlag();
+                        setDiscordChannel('general-lounge');
+                        setSubplotGuessFeedback(
+                          `🔒 Post 1 message in #general-lounge first so ${mysteryHandle} notices you and opens DMs!`,
+                        );
+                        return;
+                      }
+                      sfx.messagePop();
+                      setDiscordChannel('mystery-subplot');
+                    }}
+                    className={`w-full flex items-center gap-2.5 rounded-lg border px-2.5 py-2.5 text-left transition cursor-pointer ${
+                      discordChannel === 'mystery-subplot'
+                        ? 'border-[#FEE75C] bg-[#404249] text-white'
+                        : subplotStage >= 1
+                          ? 'border-[#FEE75C]/40 bg-[#232428] text-[#F2F3F5] hover:bg-[#35373C]'
+                          : 'border-[#3F4147] bg-[#1E1F22]/70 text-[#949BA4]'
+                    }`}
+                  >
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#5865F2] text-sm">
+                      {subplotStage === 0 ? '🔒' : subplotStage >= 3 ? '🎭' : '🕵️'}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-xs font-extrabold text-white">
+                        {subplotStage >= 3
+                          ? `${mysteryTargetContact.name} (Unmasked!)`
+                          : mysteryHandle}
                       </div>
-                    </button>
-                  );
-                })}
+                      <div className="truncate text-[10px] text-[#B5BAC1]">
+                        {subplotStage === 0
+                          ? 'Post in #general-lounge to unlock'
+                          : subplotStage >= 3
+                            ? 'Real iMessage # unlocked!'
+                            : 'Anon crush • Spot the clues!'}
+                      </div>
+                    </div>
+                  </button>
+                </div>
               </div>
 
-              {/* Authentic Bottom Discord User Voice Status Bar */}
+              {/* Bottom Anon Handle Status Bar */}
               <div className="flex items-center justify-between bg-[#232428] px-2.5 py-2 text-xs">
                 <div className="flex items-center gap-2 min-w-0">
-                  <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5865F2] text-[10px] font-extrabold text-white">
-                    YOU
+                  <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5865F2] text-xs font-extrabold text-white">
+                    🎭
                     <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#232428] bg-[#23A55A]" />
                   </div>
                   <div className="min-w-0 leading-tight">
-                    <div className="truncate text-xs font-bold text-white">ClubMember</div>
-                    <div className="text-[10px] text-[#23A55A]">Online</div>
+                    <div className="truncate text-xs font-bold text-white">{playerAnonHandle}</div>
+                    <div className="text-[10px] text-[#23A55A]">Identity Masked</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5 text-[#B5BAC1]">
@@ -1035,7 +1681,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             </div>
           </aside>
         ) : isAppleMessages ? (
-          /* APPLE macOS / iPadOS MESSAGES SIDEBAR */
+          /* APPLE MESSAGES SIDEBAR: EARNED OFF-APP NUMBERS ONLY AT TOP */
           <aside className="flex flex-col border-b lg:border-b-0 lg:border-r border-[#D1D1D6] bg-[#F2F2F7]/95 h-[340px] lg:h-[680px]">
             <div className="px-4 pt-3 pb-2.5 space-y-2.5 border-b border-[#D1D1D6]">
               <div className="flex items-center justify-between">
@@ -1046,8 +1692,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   <span className="ml-2 text-sm font-bold text-[#1C1C1E]">Messages</span>
                 </div>
 
-                <span className="rounded-lg bg-[#E5E5EA] px-2.5 py-0.5 text-[11px] font-semibold text-[#636366]">
-                  {filteredContacts.length} Matches
+                <span className="rounded-lg bg-[#007AFF]/12 px-2.5 py-0.5 text-[11px] font-bold text-[#007AFF]">
+                  {earnedImessageContacts.length} Earned #
                 </span>
               </div>
 
@@ -1057,49 +1703,27 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search"
+                  placeholder="Search off-app contacts"
                   className="w-full rounded-xl bg-[#E5E5EA] pl-8 pr-3 py-1.5 text-xs font-medium text-[#1C1C1E] placeholder:text-[#8E8E93] focus:bg-white focus:outline-none"
                 />
               </div>
-
-              {/* Pinned Apple Messages Contacts */}
-              <div className="grid grid-cols-4 gap-2 pt-1">
-                {filteredContacts.slice(0, 4).map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    onClick={() => {
-                      sfx.messagePop();
-                      setSelected(c);
-                      setCallBanner(null);
-                    }}
-                    className="flex flex-col items-center cursor-pointer group"
-                  >
-                    <img
-                      src={c.photoUrl}
-                      alt={c.name}
-                      className={`h-11 w-11 rounded-full object-cover object-top shadow-xs transition ${
-                        c.id === selected.id ? 'ring-2 ring-[#007AFF]' : 'group-hover:scale-105'
-                      }`}
-                    />
-                    <span className="mt-1 truncate max-w-full text-[10px] font-semibold text-[#636366]">
-                      {c.name}
-                    </span>
-                  </button>
-                ))}
-              </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto overscroll-contain p-2 space-y-0.5">
-              {filteredContacts.map((c) => {
+            <div className="flex-1 overflow-y-auto overscroll-contain p-2 space-y-1">
+              {earnedImessageContacts.length > 0 && (
+                <div className="px-2 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#007AFF]">
+                  📱 Earned Off-App Numbers ({earnedImessageContacts.length})
+                </div>
+              )}
+
+              {earnedImessageContacts.map((c) => {
                 const active = c.id === selected.id;
-                const tKey = `${c.id}:${steamyMode ? 'steamy' : 'vet'}`;
+                const tKey = `imessage:${c.id}:${steamyMode ? 'flirt' : 'offapp'}`;
                 const threadTurns = turnsByThread[tKey] ?? [];
-                const rawOpening = steamyMode ? c.steamyPrompt : c.openingPrompt;
                 const preview =
                   threadTurns.length > 0
                     ? threadTurns[threadTurns.length - 1].text
-                    : rawOpening || '✨ New Match • Your move first';
+                    : buildOffAppOpeningText(c, steamyMode);
 
                 return (
                   <button
@@ -1114,11 +1738,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       active ? 'bg-[#007AFF] text-white' : 'hover:bg-black/5 text-[#1C1C1E]'
                     }`}
                   >
-                    {!active && threadTurns.length === 0 ? (
-                      <span className="h-2 w-2 shrink-0 rounded-full bg-[#007AFF]" />
-                    ) : (
-                      <span className="h-2 w-2 shrink-0" />
-                    )}
                     <img
                       src={c.photoUrl}
                       alt={c.name}
@@ -1131,10 +1750,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         </span>
                         <span
                           className={`shrink-0 text-[10px] ${
-                            active ? 'text-white/85' : 'text-[#8E8E93]'
+                            active ? 'text-white/85' : 'text-[#34C759] font-bold'
                           }`}
                         >
-                          9:41 PM
+                          Off-App ✓
                         </span>
                       </div>
                       <p
@@ -1148,10 +1767,58 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   </button>
                 );
               })}
+
+              <div className="px-2 pt-2 pb-1 text-[10px] font-extrabold uppercase tracking-wider text-[#8E8E93]">
+                🔒 Still on Tinder (Win Their Number)
+              </div>
+
+              {lockedTinderContacts.slice(0, 8).map((c) => {
+                const sparks = getSparksForContact(c.id);
+                const active = c.id === selected.id;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => {
+                      sfx.messagePop();
+                      setSelected(c);
+                    }}
+                    className={`w-full flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition cursor-pointer ${
+                      active
+                        ? 'bg-[#E5E5EA] text-[#1C1C1E]'
+                        : 'opacity-75 hover:opacity-100 hover:bg-black/5 text-[#636366]'
+                    }`}
+                  >
+                    <div className="relative shrink-0">
+                      <img
+                        src={c.photoUrl}
+                        alt={c.name}
+                        className="h-9 w-9 rounded-full object-cover object-top grayscale-[35%]"
+                      />
+                      <span className="absolute -bottom-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#1C1C1E] text-white">
+                        <Lock className="h-2.5 w-2.5" />
+                      </span>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="truncate text-xs font-semibold">
+                          {c.name}, {c.age}
+                        </span>
+                        <span className="shrink-0 text-[10px] font-bold text-[#007AFF]">
+                          {sparks}/2 Sparks
+                        </span>
+                      </div>
+                      <p className="truncate text-[10.5px] text-[#8E8E93]">
+                        Locked • Win {c.role === 'her' ? 'her' : 'his'} # on Tinder
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </aside>
         ) : (
-          /* TINDER WEB SIDEBAR */
+          /* TINDER WEB SIDEBAR (App Matches & Spark Progress) */
           <aside className="flex flex-col border-b lg:border-b-0 lg:border-r border-[#E5E7EB] bg-[#FAFAFC] h-[340px] lg:h-[680px]">
             <div className="bg-gradient-to-r from-[#FD267A] to-[#FF6036] px-4 py-3 text-white space-y-2.5">
               <div className="flex items-center justify-between">
@@ -1178,11 +1845,12 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
 
             <div className="border-b border-[#E5E7EB] px-3.5 py-2.5 bg-white">
               <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#FD267A] mb-2">
-                New Matches • Online Now
+                New Matches • Earn 2 Sparks for Real #
               </div>
               <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-0.5">
                 {filteredContacts.slice(0, 8).map((c) => {
                   const isSel = c.id === selected.id;
+                  const won = progression.unlockedImessageIds.includes(c.id);
                   return (
                     <button
                       key={c.id}
@@ -1190,6 +1858,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       onClick={() => {
                         sfx.messagePop();
                         setSelected(c);
+                        if (!progression.flirtUnlockedIds.includes(c.id) && !won) {
+                          setSteamyMode(false);
+                        }
                         setCallBanner(null);
                       }}
                       className="group flex flex-col items-center shrink-0 cursor-pointer"
@@ -1206,7 +1877,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                           alt={c.name}
                           className="h-11 w-11 rounded-full object-cover object-top border-2 border-white"
                         />
-                        <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#21D07C]" />
+                        <span
+                          className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white ${
+                            won ? 'bg-[#007AFF]' : 'bg-[#21D07C]'
+                          }`}
+                        />
                       </div>
                       <span className="mt-1 text-[11px] font-bold text-[#18101E] group-hover:text-[#FD267A]">
                         {c.name}
@@ -1220,13 +1895,14 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             <div className="flex-1 overflow-y-auto overscroll-contain divide-y divide-[#F1F5F9]">
               {filteredContacts.map((c) => {
                 const active = c.id === selected.id;
-                const tKey = `${c.id}:${steamyMode ? 'steamy' : 'vet'}`;
+                const won = progression.unlockedImessageIds.includes(c.id);
+                const sparks = getSparksForContact(c.id);
+                const tKey = `tinder:${c.id}:vet`;
                 const threadTurns = turnsByThread[tKey] ?? [];
-                const rawOpening = steamyMode ? c.steamyPrompt : c.openingPrompt;
                 const preview =
                   threadTurns.length > 0
                     ? threadTurns[threadTurns.length - 1].text
-                    : rawOpening || '✨ New Match • Your move first';
+                    : c.openingPrompt || '✨ New Match • Your move first';
 
                 return (
                   <button
@@ -1235,6 +1911,9 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     onClick={() => {
                       sfx.messagePop();
                       setSelected(c);
+                      if (!progression.flirtUnlockedIds.includes(c.id) && !won) {
+                        setSteamyMode(false);
+                      }
                       setCallBanner(null);
                     }}
                     className={`w-full flex items-center gap-3 px-3.5 py-2.5 text-left transition cursor-pointer ${
@@ -1258,9 +1937,15 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         <span className="truncate text-sm font-extrabold text-[#18101E]">
                           {c.name}, {c.age}
                         </span>
-                        <span className="shrink-0 text-[10px] font-semibold text-[#94A3B8]">
-                          {c.zodiac.split(' ')[0]}
-                        </span>
+                        {won ? (
+                          <span className="shrink-0 rounded-full bg-[#EFF6FF] px-2 py-0.2 text-[10px] font-extrabold text-[#007AFF]">
+                            📱 Off-App ✓
+                          </span>
+                        ) : (
+                          <span className="shrink-0 text-[10px] font-bold text-[#94A3B8]">
+                            {sparks}/2 ✨
+                          </span>
+                        )}
                       </div>
                       <p className="line-clamp-2 text-xs font-medium text-[#64748B] mt-0.5 leading-snug">
                         {preview}
@@ -1274,11 +1959,10 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         )}
 
         {/* -------------------------------------------------------------------
-         * COLUMN 2: CENTER LIVE CANVAS (TINDER MESSAGES + SWIPE DECK / iMESSAGE / DISCORD)
+         * COLUMN 2: CENTER LIVE CANVAS
          * ------------------------------------------------------------------- */}
         {platform === 'tinder' ? (
           <div className="flex flex-col overflow-hidden bg-white font-sans text-[#18101E] h-[640px] lg:h-[680px]">
-            {/* Tinder Header with Live Mode Toggle: 💬 Messages vs 🔥 Swipe Cards */}
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E5E7EB] bg-white px-4 py-2.5">
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="relative shrink-0 rounded-full bg-gradient-to-tr from-[#FD267A] to-[#FF6036] p-0.5">
@@ -1294,6 +1978,19 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       {selected.name}, {selected.age}
                     </span>
                     <BadgeCheck className="h-4 w-4 shrink-0 fill-[#1786FF] text-white" />
+                    {isNumberEarnedForSelected ? (
+                      <button
+                        type="button"
+                        onClick={() => switchPlatform('imessage')}
+                        className="rounded-full bg-[#007AFF] px-2.5 py-0.5 text-[10px] font-extrabold text-white cursor-pointer"
+                      >
+                        📱 iMessage Unlocked →
+                      </button>
+                    ) : (
+                      <span className="rounded-full bg-[#FFF0F5] px-2 py-0.5 text-[10px] font-extrabold text-[#FD267A]">
+                        📱 Number: {Math.min(2, sparksForSelected)}/2 Sparks
+                      </span>
+                    )}
                     {superLikedIds.includes(selected.id) && (
                       <span className="rounded-full bg-[#E0F2FE] px-2 py-0.5 text-[10px] font-extrabold text-[#0284C7]">
                         ★ SUPER LIKED
@@ -1301,12 +1998,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     )}
                   </div>
                   <div className="text-[11px] font-medium text-[#64748B] truncate">
-                    🔥 Matched today • {stageLabel}
+                    🔥 {stageLabel}
                   </div>
                 </div>
               </div>
 
-              {/* Fun Mode Toggle: Messages vs Swipe Cards + Super Like */}
               <div className="flex items-center gap-1.5 shrink-0">
                 <div className="inline-flex rounded-full bg-[#F1F5F9] p-0.5 text-xs font-bold">
                   <button
@@ -1341,7 +2037,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       prev.includes(selected.id) ? prev : [...prev, selected.id],
                     );
                     setCallBanner(
-                      `⭐ You Super-Liked ${selected.name}! "${selected.name} noticed your blue star 👀 send your best Friday plan!"`,
+                      `⭐ You Super-Liked ${selected.name}! Send two smooth lines to earn ${selected.role === 'her' ? 'her' : 'his'} real cell number.`,
                     );
                   }}
                   title="Send Super Like"
@@ -1353,10 +2049,8 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
             </div>
 
             {tinderSubMode === 'swipe' ? (
-              /* INTERACTIVE TINDER WEB SWIPE CARD STACK + BIG CIRCULAR ACTION BUTTONS */
               <div className="flex-1 flex flex-col items-center justify-between bg-[#F8FAFC] p-4 sm:p-5 overflow-hidden">
                 <div className="relative w-full max-w-[360px] flex-1 max-h-[470px]">
-                  {/* Next Card Underneath */}
                   <div className="pointer-events-none absolute inset-0 scale-95 translate-y-2 overflow-hidden rounded-[26px] bg-[#111827] opacity-65 shadow-md">
                     <img
                       src={nextContact.photoUrl}
@@ -1365,7 +2059,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     />
                   </div>
 
-                  {/* Active Draggable Tinder Card */}
                   <div
                     onPointerDown={(e) => {
                       if ((e.target as HTMLElement).closest('button')) return;
@@ -1438,14 +2131,11 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         <BadgeCheck className="h-5 w-5 fill-[#1786FF] text-white" />
                       </div>
                       <p className="text-xs font-semibold text-white/90">{selected.title}</p>
-                      <p className="text-xs text-white/85 leading-snug">
-                        {selected.tagline}
-                      </p>
+                      <p className="text-xs text-white/85 leading-snug">{selected.tagline}</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Big Circular Tinder Buttons */}
                 <div className="pt-3 flex items-center justify-center gap-4">
                   <button
                     type="button"
@@ -1482,7 +2172,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 </div>
               </div>
             ) : (
-              /* TINDER MESSAGE THREAD */
+              /* TINDER VETTING MESSAGE THREAD */
               <>
                 <div
                   ref={chatScrollRef}
@@ -1490,17 +2180,18 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 >
                   <div className="text-center">
                     <span className="inline-block rounded-full bg-[#FFF0F5] px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#FD267A]">
-                      🔥 {stageLabel} • {selected.height} • {selected.zodiac.split('•')[0].trim()}
+                      🔥 {steamyMode ? 'Earned Flirt Mode' : 'Tinder App Vetting'} •{' '}
+                      {selected.height} • {selected.zodiac.split('•')[0].trim()}
                     </span>
                   </div>
 
                   {callBanner && (
-                    <div className="mx-auto max-w-md rounded-2xl border border-[#BAE6FD] bg-[#F0F9FF] px-4 py-2.5 text-center text-xs font-bold text-[#0369A1]">
+                    <div className="mx-auto max-w-md rounded-2xl border border-[#FBCFE8] bg-[#FFF5F8] px-4 py-2.5 text-center text-xs font-bold text-[#9D174D]">
                       {callBanner}
                     </div>
                   )}
 
-                  {activePrompt ? (
+                  {activeTinderPrompt ? (
                     <div className="flex items-end gap-2.5 max-w-[86%]">
                       <img
                         src={selected.photoUrl}
@@ -1509,11 +2200,13 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       />
                       <div className="flex items-center gap-1.5">
                         <div className="rounded-3xl rounded-bl-md bg-[#F0F2F4] px-4 py-3 text-[15px] leading-snug text-[#18101E] shadow-2xs">
-                          {activePrompt}
+                          {activeTinderPrompt}
                         </div>
                         <button
                           type="button"
-                          onClick={() => handleCycleTapback(`${threadKey}:open`, activePrompt)}
+                          onClick={() =>
+                            handleCycleTapback(`${threadKey}:open`, activeTinderPrompt)
+                          }
                           title="Heart message"
                           className={`p-1.5 rounded-full transition cursor-pointer ${
                             tapbacks[`${threadKey}:open`]
@@ -1541,7 +2234,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       </div>
                       <p className="text-xs font-medium text-[#64748B]">
                         {steamyMode
-                          ? `Date #1 went great. Send one playful line to set up tonight.`
+                          ? `Chemistry unlocked! Send one playful line to set up tonight.`
                           : selected.matchTeaser}
                       </p>
                     </div>
@@ -1568,50 +2261,82 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         </span>
                       </div>
                     ) : (
-                      <div key={i} className="flex items-end gap-2.5 max-w-[88%] animate-stage-in">
-                        <img
-                          src={selected.photoUrl}
-                          alt={selected.name}
-                          className="h-8 w-8 rounded-full object-cover object-top shrink-0"
-                        />
-                        <div className="space-y-1.5">
-                          <div className="flex items-center gap-1.5">
-                            <div className="rounded-3xl rounded-bl-md bg-[#F0F2F4] px-4 py-3 text-[15px] leading-snug text-[#18101E]">
-                              {turn.text}
+                      <React.Fragment key={i}>
+                        <div className="flex items-end gap-2.5 max-w-[88%] animate-stage-in">
+                          <img
+                            src={selected.photoUrl}
+                            alt={selected.name}
+                            className="h-8 w-8 rounded-full object-cover object-top shrink-0"
+                          />
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-1.5">
+                              <div className="rounded-3xl rounded-bl-md bg-[#F0F2F4] px-4 py-3 text-[15px] leading-snug text-[#18101E]">
+                                {turn.text}
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => handleCycleTapback(`${threadKey}:${i}`, turn.text)}
+                                title="React & rate reply"
+                                className="rounded-full border border-[#E2E8F0] bg-white px-2 py-1 text-xs shadow-2xs hover:scale-110 transition cursor-pointer"
+                              >
+                                {tapbacks[`${threadKey}:${i}`] ?? '❤️'}
+                              </button>
                             </div>
+
                             <button
                               type="button"
-                              onClick={() => handleCycleTapback(`${threadKey}:${i}`, turn.text)}
-                              title="React & rate reply"
-                              className="rounded-full border border-[#E2E8F0] bg-white px-2 py-1 text-xs shadow-2xs hover:scale-110 transition cursor-pointer"
+                              onClick={() => {
+                                if (speakingTurnIdx === i) {
+                                  stopVoiceRef.current?.();
+                                  setSpeakingTurnIdx(null);
+                                  return;
+                                }
+                                stopVoiceRef.current?.();
+                                setSpeakingTurnIdx(i);
+                                stopVoiceRef.current = playVoiceNotePreview(
+                                  turn.text,
+                                  selected.role === 'her' ? 'her' : 'green_cub',
+                                  () => setSpeakingTurnIdx((curr) => (curr === i ? null : curr)),
+                                );
+                              }}
+                              className="inline-flex h-7 items-center gap-1.5 rounded-full border border-[#FBCFE8] bg-[#FFF0F5] px-3 text-xs font-bold text-[#FD267A] cursor-pointer"
                             >
-                              {tapbacks[`${threadKey}:${i}`] ?? '❤️'}
+                              <Volume2 className="h-3.5 w-3.5" />
+                              <span>{speakingTurnIdx === i ? 'Stop Voice' : 'Hear Voice Note'}</span>
                             </button>
                           </div>
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (speakingTurnIdx === i) {
-                                stopVoiceRef.current?.();
-                                setSpeakingTurnIdx(null);
-                                return;
-                              }
-                              stopVoiceRef.current?.();
-                              setSpeakingTurnIdx(i);
-                              stopVoiceRef.current = playVoiceNotePreview(
-                                turn.text,
-                                selected.role === 'her' ? 'her' : 'green_cub',
-                                () => setSpeakingTurnIdx((curr) => (curr === i ? null : curr)),
-                              );
-                            }}
-                            className="inline-flex h-7 items-center gap-1.5 rounded-full border border-[#FBCFE8] bg-[#FFF0F5] px-3 text-xs font-bold text-[#FD267A] cursor-pointer"
-                          >
-                            <Volume2 className="h-3.5 w-3.5" />
-                            <span>{speakingTurnIdx === i ? 'Stop Voice' : 'Hear Voice Note'}</span>
-                          </button>
                         </div>
-                      </div>
+
+                        {turn.unlockedOffAppNow && (
+                          <div className="animate-stage-in mx-auto max-w-md rounded-2xl border-2 border-[#007AFF] bg-gradient-to-r from-[#EFF6FF] to-[#FFFBEB] p-4 space-y-2.5 shadow-sm">
+                            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wide text-[#007AFF]">
+                              <CheckCircle2 className="h-4 w-4 text-[#007AFF]" />
+                              <span>NUMBER EARNED! Off-App iMessage &amp; Flirt Mode Unlocked</span>
+                            </div>
+                            <p className="text-xs font-semibold text-[#18101E]">
+                              {selected.name} agreed to get off Tinder and shared{' '}
+                              {selected.role === 'her' ? 'her' : 'his'} personal cell:{' '}
+                              <strong>{formatCellNumber(selected)}</strong>
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              <button
+                                type="button"
+                                onClick={() => switchPlatform('imessage')}
+                                className="rounded-full bg-[#007AFF] hover:bg-[#0062CC] px-3.5 py-1.5 text-xs font-extrabold text-white cursor-pointer"
+                              >
+                                💬 Text {selected.name} on iMessage →
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setSteamyMode(true)}
+                                className="rounded-full border border-[#FD267A] bg-white hover:bg-[#FFF0F5] px-3.5 py-1.5 text-xs font-extrabold text-[#E11D48] cursor-pointer"
+                              >
+                                🔥 Turn On Flirt Mode
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </React.Fragment>
                     ),
                   )}
 
@@ -1659,7 +2384,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   )}
                 </div>
 
-                {/* Quick Tinder Swipe Action Strip + Icebreakers + Composer */}
                 <div className="border-t border-[#E5E7EB] bg-white px-4 py-3 space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex gap-1.5 overflow-x-auto no-scrollbar flex-1">
@@ -1725,79 +2449,141 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
           </div>
         ) : platform === 'imessage' ? (
           /* -------------------------------------------------------------------
-           * SKIN B: AUTHENTIC APPLE iOS 18 / macOS MESSAGES THREAD
+           * LEVEL 2: EARNED APPLE iMESSAGE (Locked until you earn their real #!)
            * ------------------------------------------------------------------- */
-          <div className="flex flex-col overflow-hidden bg-white font-sans text-[#1C1C1E] h-[640px] lg:h-[680px]">
-            {/* Frosted Apple Messages Centered Contact Header */}
-            <div className="border-b border-[#D1D1D6] bg-[#F9F9FB]/95 px-4 py-2 backdrop-blur-md flex items-center justify-between">
-              <button
-                type="button"
-                onClick={onClose}
-                className="inline-flex items-center gap-0.5 text-sm font-medium text-[#007AFF] cursor-pointer"
-              >
-                <span>‹ Messages</span>
-              </button>
-
-              <div className="flex flex-col items-center">
+          !isNumberEarnedForSelected ? (
+            <div className="flex flex-col items-center justify-center bg-white font-sans text-[#1C1C1E] h-[640px] lg:h-[680px] p-6 text-center space-y-5">
+              <div className="relative">
                 <img
                   src={selected.photoUrl}
                   alt={selected.name}
-                  className="h-9 w-9 rounded-full object-cover object-top shadow-2xs"
+                  className="h-24 w-24 rounded-full object-cover object-top border-4 border-[#F2F2F7] shadow-md grayscale-[30%]"
                 />
-                <div className="mt-0.5 text-[11px] font-semibold text-[#1C1C1E]">
-                  {selected.name}, {selected.age} <span className="text-[#8E8E93]">›</span>
+                <span className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-[#007AFF] text-white shadow">
+                  <Lock className="h-4 w-4" />
+                </span>
+              </div>
+
+              <div className="max-w-md space-y-2">
+                <span className="inline-block rounded-full bg-[#EFF6FF] px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-[#007AFF]">
+                  📱 Personal Numbers Are Earned Off-App
+                </span>
+                <h3 className="font-display text-2xl text-[#1C1C1E]">
+                  You Haven’t Earned {selected.name}’s Number Yet
+                </h3>
+                <p className="text-sm text-[#636366] leading-relaxed">
+                  iMessage is reserved for matches who agreed to get off the app with you. Land{' '}
+                  <strong>2 green-flag replies</strong> with {selected.name} on Tinder (or unmask
+                  the Mystery Regular in Discord) to win {selected.role === 'her' ? 'her' : 'his'}{' '}
+                  real cell!
+                </p>
+              </div>
+
+              <div className="w-full max-w-xs rounded-2xl border border-[#E5E5EA] bg-[#F2F2F7] p-4 space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold text-[#1C1C1E]">
+                  <span>Off-App Progress with {selected.name}</span>
+                  <span className="text-[#007AFF]">{Math.min(2, sparksForSelected)}/2 Sparks</span>
+                </div>
+                <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#D1D1D6]">
+                  <div
+                    style={{ width: `${Math.min(100, sparksForSelected * 50)}%` }}
+                    className="h-full rounded-full bg-[#007AFF] transition-all duration-300"
+                  />
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-[#007AFF]">
+              <div className="flex flex-wrap items-center justify-center gap-2.5">
                 <button
                   type="button"
-                  onClick={() => {
-                    sfx.crystalClink();
-                    setCallBanner(
-                      `📹 FaceTime Video: ${selected.name} smiled over her wine glass 😍 "Bold move calling! Text me our 7:30 spot."`,
-                    );
-                  }}
-                  title="FaceTime Video"
-                  className="rounded-full p-1.5 hover:bg-black/5 cursor-pointer"
+                  onClick={() => switchPlatform('tinder')}
+                  className="rounded-full bg-[#007AFF] hover:bg-[#0062CC] px-6 py-3 text-sm font-extrabold text-white shadow-sm cursor-pointer transition"
                 >
-                  <Video className="h-5 w-5" />
+                  🔥 Go Win {selected.name}’s Number on Tinder →
                 </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    sfx.crystalClink();
-                    setCallBanner(
-                      `📞 FaceTime Audio: ${selected.name} loves a caller who skips endless "wyd" texts! 🥂`,
-                    );
-                  }}
-                  title="Audio Call"
-                  className="rounded-full p-1.5 hover:bg-black/5 cursor-pointer"
-                >
-                  <Phone className="h-4 w-4" />
-                </button>
+                {earnedImessageContacts.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSelected(earnedImessageContacts[0])}
+                    className="rounded-full border border-[#D1D1D6] bg-white hover:bg-[#F2F2F7] px-4 py-3 text-xs font-bold text-[#1C1C1E] cursor-pointer"
+                  >
+                    Open {earnedImessageContacts[0].name}’s iMessage
+                  </button>
+                )}
               </div>
             </div>
+          ) : (
+            <div className="flex flex-col overflow-hidden bg-white font-sans text-[#1C1C1E] h-[640px] lg:h-[680px]">
+              <div className="border-b border-[#D1D1D6] bg-[#F9F9FB]/95 px-4 py-2 backdrop-blur-md flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => switchPlatform('tinder')}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#007AFF] cursor-pointer"
+                >
+                  <Unlock className="h-3.5 w-3.5" />
+                  <span>Off-App VIP</span>
+                </button>
 
-            <div
-              ref={chatScrollRef}
-              className="flex-1 overflow-y-auto overscroll-contain bg-white p-4 sm:px-6 space-y-3"
-            >
-              <div className="text-center space-y-0.5">
-                <div className="text-[11px] font-medium text-[#8E8E93]">iMessage</div>
-                <div className="text-[11px] font-semibold text-[#8E8E93]">
-                  Today 9:41 PM • {stageLabel}
+                <div className="flex flex-col items-center">
+                  <img
+                    src={selected.photoUrl}
+                    alt={selected.name}
+                    className="h-9 w-9 rounded-full object-cover object-top shadow-2xs"
+                  />
+                  <div className="mt-0.5 text-[11px] font-semibold text-[#1C1C1E]">
+                    {selected.name} • {formatCellNumber(selected)}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-[#007AFF]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sfx.crystalClink();
+                      setCallBanner(
+                        `📹 FaceTime Video: ${selected.name} smiled and picked up on the second ring. "Save that charm for Friday at 7:30."`,
+                      );
+                    }}
+                    title="FaceTime Video"
+                    className="rounded-full p-1.5 hover:bg-black/5 cursor-pointer"
+                  >
+                    <Video className="h-5 w-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sfx.crystalClink();
+                      setCallBanner(
+                        `📞 6 PM Phone Call: ${selected.name} loved hearing a real voice instead of endless app texts!`,
+                      );
+                    }}
+                    title="Audio Call"
+                    className="rounded-full p-1.5 hover:bg-black/5 cursor-pointer"
+                  >
+                    <Phone className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
 
-              {callBanner && (
-                <div className="mx-auto max-w-md rounded-2xl border border-[#D1D1D6] bg-[#F2F2F7] px-3.5 py-2 text-center text-xs font-semibold text-[#1C1C1E]">
-                  {callBanner}
+              <div
+                ref={chatScrollRef}
+                className="flex-1 overflow-y-auto overscroll-contain bg-white p-4 sm:px-6 space-y-3"
+              >
+                <div className="text-center space-y-0.5">
+                  <div className="text-[11px] font-semibold text-[#007AFF]">
+                    iMessage • Personal Number Earned Off-App
+                  </div>
+                  <div className="text-[11px] font-medium text-[#8E8E93]">
+                    Today 9:41 PM • {stageLabel}
+                  </div>
                 </div>
-              )}
 
-              {/* Opening Incoming Grey iMessage Bubble (only if match initiates first) */}
-              {activePrompt ? (
+                {callBanner && (
+                  <div className="mx-auto max-w-md rounded-2xl border border-[#D1D1D6] bg-[#F2F2F7] px-3.5 py-2 text-center text-xs font-semibold text-[#1C1C1E]">
+                    {callBanner}
+                  </div>
+                )}
+
+                {/* Fresh Off-App First Text (Never copies Tinder's match thread!) */}
                 <div className="flex items-end gap-2 max-w-[86%]">
                   <img
                     src={selected.photoUrl}
@@ -1806,13 +2592,13 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   />
                   <div className="relative">
                     {openTapbackMenuKey === `${threadKey}:open` && (
-                      <div className="absolute -top-10 left-0 z-20 inline-flex items-center gap-1.5 rounded-full border border-[#D1D1D6] bg-white px-3 py-1 shadow-lg">
+                      <div className="absolute -bottom-10 left-0 z-20 inline-flex items-center gap-1.5 rounded-full border border-[#D1D1D6] bg-white px-3 py-1 shadow-lg">
                         {TAPBACK_OPTIONS.map((tb) => (
                           <button
                             key={tb}
                             type="button"
                             onClick={() =>
-                              handleSelectTapback(`${threadKey}:open`, tb, activePrompt)
+                              handleSelectTapback(`${threadKey}:open`, tb, activeImessagePrompt)
                             }
                             className="hover:scale-125 transition text-base cursor-pointer"
                           >
@@ -1836,257 +2622,228 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                           {tapbacks[`${threadKey}:open`]}
                         </span>
                       )}
-                      {activePrompt}
+                      {activeImessagePrompt}
                     </button>
                   </div>
                 </div>
-              ) : turns.length === 0 ? (
-                <div className="mx-auto max-w-sm rounded-2xl border border-[#E5E5EA] bg-[#F2F2F7] px-4 py-3 text-center text-xs font-medium text-[#636366]">
-                  {selected.name} shared her number. {selected.matchTeaser.replace(/^Matched today • /, '')}
-                </div>
-              ) : null}
 
-              {turns.map((turn, i) =>
-                turn.sender === 'player' ? (
-                  <div key={i} className="flex flex-col items-end">
-                    <button
-                      type="button"
-                      onClick={() => handleCycleTapback(`${threadKey}:${i}`)}
-                      className={`relative max-w-[82%] rounded-[20px] rounded-br-[5px] px-4 py-2.5 text-left text-[15px] leading-snug text-white shadow-2xs cursor-pointer ${
-                        turn.passed === false ? 'bg-[#34C759]' : 'bg-[#007AFF]'
-                      }`}
-                    >
-                      {(tapbacks[`${threadKey}:${i}`] || turn.passed === true) && (
-                        <span className="absolute -top-2.5 -left-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#FF2D55] px-1.5 text-xs text-white shadow">
-                          {tapbacks[`${threadKey}:${i}`] ?? '❤️'}
-                        </span>
-                      )}
-                      {turn.text}
-                    </button>
-                    <span className="mr-1 mt-0.5 text-[10px] font-medium text-[#8E8E93]">
-                      {turn.passed === false
-                        ? 'Sent as Text Message • Green-Bubble Ick'
-                        : turn.passed === true
-                          ? `Read 9:42 PM`
-                          : 'Delivered'}
-                    </span>
-                  </div>
-                ) : (
-                  <div key={i} className="flex items-end gap-2 max-w-[88%] animate-stage-in">
-                    <img
-                      src={selected.photoUrl}
-                      alt={selected.name}
-                      className="h-7 w-7 rounded-full object-cover object-top shrink-0"
-                    />
-                    <div className="space-y-1.5 relative">
-                      {openTapbackMenuKey === `${threadKey}:${i}` && (
-                        <div className="absolute -top-10 left-0 z-20 inline-flex items-center gap-1.5 rounded-full border border-[#D1D1D6] bg-white px-3 py-1 shadow-lg">
-                          {TAPBACK_OPTIONS.map((tb) => (
-                            <button
-                              key={tb}
-                              type="button"
-                              onClick={() =>
-                                handleSelectTapback(`${threadKey}:${i}`, tb, turn.text)
-                              }
-                              className="hover:scale-125 transition text-base cursor-pointer"
-                            >
-                              {tb}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-
+                {turns.map((turn, i) =>
+                  turn.sender === 'player' ? (
+                    <div key={i} className="flex flex-col items-end">
                       <button
                         type="button"
-                        onClick={() =>
-                          setOpenTapbackMenuKey((k) =>
-                            k === `${threadKey}:${i}` ? null : `${threadKey}:${i}`,
-                          )
-                        }
-                        className="relative block rounded-[20px] rounded-bl-[5px] bg-[#E9E9EB] px-4 py-2.5 text-left text-[15px] leading-snug text-[#1C1C1E] cursor-pointer"
+                        onClick={() => handleCycleTapback(`${threadKey}:${i}`)}
+                        className={`relative max-w-[82%] rounded-[20px] rounded-br-[5px] px-4 py-2.5 text-left text-[15px] leading-snug text-white shadow-2xs cursor-pointer ${
+                          turn.passed === false ? 'bg-[#34C759]' : 'bg-[#007AFF]'
+                        }`}
                       >
-                        {tapbacks[`${threadKey}:${i}`] && (
-                          <span className="absolute -top-2.5 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#007AFF] px-1.5 text-xs text-white shadow">
-                            {tapbacks[`${threadKey}:${i}`]}
+                        {(tapbacks[`${threadKey}:${i}`] || turn.passed === true) && (
+                          <span className="absolute -top-2.5 -left-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#FF2D55] px-1.5 text-xs text-white shadow">
+                            {tapbacks[`${threadKey}:${i}`] ?? '❤️'}
                           </span>
                         )}
                         {turn.text}
                       </button>
-
-                      {/* Authentic iOS Audio Voice-Memo Pill */}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (speakingTurnIdx === i) {
-                            stopVoiceRef.current?.();
-                            setSpeakingTurnIdx(null);
-                            return;
-                          }
-                          stopVoiceRef.current?.();
-                          setSpeakingTurnIdx(i);
-                          stopVoiceRef.current = playVoiceNotePreview(
-                            turn.text,
-                            selected.role === 'her' ? 'her' : 'green_cub',
-                            () => setSpeakingTurnIdx((curr) => (curr === i ? null : curr)),
-                          );
-                        }}
-                        className={`inline-flex h-7 items-center gap-2 rounded-full px-3 text-xs font-semibold transition cursor-pointer ${
-                          speakingTurnIdx === i
-                            ? 'bg-[#007AFF] text-white'
-                            : 'bg-[#F2F2F7] text-[#007AFF] border border-[#D1D1D6]'
-                        }`}
-                      >
-                        {speakingTurnIdx === i ? (
-                          <VolumeX className="h-3.5 w-3.5" />
-                        ) : (
-                          <Volume2 className="h-3.5 w-3.5" />
+                      <span className="mr-1 mt-0.5 text-[10px] font-medium text-[#8E8E93]">
+                        {turn.passed === false
+                          ? 'Sent as Text Message • Green-Bubble Ick'
+                          : turn.passed === true
+                            ? 'Read 9:42 PM'
+                            : 'Delivered'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div key={i} className="flex items-end gap-2 max-w-[88%] animate-stage-in">
+                      <img
+                        src={selected.photoUrl}
+                        alt={selected.name}
+                        className="h-7 w-7 rounded-full object-cover object-top shrink-0"
+                      />
+                      <div className="space-y-1.5 relative">
+                        {openTapbackMenuKey === `${threadKey}:${i}` && (
+                          <div className="absolute -top-10 left-0 z-20 inline-flex items-center gap-1.5 rounded-full border border-[#D1D1D6] bg-white px-3 py-1 shadow-lg">
+                            {TAPBACK_OPTIONS.map((tb) => (
+                              <button
+                                key={tb}
+                                type="button"
+                                onClick={() =>
+                                  handleSelectTapback(`${threadKey}:${i}`, tb, turn.text)
+                                }
+                                className="hover:scale-125 transition text-base cursor-pointer"
+                              >
+                                {tb}
+                              </button>
+                            ))}
+                          </div>
                         )}
-                        <span className="inline-flex items-center gap-0.5 h-3">
-                          {[4, 8, 5, 10, 7, 11, 6, 4].map((h, idx) => (
-                            <span
-                              key={idx}
-                              style={{ height: `${h}px` }}
-                              className={`w-0.5 rounded-full ${
-                                speakingTurnIdx === i ? 'bg-white animate-pulse' : 'bg-[#007AFF]'
-                              }`}
-                            />
-                          ))}
-                        </span>
-                        <span>{speakingTurnIdx === i ? '0:04' : 'Voice Note'}</span>
-                      </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setOpenTapbackMenuKey((k) =>
+                              k === `${threadKey}:${i}` ? null : `${threadKey}:${i}`,
+                            )
+                          }
+                          className="relative block rounded-[20px] rounded-bl-[5px] bg-[#E9E9EB] px-4 py-2.5 text-left text-[15px] leading-snug text-[#1C1C1E] cursor-pointer"
+                        >
+                          {tapbacks[`${threadKey}:${i}`] && (
+                            <span className="absolute -top-2.5 -right-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full border-2 border-white bg-[#007AFF] px-1.5 text-xs text-white shadow">
+                              {tapbacks[`${threadKey}:${i}`]}
+                            </span>
+                          )}
+                          {turn.text}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (speakingTurnIdx === i) {
+                              stopVoiceRef.current?.();
+                              setSpeakingTurnIdx(null);
+                              return;
+                            }
+                            stopVoiceRef.current?.();
+                            setSpeakingTurnIdx(i);
+                            stopVoiceRef.current = playVoiceNotePreview(
+                              turn.text,
+                              selected.role === 'her' ? 'her' : 'green_cub',
+                              () => setSpeakingTurnIdx((curr) => (curr === i ? null : curr)),
+                            );
+                          }}
+                          className={`inline-flex h-7 items-center gap-2 rounded-full px-3 text-xs font-semibold transition cursor-pointer ${
+                            speakingTurnIdx === i
+                              ? 'bg-[#007AFF] text-white'
+                              : 'bg-[#F2F2F7] text-[#007AFF] border border-[#D1D1D6]'
+                          }`}
+                        >
+                          {speakingTurnIdx === i ? (
+                            <VolumeX className="h-3.5 w-3.5" />
+                          ) : (
+                            <Volume2 className="h-3.5 w-3.5" />
+                          )}
+                          <span className="inline-flex items-center gap-0.5 h-3">
+                            {[4, 8, 5, 10, 7, 11, 6, 4].map((h, idx) => (
+                              <span
+                                key={idx}
+                                style={{ height: `${h}px` }}
+                                className={`w-0.5 rounded-full ${
+                                  speakingTurnIdx === i ? 'bg-white animate-pulse' : 'bg-[#007AFF]'
+                                }`}
+                              />
+                            ))}
+                          </span>
+                          <span>{speakingTurnIdx === i ? '0:04' : 'Voice Note'}</span>
+                        </button>
+                      </div>
+                    </div>
+                  ),
+                )}
+
+                {typing && (
+                  <div className="flex items-end gap-2">
+                    <img
+                      src={selected.photoUrl}
+                      alt=""
+                      className="h-7 w-7 rounded-full object-cover object-top"
+                    />
+                    <div className="inline-flex items-center gap-1 rounded-[20px] rounded-bl-[5px] bg-[#E9E9EB] px-4 py-3">
+                      <span className="h-2 w-2 rounded-full bg-[#8E8E93] animate-bounce" />
+                      <span
+                        style={{ animationDelay: '150ms' }}
+                        className="h-2 w-2 rounded-full bg-[#8E8E93] animate-bounce"
+                      />
+                      <span
+                        style={{ animationDelay: '300ms' }}
+                        className="h-2 w-2 rounded-full bg-[#8E8E93] animate-bounce"
+                      />
                     </div>
                   </div>
-                ),
-              )}
+                )}
 
-              {typing && (
-                <div className="flex items-end gap-2">
-                  <img
-                    src={selected.photoUrl}
-                    alt=""
-                    className="h-7 w-7 rounded-full object-cover object-top"
-                  />
-                  <div className="inline-flex items-center gap-1 rounded-[20px] rounded-bl-[5px] bg-[#E9E9EB] px-4 py-3">
-                    <span className="h-2 w-2 rounded-full bg-[#8E8E93] animate-bounce" />
-                    <span
-                      style={{ animationDelay: '150ms' }}
-                      className="h-2 w-2 rounded-full bg-[#8E8E93] animate-bounce"
-                    />
-                    <span
-                      style={{ animationDelay: '300ms' }}
-                      className="h-2 w-2 rounded-full bg-[#8E8E93] animate-bounce"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {lastCoach && (
-                <div
-                  className={`rounded-2xl border p-3.5 text-xs ${
-                    lastCoach.passed
-                      ? 'border-[#34C759] bg-[#EAFBF0] text-[#065F46]'
-                      : 'border-[#FF3B30] bg-[#FFF0EF] text-[#9F1239]'
-                  }`}
-                >
-                  <div className="font-bold">
-                    {lastCoach.passed ? '💚 VIBE CHECK PASSED: ' : '🚩 VIBE CHECK ROASTED: '}
-                    {lastCoach.deltas}
-                  </div>
-                  <p className="mt-1 font-medium">{lastCoach.note}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Authentic iOS 18 Message Composer */}
-            <div className="border-t border-[#D1D1D6] bg-[#F9F9FB] px-3.5 py-2.5 space-y-2">
-              <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
-                {activeChips.map((chip, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setInput(chip)}
-                    className="shrink-0 max-w-xs truncate rounded-full border border-[#D1D1D6] bg-white px-3 py-1 text-xs font-medium text-[#1C1C1E] hover:border-[#007AFF] cursor-pointer"
-                    title={chip}
+                {lastCoach && (
+                  <div
+                    className={`rounded-2xl border p-3.5 text-xs ${
+                      lastCoach.passed
+                        ? 'border-[#34C759] bg-[#EAFBF0] text-[#065F46]'
+                        : 'border-[#FF3B30] bg-[#FFF0EF] text-[#9F1239]'
+                    }`}
                   >
-                    💬 {chip}
-                  </button>
-                ))}
+                    <div className="font-bold">
+                      {lastCoach.passed ? '💚 OFF-APP CHEMISTRY: ' : '🚩 OFF-APP ROAST: '}
+                      {lastCoach.deltas}
+                    </div>
+                    <p className="mt-1 font-medium">{lastCoach.note}</p>
+                  </div>
+                )}
               </div>
 
-              <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-                {QUICK_EMOJIS.map((em) => (
-                  <button
-                    key={em}
-                    type="button"
-                    onClick={() => handleAppendEmoji(em)}
-                    className="h-6 w-6 shrink-0 rounded-full hover:bg-[#E5E5EA] text-sm cursor-pointer"
-                  >
-                    {em}
-                  </button>
-                ))}
-              </div>
-
-              <form onSubmit={handleSend} className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setInput(activeChips[0] ?? '')}
-                  title="Insert Suggested Opener"
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5E5EA] text-[#636366] hover:text-[#007AFF] cursor-pointer"
-                >
-                  <Plus className="h-4.5 w-4.5" />
-                </button>
-                <div className="flex flex-1 items-center rounded-full border border-[#C6C6C8] bg-white pl-4 pr-1.5 py-1">
-                  <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder={`Message ${selected.name} on iMessage...`}
-                    maxLength={280}
-                    className="flex-1 bg-transparent text-sm text-[#1C1C1E] placeholder:text-[#8E8E93] focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    aria-label="Send"
-                    disabled={!input.trim() || typing}
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#007AFF] text-white disabled:bg-[#C7C7CC] cursor-pointer transition"
-                  >
-                    <ArrowUp className="h-4 w-4 stroke-[2.75]" />
-                  </button>
+              <div className="border-t border-[#D1D1D6] bg-[#F9F9FB] px-3.5 py-2.5 space-y-2">
+                <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
+                  {activeChips.map((chip, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setInput(chip)}
+                      className="shrink-0 max-w-xs truncate rounded-full border border-[#D1D1D6] bg-white px-3 py-1 text-xs font-medium text-[#1C1C1E] hover:border-[#007AFF] cursor-pointer"
+                      title={chip}
+                    >
+                      💬 {chip}
+                    </button>
+                  ))}
                 </div>
-              </form>
+
+                <form onSubmit={handleSend} className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setInput(activeChips[0] ?? '')}
+                    title="Insert Suggested Reply"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5E5EA] text-[#636366] hover:text-[#007AFF] cursor-pointer"
+                  >
+                    <Plus className="h-4.5 w-4.5" />
+                  </button>
+                  <div className="flex flex-1 items-center rounded-full border border-[#C6C6C8] bg-white pl-4 pr-1.5 py-1">
+                    <input
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      placeholder={`Message ${selected.name} on iMessage...`}
+                      maxLength={280}
+                      className="flex-1 bg-transparent text-sm text-[#1C1C1E] placeholder:text-[#8E8E93] focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      aria-label="Send"
+                      disabled={!input.trim() || typing}
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#007AFF] text-white disabled:bg-[#C7C7CC] cursor-pointer transition"
+                    >
+                      <ArrowUp className="h-4 w-4 stroke-[2.75]" />
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-          </div>
+          )
         ) : (
           /* -------------------------------------------------------------------
-           * SKIN C: AUTHENTIC DISCORD CHANNEL & #BOYS-ROBLOX-VC
+           * DISCORD ANONYMOUS COMMUNITY LOUNGE & MYSTERY SUBPLOT
            * ------------------------------------------------------------------- */
           <div className="flex flex-col overflow-hidden bg-[#313338] font-sans text-[#DBDEE1] h-[640px] lg:h-[680px]">
-            {/* Discord Top Channel Bar with Topic Divider */}
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1F2023] bg-[#313338] px-4 py-2.5 shadow-2xs">
               <div className="flex items-center gap-2 min-w-0">
                 <Hash className="h-5 w-5 shrink-0 text-[#80848E]" />
-                <span className="font-bold text-sm text-white">{discordChannel}</span>
+                <span className="font-bold text-sm text-white">
+                  {discordChannel === 'mystery-subplot' ? mysteryHandle : discordChannel}
+                </span>
                 <span className="hidden sm:inline text-[#3F4147]">|</span>
                 <span className="hidden sm:inline truncate text-xs text-[#949BA4]">
                   {discordChannel === 'boys-roblox-vc'
-                    ? 'Live Roblox Dress to Impress VC • Boys react to your DMs in real time'
-                    : `${stageLabel} with @${selected.name.toLowerCase()}`}
+                    ? 'Live Roblox Dress to Impress VC • Boys react to your lines in real time'
+                    : discordChannel === 'mystery-subplot'
+                      ? 'Encrypted Anon DM • Spot the clues to unmask their real identity'
+                      : discordChannel === 'vetting-hotline'
+                        ? 'Anonymous Cougar & Cub vetting advice & red-flag tribunal'
+                        : '100% Anonymous Cougar & Cub community chat'}
                 </span>
-              </div>
-
-              <div className="flex lg:hidden items-center gap-1">
-                {(['first-dm-vetting', 'after-dark-flirt', 'boys-roblox-vc'] as const).map((id) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setDiscordChannel(id)}
-                    className={`rounded px-2 py-0.5 text-[11px] font-bold cursor-pointer ${
-                      discordChannel === id ? 'bg-[#5865F2] text-white' : 'bg-[#2B2D31] text-[#949BA4]'
-                    }`}
-                  >
-                    #{id.split('-')[0]}
-                  </button>
-                ))}
               </div>
             </div>
 
@@ -2094,82 +2851,84 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               ref={chatScrollRef}
               className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-3"
             >
-              {/* Discord Channel Welcome Header */}
               <div className="border-b border-[#3F4147] pb-3 mb-2">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#41434A] text-white mb-2">
-                  <Hash className="h-7 w-7" />
-                </div>
                 <div className="text-lg font-extrabold text-white">
-                  Welcome to #{discordChannel}!
+                  {discordChannel === 'mystery-subplot'
+                    ? `🕵️ Encrypted Anon DM with ${mysteryHandle}`
+                    : `Welcome to #${discordChannel}!`}
                 </div>
                 <p className="text-xs text-[#949BA4]">
-                  This is the start of your ongoing conversation with{' '}
-                  <strong className="text-white">@{selected.name}</strong> ({stageLabel}).
+                  {discordChannel === 'mystery-subplot'
+                    ? 'You caught their eye in #general-lounge. Trade lines or guess which cast member is behind the mask!'
+                    : `Posting anonymously as ${playerAnonHandle}. Real names stay hidden unless you solve the Mystery Subplot.`}
                 </p>
               </div>
 
-              {activePrompt ? (
-                <div className="flex items-start gap-3 rounded-lg px-2 py-1 hover:bg-[#2E3035]">
-                  <img
-                    src={selected.photoUrl}
-                    alt={selected.name}
-                    className="h-10 w-10 rounded-full object-cover object-top shrink-0"
-                  />
+              {subplotGuessFeedback && (
+                <div className="rounded-xl border border-[#FEE75C]/50 bg-[#2B2D31] px-3.5 py-2.5 text-xs font-bold text-[#FEE75C]">
+                  {subplotGuessFeedback}
+                </div>
+              )}
+
+              {/* Pre-seeded Anonymous Community Lounge Messages */}
+              {getDiscordSeeds(discordChannel, activePlayerRole).map((seed) => (
+                <div
+                  key={seed.id}
+                  className="flex items-start gap-3 rounded-lg px-2 py-1.5 hover:bg-[#2E3035]"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1E1F22] text-base">
+                    {seed.isMysteryClue ? '🕵️' : seed.badge.startsWith('🐆') ? '🐆' : '🥂'}
+                  </div>
                   <div className="min-w-0 flex-1 space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <span
-                        className={`text-sm font-bold ${
-                          selected.role === 'her' ? 'text-[#F47FFF]' : 'text-[#F0B232]'
-                        }`}
-                      >
-                        {selected.name}
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-sm font-bold" style={{ color: seed.color }}>
+                        {seed.handle}
                       </span>
-                      <span className="rounded bg-[#5865F2]/25 px-1.5 py-0.2 text-[10px] font-bold text-[#949CF7]">
-                        {selected.role === 'her' ? 'COUGAR VIP' : 'CUB'}
+                      <span className="rounded bg-[#5865F2]/25 px-1.5 py-0.2 text-[10px] font-bold text-[#DEE0FC]">
+                        {seed.badge}
                       </span>
-                      <span className="text-[11px] text-[#949BA4]">Today at 9:41 PM</span>
+                      <span className="text-[11px] text-[#949BA4]">{seed.time}</span>
                     </div>
-                    <p className="text-[15px] leading-relaxed text-[#DBDEE1]">{activePrompt}</p>
+                    <p className="text-[14.5px] leading-relaxed text-[#DBDEE1]">{seed.text}</p>
                   </div>
                 </div>
-              ) : turns.length === 0 ? (
-                <div className="rounded-lg border border-[#3F4147] bg-[#2B2D31] px-3.5 py-2.5 text-xs text-[#B5BAC1]">
-                  ✨ <strong className="text-white">@{selected.name}</strong> is online. {selected.matchTeaser.replace(/^Matched today • /, '')}
-                </div>
-              ) : null}
+              ))}
 
               {turns.map((turn, i) =>
                 turn.sender === 'player' ? (
-                  <div key={i} className="flex items-start gap-3 rounded-lg px-2 py-1 hover:bg-[#2E3035]">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#5865F2] text-xs font-bold text-white">
-                      YOU
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 rounded-lg px-2 py-1 hover:bg-[#2E3035]"
+                  >
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#5865F2] text-sm font-bold text-white">
+                      🎭
                     </div>
                     <div className="min-w-0 flex-1 space-y-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-bold text-[#57F287]">You</span>
-                        <span className="text-[11px] text-[#949BA4]">Today at 9:42 PM</span>
+                        <span className="text-sm font-bold text-[#57F287]">{playerAnonHandle}</span>
+                        <span className="rounded bg-[#23A55A]/20 px-1.5 text-[9px] font-bold text-[#86EFAC]">
+                          ANON YOU
+                        </span>
+                        <span className="text-[11px] text-[#949BA4]">Just now</span>
                       </div>
                       <p className="text-[15px] leading-relaxed text-white">{turn.text}</p>
                     </div>
                   </div>
                 ) : (
                   <React.Fragment key={i}>
-                    <div className="flex items-start gap-3 rounded-lg px-2 py-1 hover:bg-[#2E3035] animate-stage-in">
-                      <img
-                        src={selected.photoUrl}
-                        alt={selected.name}
-                        className="h-10 w-10 rounded-full object-cover object-top shrink-0"
-                      />
+                    <div className="flex items-start gap-3 rounded-lg px-2 py-1.5 hover:bg-[#2E3035] animate-stage-in">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#1E1F22] text-base">
+                        🕵️
+                      </div>
                       <div className="min-w-0 flex-1 space-y-1.5">
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className={`text-sm font-bold ${
-                              selected.role === 'her' ? 'text-[#F47FFF]' : 'text-[#F0B232]'
-                            }`}
-                          >
-                            {selected.name}
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="text-sm font-bold text-[#FEE75C]">
+                            {turn.authorHandle || mysteryHandle}
                           </span>
-                          <span className="text-[11px] text-[#949BA4]">Today at 9:42 PM</span>
+                          <span className="rounded bg-[#5865F2]/25 px-1.5 py-0.2 text-[10px] font-bold text-[#DEE0FC]">
+                            {turn.authorBadge || '🕵️ ANON REGULAR'}
+                          </span>
+                          <span className="text-[11px] text-[#949BA4]">Just now</span>
                         </div>
                         <p className="text-[15px] leading-relaxed text-[#DBDEE1]">{turn.text}</p>
                         <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
@@ -2184,7 +2943,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                                   sfx.messagePop();
                                   setDiscordReacts((prev) => ({ ...prev, [rk]: !prev[rk] }));
                                   sendAiFeedbackPing({
-                                    persona: `${selected.name} (${selected.age})`,
+                                    persona: `Discord:${discordChannel}`,
                                     reaction: emoji,
                                     aiReply: turn.text,
                                   });
@@ -2203,6 +2962,21 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                         </div>
                       </div>
                     </div>
+
+                    {discordChannel !== 'mystery-subplot' && subplotStage === 1 && i === turns.length - 1 && (
+                      <div className="rounded-xl border border-[#FEE75C]/50 bg-[#232428] p-3 flex flex-wrap items-center justify-between gap-2">
+                        <span className="text-xs font-bold text-[#FEE75C]">
+                          🕵️ SUBPLOT SPARKED! {mysteryHandle} just sent you a private Anon DM request!
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setDiscordChannel('mystery-subplot')}
+                          className="rounded-lg bg-[#5865F2] hover:bg-[#4752C4] px-3 py-1.5 text-xs font-extrabold text-white cursor-pointer"
+                        >
+                          Open Mystery DM →
+                        </button>
+                      </div>
+                    )}
 
                     {discordChannel === 'boys-roblox-vc' && turn.buddy && (
                       <div className="flex items-start gap-3 rounded-lg bg-[#2B2D31]/80 px-2.5 py-1.5 animate-stage-in">
@@ -2226,6 +3000,29 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                 ),
               )}
 
+              {subplotStage >= 3 && (
+                <div className="rounded-xl border-2 border-[#23A55A] bg-[#232428] p-4 space-y-2">
+                  <div className="text-xs font-extrabold uppercase tracking-wide text-[#57F287]">
+                    🎭 Mystery Subplot Solved! Real Off-App Number Unlocked
+                  </div>
+                  <p className="text-xs text-[#DBDEE1]">
+                    You unmasked <strong>{mysteryTargetContact.name}, {mysteryTargetContact.age}</strong>{' '}
+                    behind {mysteryHandle} and earned {mysteryTargetContact.role === 'her' ? 'her' : 'his'}{' '}
+                    personal iMessage number!
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelected(mysteryTargetContact);
+                      switchPlatform('imessage');
+                    }}
+                    className="rounded-lg bg-[#007AFF] hover:bg-[#0062CC] px-3.5 py-1.5 text-xs font-extrabold text-white cursor-pointer"
+                  >
+                    💬 Open {mysteryTargetContact.name}’s iMessage →
+                  </button>
+                </div>
+              )}
+
               {lastCoach && (
                 <div className="flex items-start gap-3 px-2 pt-1">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#5865F2] text-xs font-bold text-white">
@@ -2244,7 +3041,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                       }`}
                     >
                       <div className="font-bold text-white">
-                        {lastCoach.passed ? '💚 VIBE CHECK PASSED: ' : '🚩 VIBE CHECK ROASTED: '}
+                        {lastCoach.passed ? '💚 LOUNGE VIBE PASSED: ' : '🚩 LOUNGE ROASTED: '}
                         {lastCoach.deltas}
                       </div>
                       <p className="text-[#DBDEE1]">{lastCoach.note}</p>
@@ -2254,7 +3051,6 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
               )}
             </div>
 
-            {/* Authentic Discord Message Bar + Typing Status */}
             <div className="bg-[#313338] px-4 pb-3 pt-1 space-y-2">
               {typing && (
                 <div className="text-[11px] font-semibold text-[#DBDEE1] flex items-center gap-1.5">
@@ -2264,7 +3060,7 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     <span className="h-1.5 w-1.5 rounded-full bg-white animate-bounce" />
                   </span>
                   <span>
-                    <strong>{selected.name}</strong> is typing...
+                    <strong>{mysteryHandle}</strong> is typing...
                   </span>
                 </div>
               )}
@@ -2297,22 +3093,14 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder={`Message ${selected.name} in #${discordChannel}...`}
+                  placeholder={
+                    discordChannel === 'mystery-subplot'
+                      ? `Reply anonymously to ${mysteryHandle}...`
+                      : `Post anonymously in #${discordChannel}...`
+                  }
                   maxLength={280}
                   className="flex-1 bg-transparent text-sm text-white placeholder:text-[#80848E] focus:outline-none"
                 />
-                <div className="hidden sm:flex items-center gap-1">
-                  {QUICK_EMOJIS.slice(0, 4).map((em) => (
-                    <button
-                      key={em}
-                      type="button"
-                      onClick={() => handleAppendEmoji(em)}
-                      className="text-sm hover:scale-125 transition cursor-pointer"
-                    >
-                      {em}
-                    </button>
-                  ))}
-                </div>
                 <button
                   type="submit"
                   aria-label="Send"
@@ -2328,221 +3116,104 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
         )}
 
         {/* -------------------------------------------------------------------
-         * COLUMN 3: SKIN-ADAPTIVE FULL PROFILE DOSSIER (Full Face Portrait + Interests!)
+         * COLUMN 3: PLATFORM-SPECIFIC RIGHT PANEL
+         * (Discord = Anon Subplot & Online Regulars; Tinder/iMessage = Full-Face Dossier)
          * ------------------------------------------------------------------- */}
-        <aside
-          className={`flex flex-col justify-between border-t lg:border-t-0 lg:border-l p-4 sm:p-5 space-y-4 lg:min-h-[680px] ${
-            isDarkDiscord
-              ? 'border-[#1F2023] bg-[#232428] text-[#DBDEE1]'
-              : isAppleMessages
-                ? 'border-[#D1D1D6] bg-[#F2F2F7] text-[#1C1C1E]'
-                : 'border-[#E5E7EB] bg-[#FAF8F9] text-[#18101E]'
-          }`}
-        >
-          <div className="space-y-3.5">
-            {/* Responsive Portrait + Bio Layout: Side-by-side when underneath chat (<lg), stacked in narrow lg sidebar — 100% Full Face Visible! */}
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-4 items-center sm:items-start lg:items-stretch">
-              <div className="relative w-full max-w-[260px] sm:w-56 lg:w-full lg:max-w-none shrink-0 aspect-[4/5] lg:aspect-[4/4.3] overflow-hidden rounded-2xl border border-black/10 bg-[#18101E] shadow-xs">
-                <img
-                  src={selected.photoUrl}
-                  alt={selected.name}
-                  className="h-full w-full object-cover object-[50%_15%]"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-3.5 text-white">
-                  <div className="flex items-center gap-1.5 font-display text-xl">
-                    <span>
-                      {selected.name}, {selected.age}
-                    </span>
-                    <BadgeCheck className="h-4 w-4 fill-[#38BDF8] text-white" />
-                  </div>
-                  <div className="text-xs font-semibold text-white/95 leading-snug">
-                    {selected.title}
-                  </div>
-                </div>
-              </div>
-
-              <div className="min-w-0 flex-1 space-y-3 w-full">
-                {/* Vitals Pills */}
-                <div className="flex flex-wrap gap-1.5 text-[11px] font-bold">
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 ${
-                      isDarkDiscord
-                        ? 'bg-[#313338] text-[#DBDEE1]'
-                        : 'border border-black/10 bg-white text-[#18101E]'
-                    }`}
-                  >
-                    📏 {selected.height}
+        {isDarkDiscord ? (
+          <aside className="flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#1F2023] bg-[#232428] p-4 sm:p-5 space-y-4 lg:min-h-[680px] text-[#DBDEE1]">
+            <div className="space-y-4">
+              {/* Mystery Subplot Clue Board */}
+              <div className="rounded-2xl border border-[#FEE75C]/35 bg-[#111214] p-4 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-[#FEE75C]">
+                    🕵️ Anon Lounge Subplot
                   </span>
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 ${
-                      isDarkDiscord
-                        ? 'bg-[#313338] text-[#DBDEE1]'
-                        : 'border border-black/10 bg-white text-[#18101E]'
-                    }`}
-                  >
-                    ✨ {selected.zodiac.split('•')[0].trim()}
+                  <span className="rounded-full bg-[#5865F2]/30 px-2 py-0.5 text-[10px] font-bold text-[#DEE0FC]">
+                    Stage {subplotStage}/3
                   </span>
-                  {selected.petName && (
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 ${
-                        isDarkDiscord
-                          ? 'bg-[#23A55A]/20 text-[#86EFAC]'
-                          : 'border border-[#10B981]/25 bg-[#ECFDF5] text-[#065F46]'
-                      }`}
-                    >
-                      🐾 {selected.petName.split('•')[0].trim()}
-                    </span>
-                  )}
                 </div>
+                <p className="text-xs text-[#B5BAC1] leading-relaxed">
+                  One cast member from the Roster is posting undercover as{' '}
+                  <strong className="text-white">{mysteryHandle}</strong>. Unmask them to win{' '}
+                  <strong className="text-[#57F287]">+3 Credits</strong> and unlock their real
+                  iMessage number!
+                </p>
 
-                {/* Clickable Interests Beyond Drinks (Tap any interest to spark a 1-line opener!) */}
-                <div className="space-y-1.5">
-                  <div
-                    className={`text-[10px] font-extrabold uppercase tracking-wider ${
-                      isDarkDiscord ? 'text-[#949BA4]' : 'text-[#64748B]'
-                    }`}
-                  >
-                    Interests &amp; Passions (tap to mention in chat)
+                {subplotStage === 0 ? (
+                  <div className="rounded-xl bg-[#2B2D31] p-2.5 text-[11px] text-[#DBDEE1]">
+                    <strong>Step 1:</strong> Post a comment in <code>#general-lounge</code> to catch{' '}
+                    {mysteryHandle}’s eye.
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {selected.interests.map((interest) => (
-                      <button
-                        key={interest}
-                        type="button"
-                        onClick={() => {
-                          sfx.messagePop();
-                          setInput(buildInterestIcebreaker(selected, interest));
-                        }}
-                        title={`Mention ${interest} in chat`}
-                        className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition cursor-pointer ${
-                          isDarkDiscord
-                            ? 'bg-[#313338] text-[#DEE0FC] hover:bg-[#5865F2] hover:text-white'
-                            : 'border border-[#FD267A]/20 bg-white text-[#18101E] hover:border-[#FD267A] hover:bg-[#FFF0F5]'
-                        }`}
-                      >
-                        {interest}
-                      </button>
-                    ))}
+                ) : subplotStage < 3 ? (
+                  <div className="space-y-2 pt-1">
+                    <div className="text-[11px] font-bold text-[#FEE75C]">
+                      🎭 Ready to guess who {mysteryHandle} really is?
+                    </div>
+                    <div className="grid grid-cols-1 gap-1.5">
+                      {mysterySuspects.map((sus) => (
+                        <button
+                          key={sus.id}
+                          type="button"
+                          onClick={() => handleGuessMysterySuspect(sus)}
+                          className="flex items-center justify-between rounded-xl border border-[#3F4147] bg-[#2B2D31] hover:border-[#FEE75C] px-3 py-2 text-left text-xs font-bold text-white cursor-pointer transition"
+                        >
+                          <span>
+                            Guess: {sus.name}, {sus.age}
+                          </span>
+                          <span className="text-[10px] text-[#949BA4]">{sus.title}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
+                ) : (
+                  <div className="rounded-xl border border-[#23A55A] bg-[#23A55A]/15 p-2.5 text-xs font-bold text-[#86EFAC]">
+                    ✓ Solved! {mysteryHandle} is {mysteryTargetContact.name}. Real number added to
+                    iMessage!
+                  </div>
+                )}
+              </div>
+
+              {/* Online Anonymous Members */}
+              <div className="rounded-2xl bg-[#111214] p-3.5 space-y-2.5">
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#949BA4]">
+                  Online Anonymous Regulars — 8
                 </div>
-
-                {/* Full Natural Bio + Delight Details */}
-                <div
-                  className={`rounded-2xl p-3.5 space-y-2 text-xs leading-relaxed ${
-                    isDarkDiscord
-                      ? 'bg-[#111214] text-[#DBDEE1]'
-                      : 'border border-black/10 bg-white text-[#18101E]'
-                  }`}
-                >
-                  <p className="font-bold">{selected.tagline}</p>
-                  <p className={isDarkDiscord ? 'text-[#B5BAC1]' : 'text-[#475569]'}>
-                    {selected.bio}
-                  </p>
-                  <div
-                    className={`pt-2 border-t space-y-1 text-[11.5px] ${
-                      isDarkDiscord ? 'border-[#2B2D31]' : 'border-slate-100'
-                    }`}
-                  >
-                    <div>
-                      <span className="font-bold">☀️ Ideal Sunday: </span>
-                      <span className={isDarkDiscord ? 'text-[#DBDEE1]' : 'text-[#334155]'}>
-                        {selected.idealSunday}
+                <div className="space-y-2">
+                  {ANON_ONLINE_ROSTER.map((member) => (
+                    <div key={member.handle} className="flex items-center justify-between gap-2 text-xs">
+                      <div className="min-w-0">
+                        <div className="truncate font-bold text-[#F2F3F5]">{member.handle}</div>
+                        <div className="truncate text-[10.5px] text-[#949BA4]">{member.status}</div>
+                      </div>
+                      <span className="shrink-0 rounded bg-[#2B2D31] px-1.5 py-0.5 text-[10px] font-semibold text-[#B5BAC1]">
+                        {member.role}
                       </span>
                     </div>
-                    <div>
-                      <span className="font-bold">💚 Secret Soft Spot: </span>
-                      <span className={isDarkDiscord ? 'text-[#DBDEE1]' : 'text-[#334155]'}>
-                        {selected.softSpot}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-bold">💞 Love Style: </span>
-                      <span className={isDarkDiscord ? 'text-[#F47FFF]' : 'text-[#BE123C]'}>
-                        {selected.loveLanguage}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-bold">🥂 Go-To Order: </span>
-                      <span className={isDarkDiscord ? 'text-[#B5BAC1]' : 'text-[#475569]'}>
-                        {selected.drink}
-                      </span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* Live Chemistry & Dynamic Stage Meter */}
-            <div
-              className={`rounded-2xl p-3.5 space-y-2 ${
-                isDarkDiscord
-                  ? 'bg-[#111214] text-[#DBDEE1]'
-                  : 'border border-black/10 bg-white text-[#18101E]'
-              }`}
+            <form
+              onSubmit={handleSubmitTeaStory}
+              className="rounded-2xl border border-dashed border-[#3F4147] bg-[#2B2D31] p-3 space-y-2"
             >
-              <div className="flex items-center justify-between text-xs font-extrabold">
-                <span>🔥 Chemistry ({stageLabel.split('•')[0].trim()})</span>
-                <span className="text-[#FD267A]">{vibePercent}%</span>
+              <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#FEE75C]">
+                🫖 Spill Anon Dating Tea (+3 Cr)
               </div>
-              <div
-                className={`h-2 w-full overflow-hidden rounded-full ${
-                  isDarkDiscord ? 'bg-[#2B2D31]' : 'bg-[#F1F5F9]'
-                }`}
-              >
-                <div
-                  style={{ width: `${vibePercent}%` }}
-                  className="h-full rounded-full bg-gradient-to-r from-[#FD267A] to-[#F59E0B] transition-all duration-300"
-                />
-              </div>
-              <p className={`text-[11px] font-medium ${isDarkDiscord ? 'text-[#949BA4]' : 'text-[#64748B]'}`}>
-                Keep texting dynamically to advance from First DM → Pre-Date → After Date #1 → Going Steady!
-              </p>
-              {onStartDateWithContact && (
-                <button
-                  type="button"
-                  onClick={() => onStartDateWithContact(selected.id, selected.role)}
-                  className="pop-btn mt-1 w-full h-10 rounded-xl bg-gradient-to-r from-[#FD267A] to-[#FF6036] text-xs font-extrabold text-white border-transparent cursor-pointer"
-                >
-                  💘 Play Full Date Run w/ {selected.name} →
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Real-Life Red/Green Flag Crowdsourcing Box */}
-          <form
-            onSubmit={handleSubmitTeaStory}
-            className={`rounded-2xl border border-dashed p-3 space-y-2 ${
-              isDarkDiscord
-                ? 'border-[#3F4147] bg-[#2B2D31]'
-                : 'border-[#F59E0B]/45 bg-[#FFFBEB]'
-            }`}
-          >
-            <div
-              className={`text-[11px] font-extrabold uppercase tracking-wide ${
-                isDarkDiscord ? 'text-[#FEE75C]' : 'text-[#B45309]'
-              }`}
-            >
-              🫖 Spill a Real-Life Texting Red Flag (+3 Cr)
-            </div>
-            {teaSubmitted ? (
-              <p className="text-xs font-bold text-[#10B981]">
-                ✓ Sent to the Club Writers’ Vault (+3 Credits)! Thank you for the tea 🥂
-              </p>
-            ) : (
-              <div className="space-y-1.5">
+              {teaSubmitted ? (
+                <p className="text-xs font-bold text-[#10B981]">
+                  ✓ Sent to the Club Writers’ Vault (+3 Credits)!
+                </p>
+              ) : (
                 <div className="flex gap-1.5">
                   <input
                     type="text"
                     value={teaStory}
                     onChange={(e) => setTeaStory(e.target.value)}
-                    placeholder="Spill a real red flag or archetype idea..."
+                    placeholder="Drop an anon red flag or story..."
                     maxLength={180}
-                    className={`min-w-0 flex-1 rounded-xl border px-2.5 py-1.5 text-xs focus:outline-none ${
-                      isDarkDiscord
-                        ? 'border-[#1E1F22] bg-[#1E1F22] text-white placeholder:text-[#80848E]'
-                        : 'border-black/15 bg-white text-[#18101E] placeholder:text-[#94A3B8]'
-                    }`}
+                    className="min-w-0 flex-1 rounded-xl border border-[#1E1F22] bg-[#1E1F22] px-2.5 py-1.5 text-xs text-white placeholder:text-[#80848E] focus:outline-none"
                   />
                   <button
                     type="submit"
@@ -2551,22 +3222,191 @@ export const LiveInboxModal: React.FC<LiveInboxModalProps> = ({
                     Send
                   </button>
                 </div>
-                <input
-                  type="text"
-                  value={teaContact}
-                  onChange={(e) => setTeaContact(e.target.value)}
-                  placeholder="Optional @handle / email for follow-up (blank = 100% anonymous)"
-                  maxLength={120}
-                  className={`w-full rounded-xl border px-2.5 py-1 text-[11px] focus:outline-none ${
-                    isDarkDiscord
-                      ? 'border-[#1E1F22] bg-[#1E1F22] text-white placeholder:text-[#80848E]'
-                      : 'border-black/10 bg-white/90 text-[#18101E] placeholder:text-[#94A3B8]'
-                  }`}
-                />
+              )}
+            </form>
+          </aside>
+        ) : (
+          /* TINDER DOSSIER vs APPLE CONTACT CARD (100% Full-Face Portrait Framing!) */
+          <aside
+            className={`flex flex-col justify-between border-t lg:border-t-0 lg:border-l p-4 sm:p-5 space-y-4 lg:min-h-[680px] ${
+              isAppleMessages
+                ? 'border-[#D1D1D6] bg-[#F2F2F7] text-[#1C1C1E]'
+                : 'border-[#E5E7EB] bg-[#FAF8F9] text-[#18101E]'
+            }`}
+          >
+            <div className="space-y-3.5">
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-4 items-center sm:items-start lg:items-stretch">
+                <div className="relative w-full max-w-[260px] sm:w-56 lg:w-full lg:max-w-none shrink-0 aspect-[4/5] lg:aspect-[4/4.3] overflow-hidden rounded-2xl border border-black/10 bg-[#18101E] shadow-xs">
+                  <img
+                    src={selected.photoUrl}
+                    alt={selected.name}
+                    className="h-full w-full object-cover object-[50%_15%]"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-3.5 text-white">
+                    <div className="flex items-center gap-1.5 font-display text-xl">
+                      <span>
+                        {selected.name}, {selected.age}
+                      </span>
+                      <BadgeCheck className="h-4 w-4 fill-[#38BDF8] text-white" />
+                    </div>
+                    <div className="text-xs font-semibold text-white/95 leading-snug">
+                      {isAppleMessages && isNumberEarnedForSelected
+                        ? `📱 ${formatCellNumber(selected)} • Off-App VIP`
+                        : selected.title}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="min-w-0 flex-1 space-y-3 w-full">
+                  <div className="flex flex-wrap gap-1.5 text-[11px] font-bold">
+                    <span className="rounded-full border border-black/10 bg-white px-2.5 py-0.5 text-[#18101E]">
+                      📏 {selected.height}
+                    </span>
+                    <span className="rounded-full border border-black/10 bg-white px-2.5 py-0.5 text-[#18101E]">
+                      ✨ {selected.zodiac.split('•')[0].trim()}
+                    </span>
+                    {selected.petName && (
+                      <span className="rounded-full border border-[#10B981]/25 bg-[#ECFDF5] px-2.5 py-0.5 text-[#065F46]">
+                        🐾 {selected.petName.split('•')[0].trim()}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Clickable Interests Beyond Drinks */}
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#64748B]">
+                      Interests &amp; Passions (tap to mention)
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selected.interests.map((interest) => (
+                        <button
+                          key={interest}
+                          type="button"
+                          onClick={() => {
+                            sfx.messagePop();
+                            setInput(buildInterestIcebreaker(selected, interest));
+                          }}
+                          title={`Mention ${interest} in chat`}
+                          className={`rounded-full border bg-white px-2.5 py-1 text-[11px] font-bold text-[#18101E] transition cursor-pointer ${
+                            isAppleMessages
+                              ? 'border-[#007AFF]/25 hover:border-[#007AFF] hover:bg-[#EFF6FF]'
+                              : 'border-[#FD267A]/20 hover:border-[#FD267A] hover:bg-[#FFF0F5]'
+                          }`}
+                        >
+                          {interest}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bio + Delight Details */}
+                  <div className="rounded-2xl border border-black/10 bg-white p-3.5 space-y-2 text-xs leading-relaxed text-[#18101E]">
+                    <p className="font-bold">{selected.tagline}</p>
+                    <p className="text-[#475569]">{selected.bio}</p>
+                    <div className="pt-2 border-t border-slate-100 space-y-1 text-[11.5px]">
+                      <div>
+                        <span className="font-bold">☀️ Ideal Sunday: </span>
+                        <span className="text-[#334155]">{selected.idealSunday}</span>
+                      </div>
+                      <div>
+                        <span className="font-bold">💚 Secret Soft Spot: </span>
+                        <span className="text-[#334155]">{selected.softSpot}</span>
+                      </div>
+                      <div>
+                        <span className="font-bold">💞 Love Style: </span>
+                        <span className={isAppleMessages ? 'text-[#007AFF]' : 'text-[#BE123C]'}>
+                          {selected.loveLanguage}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="font-bold">🥂 Go-To Order: </span>
+                        <span className="text-[#475569]">{selected.drink}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            )}
-          </form>
-        </aside>
+
+              {/* Progression Meter */}
+              <div className="rounded-2xl border border-black/10 bg-white p-3.5 space-y-2 text-[#18101E]">
+                <div className="flex items-center justify-between text-xs font-extrabold">
+                  <span>
+                    {isNumberEarnedForSelected
+                      ? '📱 Off-App Chemistry'
+                      : `🔒 Earn Real # (${Math.min(2, sparksForSelected)}/2 Sparks)`}
+                  </span>
+                  <span className={isAppleMessages ? 'text-[#007AFF]' : 'text-[#FD267A]'}>
+                    {vibePercent}%
+                  </span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
+                  <div
+                    style={{ width: `${vibePercent}%` }}
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      isAppleMessages
+                        ? 'bg-[#007AFF]'
+                        : 'bg-gradient-to-r from-[#FD267A] to-[#F59E0B]'
+                    }`}
+                  />
+                </div>
+                {onStartDateWithContact && (
+                  <button
+                    type="button"
+                    onClick={() => onStartDateWithContact(selected.id, selected.role)}
+                    className={`pop-btn mt-1 w-full h-10 rounded-xl text-xs font-extrabold text-white border-transparent cursor-pointer ${
+                      isAppleMessages
+                        ? 'bg-[#007AFF] hover:bg-[#0062CC]'
+                        : 'bg-gradient-to-r from-[#FD267A] to-[#FF6036]'
+                    }`}
+                  >
+                    💘 Play Full Date Run w/ {selected.name} →
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <form
+              onSubmit={handleSubmitTeaStory}
+              className="rounded-2xl border border-dashed border-[#F59E0B]/45 bg-[#FFFBEB] p-3 space-y-2"
+            >
+              <div className="text-[11px] font-extrabold uppercase tracking-wide text-[#B45309]">
+                🫖 Spill a Real-Life Texting Red Flag (+3 Cr)
+              </div>
+              {teaSubmitted ? (
+                <p className="text-xs font-bold text-[#10B981]">
+                  ✓ Sent to the Club Writers’ Vault (+3 Credits)! Thank you for the tea 🥂
+                </p>
+              ) : (
+                <div className="space-y-1.5">
+                  <div className="flex gap-1.5">
+                    <input
+                      type="text"
+                      value={teaStory}
+                      onChange={(e) => setTeaStory(e.target.value)}
+                      placeholder="Spill a real red flag or archetype idea..."
+                      maxLength={180}
+                      className="min-w-0 flex-1 rounded-xl border border-black/15 bg-white px-2.5 py-1.5 text-xs text-[#18101E] placeholder:text-[#94A3B8] focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      className="shrink-0 rounded-xl bg-[#F59E0B] px-3 py-1 text-xs font-extrabold text-[#18101E] cursor-pointer"
+                    >
+                      Send
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    value={teaContact}
+                    onChange={(e) => setTeaContact(e.target.value)}
+                    placeholder="Optional @handle / email for follow-up (blank = 100% anonymous)"
+                    maxLength={120}
+                    className="w-full rounded-xl border border-black/10 bg-white/90 px-2.5 py-1 text-[11px] text-[#18101E] placeholder:text-[#94A3B8] focus:outline-none"
+                  />
+                </div>
+              )}
+            </form>
+          </aside>
+        )}
       </div>
     </section>
   );

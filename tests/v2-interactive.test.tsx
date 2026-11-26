@@ -801,7 +801,7 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     expect(screen.getByText(/Club Viral Score: 4 pts/i)).toBeInTheDocument();
   });
 
-  it('switches Live Inbox between authentic iOS iMessage and Discord #boys-roblox-vc, and renders Discord group chat in Roblox scenes', async () => {
+  it('gates Flirt Mode & off-app iMessage behind earned Tinder sparks, separates threads, and runs the anonymous Discord lounge + mystery subplot', async () => {
     window.history.replaceState({}, '', '/?dilemma=cub-friends-memes-roblox-shock');
     const { unmount } = render(<App />);
 
@@ -815,14 +815,42 @@ describe('v2 Interactive Game, Age-Specific 5-Stage Arcs, Photorealistic Tinder 
     fireEvent.click(screen.getByRole('button', { name: /Live AI Texting Mode/i }));
     fireEvent.click(screen.getByRole('button', { name: /🥂 Younger Man/i }));
 
-    // Defaults to full-web Tinder layout; switch across iMessage and Discord #boys-roblox-vc, then exit cleanly back to Lobby
+    // 1. Starts on Tinder; Flirt Mode & iMessage personal numbers are locked until earned!
     expect(screen.getByPlaceholderText(/Message Claire on Tinder/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Flirt Mode/i }));
+    expect(screen.getByText(/Flirt Mode is earned/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /^iMessage$/i }));
+    expect(screen.getByText(/Personal Numbers Are Earned Off-App/i)).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText(/Message Claire on iMessage/i)).not.toBeInTheDocument();
+
+    // 2. Return to Tinder and earn 2 green-flag sparks to win Claire's real number & Flirt Mode!
+    fireEvent.click(screen.getByRole('button', { name: /Go Win Claire’s Number on Tinder/i }));
+    const tinderInput = screen.getByPlaceholderText(/Message Claire on Tinder/i);
+    fireEvent.change(tinderInput, {
+      target: { value: 'Booked a quiet corner table Friday at 7:30, peonies included 🍸' },
+    });
+    fireEvent.click(screen.getAllByRole('button', { name: /^Send$/i })[0]);
+    expect(await screen.findByText(/VIBE CHECK PASSED/i)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByPlaceholderText(/Message Claire on Tinder/i), {
+      target: { value: 'Let us escape Tinder, can I get your real number for Friday at 7:30?' },
+    });
+    fireEvent.click(screen.getAllByRole('button', { name: /^Send$/i })[0]);
+    expect(await screen.findByText(/NUMBER EARNED!/i)).toBeInTheDocument();
+
+    // 3. Switch to iMessage: opens a SEPARATE off-app thread (never duplicating Tinder messages!)
     fireEvent.click(screen.getByRole('button', { name: /^iMessage$/i }));
     expect(screen.getByPlaceholderText(/Message Claire on iMessage/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Officially out of Tinder purgatory/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.queryByText(/Let us escape Tinder/i)).not.toBeInTheDocument();
+
+    // 4. Switch to Discord: opens Anonymous Velvet Lounge + #boys-roblox-vc + Mystery Subplot!
     fireEvent.click(screen.getByRole('button', { name: /^Discord$/i }));
+    expect(screen.getByText(/Velvet Lounge \(Anon\)/i)).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /boys-roblox-vc/i }));
 
-    const discordInput = screen.getByPlaceholderText(/Message Claire in #boys-roblox-vc/i);
+    const discordInput = screen.getByPlaceholderText(/Post anonymously in #boys-roblox-vc/i);
     fireEvent.change(discordInput, {
       target: { value: 'Booked a quiet corner table Friday at 7:30, peonies included 🍸' },
     });

@@ -1078,12 +1078,20 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
               ? 'STAGE 3 (After Date #1): Pretend Date #1 went great and you are texting the next day! Bring up a fun moment from last night and suggest what to do together this weekend.'
               : 'STAGE 4 (Ongoing Relationship): You two have real momentum now! Banter like an ongoing couple/situationship with inside jokes, weekend plans, and playful affection.';
 
+      const platformContext =
+        platform === 'imessage'
+          ? 'PLATFORM CONTEXT (EARNED OFF-APP iMESSAGE): They ALREADY passed your Tinder vetting and earned your personal phone number! Never act like you just matched on an app. Text warmly like an off-app contact locking in Friday, a quick 6 PM voice call, or Date #2.'
+          : platform === 'discord'
+            ? 'PLATFORM CONTEXT (ANONYMOUS CLUB DISCORD SERVER): You are bantering under an anonymous handle in the Cougars & Cubs Lounge server or mystery anon subplot DM. Keep it witty, self-aware, and playfully mysterious in one crisp sentence.'
+            : 'PLATFORM CONTEXT (TINDER MATCH VETTING): You matched on Tinder. If they demand your phone number on message #1 before proving themselves, playfully tell them to earn two good sentences on the app first. Reward decisive Friday plans and witty charm.';
+
       const systemPrompt = [
         `You are texting as ${personaName} (${personaAge}, background: ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a playful, witty PG-13 dating sim inspired by Dream Daddy.`,
         `STRICT ONE-LINE RULE: Send ONLY ONE short, punchy line at a time (8 to 16 words MAX, 1 single sentence)! NEVER send a paragraph or multiple long sentences!`,
         `NEVER RECITE YOUR BIO: Real people NEVER say "You swiped right on a 41yo surfer" or list all their hobbies/diet/job in a text! Keep your background subtle and drop at most ONE tiny, funny breadcrumb ONLY when it fits naturally so they stay hooked turn after turn.`,
-        `DREAM DADDY COMEDIC SPARK: Be genuinely funny, cheeky, teasing, and quotable—NEVER stiff, corporate, or polite customer-service speak ("I'm not interested in sharing my Snapchat, how about..."). Even when roasting a red flag like Snapchat or 'for your age', do it with one razor-sharp, humorous line!`,
-        `STRICT PUNCTUATION RULE: NEVER use em-dashes (—), en-dashes (–), or semicolons (;).`,
+        `DREAM DADDY COMEDIC SPARK: Be genuinely funny, cheeky, teasing, and quotable, NEVER stiff, corporate, or polite customer-service speak ("I'm not interested in sharing my Snapchat, how about..."). Even when roasting a red flag like Snapchat or 'for your age', do it with one razor-sharp, humorous line!`,
+        `STRICT PUNCTUATION RULE: NEVER use em-dashes, en-dashes, or semicolons.`,
+        platformContext,
         `DYNAMIC MULTI-TURN PROGRESSION: ${stageContext}`,
         buildGenerationalVoiceDirective(personaAge, personaRole),
         personaRole === 'her'
@@ -1439,7 +1447,7 @@ export default {
       return jsonResponse({
         ok: true,
         service: 'cougars-and-cubs-club',
-        version: 'v31-role-synced-inbox-portrait-fit-interests',
+        version: 'v32-earned-imessage-anon-discord-subplot-flirt-lock',
         kvBound: Boolean(env.VELVET_KV),
         aiBound: Boolean(env.AI),
         stripeConfigured: Boolean(env.STRIPE_SECRET_KEY),
