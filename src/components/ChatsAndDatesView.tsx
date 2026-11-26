@@ -46,6 +46,7 @@ export interface ActiveMatchThread {
   datesCompleted: number;
   lastDateRank?: 'S' | 'A' | 'B' | 'F';
   sRankLockedOut?: boolean;
+  adaptiveSuggestions?: [string, string, string];
   messages: { sender: 'match' | 'player' | 'system'; text: string }[];
   archivedAppMessages?: { sender: 'match' | 'player' | 'system'; text: string }[];
 }
@@ -158,6 +159,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [coachBanner, setCoachBanner] = useState<{ leadId: string; text: string } | null>(null);
   const [inspectedExifIds, setInspectedExifIds] = useState<string[]>([]);
   const [calloutPromptLeadId, setCalloutPromptLeadId] = useState<string | null>(null);
+  const [snoozedImessageIds, setSnoozedImessageIds] = useState<string[]>([]);
   const [showArchivedHinge, setShowArchivedHinge] = useState(false);
   const [imessageGradSplash, setImessageGradSplash] = useState<{
     leadId: string;
@@ -389,6 +391,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       ...currentThread,
       stage: 'imessage',
       currentBeat: 1,
+      adaptiveSuggestions: undefined,
       chemistry: Math.min(100, currentThread.chemistry + 10),
       archivedAppMessages: [
         ...(currentThread.archivedAppMessages ?? []),
@@ -412,25 +415,16 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     }
   };
 
-  const handleFreeTextSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmed = freeInput.trim();
+  const sendSpontaneousTurn = async (rawText: string, cost = 0) => {
+    const trimmed = rawText.replace(/^💎\s*/, '').trim();
     if (!trimmed || !currentThread || !currentProfile || sendingAi || dmTypingLabel) return;
+    if (cost > 0 && !onSpendCredits(cost)) return;
 
     const targetLeadId = currentThread.leadId;
-    const matchName = currentProfile.name;
-    const chapterForLead = V35_CHAT_CHAPTERS[targetLeadId];
-    const beatsForStage =
-      currentThread.stage === 'imessage'
-        ? (chapterForLead?.imessage ?? [])
-        : (chapterForLead?.tinder ?? []);
     const shouldAdvanceBeat = currentThread.currentBeat <= 6;
     const nextBeatNum = shouldAdvanceBeat
       ? currentThread.currentBeat + 1
       : currentThread.currentBeat;
-    const nextBeatObj = shouldAdvanceBeat
-      ? beatsForStage.find((b) => b.beatNumber === nextBeatNum)
-      : undefined;
 
     const isCalloutOrBreakupIntent =
       /\b(block|unmatch|cut\s+loose|bye|we.?re\s+done|lose\s+my\s+number|married|liar|sus|shady|red\s+flag|6:?45|table\s*9)\b/i.test(
@@ -448,14 +442,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     setSendingAi(true);
     setFreeInput('');
 
-    // Show the player's own message immediately + typing indicator right away!
+    // Show the player's message right away + typing indicator!
     const withPlayerMsg: ActiveMatchThread = {
       ...currentThread,
       messages: [...currentThread.messages, { sender: 'player', text: trimmed }],
     };
     onUpdateThread(withPlayerMsg);
     if (!isTestEnv) {
-      setDmTypingLabel(`${matchName} is typing`);
+      setDmTypingLabel(`${currentProfile.name} is typing`);
     }
 
     try {
@@ -471,6 +465,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           personaTitle: currentProfile.vitals.job,
           personaRole: currentProfile.role,
           playerRole: role,
+          personaOrigin:
+            currentProfile.id === 'julian' ? 'Hampstead London UK' : currentProfile.vitals.neighborhood,
           personaLore: `${currentProfile.tagline} ${currentProfile.trapTellSummary || currentProfile.vulnerabilityNote || ''}`.trim(),
           platform: currentThread.stage === 'imessage' ? 'imessage' : 'tinder',
           playerMessage: trimmed,
@@ -481,7 +477,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
       sfx.messagePop();
       setCoachBanner({ leadId: targetLeadId, text: res.coachNote });
-      setSparkToast({ delta: res.chemistryDelta, nonce: Date.now() });
+      const boostedDelta =
+        res.chemistryDelta > 0 && etiquetteBonusActive
+          ? res.chemistryDelta + 4
+          : res.chemistryDelta;
+      setSparkToast({ delta: boostedDelta + (cost > 0 ? 6 : 0), nonce: Date.now() });
+
       if (isCalloutOrBreakupIntent || !res.passedVibeCheck) {
         setCalloutPromptLeadId(targetLeadId);
       }
@@ -492,64 +493,33 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         refCandidate.messages.length >= withPlayerMsg.messages.length
           ? refCandidate
           : withPlayerMsg;
-      const updatedChemistry = Math.max(0, Math.min(100, latest.chemistry + res.chemistryDelta));
 
-      if (isTestEnv) {
-        const nextMsgs: ActiveMatchThread['messages'] = [
-          ...latest.messages,
-          { sender: 'match', text: res.herReply },
-          ...(nextBeatObj && !isCalloutOrBreakupIntent
-            ? nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m }))
-            : []),
-        ];
-        onUpdateThread({
-          ...latest,
-          currentBeat: nextBeatNum,
-          chemistry: updatedChemistry,
-          messages: nextMsgs,
-        });
-        return;
-      }
+      const fallbackAdapted: [string, string, string] = [
+        `Haha fair point—now tell me one thing nobody guesses about you on first impression.`,
+        `Wait, back up—explain that last part without dodging.`,
+        `💎 Keep making me laugh like that and you might actually survive my vibe check.`,
+      ];
 
-      // Browser: land their direct AI reply first, then advance the story beat so you are NEVER stuck on stale pre-built choices!
-      const withDirectReply: ActiveMatchThread = {
+      // Spontaneous AI reply + 3 freshly adapted suggestion buttons matching what they JUST said!
+      onUpdateThread({
         ...latest,
-        currentBeat:
-          nextBeatObj && nextBeatObj.incomingMessages.length > 0 && !isCalloutOrBreakupIntent
-            ? latest.currentBeat
-            : nextBeatNum,
-        chemistry: updatedChemistry,
+        currentBeat: nextBeatNum,
+        adaptiveSuggestions: res.suggestedReplies ?? fallbackAdapted,
+        chemistry: Math.max(
+          0,
+          Math.min(100, latest.chemistry + boostedDelta + (cost > 0 ? 6 : 0)),
+        ),
         messages: [...latest.messages, { sender: 'match', text: res.herReply }],
-      };
-      onUpdateThread(withDirectReply);
-
-      if (nextBeatObj && nextBeatObj.incomingMessages.length > 0 && !isCalloutOrBreakupIntent) {
-        setDmTypingLabel(`${matchName} is typing`);
-        const tNext = window.setTimeout(() => {
-          const latestStep2 =
-            latestThreadRef.current?.leadId === targetLeadId
-              ? latestThreadRef.current
-              : withDirectReply;
-          sfx.messagePop();
-          onUpdateThread({
-            ...latestStep2,
-            currentBeat: nextBeatNum,
-            messages: [
-              ...latestStep2.messages,
-              ...nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })),
-            ],
-          });
-          setDmTypingLabel(null);
-        }, 820);
-        pendingTimersRef.current.push(tNext);
-      } else {
-        setDmTypingLabel(null);
-      }
-    } catch {
-      setDmTypingLabel(null);
+      });
     } finally {
+      setDmTypingLabel(null);
       setSendingAi(false);
     }
+  };
+
+  const handleFreeTextSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await sendSpontaneousTurn(freeInput, 0);
   };
 
   const handleTriggerCutLoose = () => {
@@ -1412,6 +1382,17 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       <Flag className="h-3.5 w-3.5 text-rose-700" />
                       <span>Block / Cut Loose</span>
                     </button>
+
+                    {(isReadyToGraduate || currentThread.chemistry >= 75) && (
+                      <button
+                        type="button"
+                        onClick={handleGraduateToImessage}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] hover:bg-blue-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-2xs transition cursor-pointer"
+                      >
+                        <Smartphone className="h-3.5 w-3.5" />
+                        <span>Move to iMessage</span>
+                      </button>
+                    )}
                   </div>
                 </header>
               )}
@@ -1747,22 +1728,22 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 </div>
               )}
 
-              {/* Beat 6 Asymmetric Graduation Gate OR Wrapped Full-Sentence Suggestions */}
-              <div className="border-t border-stone-200/80 bg-stone-50/60 p-5 space-y-4">
-                {isReadyToGraduate ? (
-                  <div className="rounded-2xl border border-blue-200 bg-blue-50/80 p-4 space-y-3">
-                    <div className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
+              {/* Spontaneous Adaptive Replies + Optional Non-Blocking iMessage Swap (Never Forces You Off Hinge!) */}
+              <div className="border-t border-stone-200/80 bg-stone-50/60 p-5 space-y-3.5">
+                {isReadyToGraduate && !snoozedImessageIds.includes(currentThread.leadId) && (
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-blue-50/80 px-4 py-3">
+                    <div className="text-xs font-bold text-blue-950">
                       {role === 'her'
-                        ? `Beat 6 Decision • Does ${currentProfile.name} Get Your Personal Number?`
-                        : `Beat 6 Graduation • Move Off Hinge to Blue-Bubble iMessage!`}
+                        ? `📱 Chemistry is buzzing — share your number to move to iMessage, or stay on Hinge as long as you like!`
+                        : `📱 Chemistry is buzzing — move to personal iMessage now, or keep bantering right here on Hinge!`}
                     </div>
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         type="button"
                         onClick={handleGraduateToImessage}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] px-5 py-2.5 text-xs sm:text-sm font-bold text-white cursor-pointer"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] hover:bg-blue-600 px-4 py-2 text-xs font-bold text-white cursor-pointer"
                       >
-                        <Unlock className="h-4 w-4" />
+                        <Unlock className="h-3.5 w-3.5" />
                         <span>
                           {role === 'her'
                             ? '📱 Give Him My Number (Move to iMessage)'
@@ -1771,14 +1752,18 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       </button>
                       <button
                         type="button"
-                        onClick={handleTriggerCutLoose}
-                        className="rounded-full border border-rose-300 bg-white px-4 py-2.5 text-xs font-bold text-rose-900 cursor-pointer"
+                        onClick={() =>
+                          setSnoozedImessageIds((prev) => [...prev, currentThread.leadId])
+                        }
+                        className="rounded-full border border-blue-200 bg-white hover:bg-blue-100/40 px-3.5 py-2 text-xs font-semibold text-blue-950 cursor-pointer"
                       >
-                        🚩 Cut Loose Instead
+                        Not Yet — Keep Bantering on Hinge ✨
                       </button>
                     </div>
                   </div>
-                ) : spicyMode && currentThread.stage === 'imessage' ? (
+                )}
+
+                {spicyMode && currentThread.stage === 'imessage' ? (
                   <div className="space-y-2">
                     <div className="text-xs font-bold text-rose-800">
                       🔥 After-Dark Spicy Suggestions (Tap to send)
@@ -1788,20 +1773,69 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <button
                           key={sp}
                           type="button"
+                          disabled={Boolean(dmTypingLabel) || sendingAi}
                           data-testid="chat-suggestion-btn"
-                          onClick={() =>
-                            handlePickChoice(
-                              sp,
-                              'Careful—keep talking like that and Friday starts an hour early ✨',
-                              18,
-                              0,
-                            )
-                          }
-                          className="w-full rounded-2xl border border-rose-200 bg-rose-50/70 p-3.5 text-left text-xs sm:text-sm font-semibold text-rose-950 whitespace-normal hover:bg-rose-100 transition cursor-pointer"
+                          onClick={() => void sendSpontaneousTurn(sp, 0)}
+                          className="w-full rounded-2xl border border-rose-200 bg-rose-50/70 p-3.5 text-left text-xs sm:text-sm font-semibold text-rose-950 whitespace-normal hover:bg-rose-100 transition cursor-pointer disabled:opacity-55"
                         >
                           {sp}
                         </button>
                       ))}
+                    </div>
+                  </div>
+                ) : currentThread.adaptiveSuggestions ? (
+                  <div className="space-y-2.5" data-testid="adaptive-suggestions-panel">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-zinc-600">
+                      <span className="inline-flex items-center gap-1.5 text-rose-700 font-bold">
+                        <Sparkles className="h-3.5 w-3.5" />
+                        <span>Live Replies Adapted to {currentProfile.name}’s Message</span>
+                      </span>
+                      {activeBeat && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            onUpdateThread({
+                              ...currentThread,
+                              adaptiveSuggestions: undefined,
+                            })
+                          }
+                          className="text-[11px] font-semibold text-zinc-500 hover:text-zinc-900 underline cursor-pointer"
+                        >
+                          Show Chapter Beat {currentThread.currentBeat}/6 Options
+                        </button>
+                      )}
+                    </div>
+                    <div className="grid gap-2">
+                      {currentThread.adaptiveSuggestions.map((sugText, idx) => {
+                        const isVipMove = idx === 2 || sugText.startsWith('💎');
+                        const cost = isVipMove ? 1 : 0;
+                        const displayClean = sugText.startsWith('💎')
+                          ? sugText
+                          : isVipMove
+                            ? `💎 ${sugText}`
+                            : sugText;
+                        return (
+                          <button
+                            key={`${idx}-${sugText}`}
+                            type="button"
+                            disabled={Boolean(dmTypingLabel) || sendingAi}
+                            data-testid="chat-suggestion-btn"
+                            onClick={() => void sendSpontaneousTurn(displayClean, cost)}
+                            className={`w-full rounded-2xl p-3.5 text-left text-xs sm:text-sm whitespace-normal transition cursor-pointer disabled:opacity-55 ${
+                              isVipMove
+                                ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E]'
+                                : 'border border-stone-200 bg-white font-medium text-stone-800 hover:border-stone-400'
+                            }`}
+                          >
+                            <span>{displayClean}</span>
+                            {isVipMove && (
+                              <span className="ml-2 inline-block rounded-full bg-amber-200/80 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">
+                                Bold Spark • {wallet.isVip ? 'VIP Free' : '1 Cr'}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 ) : activeBeat ? (
@@ -1822,10 +1856,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           ))}
                         </span>
                         <span>
-                          Beat {currentThread.currentBeat} of 6 →{' '}
+                          Beat {currentThread.currentBeat} of 6 •{' '}
                           {currentThread.stage === 'app_dm'
-                            ? 'Graduate to iMessage'
-                            : 'Unlock Friday Date'}
+                            ? 'Playful Hinge Banter'
+                            : 'Off-App Chemistry'}
                         </span>
                       </div>
                       {activeBeat.trapClueHint && (
@@ -1839,7 +1873,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           <button
                             key={c.text}
                             type="button"
-                            disabled={Boolean(dmTypingLabel)}
+                            disabled={Boolean(dmTypingLabel) || sendingAi}
                             data-testid="chat-suggestion-btn"
                             onClick={() => handlePickChoice(c.text, c.reply, c.delta, cost)}
                             className={`w-full rounded-2xl p-3.5 text-left text-xs sm:text-sm whitespace-normal transition cursor-pointer disabled:opacity-55 ${
@@ -1859,37 +1893,63 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       })}
                     </div>
                   </div>
-                ) : nextDateScript ? (
-                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white border border-stone-200 p-4">
-                    <span className="text-xs sm:text-sm font-semibold text-stone-700">
-                      All 6 vetting beats complete — keep free-chatting below or launch{' '}
-                      {nextDateScript.dateNumber === 4
-                        ? 'Velvet Cut Epilogue (Date #4)'
-                        : `Date #${nextDateScript.dateNumber}`}
-                      !
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => launchDateWithGate(currentProfile.id, nextDateScript)}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-[#B83253] px-5 py-2 text-xs font-bold text-white cursor-pointer"
-                    >
-                      <Sparkles className="h-3.5 w-3.5" />
-                      <span>
-                        {nextDateScript.dateNumber === 4
-                          ? `Launch Velvet Cut Epilogue (${
-                              wallet.isVip ||
-                              wallet.isFounderUnlimited ||
-                              wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
-                                ? 'Unlocked'
-                                : '3 Cr'
-                            }) →`
-                          : `Launch Date #${nextDateScript.dateNumber} →`}
-                      </span>
-                    </button>
-                  </div>
                 ) : (
-                  <div className="rounded-2xl bg-white border border-stone-200 p-4 text-xs sm:text-sm font-semibold text-stone-700">
-                    All scripted chapters with {currentProfile.name} complete — keep chatting freely anytime below!
+                  <div className="space-y-2.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-zinc-600">
+                      <span className="font-bold text-rose-700">
+                        ✨ Spontaneous Banter Mode — Keep riffing freely or pick a playful prompt:
+                      </span>
+                      {nextDateScript && currentThread.stage === 'imessage' && (
+                        <button
+                          type="button"
+                          onClick={() => launchDateWithGate(currentProfile.id, nextDateScript)}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-[#B83253] px-4 py-1.5 text-xs font-bold text-white cursor-pointer"
+                        >
+                          <Sparkles className="h-3.5 w-3.5" />
+                          <span>
+                            {nextDateScript.dateNumber === 4
+                              ? `Launch Velvet Cut Epilogue (${
+                                  wallet.isVip ||
+                                  wallet.isFounderUnlimited ||
+                                  wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
+                                    ? 'Unlocked'
+                                    : '3 Cr'
+                                }) →`
+                              : `Launch Date #${nextDateScript.dateNumber} →`}
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                    <div className="grid gap-2">
+                      {[
+                        `Okay my turn: tell me one harmless guilty pleasure you'd never admit on a first date.`,
+                        `Quick test: what's the most overrated advice people give about age-gap dating?`,
+                        `💎 Be honest—what was the very first thing on my profile that made you stop scrolling?`,
+                      ].map((sugText, idx) => {
+                        const isVipMove = idx === 2;
+                        return (
+                          <button
+                            key={sugText}
+                            type="button"
+                            disabled={Boolean(dmTypingLabel) || sendingAi}
+                            data-testid="chat-suggestion-btn"
+                            onClick={() => void sendSpontaneousTurn(sugText, isVipMove ? 1 : 0)}
+                            className={`w-full rounded-2xl p-3.5 text-left text-xs sm:text-sm whitespace-normal transition cursor-pointer disabled:opacity-55 ${
+                              isVipMove
+                                ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E]'
+                                : 'border border-stone-200 bg-white font-medium text-stone-800 hover:border-stone-400'
+                            }`}
+                          >
+                            <span>{sugText}</span>
+                            {isVipMove && (
+                              <span className="ml-2 inline-block rounded-full bg-amber-200/80 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">
+                                Bold Spark • {wallet.isVip ? 'VIP Free' : '1 Cr'}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
 

@@ -27,6 +27,7 @@ export interface AiDmVettingResponse {
   chemistryDelta: number;
   herReply: string;
   secondReply?: string;
+  suggestedReplies?: [string, string, string];
   coachNote: string;
   passedVibeCheck: boolean;
   source: 'workers-ai' | 'local-heuristic';
@@ -418,45 +419,118 @@ export function evaluateDmLocally(params: {
       };
     }
     if (isBritish) {
-      const ukLines = [
-        `Half seven is sorted. Corner booth booked, peonies riding shotgun, Yes, Mummy xx`,
-        `Fancy a cheeky drink first? Proper Cabernet is breathing and my mobile stays off the table x`,
-        `Whatever you say, Mummy xx, I'll ring you at six sharp before heading round.`,
+      if (hasPlan) {
+        const ukPlanLines = [
+          `Half seven is sorted. Quiet corner booth, phones in coats, and proper red wine xx`,
+          `Fancy a cheeky drink Thursday? Pick the neighborhood and I'll handle the rest x`,
+        ];
+        return {
+          maturityDelta: 20,
+          chivalryDelta: 22,
+          chemistryDelta: 22,
+          herReply: ukPlanLines[turnIdx % ukPlanLines.length],
+          suggestedReplies: [
+            `Westwood wine bar—and I'm holding you to that no-phones rule.`,
+            `Wait, slow down professor—pass my vibe check before we book tables.`,
+            `💎 Surprise me with your favorite courtyard spot and bring your best story.`,
+          ],
+          coachNote: 'He stepped right up when you floated plans—keep teasing or lock it in!',
+          passedVibeCheck: true,
+          source: 'local-heuristic',
+        };
+      }
+      const ukBanterLines = [
+        `Careful, dry wit like that makes it dangerously hard to focus on archive notes x What's one hill you'll irrationally die on?`,
+        `Properly unfair answer—you're already ten times sharper than everyone else on this app. What's your biggest guilty pleasure after a long week?`,
+        `Haha touché, I deserved that roast. Quick test: loud gallery scenes, or sneaking out twenty minutes early to critique everyone's outfits?`,
       ];
+      const ukAdaptiveSets: [string, string, string][] = [
+        [
+          `Bad restaurant lighting and men who clap when the plane lands.`,
+          `You go first—what hill does a Hampstead historian die on?`,
+          `💎 People who rush small talk instead of flirting properly—your turn.`,
+        ],
+        [
+          `Chilled Sancerre, vinyl on low, and ignoring every email past six.`,
+          `Depends—are you judging, or taking notes?`,
+          `💎 Sneaking out of boring obligations with someone who makes me laugh.`,
+        ],
+        [
+          `Sneaking out twenty minutes early, hands down—bonus points if we steal canapés.`,
+          `Only if your commentary is actually ruthless.`,
+          `💎 Twenty minutes is generous—I give pretentious openings ten flat.`,
+        ],
+      ];
+      const pick = turnIdx % ukBanterLines.length;
       return {
-        maturityDelta: 20,
-        chivalryDelta: 22,
-        chemistryDelta: 24,
-        herReply: ukLines[turnIdx % ukLines.length],
-        coachNote: 'Proper British Cub banter unlocked ("half seven", "sorted", and shameless "xx")!',
+        maturityDelta: 18,
+        chivalryDelta: 18,
+        chemistryDelta: 20,
+        herReply: ukBanterLines[pick],
+        suggestedReplies: ukAdaptiveSets[pick],
+        coachNote: 'Playful British banter unlocked—zero rush, just genuine spark!',
         passedVibeCheck: true,
         source: 'local-heuristic',
       };
     }
-    const cubLines =
-      age >= 30
-        ? [
-            `7:30 sharp works. Corner booth is booked and my phone stays off the table.`,
-            `Deal. I'll call you at six tomorrow instead of blowing up your phone.`,
-            `Four crisp pillows on my bed, for the record. Pick you up at 7:30?`,
-          ]
-        : age >= 25
+
+    if (hasPlan) {
+      const cubPlanLines =
+        age >= 30
           ? [
-              `7:30 works great. Quiet corner table booked, zero startup talk all night 🍷`,
-              `Deal. Fair warning, I'm cooking you pasta on Date #2.`,
-              `Six o'clock phone call tomorrow it is. Looking forward to hearing your voice ✨`,
+              `7:30 sharp works. Quiet corner booth and my phone stays off the table.`,
+              `Deal—name the neighborhood and I'll handle the reservation.`,
             ]
           : [
-              `7:30 works!! 😊 ironed a real shirt and booked us an actual table ✨`,
-              `deal!! fair warning im showing up 10 mins early with flowers`,
-              `phone stays face-down all dinner, promise 😊`,
+              `Love that energy—quiet wine bar or late-night sushi when we do meet up? 🍷`,
+              `Deal. Fair warning, I show up five minutes early and actually listen.`,
             ];
+      return {
+        maturityDelta: 18,
+        chivalryDelta: 20,
+        chemistryDelta: 20,
+        herReply: cubPlanLines[turnIdx % cubPlanLines.length],
+        suggestedReplies: [
+          `Quiet wine bar—loud clubs are an automatic veto.`,
+          `Hold on, don't get ahead of yourself—earn two more good answers first.`,
+          `💎 Pick your favorite hidden spot on the Westside and impress me.`,
+        ],
+        coachNote: 'You floated plans and he matched your energy cleanly.',
+        passedVibeCheck: true,
+        source: 'local-heuristic',
+      };
+    }
+
+    const cubSpontaneousLines = [
+      `Okay that actually made me laugh out loud. Quick vibe check: what's the fastest way someone accidentally gives you the ick?`,
+      `Bold answer—I respect it. Tell me one thing on your profile that gets misread all the time.`,
+      `You don't pull punches at all, do you? Honestly refreshing—what's your go-to reset after a chaotic week?`,
+    ];
+    const cubAdaptiveSets: [string, string, string][] = [
+      [
+        `People who treat Hinge like a LinkedIn interview or rush straight to logistics.`,
+        `Guys who brag about things their parents paid for—what's yours?`,
+        `💎 Boring texters—thankfully you're surviving round one so far.`,
+      ],
+      [
+        `People assume I'm all business until they hear my dry sense of humor.`,
+        `Guess first—let's see how perceptive you actually are.`,
+        `💎 That I have patience for bad banter—glad you brought real energy.`,
+      ],
+      [
+        `Long coastal walk, phone on Do Not Disturb, and something great in a wine glass.`,
+        `Why pull punches when teasing you is way more fun?`,
+        `💎 Good music, zero obligations, and flirting with someone unexpected.`,
+      ],
+    ];
+    const cubPick = turnIdx % cubSpontaneousLines.length;
     return {
-      maturityDelta: 18,
-      chivalryDelta: 20,
-      chemistryDelta: 22,
-      herReply: cubLines[turnIdx % cubLines.length],
-      coachNote: 'Green-flag Cub banter! Keep testing his follow-through one line at a time.',
+      maturityDelta: 16,
+      chivalryDelta: 16,
+      chemistryDelta: 18,
+      herReply: cubSpontaneousLines[cubPick],
+      suggestedReplies: cubAdaptiveSets[cubPick],
+      coachNote: 'Spontaneous banter flowing—keep riffing or test his wit!',
       passedVibeCheck: true,
       source: 'local-heuristic',
     };
@@ -682,31 +756,35 @@ export function evaluateDmLocally(params: {
   }
 
   const banterLines =
-    age >= 60
+    age >= 50
       ? [
-          `Charming start. Now tell me what kind of evening you have in mind for Friday.`,
-          `Witty, I will give you that. Do you cook, or do you know a good bistro?`,
+          `Witty start—most men on here open like a customer-support ticket. What's the most spontaneous thing you've done this month?`,
+          `Not bad at all. Quick litmus test: what album do you put on when nobody else is watching?`,
         ]
-      : age >= 50
-        ? [
-            `Good start. Now tell me where you are actually taking me Friday.`,
-            `Not bad at all. Are you all banter, or do you book reservations too?`,
-          ]
-        : age >= 40
-          ? [
-              `Bold start. Tell me what Friday spot you have up your sleeve 🍸`,
-              `Careful, dry wit works fast on me. Can you actually cook, or just flirt?`,
-            ]
-          : [
-              `Good energy so far. Where are you taking me Friday to back it up? ✨`,
-              `Cute line. Quick test: quiet corner wine bar or loud club?`,
-            ];
+      : [
+          `Okay, dry wit works dangerously fast on me. Tell me one unpopular opinion you refuse to apologize for 🍸`,
+          `Cute answer—now prove you have range: what's your biggest red flag in three words? ✨`,
+        ];
+  const herAdaptiveSets: [string, string, string][] = [
+    [
+      `Booked a last-minute coastal drive with zero itinerary and my phone off.`,
+      `Wait—tell me yours first so I know the bar I'm clearing.`,
+      `💎 Messaging the sharpest woman on this app without a rehearsed script.`,
+    ],
+    [
+      `Sade's Love Deluxe front to back—zero skips allowed.`,
+      `Overrated restaurants with loud DJs deserve to be outlawed.`,
+      `💎 Spoiling a great conversation by rushing straight to boring small talk.`,
+    ],
+  ];
+  const hPick = turnIdx % banterLines.length;
   return {
-    maturityDelta: 8,
-    chivalryDelta: 6,
-    chemistryDelta: 10,
-    herReply: banterLines[turnIdx % banterLines.length],
-    coachNote: 'Fun 1-line volley! Lock in a Friday spot next to turn banter into a date.',
+    maturityDelta: 12,
+    chivalryDelta: 12,
+    chemistryDelta: 15,
+    herReply: banterLines[hPick],
+    suggestedReplies: herAdaptiveSets[hPick],
+    coachNote: 'Playful spark! Keep the banter spontaneous before rushing to plans.',
     passedVibeCheck: true,
     source: 'local-heuristic',
   };
@@ -733,6 +811,18 @@ export const liveAiInboxService: AiDmVettingService = {
               secondReply:
                 typeof data.secondReply === 'string' && data.secondReply.trim()
                   ? data.secondReply.trim()
+                  : undefined,
+              suggestedReplies:
+                Array.isArray(data.suggestedReplies) &&
+                data.suggestedReplies.length >= 3 &&
+                data.suggestedReplies.every((s) => typeof s === 'string' && s.trim().length > 0)
+                  ? [
+                      data.suggestedReplies[0].trim(),
+                      data.suggestedReplies[1].trim(),
+                      data.suggestedReplies[2].trim().startsWith('💎')
+                        ? data.suggestedReplies[2].trim()
+                        : `💎 ${data.suggestedReplies[2].trim()}`,
+                    ]
                   : undefined,
               maturityDelta: Number(data.maturityDelta ?? 10),
               chivalryDelta: Number(data.chivalryDelta ?? 10),

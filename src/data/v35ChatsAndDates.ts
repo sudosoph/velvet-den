@@ -301,22 +301,22 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         {
           beatNumber: 1,
           incomingMessages: [
-            'Properly thrilled you said hello—most people on here open with a waving hand and vanish x',
+            'Properly thrilled you said hello—most people on here open with a waving hand emoji and vanish into thin air x',
           ],
           choices: [
             {
-              text: 'Your Hampstead "half seven" warning caught my eye—do you actually show up on time?',
-              reply: 'Five minutes early, rain or California sun. Old habits die hard xx',
+              text: 'Do you actually climb library ladders all day, or was Slide 5 staged for sympathy?',
+              reply: '100% real ladders—nearly dropped a 1920s courtyard folio trying to look cool last Tuesday xx',
               delta: 16,
             },
             {
-              text: 'Tell me what a visiting architecture fellow actually does all day.',
-              reply: 'Mostly argue over courtyard shadows and daydream about cooking someone dinner.',
-              delta: 12,
+              text: 'Quick litmus test: what is the most pretentious thing you’ve overheard in LA this week?',
+              reply: 'A bloke in Erewhon calling his sparkling water "emotionally grounding." Nearly choked on my espresso x',
+              delta: 15,
             },
             {
-              text: '💎 Skip the polite warm-up, Julian—pitch me your best Thursday night in one sentence.',
-              reply: 'Half seven at The Velvet Room’s quiet corner, two glasses of Rioja, and my phone stays in my coat xx',
+              text: '💎 Fair warning, professor—dry wit is mandatory in my inbox. Give me your most unapologetic hot take.',
+              reply: 'Loud dinner DJs should be illegal, and California sunshine still doesn’t excuse bad tea xx',
               delta: 24,
               cost: 1,
               badge: 'VIP Spark',
@@ -326,22 +326,22 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         {
           beatNumber: 2,
           incomingMessages: [
-            'Quick confession before I lock in a table: I’m here on an academic fellowship stipend, not a tech-founder yacht.',
+            'Alright, my turn to test your instincts: what is one tiny pet peeve that makes you silently judge someone in five seconds?',
           ],
           choices: [
             {
-              text: 'Good—I fund my own life. I care about wit, manners, and follow-through.',
-              reply: 'You have no idea how refreshing it is to hear a woman say that plainly.',
+              text: 'Men who clap when the plane lands or snap at bartenders.',
+              reply: 'Instant lifetime ban—how you treat bar staff tells the whole story x',
               delta: 18,
             },
             {
-              text: 'As long as you pick a spot with real wine glasses, we’re golden.',
-              reply: 'Consider proper stemware personally guaranteed x',
-              delta: 14,
+              text: 'People who treat Hinge like a calendar invite before proving they’re actually fun to talk to.',
+              reply: 'Haha noted—zero rushing from me, half the fun is seeing if our banter actually sparks xx',
+              delta: 16,
             },
             {
-              text: '💎 Keep that scholarly charm and bring your sharpest conversation—my net worth is already handled.',
-              reply: 'Bloody hell, you’re magnetic. Counting the hours already xx',
+              text: '💎 Guys who get intimidated by a woman who genuinely loves her own life.',
+              reply: 'Bloody hell, that’s my favorite thing on earth—ambition looks brilliant on you xx',
               delta: 24,
               cost: 1,
               badge: 'Queen Frame',
@@ -351,22 +351,22 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         {
           beatNumber: 3,
           incomingMessages: [
-            'I’ve shortlisted a candlelit bistro in Westwood or wine on Left Bank’s garden terrace—which suits your Thursday mood?',
+            'Full disclosure while we’re trading truths: I’m here on an academic fellowship stipend, not a tech-founder yacht—though my risotto game is genuinely undefeated.',
           ],
           choices: [
             {
-              text: 'Candlelit bistro—bonus points that you came with two real options instead of polling me.',
-              reply: 'Booked under Julian for 7:30 sharp. Zero admin left for you.',
+              text: 'Good—I fund my own life. Wit, curiosity, and real manners beat yacht talk every time.',
+              reply: 'You have no idea how refreshing it is to hear a woman say that plainly x',
+              delta: 18,
+            },
+            {
+              text: 'Bold claim on the risotto—do you stir for twenty minutes straight or take shortcuts?',
+              reply: 'Warm stock ladle by ladle with a glass of Barolo in the other hand, obviously xx',
               delta: 16,
             },
             {
-              text: 'Left Bank’s garden terrace—quiet enough to actually hear your accent.',
-              reply: 'Sorted—corner table under the olive trees at half seven x',
-              delta: 16,
-            },
-            {
-              text: '💎 Start on Left Bank’s terrace at 7:30, and if you keep me intrigued, you can walk me to dessert.',
-              reply: 'Challenge very happily accepted, darling xx',
+              text: '💎 Keep bringing this exact banter and your risotto might get an audition eventually.',
+              reply: 'Challenge very happily accepted, darling—no rush, enjoying every minute of this xx',
               delta: 24,
               cost: 1,
               badge: 'Slow-Burn Tease',
@@ -501,23 +501,23 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
 
   const bespokeBeat2IncomingById: Record<string, string> = {
     soren:
-      'In Copenhagen we skip two weeks of coy texting—I have two quiet spots shortlisted for Thursday: coastal raw bar or dim timber wine room?',
+      'Quick personality check before anything else: are you secretly competitive at games, or do you pretend to play "just for fun"?',
     miles:
-      'Most guys my age ask "idk what do you feel like"—I held two acoustic-friendly corner booths so you just pick seafood or steak.',
+      'Be honest—what is the fastest way someone on this app accidentally bores you to tears?',
     rafael:
-      'Fair warning before Friday: if there is music within two blocks of dinner, I am claiming at least one slow courtyard dance.',
+      'Quick musical litmus test: what record goes on in your living room when you finally close your laptop for the week?',
     marcus:
-      'Station schedule is locked all month so I never flake—prefer sunset bluff seafood or a tucked-away vinyl jazz lounge Friday?',
+      'Tell me one unpopular food or travel opinion you refuse to back down on—I want to see your ruthless side.',
     elena:
       'Quick litmus test: if my seminar day runs silent until six and I reply "Sounds good." with a period, do you panic or hold steady?',
     claire:
-      'Fair ground rule before Thursday: my workday runs wall-to-wall until 6:30 PM, and I never babysit fragile egos.',
+      'Be honest: what is the boldest spontaneous decision you’ve made this year outside of work?',
     sienna:
-      'Real question before I clear Friday night: are you completely comfortable holding hands in public when my Velvet Palms friends walk by?',
+      'Quick aesthetic test: dim candlelit wine bar with vinyl, or chaotic trendy hotspot where everyone yells?',
     priya:
       'Quick shift-worker check: when blackout curtains are drawn until 2 PM after nights, do you guard the peace or blow up my phone?',
     summer:
-      'Honest filter up front: I’ve watched too many 38-year-old men stall on commitment—how do you feel about dating with real intention?',
+      'Playful question first: what’s one harmless guilty pleasure you’d never put on a serious resume?',
   };
 
   // Clean role-accurate 6-beat arc for all other Genuine Main Leads & Cameos
@@ -534,32 +534,32 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         choices: [
           {
             text: isHimMatch
-              ? `Your profile actually sounded written by a human—what does your ideal Friday look like?`
-              : `Happy to raise the curve—let me take you somewhere quiet with proper cocktails Friday.`,
+              ? `Your profile actually sounded written by a human—what’s the story behind Slide 2?`
+              : `Happy to raise the curve—what’s the funniest opener someone tried on you this week?`,
             reply: isHimMatch
-              ? `Quiet candlelit corner, great red wine, and zero phones on the table.`
-              : `Now you have my attention. Tell me which neighborhood you had in mind.`,
+              ? `Haha caught right in my element—friend snapped that mid-laugh when I didn’t know the camera was up.`
+              : `Someone sent seventeen fire emojis and zero words. You’re winning by a landslide.`,
             delta: 16,
           },
           {
             text: isHimMatch
-              ? `Tell me the story behind Slide 2 before I decide on drinks.`
-              : `Slide 2 looked incredible—how long have you lived on the Westside?`,
+              ? `Quick vibe check: dry banter or polite small talk?`
+              : `Slide 2 caught my eye—what’s your go-to way to unwind after a long day?`,
             reply: isHimMatch
-              ? `Save the best half for in-person drinks, though I promise the short version holds up.`
-              : `Long enough to know every hidden patio worth booking.`,
+              ? `Dry banter every single time—polite small talk puts me straight to sleep.`
+              : `Phone on silent, something great in a glass, and zero work talk.`,
             delta: 14,
           },
           {
             text: isHimMatch
-              ? `💎 Impress me in one move, ${profile.name}—how would you plan our Friday if I hand you the reins?`
-              : `💎 Zero logistics homework for you: 7:45 Friday corner table is held—all you have to do is say yes.`,
+              ? `💎 Skip the rehearsed Hinge script, ${profile.name}—tell me one thing about you nobody guesses right away.`
+              : `💎 No generic small talk here—give me one unpopular opinion you stand by 100%.`,
             reply: isHimMatch
-              ? `7:45 corner table booked near your side of town, car handled, zero decisions left on your plate.`
-              : `Decisive and polite—keep that exact energy and Friday at 7:45 is yours.`,
+              ? `People expect nonstop extrovert energy, when really I’m happiest cooking late-night pasta for one person.`
+              : `Dessert menus beat networking events ten times out of ten—glad you skipped the script.`,
             delta: 24,
             cost: 1,
-            badge: 'VIP Power Move',
+            badge: 'VIP Spark',
           },
         ],
       },
@@ -568,38 +568,38 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         incomingMessages: [
           bespokeBeat2IncomingById[profile.id] ||
             (isHimMatch
-              ? `I know most guys my age say "whatever you want"—I’d much rather pick two great spots and let you choose the mood.`
-              : `Quick test before we go further: how do you handle it when my workday runs silent until 6 PM?`),
+              ? `My turn to ask: what’s one tiny pet peeve that makes you mentally unmatch someone in ten seconds?`
+              : `Quick test while we’re riffing: how do you handle it when my workday runs silent until 6 PM?`),
         ],
         choices: [
           {
             text: isHimMatch
-              ? `Music to my ears—give me your top two contenders.`
+              ? `People who brag nonstop or rush straight to scheduling before we’ve even laughed once.`
               : `Zero panic here—I stay busy with my own craft and catch up warmly when you’re off.`,
             reply: isHimMatch
-              ? `Option A: coastal seafood patio at sunset. Option B: tucked-away jazz & wine room.`
+              ? `Couldn’t agree more—if the banter isn’t effortless here, dinner would feel like homework.`
               : `Thank heaven—self-assured patience is rarer than gold.`,
             delta: 16,
           },
           {
             text: isHimMatch
-              ? `Surprise me with your favorite spot in Velvet Palms.`
-              : `Just tell me your favorite drink so it’s waiting when you clock out at six.`,
+              ? `Secretly super competitive, though I’m graceful when I win.`
+              : `Candlelit vinyl bar every time—shouting over bass is an instant pass.`,
             reply: isHimMatch
-              ? `Love that trust—locking in my favorite tucked-away room right now.`
-              : `Smooth answer. Chilled dry white or an espresso martini.`,
+              ? `Haha noted—now I definitely know not to go easy on you.`
+              : `Impeccable taste. My ears thank you already.`,
             delta: 15,
           },
           {
             text: isHimMatch
-              ? `💎 Book the moodier room at eight—if your conversation matches your planning, you’ll stay in my good graces.`
-              : `💎 Your calendar stays respected—I’ll just confirm at noon on Friday with the address.`,
+              ? `💎 Boring texters—thankfully you’re passing round two with flying colors.`
+              : `💎 Zero fragile ego here—take all the space your day needs and bring your wit at six.`,
             reply: isHimMatch
-              ? `Booked for eight sharp. Bringing my A-game.`
+              ? `High praise—now I’m determined to keep that streak alive.`
               : `Consider me officially intrigued.`,
             delta: 24,
             cost: 1,
-            badge: 'High-EQ Frame',
+            badge: 'High-EQ Banter',
           },
         ],
       },

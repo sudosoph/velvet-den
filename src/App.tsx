@@ -996,13 +996,14 @@ export default function App() {
               setSelectedChatLeadId(leadId);
               return true;
             }}
-            onDeliverCustomOpenerReply={(leadId, replyText, chemistryDelta) => {
+            onDeliverCustomOpenerReply={(leadId, replyText, chemistryDelta, suggestedReplies) => {
               setThreads((prev) =>
                 prev.map((t) =>
                   t.leadId === leadId
                     ? {
                         ...t,
                         chemistry: Math.max(15, Math.min(98, t.chemistry + Math.round(chemistryDelta / 2))),
+                        adaptiveSuggestions: suggestedReplies ?? t.adaptiveSuggestions,
                         messages: [...t.messages, { sender: 'match', text: replyText }],
                       }
                     : t,

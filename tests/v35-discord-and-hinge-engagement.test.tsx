@@ -110,8 +110,12 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
       );
     });
 
-    // 4. Open Chat with Julian, advance to Beat 4 to verify 1-Cr portrait drop + 0-Cr EXIF clue, then Beat 6 -> Clean Fresh iMessage!
+    // 4. Open Chat with Julian -> can switch back to Chapter Beats or stay in Adaptive Replies, inspect 1-Cr / 0-Cr EXIF, snooze iMessage ("Not Yet"), and graduate only when ready!
     fireEvent.click(within(celebration).getByRole('button', { name: /Text Julian Now/i }));
+
+    // Switch to Chapter Beat view to advance rapidly through Beats 1-6
+    const chapterToggle = screen.queryByRole('button', { name: /Show Chapter Beat/i });
+    if (chapterToggle) fireEvent.click(chapterToggle);
 
     for (let b = 1; b <= 3; b++) {
       fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
@@ -123,14 +127,18 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
     fireEvent.click(within(photoCard).getByRole('button', { name: /Inspect Photo Metadata/i }));
     expect(screen.getByTestId('photo-exif-clue').textContent).toContain('Live Photo');
 
-    // Finish Beats 4, 5, 6 and graduate to Personal iMessage -> old Hinge messages archived cleanly!
+    // Finish Beats 4, 5, 6 -> player can click "Not Yet — Keep Bantering on Hinge" AND still have suggestion chips!
     for (let b = 4; b <= 6; b++) {
       fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
     }
 
-    fireEvent.click(screen.getByRole('button', { name: /Give Him My Number/i }));
+    const notYetBtn = screen.getByRole('button', { name: /Not Yet — Keep Bantering on Hinge/i });
+    fireEvent.click(notYetBtn);
+    expect(screen.getAllByTestId('chat-suggestion-btn')).toHaveLength(3);
+
+    // And when ready later, clicking "Move to iMessage" in the header graduates cleanly into fresh iMessage!
+    fireEvent.click(screen.getByRole('button', { name: /^Move to iMessage$/i }));
     expect(screen.getByTestId('chat-stage-imessage')).toBeInTheDocument();
-    // Old Hinge opener/messages are archived cleanly out of the fresh iMessage feed!
     expect(
       screen.queryByText(/What do you think about keeping our own apartments long-term/i),
     ).toBeNull();

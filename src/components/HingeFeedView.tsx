@@ -41,7 +41,12 @@ export interface HingeFeedViewProps {
     outcome?: 'instant_match' | 'pending_like' | 'delayed_match',
     isCustomOpener?: boolean,
   ) => boolean | void;
-  onDeliverCustomOpenerReply?: (leadId: string, replyText: string, chemistryDelta: number) => void;
+  onDeliverCustomOpenerReply?: (
+    leadId: string,
+    replyText: string,
+    chemistryDelta: number,
+    suggestedReplies?: [string, string, string],
+  ) => void;
   onSwitchRole: (role: 'her' | 'him') => void;
   onOpenWildMap: () => void;
   onOpenChats?: (leadId?: string) => void;
@@ -303,7 +308,12 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             history: [{ sender: 'match', text: targetPreview }],
           })
           .then((res) => {
-            onDeliverCustomOpenerReply?.(targetPerson.id, res.herReply, res.chemistryDelta);
+            onDeliverCustomOpenerReply?.(
+              targetPerson.id,
+              res.herReply,
+              res.chemistryDelta,
+              res.suggestedReplies,
+            );
             setMatchCelebration((prev) =>
               prev && prev.leadId === targetPerson.id
                 ? {

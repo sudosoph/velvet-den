@@ -302,7 +302,7 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
     expect(htmlTagged).toContain(canonicalSilkUrl);
   });
 
-  it('Important #6: Free-typing live AI message in ChatsAndDatesView advances currentBeat so players are never stuck behind pre-built choices', async () => {
+  it('Important #6: Free-typing live AI message in ChatsAndDatesView adapts suggestion buttons dynamically and avoids rushing to date booking on casual banter', async () => {
     let latestThread = createInitialThread('julian', 'hinge', 'Loved your prompt!');
     render(
       <ChatsAndDatesView
@@ -324,13 +324,17 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
     );
 
     const input = screen.getByPlaceholderText(/Type anything freely to Julian/i);
-    fireEvent.change(input, { target: { value: 'Half seven on Friday works if you bring your A-game.' } });
+    fireEvent.change(input, { target: { value: 'Do you actually read all those archive books or just pose on ladders?' } });
     fireEvent.submit(input.closest('form')!);
 
     await waitFor(() => {
-      expect(latestThread.messages.some((m) => m.text.includes('Half seven on Friday'))).toBe(true);
+      expect(latestThread.messages.some((m) => m.text.includes('pose on ladders'))).toBe(true);
       expect(latestThread.currentBeat).toBe(2);
+      expect(latestThread.adaptiveSuggestions).toHaveLength(3);
     });
+    // Does NOT prematurely blurt "Corner booth booked" when player only teased about books/ladders!
+    const lastReply = latestThread.messages[latestThread.messages.length - 1]?.text || '';
+    expect(lastReply).not.toMatch(/Corner booth booked/i);
   });
 
   it('Important #7: Every photoUrl in taxonomy.ts exists on disk, archetype IDs contain zero spaces, and Dateodex getTotalRosterCount() equals 22 with v35 Polaroid hints', () => {
