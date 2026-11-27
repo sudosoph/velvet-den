@@ -872,11 +872,11 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 >
                   <div className="space-y-2">
                     <ProductVisualThumbnail item={item} />
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="inline-block rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-extrabold text-amber-950">
+                    <div className="flex items-center justify-between gap-2 text-xs">
+                      <span className="font-semibold text-zinc-500">
                         {item.badge}
                       </span>
-                      <span className="text-xs font-extrabold text-rose-700">
+                      <span className="font-bold text-rose-600 whitespace-nowrap">
                         {item.priceDisplay}
                       </span>
                     </div>
