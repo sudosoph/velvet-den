@@ -22,10 +22,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🎬 2023 Montauk Comedy Smash",
     "question": "In the 2023 comedy \"No Hard Feelings,\" why does Jennifer Lawrence’s 32-year-old Montauk local Maddie answer a Craigslist ad to \"date\" 19-year-old Princeton-bound Percy before fall semester?",
     "options": [
-      "To win a surfing bet",
-      "To earn a Buick Regal so she can work rideshare shifts and save her house",
-      "To get back at her ex-boyfriend",
-      "To research a magazine column"
+      "To win a $10,000 Montauk surfing bet before Labor Day weekend",
+      "To earn a Buick Regal so she can drive rideshare and save her house",
+      "To make her newly engaged real-estate ex jealous at the yacht club",
+      "To research an undercover dating column for a Manhattan magazine"
     ],
     "correctIndex": 1,
     "funFact": "Jennifer Lawrence & Broadway star Andrew Barth Feldman turned \"No Hard Feelings\" into a global box-office hit, highlighted by Percy’s unexpectedly soulful piano-bar rendition of \"Maneater.\"",
@@ -40,9 +40,9 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "question": "Decades before stepping out happily with music executive Alexander \"AE\" Edwards (40 years her junior), what was Cher’s legendary reply when her mom told her to \"settle down and marry a rich man\"?",
     "options": [
       "\"Mom, I AM a rich man.\"",
-      "\"Rich men bore me.\"",
-      "\"Only if he sings.\"",
-      "\"Check my Oscar shelf.\""
+      "\"Mom, rich men bore me to tears.\"",
+      "\"Mom, I already own the mansion.\"",
+      "\"Mom, check my Oscar shelf first.\""
     ],
     "correctIndex": 0,
     "funFact": "\"Mom, I AM a rich man\" is the founding motto of independent women dating strictly for joy and chemistry.",
@@ -54,9 +54,9 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🍸 Sex and the City Devotion",
     "question": "On \"Sex and the City,\" when Samantha Jones undergoes chemotherapy and shaves her hair, what unforgettable gesture does her 20-something actor boyfriend Smith Jerrod (Jason Lewis) immediately do?",
     "options": [
-      "Flies her to Paris",
-      "Buys her a loft in SoHo",
-      "Quits acting forever",
+      "Charters a private flight to Paris for the weekend",
+      "Rents a quiet penthouse loft for her in SoHo",
+      "Turns down his studio film role to stay in Manhattan",
       "Shaves his own golden blond hair right alongside her"
     ],
     "correctIndex": 3,
@@ -87,8 +87,8 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "options": [
       "A Dirty Martini",
       "A Tall Glass of Milk",
-      "An Espresso Shot",
-      "Champagne"
+      "A Double Espresso",
+      "A Flute of Champagne"
     ],
     "correctIndex": 1,
     "funFact": "Director Halina Reijn borrowed the moment from real life after a younger Belgian actor sent her a glass of milk in a bar, winning Nicole Kidman the Venice Best Actress Volpi Cup!",
@@ -133,13 +133,13 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "📚 #1 NYT Romance Bestseller",
     "question": "In Abby Jimenez’s beloved bestseller \"Part of Your World,\" 37-year-old big-city ER doctor Alexis Montgomery gets her car stuck in a ditch and meets 28-year-old Daniel Grant, who works as a small-town what?",
     "options": [
-      "Float-plane pilot",
-      "Game warden",
-      "Carpenter & B&B innkeeper (and secret mayor)",
-      "Brewmaster"
+      "Float-plane charter pilot & mechanic",
+      "State-park ranger & volunteer firefighter",
+      "Custom carpenter & historic B&B innkeeper",
+      "Small-batch brewmaster & orchard owner"
     ],
     "correctIndex": 2,
-    "funFact": "Daniel Grant cooking from scratch, fixing doors, and gently dismantling Alexis’s family snobbery made him BookTok’s gold-standard younger hero.",
+    "funFact": "Daniel Grant (who is also the town’s secret mayor!) cooking from scratch, fixing doors, and gently dismantling Alexis’s family snobbery made him BookTok’s gold-standard younger hero.",
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": "",
     "affiliateId": "part-of-your-world-book"
@@ -150,7 +150,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "question": "While \"The Graduate\" (1967) immortalized Mrs. Robinson seducing recent college grad Benjamin Braddock, how many years older was Anne Bancroft than Dustin Hoffman in real life?",
     "options": [
       "18 years older",
-      "Only 6 years older",
+      "6 years older",
       "22 years older",
       "14 years older"
     ],
@@ -166,9 +166,9 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "question": "Rock queen Tina Turner shared 38 devoted years with German music executive Erwin Bach (16 years younger). What life-saving act of love did Erwin do for Tina in 2017?",
     "options": [
       "Donated one of his own kidneys to save her life",
-      "Built her a recording studio in Geneva",
-      "Wrote her memoir",
-      "Conducted her London orchestra"
+      "Built a private lakeside recording studio in Zurich",
+      "Bought back every master tape from her 1960s catalog",
+      "Conducted the symphony orchestra on her farewell tour"
     ],
     "correctIndex": 0,
     "funFact": "Tina met Erwin at 46 when he picked her up at Düsseldorf Airport, and his 2017 kidney donation remains the ultimate real-world devotion story.",
@@ -182,7 +182,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "options": [
       "Whispr",
       "Sparkr",
-      "blindspot",
+      "Fluttr",
       "Bantr"
     ],
     "correctIndex": 3,
@@ -228,13 +228,13 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🍓 Famous Refrigerator Detective Clue",
     "question": "Before releasing her record-smashing diss track over her 10-year-younger ex Gerard Piqué, rumor has it Shakira first clocked someone else had been in their house after noticing what missing from the fridge?",
     "options": [
-      "Her favorite strawberry jam (which Piqué never ate)",
-      "Oat milk",
-      "Imported Manchego",
-      "Sparkling water"
+      "A jar of strawberry jam",
+      "A carton of vanilla oat milk",
+      "A wedge of aged Manchego",
+      "A bottle of sparkling water"
     ],
     "correctIndex": 0,
-    "funFact": "Never underestimate a woman’s kitchen intuition, missing strawberry jam became pop culture’s most famous detective clue (rivaling Olivia Wilde’s salad dressing lore!).",
+    "funFact": "Never underestimate kitchen intuition: missing strawberry jam (which Piqué famously never ate) became pop culture’s sharpest detective clue, rivaling Olivia Wilde’s salad dressing lore!",
     "imageUrl": "./images/products/aprons-kitchen.jpg",
     "imageCredit": ""
   },
@@ -244,8 +244,8 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "question": "In \"The Idea of You\" (2024), where does Anne Hathaway’s 40-year-old Silver Lake gallery owner Solène accidentally step into 24-year-old Nicholas Galitzine’s VIP trailer?",
     "options": [
       "Glastonbury",
-      "The Met Gala",
-      "SXSW",
+      "Lollapalooza",
+      "Bonnaroo",
       "Coachella"
     ],
     "correctIndex": 3,
@@ -306,7 +306,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🏢 Succession Fan Phenomenon",
     "question": "On HBO’s \"Succession,\" improvised off-camera banter between J. Smith-Cameron and Kieran Culkin convinced writers to build the razor-sharp dynamic between General Counsel Gerri Kellman and which Roy sibling?",
     "options": [
-      "Greg Hirsch",
+      "Shiv Roy",
       "Kendall Roy",
       "Connor Roy",
       "Roman Roy"
@@ -367,10 +367,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🥐 Parisian Chic Effortlessness",
     "question": "On \"Emily in Paris,\" effortlessly cool agency boss Sylvie Grateau (Philippine Leroy-Beaulieu) romances handsome younger photographer Erik (Søren Bregendal) after meeting him at which event?",
     "options": [
-      "Roland-Garros finals",
-      "A Louvre heist",
-      "Charles de Gaulle baggage claim",
-      "A fashion shoot & champagne soirée"
+      "A Roland-Garros courtside match",
+      "A private Louvre gala preview",
+      "A Saint-Germain jazz club opening",
+      "A Savoir fashion shoot & champagne soirée"
     ],
     "correctIndex": 3,
     "funFact": "Philippine Leroy-Beaulieu’s Sylvie became the breakout fashion and romance icon of the entire series.",
@@ -443,9 +443,9 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🗽 7-Season TV Hit",
     "question": "Across seven seasons of Darren Star’s \"Younger,\" Sutton Foster’s 40-year-old Liza Miller sparks on Night 1 in a Brooklyn bar with 26-year-old Nico Tortorella, whose character Josh runs what kind of studio?",
     "options": [
-      "Vinyl shop",
-      "Ceramic loft",
-      "Espresso roastery",
+      "Williamsburg vinyl record shop",
+      "Williamsburg ceramics studio",
+      "Williamsburg espresso roastery",
       "Williamsburg tattoo studio"
     ],
     "correctIndex": 3,
@@ -473,10 +473,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🎹 No Hard Feelings Scene Stealer",
     "question": "In \"No Hard Feelings,\" which classic 1982 pop hit does Andrew Barth Feldman’s Percy sing live at the restaurant piano, stunning Jennifer Lawrence’s Maddie?",
     "options": [
-      "\"Maggie May\"",
+      "\"Maggie May\" by Rod Stewart",
       "\"Maneater\" by Hall & Oates",
-      "\"Jessie’s Girl\"",
-      "\"Africa\""
+      "\"Jessie’s Girl\" by Rick Springfield",
+      "\"Africa\" by Toto"
     ],
     "correctIndex": 1,
     "funFact": "Andrew Barth Feldman actually performed \"Maneater\" live on set, turning a comedy setup into the warmest emotional turning point of the film.",
@@ -508,7 +508,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "options": [
       "Matt McGorry",
       "Boyd Holbrook",
-      "cheyenne Jackson",
+      "Cheyenne Jackson",
       "Devon Sawa"
     ],
     "correctIndex": 3,
@@ -521,7 +521,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🏝️ Survival Romance Smash",
     "question": "In Tracey Garvis Graves’s self-published-turned-NYT-bestseller \"On the Island,\" 30-year-old English tutor Anna Emerson and T.J. Callahan end up stranded together in which ocean chain after their seaplane crashes?",
     "options": [
-      "Fiji",
+      "The Bahamas",
       "The Azores",
       "The Maldives",
       "The Seychelles"
@@ -567,9 +567,9 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🌭 30 Rock Endgame",
     "question": "On \"30 Rock,\" Tina Fey’s head writer Liz Lemon finds her true endgame marriage with sweet, supportive younger entrepreneur Criss Chros (James Marsden), who sells gourmet organic hot dogs out of what?",
     "options": [
-      "A Brooklyn ferry",
-      "30 Rockefeller lobby",
-      "Yankee Stadium",
+      "A Staten Island ferry kiosk",
+      "A Central Park pushcart",
+      "A Times Square neon trailer",
       "A Manhattan food truck"
     ],
     "correctIndex": 3,
@@ -598,10 +598,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🎾 British Literary Novel",
     "question": "In Booker-winner Julian Barnes’s 2018 novel \"The Only Story,\" 19-year-old Paul Roberts meets 48-year-old Susan MacLeod during a summer mixed-doubles draw at which suburban English setting?",
     "options": [
-      "Henley Regatta",
+      "A Thames rowing club",
       "A village tennis club",
-      "A parish book fair",
-      "Brighton Pier"
+      "A parish cricket club",
+      "A seaside sailing club"
     ],
     "correctIndex": 1,
     "funFact": "Mixed-doubles tennis draws have been sparking age-gap romances from 1960s Surrey straight to our Palisades Racquet Club.",
@@ -630,7 +630,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🎶 Record of the Year History",
     "question": "Simon & Garfunkel’s \"Mrs. Robinson\" (1968), written for \"The Graduate,\" became the first rock/pop song in Grammy history to win which top award?",
     "options": [
-      "Best Country Duo",
+      "Song of the Year",
       "Best New Artist",
       "Album of the Year",
       "Record of the Year"
@@ -661,10 +661,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🎭 BAFTA-Nominated Two-Hander",
     "question": "In \"Good Luck to You, Leo Grande\" (2022), what was Emma Thompson’s character Nancy Stokes’s former profession before booking a hotel suite with Daryl McCormack’s Leo?",
     "options": [
-      "High Court Judge",
+      "Retired High Court Magistrate",
       "Retired Religious Education Teacher",
-      "Concert Cellist",
-      "Botanical Illustrator"
+      "Retired Symphony Cellist",
+      "Retired Botanical Illustrator"
     ],
     "correctIndex": 1,
     "funFact": "Emma Thompson & Daryl McCormack earned rave reviews and four BAFTA nominations for their candid, funny celebration of 60+ desire and self-acceptance.",
@@ -677,10 +677,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "📕 Book vs. Movie Debate",
     "question": "How did the 2024 Prime Video film adaptation of \"The Idea of You\" famously change author Robinne Lee’s original 2017 novel ending?",
     "options": [
-      "Added a hopeful 5-year flash-forward reunion at Solène’s gallery",
-      "Moved the finale to Tokyo",
-      "Had Solène join the band on keyboards",
-      "Cut Coachella completely"
+      "Added a hopeful five-year flash-forward reunion at Solène’s gallery",
+      "Ended with Hayes proposing onstage during his London finale",
+      "Moved Solène’s art gallery permanently from Silver Lake to Paris",
+      "Kept them together seamlessly without any paparazzi breakup"
     ],
     "correctIndex": 0,
     "funFact": "Robinne Lee’s bittersweet French-style novel ending still sparks passionate book-club debates alongside the movie’s 5-year gallery reunion.",
@@ -754,10 +754,10 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🇲🇦 2024 Writers Retreat",
     "question": "In Susannah Grant’s \"Lonely Planet\" (2024), where do novelist Katherine (Laura Dern) and younger finance exec Owen (Liam Hemsworth) spark away from home?",
     "options": [
-      "An island in Greece",
-      "A vineyard in Tuscany",
-      "A ski chalet in Chamonix",
-      "A sun-drenched writers’ retreat in Morocco"
+      "A coastal villa in Greece",
+      "A hilltop vineyard in Tuscany",
+      "A mountain chalet in Chamonix",
+      "A writers’ retreat in Morocco"
     ],
     "correctIndex": 3,
     "funFact": "Filmed across Chefchaouen and Marrakech, \"Lonely Planet\" pairs Laura Dern’s dry literary wit with Liam Hemsworth escaping a mismatched relationship.",
@@ -788,7 +788,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
       "Costa Rica",
       "Hawaii",
       "Byron Bay",
-      " Biarritz"
+      "Biarritz"
     ],
     "correctIndex": 1,
     "funFact": "Solo milestone-birthday trips remain one of romance fiction’s favorite Chapter-Two openers.",
@@ -801,9 +801,9 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "question": "In \"Cha Cha Real Smooth\" (2022), Cooper Raiff plays 22-year-old college grad Andrew working which weekend gig when he bonds deeply with Dakota Johnson’s Domino?",
     "options": [
       "Bar Mitzvah party starter",
-      "Wedding DJ",
+      "Reception wedding DJ",
       "Country-club tennis pro",
-      "Valet captain"
+      "Boutique hotel valet"
     ],
     "correctIndex": 0,
     "funFact": "\"Cha Cha Real Smooth\" won the Sundance U.S. Dramatic Audience Award for its tender, realistic look at timing and life stages.",
@@ -834,7 +834,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "options": [
       "Nick Drake",
       "Paul Simon",
-      "Cat Stevens (Yusuf)",
+      "Cat Stevens",
       "Leonard Cohen"
     ],
     "correctIndex": 2,
@@ -848,7 +848,7 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "badge": "🎷 1982 #1 Billboard Classic",
     "question": "Daryl Hall & John Oates’s four-week #1 smash \"Maneater\" (1982), later covered on piano in \"No Hard Feelings\" features an iconic solo on which instrument?",
     "options": [
-      "Fender Stratocaster",
+      "Electric guitar",
       "Saxophone",
       "Trumpet",
       "Harmonica"
@@ -896,9 +896,9 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "question": "At which blockbuster June 2003 premiere did Demi Moore (then 40) and Ashton Kutcher (then 25) make their jaw-dropping red-carpet debut alongside Demi’s daughters and ex-husband Bruce Willis?",
     "options": [
       "\"Charlie’s Angels: Full Throttle\"",
-      "\"G.I. Jane\"",
-      "\"Ocean’s Twelve\"",
-      "\"Mr. & Mrs. Smith\""
+      "\"Terminator 3: Rise of the Machines\"",
+      "\"Legally Blonde 2: Red, White & Blonde\"",
+      "\"Tomb Raider: The Cradle of Life\""
     ],
     "correctIndex": 0,
     "funFact": "Even though their eight-year marriage (2005–2013) eventually ended, Demi & Ashton’s fearless 2003 debut permanently shattered Hollywood’s double standard around women over 40 dating younger men.",

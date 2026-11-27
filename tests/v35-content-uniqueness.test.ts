@@ -229,6 +229,32 @@ describe('v35 7-bucket non-overlapping content vault, banned-trope purge & 55-Q 
       q.question.toLowerCase().includes('no hard feelings') || q.id.includes('no-hard-feelings'),
     );
     expect(noHardFeelings).toBeDefined();
+
+    // Enforce strict option parallelism & formatting consistency across all 58 questions
+    for (const q of POP_CULTURE_TRIVIA) {
+      expect(q.options).toHaveLength(4);
+      for (const opt of q.options) {
+        expect(opt, `${q.id} has untrimmed whitespace in "${opt}"`).toBe(opt.trim());
+        expect(opt, `${q.id} starts with lowercase typo in "${opt}"`).not.toMatch(/^[a-z]/);
+      }
+
+      // If any song option includes artist attribution ('" by '), all 4 options must include artist attribution
+      const byCount = q.options.filter((opt) => /"\s+by\s+/i.test(opt)).length;
+      if (byCount > 0) {
+        expect(byCount, `${q.id} mixes attributed and unattributed song options`).toBe(4);
+      }
+
+      // Prevent dead-giveaway length tells where the correct answer is > 1.85x the average distractor length
+      const correctLen = q.options[q.correctIndex].length;
+      const wrongAvg =
+        q.options
+          .filter((_, idx) => idx !== q.correctIndex)
+          .reduce((sum, opt) => sum + opt.length, 0) / 3;
+      expect(
+        correctLen / Math.max(1, wrongAvg),
+        `${q.id} correct answer "${q.options[q.correctIndex]}" is disproportionately longer than distractors`,
+      ).toBeLessThan(1.85);
+    }
     expect(noHardFeelings?.youtubeEmbedUrl).toBe(
       'https://www.youtube-nocookie.com/embed/kIcLb0KAJAs',
     );
