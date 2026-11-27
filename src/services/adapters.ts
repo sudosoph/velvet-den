@@ -201,7 +201,7 @@ export function evaluateDmLocally(params: {
   const age = params.personaAge;
   const isBritish =
     params.personaId === 'julian-oldsoul-cub' ||
-    /\bjulian\b/i.test(params.personaName) ||
+    /\b(julian|rory)\b/i.test(params.personaName) ||
     /\b(london|british|hampstead|uk)\b/i.test(params.personaOrigin || '');
   const turnIdx = Array.isArray(params.history)
     ? Math.max(0, params.history.filter((t) => t.sender === 'player').length - 1)
@@ -411,8 +411,9 @@ export function evaluateDmLocally(params: {
         maturityDelta: -6,
         chivalryDelta: -4,
         chemistryDelta: -4,
-        herReply:
-          age >= 30
+        herReply: isBritish
+          ? `Give me one proper clue, love: cosy wine bar or late-night tapas? x`
+          : age >= 30
             ? `Give me one hint on your mood and I'll lock in Thursday.`
             : age >= 25
               ? `Give me one clue: wine bar or late-night sushi? ☕`

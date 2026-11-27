@@ -1,8 +1,17 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import App from '../src/App';
+import {
+  COUGAR_CUB_CHECKLIST_ITEMS,
+  computeChecklistScore,
+} from '../src/components/CougarCubChecklistModal';
+import {
+  PopCultureTriviaModal,
+  shuffleTriviaDeck,
+} from '../src/components/PopCultureTriviaModal';
 import { MONETIZATION_CONFIG } from '../src/config/monetization';
 import { POP_CULTURE_TRIVIA } from '../src/data/popCultureTrivia';
+import { V35_CHAT_CHAPTERS } from '../src/data/v35ChatsAndDates';
 import { encodeChallengeLink } from '../src/lib/viral';
 
 describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppable Guides & SEO Routing', () => {
@@ -141,5 +150,48 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
     window.history.replaceState({}, '', `/${new URL(challengeUrl).search}`);
     render(<App />);
     expect(screen.getByText(/Elena Sent You an Official Vetting Audition/i)).toBeInTheDocument();
+  });
+
+  it('randomizes Pop-Culture Quiz order on open & Shuffle, weights 3-Tier Experience Test (2/3/5 = 100), and differentiates age-cohort voices', () => {
+    // 1. Fisher-Yates shuffle produces a full permutation with a different order
+    let seed = 42;
+    const seededRng = () => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+    const shuffled = shuffleTriviaDeck(POP_CULTURE_TRIVIA, seededRng);
+    expect(shuffled).toHaveLength(POP_CULTURE_TRIVIA.length);
+    expect(new Set(shuffled.map((q) => q.id)).size).toBe(POP_CULTURE_TRIVIA.length);
+    expect(shuffled.map((q) => q.id)).not.toEqual(POP_CULTURE_TRIVIA.map((q) => q.id));
+
+    const { unmount } = render(
+      <PopCultureTriviaModal
+        open={true}
+        forceRandomizeInTests={false}
+        onClose={() => {}}
+        onEarnTriviaReward={() => false}
+      />,
+    );
+    const quizDialog = screen.getByRole('dialog', { name: /Pop-Culture Cougar & Cub Trivia/i });
+    expect(within(quizDialog).getByRole('button', { name: /Shuffle/i })).toBeInTheDocument();
+    unmount();
+
+    // 2. 3-Tier Subculture Experience Test: 10 Rookie (2pt) + 10 Regular (3pt) + 10 Deep Cuts (5pt) = 100
+    const rookies = COUGAR_CUB_CHECKLIST_ITEMS.filter((i) => i.tier === 'rookie');
+    const regulars = COUGAR_CUB_CHECKLIST_ITEMS.filter((i) => i.tier === 'intermediate');
+    const deepCuts = COUGAR_CUB_CHECKLIST_ITEMS.filter((i) => i.tier === 'deep_cuts');
+    expect(rookies).toHaveLength(10);
+    expect(regulars).toHaveLength(10);
+    expect(deepCuts).toHaveLength(10);
+    expect(computeChecklistScore([rookies[0].id, regulars[0].id, deepCuts[0].id])).toBe(10);
+    expect(computeChecklistScore(COUGAR_CUB_CHECKLIST_ITEMS.map((i) => i.id))).toBe(100);
+
+    // 3. Generational & regional cohort voice realism across V35_CHAT_CHAPTERS
+    expect(JSON.stringify(V35_CHAT_CHAPTERS.vivienne)).not.toContain('✨');
+    expect(JSON.stringify(V35_CHAT_CHAPTERS.celeste)).not.toContain('✨');
+    expect(V35_CHAT_CHAPTERS.vivienne.imessage[4].incomingMessages[0]).toContain('👍');
+    expect(V35_CHAT_CHAPTERS.claire.imessage[4].incomingMessages[0]).toContain('Sounds good');
+    expect(V35_CHAT_CHAPTERS.rory.imessage[0].incomingMessages[0]).toMatch(/noisy app now x/i);
+    expect(V35_CHAT_CHAPTERS.connor.imessage[0].incomingMessages[0]).toMatch(/^yo blue bubbles unlocked/);
   });
 });

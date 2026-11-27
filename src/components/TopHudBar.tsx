@@ -209,7 +209,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                     },
                     {
                       icon: Sparkles,
-                      label: '25-Pt Experience Test',
+                      label: '3-Tier Experience Test',
                       action: () => onOpenChecklist(),
                     },
                     {

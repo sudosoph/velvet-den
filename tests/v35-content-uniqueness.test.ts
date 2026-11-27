@@ -197,9 +197,9 @@ describe('v35 7-bucket non-overlapping content vault, banned-trope purge & 55-Q 
     }
   });
 
-  it('enforces 15 brand-new Courtroom cases and 25 brand-new Checklist items with zero 5-word n-gram overlap across buckets', () => {
+  it('enforces 15 brand-new Courtroom cases and 30 3-Tier Checklist items with zero 5-word n-gram overlap across buckets', () => {
     expect(SEED_COURTROOM_STORIES).toHaveLength(15);
-    expect(COUGAR_CUB_CHECKLIST_ITEMS).toHaveLength(25);
+    expect(COUGAR_CUB_CHECKLIST_ITEMS).toHaveLength(30);
 
     const courtGrams = extractFiveWordNgrams(
       SEED_COURTROOM_STORIES.map((s) => `${s.headline} ${s.story}`).join(' '),

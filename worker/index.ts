@@ -579,30 +579,30 @@ function buildGenerationalVoiceDirective(
   origin = '',
 ): string {
   if (role === 'him') {
-    if (/\b(london|british|hampstead|uk)\b/i.test(origin)) {
-      return `GENERATIONAL & UK CADENCE (${age}M Hampstead London British Match): Affectionate, dry British wit ("proper", "brilliant", "cheeky", light trailing "x"). Zero frat slang, and DO NOT randomly mention "half seven" or dinner reservations unless the player explicitly brought up meeting for a date!`;
+    if (/\b(london|british|hampstead|uk|malibu\/topanga)\b/i.test(origin) && age <= 27) {
+      return `COHORT CADENCE (${age}M British Expat Cub): Warm London/Hampstead wit ("proper", "sorted", "fancy", "bloke", "ring me", natural trailing "x"). Zero American frat slang, and only mention "half seven" when date logistics actually come up.`;
+    }
+    if (age <= 24) {
+      return `COHORT CADENCE (${age}M Early-20s Gen-Z): Lowercase or casual Gen-Z texting bursts ("ngl", "lowkey", "wait"), minimal periods, playful younger-guy energy.`;
+    }
+    if (age <= 26) {
+      return `COHORT CADENCE (${age}M High-EQ Mid-20s Golden/Creative Cub): Modern, understated mid-20s texting, natural contractions, dry self-aware humor if teased about being born around 2000, zero boomer ellipses ("..."), max 1 subtle emoji or none.`;
     }
     if (age >= 30) {
-      return `GENERATIONAL CADENCE (${age}M Composed Younger Zaddy): Normal capitalization, 0 to 1 understated emoji (🥂 or none), zero Gen-Z slang, decisive warmth.`;
+      return `COHORT CADENCE (${age}M Composed 30s Cub-Daddy / Zaddy): Crisp capitalization, calm decisive punctuation, zero TikTok slang, zero exclamation-point spam, handles reservations effortlessly.`;
     }
-    if (age >= 25) {
-      return `GENERATIONAL CADENCE (${age}M Articulate Late-20s Gentleman): Warm, witty, normal sentence capitalization, 0 to 1 light emoji (☕, 🍷, or ✨), zero teenager slang.`;
-    }
-    return `GENERATIONAL CADENCE (${age}M Early-20s Charmer): Casual upbeat Golden-Retriever charm, 1 natural emoji, earnest and playful.`;
+    return `COHORT CADENCE (${age}M Late-20s Grounded Gentleman): Warm, articulate, confident sentence capitalization, 0 to 1 light emoji (☕ or 🍷), zero teenager slang, never "cubsplains".`;
   }
 
-  const hardBan = `STRICT FEMALE VOICE BAN: NEVER call him "babe", "bestie", or "bro". NEVER use Zoomer slang ("ngl", "fr", "rn", "tbh", "cooked", "💀", "😭"). NEVER sound like polite customer support.`;
+  const hardBan = `STRICT FEMALE COHORT BAN: NEVER call him "babe", "bestie", or "bro". NEVER use Zoomer slang ("ngl", "fr", "rn", "tbh", "cooked", "lowkey", "💀", "😭"). NEVER sound like customer support.`;
 
-  if (age >= 60) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Continental Icon): Wickedly funny elegance, crisp capitalization, terminal periods, Sade/Prince vinyl touchstones, ZERO emojis and ZERO internet acronyms.`;
-  }
-  if (age >= 50) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Classic Gen-X Icon): Bone-dry Gen-X wit, crisp terminal periods, uses "Haha" instead of "lol", occasional 👍 confirmation, loves a quick 6 PM voice call.`;
+  if (age >= 55) {
+    return `${hardBan} COHORT CADENCE (${age}F Gen-X Jaguar / Silver Panther Icon): Bone-dry continental & Gen-X elegance, crisp capitalization, terminal periods, ZERO emojis (at most a classic 👍 when confirming a time), ZERO internet acronyms, prefers a 60-second voice call over twenty texts, instant walkout on "for your age."`;
   }
   if (age >= 40) {
-    return `${hardBan} GENERATIONAL RESERVE (${age}F Composed Chapter-Two Woman): Self-possessed rom-com wit, proper punctuation, Resy/calendar poise, ZERO "lol", and at most 0 to 1 subtle icon (🍸 or none).`;
+    return `${hardBan} COHORT CADENCE (${age}F Xennial / Gen-X Benchmark Cougar): Crisp terminal periods ("Sounds good." means happy, not mad!), writes "Haha" instead of "lol", Resy/calendar poise, loves Living-Apart-Together peace, zero patience for "wyd" or unpaid concierge duty, 0 to 1 subtle icon (🍸 or none).`;
   }
-  return `${hardBan} GENERATIONAL RESERVE (${age}F Witty 30s Woman): Quick-witted Fleabag banter, normal capitalization, and at most 1 tasteful emoji (🍷, ✨, or 😏).`;
+  return `${hardBan} COHORT CADENCE (${age}F 30s Millennial Puma / Junior Cougar): Quick-witted Elder-Millennial banter ("zero notes", "green flag", "hard pass"), lowered her age slider because men 40+ still stall on commitment, warm humor, max 1 natural emoji (🍷, ☀️, or ✨).`;
 }
 
 function scrubPiiForLog(raw: string): string {

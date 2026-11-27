@@ -118,8 +118,8 @@ describe('v35 Bespoke 10-Lead Subreddit Scenarios, Fixed Local Field Guide Portr
     }
     unmount();
 
-    // Render CougarCubChecklistModal and verify all 25 beloved items + 56 Pop Quiz items + 16 Guides remain intact
-    expect(COUGAR_CUB_CHECKLIST_ITEMS).toHaveLength(25);
+    // Render CougarCubChecklistModal and verify all 30 3-Tier items + 56 Pop Quiz items + 16 Guides remain intact
+    expect(COUGAR_CUB_CHECKLIST_ITEMS).toHaveLength(30);
     expect(POP_CULTURE_TRIVIA.length).toBeGreaterThanOrEqual(55);
     expect(JOURNAL_ARTICLES).toHaveLength(16);
 
@@ -132,7 +132,7 @@ describe('v35 Bespoke 10-Lead Subreddit Scenarios, Fixed Local Field Guide Portr
       />,
     );
     const checklistDialog = screen.getByRole('dialog', {
-      name: /Have You Ever\? 25-Point Cougars & Cubs Experience Test/i,
+      name: /Have You Ever\? 3-Tier Cougars & Cubs Experience Test/i,
     });
     expect(checklistDialog.innerHTML).toContain('editorial-hinge-card');
   });

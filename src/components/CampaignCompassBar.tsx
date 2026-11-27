@@ -323,7 +323,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     onClick={onOpenChecklist}
                     className="text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
                   >
-                    ✅ 25-Pt &ldquo;Have You Ever?&rdquo; Score →
+                    ✅ 3-Tier &ldquo;Have You Ever?&rdquo; Test →
                   </button>
                 )}
                 {onOpenGuides && (

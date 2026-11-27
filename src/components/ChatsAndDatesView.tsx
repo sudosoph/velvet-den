@@ -506,7 +506,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           playerName: wallet.playerName || undefined,
           playerPersonaVibe: wallet.personaTag || undefined,
           personaOrigin:
-            currentProfile.id === 'julian' ? 'Hampstead London UK' : currentProfile.vitals.neighborhood,
+            currentProfile.id === 'julian' || currentProfile.id === 'rory'
+              ? 'Hampstead London UK'
+              : currentProfile.vitals.neighborhood,
           personaLore: [
             currentProfile.tagline,
             currentProfile.trapTellSummary || currentProfile.vulnerabilityNote || '',

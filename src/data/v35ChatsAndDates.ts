@@ -457,7 +457,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
           ],
         },
       ],
-      imessage: buildImessageFollowup('Julian', true, photos[4]),
+      imessage: buildImessageFollowup(profile, photos[4]),
       spicySuggestions: [
         'Wear that rolled white linen shirt Thursday, consider it a formal request.',
         'If conversation flows half this well in person, I’m not rushing home at nine.',
@@ -743,30 +743,61 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       {
         beatNumber: 6,
         incomingMessages: [
-          isHimMatch
-            ? `Everything is set for Friday night. Only if you’d like to move off the app. I’d love to text you from my real number.`
-            : `Alright, you passed my app filter cleanly. Take my personal number so we can coordinate Friday on iMessage.`,
+          profile.id === 'rory'
+            ? `Friday is sorted on my end x Only if you fancy getting off this noisy app, let me text you from my proper number.`
+            : isHimMatch
+              ? profile.age >= 30
+                ? `Friday at eight is handled. Share your number when you are ready and I will send the confirmation directly.`
+                : `Everything is set for Friday night. Whenever you’re ready to leave the app behind, I’d love to text you directly.`
+              : profile.age >= 55
+                ? `You passed my filter cleanly. Take my personal number, and do not waste it on small talk.`
+                : profile.age >= 40
+                  ? `You survived my app filter. Take my cell so we can lock Friday cleanly on iMessage.`
+                  : `Okay, zero notes so far. Take my real number so we can coordinate Friday off Hinge ✨`,
         ],
         choices: [
           {
             text: isHimMatch
               ? `You kept my interest, here’s my real number for Friday.`
               : `Saved, texting you on iMessage right now so you have mine.`,
-            reply: `Got it! Switching over to blue bubbles now.`,
+            reply:
+              profile.id === 'rory'
+                ? `Saved with a star x Check your iMessage, love.`
+                : isHimMatch
+                  ? profile.age <= 26
+                    ? `Saved properly. Moving over to iMessage now.`
+                    : `Saved. Texting you from my personal line right now.`
+                  : profile.age >= 55
+                    ? `Received. Watch your messages.`
+                    : profile.age >= 40
+                      ? `Sounds good. Moving off this app now.`
+                      : `Got it! Switching over to blue bubbles now ✨`,
             delta: 20,
           },
           {
             text: isHimMatch
               ? `Sending my cell, text me Friday afternoon to confirm.`
               : `Thank you, sending a quick hello on iMessage now.`,
-            reply: `Message sent, see you in real texts!`,
+            reply:
+              profile.id === 'rory'
+                ? `Friday noon confirmation is locked in x`
+                : !isHimMatch && profile.age >= 40
+                  ? `Sounds good. Speak soon.`
+                  : `Message sent, see you on real texts.`,
             delta: 18,
           },
           {
             text: isHimMatch
               ? `💎 You earned my personal number, ${profile.name}, don’t make me regret graduating you off Hinge.`
               : `💎 Personal number saved. I’ll text you the exact pin on iMessage right now.`,
-            reply: `Best upgrade of my week, check your iMessage!`,
+            reply:
+              profile.id === 'rory'
+                ? `Properly honoured xx Check your phone right now.`
+                : !isHimMatch && profile.age >= 55
+                  ? `Punctual already. Check your phone.`
+                  : !isHimMatch && profile.age >= 40
+                    ? `Good instinct. Watch your iMessage.`
+                    : `Best upgrade of my week, check your iMessage.`,
             delta: 26,
             cost: 1,
             badge: 'Number Graduated',
@@ -774,7 +805,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         ],
       },
     ],
-    imessage: buildImessageFollowup(profile.name, isHimMatch, photos[5]),
+    imessage: buildImessageFollowup(profile, photos[5]),
     spicySuggestions: isHimMatch
       ? [
           `Wear that dark linen shirt with rolled sleeves Friday. I’m not subtle when I like a view.`,
@@ -798,36 +829,114 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
 }
 
 function buildImessageFollowup(
-  name: string,
-  isHimMatch: boolean,
+  profile: V35CastProfile,
   candidUrl: string,
 ): ChatBeat[] {
+  const name = profile.name;
+  const isHimMatch = profile.role === 'him';
+  const isUkCub = profile.id === 'julian' || profile.id === 'rory';
+  const isGenZTrap = profile.id === 'connor' || profile.id === 'devon';
+  const isUnderstatedMid20sCub = profile.id === 'jin' || profile.id === 'soren';
+  const isComposed30sZaddy = isHimMatch && profile.age >= 30;
+  const isIconHer = !isHimMatch && profile.age >= 55;
+  const isGenXHer = !isHimMatch && profile.age >= 40 && profile.age < 55;
+
+  const beat1Incoming = isGenZTrap
+    ? `yo blue bubbles unlocked 👀 saved ur contact, what are u up to rn`
+    : profile.id === 'graham'
+      ? `Saved under my Tokyo Equities contact card! Keep texts strictly between 9 AM and 6:30 PM so notifications stay tidy.`
+      : isUkCub
+        ? `Properly off that noisy app now x Saved your number with a star.`
+        : isUnderstatedMid20sCub
+          ? `Off the app at last. Saved your contact properly.`
+          : isComposed30sZaddy
+            ? `Good to have your direct line. Friday at 7:45 is confirmed on my calendar.`
+            : isHimMatch
+              ? `Real number saved. Still smiling from earlier, glad we moved off Hinge.`
+              : isIconHer
+                ? `Much better off that noisy app. You have my actual line now, use it wisely.`
+                : isGenXHer
+                  ? `Much cleaner off the app. You have my direct line now.`
+                  : `Officially off Hinge ✨ Saved your number, much better energy in here.`;
+
+  const beat1ReplyA = isGenZTrap
+    ? `haha chill i text whenever vibes hit lol`
+    : isUkCub
+      ? `Strictly top-shelf banter during office hours, promise x`
+      : isHimMatch
+        ? `Strictly high-signal texts only, promise.`
+        : isIconHer
+          ? `Punctual and concise. Keep it up.`
+          : isGenXHer
+            ? `Sounds good. Punctuality goes a long way with me.`
+            : `Punctual and zero rambling, green flag already 🍷`;
+
+  const beat2Incoming = isGenZTrap
+    ? `quick q before friday tho... u cool driving or splitting the uber lol`
+    : isUkCub
+      ? `Quick check before Friday: shall I meet you by the host stand five minutes early, or send a car round for you? x`
+      : isHimMatch
+        ? `Quick question before Friday: do you prefer I meet you right at the host stand, or send a car for you?`
+        : isIconHer
+          ? `One logistical question: do you arrive five minutes early, or make excuses about traffic?`
+          : isGenXHer
+            ? `Quick litmus test: are you an "arrive ten minutes early" adult or a last-second sprinter?`
+            : `Honest check before Friday: ten minutes early at the bar, or sprinting through valet at 7:46?`;
+
+  const beat5Incoming = isGenZTrap
+    ? `hey so friday is lowkey getting hectic on my end... still figuring tonight out lol`
+    : isUkCub
+      ? `Friday midday check-in: corner booth is sorted for 7:45 sharp, weather’s lovely, and my evening is all yours xx`
+      : isIconHer
+        ? `Friday confirmation: our corner booth is set for 7:45 sharp. 👍`
+        : isGenXHer
+          ? `Sounds good for tonight. Corner table is locked for 7:45, see you there.`
+          : `Friday noon check-in: table confirmed for tonight, weather is warm, and my evening is 100% yours.`;
+
+  const beat6Incoming = isGenZTrap
+    ? `wait just pulled up outside where r u sitting 👀`
+    : isUkCub
+      ? `Just claimed our corner booth, candles are lit and the barman knows your order x Ready whenever you walk in.`
+      : isIconHer
+        ? `Seated in the corner booth with an icy martini. Walk in like you own the room.`
+        : isGenXHer
+          ? `At our corner booth now. Candlelight is right and the bartender knows your order.`
+          : isUnderstatedMid20sCub || isComposed30sZaddy
+            ? `Just arrived and grabbed our corner booth. Candlelight is warm and the bartender has your drink ready.`
+            : `Just arrived and grabbed our corner table, candlelight is warm and the bartender knows your drink ✨`;
+
   return [
     {
       beatNumber: 1,
-      incomingMessages: [
-        isHimMatch
-          ? `Blue bubbles unlocked ✨ Saved your contact properly, still smiling from earlier.`
-          : `Much better off that noisy app. Now you have my actual line.`,
-      ],
+      incomingMessages: [beat1Incoming],
       choices: [
         {
           text: isHimMatch
             ? `Much cleaner in here, don’t abuse direct access during business hours 😉`
             : `Honored to make the real contact list, confirming Friday at 7:45 sharp.`,
-          reply: isHimMatch
-            ? `Strictly high-signal texts only, promise.`
-            : `Punctual and concise, off to a strong start.`,
+          reply: beat1ReplyA,
           delta: 16,
         },
         {
           text: `Glad we graduated off Hinge, how is your evening winding down?`,
-          reply: `Glass of red and vinyl spinning on low, wish you were here to pick the next record.`,
+          reply: isGenZTrap
+            ? `just chillin on the couch scrolling tiktok lol wbu`
+            : isUkCub
+              ? `Pouring a proper glass of red with vinyl on low x Wish you were picking the next record.`
+              : isIconHer
+                ? `Dry Gibson on the terrace and zero emails. Peaceful.`
+                : `Glass of red and vinyl spinning on low, wish you were here to pick the next record.`,
           delta: 15,
         },
         {
           text: `💎 Direct line looks good on you, ${name}, save your best banter for Friday’s first toast.`,
-          reply: `First toast is already rehearsed in my head.`,
+          reply: isGenZTrap
+            ? `bet say less haha`
+            : isUkCub
+              ? `First toast is already sorted in my head xx`
+              : isIconHer
+                ? `Count on it. Bring your sharpest wit.`
+                : `First toast is already rehearsed in my head.`,
           delta: 24,
           cost: 1,
           badge: 'Blue-Bubble Spark',
@@ -836,33 +945,43 @@ function buildImessageFollowup(
     },
     {
       beatNumber: 2,
-      incomingMessages: [
-        isHimMatch
-          ? `Quick question before Friday: do you prefer I meet you right at the host stand, or send a car for you?`
-          : `Tell me honestly, are you an "arrive ten minutes early" person or a last-second sprinter?`,
-      ],
+      incomingMessages: [beat2Incoming],
       choices: [
         {
           text: isHimMatch
             ? `Meet me at the bar five minutes early with a drink already ordered, classic first-date rule.`
             : `Ten minutes early at the bar so you never walk into an empty table.`,
-          reply: isHimMatch
-            ? `Smart rule. I’ll be waiting by the mahogany bar at 7:40.`
-            : `Exact right answer.`,
+          reply: isGenZTrap
+            ? `ok wait ordering ahead is kinda fancy i got u lol`
+            : isUkCub
+              ? `Proper rule. I’ll be by the mahogany bar at 7:40 sharp x`
+              : isHimMatch
+                ? `Smart rule. I’ll be waiting by the mahogany bar at 7:40.`
+                : isIconHer || isGenXHer
+                  ? `Sounds good. Exact right answer.`
+                  : `Exact right answer.`,
           delta: 18,
         },
         {
           text: isHimMatch
             ? `Sending a car for Date #2 once you pass Date #1 inspection.`
-            : `Early every time, traffic in LA is never an excuse.`,
-          reply: isHimMatch
-            ? `Haha fair. I’ll earn Date #2 car privileges Friday.`
-            : `Spoken like a grown adult.`,
+            : `Early every time, evening traffic is never an excuse.`,
+          reply: isGenZTrap
+            ? `haha tough crowd ok bet`
+            : isUkCub
+              ? `Haha fair play, I’ll earn Date #2 car privileges tomorrow night x`
+              : isHimMatch
+                ? `Haha fair. I’ll earn Date #2 car privileges Friday.`
+                : `Spoken like a grown adult.`,
           delta: 16,
         },
         {
           text: `💎 Be at the bar five minutes early, and stand up when I walk in.`,
-          reply: `Every single time, without fail.`,
+          reply: isGenZTrap
+            ? `noted lol standing up on cue`
+            : isUkCub
+              ? `Every single time, love. Non-negotiable xx`
+              : `Every single time, without fail.`,
           delta: 24,
           cost: 1,
           badge: 'Classic Standard',
@@ -872,22 +991,36 @@ function buildImessageFollowup(
     {
       beatNumber: 3,
       incomingMessages: [
-        `Just passed a candlelit patio with string lights and good vinyl playing, made me think of Friday.`,
+        isGenZTrap
+          ? `ngl walked past that lounge patio earlier and the lighting looked kinda fire`
+          : isIconHer
+            ? `Passed a quiet courtyard with proper candlelight and Chet Baker playing. Good omen for tomorrow.`
+            : `Just passed a candlelit patio with string lights and good vinyl playing, made me think of Friday.`,
       ],
       choices: [
         {
           text: `Save that view for us tomorrow night.`,
-          reply: `Already counting down.`,
+          reply: isGenZTrap
+            ? `locked in fr`
+            : isIconHer || isGenXHer
+              ? `Already reserved.`
+              : `Already counting down.`,
           delta: 15,
         },
         {
           text: `Did you spot Jade or Sam holding court by the piano?`,
-          reply: `Pretty sure Jade waved at me from the martini rail!`,
+          reply: isGenZTrap
+            ? `wait somebody in a silk blazer def gave me the side eye lol`
+            : isIconHer
+              ? `Jade raised her martini glass from across the room.`
+              : `Pretty sure Jade waved at me from the martini rail.`,
           delta: 16,
         },
         {
           text: `💎 Good scouting, make sure they hold the corner away from Table 9’s drama.`,
-          reply: `Quiet alcove corner is locked in with the host.`,
+          reply: isUkCub
+            ? `Quiet alcove booth is sorted with the maitre d’ x`
+            : `Quiet alcove corner is locked in with the host.`,
           delta: 23,
           cost: 1,
           badge: 'Insider Wink',
@@ -897,7 +1030,11 @@ function buildImessageFollowup(
     {
       beatNumber: 4,
       incomingMessages: [
-        `Quick wardrobe check before tomorrow night.`,
+        isGenZTrap
+          ? `fit check before tmrw night 👀 lmk`
+          : isIconHer
+            ? `Brief preview before 7:45 tomorrow.`
+            : `Quick wardrobe check before tomorrow night.`,
       ],
       photoDrop: {
         id: `photo-${name.toLowerCase()}-imessage`,
@@ -910,17 +1047,25 @@ function buildImessageFollowup(
       choices: [
         {
           text: `Approved, zero notes, don’t change a thing.`,
-          reply: `High praise coming from you.`,
+          reply: isGenZTrap
+            ? `lets gooo appreciate u`
+            : isIconHer
+              ? `Naturally.`
+              : `High praise coming from you.`,
           delta: 18,
         },
         {
           text: `Okay, now I actually have to put thought into what I’m wearing.`,
-          reply: `Impossible for you to miss, I’m certain.`,
+          reply: isUkCub
+            ? `Impossible for you to miss, love x`
+            : `Impossible for you to miss, I’m certain.`,
           delta: 16,
         },
         {
           text: `💎 Dangerous preview after 9 PM, you’re officially trouble.`,
-          reply: `The very best kind of trouble.`,
+          reply: isGenZTrap
+            ? `haha u have no idea 👀`
+            : `The very best kind of trouble.`,
           delta: 24,
           cost: 1,
           badge: 'After-Dark Spark',
@@ -929,25 +1074,35 @@ function buildImessageFollowup(
     },
     {
       beatNumber: 5,
-      incomingMessages: [
-        `Friday noon check-in: table confirmed for tonight, weather is warm, and my evening is 100% yours.`,
-      ],
+      incomingMessages: [beat5Incoming],
       choices: [
         {
           text: isHimMatch
             ? `Love a man who confirms at noon without prompting, see you tonight!`
             : `Love a woman who locks in Friday with zero ambiguity, see you tonight!`,
-          reply: `Wouldn’t dream of leaving Friday up in the air.`,
+          reply: isGenZTrap
+            ? `yeah totally see u soon haha`
+            : isUkCub
+              ? `Wouldn’t dream of leaving Friday up in the air xx`
+              : isIconHer || isGenXHer
+                ? `See you at 7:45 sharp.`
+                : `Wouldn’t dream of leaving Friday up in the air.`,
           delta: 18,
         },
         {
           text: `Confirmed on my end, wrapping my last call at five.`,
-          reply: `Crush your afternoon, first round is waiting at 7:45.`,
+          reply: isUkCub
+            ? `Smash your afternoon, first round’s waiting at 7:45 x`
+            : isIconHer
+              ? `Take your time. First round is at 7:45.`
+              : `Smooth afternoon ahead, first round is waiting at 7:45.`,
           delta: 16,
         },
         {
           text: `💎 Noon confirmation sealed it, bring your best smile tonight.`,
-          reply: `Counting the hours until 7:45.`,
+          reply: isIconHer
+            ? `Always. 7:45 sharp.`
+            : `Counting the hours until 7:45.`,
           delta: 24,
           cost: 1,
           badge: 'Date Locked',
@@ -956,18 +1111,24 @@ function buildImessageFollowup(
     },
     {
       beatNumber: 6,
-      incomingMessages: [
-        `Just arrived and grabbed our corner table, candlelight is warm and the bartender knows your drink. Ready whenever you step inside ✨`,
-      ],
+      incomingMessages: [beat6Incoming],
       choices: [
         {
           text: `Walking through the lounge curtains right now, stand up so I spot you.`,
-          reply: `Already standing, wow, you look breathtaking.`,
+          reply: isGenZTrap
+            ? `yo waving from the booth rn`
+            : isUkCub
+              ? `Already standing, bloody hell you look stunning xx`
+              : isIconHer
+                ? `Right on time. Come sit beside me.`
+                : `Already standing, wow, you look breathtaking.`,
           delta: 20,
         },
         {
           text: `Pulling up curbside now, two minutes out!`,
-          reply: `Drinks are hitting the coasters right on cue.`,
+          reply: isIconHer || isGenXHer
+            ? `Drinks just touched the coasters. Perfect timing.`
+            : `Drinks are hitting the coasters right on cue.`,
           delta: 18,
         },
         {
@@ -1156,7 +1317,7 @@ function buildTrapChapter(
           ],
         },
       ],
-      imessage: buildImessageFollowup('Graham', true, photos[5]),
+      imessage: buildImessageFollowup(profile, photos[5]),
       spicySuggestions: [
         'Explain why your phone goes straight to voicemail at 6:46 PM.',
         'Tell me who else shares the Table 9 corporate tab.',
@@ -1210,6 +1371,8 @@ function buildTrapChapter(
   };
 
   const spec = trapCluesByPerson[profile.id];
+  const isGenZTrap = profile.id === 'connor' || profile.id === 'devon';
+  const isBelAirTrap = profile.id === 'vanessa';
   return {
     tinder: [
       {
@@ -1219,12 +1382,20 @@ function buildTrapChapter(
         choices: [
           {
             text: 'Hold on, repeat that part again slowly.',
-            reply: 'Haha I knew you’d appreciate total honesty!',
+            reply: isGenZTrap
+              ? 'ngl i knew u would appreciate me keeping it 100 lol'
+              : isBelAirTrap
+                ? 'Darling, half of Bel Air has the exact same tax arrangement.'
+                : 'Haha trust me, sitting right across from Table 9 is half the thrill!!',
             delta: 10,
           },
           {
             text: 'That sounds like a giant red banner waving in the wind.',
-            reply: 'Nooo trust me, everyone does it!',
+            reply: isGenZTrap
+              ? 'nooo chill everyone on hinge does it haha'
+              : isBelAirTrap
+                ? 'Hardly a banner, sweetheart. Think of it as European discretion.'
+                : 'Not a red flag at all, just high-drama Friday entertainment!!',
             delta: 12,
           },
           {
@@ -1243,17 +1414,27 @@ function buildTrapChapter(
         choices: [
           {
             text: 'Wait, you really don’t hear how wild that sounds?',
-            reply: 'You’re way overthinking the logistics!',
+            reply: isGenZTrap
+              ? 'ur lowkey overthinking the logistics lol just go w the flow'
+              : isBelAirTrap
+                ? 'Afternoon hotel lounges are civilized and quiet. Nothing wild about it.'
+                : 'You are overthinking it! A great navy blazer solves everything!',
             delta: 10,
           },
           {
             text: 'Interesting strategy, what happens on Friday night?',
-            reply: 'Well, about Friday...',
+            reply: isGenZTrap
+              ? 'uh yeah abt friday night...'
+              : isBelAirTrap
+                ? 'Friday evenings are strictly reserved for family charity dinners, darling.'
+                : 'Friday at eight is when Richard’s golf foursome orders appetizers!',
             delta: 10,
           },
           {
             text: '💎 Let’s hear excuse number three before I call my bestie.',
-            reply: 'Zero excuses, just vibes!',
+            reply: isGenZTrap
+              ? 'zero excuses bro wait i mean just vibes lol'
+              : 'Zero excuses, strictly logistics.',
             delta: 14,
             cost: 1,
             badge: 'Spot Tell',
@@ -1267,17 +1448,25 @@ function buildTrapChapter(
         choices: [
           {
             text: 'And there is the entire plot twist in plain English.',
-            reply: 'Come on, live a little!',
+            reply: isGenZTrap
+              ? 'cmon live a little haha'
+              : isBelAirTrap
+                ? 'A little cover story keeps everyone comfortable, darling.'
+                : 'Think of the complimentary champagne once Table 9 sees us!!',
             delta: 10,
           },
           {
             text: 'My intuition meter is flashing bright crimson right now.',
-            reply: 'Crimson is a romantic color though!',
+            reply: isGenZTrap
+              ? 'crimson is lowkey romantic tho 👀'
+              : 'Crimson happens to flatter everyone in candlelight.',
             delta: 10,
           },
           {
             text: '💎 Screenshotting this masterclass in red flags for research.',
-            reply: 'Wait don’t screenshot lol!',
+            reply: isGenZTrap
+              ? 'wait dont screenshot lol chill'
+              : 'Please do not put my business in a group chat.',
             delta: 14,
             cost: 1,
             badge: 'Receipt Saved',
@@ -1286,7 +1475,11 @@ function buildTrapChapter(
       },
       {
         beatNumber: 4,
-        incomingMessages: ['Anyway here’s a photo so you forget all those pesky details!'],
+        incomingMessages: [
+          isGenZTrap
+            ? 'anyway peep this pic so u stop grilling me lol'
+            : 'Anyway, a quick snapshot before we overcomplicate a perfectly good week.',
+        ],
         photoDrop: {
           id: `photo-trap-${profile.id}`,
           previewCaption: `Suspicious camera-roll snapshot from ${profile.name}`,
@@ -1312,17 +1505,17 @@ function buildTrapChapter(
         choices: [
           {
             text: 'Great jawline, terrible logistics.',
-            reply: 'One out of two isn’t bad!',
+            reply: isGenZTrap ? '1 out of 2 still counts lol' : 'One out of two isn’t bad.',
             delta: 10,
           },
           {
             text: 'Pretty photos don’t fix a chaotic Friday setup.',
-            reply: 'Give it one drink and see!',
+            reply: isGenZTrap ? 'give it one drink trust' : 'Give it one drink and judge for yourself.',
             delta: 10,
           },
           {
             text: '💎 Almost distracting, almost.',
-            reply: 'Almost counts!',
+            reply: isGenZTrap ? 'almost is a win haha' : 'Almost counts in my book.',
             delta: 12,
             cost: 1,
             badge: 'Unfazed',
@@ -1331,21 +1524,25 @@ function buildTrapChapter(
       },
       {
         beatNumber: 5,
-        incomingMessages: ['So are we still on, or are you going to hit that little red flag button?'],
+        incomingMessages: [
+          isGenZTrap
+            ? 'so r we still down or r u hitting block lol'
+            : 'So are we still on, or are you reaching for that block button?',
+        ],
         choices: [
           {
             text: 'Still deciding whether to cut you loose right here.',
-            reply: 'Take a gamble on Friday!',
+            reply: isGenZTrap ? 'roll the dice on friday lol' : 'Take a gamble on Friday.',
             delta: 8,
           },
           {
             text: 'Testing what happens if we keep talking.',
-            reply: 'Bold choice!',
+            reply: isGenZTrap ? 'bold move i respect it' : 'Bold choice.',
             delta: 8,
           },
           {
             text: '💎 One last beat before the verdict drops.',
-            reply: 'Fingers crossed!',
+            reply: isGenZTrap ? 'fingers crossed ngl' : 'Fingers crossed.',
             delta: 10,
             cost: 1,
             badge: 'Final Beat',
@@ -1354,21 +1551,25 @@ function buildTrapChapter(
       },
       {
         beatNumber: 6,
-        incomingMessages: ['Last call, moving this chaos to iMessage or cutting loose back to the drawing board?'],
+        incomingMessages: [
+          isGenZTrap
+            ? 'last call lol moving this to imessage or ghosting me'
+            : 'Last call: moving this to iMessage or cutting loose back to the deck?',
+        ],
         choices: [
           {
             text: 'Fine, let’s watch this Friday trainwreck unfold.',
-            reply: 'Locked in, don’t say I didn’t warn you!',
+            reply: isGenZTrap ? 'bet texted u rn haha' : 'Locked in, don’t say I didn’t warn you.',
             delta: 8,
           },
           {
             text: 'Proceeding strictly for science.',
-            reply: 'Science wins!',
+            reply: isGenZTrap ? 'for science lets gooo' : 'Science wins.',
             delta: 8,
           },
           {
             text: '💎 Walking in eyes wide open just to turn the tables.',
-            reply: 'See you Friday!',
+            reply: isGenZTrap ? 'see u friday 👀' : 'See you Friday.',
             delta: 12,
             cost: 1,
             badge: 'Chaos Route',
@@ -1376,7 +1577,7 @@ function buildTrapChapter(
         ],
       },
     ],
-    imessage: buildImessageFollowup(profile.name, profile.role === 'him', photos[4]),
+    imessage: buildImessageFollowup(profile, photos[4]),
     spicySuggestions: ['Confess the real Friday agenda in five words.'],
     cutLooseVerdict: {
       isActualTrap: true,

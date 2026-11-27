@@ -102,11 +102,11 @@ describe('Security, Worker, Boutique, Checklist, Zodiac & Audition Regression Su
     }
   });
 
-  it('opens 25-Point Experience Test via ?checklist=1, recovers gracefully from corrupted ?challenge=, and runs 12x12 Zodiac Matcher', () => {
+  it('opens 3-Tier Experience Test via ?checklist=1, recovers gracefully from corrupted ?challenge=, and runs 12x12 Zodiac Matcher', () => {
     window.history.replaceState({}, '', '/?checklist=1');
     const { unmount } = render(<App />);
     const checklistModal = screen.getByRole('dialog', {
-      name: /Have You Ever\? 25-Point Cougars & Cubs Experience Test/i,
+      name: /Have You Ever\? 3-Tier Cougars & Cubs Experience Test/i,
     });
     expect(checklistModal).toBeInTheDocument();
     expect(within(checklistModal).getByText(/Nirvana tee/i)).toBeInTheDocument();
