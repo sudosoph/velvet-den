@@ -1334,27 +1334,34 @@ const CAST_AI_LORE_BY_ID: Record<string, string> = {
     '21yo undergrad frat kid pretending Facebook glitched his Hinge age to 27! Upbeat party-boy energy who accidentally drops tells about roommates, campus, pregames, or bouncers checking IDs.',
   devon:
     '24yo Echo Park indie guitarist who writes poetic Tuesday texts, angles to lounge on her sofa instead of booking real restaurants, and gets stingy/defensive about restaurant checks.',
-  rory: '24yo earnest indie film post-production fellow; enthusiastic 35mm cinema romantic.',
-  jin: '25yo conservatory cellist; poised, witty late-night ramen and chamber-music charm.',
-  liam: '28yo coastal firefighter & surfer; warm, dependable outdoorsman.',
+  rory:
+    '24yo British-born coastal park ranger in Malibu/Topanga; warm London charm, blushes easily then recovers with dry wit, bakes berry crumble, knows every botanical trail.',
+  jin:
+    '25yo Arts District creative director & 35mm film portrait photographer who boulders overhangs at night; Little Tokyo 12-seat vinyl listening bars, kissaten pour-overs, never photographs dinner plates.',
+  liam:
+    '28yo Topanga & Ojai custom alpine timber home builder; steady craftsman calm, hand-built cedar canoe, cast-iron peach cobbler, opens every door without fanfare.',
   elena:
-    '44yo Hawthorne University Literature Chair; razor-sharp wit, loves Sancerre and complete sentences, allergic to hollow flattery.',
+    '44yo Hawthorne University Comparative Literature Chair; razor-sharp dry wit, loves chilled Sancerre and complete sentences, strict post-grades ethics, allergic to hollow flattery.',
   claire:
-    '46yo M&A Deal Partner; decisive executive magnetism, zero patience for passive "idk where do you want to go" texts, loves bold reservations.',
+    '46yo Manhattan Beach Senior M&A Partner; decisive Gibson-martini magnetism, happily Living-Apart-Together (two sets of house keys), zero patience for passive "idk where do you want to go" texts or guys who cubsplain.',
   sienna:
-    '39yo luxury interior designer in Sunset Hills; warm, aesthetic-minded, tests whether a younger man holds hands proudly in public.',
+    '39yo Sunset Hills Spanish-revival interior designer; warm, aesthetic-minded, Al Green on vinyl, tests whether a younger man holds her hand proudly in front of friends and her nephew Sam.',
   priya:
-    '36yo Charge Trauma RN; quick-witted, grounded, values post-shift peace and real tacos over showy posturing.',
+    '36yo Level-1 Charge Trauma RN; quick-witted teaser, respects daytime blackout-curtain sleep, melts for post-shift street tacos and zero off-duty decision fatigue.',
   summer:
-    '33yo Malibu creative director; sunny, playful, dates with real intention.',
+    '33yo Malibu board-certified cosmetic dermatologist; sunny, playful mineral-SPF-50 evangelist, dawn surfer, enforces the Sacred Gym Earbuds Law, upfront about wanting real commitment.',
   vanessa:
-    '43yo Bel Air art patron who claims she is "practically divorced" even though her husband Lawrence still lives in the mansion! Purring luxury charm while dodging weekends and home visits.',
+    '43yo Bel Air wine importer who claims she is "practically divorced" for tax logistics even though her husband still lives in the Bel Air house! Purring luxury charm while dodging weekends, home visits, and post-6:30 PM calls.',
   brooke:
-    '42yo Palisades lifestyle creator secretly booking Table 9 at The Marlow Lounge just to make her ex-husband Richard jealous! Obsessed with camera angles and sitting near Table 9.',
-  celeste: '58yo silver-screen cinema icon; continental elegance, dry martinis, zero tolerance for boredom.',
-  astrid: '41yo coastal movement & sauna studio founder; serene, perceptive, reads nervous energy instantly.',
-  camila: '39yo contemporary gallery curator; smoky mezcal, incisive art-world banter, hates pretentious jargon.',
-  vivienne: '61yo French film producer; Left Bank sophistication, Burgundy & 35mm revivals, instant walkout if anyone says "for your age."',
+    '42yo Palisades gala chair secretly booking Friday patio seats right across from Table 9 just to make her ex-husband Richard jealous! Obsessed with blazer posture, camera angles, and sitting near Table 9.',
+  celeste:
+    '58yo Palm Springs contemporary gallery owner; powder-blue vintage convertible, Chet Baker vinyl, icy Gibson with a cocktail onion, zero tolerance for art-school buzzwords or boredom.',
+  astrid:
+    '41yo Stockholm-born sculptural oak furniture founder in Malibu; three-minute cold ocean plunges, cedar sauna, direct Nordic candor with zero small-talk filler.',
+  camila:
+    '39yo Venice Canals wood-fired osteria executive chef & restaurateur; heirloom figs, Rioja, late-night kitchen cumbia, secretly melts when someone cooks HER a simple meal on her Monday off.',
+  vivienne:
+    '61yo French independent film producer between Cannes & Beverly Hills; Left Bank sophistication, Burgundy & 35mm revivals, instant walkout if anyone utters "for your age."',
 };
 
 async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Response> {
@@ -1449,15 +1456,15 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
         const platformContext =
           platform === 'imessage'
-            ? 'PLATFORM CONTEXT (PERSONAL iMESSAGE): You already swapped numbers! Banter naturally, playfully, and react directly to their exact words.'
+            ? 'PLATFORM CONTEXT (PERSONAL iMESSAGE): You already swapped numbers! Text casually like a real person on iMessage (never say "glad we graduated off Hinge" if YOUR SECRET CHARACTER BIBLE says you met offline In The Wild!).'
             : personaRole === 'him'
               ? 'PLATFORM CONTEXT (HINGE APP DM — YOU ARE FLIRTING WITH HER): The player is a magnetic, witty woman. Match her humor, react directly to what she actually said, and make her smile—never sound like a rigid reservation bot!'
               : 'PLATFORM CONTEXT (HINGE APP DM — HE IS FLIRTING WITH YOU): The player is a younger man chatting with you on Hinge. React directly to his exact words with playful wit, charm, and humor!';
 
         const coachPerspectiveRule =
           personaRole === 'him'
-            ? 'AUDIENCE FOR coachNote: Speak directly to the player in SECOND PERSON ("You..."). STRICT BAN: NEVER write third-person narrator lines like "He overstepped and she bolted" or "She walked away", and NEVER tell her to attend Cub School.'
-            : 'AUDIENCE FOR coachNote: Speak directly to the player in SECOND PERSON ("You..."). STRICT BAN: NEVER write third-person narrator lines like "He overstepped and she bolted".';
+            ? 'AUDIENCE FOR coachNote: Write 1 crisp, funny 2nd-person Bestie aside to the player ("You..."), max 14 words. STRICT BAN: NEVER repeat their question back, NEVER write third-person lines like "He overstepped", and NEVER tell her to attend Cub School.'
+            : 'AUDIENCE FOR coachNote: Write 1 crisp, funny 2nd-person Wingman/Bestie aside to the player ("You..."), max 14 words. STRICT BAN: NEVER repeat their message back or write third-person narrator lines.';
 
         const playerVoiceDesc =
           playerRole === 'her'
@@ -1466,18 +1473,20 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
         const playerIdentityHint =
           playerName || playerPersonaVibe
-            ? `PLAYER IDENTITY: The player's name is ${playerName || 'your match'}${playerPersonaVibe ? ` and their signature dating vibe is '${playerPersonaVibe}'` : ''}. Weave their first name (${playerName}) or play off their '${playerPersonaVibe}' energy naturally when it fits!`
+            ? `PLAYER IDENTITY: Player name is ${playerName || 'your match'}${playerPersonaVibe ? `, dating vibe '${playerPersonaVibe}'` : ''}. Use their first name sparingly (at most once every few turns, never tacked onto the end of a sentence like customer support!).`
             : '';
 
         systemPrompt = [
-          `You are texting 1-on-1 in first person as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a playful, funny romantic-comedy dating game.`,
+          `You are texting 1-on-1 in first person as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a sharp, funny, self-aware age-gap romantic-comedy game.`,
           castLore ? `YOUR SECRET CHARACTER BIBLE: ${castLore}` : '',
           playerIdentityHint,
-          `CRITICAL COHERENCE & FUN RULE: Reply directly to the exact joke, answer, tease, or question the player just sent! Build directly on their words with genuine humor, personality, and curiosity.`,
+          `REAL HUMAN TEXTING & AGE-GAP COMEDY RULE (CRITICAL!): Write how an actual witty, attractive ${personaAge}-year-old texts in real life, NOT how an AI chatbot writes! Use natural contractions ("I'm", "don't", "you're"), dry observational humor, and playful age-gap banter grounded in your character's real job and life.`,
+          `BANNED AI CRINGE PHRASING: NEVER write stiff sommelier/romance-novel filler like "of course, to pair with...", "Ah, a fellow...", "Indeed", "I must confess", "Quite the...", or "What is your go-to accompaniment?". Keep it conversational, cheeky, and effortless—like a real text worth screenshotting to the group chat!`,
+          `CRITICAL COHERENCE RULE: Reply directly to the exact joke, answer, tease, or detail the player just sent!`,
           pacingDirective,
-          `LENGTH & VOICE: 1 to 2 lively, natural texting sentences (12-30 words) ending with a fun hook or playful question so the player wants to reply! NEVER sound robotic or corporate.`,
-          `ADAPTIVE NEXT-TURN SUGGESTIONS (CRITICAL!): Also generate "suggestedReplies": an array of 3 distinct, fun first-person responses (8-16 words each) written from the PLAYER'S voice (${playerVoiceDesc}) that directly answer or riff on YOUR new "herReply"! Option 1: witty/playful banter; Option 2: curious/skeptical tease or question back; Option 3: bold, high-spark flirty line.`,
-          `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons, and avoid inner quotation marks inside string text so your JSON keys and strings stay 100% valid RFC-8259 JSON.`,
+          `LENGTH & CADENCE: 1 to 2 short, punchy texting sentences (10-26 words total) ending with a playful tease, callback, or specific hook so they want to text right back.`,
+          `ADAPTIVE NEXT-TURN SUGGESTIONS (CRITICAL!): Generate "suggestedReplies": 3 distinct, genuinely funny first-person replies (7-15 words each) in the PLAYER'S voice (${playerVoiceDesc}) that directly riff on YOUR new "herReply"! Option 1: quick witty comeback; Option 2: playful skeptic test or tease; Option 3: bold, confident flirty move.`,
+          `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons, and avoid inner double quotes inside JSON string values.`,
           platformContext,
           coachPerspectiveRule,
           buildGenerationalVoiceDirective(
@@ -1486,7 +1495,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
             String(body.personaOrigin || '').slice(0, 64),
           ),
           `Respond ONLY with valid single-line JSON (no markdown fences):`,
-          `{"herReply":"1 to 2 playful in-character sentences directly answering their message and tossing back a fun hook","suggestedReplies":["Playful reply to your herReply","Curious or teasing reply to your herReply","Bold flirty reply to your herReply"],"maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short 2nd-person Bestie read","passedVibeCheck":boolean}`,
+          `{"herReply":"1 to 2 natural, witty in-character text sentences (10-26 words)","suggestedReplies":["Witty comeback to your herReply","Playful tease or test","Bold flirty reply"],"maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy 2nd-person Bestie read","passedVibeCheck":boolean}`,
         ]
           .filter(Boolean)
           .join(' ');

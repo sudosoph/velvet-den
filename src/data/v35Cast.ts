@@ -2041,47 +2041,47 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
   },
   rory: {
     voicePrompt: {
-      question: 'A hill I will happily die on',
+      question: 'Best perk of dating a British park ranger',
       duration: '0:13',
       transcript:
-        '“Thirty-five millimeter grain beats digital perfection every single time, meet me ten minutes before trailers so we get third-row center.”',
-      subtextTell: 'Earnest film-school enthusiasm, wears his heart right on his sleeve.',
+        '“I know every hidden wildflower overlook on the coast, my berry crumble is undefeated, and I only blush catastrophically for the first five minutes.”',
+      subtextTell: 'Earnest London warmth, wears his heart right on his sleeve.',
     },
     fridayStoryHook:
-      'If you match: Holds two prime revival-house seats and nervously asks your ruthless verdict on his rough cut afterward.',
+      'If you match: Guides you to a private after-hours botanical terrace with warm crumble and zero pretense.',
   },
   jin: {
     voicePrompt: {
-      question: 'After the curtain drops at ten',
+      question: 'My golden rule at a twelve-seat vinyl bar',
       duration: '0:11',
       transcript:
-        '“Cello goes in the backseat, black tie comes undone, and we go straight to the one midnight noodle counter that still simmers broth twelve hours.”',
-      subtextTell: 'Quiet conservatory poise with a surprisingly dry late-night wit.',
+        '“I shoot 35mm portraits all day, which means my camera and phone stay zipped away all night when you’re across the table.”',
+      subtextTell: 'Arts District creative-director poise with a dry late-night wit.',
     },
     fridayStoryHook:
-      'If you match: Sneaks you past the stage door after final bow for midnight broth and zero small talk.',
+      'If you match: Holds two stools at a tucked-away Little Tokyo listening bar for smoked uni toast and vinyl.',
   },
   liam: {
     voicePrompt: {
-      question: 'Best perk of my 48-hour shift schedule',
+      question: 'Sunday morning up in Topanga sounds like',
       duration: '0:13',
       transcript:
-        '“When I’m off duty Tuesday morning, the whole coast is empty, hop in the truck and I’ll cook breakfast burritos after dawn surf.”',
-      subtextTell: 'Steady station-house calm, shows up when he says he will.',
+        '“Sawdust brushed off my boots, acoustic Willie Nelson on the deck, and cast-iron peach cobbler cooling after a sunrise paddle.”',
+      subtextTell: 'Steady custom-home-builder calm, shows up when he says he will.',
     },
     fridayStoryHook:
-      'If you match: Trades turnout gear for a coastal sunset overlook nobody else in Sunset Hills knows about.',
+      'If you match: Drives down from his mountain timber build in a wool coat and opens every door without fanfare.',
   },
   summer: {
     voicePrompt: {
-      question: 'How to win me over before drinks arrive',
+      question: 'Clinical verdict before our first drink',
       duration: '0:12',
       transcript:
-        '“Pick the spot without making me project-manage Tuesday, laugh when things go slightly off-script, and never flinch at a woman with a bigger studio calendar.”',
-      subtextTell: 'Bright creative-director warmth, allergic to passive “idk wherever u want” texts.',
+        '“Apply mineral SPF 50 to your neck, respect the gym earbud code, and please actually know what you want out of life.”',
+      subtextTell: 'Sunny Malibu dermatologist warmth, allergic to passive “idk wherever u want” texts.',
     },
     fridayStoryHook:
-      'If you match: Invites you to a rooftop wrap toast where her art-world friends immediately test your composure.',
+      'If you match: Trades Beverly Hills clinic coats for wet-hair Malibu fish tacos and real commitment talk.',
   },
   sienna: {
     voicePrompt: {
@@ -2151,14 +2151,14 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
   },
   celeste: {
     voicePrompt: {
-      question: 'What thirty years in cinema taught me',
+      question: 'What running a desert gallery taught me',
       duration: '0:14',
       transcript:
-        '“Chemistry shows up in the first ninety seconds over martinis, either you know how to hold a woman’s gaze across a table, or the credits roll early.”',
-      subtextTell: 'Silver-screen poise and zero patience for rehearsal.',
+        '“Good taste shows up in ninety seconds: icy Gibson with an onion, Chet Baker on vinyl, and a man who looks at the art before reading the wall plaque.”',
+      subtextTell: 'Effortless Palm Springs gallerist poise and zero patience for pretension.',
     },
     fridayStoryHook:
-      'If you match: Sweeps into The Marlow Lounge twenty minutes before a private screening and dares you to keep pace.',
+      'If you match: Tosses you the keys to her powder-blue convertible after a private sculpture garden toast.',
   },
   astrid: {
     voicePrompt: {
@@ -2173,14 +2173,14 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
   },
   camila: {
     voicePrompt: {
-      question: 'Fastest way into my good graces',
+      question: 'Fastest way into a chef’s good graces',
       duration: '0:12',
       transcript:
-        '“Walk into the gallery without pretending you read the press release, tell me which canvas actually moves you, and pour the mezcal neat.”',
-      subtextTell: 'Warm, incisive curator energy, loves bold honesty over art-school jargon.',
+        '“Eat warm sourdough without counting macros, pour the Rioja, and cook me one simple meal on Monday so I finally get to sit down.”',
+      subtextTell: 'Warm wood-fired osteria chef energy, feeds everyone she adores.',
     },
     fridayStoryHook:
-      'If you match: Locks the gallery doors after closing toast and pours smoky mezcal in the back office.',
+      'If you match: Saves two seats at her wood-fired kitchen pass, then spins cumbia in the kitchen after close.',
   },
   vivienne: {
     voicePrompt: {

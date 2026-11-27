@@ -850,13 +850,13 @@ export default function App() {
             activeLeadThreads={threads.map((t) => t.leadId)}
             completedCameoVenues={completedCameoVenues}
             initialVenueId={wildVenueFocusId}
-            onUnlockWildLead={(leadId, _venueId, bonus, clueId) => {
+            onUnlockWildLead={(leadId, venueId, bonus, clueId) => {
               if (clueId) {
                 updateWallet(addConspiracyClue(wallet, clueId));
               }
               setThreads((prev) => {
                 if (prev.some((t) => t.leadId === leadId)) return prev;
-                const created = createInitialThread(leadId, 'wild');
+                const created = createInitialThread(leadId, 'wild', undefined, false, venueId);
                 const wildPerk = getPersonaVibeSpec(wallet.personaTag)?.wildChemistryBonus ?? 0;
                 created.chemistry = Math.min(96, created.chemistry + bonus + wildPerk);
                 return [created, ...prev];

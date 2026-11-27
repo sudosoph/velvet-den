@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, CheckCircle2, MapPin, MessageCircle, Sparkles } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Heart, MapPin, MessageCircle, Sparkles } from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
 import { V35_WILD_VENUES, type WildVenueSpot } from '../data/v35WildVenues';
@@ -20,6 +20,8 @@ export interface InTheWildMapViewProps {
   onOpenChatWithLead?: (leadId: string) => void;
 }
 
+const CHOICE_KEYS = ['A', 'B', 'C'] as const;
+
 export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   role,
   activeLeadThreads,
@@ -32,6 +34,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   const [selectedSpotId, setSelectedSpotId] = useState<string | null>(initialVenueId ?? null);
   const [outcomeCard, setOutcomeCard] = useState<{
     text: string;
+    delta: number;
     unlockedLeadId?: string;
     isMemeFail?: boolean;
   } | null>(null);
@@ -71,9 +74,11 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
     const primaryPortrait = V35_CAST_VISUALS[primaryLeadId]?.primaryPortrait;
     const choices = role === 'her' ? activeSpot.choicesHer : activeSpot.choicesHim;
     const setupText = role === 'her' ? activeSpot.sceneSetupHer : activeSpot.sceneSetupHim;
+    const spokenCue = role === 'her' ? activeSpot.spokenCueHer : activeSpot.spokenCueHim;
+    const activePortrait = isAlreadyMatched ? cameoPortrait : primaryPortrait;
 
     return (
-      <div className="mx-auto w-full max-w-4xl space-y-5 animate-stage-in">
+      <div className="mx-auto w-full max-w-4xl space-y-4 animate-stage-in">
         <button
           type="button"
           onClick={() => {
@@ -86,9 +91,9 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
           <span>Back to All 10 City Hotspots</span>
         </button>
 
-        {/* Full-Bleed Sunset Stage */}
-        <section className="relative overflow-hidden rounded-3xl bg-[#18101E] text-white shadow-2xl">
-          <div className="relative h-64 sm:h-80 w-full overflow-hidden">
+        {/* Visual-Novel Offline Encounter Stage */}
+        <section className="relative overflow-hidden rounded-3xl bg-[#18101E] text-white shadow-2xl border border-white/10">
+          <div className="relative h-60 sm:h-76 w-full overflow-hidden">
             <img
               src={activeSpot.backdropUrl}
               alt={activeSpot.name}
@@ -96,39 +101,43 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#18101E] via-[#18101E]/45 to-transparent" />
 
-            <div className="absolute left-6 bottom-5 right-6 flex items-end justify-between gap-4">
-              <div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/95 px-3 py-1 text-xs font-extrabold text-[#18101E]">
+            <div className="absolute left-5 bottom-4 right-5 sm:left-6 sm:right-6 flex items-end justify-between gap-3">
+              <div className="min-w-0">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/95 px-3 py-1 text-[11px] font-extrabold text-[#18101E]">
                   <span>{activeSpot.emoji}</span>
                   <span>Hotspot #{activeSpot.number}</span>
                 </span>
-                <h1 className="mt-2 font-editorial text-2xl sm:text-3xl font-bold text-white">
+                <h1 className="mt-2 font-editorial text-xl sm:text-3xl font-bold text-white leading-tight">
                   {activeSpot.name}
                 </h1>
-                <p className="text-xs sm:text-sm text-amber-100/90">{activeSpot.subtitle}</p>
+                <p className="text-xs sm:text-sm text-amber-100/90 truncate">
+                  {activeSpot.subtitle}
+                </p>
               </div>
 
-              {(isAlreadyMatched ? cameoPortrait : primaryPortrait) && (
+              {activePortrait && (
                 <img
-                  src={(isAlreadyMatched ? cameoPortrait : primaryPortrait)!}
-                  alt="Scene lead"
-                  className="hidden sm:block h-28 w-22 rounded-2xl object-cover ring-2 ring-amber-200/70 shadow-xl v35-portrait-breathe"
+                  src={activePortrait}
+                  alt={primaryProfile?.name ?? 'Scene lead'}
+                  className="shrink-0 h-22 w-18 sm:h-28 sm:w-22 rounded-2xl object-cover ring-2 ring-amber-200/80 shadow-2xl v35-portrait-breathe"
                 />
               )}
             </div>
           </div>
 
-          {/* Scene Dialogue & Choices Dock */}
-          <div className="p-6 sm:p-8 space-y-5">
+          {/* Scene Dialogue & Structured VN Choices Dock */}
+          <div className="p-5 sm:p-7 space-y-4">
             {isAlreadyMatched ? (
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/20 border border-emerald-300/40 px-3 py-1 text-xs font-bold text-emerald-200">
                   <Sparkles className="h-3.5 w-3.5" />
                   <span>Bonus Chemistry Cameo • {cameoSpeaker?.name}</span>
                 </div>
-                <p className="font-editorial text-lg sm:text-xl leading-relaxed text-amber-50">
-                  {activeSpot.cameoBeat.line}
-                </p>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 sm:p-5">
+                  <p className="font-editorial text-base sm:text-xl leading-relaxed text-amber-50">
+                    {activeSpot.cameoBeat.line}
+                  </p>
+                </div>
                 {cameoDone ? (
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold text-emerald-200">
@@ -164,29 +173,70 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
               </div>
             ) : (
               <>
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-300">
-                  <span>In The Wild Encounter</span>
-                  {primaryProfile && (
-                    <span>• Featuring {primaryProfile.name} ({primaryProfile.age})</span>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-300">
+                    <span>Offline Meet-Cute</span>
+                    {primaryProfile && (
+                      <span>
+                        • {primaryProfile.name}, {primaryProfile.age} ({primaryProfile.vitals.job})
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[11px] font-semibold text-zinc-400">
+                    Read the room • Pick your approach
+                  </span>
+                </div>
+
+                {/* Split Stage Direction vs Spoken/Visual Cue */}
+                <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
+                  <p className="text-sm sm:text-base leading-relaxed text-zinc-200">
+                    {setupText}
+                  </p>
+                  {spokenCue && (
+                    <div className="border-l-2 border-amber-300 pl-3.5 pt-0.5">
+                      <p className="font-editorial text-base sm:text-lg italic leading-snug text-amber-100">
+                        {spokenCue}
+                      </p>
+                    </div>
                   )}
                 </div>
 
-                <p className="text-base sm:text-lg leading-relaxed text-stone-100">
-                  {setupText}
-                </p>
-
                 {outcomeCard ? (
                   <div
-                    className={`rounded-2xl p-5 space-y-3 ${
+                    data-testid="wild-outcome-card"
+                    className={`rounded-2xl p-5 space-y-3.5 ${
                       outcomeCard.isMemeFail
-                        ? 'bg-rose-950/70 border border-rose-400/40'
-                        : 'bg-emerald-950/70 border border-emerald-400/40'
+                        ? 'bg-rose-950/75 border border-rose-400/45'
+                        : 'bg-emerald-950/75 border border-emerald-400/45'
                     }`}
                   >
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold ${
+                          outcomeCard.isMemeFail
+                            ? 'bg-rose-500/25 text-rose-200'
+                            : 'bg-emerald-400/20 text-emerald-200'
+                        }`}
+                      >
+                        <Heart className="h-3.5 w-3.5" />
+                        <span>
+                          {outcomeCard.delta >= 0
+                            ? `+${outcomeCard.delta}% Spark`
+                            : `${outcomeCard.delta}% Spark • Rookie Fumble`}
+                        </span>
+                      </span>
+                      {outcomeCard.unlockedLeadId && (
+                        <span className="text-xs font-bold text-amber-200">
+                          📱 Personal Number Unlocked
+                        </span>
+                      )}
+                    </div>
+
                     <p className="text-sm sm:text-base font-medium text-white leading-relaxed">
                       {outcomeCard.text}
                     </p>
-                    <div className="flex flex-wrap gap-3">
+
+                    <div className="flex flex-wrap gap-3 pt-1">
                       {outcomeCard.unlockedLeadId && onOpenChatWithLead && (
                         <button
                           type="button"
@@ -206,7 +256,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                           onClick={() => setOutcomeCard(null)}
                           className="rounded-full bg-white px-4 py-2 text-xs font-bold text-[#18101E] cursor-pointer"
                         >
-                          Try the Smooth Approach Instead
+                          Rewind &amp; Try a Smoother Move
                         </button>
                       )}
                       <button
@@ -222,8 +272,8 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                     </div>
                   </div>
                 ) : (
-                  <div className="grid gap-3 pt-1">
-                    {choices.map((choice) => (
+                  <div className="grid gap-2.5 pt-1">
+                    {choices.map((choice, idx) => (
                       <button
                         key={choice.label}
                         type="button"
@@ -241,13 +291,17 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                           }
                           setOutcomeCard({
                             text: choice.outcomeText,
+                            delta: choice.chemistryBonus,
                             unlockedLeadId: choice.unlocksChatWithId,
                             isMemeFail: choice.isMemeFail,
                           });
                         }}
-                        className="w-full rounded-2xl border border-white/20 bg-white/10 p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/20 hover:border-amber-300/60 transition cursor-pointer"
+                        className="group flex items-start gap-3.5 w-full rounded-2xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-amber-300/70 transition cursor-pointer"
                       >
-                        {choice.label}
+                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-amber-300/20 border border-amber-300/40 text-xs font-extrabold text-amber-200 group-hover:bg-amber-300 group-hover:text-[#18101E] transition">
+                          {CHOICE_KEYS[idx] ?? idx + 1}
+                        </span>
+                        <span className="flex-1 leading-snug">{choice.label}</span>
                       </button>
                     ))}
                   </div>
@@ -273,7 +327,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
           </h1>
         </div>
         <p className="text-sm text-zinc-600 max-w-md">
-          Step into any offline hotspot to meet leads who never swipe on apps and unlock direct iMessage threads.
+          Read the room at real-world hotspots to meet leads who never swipe on apps and unlock personal text threads.
         </p>
       </div>
 

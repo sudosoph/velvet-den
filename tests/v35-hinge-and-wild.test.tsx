@@ -98,4 +98,59 @@ describe('v35 Editorial Hinge Feed (selective matching, zero clutter) & 10-Spot 
     fireEvent.click(cameoBtn);
     expect(onCompleteCameo).toHaveBeenCalledWith('terminal-b-airport', 'miles', 15);
   });
+
+  it('seeds Wild-origin iMessage threads with hotspot-specific meet-cute banter, zero app-graduation confusion, and 3 comedic choices per hotspot', async () => {
+    const { createInitialThread, ChatsAndDatesView } = await import(
+      '../src/components/ChatsAndDatesView'
+    );
+    const { V35_WILD_VENUES } = await import('../src/data/v35WildVenues');
+    const { V35_CHAT_CHAPTERS } = await import('../src/data/v35ChatsAndDates');
+
+    // Every hotspot provides 3 distinct choices for both Her and Him, with zero spoken "xx"
+    for (const venue of V35_WILD_VENUES) {
+      expect(venue.choicesHer).toHaveLength(3);
+      expect(venue.choicesHim).toHaveLength(3);
+      expect(JSON.stringify(venue)).not.toMatch(/\sxx?["”]/i);
+    }
+
+    // Zero robotic "man/woman" slash templates in chat chapters
+    expect(JSON.stringify(V35_CHAT_CHAPTERS)).not.toMatch(/man\/woman/i);
+
+    // Cub meets Claire offline at The Marlow Lounge -> opens iMessage with napkin callback, NOT "noisy app / graduated off Hinge"
+    const wildClaireThread = createInitialThread(
+      'claire',
+      'wild',
+      undefined,
+      false,
+      'velvet-room',
+    );
+    expect(wildClaireThread.messages.some((m) => /cocktail napkin/i.test(m.text))).toBe(true);
+    expect(
+      wildClaireThread.messages.some((m) => /noisy app|graduated off hinge/i.test(m.text)),
+    ).toBe(false);
+
+    const wallet = createDefaultWallet(new Date('2026-11-26T12:00:00Z'));
+    const { container } = render(
+      <ChatsAndDatesView
+        role="him"
+        wallet={wallet}
+        threads={[wildClaireThread]}
+        selectedLeadId="claire"
+        cutLooseIds={[]}
+        onUpdateThread={vi.fn()}
+        onSpendCredits={() => true}
+        onUnlockBucketItem={() => true}
+        onCutLooseTrap={vi.fn()}
+        onConfirmCutGenuine={vi.fn()}
+        onLoseHeart={vi.fn()}
+        onOpenHinge={vi.fn()}
+        onOpenBoutique={vi.fn()}
+      />,
+    );
+
+    const viewText = container.textContent || '';
+    expect(viewText).toMatch(/Met at The Marlow Lounge/i);
+    expect(viewText).toMatch(/cocktail napkin/i);
+    expect(viewText).not.toMatch(/graduated off Hinge|noisy app/i);
+  });
 });

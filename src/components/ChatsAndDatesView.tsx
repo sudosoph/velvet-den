@@ -25,12 +25,14 @@ import { MONETIZATION_CONFIG } from '../config/monetization';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
 import {
+  type ChatBeat,
   type CutLooseVerdict,
   V35_CHAT_CHAPTERS,
   V35_DATE_SCRIPTS,
   V35_DISCORD_CHANNELS,
   V35_TABLE_9_CONSPIRACY,
 } from '../data/v35ChatsAndDates';
+import { getWildMeetCuteSeed } from '../data/v35WildVenues';
 import {
   getPersonaVibeSpec,
   PERSONA_VIBE_SPECS,
@@ -44,6 +46,7 @@ import { RomanticDateStage } from './RomanticDateStage';
 export interface ActiveMatchThread {
   leadId: string;
   originDoor: 'hinge' | 'wild';
+  originVenueId?: string;
   stage: 'app_dm' | 'imessage';
   currentBeat: number;
   chemistry: number;
@@ -60,17 +63,26 @@ export function createInitialThread(
   originDoor: 'hinge' | 'wild',
   openerText?: string,
   isCustomOpener = false,
+  originVenueId?: string,
 ): ActiveMatchThread {
   const chapter = V35_CHAT_CHAPTERS[leadId];
   const stage: 'app_dm' | 'imessage' = originDoor === 'wild' ? 'imessage' : 'app_dm';
+  const wildSeed = originDoor === 'wild' ? getWildMeetCuteSeed(leadId, originVenueId) : undefined;
   const firstBeat = stage === 'imessage' ? chapter?.imessage[0] : chapter?.tinder[0];
   const seeded: { sender: 'match' | 'player' | 'system'; text: string }[] = [];
 
+  if (originDoor === 'wild' && wildSeed) {
+    seeded.push({ sender: 'system', text: `iMessage • ${wildSeed.venueLabel}` });
+  }
   if (openerText) {
     seeded.push({ sender: 'player', text: openerText });
   }
   if (!isCustomOpener) {
-    for (const m of firstBeat?.incomingMessages ?? []) {
+    const openingIncoming =
+      originDoor === 'wild' && wildSeed
+        ? wildSeed.incomingMessages
+        : (firstBeat?.incomingMessages ?? []);
+    for (const m of openingIncoming) {
       seeded.push({ sender: 'match', text: m });
     }
   }
@@ -78,6 +90,7 @@ export function createInitialThread(
   return {
     leadId,
     originDoor,
+    originVenueId,
     stage,
     currentBeat: 1,
     chemistry: originDoor === 'wild' ? 62 : 50,
@@ -477,6 +490,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         ? Promise.resolve()
         : new Promise((resolve) => window.setTimeout(resolve, 560));
 
+      const wildMeetContext =
+        currentThread.originDoor === 'wild'
+          ? getWildMeetCuteSeed(currentProfile.id, currentThread.originVenueId)?.aiMeetContext
+          : undefined;
+
       const [res] = await Promise.all([
         liveAiInboxService.evaluateOpeningDm({
           personaId: currentProfile.id,
@@ -489,7 +507,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           playerPersonaVibe: wallet.personaTag || undefined,
           personaOrigin:
             currentProfile.id === 'julian' ? 'Hampstead London UK' : currentProfile.vitals.neighborhood,
-          personaLore: `${currentProfile.tagline} ${currentProfile.trapTellSummary || currentProfile.vulnerabilityNote || ''}`.trim(),
+          personaLore: [
+            currentProfile.tagline,
+            currentProfile.trapTellSummary || currentProfile.vulnerabilityNote || '',
+            wildMeetContext || '',
+          ]
+            .filter(Boolean)
+            .join(' ')
+            .trim(),
           platform: currentThread.stage === 'imessage' ? 'imessage' : 'tinder',
           playerMessage: trimmed,
           history: historySnapshot,
@@ -567,9 +592,22 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         ? currentChapter.imessage
         : currentChapter.tinder
       : [];
-  const activeBeat =
+  const wildBeat1Seed =
+    currentThread &&
+    currentThread.originDoor === 'wild' &&
+    currentThread.stage === 'imessage' &&
+    currentThread.currentBeat === 1
+      ? getWildMeetCuteSeed(currentThread.leadId, currentThread.originVenueId)
+      : undefined;
+  const activeBeat: ChatBeat | undefined =
     currentThread && currentThread.currentBeat <= 6
-      ? beatsArray.find((b) => b.beatNumber === currentThread.currentBeat)
+      ? wildBeat1Seed
+        ? {
+            beatNumber: 1,
+            incomingMessages: wildBeat1Seed.incomingMessages,
+            choices: wildBeat1Seed.choices,
+          }
+        : beatsArray.find((b) => b.beatNumber === currentThread.currentBeat)
       : undefined;
 
   const isReadyToGraduate =
@@ -1389,7 +1427,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           )}
                         </div>
                         <p className="text-xs font-medium text-[#007AFF]">
-                          Personal Cell Unlocked • Off-App Blue Bubbles Active
+                          {currentThread.originDoor === 'wild'
+                            ? `Personal Cell Unlocked • ${
+                                getWildMeetCuteSeed(
+                                  currentThread.leadId,
+                                  currentThread.originVenueId,
+                                )?.venueLabel ?? 'Met Out In The Wild'
+                              }`
+                            : 'Personal Cell Unlocked • Off-App Blue Bubbles Active'}
                         </p>
                       </div>
                     </div>

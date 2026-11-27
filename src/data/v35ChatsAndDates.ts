@@ -844,7 +844,7 @@ function buildImessageFollowup(
     {
       beatNumber: 3,
       incomingMessages: [
-        `Just walked past The Marlow Lounge patio on my way home, the string lights look unreal tonight.`,
+        `Just passed a candlelit patio with string lights and good vinyl playing, made me think of Friday.`,
       ],
       choices: [
         {
@@ -869,7 +869,7 @@ function buildImessageFollowup(
     {
       beatNumber: 4,
       incomingMessages: [
-        `Off-app bonus: wardrobe check before tomorrow night.`,
+        `Quick wardrobe check before tomorrow night.`,
       ],
       photoDrop: {
         id: `photo-${name.toLowerCase()}-imessage`,
@@ -906,7 +906,9 @@ function buildImessageFollowup(
       ],
       choices: [
         {
-          text: `Love a man/woman who confirms at noon without prompting, see you tonight!`,
+          text: isHimMatch
+            ? `Love a man who confirms at noon without prompting, see you tonight!`
+            : `Love a woman who locks in Friday with zero ambiguity, see you tonight!`,
           reply: `Wouldn’t dream of leaving Friday up in the air.`,
           delta: 18,
         },
