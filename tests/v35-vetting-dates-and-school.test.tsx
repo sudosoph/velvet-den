@@ -240,9 +240,32 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
     expect(screen.getByText(/6:45 Tokyo Portfolio Alibi Club/i)).toBeTruthy();
   });
 
-  it('defaults CubSchoolView to Headmistress mode for her (Candidate for him), links contextual Amazon fixes, and issues the Certified Housebroken Cub Diploma', () => {
+  it('defaults CubSchoolView to Headmistress mode for her (Candidate for him), gives 12 completely distinct questions per mode, links contextual Amazon fixes, and issues the Certified Housebroken Cub Diploma', async () => {
+    const { V35_CUB_SCHOOL_DRILLS, V35_HEADMISTRESS_DRILLS } = await import(
+      '../src/data/v35CubSchool'
+    );
+    expect(V35_HEADMISTRESS_DRILLS).toHaveLength(12);
+    expect(V35_CUB_SCHOOL_DRILLS).toHaveLength(12);
+    const hmQuestions = new Set(V35_HEADMISTRESS_DRILLS.map((d) => d.punchyQuestion));
+    const candQuestions = new Set(V35_CUB_SCHOOL_DRILLS.map((d) => d.punchyQuestion));
+    expect(hmQuestions.size).toBe(12);
+    expect(candQuestions.size).toBe(12);
+    for (const q of hmQuestions) {
+      expect(candQuestions.has(q)).toBe(false);
+    }
+
     const { rerender } = render(<CubSchoolView role="her" />);
     expect(screen.getAllByText(/Headmistress Grading Mode/i).length).toBeGreaterThanOrEqual(1);
+    const firstHeadmistressQ = screen.getByTestId('cub-school-question').textContent;
+    expect(firstHeadmistressQ).toContain('Unless you prefer splitting since you are a VP');
+
+    // Toggle to Candidate tab and confirm the question swaps immediately to the Candidate deck, then toggle back
+    fireEvent.click(screen.getByRole('button', { name: /^Candidate$/i }));
+    const firstCandidateQ = screen.getByTestId('cub-school-question').textContent;
+    expect(firstCandidateQ).not.toBe(firstHeadmistressQ);
+    expect(firstCandidateQ).toContain('heads to your bathroom');
+    fireEvent.click(screen.getByRole('button', { name: /^Headmistress$/i }));
+    expect(screen.getByTestId('cub-school-question').textContent).toBe(firstHeadmistressQ);
 
     // Contextual Amazon partner fix link opens in _blank via /api/go/ or tagged /dp/
     const fixLink = screen.getByRole('link', { name: /Shop the Fix/i });
@@ -262,5 +285,6 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
 
     rerender(<CubSchoolView role="him" />);
     expect(screen.getAllByText(/Cub Candidate Exam/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByTestId('cub-school-question').textContent).toBe(firstCandidateQ);
   });
 });

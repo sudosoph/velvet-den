@@ -14,7 +14,10 @@ import {
   type PortraitExpression,
   V35_CAST_VISUALS,
 } from '../data/v35AssetManifest';
-import { V35_CUB_SCHOOL_DRILLS } from '../data/v35CubSchool';
+import {
+  V35_CUB_SCHOOL_DRILLS,
+  V35_HEADMISTRESS_DRILLS,
+} from '../data/v35CubSchool';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
 import { sfx } from '../lib/sound';
@@ -63,12 +66,43 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   const bestStars = Math.max(goldStars, initialGoldStars);
   const perkUnlocked = bestStars >= 4;
 
-  const drill = V35_CUB_SCHOOL_DRILLS[drillIdx];
+  const activeDeck =
+    mode === 'headmistress' ? V35_HEADMISTRESS_DRILLS : V35_CUB_SCHOOL_DRILLS;
+  const drill = activeDeck[drillIdx] ?? activeDeck[0];
   const pickedOption = pickedIdx !== null ? drill.options[pickedIdx] : null;
   const activeExpression: PortraitExpression = pickedOption ? pickedOption.expression : 'smirk';
   const preset = EXPRESSION_MOTION_PRESETS[activeExpression];
-  const headmistressPortrait = V35_CAST_VISUALS.elena.primaryPortrait;
-  const candidatePortrait = V35_CAST_VISUALS.soren.primaryPortrait;
+
+  const cubReactionPortraits = [
+    V35_CAST_VISUALS.soren.primaryPortrait,
+    V35_CAST_VISUALS.julian.primaryPortrait,
+    V35_CAST_VISUALS.rory.primaryPortrait,
+    V35_CAST_VISUALS.miles.primaryPortrait,
+    V35_CAST_VISUALS.rafael.primaryPortrait,
+    V35_CAST_VISUALS.marcus.primaryPortrait,
+  ];
+  const headmistressReactionPortraits = [
+    V35_CAST_VISUALS.elena.primaryPortrait,
+    V35_CAST_VISUALS.claire.primaryPortrait,
+    V35_CAST_VISUALS.sienna.primaryPortrait,
+    V35_CAST_VISUALS.vivienne.primaryPortrait,
+    V35_CAST_VISUALS.priya.primaryPortrait,
+    V35_CAST_VISUALS.celeste.primaryPortrait,
+  ];
+  const reactionPortrait =
+    mode === 'headmistress'
+      ? cubReactionPortraits[drillIdx % cubReactionPortraits.length]
+      : headmistressReactionPortraits[drillIdx % headmistressReactionPortraits.length];
+
+  const handleSwitchMode = (nextMode: 'headmistress' | 'candidate') => {
+    if (nextMode === mode) return;
+    setMode(nextMode);
+    setDrillIdx(0);
+    setPickedIdx(null);
+    setGoldStars(0);
+    setResults({});
+    setGraduated(false);
+  };
 
   const fixProduct = getAffiliateById(drill.fixItAffiliateId);
 
@@ -80,14 +114,24 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
             <Award className="h-8 w-8" />
           </div>
           <div className="text-xs font-extrabold uppercase tracking-widest text-amber-900">
-            Cougars & Cubs Academy • Honors Conferral
+            Cougars &amp; Cubs Academy • {mode === 'headmistress' ? 'Headmistress Seal' : 'Honors Conferral'}
           </div>
           <h1 className="font-editorial text-3xl sm:text-4xl font-bold text-[#18101E]">
             📜 Certified Housebroken Cub Diploma
           </h1>
           <p className="text-sm sm:text-base text-stone-700 max-w-lg mx-auto leading-relaxed">
-            Passed with <strong>{goldStars}/12 Gold Stars</strong>. Bathroom Lid Certified,
-            Four-Pillow Approved, Zero Mental-Load Dumping, and Sidewalk Hand-Hold Verified.
+            {mode === 'headmistress' ? (
+              <>
+                Conferred with <strong>{goldStars}/12 Headmistress Gold Stars</strong>. Moochers
+                vetted, midnight crumbs declined, sanctuary keys protected, and Golden Cub devotion
+                welcomed with effortless poise.
+              </>
+            ) : (
+              <>
+                Passed with <strong>{goldStars}/12 Gold Stars</strong>. Bathroom Lid Certified,
+                Four-Pillow Approved, Zero Mental-Load Dumping, and Sidewalk Hand-Hold Verified.
+              </>
+            )}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -188,7 +232,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           <div className="inline-flex rounded-lg bg-zinc-100 p-1">
             <button
               type="button"
-              onClick={() => setMode('headmistress')}
+              onClick={() => handleSwitchMode('headmistress')}
               className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
                 mode === 'headmistress' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
               }`}
@@ -197,7 +241,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setMode('candidate')}
+              onClick={() => handleSwitchMode('candidate')}
               className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
                 mode === 'candidate' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
               }`}
@@ -210,7 +254,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
 
       {/* Visual 12-Step Progress Strip */}
       <div className="flex items-center gap-1.5" aria-label="Drill progress">
-        {V35_CUB_SCHOOL_DRILLS.map((d, i) => {
+        {activeDeck.map((d, i) => {
           const passed = results[i];
           const isCurrent = i === drillIdx;
           return (
@@ -253,7 +297,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           <div className="absolute right-4 bottom-3.5 shrink-0">
             <div className="relative">
               <img
-                src={mode === 'headmistress' ? headmistressPortrait : candidatePortrait}
+                src={reactionPortrait}
                 alt="Academy reaction"
                 className={`h-24 w-20 sm:h-28 sm:w-22 rounded-xl object-cover border-2 border-white/90 shadow-lg ${preset.motionClass}`}
               />
@@ -359,7 +403,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                 <button
                   type="button"
                   onClick={() => {
-                    if (drillIdx + 1 < V35_CUB_SCHOOL_DRILLS.length) {
+                    if (drillIdx + 1 < activeDeck.length) {
                       setDrillIdx(drillIdx + 1);
                       setPickedIdx(null);
                     } else {
@@ -370,7 +414,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                   }}
                   className="shrink-0 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white transition-colors cursor-pointer"
                 >
-                  {drillIdx + 1 < V35_CUB_SCHOOL_DRILLS.length
+                  {drillIdx + 1 < activeDeck.length
                     ? `Next Module (#${drillIdx + 2}) →`
                     : 'Claim Official Diploma →'}
                 </button>
