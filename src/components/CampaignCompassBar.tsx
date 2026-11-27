@@ -1,5 +1,16 @@
-import React from 'react';
-import { ArrowRight, Award, GraduationCap } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  ArrowRight,
+  Award,
+  CheckSquare,
+  Compass,
+  Film,
+  GraduationCap,
+  Heart,
+  Scale,
+  Send,
+  Sparkles,
+} from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
 import { V35_DATE_SCRIPTS, V35_TABLE_9_CONSPIRACY } from '../data/v35ChatsAndDates';
@@ -52,12 +63,14 @@ export function computeCampaignProgress({
   threads,
   cubSchoolStars,
   completedCameoCount,
+  bonusXp = 0,
 }: {
   wallet: WalletState;
   threads: ActiveMatchThread[];
   cubSchoolStars: number;
   completedCameoCount: number;
   role: PlayerRole;
+  bonusXp?: number;
 }): CampaignProgressSummary {
   const graduatedCount = threads.filter((t) => t.stage === 'imessage').length;
   const totalDatesCompleted = threads.reduce((acc, t) => acc + Math.min(3, t.datesCompleted), 0);
@@ -70,7 +83,8 @@ export function computeCampaignProgress({
     sRankCount * 25 +
     wallet.discernmentXp +
     cubSchoolStars * 10 +
-    completedCameoCount * 15;
+    completedCameoCount * 15 +
+    bonusXp;
 
   let currentTier = LEVEL_THRESHOLDS[0];
   for (const tier of LEVEL_THRESHOLDS) {
@@ -173,6 +187,8 @@ interface CampaignCompassBarProps {
   cutLooseIds: string[];
   cubSchoolStars: number;
   completedCameoCount: number;
+  bonusXp?: number;
+  streakDays?: number;
   role: PlayerRole;
   activeTab: ClubTopTab;
   onSwitchRole?: (nextRole: PlayerRole) => void;
@@ -185,6 +201,7 @@ interface CampaignCompassBarProps {
   onOpenGuides?: () => void;
   onOpenCourtroom?: () => void;
   onSendPartnerAudition?: () => void;
+  onOpenPassportModal?: () => void;
   onResetHearts?: () => void;
 }
 
@@ -194,6 +211,8 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   cutLooseIds,
   cubSchoolStars,
   completedCameoCount,
+  bonusXp = 0,
+  streakDays = 1,
   role,
   activeTab,
   onSwitchRole,
@@ -206,8 +225,10 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onOpenGuides,
   onOpenCourtroom,
   onSendPartnerAudition,
+  onOpenPassportModal,
   onResetHearts,
 }) => {
+  const [showModeGrid, setShowModeGrid] = useState(false);
   const activeThreads = threads.filter((t) => !cutLooseIds.includes(t.leadId));
   const summary = computeCampaignProgress({
     wallet,
@@ -215,6 +236,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
     cubSchoolStars,
     completedCameoCount,
     role,
+    bonusXp,
   });
 
   const heartsDisplay =
@@ -225,17 +247,17 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   const isFreshHingeLanding =
     activeThreads.length === 0 && activeTab === 'hinge' && wallet.discernmentXp === 0;
 
-  if (isFreshHingeLanding) {
+  if (isFreshHingeLanding || showModeGrid) {
     return (
       <section
         data-testid="campaign-compass-bar"
         aria-label="Campaign Progress and Next Step"
         className="w-full border-b border-zinc-200 bg-white"
       >
-        <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 sm:py-7">
-          {/* Top Zone: The Main Story Game */}
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl space-y-1.5 sm:space-y-2">
+        <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 sm:py-6 space-y-4">
+          {/* Top Row: Headline + Role Toggle + Always-Visible Level Progress Pill */}
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold uppercase tracking-widest text-rose-600">
                 <span>Older Women × Younger Men</span>
                 <span className="text-zinc-300">•</span>
@@ -246,24 +268,33 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 >
                   {heartsDisplay} 3 Hearts
                 </span>
+                <span className="text-zinc-300">•</span>
+                <button
+                  type="button"
+                  onClick={onOpenPassportModal}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 px-2.5 py-0.5 text-xs font-bold normal-case tracking-normal text-zinc-900 transition-colors cursor-pointer"
+                >
+                  <Award className="h-3.5 w-3.5 text-rose-600" />
+                  <span>
+                    Lv.{summary.level} {summary.levelTitle} ({summary.totalPoints} XP)
+                  </span>
+                </button>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 leading-[1.1]">
-                Lower your age slider.{' '}
-                <span className="text-rose-600">Dodge the red flags.</span>
+
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 leading-tight">
+                Pick how you want to play tonight.{' '}
+                <span className="text-rose-600">Every mode levels up your Club Passport.</span>
               </h2>
-              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-xl">
-                Swipe below or step out In The Wild, spot the traps, graduate real catches to iMessage, and survive three Friday dates.
-              </p>
             </div>
 
-            <div className="flex flex-col items-start lg:items-end gap-2.5 shrink-0">
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
               {onSwitchRole && (
-                <div className="inline-flex rounded-lg bg-zinc-100 p-1">
+                <div className="inline-flex rounded-xl bg-zinc-100 p-1">
                   <button
                     type="button"
                     onClick={() => onSwitchRole('her')}
                     className={cn(
-                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
+                      'rounded-lg px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
                       role === 'her'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -275,7 +306,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     type="button"
                     onClick={() => onSwitchRole('him')}
                     className={cn(
-                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
+                      'rounded-lg px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
                       role === 'him'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -286,75 +317,188 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 </div>
               )}
 
-              <div className="flex flex-wrap items-center gap-2">
+              {showModeGrid && !isFreshHingeLanding && (
+                <button
+                  type="button"
+                  onClick={() => setShowModeGrid(false)}
+                  className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 cursor-pointer"
+                >
+                  Collapse Lobby
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* NYT Games / Arcade-Inspired 4 First-Class Mode Cards */}
+          <div
+            data-testid="club-onboarding-mode-grid"
+            className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            <div className="group flex flex-col justify-between rounded-2xl border-2 border-rose-200 bg-rose-50/40 p-4 transition hover:border-rose-400">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-600 text-white">
+                    <Heart className="h-4 w-4" />
+                  </span>
+                  <span className="rounded-full bg-white px-2.5 py-0.5 text-[11px] font-bold text-rose-700 border border-rose-200">
+                    22 Singles • +35 XP
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-zinc-950">1. Swipe &amp; Date Game</h3>
+                <p className="text-xs text-zinc-600 leading-snug">
+                  Match on Hinge or approach offline at 10 Wild Hotspots, block disguised traps, and survive 3 dates.
+                </p>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-1.5">
                 <a
                   href="#hinge-stage"
-                  className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-sm font-semibold text-white shadow-xs transition-colors"
+                  onClick={() => setShowModeGrid(false)}
+                  className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-rose-600 hover:bg-rose-700 px-3 text-xs font-bold text-white transition-colors"
                 >
-                  <span>Start Swiping ↓</span>
+                  <span>Swipe Hinge ↓</span>
                 </a>
                 <button
                   type="button"
-                  onClick={onOpenWildMap}
-                  className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-semibold text-zinc-900 transition-colors cursor-pointer"
+                  onClick={() => {
+                    setShowModeGrid(false);
+                    onOpenWildMap();
+                  }}
+                  className="inline-flex h-8 items-center justify-center gap-1 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 px-2.5 text-xs font-bold text-zinc-900 cursor-pointer"
                 >
+                  <Compass className="h-3.5 w-3.5 text-rose-600" />
                   <span>10 Wild Spots</span>
-                  <ArrowRight className="h-3.5 w-3.5 text-zinc-400" />
                 </button>
+              </div>
+            </div>
+
+            {onOpenChecklist && (
+              <button
+                type="button"
+                onClick={() => {
+                  setShowModeGrid(false);
+                  onOpenChecklist();
+                }}
+                className="group flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white hover:border-zinc-900 p-4 text-left transition cursor-pointer"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-900">
+                      <CheckSquare className="h-4 w-4" />
+                    </span>
+                    <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-800">
+                      0-100 Score • +20 XP
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-zinc-950">
+                    2. &ldquo;Have You Ever?&rdquo; Checklist
+                  </h3>
+                  <p className="text-xs text-zinc-600 leading-snug">
+                    Cougars Only, Cubs Only, and Couples Date-Night editions with full score diagnostic.
+                  </p>
+                </div>
+                <span className="mt-3 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-zinc-950 group-hover:bg-rose-600 px-3 text-xs font-bold text-white transition-colors">
+                  <span>Take 3-Way Checklist</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </button>
+            )}
+
+            {onOpenPopTrivia && (
+              <button
+                type="button"
+                onClick={() => {
+                  setShowModeGrid(false);
+                  onOpenPopTrivia();
+                }}
+                className="group flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white hover:border-zinc-900 p-4 text-left transition cursor-pointer"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-sky-100 text-sky-900">
+                      <Film className="h-4 w-4" />
+                    </span>
+                    <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-800">
+                      Easy / Hard • +20 XP
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-zinc-950">3. Pop-Culture Trivia</h3>
+                  <p className="text-xs text-zinc-600 leading-snug">
+                    8-question sprints across Movies, TV Shows, Books, Music &amp; Iconic Couples.
+                  </p>
+                </div>
+                <span className="mt-3 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-zinc-950 group-hover:bg-rose-600 px-3 text-xs font-bold text-white transition-colors">
+                  <span>Pick Trivia Category</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </button>
+            )}
+
+            <div className="flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white hover:border-zinc-400 p-4 transition">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-900">
+                    <GraduationCap className="h-4 w-4" />
+                  </span>
+                  <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">
+                    +8% Spark Perk
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-zinc-950">4. School &amp; Courtroom</h3>
+                <p className="text-xs text-zinc-600 leading-snug">
+                  Train rookie Cubs in Obedience School or vote Today’s Crown-or-Dump case.
+                </p>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModeGrid(false);
+                    onOpenCubSchool();
+                  }}
+                  className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 px-2.5 text-xs font-bold text-white cursor-pointer"
+                >
+                  <span>Cub School</span>
+                </button>
+                {onOpenCourtroom && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowModeGrid(false);
+                      onOpenCourtroom();
+                    }}
+                    className="inline-flex h-8 items-center justify-center gap-1 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 px-2.5 text-xs font-bold text-rose-600 cursor-pointer"
+                  >
+                    <Scale className="h-3.5 w-3.5" />
+                    <span>Daily Court</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Bottom Zone: Distinct Quick Party Quizzes, Daily Drop & Partner Audition */}
-          {(onOpenPopTrivia || onOpenChecklist || onOpenGuides || onOpenCourtroom || onSendPartnerAudition) && (
-            <div className="mt-4 pt-3.5 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
-                60-Sec Party Quizzes &amp; Daily Drop
-              </span>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 font-semibold">
-                {onOpenCourtroom && (
-                  <button
-                    type="button"
-                    onClick={onOpenCourtroom}
-                    className="text-rose-600 hover:text-rose-700 transition-colors cursor-pointer"
-                  >
-                    ⚖️ Daily Crown-or-Dump →
-                  </button>
-                )}
-                {onOpenChecklist && (
-                  <button
-                    type="button"
-                    onClick={onOpenChecklist}
-                    className="text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
-                  >
-                    ✅ 3-Tier &ldquo;Have You Ever?&rdquo; Test →
-                  </button>
-                )}
-                {onOpenPopTrivia && (
-                  <button
-                    type="button"
-                    onClick={onOpenPopTrivia}
-                    className="text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
-                  >
-                    🎬 Pop-Culture Quiz →
-                  </button>
-                )}
+          {/* Quick Couples / Astro / Guides Utility Strip */}
+          {(onSendPartnerAudition || onOpenGuides) && (
+            <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-zinc-600">
+              <span>🔥 {streakDays}-Day Club Streak Active • Tap any mode to earn Passport XP</span>
+              <div className="flex flex-wrap items-center gap-4">
                 {onSendPartnerAudition && (
                   <button
                     type="button"
                     onClick={onSendPartnerAudition}
-                    className="text-zinc-700 hover:text-rose-600 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
                   >
-                    💌 60s Partner Audition →
+                    <Send className="h-3.5 w-3.5 text-rose-600" />
+                    <span>Send 60s Partner Audition →</span>
                   </button>
                 )}
                 {onOpenGuides && (
                   <button
                     type="button"
                     onClick={onOpenGuides}
-                    className="text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 text-zinc-700 hover:text-rose-600 transition-colors cursor-pointer"
                   >
-                    🔮 Zodiac &amp; 16 Guides →
+                    <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                    <span>Quick Astro Pairing &amp; Photo Listicles →</span>
                   </button>
                 )}
               </div>
@@ -381,14 +525,32 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
       className="w-full border-b border-zinc-200 bg-white"
     >
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
-        {/* Left: Clean Progress Summary */}
-        <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-zinc-600">
-          <div className="inline-flex items-center gap-1.5 font-semibold text-zinc-950 whitespace-nowrap">
+        {/* Left: Clean Progress Summary + Visible XP Progress Bar */}
+        <div className="flex flex-wrap items-center gap-3.5 text-xs font-medium text-zinc-600">
+          <button
+            type="button"
+            onClick={onOpenPassportModal}
+            className="inline-flex items-center gap-2 font-semibold text-zinc-950 whitespace-nowrap hover:text-rose-600 transition-colors cursor-pointer"
+          >
             <Award className="h-3.5 w-3.5 text-rose-600 shrink-0" />
             <span>
-              Lv.{summary.level} • {summary.levelTitle}
+              Lv.{summary.level} • {summary.levelTitle} ({summary.totalPoints} XP)
             </span>
-          </div>
+            <span className="hidden sm:inline-block h-2 w-16 overflow-hidden rounded-full bg-zinc-200">
+              <span
+                className="block h-full rounded-full bg-rose-600 transition-all duration-300"
+                style={{ width: `${summary.progressPercent}%` }}
+              />
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowModeGrid(true)}
+            className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-700 cursor-pointer"
+          >
+            All 4 Game Modes
+          </button>
 
           <div
             data-testid="hud-friday-hearts"

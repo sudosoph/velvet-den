@@ -2103,6 +2103,16 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
       'Courteney Cox’s beloved sitcom started as a 40s post-divorce dating comedy before evolving into the ultimate Cul-de-Sac hangout, immortalizing "Big Carl" (her bathtub-sized red wine glass), Penny Can, and shameless 40s fun.',
     signatureTell: 'Pours half a bottle of Cabernet into one glass and calls it "just one glass."',
   },
+  {
+    id: 'pop_nicole_kim_hamilton',
+    label: 'Nicole Scherzinger, Kim K & The F1 / Athlete Cub Era',
+    ageRange: '4-to-13 Yr Gaps • Red-Carpet & Paddock Icons',
+    category: 'pop_culture',
+    headline: 'From Paddock Sparks & Rugby Pros to Super Bowl LX',
+    insiderLore:
+      'Tony-winning "Sunset Blvd." powerhouse Nicole Scherzinger wrote the athlete-cub playbook alongside Lewis Hamilton, tennis star Grigor Dimitrov, and Scottish rugby fiance Thom Evans, right before Kim Kardashian (45) and Sir Lewis Hamilton (41) broke the internet from the Cotswolds to Super Bowl LX in 2026.',
+    signatureTell: 'Front-row paddock sunglasses, Broadway standing ovations, and zero apologies.',
+  },
 ];
 
 const DELIGHT_DETAILS: Record<string, { idealSunday: string; softSpot: string; extraInterests?: string[] }> = {

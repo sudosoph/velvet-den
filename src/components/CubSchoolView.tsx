@@ -20,8 +20,10 @@ import {
 } from '../data/v35CubSchool';
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
+import { awardPassportBonusXp, emitXpBurst } from '../lib/gamification';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
+import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
 
 export interface CubSchoolViewProps {
   role: 'her' | 'him';
@@ -195,6 +197,12 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
               <span>Support This Project</span>
             </a>
           </div>
+
+          <div className="text-left pt-2">
+            <CrowdsourceSubmissionBar
+              surface={mode === 'headmistress' ? 'cub_school_her' : 'cub_school_him'}
+            />
+          </div>
         </section>
       </div>
     );
@@ -252,11 +260,6 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
             </div>
           </div>
         </div>
-        <p className="text-xs text-zinc-500">
-          {mode === 'headmistress'
-            ? 'Headmistress Desk: Grade 12 real-life moocher tells, midnight crumbs, and coachable Golden-Cub moments.'
-            : 'Candidate Exam: Pass 12 unwritten laws of courting an accomplished woman without rookie fumbles.'}
-        </p>
       </div>
 
       {/* Visual 12-Step Progress Strip */}
@@ -345,6 +348,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                       const nextStars = goldStars + 1;
                       setGoldStars(nextStars);
                       onUpdateGoldStars?.(Math.max(initialGoldStars, nextStars));
+                      emitXpBurst(10, 'Gold Star Ruling!', '⭐ +10 XP');
                     } else {
                       sfx.redFlag();
                     }
@@ -417,6 +421,12 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                       sfx.victoryFanfare();
                       setGraduated(true);
                       onEarnDiploma?.();
+                      awardPassportBonusXp(
+                        `cub_school_diploma_${mode}`,
+                        30,
+                        'Academy Diploma Conferred!',
+                        '🎓 +30 XP',
+                      );
                     }
                   }}
                   className="shrink-0 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white transition-colors cursor-pointer"
@@ -468,6 +478,12 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           )}
         </div>
       </section>
+
+      {/* Front-and-Center Role-Specific Scenario Submission */}
+      <CrowdsourceSubmissionBar
+        surface={mode === 'headmistress' ? 'cub_school_her' : 'cub_school_him'}
+        compact
+      />
     </div>
   );
 };

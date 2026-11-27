@@ -480,72 +480,72 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
 
   const bespokeBeat1OpenerById: Record<string, string> = {
     soren:
-      'Rarely open this app after clay-court mornings, yet your profile stopped me cold. Tell me you despise overhead restaurant lighting as much as I do.',
+      'Rarely check notifications on here, glad I looked tonight. You seem delightfully allergic to small talk.',
     miles:
-      'Still smiling from our Terminal B curbside handoff, my calendar is cleared for Friday at 8:15 so you don’t have to make a single decision.',
+      'Good to match with you. Tell me your week is winding down somewhere quieter than rush-hour traffic.',
     rafael:
-      'Just brushed the walnut sawdust off my sleeves in Silver Lake, still thinking about spinning you under those courtyard string lights.',
+      'You have dangerously good timing, I was about ten seconds from closing this app for the night. How’s your week treating you?',
     marcus:
-      'Off a quiet morning swim after shift at Station 14, your directness already lowered my resting heart rate to forty-six.',
+      'Well, that beat ninety-nine percent of my inbox right out of the gate. Hope your week hasn’t been too chaotic.',
     elena:
-      'Grades are officially posted and my office door is locked, congratulations on writing an actual complete sentence without a seminar cliché.',
+      'A complete sentence with actual wit attached. Careful, you are going to spoil my low expectations of this app.',
     claire:
-      'Ninety seconds between board calls on the 34th floor, and your note actually made me laugh out loud. Good start.',
+      'Long day, short fuse for bad openers, and yours actually made me laugh. Good start.',
     sienna:
-      'Taking five minutes in the olive-tree courtyard with fabric samples, love that you didn’t open with a generic "hey."',
+      'Love that you skipped the polite small-talk script. What’s been the best part of your week so far?',
     priya:
-      'Just clocked off three twelve-hour trauma nights with a cardamom cold brew, your message beat hospital coffee by a mile.',
+      'Finally, someone on this app with actual comedic timing. Tell me you’re just as quick in person.',
     summer:
-      'Wrapped my last Malibu consult before sunset, bonus points right away if you remembered mineral SPF 50 on your neck today.',
+      'Okay, points right away for writing a real sentence instead of "hey trouble." How’s your week looking?',
     celeste:
-      'Sipping an icy Gibson on the sculpture terrace before collectors arrive, and your note actually had posture. Rare on here.',
+      'Well, someone actually knows how to start a conversation properly. Pleasure to meet you.',
     astrid:
-      'Just stepped out of the cedar sauna after three minutes in the Pacific. Skipping small talk is already working in your favor.',
+      'No small talk, clean delivery. You are already ahead of most of Los Angeles.',
     camila:
-      'Sixty covers just cleared my wood-fired pass and I finally poured a splash of Rioja. Best timing in my inbox all night.',
+      'Pouring a late glass of red and your note genuinely made me smile. How is your night going?',
     vivienne:
-      'Between screening notes from Paris and questionable California espresso, your message was the first charming line I’ve read today.',
+      'Charming and concise. You already outclassed every man who opened with "how was your weekend" today.',
     rory:
-      'Just rinsed the trail mud off my boots in Topanga and grinned like an idiot reading your note. Proper highlight of my afternoon.',
+      'Alright, full confession, I grinned at my phone in public reading that x How is your week going so far?',
     jin:
-      'Hanging 35mm contact sheets to dry in the darkroom and your prompt reply stopped me mid-frame. Zero notes.',
+      'okay wait, an actual human prompt reply instead of a waving emoji. highlight of my afternoon honestly.',
     liam:
-      'Just came down off a cedar ridge beam in Ojai and saw your message. Worth climbing down the ladder early.',
+      'Glad we matched. Always refreshing when someone on here actually sounds like themselves.',
   };
 
   const bespokeBeat2IncomingById: Record<string, string> = {
     soren:
-      'Quick personality check before anything else: are you secretly competitive at games, or do you pretend to play "just for fun"?',
+      'Quick personality check before anything else: are you secretly ruthless at games, or do you pretend to play "just for fun"?',
     miles:
-      'Be honest, what is the fastest way someone on this app accidentally bores you to tears?',
+      'Be honest with me: what is the fastest way a first date accidentally bores you to tears?',
     rafael:
-      'Quick musical litmus test: what record goes on in your living room when you finally close your laptop for the week?',
+      'Quick question while we’re talking: are you a stay-out-late person on Fridays, or a slow-dinner-and-good-music person?',
     marcus:
-      'Tell me one unpopular food or travel opinion you refuse to back down on. I want to see your ruthless side.',
+      'Tell me one unpopular food or movie opinion you refuse to back down on. I want to hear your honest side.',
     elena:
-      'Quick litmus test: if my seminar day runs silent until six and I reply "Sounds good." with a period, do you panic or hold steady?',
+      'Fair litmus test: if my day runs busy until six and I reply "Sounds good." with a period, do you spiral or hold steady?',
     claire:
       'Be honest: what is the boldest spontaneous decision you’ve made this year outside of work?',
     sienna:
-      'Quick aesthetic test: dim candlelit wine bar with vinyl, or chaotic trendy hotspot where everyone yells?',
+      'Quick vibe check: dim candlelit wine bar where we can actually hear each other, or chaotic trendy hotspot?',
     priya:
-      'Quick shift-worker check: when blackout curtains are drawn until 2 PM after nights, do you guard the peace or blow up my phone?',
+      'Honest question: after a marathon workweek, do you want someone to vent with or someone to distract you completely?',
     summer:
-      'Playful question first: what’s one harmless guilty pleasure you’d never put on a serious resume?',
+      'Playful question first: what’s one harmless guilty pleasure your friends tease you about?',
     celeste:
-      'Quick litmus test, darling: Chet Baker on vinyl with the convertible top down, or loud rooftop DJs where nobody can hear a sentence?',
+      'Tell me one thing right away: do you actually arrive on time for dinner, or blame Westside traffic?',
     astrid:
-      'Honest Swedish question: can you sit through five minutes of ocean sunset without reaching for your phone?',
+      'Honest question: can you sit through ten quiet minutes watching the ocean without reaching for your phone?',
     camila:
-      'Crucial chef question: do you actually eat warm sourdough with olive oil, or are you going to count macros across from me?',
+      'Crucial dinner check: are you adventurous with ordering for the table, or strictly a safe-menu person?',
     vivienne:
-      'One ground rule before we flirt properly: utter the words "for your age" and you walk home from the bistro. Deal?',
+      'One ground rule before we flirt properly: utter the words "for your age" and you walk home from dinner. Deal?',
     rory:
-      'Be honest with me: if I bake warm berry crumble from scratch, does that forgive five minutes of nervous British blushing?',
+      'Be honest with me: does a London accent earn me five minutes of grace if I talk slightly too fast at first? x',
     jin:
-      'Quick check before I book Little Tokyo: twelve-seat vinyl listening bar with phones zipped away, or loud influencer brunch?',
+      'quick check before the weekend: quiet neighborhood bar with phones put away, or loud crowded lounge?',
     liam:
-      'Fair question before Friday: sunset trout over oak embers on the deck, or dressing up for a quiet corner booth in town?',
+      'Fair question before Friday: dressed-up corner table in town, or low-key drinks somewhere with a view?',
   };
 
   // Clean role-accurate 6-beat arc for all other Genuine Main Leads & Cameos

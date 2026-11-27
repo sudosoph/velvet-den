@@ -7,13 +7,17 @@ import {
   BoutiqueAndVipModal,
   type BoutiqueSectionTab,
 } from './components/BoutiqueAndVipModal';
-import { CampaignCompassBar } from './components/CampaignCompassBar';
+import {
+  CampaignCompassBar,
+  computeCampaignProgress,
+} from './components/CampaignCompassBar';
 import {
   type ActiveMatchThread,
   ChatsAndDatesView,
   createInitialThread,
 } from './components/ChatsAndDatesView';
 import { ClubCourtroomView } from './components/ClubCourtroomView';
+import { ClubPassportOverlay } from './components/ClubPassportOverlay';
 import { CougarCubChecklistModal } from './components/CougarCubChecklistModal';
 import { CubSchoolView } from './components/CubSchoolView';
 import { DateodexModal } from './components/DateodexModal';
@@ -57,6 +61,12 @@ import {
 } from './domain/economy';
 import type { PlayerRole } from './domain/taxonomy';
 import { trackEvent } from './lib/analytics';
+import {
+  emitXpBurst,
+  loadPassportMeta,
+  resolvePassportLevel,
+  XP_BURST_EVENT,
+} from './lib/gamification';
 import {
   decodeChallengeParam,
   encodeChallengeLink,
@@ -346,6 +356,36 @@ export default function App() {
   });
   const [popTriviaOpen, setPopTriviaOpen] = useState(initialUrl.openQuiz);
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
+  const [passportModalOpen, setPassportModalOpen] = useState(false);
+  const [passportMeta, setPassportMeta] = useState(() => loadPassportMeta());
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const syncMeta = () => setPassportMeta(loadPassportMeta());
+    window.addEventListener(XP_BURST_EVENT, syncMeta);
+    return () => window.removeEventListener(XP_BURST_EVENT, syncMeta);
+  }, []);
+
+  const activeVisibleThreads = useMemo(
+    () => threads.filter((t) => !cutLooseIds.includes(t.leadId)),
+    [threads, cutLooseIds],
+  );
+  const campaignSummary = useMemo(
+    () =>
+      computeCampaignProgress({
+        wallet,
+        threads: activeVisibleThreads,
+        cubSchoolStars,
+        completedCameoCount: completedCameoVenues.length,
+        role,
+        bonusXp: passportMeta.bonusXp,
+      }),
+    [wallet, activeVisibleThreads, cubSchoolStars, completedCameoVenues.length, role, passportMeta.bonusXp],
+  );
+  const passportResolved = useMemo(
+    () => resolvePassportLevel(campaignSummary.totalPoints),
+    [campaignSummary.totalPoints],
+  );
 
   const [founderModalOpen, setFounderModalOpen] = useState(false);
   const [founderPassInput, setFounderPassInput] = useState('');
@@ -681,6 +721,10 @@ export default function App() {
         wallet={wallet}
         activeTab={activeTab}
         activeChatCount={threads.length}
+        passportLevel={passportResolved.spec.level}
+        passportXp={campaignSummary.totalPoints}
+        passportStreak={passportMeta.streakDays}
+        onOpenPassportModal={() => setPassportModalOpen(true)}
         onSelectTab={(tab) => {
           setActiveChallenge(null);
           setActiveTab(tab);
@@ -765,9 +809,12 @@ export default function App() {
             cutLooseIds={cutLooseIds}
             cubSchoolStars={cubSchoolStars}
             completedCameoCount={completedCameoVenues.length}
+            bonusXp={passportMeta.bonusXp}
+            streakDays={passportMeta.streakDays}
             role={role}
             activeTab={activeTab}
             onSwitchRole={(nextRole) => setRole(nextRole)}
+            onOpenPassportModal={() => setPassportModalOpen(true)}
             onNavigateStep={(step) => {
               if (step.leadId) setSelectedChatLeadId(step.leadId);
               setOpenConspiracyDirectly(Boolean(step.openConspiracy));
@@ -961,6 +1008,7 @@ export default function App() {
             }}
             onCutLooseTrap={(leadId, clueId) => {
               updateWallet(recordBulletDodged(wallet, leadId, clueId));
+              emitXpBurst(25, 'Trap Blocked!', '🚫 DODGED');
               setCutLooseIds((prev) => (prev.includes(leadId) ? prev : [...prev, leadId]));
               setThreads((prev) => prev.filter((t) => t.leadId !== leadId));
               setDateodex((prev) =>
@@ -1454,6 +1502,20 @@ export default function App() {
             }).catch(() => {});
           }
           return false;
+        }}
+      />
+      <ClubPassportOverlay
+        totalXp={campaignSummary.totalPoints}
+        streakDays={passportMeta.streakDays}
+        etiquetteBonusActive={cubSchoolStars >= 4}
+        datesCompleted={campaignSummary.totalDatesCompleted}
+        trapsDodged={cutLooseIds.length}
+        passportModalOpen={passportModalOpen}
+        onClosePassportModal={() => setPassportModalOpen(false)}
+        onJumpToMode={(mode) => {
+          if (mode === 'checklist') setChecklistOpen(true);
+          else if (mode === 'trivia') setPopTriviaOpen(true);
+          else setActiveTab(mode);
         }}
       />
     </div>

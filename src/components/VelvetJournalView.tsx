@@ -20,6 +20,7 @@ import {
 } from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
 import { sfx } from '../lib/sound';
+import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
 import { ProductVisualThumbnail } from './ProductVisualThumbnail';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
@@ -50,9 +51,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Bold trailblazer who loves directness & spontaneous weekend escapes',
     himVibe: 'Protective initiator who books Friday dinner in 90 seconds flat',
     herAvatar: './images/cast/astrid-41f.jpg',
-    herCastName: 'Astrid Energy',
+    herCastName: 'Bold Trailblazer',
     himAvatar: './images/cast/marcus-26m.jpg',
-    himCastName: 'Marcus Energy',
+    himCastName: 'Fast Initiator',
   },
   {
     id: 'taurus',
@@ -62,9 +63,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Sensory-luxury queen who clocks thread counts, Sancerre & slow touch',
     himVibe: 'Steady linen-apron chef who cooks from scratch & never rushes her pace',
     herAvatar: './images/cast/sienna-38f.jpg',
-    herCastName: 'Sienna Energy',
+    herCastName: 'Sensory Luxe',
     himAvatar: './images/cast/rafael-hot-26m.jpg',
-    himCastName: 'Rafael Energy',
+    himCastName: 'Linen-Apron Chef',
   },
   {
     id: 'gemini',
@@ -74,9 +75,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Quick-witted conversationalist who needs sharp banter before appetizers',
     himVibe: 'Charming storyteller who keeps every museum walk unpredictable',
     herAvatar: './images/cast/elena-prof-44f.jpg',
-    herCastName: 'Elena Energy',
+    herCastName: 'Razor Banter',
     himAvatar: './images/cast/rory-24m.jpg',
-    himCastName: 'Rory Energy',
+    himCastName: 'Witty Raconteur',
   },
   {
     id: 'cancer',
@@ -86,9 +87,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Warm sanctuary builder with soft intuition & fierce inner-circle loyalty',
     himVibe: 'Devoted caretaker who remembers her exact morning coffee & shift hours',
     herAvatar: './images/cast/camila-39f.jpg',
-    herCastName: 'Camila Energy',
+    herCastName: 'Warm Sanctuary',
     himAvatar: './images/cast/liam-28m.jpg',
-    himCastName: 'Liam Energy',
+    himCastName: 'Devoted Keeper',
   },
   {
     id: 'leo',
@@ -100,7 +101,7 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herAvatar: './images/cast/brooke-glam-42f.jpg',
     herCastName: 'Main-Character Glow',
     himAvatar: './images/cast/rafael-2.jpg',
-    himCastName: 'Ballroom Lead',
+    himCastName: 'Proud Plus-One',
   },
   {
     id: 'virgo',
@@ -110,9 +111,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Selective Black-Cat perfectionist who notices spotless counters instantly',
     himVibe: 'Observant Acts-of-Service pro with crisp linens & 62°F sleep precision',
     herAvatar: './images/cast/claire-2.jpg',
-    herCastName: 'Executive Precision',
+    herCastName: 'Selective Poise',
     himAvatar: './images/cast/soren-26m.jpg',
-    himCastName: 'Søren Energy',
+    himCastName: 'Precision Host',
   },
   {
     id: 'libra',
@@ -122,9 +123,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Effortless Princess-Cougar aesthete drawn to candlelit booths & peonies',
     himVibe: 'Tailored old-soul gentleman with car-door manners & gallery wit',
     herAvatar: './images/cast/celeste-2.jpg',
-    herCastName: 'Celeste Energy',
+    herCastName: 'Candlelit Aesthete',
     himAvatar: './images/cast/julian-27m.jpg',
-    himCastName: 'Julian Energy',
+    himCastName: 'Old-Soul Charmer',
   },
   {
     id: 'scorpio',
@@ -134,9 +135,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Magnetic slow-burn powerhouse who sees straight through fake flexing',
     himVibe: 'Locked-in Cub who worships privacy, eye contact & earned trust',
     herAvatar: './images/cast/claire-45f.jpg',
-    herCastName: 'Claire Energy',
+    herCastName: 'Slow-Burn Magnet',
     himAvatar: './images/cast/jin-25m.jpg',
-    himCastName: 'Jin Energy',
+    himCastName: 'Locked-In Focus',
   },
   {
     id: 'sagittarius',
@@ -148,7 +149,7 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herAvatar: './images/cast/elena-6.jpg',
     herCastName: 'Highway 1 Rebel',
     himAvatar: './images/cast/marcus-2.jpg',
-    himCastName: 'Ocean Co-Pilot',
+    himCastName: 'Weekend Co-Pilot',
   },
   {
     id: 'capricorn',
@@ -158,9 +159,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Corner-office closer who craves turning her decision brain off at 7:30 PM',
     himVibe: 'Composed "Cub Daddy" planner with grown-man follow-through beyond his years',
     herAvatar: './images/cast/claire-3.jpg',
-    herCastName: '34th-Floor Closer',
+    herCastName: 'Executive Closer',
     himAvatar: './images/cast/miles-zaddy-31m.jpg',
-    himCastName: 'Miles Energy',
+    himCastName: 'Steady Anchor',
   },
   {
     id: 'aquarius',
@@ -170,9 +171,9 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Unbothered rule-breaker who laughs at every outdated age-gap cliché',
     himVibe: 'Indie creative thinker who loves her mind first & respects her solo space',
     herAvatar: './images/cast/celeste-62f.jpg',
-    herCastName: 'Silver Icon Poise',
+    herCastName: 'Unbothered Icon',
     himAvatar: './images/cast/jin-2.jpg',
-    himCastName: 'Studio Creative',
+    himCastName: 'Indie Creative',
   },
   {
     id: 'pisces',
@@ -182,7 +183,7 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     herVibe: 'Affectionate romantic who melts for handwritten notes & rainy vinyl mornings',
     himVibe: 'Emotionally fluent sweetheart with 100% phone-down presence after dark',
     herAvatar: './images/cast/sienna-2.jpg',
-    herCastName: 'Courtyard Romantic',
+    herCastName: 'Velvet Romantic',
     himAvatar: './images/cast/julian-2.jpg',
     himCastName: 'Poetic Old Soul',
   },
@@ -930,15 +931,12 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
         <div className="space-y-4 border-b border-zinc-200 pb-5">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-1 max-w-3xl">
-              <span className="text-xs font-medium text-zinc-500">
-                Club Magazine • 16 Illustrated Guides, Polls &amp; 12×12 Astro Matcher
+              <span className="text-xs font-medium text-rose-600">
+                Club Magazine • 16 Photo Listicles &amp; Live Quick Astro Matcher
               </span>
               <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950">
-                Insider Guides, Community Receipts &amp; Star-Sign Matcher
+                Playful Photo Guides &amp; Star-Sign Chemistry
               </h1>
-              <p className="text-xs text-zinc-600 leading-relaxed">
-                {AFFILIATE_SUPPORT_COPY.fullBanner}
-              </p>
             </div>
 
             <div className="flex flex-wrap gap-2 shrink-0">
@@ -1004,6 +1002,205 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
           </div>
         </div>
 
+        {/* Pinned Quick Astro Pairing Toy: Always Accessible Right at the Top of Club Magazine */}
+        <section
+          className="rounded-2xl border border-rose-200 bg-gradient-to-br from-[#FFFDF9] via-rose-50/40 to-amber-50/40 p-4 sm:p-5 space-y-4 shadow-2xs"
+          data-testid="zodiac-12x12-matcher"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-950">
+                <Sparkles className="h-3.5 w-3.5 text-rose-600" /> Quick Astro Pairing
+              </span>
+              <h2 className="font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
+                🔮 {herSign.symbol} {herSign.label} Her × {himSign.symbol} {himSign.label} Cub
+              </h2>
+              <span className="rounded-full bg-gradient-to-r from-rose-600 to-amber-500 px-3 py-0.5 text-xs font-extrabold text-white">
+                💘 {zodiacMatch.rating}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={handleShareZodiac}
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-3.5 py-1.5 text-xs font-extrabold text-white hover:bg-stone-800 cursor-pointer"
+            >
+              <Share2 className="h-3.5 w-3.5 text-amber-300" />
+              <span>Share Astro Card</span>
+            </button>
+          </div>
+
+          {/* 1-Tap Sign Pickers */}
+          <div className="grid gap-3 lg:grid-cols-2">
+            <div className="rounded-xl border border-rose-200/80 bg-white p-3 space-y-2">
+              <label className="flex items-center justify-between gap-2">
+                <span className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
+                  🐆 Her Star Sign
+                </span>
+                <select
+                  aria-label="Her Star Sign"
+                  value={herSignId}
+                  onChange={(e) => {
+                    sfx.messagePop();
+                    setHerSignId(e.target.value);
+                  }}
+                  className="rounded-lg border border-zinc-300 bg-zinc-50 px-2 py-1 text-xs font-bold text-zinc-950"
+                >
+                  {ZODIAC_SIGNS.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.symbol} {s.label} ({s.element})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className="grid grid-cols-6 gap-1">
+                {ZODIAC_SIGNS.map((s) => {
+                  const activeChip = s.id === herSignId;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      data-testid={`her-sign-chip-${s.id}`}
+                      onClick={() => {
+                        sfx.messagePop();
+                        setHerSignId(s.id);
+                      }}
+                      className={`flex flex-col items-center justify-center rounded-lg border py-1 px-1 text-[11px] font-semibold transition cursor-pointer ${
+                        activeChip
+                          ? 'border-rose-600 bg-rose-600 text-white'
+                          : 'border-zinc-200 bg-zinc-50/70 text-zinc-900 hover:border-rose-300'
+                      }`}
+                    >
+                      <span className="text-xs leading-none">{s.symbol}</span>
+                      <span className="mt-0.5 truncate max-w-full">{s.label.slice(0, 3)}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-zinc-200 bg-white p-3 space-y-2">
+              <label className="flex items-center justify-between gap-2">
+                <span className="text-xs font-extrabold uppercase tracking-wide text-zinc-950">
+                  🐕 His Star Sign
+                </span>
+                <select
+                  aria-label="His Star Sign"
+                  value={himSignId}
+                  onChange={(e) => {
+                    sfx.messagePop();
+                    setHimSignId(e.target.value);
+                  }}
+                  className="rounded-lg border border-zinc-300 bg-zinc-50 px-2 py-1 text-xs font-bold text-zinc-950"
+                >
+                  {ZODIAC_SIGNS.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.symbol} {s.label} ({s.element})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className="grid grid-cols-6 gap-1">
+                {ZODIAC_SIGNS.map((s) => {
+                  const activeChip = s.id === himSignId;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      data-testid={`him-sign-chip-${s.id}`}
+                      onClick={() => {
+                        sfx.messagePop();
+                        setHimSignId(s.id);
+                      }}
+                      className={`flex flex-col items-center justify-center rounded-lg border py-1 px-1 text-[11px] font-semibold transition cursor-pointer ${
+                        activeChip
+                          ? 'border-zinc-950 bg-zinc-950 text-white'
+                          : 'border-zinc-200 bg-zinc-50/70 text-zinc-900 hover:border-zinc-400'
+                      }`}
+                    >
+                      <span className="text-xs leading-none">{s.symbol}</span>
+                      <span className="mt-0.5 truncate max-w-full">{s.label.slice(0, 3)}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Crisp Visual Polarity Readout + 4 Compatibility Meters */}
+          <div className="grid gap-3 lg:grid-cols-[1.2fr_1fr] items-stretch">
+            <div className="grid gap-2.5 sm:grid-cols-3 items-stretch">
+              <div className="flex items-center gap-2.5 rounded-xl border border-rose-100 bg-white p-2.5">
+                <img
+                  src={herSign.herAvatar}
+                  alt={`${herSign.label} Her vibe`}
+                  className="h-12 w-12 shrink-0 rounded-xl object-cover object-top border border-rose-200"
+                />
+                <div className="min-w-0 space-y-0.5">
+                  <span
+                    className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-extrabold ${ELEMENT_BADGE_STYLE[herSign.element]}`}
+                  >
+                    {herSign.symbol} {herSign.herCastName}
+                  </span>
+                  <p className="text-[11px] font-medium text-zinc-700 leading-snug line-clamp-2">
+                    {herSign.herVibe}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 rounded-xl border border-stone-200 bg-white p-2.5">
+                <img
+                  src={himSign.himAvatar}
+                  alt={`${himSign.label} Cub vibe`}
+                  className="h-12 w-12 shrink-0 rounded-xl object-cover object-top border border-stone-300"
+                />
+                <div className="min-w-0 space-y-0.5">
+                  <span
+                    className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-extrabold ${ELEMENT_BADGE_STYLE[himSign.element]}`}
+                  >
+                    {himSign.symbol} {himSign.himCastName}
+                  </span>
+                  <p className="text-[11px] font-medium text-zinc-700 leading-snug line-clamp-2">
+                    {himSign.himVibe}
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative overflow-hidden rounded-xl border border-amber-200 min-h-[76px]">
+                <img
+                  src={zodiacMatch.scenePhoto}
+                  alt="Ideal date setting"
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/85 via-[#18101E]/25 to-transparent flex items-end p-2.5">
+                  <p className="text-[11px] font-bold text-white leading-snug">
+                    {zodiacMatch.dateIdea}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              data-testid="zodiac-meter-grid"
+              className="grid grid-cols-2 gap-2 rounded-xl border border-stone-200 bg-white p-3"
+            >
+              {zodiacMatch.meters.map((m) => (
+                <div key={m.label} className="space-y-1">
+                  <div className="flex items-center justify-between text-[11px] font-bold text-[#18101E]">
+                    <span className="truncate">{m.label}</span>
+                    <span className="text-rose-700 shrink-0">{m.pct}%</span>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-stone-200">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-rose-600 to-amber-500 transition-all duration-300"
+                      style={{ width: `${m.pct}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <div className="grid gap-6 lg:grid-cols-[310px_1fr] items-start">
           {/* Illustrated Sidebar With Thumbnail Previews */}
           <aside className="editorial-hinge-card rounded-2xl bg-white p-3.5 space-y-2 lg:sticky lg:top-20 max-h-[82vh] overflow-y-auto">
@@ -1066,237 +1263,12 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             </div>
 
-            {/* Clean Magazine Standfirst (Zero Pink/Red Callout Box!) */}
-            <p className="font-editorial italic text-base sm:text-xl leading-relaxed text-stone-700 border-b border-stone-200/80 pb-5">
+            {/* Clean Magazine Standfirst */}
+            <p className="font-editorial italic text-base sm:text-lg leading-relaxed text-stone-700 border-b border-stone-200/80 pb-4">
               {active.intro}
             </p>
 
-            {/* Interactive 12-Sign Her x Him Illustrated Astro Toy (Placed right at top when selected!) */}
-            {active.slug === 'astrology-zodiac-compatibility-older-woman-younger-man' && (
-              <div
-                className="rounded-3xl border-2 border-rose-200 bg-gradient-to-br from-[#FFFDF9] via-rose-50/40 to-amber-50/50 p-5 sm:p-6 space-y-5 shadow-sm"
-                data-testid="zodiac-12x12-matcher"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="space-y-1">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-3 py-0.5 text-xs font-extrabold uppercase text-amber-950">
-                      <Sparkles className="h-3.5 w-3.5 text-rose-600" /> 144 Combinations • Illustrated Club Toy
-                    </span>
-                    <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E]">
-                      🔮 Pick Her Sign × His Sign
-                    </h3>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleShareZodiac}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-2 text-xs font-extrabold text-white hover:bg-stone-800 cursor-pointer"
-                  >
-                    <Share2 className="h-3.5 w-3.5 text-amber-300" />
-                    <span>Share Astro Card</span>
-                  </button>
-                </div>
-
-                {/* 1-Tap Emoji Sign Chips + Accessible Selects */}
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <div className="rounded-2xl border border-rose-200/80 bg-white p-3.5 space-y-2.5">
-                    <label className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-extrabold uppercase tracking-wide text-rose-700">
-                        🐆 Her Star Sign
-                      </span>
-                      <select
-                        aria-label="Her Star Sign"
-                        value={herSignId}
-                        onChange={(e) => {
-                          sfx.messagePop();
-                          setHerSignId(e.target.value);
-                        }}
-                        className="rounded-xl border border-zinc-300 bg-zinc-50 px-2.5 py-1 text-xs font-bold text-zinc-950"
-                      >
-                        {ZODIAC_SIGNS.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.symbol} {s.label} ({s.element})
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
-                      {ZODIAC_SIGNS.map((s) => {
-                        const activeChip = s.id === herSignId;
-                        return (
-                          <button
-                            key={s.id}
-                            type="button"
-                            data-testid={`her-sign-chip-${s.id}`}
-                            onClick={() => {
-                              sfx.messagePop();
-                              setHerSignId(s.id);
-                            }}
-                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1.5 text-xs font-semibold transition cursor-pointer ${
-                              activeChip
-                                ? 'border-rose-600 bg-rose-600 text-white shadow-xs'
-                                : 'border-zinc-200 bg-zinc-50/70 text-zinc-900 hover:border-rose-300'
-                            }`}
-                          >
-                            <span className="text-sm leading-none">{s.symbol}</span>
-                            <span className="mt-0.5 leading-tight">{s.label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl border border-zinc-200 bg-white p-3.5 space-y-2.5">
-                    <label className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-extrabold uppercase tracking-wide text-zinc-950">
-                        🥂 His Star Sign
-                      </span>
-                      <select
-                        aria-label="His Star Sign"
-                        value={himSignId}
-                        onChange={(e) => {
-                          sfx.messagePop();
-                          setHimSignId(e.target.value);
-                        }}
-                        className="rounded-xl border border-zinc-300 bg-zinc-50 px-2.5 py-1 text-xs font-bold text-zinc-950"
-                      >
-                        {ZODIAC_SIGNS.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.symbol} {s.label} ({s.element})
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
-                      {ZODIAC_SIGNS.map((s) => {
-                        const activeChip = s.id === himSignId;
-                        return (
-                          <button
-                            key={s.id}
-                            type="button"
-                            data-testid={`him-sign-chip-${s.id}`}
-                            onClick={() => {
-                              sfx.messagePop();
-                              setHimSignId(s.id);
-                            }}
-                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1.5 text-xs font-semibold transition cursor-pointer ${
-                              activeChip
-                                ? 'border-zinc-950 bg-zinc-950 text-white shadow-xs'
-                                : 'border-zinc-200 bg-zinc-50/70 text-zinc-900 hover:border-zinc-400'
-                            }`}
-                          >
-                            <span className="text-sm leading-none">{s.symbol}</span>
-                            <span className="mt-0.5 leading-tight">{s.label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Illustrated Result Card: Cast Avatars + Scene Photo + 4 Visual Meters */}
-                <div className="rounded-3xl border border-zinc-200 bg-white p-5 space-y-4 shadow-2xs">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 pb-3">
-                    <div>
-                      <div className="font-editorial text-xl sm:text-2xl font-bold text-zinc-950">
-                        {herSign.symbol} {herSign.label} Her × {himSign.symbol} {himSign.label} Cub
-                      </div>
-                      <div className="text-xs font-extrabold uppercase tracking-wide text-rose-700 mt-0.5">
-                        {zodiacMatch.polarity}
-                      </div>
-                    </div>
-                    <span className="rounded-full bg-gradient-to-r from-rose-600 to-amber-500 px-4 py-1.5 text-xs sm:text-sm font-extrabold text-white shadow-xs">
-                      💘 {zodiacMatch.rating}
-                    </span>
-                  </div>
-
-                  {/* Dual Portrait Cards + Date Scene Visual */}
-                  <div className="grid gap-3 md:grid-cols-3 items-stretch">
-                    <div className="flex items-center gap-3 rounded-2xl border border-rose-100 bg-rose-50/40 p-3">
-                      <img
-                        src={herSign.herAvatar}
-                        alt={`${herSign.label} Her archetype`}
-                        className="h-16 w-16 shrink-0 rounded-2xl object-cover object-top border border-rose-200"
-                      />
-                      <div className="min-w-0 space-y-1">
-                        <span
-                          className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-extrabold ${ELEMENT_BADGE_STYLE[herSign.element]}`}
-                        >
-                          {herSign.symbol} {herSign.element} • {herSign.herCastName}
-                        </span>
-                        <p className="text-xs font-semibold text-[#18101E] leading-snug">
-                          {herSign.herVibe}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-stone-50/60 p-3">
-                      <img
-                        src={himSign.himAvatar}
-                        alt={`${himSign.label} Cub archetype`}
-                        className="h-16 w-16 shrink-0 rounded-2xl object-cover object-top border border-stone-300"
-                      />
-                      <div className="min-w-0 space-y-1">
-                        <span
-                          className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-extrabold ${ELEMENT_BADGE_STYLE[himSign.element]}`}
-                        >
-                          {himSign.symbol} {himSign.element} • {himSign.himCastName}
-                        </span>
-                        <p className="text-xs font-semibold text-[#18101E] leading-snug">
-                          {himSign.himVibe}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="relative overflow-hidden rounded-2xl border border-amber-200 min-h-[96px]">
-                      <img
-                        src={zodiacMatch.scenePhoto}
-                        alt="Signature date vibe"
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#18101E]/85 via-[#18101E]/25 to-transparent flex items-end p-3">
-                        <p className="text-[11px] font-extrabold text-white leading-snug">
-                          {zodiacMatch.dateIdea}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 4 Visual Emoji Compatibility Meters */}
-                  <div
-                    data-testid="zodiac-meter-grid"
-                    className="grid gap-2.5 sm:grid-cols-2 rounded-2xl border border-stone-200/80 bg-stone-50/60 p-3.5"
-                  >
-                    {zodiacMatch.meters.map((m) => (
-                      <div key={m.label} className="space-y-1">
-                        <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
-                          <span>{m.label}</span>
-                          <span className="text-rose-700">{m.pct}%</span>
-                        </div>
-                        <div className="h-2.5 w-full overflow-hidden rounded-full bg-stone-200">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-rose-600 to-amber-500 transition-all duration-300"
-                            style={{ width: `${m.pct}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-amber-200 bg-amber-50/60 px-4 py-2.5 text-xs font-bold text-[#18101E]">
-                    <span>🛡️ Club Cheat Code: {zodiacMatch.vettingTip}</span>
-                    <button
-                      type="button"
-                      onClick={() => onPlayScenario(active.featuredEpisodeId)}
-                      className="rounded-full bg-rose-600 px-3.5 py-1.5 text-xs font-extrabold text-white hover:bg-rose-700 cursor-pointer"
-                    >
-                      Play This Vibe →
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Authentic iPhone iMessage Mockup (Grey Bubble vs. Blue Bubble. Zero Red/Green Cards!) */}
+            {/* Authentic iPhone iMessage Mockup (Grey Bubble vs. Blue Bubble) */}
             <div
               data-testid="guide-text-this-not-that"
               className="rounded-3xl border border-stone-200 bg-stone-50/60 p-5 space-y-3.5"
@@ -1325,61 +1297,6 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                 </div>
               </div>
             </div>
-
-            {/* ABOVE-THE-FOLD Shoppable Product Strip (Real Product Photography) */}
-            <section
-              data-testid="guide-above-fold-shop"
-              className="rounded-3xl border border-amber-200 bg-amber-50/50 p-5 space-y-3.5"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-amber-950">
-                  🛍️ Editor’s Date-Night &amp; Hosting Picks for This Guide
-                </span>
-                <span className="text-[11px] font-semibold text-stone-500">
-                  Verified Amazon Picks • Opens in New Tab
-                </span>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {active.featuredAffiliateIds.slice(0, 2).map((id) => {
-                  const item = getAffiliateById(id);
-                  if (!item) return null;
-                  return (
-                    <div
-                      key={item.id}
-                      className="rounded-2xl border border-stone-200 bg-white p-3.5 flex flex-col justify-between gap-3 shadow-2xs"
-                    >
-                      <div className="space-y-2">
-                        <ProductVisualThumbnail item={item} />
-                        <h3 className="text-sm font-bold text-[#18101E] leading-snug">
-                          {item.name}
-                        </h3>
-                        <p className="text-xs text-stone-600 leading-relaxed">{item.cheekyPitch}</p>
-                      </div>
-                      <a
-                        href={buildAffiliateUrl(item, `journal_top_${active.slug}`)}
-                        target="_blank"
-                        rel="noopener noreferrer sponsored"
-                        onClick={() =>
-                          trackEvent('affiliate_clicked', {
-                            item_id: item.id,
-                            surface: 'journal_above_fold',
-                            slug: active.slug,
-                          })
-                        }
-                        className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#18101E] py-2.5 text-xs font-bold text-white hover:bg-stone-800 transition"
-                      >
-                        <span>
-                          {isPrimeVideoDigitalPick(item)
-                            ? `Stream / Rent on Prime Video (${item.priceDisplay})`
-                            : `Shop on Amazon (${item.priceDisplay})`}
-                        </span>
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
 
             {/* Interactive 10-Point Apartment Hosting Checklist */}
             {active.checklistItems && active.checklistItems.length > 0 && (
@@ -1448,14 +1365,14 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
-            {/* Illustrated Numbered Section Cards */}
-            <div className="space-y-5">
+            {/* Punchy Playful Photo Listicles (2 Crisp Takeaways Max Per Photo Card) */}
+            <div className="space-y-4">
               {active.sections.map((sec, idx) => {
                 const photoUrl =
                   visualMeta.sectionPhotos[idx % visualMeta.sectionPhotos.length];
                 const cleanHeading = sec.heading.replace(/^\d+\.\s*/, '');
                 const emoji = SECTION_EMOJIS[idx % SECTION_EMOJIS.length];
-                const beats = splitIntoScannableBeats(sec.body);
+                const beats = splitIntoScannableBeats(sec.body).slice(0, 2);
 
                 return (
                   <React.Fragment key={sec.heading}>
@@ -1463,27 +1380,27 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                       data-testid="guide-section-visual-card"
                       className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
                     >
-                      <div className="grid md:grid-cols-[240px_1fr] items-stretch">
-                        <div className="relative min-h-[190px] bg-zinc-950">
+                      <div className="grid md:grid-cols-[220px_1fr] items-stretch">
+                        <div className="relative min-h-[175px] bg-zinc-950">
                           <img
                             src={photoUrl}
                             alt={cleanHeading}
                             className="h-full w-full object-cover object-top"
                           />
                           <div className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-md bg-zinc-950/85 px-2.5 py-1 text-xs font-bold text-white">
-                            <span>#{String(idx + 1).padStart(2, '0')}</span>
+                            <span>#{idx + 1}</span>
                           </div>
                         </div>
 
-                        <div className="p-5 sm:p-6 space-y-3 flex flex-col justify-center">
-                          <h3 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950 leading-snug">
+                        <div className="p-4 sm:p-5 space-y-2.5 flex flex-col justify-center">
+                          <h3 className="text-base sm:text-lg font-bold tracking-tight text-zinc-950 leading-snug">
                             {emoji} {cleanHeading}
                           </h3>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1.5">
                             {beats.map((beat, bIdx) => (
                               <li
                                 key={bIdx}
-                                className="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-600"
+                                className="flex items-start gap-2 text-sm leading-relaxed text-zinc-600"
                               >
                                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-600" />
                                 <span>{beat}</span>
@@ -1498,7 +1415,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     {idx === 0 && (
                       <div
                         data-testid="guide-reddit-receipt"
-                        className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 space-y-2.5"
+                        className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5 space-y-2"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="inline-flex items-center gap-2 text-xs font-bold text-zinc-950">
@@ -1512,10 +1429,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                             <span>{visualMeta.redditReceipt.upvotes} upvotes</span>
                           </span>
                         </div>
-                        <p className="text-sm sm:text-base font-medium text-zinc-900 leading-relaxed">
+                        <p className="text-sm font-medium text-zinc-900 leading-relaxed">
                           &ldquo;{visualMeta.redditReceipt.quote}&rdquo;
                         </p>
-                        <div className="rounded-xl border border-zinc-200 bg-white px-3.5 py-2 text-xs font-medium text-zinc-600">
+                        <div className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-600">
                           {visualMeta.redditReceipt.topReply}
                         </div>
                       </div>
@@ -1528,7 +1445,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             {/* Interactive 1-Tap Club Poll */}
             <div
               data-testid="guide-club-poll"
-              className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 sm:p-6 space-y-3.5"
+              className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 space-y-3"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-rose-600">
@@ -1540,7 +1457,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     : 'Tap an answer to see how the Club voted'}
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950">
+              <h3 className="text-base sm:text-lg font-bold tracking-tight text-zinc-950">
                 {visualMeta.poll.question}
               </h3>
               <div className="grid gap-2">
@@ -1555,7 +1472,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         sfx.messagePop();
                         setPollVotesBySlug((prev) => ({ ...prev, [active.slug]: oIdx }));
                       }}
-                      className={`relative overflow-hidden rounded-2xl border px-4 py-3 text-left text-xs sm:text-sm font-bold transition cursor-pointer ${
+                      className={`relative overflow-hidden rounded-2xl border px-4 py-2.5 text-left text-xs sm:text-sm font-bold transition cursor-pointer ${
                         isPicked
                           ? 'border-rose-600 bg-rose-50 text-[#18101E] shadow-xs'
                           : 'border-stone-200 bg-white text-[#18101E] hover:border-stone-400'
@@ -1588,10 +1505,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
 
             {/* Shoppable Cinema Watchlist Strip on Movie Guides */}
             {isMovieGuide && (
-              <div className="rounded-3xl border border-rose-200 bg-rose-50/40 p-5 space-y-3">
+              <div className="rounded-2xl border border-rose-200 bg-rose-50/40 p-4 sm:p-5 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="text-xs font-extrabold uppercase tracking-wider text-rose-800">
-                    🎬 Stream or Digitally Rent the Essential Watchlist on Prime Video
+                    🎬 Stream or Digitally Rent on Prime Video
                   </div>
                   <a
                     href={buildPrimeVideoBountyUrl(`watchlist_prime_${active.slug}`)}
@@ -1610,7 +1527,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
-                <div className="grid gap-2.5 sm:grid-cols-2">
+                <div className="grid gap-2 sm:grid-cols-2">
                   {MOVIE_WATCHLIST_IDS.map((id) => {
                     const movieItem = getAffiliateById(id);
                     if (!movieItem) return null;
@@ -1620,7 +1537,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         href={buildAffiliateUrl(movieItem, `watchlist_${active.slug}`)}
                         target="_blank"
                         rel="noopener noreferrer sponsored"
-                        className="flex items-center justify-between gap-2.5 rounded-2xl border border-stone-200 bg-white p-3 text-xs font-bold text-[#18101E] hover:border-rose-400 transition"
+                        className="flex items-center justify-between gap-2.5 rounded-xl border border-stone-200 bg-white p-3 text-xs font-bold text-[#18101E] hover:border-rose-400 transition"
                       >
                         <span className="leading-snug">{movieItem.name}</span>
                         <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-600" />
@@ -1631,82 +1548,64 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
-            {active.faqs.length > 0 && (
-              <div className="space-y-3 border-t border-stone-200 pt-5">
-                <h3 className="font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
-                  💬 Rapid-Fire Club Q&amp;A
-                </h3>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {active.faqs.map((faq) => (
-                    <div
-                      key={faq.question}
-                      className="rounded-2xl border border-stone-200 bg-stone-50/60 p-4 space-y-1.5"
-                    >
-                      <div className="text-sm font-extrabold text-[#18101E]">
-                        ❓ {faq.question}
-                      </div>
-                      <p className="text-xs sm:text-sm font-medium text-stone-600 leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+            {/* Compact Non-Intrusive 2-Card Shoppable Footer Strip */}
+            <section
+              data-testid="guide-above-fold-shop"
+              className="rounded-2xl border border-stone-200 bg-stone-50/70 p-4 sm:p-5 space-y-3"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-zinc-900">
+                  🛍️ Editor’s Picks for This Guide
+                </span>
+                <span className="text-[11px] font-medium text-stone-500">
+                  {AFFILIATE_SUPPORT_COPY.compactInline}
+                </span>
               </div>
-            )}
-
-            <div className="rounded-3xl border border-stone-200 bg-stone-50/80 p-6 space-y-4">
-              <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E]">
-                🛍️ Complete Curated Picks for This Guide
-              </h3>
-              <div className="grid gap-4 sm:grid-cols-2 items-stretch">
-                {active.featuredAffiliateIds.map((id) => {
+              <div className="grid gap-3 sm:grid-cols-2">
+                {active.featuredAffiliateIds.slice(0, 2).map((id) => {
                   const item = getAffiliateById(id);
                   if (!item) return null;
                   return (
                     <div
                       key={item.id}
-                      className="rounded-2xl border border-stone-200 bg-white p-4 flex flex-col justify-between gap-3 h-full shadow-2xs"
+                      className="rounded-xl border border-stone-200 bg-white p-3.5 flex flex-col justify-between gap-2.5 shadow-2xs"
                     >
-                      <div className="space-y-2.5">
+                      <div className="space-y-2">
                         <ProductVisualThumbnail item={item} />
-                        <div className="flex items-center justify-between gap-2 text-xs">
-                          <span className="font-semibold text-zinc-500">
-                            {item.badge}
-                          </span>
-                          <span className="font-bold text-rose-600 whitespace-nowrap">
-                            {item.priceDisplay}
-                          </span>
-                        </div>
-                        <h4 className="text-base font-bold text-[#18101E]">{item.name}</h4>
-                        <p className="text-xs sm:text-sm font-medium text-stone-600 leading-relaxed">
+                        <h3 className="text-sm font-bold text-[#18101E] leading-snug">
+                          {item.name}
+                        </h3>
+                        <p className="text-xs text-stone-600 leading-relaxed line-clamp-2">
                           {item.cheekyPitch}
                         </p>
                       </div>
                       <a
-                        href={buildAffiliateUrl(item, `journal_${active.slug}`)}
+                        href={buildAffiliateUrl(item, `journal_top_${active.slug}`)}
                         target="_blank"
                         rel="noopener noreferrer sponsored"
                         onClick={() =>
                           trackEvent('affiliate_clicked', {
                             item_id: item.id,
-                            surface: 'journal',
+                            surface: 'journal_above_fold',
                             slug: active.slug,
                           })
                         }
-                        className="inline-flex items-center justify-center gap-1.5 rounded-full bg-rose-600 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-rose-700 transition"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#18101E] py-2 text-xs font-bold text-white hover:bg-stone-800 transition"
                       >
                         <span>
                           {isPrimeVideoDigitalPick(item)
-                            ? 'Stream / Rent on Prime Video'
-                            : 'Shop on Amazon'}
+                            ? `Stream on Prime Video (${item.priceDisplay})`
+                            : `View on Amazon (${item.priceDisplay})`}
                         </span>
-                        <ExternalLink className="h-4 w-4" />
+                        <ExternalLink className="h-3.5 w-3.5" />
                       </a>
                     </div>
                   );
                 })}
               </div>
-            </div>
+            </section>
+
+            <CrowdsourceSubmissionBar surface="guides" />
           </article>
         </div>
       </div>

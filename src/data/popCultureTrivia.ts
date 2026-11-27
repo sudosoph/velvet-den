@@ -1,3 +1,6 @@
+export type TriviaCategory = 'movies' | 'tv' | 'books' | 'music_celebs';
+export type TriviaDifficulty = 'easy' | 'hard';
+
 export interface PopCultureTriviaQuestion {
   id: string;
   badge: string;
@@ -9,6 +12,8 @@ export interface PopCultureTriviaQuestion {
   imageCredit: string;
   youtubeEmbedUrl?: string;
   affiliateId?: string;
+  category?: TriviaCategory;
+  difficulty?: TriviaDifficulty;
 }
 
 /**
@@ -919,5 +924,236 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "funFact": "\"Yellowstone\" star Luke Grimes plays the quietly devoted doctor-in-training who knew Helen’s favorite snacks before Mile 1.",
     "imageUrl": "./images/products/trail-fitness.jpg",
     "imageCredit": ""
+  },
+  {
+    "id": "kim-kardashian-lewis-hamilton-2026",
+    "badge": "🏎️ 2026 Super Bowl LX Power Pair",
+    "question": "In February 2026, reality mogul Kim Kardashian (45) sparked global headlines after stepping out at Super Bowl LX and a romantic Cotswolds getaway with which 7-time Formula 1 World Champion (41)?",
+    "options": [
+      "Charles Leclerc",
+      "Lewis Hamilton",
+      "Max Verstappen",
+      "Lando Norris"
+    ],
+    "correctIndex": 1,
+    "funFact": "Longtime friends since the mid-2010s, Kim Kardashian and Sir Lewis Hamilton turned heads from Estelle Manor in Oxfordshire to Paris and Super Bowl LX in early 2026.",
+    "imageUrl": "./images/icons/pop_kris_corey.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "nicole-scherzinger-athlete-streak",
+    "badge": "🎤 Pussycat Doll Athlete Streak",
+    "question": "Before getting engaged to Scottish rugby player Thom Evans (7 years younger), and years after her high-profile romance with younger F1 champion Lewis Hamilton, Nicole Scherzinger also dated which 13-years-younger tennis star?",
+    "options": [
+      "Grigor Dimitrov",
+      "Matteo Berrettini",
+      "Taylor Fritz",
+      "Stefanos Tsitsipas"
+    ],
+    "correctIndex": 0,
+    "funFact": "Born in 1978, Nicole Scherzinger famously dated both Lewis Hamilton (born January 1985) and rugby-star partner Thom Evans (born April 1985), plus Bulgarian tennis ace Grigor Dimitrov (born 1991)!",
+    "imageUrl": "./images/icons/pop_olivia_harry.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "nicole-scherzinger-sunset-blvd-tony",
+    "badge": "🎭 Tony & Olivier Triumph",
+    "question": "Winning both the Laurence Olivier Award and the 2025 Tony Award for Best Actress in a Musical, Nicole Scherzinger brought powerhouse vocals to which iconic older-woman role on the West End and Broadway?",
+    "options": [
+      "Mrs. Robinson in \"The Graduate\"",
+      "Mame Dennis in \"Mame\"",
+      "Norma Desmond in \"Sunset Blvd.\"",
+      "Desirée Armfeldt in \"A Little Night Music\""
+    ],
+    "correctIndex": 2,
+    "funFact": "Jamie Lloyd’s stripped-back revival of Andrew Lloyd Webber’s \"Sunset Blvd.\" turned Nicole Scherzinger’s Norma Desmond opposite Tom Francis’s younger Joe Gillis into Broadway’s hottest ticket.",
+    "imageUrl": "./images/icons/pop_stella_cinema.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "hard"
+  },
+  {
+    "id": "desperate-housewives-gaby-gardener",
+    "badge": "🌹 Wisteria Lane Classic",
+    "question": "In Season 1 of ABC’s megahit \"Desperate Housewives,\" Eva Longoria’s glamorous Gabrielle Solis sparks scandalous suburban gossip on Wisteria Lane with her handsome young landscaper played by whom?",
+    "options": [
+      "Jesse Metcalfe",
+      "Chad Michael Murray",
+      "Chace Crawford",
+      "Taylor Kitsch"
+    ],
+    "correctIndex": 0,
+    "funFact": "Eva Longoria and Jesse Metcalfe turned \"the hot gardener on Wisteria Lane\" into one of 2000s network television’s most parodied tropes.",
+    "imageUrl": "./images/products/martini-barware-goblet.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "easy"
+  },
+  {
+    "id": "fleabag-belinda-hotel-bar-speech",
+    "badge": "🍸 Emmy-Nominated Bar Scene",
+    "question": "In Season 2 of Phoebe Waller-Bridge’s \"Fleabag,\" which legendary actress plays poised businesswoman Belinda, who delivers a viral hotel-bar martini monologue on why women grow freer past fifty?",
+    "options": [
+      "Gillian Anderson",
+      "Helen McCrory",
+      "Olivia Colman",
+      "Kristin Scott Thomas"
+    ],
+    "correctIndex": 3,
+    "funFact": "Kristin Scott Thomas earned an Emmy nomination for a single electrifying cocktail-bar scene celebrating women’s post-50 liberation.",
+    "imageUrl": "./images/products/martini-barware-goblet.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "hard"
+  },
+  {
+    "id": "curtis-sittenfeld-romantic-comedy",
+    "badge": "📚 2023 NYT Bestseller",
+    "question": "In Curtis Sittenfeld’s runaway bestseller \"Romantic Comedy\" (2023), late-night sketch comedy writer Sally Milz writes a skit mocking male celebrities who only date young models, right before falling for which younger pop-music host?",
+    "options": [
+      "Hayes Campbell",
+      "Noah Brewster",
+      "Lukas Moy",
+      "Reid Sutherland"
+    ],
+    "correctIndex": 1,
+    "funFact": "Curtis Sittenfeld flipped the classic late-night comedy double standard into one of BookTok’s sharpest witty romances.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "books",
+    "difficulty": "easy"
+  },
+  {
+    "id": "terry-mcmillan-stella-novel-1996",
+    "badge": "📖 1996 Publishing Phenomenon",
+    "question": "Two years before the hit film arrived in theaters, which bestselling novelist wrote the 1996 phenomenon \"How Stella Got Her Groove Back,\" inspired by her own real-life Jamaican romance with Jonathan Plummer?",
+    "options": [
+      "Toni Morrison",
+      "Terry McMillan",
+      "Alice Walker",
+      "Zadie Smith"
+    ],
+    "correctIndex": 1,
+    "funFact": "Terry McMillan’s fearless 1996 novel sold millions of copies in hardcover and launched an entire era of Chapter-Two fiction.",
+    "imageUrl": "./images/icons/pop_stella_cinema.jpg",
+    "imageCredit": "",
+    "category": "books",
+    "difficulty": "easy"
+  },
+  {
+    "id": "agatha-christie-max-mallowan-memoir",
+    "badge": "🏺 46-Year Literary Marriage",
+    "question": "Mystery queen Agatha Christie shared a joyful 46-year second marriage with archaeologist Sir Max Mallowan (14 years her junior), chronicling their Middle Eastern digs in which witty 1946 memoir?",
+    "options": [
+      "\"A Room of One’s Own\"",
+      "\"Out of Africa\"",
+      "\"West with the Night\"",
+      "\"Come, Tell Me How You Live\""
+    ],
+    "correctIndex": 3,
+    "funFact": "Married from 1930 until her passing in 1976, Agatha Christie proved a 14-year age-gap partnership could thrive across four decades of global adventure.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "books",
+    "difficulty": "hard"
   }
 ];
+
+const TV_QUESTION_IDS = new Set([
+  'satc-samantha-smith-jerrod',
+  'cougar-town-big-carl',
+  'ted-lasso-rebecca-sam-bantr',
+  'succession-gerri-roman',
+  'emily-in-paris-sylvie-erik',
+  'younger-liza-josh-tattoo',
+  'hacks-deborah-vance',
+  '30-rock-liz-lemon-criss',
+  'mrs-fletcher-kathryn-hahn',
+  'white-lotus-resort-canon',
+  'desperate-housewives-gaby-gardener',
+  'fleabag-belinda-hotel-bar-speech',
+]);
+
+const BOOK_QUESTION_IDS = new Set([
+  'abby-jimenez-part-of-your-world',
+  'colette-cheri-1920',
+  'miranda-july-all-fours',
+  'on-the-island-graves',
+  'julian-barnes-the-only-story',
+  'robinne-lee-idea-of-you-ending',
+  'vladimir-julia-may-jonas',
+  'flirting-with-forty-jane-porter',
+  'curtis-sittenfeld-romantic-comedy',
+  'terry-mcmillan-stella-novel-1996',
+  'agatha-christie-max-mallowan-memoir',
+]);
+
+const MUSIC_CELEB_QUESTION_IDS = new Set([
+  'cher-rich-man-icon',
+  'stacys-mom-music-video',
+  'priyanka-nick-cutoff',
+  'tina-turner-erwin-bach',
+  'yung-gravy-betty-vmas',
+  'shakira-strawberry-jam-clue',
+  'heidi-klum-tom-kaulitz',
+  'rod-stewart-maggie-may',
+  'sienna-miller-oli-green',
+  'caroline-stanbury-sergio-carrallo',
+  'gabrielle-union-julianne-moore-SweetSpot',
+  'mariah-carey-touch-my-body-set',
+  'goldie-kurt-halle-meghan-microgaps',
+  'mrs-robinson-grammy-record',
+  'hall-and-oates-maneater',
+  'demi-moore-ashton-kutcher-watershed',
+  'kim-kardashian-lewis-hamilton-2026',
+  'nicole-scherzinger-athlete-streak',
+  'nicole-scherzinger-sunset-blvd-tony',
+]);
+
+const HARD_DEEP_CUT_IDS = new Set([
+  'the-graduate-real-age-gap',
+  'colette-cheri-1920',
+  'heidi-klum-tom-kaulitz',
+  'bull-durham-sarandon-robbins',
+  'sienna-miller-oli-green',
+  'emily-in-paris-sylvie-erik',
+  'caroline-stanbury-sergio-carrallo',
+  'mariah-carey-touch-my-body-set',
+  'hacks-deborah-vance',
+  'julian-barnes-the-only-story',
+  'zeta-jones-the-rebound',
+  'mrs-robinson-grammy-record',
+  'mrs-fletcher-kathryn-hahn',
+  'leo-grande-emma-thompson',
+  'prime-meryl-streep-twist',
+  'vladimir-julia-may-jonas',
+  'white-palace-sarandon-spader',
+  'flirting-with-forty-jane-porter',
+  'cha-cha-real-smooth-sundance',
+  'the-good-girl-aniston-gyllenhaal',
+  'harold-and-maude-cat-stevens',
+  'home-again-reese-witherspoon',
+  'sunset-boulevard-norma-desmond',
+  'demi-moore-ashton-kutcher-watershed',
+  'happiness-for-beginners-trail',
+  'nicole-scherzinger-sunset-blvd-tony',
+  'fleabag-belinda-hotel-bar-speech',
+  'agatha-christie-max-mallowan-memoir',
+]);
+
+export function resolveTriviaCategory(q: PopCultureTriviaQuestion): TriviaCategory {
+  if (q.category) return q.category;
+  if (TV_QUESTION_IDS.has(q.id)) return 'tv';
+  if (BOOK_QUESTION_IDS.has(q.id)) return 'books';
+  if (MUSIC_CELEB_QUESTION_IDS.has(q.id)) return 'music_celebs';
+  return 'movies';
+}
+
+export function resolveTriviaDifficulty(q: PopCultureTriviaQuestion): TriviaDifficulty {
+  if (q.difficulty) return q.difficulty;
+  return HARD_DEEP_CUT_IDS.has(q.id) ? 'hard' : 'easy';
+}

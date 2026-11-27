@@ -111,38 +111,38 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     fixItAffiliateId: 'percale-hosting-sheets',
   },
   {
-    id: 'drill-03-midnight-snap-wyd',
+    id: 'drill-03-mapquest-archaeology-foul',
     moduleNumber: 3,
-    topicTag: '📱 First Message',
+    topicTag: '🗺️ Era Banter',
     sceneImage: './images/scenes/wine-bar-booth.jpg',
-    punchyQuestion: 'You match with a witty 43-year-old creative director at 11:45 PM. Your opener?',
-    title: '"U Have Snap? WYLL?" at 11:48 PM',
+    punchyQuestion: 'She laughs about printing directions before smartphones. What do you say?',
+    title: 'Surviving Pre-Smartphone Lore Without Sounding Like a Museum Tour',
     redditComplaintQuote:
-      '"Nothing dries up interest faster than matching and immediately reading: u have snap?? wyd rn"',
+      '"Mentioned printing highway exits in 2004 and he gasped like I rode a covered wagon across Oregon."',
     scenarioSetup:
-      'You match on Thursday night with an effortlessly witty 43-year-old creative director. Your thumbs hover over the keyboard.',
+      'Over patio wine, your 44-year-old date jokes about navigating road trips with stapled paper pages.',
     rookieCrime:
-      'Asking an accomplished woman in her forties for disappearing-photo streaks or sending three-letter low-effort pings.',
+      'Treating the early 2000s like ancient Mesopotamia and making her feel like a history exhibit.',
     options: [
       {
-        label: 'Write a witty full sentence on her prompt and suggest Thursday 7:30 cocktails.',
+        label: 'Tease warmly: "Iconic skill, without GPS I would still be circling the parking garage."',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Punctuation and a real plan put you ahead of 90% of her queue.',
+          'Gold Star. Self-deprecating charm keeps generational banter playful and flirty.',
         expression: 'smirk',
       },
       {
-        label: 'Ask "u have snap?? easier to talk there 👀" and send a ceiling selfie.',
+        label: 'Gasp loudly: "Whoa, paper scrolls?! My grandma told me about those in third grade!"',
         isGoldStar: false,
         headmistressVerdict:
-          'Detention. Past thirty-two, vanishing-photo apps scream teenager or secret girlfriend.',
+          'Detention. Comparing your hot date to your grandmother revokes dessert immediately.',
         expression: 'icked',
       },
       {
-        label: 'Send "wyd" at 11:48 PM followed by "??" twelve minutes later while she sleeps.',
+        label: 'Launch a twelve-minute lecture explaining how GPS satellites orbit the Earth.',
         isGoldStar: false,
         headmistressVerdict:
-          'She has an 8:30 AM briefing and unmatched you over morning espresso.',
+          'She already knows how satellites work, professor. Check please.',
         expression: 'icked',
       },
     ],
@@ -225,38 +225,38 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     fixItAffiliateId: 'cooling-bamboo-sheets',
   },
   {
-    id: 'drill-06-teach-me-professor',
+    id: 'drill-06-overhead-big-light-crime',
     moduleNumber: 6,
-    topicTag: '🥂 Peer Energy',
+    topicTag: '💡 Mood Lighting',
     sceneImage: './images/scenes/cougarmarket-wine.jpg',
-    punchyQuestion: 'Over first-date wine, she asks what made you swipe right. What do you say?',
-    title: 'The "Teach Me Everything" Unpaid Instructor Pitch',
+    punchyQuestion: 'She steps into your living room at 9:30 PM for wine. How is the room lit?',
+    title: 'Banishing Surgical Ceiling Bulbs After Sunset',
     redditComplaintQuote:
-      '"I want a playful lover and equal, not an audition to be somebody\'s unpaid life coach."',
+      '"Walked into his apartment feeling glamorous and he flipped on an overhead bulb brighter than CVS."',
     scenarioSetup:
-      'Over first-date wine, she asks what drew you to swipe right on her.',
+      'Dinner sparked effortlessly and she comes up to your place for one glass of red and vinyl.',
     rookieCrime:
-      'Casting her as a mystical mentor obligated to train you instead of showing up as an engaged adult peer.',
+      'Blasting harsh 5000K overhead ceiling glare instead of warm corner lamps.',
     options: [
       {
-        label: 'Give puppy eyes: "Older women know so much, hoping you can teach me everything."',
+        label: 'Flip on the overhead ceiling fixture so the room glows like a dental clinic.',
         isGoldStar: false,
         headmistressVerdict:
-          'Detention. She clocked out of managing interns at 5:30 PM.',
+          'Detention. Overhead fluorescent glare after 8 PM is an instant romance felony.',
         expression: 'icked',
       },
       {
-        label: 'Say her dry humor and travel stories hooked you, and you love matching wits.',
+        label: 'Warm table lamps dimmed low, candle lit on the counter, overhead switch off.',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Seeing her as a magnetic woman, not a curriculum, sparks real chemistry.',
+          'Gold Star. Twenty-dollar warm bulbs make any apartment feel like a boutique lounge.',
         expression: 'blush',
       },
       {
-        label: 'Bash women your own age for ten minutes straight so she feels "chosen."',
+        label: 'Pitch-black room lit solely by a paused video-game menu flashing on your TV.',
         isGoldStar: false,
         headmistressVerdict:
-          'Putting down twenty-four-year-old women is never the compliment men think it is.',
+          'Dorm-cave lighting belongs in freshman year, not date night.',
         expression: 'icked',
       },
     ],
@@ -415,76 +415,76 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     fixItAffiliateId: 'short-leash-leather-dog-leash',
   },
   {
-    id: 'drill-11-sti-panel-ego',
+    id: 'drill-11-dim-bistro-menu-tact',
     moduleNumber: 11,
-    topicTag: '🩺 Grown-Up Trust',
+    topicTag: '🕯️ Bistro Tact',
     sceneImage: './images/scenes/canyon-sunrise-trail.jpg',
-    punchyQuestion: 'Before going exclusive, she suggests swapping fresh STI results. How do you react?',
-    title: 'The Calm Health-Check & STI-Panel Ego Test',
+    punchyQuestion: 'In a dark candlelit bistro, she squints at tiny italic print. Your move?',
+    title: 'Handling Moody Restaurant Menus With Zero Weirdness',
     redditComplaintQuote:
-      '"Asked calmly to swap recent lab results before going exclusive and he acted like I insulted his honor."',
+      '"Trendy bars print menus in six-point grey ink; he quietly slid the candle closer and won my heart."',
     scenarioSetup:
-      'Chemistry is electric on Date #3, and she warmly suggests swapping fresh MyChart screening results before next weekend.',
+      'The cocktail lounge is romantic and dim, and the wine card was printed in microscopic font.',
     rookieCrime:
-      'Taking grown-up sexual health hygiene personally or trying to talk her out of boundaries.',
+      'Cracking a loud joke about reading glasses or blinding the whole room with your phone strobe.',
     options: [
       {
-        label: 'Get defensive: "Wait, do I look sketchy or do you not trust me?"',
+        label: 'Joke loudly about needing bifocals and wave the waiter for a large-print menu.',
         isGoldStar: false,
         headmistressVerdict:
-          'Immediate expulsion. Getting offended by routine health care proves you are not ready.',
+          'Immediate expulsion. Roasting your date across the booth guarantees solo dessert.',
         expression: 'icked',
       },
       {
-        label: 'Thank her warmly, book a next-day lab draw, and share clean results Thursday.',
+        label: 'Slide the table candle closer smoothly and suggest the two best dishes aloud.',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Zero ego plus fast follow-through unlocks complete trust.',
+          'Gold Star. Subtle, observant chivalry without making a production of it.',
         expression: 'laugh',
       },
       {
-        label: 'Mumble "yeah I got checked like two years ago I think" and change the subject.',
+        label: 'Turn your phone flashlight to 100% brightness and shine it straight at her face.',
         isGoldStar: false,
         headmistressVerdict:
-          'Vague guesswork from two years ago does not pass inspection.',
+          'Interrogation-lamp tactics ruin candlelight in half a second.',
         expression: 'icked',
       },
     ],
-    fixItAffiliateId: 'date-night-oud-bergamot',
+    fixItAffiliateId: 'chic-candlelit-menu-readers',
   },
   {
-    id: 'drill-12-search-bar-labels',
+    id: 'drill-12-sunday-mom-heads-up',
     moduleNumber: 12,
-    topicTag: '🖼️ Gallery Opener',
+    topicTag: '🥂 Family Poise',
     sceneImage: './images/scenes/velvet-room-bar.jpg',
-    punchyQuestion: 'You spot an intriguing woman at a gallery cocktail bar. How do you say hello?',
-    title: 'Opening With Browser-Tab Fetish Labels',
+    punchyQuestion: 'Things get serious and your 43F partner meets your 49F mom Sunday. Prep?',
+    title: 'The One-Week Family Briefing Protocol',
     redditComplaintQuote:
-      '"If your first sentence has hey cougar, hey milf, or bucket list, you are talking to a search tab."',
+      '"He prepped his mom warmly on Tuesday so Sunday brunch felt effortless from the first hug."',
     scenarioSetup:
-      'You spot an intriguing woman at a gallery bar or on your Hinge Standouts feed and walk up to say hello.',
+      'Four great months in, you invite her to Sunday brunch with your family for the first time.',
     rookieCrime:
-      'Leading with pornographic or novelty age-category labels instead of treating her like an attractive woman.',
+      'Springing an unannounced doorway ambush on your parents just to see their reaction.',
     options: [
       {
-        label: 'Wink and say: "Always wanted to cross a gorgeous cougar off my bucket list."',
+        label: 'Spring a total surprise at the front door to watch everyone do mental math.',
         isGoldStar: false,
         headmistressVerdict:
-          'Permanent ban from the lounge. Nobody wants to be your novelty merit badge.',
+          'Ambushing both women you care about is rookie sabotage.',
         expression: 'icked',
       },
       {
-        label: 'Comment naturally on the piece in front of you both, make her laugh, ask her name.',
+        label: 'Brief your mom warmly a week ahead with pride so everyone relaxes at hello.',
         isGoldStar: true,
         headmistressVerdict:
-          'Summa Cum Laude. Treat her like a fascinating woman first and let chemistry speak.',
+          'Summa Cum Laude. Mature leadership makes every room welcome her.',
         expression: 'blush',
       },
       {
-        label: 'Open by guessing her exact age out loud to prove how perceptive you are.',
+        label: 'Ask your partner to shave six years off her age during appetizers.',
         isGoldStar: false,
         headmistressVerdict:
-          'Carnival weight-guesser energy never earned a second drink.',
+          'Asking a grown woman to lie about her life ends the relationship on the spot.',
         expression: 'icked',
       },
     ],
@@ -499,7 +499,7 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
     topicTag: '🥂 Check Etiquette',
     sceneImage: './images/scenes/candlelit-cocktails.jpg',
     punchyQuestion:
-      'Date #1 check lands. Your 26-year-old date pauses: "Unless you prefer splitting since you are a VP?" Your move?',
+      'Check lands; he asks: "Unless you prefer splitting since you are a VP?" Your move?',
     title: 'Holding Graceful Reciprocity Without Becoming an ATM',
     redditComplaintQuote:
       '"Start grabbing every check out of salary guilt and you accidentally adopt a dependent instead of a lover."',
@@ -509,180 +509,180 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
       'Over-functioning financially out of guilt or turning dinner into an awkward accounting audit.',
     options: [
       {
-        label: 'Insist on paying every tab yourself from Day 1 so he never feels stressed about money.',
+        label: 'Pay every tab yourself from Day 1 so he never feels stressed about money.',
         isGoldStar: false,
         headmistressVerdict:
           'Self-inflicted trap. Over-paying out of guilt kills polarity before Date #3.',
         expression: 'icked',
       },
       {
-        label: 'Smile warmly: "You invited me out tonight, so I will let you get this one, and I have next Friday."',
+        label: 'Smile warmly: "You invited me tonight, so you have this one, and I have Friday."',
         isGoldStar: true,
         headmistressVerdict:
-          'Crown-tier poise. You let him stand tall tonight while setting effortless adult reciprocity.',
+          'Crown-tier poise. You let him stand tall tonight while setting adult reciprocity.',
         expression: 'blush',
       },
       {
-        label: 'Open your phone calculator and itemize every olive and appetizer down to the cent.',
+        label: 'Open your phone calculator and itemize every olive down to the exact cent.',
         isGoldStar: false,
         headmistressVerdict:
-          'Nothing evaporates romantic tension faster than an expense-report audit at the table.',
+          'Nothing evaporates romantic tension faster than an expense audit at the table.',
         expression: 'icked',
       },
     ],
     fixItAffiliateId: 'good-boy-brass-training-clicker',
   },
   {
-    id: 'hm-02-coachable-apartment-audit',
+    id: 'hm-02-vintage-band-tee-audit',
     moduleNumber: 2,
-    topicTag: '🏠 His Place Audit',
+    topicTag: '🎸 Band-Tee Audit',
     sceneImage: './images/scenes/cozy-rain-suite.jpg',
     punchyQuestion:
-      'His apartment has a clean kitchen and great vinyl, yet only two flat pillows and an open bathroom bin. Verdict?',
-    title: 'Coachable Golden Cub vs. Hopeless Slob',
+      'Your 25M date wears a 1997 Radiohead tour tee, yet knows zero tracks. How do you train?',
+    title: 'Auditing Vintage Shirts Older Than His Driver’s License',
     redditComplaintQuote:
-      '"Clean kitchen plus one blind spot means coachable in 48 hours; filthy floor means run."',
+      '"He showed up in a faded 1996 tour shirt I bought at the actual stadium and thought it was a streetwear brand."',
     scenarioSetup:
-      'After a great third date you visit his place and spot genuine effort alongside classic twenty-something blind spots.',
+      'He looks absurdly handsome across the patio, wearing a concert shirt from three years before he was born.',
     rookieCrime:
-      'Either suffering in silence on a flat pillow or buying all his household upgrades for him.',
+      'Launching a grumpy gatekeeper lecture or pretending not to notice the fashion prop.',
     options: [
       {
-        label: 'Tease him warmly once: four real pillows and a lidded bin are required before your next sleepover.',
+        label: 'Make him queue "OK Computer" on the drive home as homework before kiss #2.',
         isGoldStar: true,
         headmistressVerdict:
-          'Exact Headmistress calibration. State the standard once with a wink and watch how fast he upgrades.',
+          'Playful Headmistress perfection. Turn the gap into flirtatious musical education.',
         expression: 'laugh',
       },
       {
-        label: 'Suffer silently on a folded throw blanket all night and resent him over morning coffee.',
+        label: 'Scold him for twenty minutes about ticket stubs from the nineties.',
         isGoldStar: false,
         headmistressVerdict:
-          'Never martyr your neck for a man who would gladly fix it tomorrow if told plainly.',
+          'Gatekeeping like an angry record-store clerk dries up the flirtation fast.',
         expression: 'icked',
       },
       {
-        label: 'Secretly ship two hundred dollars of luxury bedding to his apartment yourself.',
+        label: 'Pretend Radiohead is a brand-new indie band you have never heard of either.',
         isGoldStar: false,
         headmistressVerdict:
-          'Put the card away. Let him invest the effort into hosting you properly.',
+          'Never play dumb about your own cultural canon.',
         expression: 'smirk',
       },
     ],
-    fixItAffiliateId: 'percale-hosting-sheets',
+    fixItAffiliateId: 'after-dark-couples-deck',
   },
   {
-    id: 'hm-03-midnight-u-up-ping',
+    id: 'hm-03-babysitter-warzone-flake',
     moduleNumber: 3,
-    topicTag: '📱 Midnight Crumbs',
+    topicTag: '🎮 Sitter Clock',
     sceneImage: './images/scenes/wine-bar-booth.jpg',
     punchyQuestion:
-      'A handsome 25-year-old goes quiet for three days, then texts "u up? wyd" at 11:54 PM Thursday. Your move?',
-    title: 'Training Out Midnight Low-Effort Pings',
+      'You booked an $80 sitter; at 6:40 PM he texts "in a Call of Duty match lol." Verdict?',
+    title: 'Enforcing Sacred Babysitter & Prime-Time Respect',
     redditComplaintQuote:
-      '"Answer a midnight wyd once and you will never see a 7:30 PM reservation from him."',
+      '"Paid a sitter twenty-five an hour and dressed to kill while he finished a video-game lobby with his roommates."',
     scenarioSetup:
-      'Your phone lights up on the nightstand minutes before midnight after radio silence since Monday.',
+      'Your heels are on and your evening window is priceless when he asks to push dinner back ninety minutes.',
     rookieCrime:
-      'Rewarding zero-effort late-night pings with immediate access or three-paragraph lectures.',
+      'Sitting home dressed up waiting on a man who prioritizes a headset over a real woman.',
     options: [
       {
-        label: 'Reply right away and drive across town at midnight to prove how spontaneous you are.',
+        label: 'Wait patiently on your sofa until 9:30 PM hoping his squad wraps up.',
         isGoldStar: false,
         headmistressVerdict:
-          'Accepting midnight crumbs guarantees you never get prime-time effort.',
+          'Rewarding video-game tardiness teaches him your calendar is free.',
         expression: 'icked',
       },
       {
-        label: 'Type a four-paragraph midnight essay explaining why women in their forties deserve better.',
-        isGoldStar: false,
-        headmistressVerdict:
-          'Never write free dissertations for a man lying sideways on a sofa.',
-        expression: 'icked',
-      },
-      {
-        label: 'Sleep soundly, then reply at 10 AM: "Asleep like a grown adult. Text me when you plan real 7:30 drinks."',
+        label: 'Take yourself out for solo oysters at the bar and revoke his Friday slot.',
         isGoldStar: true,
         headmistressVerdict:
-          'Masterclass. Zero anger, unmistakable boundary, ball squarely in his court.',
+          'Ruthless grace. Never waste great lipstick or babysitter hours on a boy.',
         expression: 'smirk',
+      },
+      {
+        label: 'Send fourteen furious voice notes yelling at him over speakerphone.',
+        isGoldStar: false,
+        headmistressVerdict:
+          'Silence and an unbothered solo martini hit ten times harder than yelling.',
+        expression: 'icked',
       },
     ],
     fixItAffiliateId: 'black-cat-girlfriend-leopard-mug',
   },
   {
-    id: 'hm-04-nosy-brunch-friend',
+    id: 'hm-04-girls-my-age-pickme',
     moduleNumber: 4,
-    topicTag: '👯‍♀️ Brunch Shade',
+    topicTag: '🚩 Flattery Check',
     sceneImage: './images/scenes/palm-springs-resort.jpg',
     punchyQuestion:
-      'At Sunday brunch, a skeptical friend smirks: "He is 27? What could you two possibly talk about?" Your reply?',
-    title: 'Shutting Down Projection With Unbothered Joy',
+      'Over drinks he grins: "Girls my age are all crazy drama, older women are chill." Grade?',
+    title: 'Checking the "No Drama = Zero Standards" Trap',
     redditComplaintQuote:
-      '"Half the snark at brunch comes from people stuck in joyless marriages projecting onto your glow."',
+      '"When a 24-year-old says every woman his age is crazy, translation: they called out his low effort."',
     scenarioSetup:
-      'Over mimosas, your table waits to see if you flinch when someone pokes at your twelve-year age gap.',
+      'He leans across the table expecting applause for bashing twenty-four-year-old women.',
     rookieCrime:
-      'Over-explaining, apologizing for your happiness, or handing over private messages for group inspection.',
+      'Mistaking "cool chill older woman" projection for genuine emotional maturity.',
     options: [
       {
-        label: 'Sip unbothered: "Books, travel, and great Sunday breakfast. Zero bitter ex-spouse monologues so far."',
+        label: 'Arch a brow: "I am selective, never chill. Praise me without trashing 24-year-olds."',
         isGoldStar: true,
         headmistressVerdict:
-          'Pure silk. Amused confidence ends nosy commentary in one sentence flat.',
+          'Iconic correction. You defend sisterhood AND warn him your standards are sky-high.',
         expression: 'laugh',
       },
       {
-        label: 'Apologize defensively for ten minutes and promise it is "probably ending next week anyway."',
+        label: 'Beam proudly and promise you will never ask for effort or communication.',
         isGoldStar: false,
         headmistressVerdict:
-          'Never shrink a good thing to make a cynical spectator comfortable.',
+          'Auditioning as the "zero-needs cool girl" invites terrible behavior by week three.',
         expression: 'icked',
       },
       {
-        label: 'Pass your unlocked phone around the table reading his private messages aloud.',
+        label: 'Spend the rest of dinner dissecting every detail of his college breakups.',
         isGoldStar: false,
         headmistressVerdict:
-          'Protect your private intimacy; your calm smile is all the proof anyone needs.',
+          'Keep your therapist pad closed; one sharp sentence sets the frame.',
         expression: 'icked',
       },
     ],
     fixItAffiliateId: 'big-carl-giant-wine-glass',
   },
   {
-    id: 'hm-05-bedroom-pace-direction',
+    id: 'hm-05-accidental-yes-maam-slip',
     moduleNumber: 5,
-    topicTag: '🔥 Setting the Pace',
+    topicTag: '🤠 "Yes Ma’am" Slip',
     sceneImage: './images/scenes/hotel-pool-sauna.jpg',
     punchyQuestion:
-      'First night back at your place: he is wildly enthusiastic yet rushing like a timed sprint. How do you steer?',
-    title: 'Directing Eager Energy Into Slow-Burn Mastery',
+      'You ask him to pass the wine and a polite Southern "Yes ma’am" slips out. Your move?',
+    title: 'Flipping Polite Reflexes Into Flirtatious Tension',
     redditComplaintQuote:
-      '"Younger men are thrilled to learn what you love when you guide them warmly in the moment."',
+      '"Sweet 26M Texas firefighter accidentally said Yes ma’am on Date 1, turned bright red, and recovered like a king."',
     scenarioSetup:
-      'Chemistry is electric, though his nerves have him moving at double speed.',
+      'His upbringing kicked in on autopilot and he freezes mid-blush realizing what he just said.',
     rookieCrime:
-      'Faking satisfaction to spare his ego or turning intimacy into a cold critique.',
+      'Spiraling into age insecurity over good manners instead of owning the tension playfully.',
     options: [
       {
-        label: 'Fake a finish in four minutes to protect his ego and stare at the ceiling.',
+        label: 'Flip the breadbasket and storm out over manners his mom drilled into him.',
         isGoldStar: false,
         headmistressVerdict:
-          'Counterfeit praise locks in terrible habits forever.',
+          'Overreacting to polite nerves ruins an adorable comedy beat.',
         expression: 'icked',
       },
       {
-        label: 'Catch his wrists with a slow smile, slow his breathing down, and whisper exactly what feels best.',
+        label: 'Hold eye contact with a slow smirk: "Save that manners voice for after midnight."',
         isGoldStar: true,
         headmistressVerdict:
-          'Signature Cougar superpower. Warm, specific guidance turns eager energy into unforgettable chemistry.',
+          'Lethal chemistry pivot. His pulse just jumped to 140 in two seconds flat.',
         expression: 'blush',
       },
       {
-        label: 'Halt everything to deliver a stern lecture comparing him to your ex-husband.',
+        label: 'Sigh loudly about feeling eighty years old for the next twenty minutes.',
         isGoldStar: false,
         headmistressVerdict:
-          'Guide with heat in the moment, never a boardroom post-mortem.',
+          'Never self-deprecate your own magnetism at the dinner table.',
         expression: 'icked',
       },
     ],
@@ -694,7 +694,7 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
     topicTag: '🚩 Moocher Vetting',
     sceneImage: './images/scenes/cougarmarket-wine.jpg',
     punchyQuestion:
-      'On Date #2, a charming 24-year-old jokes: "Since you are an exec, maybe you can sponsor my Cabo trip." Verdict?',
+      'On Date #2, a 24M date jokes: "Maybe an exec like you can sponsor my Cabo trip." Verdict?',
     title: 'Spotting the Disguised Purse-Moocher Early',
     redditComplaintQuote:
       '"Every hobosexual floats a joke on Date #2 to test if your wallet is open."',
@@ -711,95 +711,95 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
         expression: 'icked',
       },
       {
-        label: 'Pretend you missed the comment and hope the mooching jokes stop on their own.',
+        label: 'Pretend you missed the comment and hope the mooching jokes stop later.',
         isGoldStar: false,
         headmistressVerdict:
           'Trial balloons always turn into real requests if you smile past them.',
         expression: 'icked',
       },
       {
-        label: 'Hold eye contact with a dry grin: "Cute try, I spoil partners with company, never allowances." Watch his face.',
+        label: 'Hold his gaze dryly: "Cute try. I spoil partners with company, never allowances."',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star vetting. A real peer laughs with respect; a moocher sours within five minutes.',
+          'Gold Star vetting. A real peer laughs with respect; a moocher sours in five minutes.',
         expression: 'smirk',
       },
     ],
     fixItAffiliateId: 'short-leash-leather-dog-leash',
   },
   {
-    id: 'hm-07-sanctuary-lease-boundary',
+    id: 'hm-07-kitchen-labrador-hover',
     moduleNumber: 7,
-    topicTag: '🏡 Sanctuary Keys',
+    topicTag: '🐕 Kitchen Hover',
     sceneImage: './images/scenes/sunday-kitchen-sanctuary.jpg',
     punchyQuestion:
-      'Four months in, his roommate lease ends and he hints about moving his desk into your sunlit den. Your boundary?',
-    title: 'Protecting Your Sanctuary From Convenience Leases',
+      'Sunday morning he trails two inches behind you in the kitchen eager to help. Steer?',
+    title: 'Channeling Golden-Retriever Energy Into Sous-Chef Mastery',
     redditComplaintQuote:
-      '"Never let an expiring roommate lease rush a man into the peaceful home you spent years building."',
+      '"My 27M stands right behind my elbow like an excited Labrador waiting for a job assignment."',
     scenarioSetup:
-      'Weekend sleepovers are wonderful, and suddenly his moving boxes need a home next month.',
+      'He stayed over and genuinely wants to be useful, though he is blocking every cabinet.',
     rookieCrime:
-      'Surrendering your personal sanctuary out of guilt before a relationship has earned it.',
+      'Doing all the work yourself while resenting him, or snapping at sweet enthusiasm.',
     options: [
       {
-        label: 'Affirm the spark warmly: "I love our weekends here, and keeping two separate homes for year one keeps us thriving."',
+        label: 'Tie an apron on him, assign rosemary potatoes, and grade from the island with coffee.',
         isGoldStar: true,
         headmistressVerdict:
-          'Living-Apart-Together wisdom. Boundaries stated warmly protect both your peace and the romance.',
+          'Peak Sanctuary leadership. Eager Cubs beam brightest with a clear mission.',
         expression: 'blush',
       },
       {
-        label: 'Hand over a spare key and clear out your study even though your stomach knots up.',
+        label: 'Shoo him onto the couch and scrub every pan yourself like his mom.',
         isGoldStar: false,
         headmistressVerdict:
-          'Resentment moves in faster than his monitor stand ever could.',
+          'Never train an eager partner into passive couch furniture.',
         expression: 'icked',
       },
       {
-        label: 'Ghost him out of panic instead of speaking one honest sentence.',
+        label: 'Bark instructions like a stressed line cook before your first espresso.',
         isGoldStar: false,
         headmistressVerdict:
-          'Grown women hold clear boundaries without blowing up good connections.',
+          'Direct with warmth and a wink, never kitchen-nightmare chaos.',
         expression: 'icked',
       },
     ],
     fixItAffiliateId: 'houseboy-linen-apron',
   },
   {
-    id: 'hm-08-planning-handoff',
+    id: 'hm-08-usher-karate-van-foul',
     moduleNumber: 8,
-    topicTag: '🍸 Friday Planning',
+    topicTag: '🎶 2004 Throwback',
     sceneImage: './images/scenes/velvet-room-bar.jpg',
     punchyQuestion:
-      'He asks to see you Friday, then texts: "Down for whatever! Pick the neighborhood, spot, and time?" Your reply?',
-    title: 'Refusing Unpaid Concierge Duty',
+      'Usher’s "Yeah!" drops at the bar and he beams: "Mom drove me to karate to this!" Move?',
+    title: 'Turning Childhood Throwback Blunders Into Bar Tab Penalties',
     redditComplaintQuote:
-      '"Give a smart younger man a playful prompt to lead once, and watch how quickly he steps up."',
+      '"My 2004 club anthem came on and he fondly recalled drinking juice boxes in the backseat to it."',
     scenarioSetup:
-      'You just wrapped nine hours of executive decisions and receive an unscheduled planning assignment.',
+      'He has zero idea he just placed your peak going-out era inside an elementary carpool lane.',
     rookieCrime:
-      'Silently taking over 100% of date logistics and then wondering why he stops initiating.',
+      'Letting an accidental timeline blunder kill the vibe instead of taxing him playfully.',
     options: [
       {
-        label: 'Spend forty minutes researching OpenTable, booking the table, and sending him parking pins.',
+        label: 'Fake a sudden headache and Uber home solo before the chorus finishes.',
         isGoldStar: false,
         headmistressVerdict:
-          'You just hired yourself as his unpaid social secretary before Date #2.',
+          'If you date ten years younger, timeline comedy comes free with admission!',
         expression: 'icked',
       },
       {
-        label: 'Reply playfully: "I clock out of decisions at 6 PM Friday. Send two great cocktail spots and I will pick A or B."',
+        label: 'Tap his chest: "Penalty flag. Next round is on you, and zero minivan stories."',
         isGoldStar: true,
         headmistressVerdict:
-          'Effortless feminine frame. High-EQ Cubs love rising to a clear, playful standard.',
+          'Flawless Headmistress recovery. Laugh, tax the infraction, and pull him onto the floor.',
         expression: 'laugh',
       },
       {
-        label: 'Cancel Friday abruptly without telling him what went wrong.',
+        label: 'Spend half an hour explaining flip phones and Razr ringtones.',
         isGoldStar: false,
         headmistressVerdict:
-          'Give a promising match one clear cue before tossing the whole ticket.',
+          'Dance to the horn section instead of narrating tech history.',
         expression: 'icked',
       },
     ],
@@ -811,151 +811,151 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
     topicTag: '🎯 Tourist Check',
     sceneImage: './images/scenes/neon-bowling-lounge.jpg',
     punchyQuestion:
-      'Over second-date drinks, he grins: "Dating an older woman has been on my bucket list since college." How do you grade it?',
+      'He grins on Date #2: "Dating an older woman was on my college bucket list." Your test?',
     title: 'Separating Nervous Flattery From Novelty Tourists',
     redditComplaintQuote:
       '"One raised eyebrow tells you in ten seconds whether he sees a fantasy category or sees YOU."',
     scenarioSetup:
       'He thinks he just paid you a bold compliment, unaware he stepped onto thin ice.',
     rookieCrime:
-      'Accepting novelty-category status instead of testing whether he actually knows who sits across from him.',
+      'Accepting novelty-category status instead of testing whether he actually sees you.',
     options: [
       {
         label: 'Beam proudly at helping a stranger cross off his college bingo card.',
         isGoldStar: false,
         headmistressVerdict:
-          'You are a magnetic individual, never a tandem-skydiving voucher.',
+          'You are a magnetic individual, never a skydiving voucher.',
         expression: 'icked',
       },
       {
-        label: 'Arch one brow: "Bucket lists are for tourists. Tell me two things you like about me besides my birth year."',
+        label: 'Arch one brow: "Bucket lists are for tourists. Name two things you like about ME."',
         isGoldStar: true,
         headmistressVerdict:
-          'Laser-guided test. Genuine admirers pivot to your wit and warmth; tourists fumble on the spot.',
+          'Laser-guided test. Real admirers name your wit and laugh; tourists fumble fast.',
         expression: 'smirk',
       },
       {
-        label: 'Toss your drink across the booth and storm out.',
+        label: 'Toss your drink across the table and storm out in silence.',
         isGoldStar: false,
         headmistressVerdict:
-          'Save the glassware; one calm eyebrow arch makes him sweat ten times harder.',
+          'Save good gin; one calm eyebrow arch makes him sweat ten times harder.',
         expression: 'icked',
       },
     ],
     fixItAffiliateId: 'no-hard-feelings-jlaw-prime',
   },
   {
-    id: 'hm-10-coworker-run-in',
+    id: 'hm-10-neon-body-wash-upgrade',
     moduleNumber: 10,
-    topicTag: '🤝 Public Pride',
+    topicTag: '🧴 Scent Upgrade',
     sceneImage: './images/scenes/wedding-gala-cheers.jpg',
     punchyQuestion:
-      'Two of his coworkers walk into the wine bar, and he drops your hand to introduce you as "my friend." Your verdict?',
-    title: 'Zero Tolerance for Back-Booth Secrecy',
+      'His shower holds a giant jug of neon "Sport Blast" wash before weekend #2. Upgrade move?',
+    title: 'The Art of Ethical Scent & Grooming Upgrades',
     redditComplaintQuote:
-      '"If he cannot hold your hand in daylight, he forfeits midnight privileges immediately."',
+      '"Gifted him cedar-bergamot wash once with a compliment; he smelled like a boutique hotel by Friday."',
     scenarioSetup:
-      'After weeks of chemistry, a surprise run-in reveals how he handles public eyes.',
+      'Everything else about him is dreamy, except soap engineered to smell like blue Gatorade.',
     rookieCrime:
-      'Shrinking into a secret "mentor" cover story to protect an insecure man from harmless teasing.',
+      'Roasting him mercilessly or enduring chemical body spray against silk sheets.',
     options: [
       {
-        label: 'Play along as his career mentor all evening so his coworkers do not tease him.',
+        label: 'Roast his shower shelf to your group chat while saying nothing to him.',
         isGoldStar: false,
         headmistressVerdict:
-          'Never audition for a man’s closet. Secrecy is an automatic expulsion.',
+          'Good Cubs cannot fix blind spots nobody mentions.',
         expression: 'icked',
       },
       {
-        label: 'Start a loud argument right in front of his coworkers at the bar.',
+        label: 'Deliver a stern thirty-minute lecture on parabens before coffee.',
         isGoldStar: false,
         headmistressVerdict:
-          'Keep your composure immaculate; quiet exits carry ten times the weight.',
+          'Positive reinforcement beats nagging one hundred times out of one hundred.',
         expression: 'icked',
       },
       {
-        label: 'Stay poised for two minutes, then tell him outside: "I only date men proud to stand beside me in every room."',
+        label: 'Drop cedarwood wash by his sink with a wink: "Wear this Friday and don’t make plans."',
         isGoldStar: true,
         headmistressVerdict:
-          'Unforgettable dignity. You never raise your voice, and your standard stays undefeated.',
+          'Unstoppable positive reinforcement. That neon bottle hits the trash inside sixty seconds.',
         expression: 'smirk',
       },
     ],
-    fixItAffiliateId: 'golden-retriever-boyfriend-mug',
+    fixItAffiliateId: 'date-night-oud-bergamot',
   },
   {
-    id: 'hm-11-kids-timeline-truth',
+    id: 'hm-11-bedroom-pace-direction',
     moduleNumber: 11,
-    topicTag: '🕰️ Chapter Alignment',
+    topicTag: '🔥 Setting Pace',
     sceneImage: './images/scenes/canyon-sunrise-trail.jpg',
     punchyQuestion:
-      'Six months in, chemistry is S-Rank when he mentions wanting two biological kids by 32, and your baby chapter is closed. Call?',
-    title: 'Radical Kindness on Future Timelines',
+      'First night at your place: he is wildly eager yet rushing at double speed. Your move?',
+    title: 'Directing Eager Stamina Into Slow-Burn Mastery',
     redditComplaintQuote:
-      '"Real grown-up love puts all cards face-up on the table so nobody’s decade gets quietly spent."',
+      '"Younger men are thrilled to learn what you love when you guide them warmly in the moment."',
     scenarioSetup:
-      'On a sunlit Sunday trail walk, future family hopes surface for the first time.',
+      'Chemistry is electric, though first-night nerves have him moving like a timed sprint.',
     rookieCrime:
-      'Dodging the conversation for years out of fear of losing great present-day chemistry.',
+      'Faking satisfaction to spare his ego or turning intimacy into a cold post-mortem.',
     options: [
       {
-        label: 'Change the subject for two years hoping he quietly forgets about wanting kids.',
+        label: 'Fake a finish in four minutes to protect his ego and stare at the ceiling.',
         isGoldStar: false,
         headmistressVerdict:
-          'Postponing fundamental truth steals precious chapters from both of you.',
+          'Counterfeit praise locks in terrible habits forever.',
         expression: 'icked',
       },
       {
-        label: 'Have the honest, loving Sunday talk now so you both choose your path with wide-open eyes.',
+        label: 'Catch his wrists with a slow smile, slow his breathing, and whisper what feels best.',
         isGoldStar: true,
         headmistressVerdict:
-          'Highest emotional maturity. Truth spoken with warmth honors both hearts.',
+          'Signature Cougar superpower. Warm direction turns eager energy into S-Rank magic.',
         expression: 'blush',
       },
       {
-        label: 'Pick a random fight over dinner plates so he ends things without knowing why.',
+        label: 'Halt everything for a harsh lecture comparing him to your ex-husband.',
         isGoldStar: false,
         headmistressVerdict:
-          'Manufactured drama is beneath a woman who knows her own heart.',
+          'Guide with heat in the moment, never a boardroom review.',
         expression: 'icked',
       },
     ],
-    fixItAffiliateId: 'part-of-your-world-book',
+    fixItAffiliateId: 'cooling-bamboo-sheets',
   },
   {
-    id: 'hm-12-retiring-self-sabotage',
+    id: 'hm-12-praising-graduated-cub',
     moduleNumber: 12,
-    topicTag: '👑 Receiving Devotion',
+    topicTag: '👑 Good-Boy Seal',
     sceneImage: './images/scenes/coastal-convertible.jpg',
     punchyQuestion:
-      'He shows up consistently, brings morning croissants, holds your hand proudly, and plans a coastal weekend. Fear whispers about the 14-year gap. Move?',
-    title: 'Letting a Vetted Golden Cub Actually Adore You',
+      'He upgraded his sheets, booked 7:30 Friday, and held your hand proudly all night. Move?',
+    title: 'Reinforcing S-Rank Effort With Unmistakable Warmth',
     redditComplaintQuote:
-      '"Vetting out clowns is half the art; retiring the imaginary audience when you find a gem is the rest."',
+      '"Tell a devoted younger man Good boy when he nails Friday logistics and he will move mountains."',
     scenarioSetup:
-      'He has passed every green-flag test with flying colors, and only your own protective armor stands in the way.',
+      'He took every note seriously, showed up five minutes early, and made your whole week lighter.',
     rookieCrime:
-      'Blowing up rare, healthy devotion with pre-emptive breakup speeches "for his own good."',
+      'Withholding appreciation to play cool when a genuinely coachable partner steps up.',
     options: [
       {
-        label: 'Retire the imaginary audience, pack the weekender bag, and let yourself savor a partner who shows up 100%.',
+        label: 'Touch his jaw warmly: "Good boy, you actually pay attention," and reward his effort.',
         isGoldStar: true,
         headmistressVerdict:
-          'Highest Headmistress Distinction! You know how to vet ruthlessly and love generously.',
+          'Highest Headmistress Distinction! Clear standards + generous praise = unstoppable devotion.',
         expression: 'blush',
       },
       {
-        label: 'Deliver a dramatic breakup monologue "for his own good" before anyone can judge.',
+        label: 'Invent three brand-new complaints so he never gets comfortable.',
         isGoldStar: false,
         headmistressVerdict:
-          'Pre-emptive self-sabotage is just fear dressed up as nobility.',
+          'Moving goalposts exhausts the exact men worth keeping.',
         expression: 'icked',
       },
       {
-        label: 'Interrogate him every Friday night asking when he plans to trade you in for someone 26.',
+        label: 'Act icy and unimpressed so he keeps chasing approval.',
         isGoldStar: false,
         headmistressVerdict:
-          'Cross-examining a devoted partner pushes away the exact joy you earned.',
+          'Games are for twenty-two-year-olds; grown queens reward real devotion.',
         expression: 'icked',
       },
     ],

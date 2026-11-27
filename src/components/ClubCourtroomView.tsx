@@ -484,22 +484,29 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
             <span>Back to Roster</span>
           </button>
 
-          <button
-            type="button"
-            onClick={onOpenCubAcademy}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
-          >
-            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>Enter Cub Obedience School →</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="#courtroom-pitch-form"
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3.5 text-xs sm:text-sm font-semibold text-rose-900 hover:bg-rose-100 transition-colors"
+            >
+              <Send className="h-3.5 w-3.5 text-rose-600" />
+              <span>+ Submit Real Date Case (+15 XP)</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={onOpenCubAcademy}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+              <span>Enter Cub Obedience School →</span>
+            </button>
+          </div>
         </div>
 
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-950">
           Crown Him or Dump Him • Club Courtroom
         </h1>
-        <p className="text-sm text-zinc-600 max-w-3xl">
-          Vote on <strong>Today’s Synchronized Daily Drop</strong>, compare Cougar vs. Cub blind-spot percentages, and submit anonymous real-life field reports.
-        </p>
       </section>
 
       {/* TODAY'S SYNCHRONIZED DAILY RED FLAG DROP */}
@@ -643,7 +650,10 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
         </div>
 
         {/* PITCH YOUR REAL DATE TO BE GREENLIT INTO THE GAME */}
-        <aside className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-xs space-y-3.5 lg:sticky lg:top-20">
+        <aside
+          id="courtroom-pitch-form"
+          className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-xs space-y-3.5 lg:sticky lg:top-20"
+        >
           <div className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
             <Sparkles className="h-3.5 w-3.5 text-zinc-500" />
             <span>Greenlight Board • +15 XP</span>

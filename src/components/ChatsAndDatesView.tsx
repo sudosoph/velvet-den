@@ -9,7 +9,6 @@ import {
   GraduationCap,
   Hash,
   Heart,
-  Lock,
   MessageCircle,
   Phone,
   Search,
@@ -1823,128 +1822,67 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       </div>
                       <span
                         data-testid="photo-drop-cost-badge"
-                        className={`rounded-full border px-2.5 py-0.5 text-[10px] font-extrabold ${
-                          wallet.isVip ||
-                          wallet.isFounderUnlimited ||
-                          wallet.unlockedPhotoIds.includes(activeBeat.photoDrop.id)
-                            ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
-                            : wallet.unlockedPhotoIds.length === 0
-                              ? 'bg-amber-100 border-amber-300 text-amber-950'
-                              : 'bg-white border-zinc-200 text-zinc-700'
-                        }`}
+                        className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-900"
                       >
-                        {wallet.isVip || wallet.isFounderUnlimited
-                          ? 'VIP Included'
-                          : wallet.unlockedPhotoIds.includes(activeBeat.photoDrop.id)
-                            ? '✨ Unlocked'
-                            : wallet.unlockedPhotoIds.length === 0
-                              ? `🎁 1st Sample Free (${activeBeat.photoDrop.unlockCost} Cr Value)`
-                              : `${activeBeat.photoDrop.unlockCost} Cr`}
+                        Included Free • Live Photo
                       </span>
                     </div>
 
-                    {wallet.isVip ||
-                    wallet.isFounderUnlimited ||
-                    wallet.unlockedPhotoIds.includes(activeBeat.photoDrop.id) ? (
-                      <div className="space-y-2.5">
-                        <img
-                          src={activeBeat.photoDrop.imageUrl}
-                          alt={activeBeat.photoDrop.previewCaption}
-                          className="h-64 w-full rounded-xl object-cover object-top"
-                        />
-                        <div className="rounded-xl bg-white border border-zinc-200 p-3 text-xs font-medium text-zinc-800 leading-relaxed">
-                          {activeBeat.photoDrop.secretNote}
-                        </div>
-                        {currentChapter.cutLooseVerdict.isActualTrap ? (
-                          <div className="space-y-2">
-                            <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-900">
-                              🚨 Smoking-Gun Receipt Exposed! Cut loose now to claim your Discernment XP.
-                            </div>
-                            <button
-                              type="button"
-                              onClick={handleTriggerCutLoose}
-                              className="w-full rounded-xl bg-rose-600 hover:bg-rose-700 px-4 py-2.5 text-xs font-extrabold text-white transition cursor-pointer"
-                            >
-                              🚫 Block Number &amp; Claim XP Receipt →
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-900">
-                            💖 +10% Chemistry Spark Unlocked • Evening Portrait Saved!
-                          </div>
-                        )}
+                    <div className="space-y-2.5">
+                      <img
+                        src={activeBeat.photoDrop.imageUrl}
+                        alt={activeBeat.photoDrop.previewCaption}
+                        className="h-64 w-full rounded-xl object-cover object-top"
+                      />
+                      <div className="rounded-xl bg-white border border-zinc-200 p-3 text-xs font-medium text-zinc-800 leading-relaxed">
+                        {activeBeat.photoDrop.secretNote}
                       </div>
-                    ) : (
-                      <div className="space-y-2.5">
-                        <div className="relative overflow-hidden rounded-xl">
-                          <img
-                            src={activeBeat.photoDrop.imageUrl}
-                            alt="Private camera roll preview"
-                            className="h-52 w-full object-cover object-top blur-md scale-105 brightness-95"
-                          />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-zinc-950/35 p-3 text-center">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const effectiveCost =
-                                  wallet.unlockedPhotoIds.length === 0
-                                    ? 0
-                                    : activeBeat.photoDrop!.unlockCost;
-                                const unlocked = onUnlockBucketItem(
-                                  'unlockedPhotoIds',
-                                  activeBeat.photoDrop!.id,
-                                  effectiveCost,
-                                );
-                                if (unlocked) {
-                                  sfx.greenFlag();
-                                  if (!currentChapter.cutLooseVerdict.isActualTrap) {
-                                    setSparkToast({ delta: 10, nonce: Date.now() });
-                                    onUpdateThread({
-                                      ...currentThread,
-                                      chemistry: Math.min(100, currentThread.chemistry + 10),
-                                    });
-                                  }
-                                }
-                              }}
-                              className="inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-zinc-100 px-4 py-2 text-xs font-extrabold text-zinc-950 shadow-md transition cursor-pointer"
-                            >
-                              {wallet.unlockedPhotoIds.length === 0 ? (
-                                <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-                              ) : (
-                                <Lock className="h-3.5 w-3.5 text-rose-600" />
-                              )}
-                              <span>Unblur Portrait &amp; Secret Note</span>
-                            </button>
 
-                            {!inspectedExifIds.includes(activeBeat.photoDrop.id) && (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  sfx.messagePop();
-                                  setInspectedExifIds((prev) => [
-                                    ...prev,
-                                    activeBeat.photoDrop!.id,
-                                  ]);
-                                }}
-                                className="inline-flex items-center gap-1 rounded-full bg-zinc-950/80 hover:bg-zinc-950 px-3 py-1 text-[11px] font-semibold text-white transition cursor-pointer"
-                              >
-                                <Search className="h-3 w-3" />
-                                <span>Inspect Photo Metadata</span>
-                              </button>
-                            )}
-                          </div>
-                        </div>
-
-                        {inspectedExifIds.includes(activeBeat.photoDrop.id) && (
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        {!inspectedExifIds.includes(activeBeat.photoDrop.id) ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              sfx.messagePop();
+                              setInspectedExifIds((prev) => [
+                                ...prev,
+                                activeBeat.photoDrop!.id,
+                              ]);
+                            }}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white hover:bg-zinc-100 px-3 py-1.5 text-[11px] font-bold text-zinc-900 transition cursor-pointer"
+                          >
+                            <Search className="h-3 w-3" />
+                            <span>Inspect Photo Metadata</span>
+                          </button>
+                        ) : (
                           <div
                             data-testid="photo-exif-clue"
-                            className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-950 leading-snug"
+                            className="w-full rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-950 leading-snug"
                           >
                             {activeBeat.photoDrop.exifClue}
                           </div>
                         )}
                       </div>
-                    )}
+
+                      {currentChapter.cutLooseVerdict.isActualTrap ? (
+                        <div className="space-y-2">
+                          <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-900">
+                            🚨 Smoking-Gun Receipt Exposed! Cut loose now to claim your Discernment XP.
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleTriggerCutLoose}
+                            className="w-full rounded-xl bg-rose-600 hover:bg-rose-700 px-4 py-2.5 text-xs font-extrabold text-white transition cursor-pointer"
+                          >
+                            🚫 Block Number &amp; Claim XP Receipt →
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-900">
+                          💖 Candid Check-In Shared • Zero Credits Required
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 

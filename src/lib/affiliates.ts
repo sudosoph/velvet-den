@@ -74,7 +74,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'trophy-boyfriend-cooking-apron',
     name: '"Trophy Husband (In Training)" Pocket Chef Apron',
     category: 'cougar_cub_merch',
-    priceDisplay: '$18 Amazon Pick',
+    priceDisplay: 'Sous-Chef Amazon Pick',
     badge: '🐕 S-Rank Sous-Chef Apron',
     cheekyPitch:
       'Dual-pocket chef apron for the vetted younger partner who sears rosemary ribeye, washes every skillet before midnight, and wears his title with a grin.',
@@ -85,7 +85,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'leopard-print-cougar-apron',
     name: 'Classic Leopard-Print Hostess & Chef Apron (With Pockets)',
     category: 'cougar_cub_merch',
-    priceDisplay: '$16 Signature Pick',
+    priceDisplay: 'Signature Hostess Pick',
     badge: '🐆 Iconic Spotted Hostess Apron',
     cheekyPitch:
       'Whether she wears it shaking chilled martinis or ties it onto her 26-year-old sous-chef on Sunday morning, deep pockets hold the wine key and meat thermometer.',
@@ -96,18 +96,18 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'good-boy-brass-training-clicker',
     name: 'Ergonomic Obedience Training Clicker & Wrist-Strap Duo',
     category: 'cougar_cub_merch',
-    priceDisplay: '$9 Gag Gift',
+    priceDisplay: 'Impulse Gag Gift',
     badge: '🔔 Official Cub School Prop',
     cheekyPitch:
       'Keep one on the marble kitchen island and give a single polite click whenever he starts summarizing a three-hour finance podcast.',
-    whyItConverts: 'Under-$10 impulse add-on straight out of Cub Obedience School.',
+    whyItConverts: 'Pocket-sized impulse gag gift straight out of Cub Obedience School.',
     merchantUrl: 'https://www.amazon.com/dp/B08FQQ3R3S',
   },
   {
     id: 'funny-cougar-stemless-wine-glass',
     name: 'Godinger Original Cougar-Town Inspired Full-Bottle Wine Topper Glass',
     category: 'cougar_cub_merch',
-    priceDisplay: '$15 Gift Pick',
+    priceDisplay: 'Novelty Barware Gift',
     badge: '🍷 Cul-de-Sac Toast Classic',
     cheekyPitch:
       'Unapologetic barware built for girls’ night, divorce-party glow-ups, or celebrating six months with a partner who actually plans Friday dinner.',
@@ -118,7 +118,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'golden-retriever-boyfriend-mug',
     name: '"Golden Retriever Energy" Ceramic Morning Coffee Mug',
     category: 'cougar_cub_merch',
-    priceDisplay: '$15 Cute Gift',
+    priceDisplay: 'Morning Mug Pick',
     badge: '☕ Morning Espresso Favorite',
     cheekyPitch:
       'For the sunny, unbothered 27-year-old who texts back in ninety seconds, carries every grocery bag in one trip, and brings oat lattes to bed.',
@@ -129,7 +129,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'black-cat-girlfriend-leopard-mug',
     name: '"Black Cat Energy" Ceramic Espresso Mug',
     category: 'cougar_cub_merch',
-    priceDisplay: '$15 Cute Gift',
+    priceDisplay: 'Matching Mug Pick',
     badge: '🐈‍⬛ Selective Counterpart Mug',
     cheekyPitch:
       'Pairs beside his Golden-Retriever mug on the counter, built for the poised Black-Cat woman whose calendar and standards stay undefeated.',
@@ -140,7 +140,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'cougar-hunter-retro-trucker-hat',
     name: 'Retro Foam Novelty Lake-Day & Pickleball Snapback Trucker Hat',
     category: 'cougar_cub_merch',
-    priceDisplay: '$17 Gag Pick',
+    priceDisplay: 'Weekend Gag Cap',
     badge: '🧢 Claimed Weekend Cap',
     cheekyPitch:
       'Self-referential comedy for boat days, mixed-doubles courts, and backyard BBQs once she officially claims him off the apps.',
@@ -151,7 +151,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'houseboy-linen-apron',
     name: 'Japanese Cross-Back Washed Cotton-Linen Chef Apron',
     category: 'houseboy',
-    priceDisplay: '$22 Kitchen Pick',
+    priceDisplay: 'Washed Linen Pick',
     badge: '🥂 Sunday Brunch Uniform',
     cheekyPitch:
       'No neck-tie pinch, two deep side pockets, and washed linen drape for the man who preps homemade pasta and leaves the kitchen spotless.',
@@ -162,7 +162,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'trail-hydration-vest',
     name: 'Salomon Cross 12 Ultralight Trail-Running Hydration Pack',
     category: 'trail_wellness',
-    priceDisplay: '$89 Trail Pick',
+    priceDisplay: 'Pro Trail Gear',
     badge: '🏔️ 6 AM Ridge-Run Essential',
     cheekyPitch:
       'Bragging about twenty-something cardio means nothing when an experienced coastal runner drops you on mile four of the bluff trail.',
@@ -173,7 +173,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'princess-mulberry-silk-robe',
     name: 'LILYSILK Women’s 100% Grade-6A Mulberry Silk Kimono Lounge Robe',
     category: 'princess_luxury',
-    priceDisplay: '$169 Luxury Pick',
+    priceDisplay: '6A Mulberry Silk Gift',
     badge: '👑 Chapter-Two Soft-Life Icon',
     cheekyPitch:
       'She ran everyone else’s meetings all week. Pour a chilled Pinot, run the bath, and wrap her in pure Grade-6A mulberry silk charmeuse.',
@@ -184,7 +184,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'hosting-lidded-bin-soap',
     name: 'Sleek Matte-Black Step Bathroom Trash Can With Soft-Close Lid',
     category: 'hosting_upgrade',
-    priceDisplay: '$29 Hosting Fix',
+    priceDisplay: 'Cub Hosting Fix',
     badge: '🧴 Cub School Drill #1 Fix',
     cheekyPitch:
       'Rule one of Cub Obedience School before inviting a grown woman over: retire the open plastic wastebasket and put a lidded bin beside clean hand towels.',
@@ -195,7 +195,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'percale-hosting-sheets',
     name: 'Linenwalas 100% Organic Long-Staple Cotton Crisp Sheet Set (Queen)',
     category: 'hosting_upgrade',
-    priceDisplay: '$58 Bedroom Upgrade',
+    priceDisplay: 'Bedroom Upgrade',
     badge: '🛏️ Cub School Drill #2 Fix',
     cheekyPitch:
       'Retire the navy dorm microfiber and single pancake pillow before she sees your apartment. Crisp breathable cotton and four real pillows are mandatory.',
@@ -206,7 +206,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'date-night-oud-bergamot',
     name: 'NOIR Essence Bergamot, Cedar & Warm Amber Eau de Parfum (3.4 oz)',
     category: 'date_night',
-    priceDisplay: '$36 Scent Pick',
+    priceDisplay: 'Signature Scent Pick',
     badge: '🌲 Close-Collarbone Signature',
     cheekyPitch:
       'Leaves locker-room body spray in college. Warm bergamot, dry cedarwood, and subtle amber built for leaning across a mahogany cocktail bar.',
@@ -217,7 +217,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'espresso-martini-barware',
     name: 'Mint & Mortar 7-Piece Copper Cocktail Shaker & Bamboo Stand Set',
     category: 'date_night',
-    priceDisplay: '$38 Barware Set',
+    priceDisplay: '7-Piece Barware Set',
     badge: '🍸 Marlow Lounge Home Bar Kit',
     cheekyPitch:
       'Weighted 24-ounce copper cobbler shaker, double jigger, and Hawthorne strainer for shaking two frothy espresso martinis after dinner.',
@@ -228,7 +228,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'after-dark-couples-deck',
     name: "We're Not Really Strangers: Couples Edition Card Game (150 Cards)",
     category: 'date_night',
-    priceDisplay: '$25 Date-Night Game',
+    priceDisplay: '150-Card Date Game',
     badge: '🃏 Three-Level Chemistry Deck',
     cheekyPitch:
       'Skip repetitive app small talk and deal three levels of thoughtful, disarming late-night prompts over wine on the sofa.',
@@ -239,7 +239,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'cooling-bamboo-sheets',
     name: 'Ultra-Soft Cooling Tencel Lyocell & Breathable Sheet Set (4-Piece)',
     category: 'hosting_upgrade',
-    priceDisplay: '$64 Sleep Sanctuary',
+    priceDisplay: 'Cooling Sleep Set',
     badge: '❄️ 3 AM Cool-Sleep Hero',
     cheekyPitch:
       'Wicks heat away in seconds so nobody wakes up kicking the duvet off at 3 AM, pure hotel-suite airflow all night.',
@@ -250,7 +250,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'cast-iron-steak-skillet',
     name: 'Lodge 12-Inch Pre-Seasoned Cast-Iron Deep Skillet With Glass Lid',
     category: 'houseboy',
-    priceDisplay: '$44 Kitchen Staple',
+    priceDisplay: 'Lifetime Kitchen Staple',
     badge: '🥩 Friday Steakhouse Sear',
     cheekyPitch:
       'Heavy American cast iron that holds a steakhouse crust on garlic-rosemary ribeye and goes straight from burner to oven.',
@@ -261,18 +261,18 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'adjustable-dumbbell-bench',
     name: 'FLYBIRD 750-Lb Foldable Multi-Position Home Workout Bench',
     category: 'trail_wellness',
-    priceDisplay: '$99 Strength Pick',
+    priceDisplay: 'Foldable Gym Bench',
     badge: '🏋️ Carry-Both-Suitcases Strength',
     cheekyPitch:
       'Folds flat into a closet in ten seconds and handles full incline/flat dumbbell work so carrying both roller bags at Terminal B feels effortless.',
-    whyItConverts: ' #1 Amazon compact home-gym bench.',
+    whyItConverts: 'Top-rated compact home-gym bench.',
     merchantUrl: 'https://www.amazon.com/dp/B07HNLBZ4Y',
   },
   {
     id: 'cub-grooming-beard-skincare-kit',
     name: 'Every Man Jack 5-Piece Sandalwood Beard, Face Lotion & Wood Comb Kit',
     category: 'date_night',
-    priceDisplay: '$32 Grooming Set',
+    priceDisplay: '5-Piece Grooming Kit',
     badge: '💈 Zero Scratchy-Stubble Kit',
     cheekyPitch:
       'Softens scruff with warm sandalwood oil, face lotion, and beard butter so leaning in for a kiss never feels like sandpaper.',
@@ -283,7 +283,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'silk-pillowcase-sleepover-duo',
     name: 'LILYSILK 22-Momme 100% Pure Mulberry Silk Pillowcase',
     category: 'princess_luxury',
-    priceDisplay: '$45 Guest-Side MVP',
+    priceDisplay: '22-Momme Silk Pick',
     badge: '✨ Blowout-Saving Sleepover Touch',
     cheekyPitch:
       'Keeping a genuine 22-momme mulberry silk pillowcase on her side of the bed protects her honey blowout and skin barrier overnight.',
@@ -294,7 +294,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'zero-proof-botanical-mocktail-set',
     name: 'Ghia Non-Alcoholic Mediterranean Botanical Apéritif Duo (500ml × 2)',
     category: 'date_night',
-    priceDisplay: '$68 Zero-Proof Spritz',
+    priceDisplay: 'Zero-Proof Spritz Duo',
     badge: '🌿 8-Hour Beauty-Sleep Spritz',
     cheekyPitch:
       'Crisp yuzu, rosemary, and bitter gentian over sparkling water, all the candlelit cocktail ritual with zero 7 AM hangover.',
@@ -305,7 +305,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'fill-in-love-coupon-cards',
     name: '30-Card Fill-In-The-Blank Romantic Date & Favor Voucher Book',
     category: 'funny_cute',
-    priceDisplay: '$11 Under-$15 Gem',
+    priceDisplay: '30-Card Favor Book',
     badge: '💌 Handwritten Favor Vouchers',
     cheekyPitch:
       'Write custom IOUs she will actually redeem: "One Full Sunday Car Wash & Espresso Delivery," "Zero-Questions Restaurant Booking," or "Foot Massage During Movie Night."',
@@ -316,7 +316,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'short-leash-leather-dog-leash',
     name: 'Taglory Hand-Braided Leather Dog Leash With Solid Brass Clasp',
     category: 'funny_cute',
-    priceDisplay: '$21 Cheeky Pick',
+    priceDisplay: 'Braided Leather Pick',
     badge: '🦮 Park-Walk & Inside-Joke Classic',
     cheekyPitch:
       'Built with full-grain braided leather and a 360-degree solid brass clasp for Hampstead park walks, plus an undefeated couples inside joke.',
@@ -327,7 +327,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'big-carl-giant-wine-glass',
     name: 'Original Big Betty 750ml Full-Bottle XL Stemmed Wine Goblet',
     category: 'funny_cute',
-    priceDisplay: '$22 Gag Classic',
+    priceDisplay: '750ml Goblet Classic',
     badge: '🍷 Cougar Town "Big Carl" Tribute',
     cheekyPitch:
       'Channel Jules Cobb on patio wine night: technically "just one glass of Pinot Noir" when the crystal goblet holds the entire 750ml bottle.',
@@ -338,7 +338,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'chic-candlelit-menu-readers',
     name: 'Madison Avenue Oversized Tortoiseshell Blue-Light & Bistro Glasses',
     category: 'funny_cute',
-    priceDisplay: '$19 Bistro Style',
+    priceDisplay: 'Tortoiseshell Readers',
     badge: '👓 Dim-Speakeasy Menu Hero',
     cheekyPitch:
       'Because moody cocktail lounges print menus in six-point grey italics in the dark, and chic Italian-style tortoiseshell frames beat phone flashlights.',
@@ -360,7 +360,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'part-of-your-world-book',
     name: 'Part of Your World. Abby Jimenez Bestselling Novel (Kindle & Paperback)',
     category: 'cinema_pop_culture',
-    priceDisplay: '$14 Kindle / Book',
+    priceDisplay: 'Kindle & Paperback',
     badge: '📚 #1 BookTok Age-Gap Romance',
     cheekyPitch:
       'ER doctor Alexis Montgomery (37) meets small-town carpenter Daniel Grant (28), the gold-standard modern novel on navigating two worlds with heart.',
@@ -393,29 +393,29 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'bridget-jones-cougar-town-watch',
     name: 'Bridget Jones: Mad About the Boy (Renée Zellweger & Leo Woodall • Prime Video Digital)',
     category: 'cinema_pop_culture',
-    priceDisplay: '$3.99 Digital Rent • Prime',
+    priceDisplay: 'Prime Video Digital Rent',
     badge: '🌳 Hampstead Park-Ranger Stream',
     cheekyPitch:
       'Digitally rent or buy Renée Zellweger and Leo Woodall’s hilarious Hampstead Heath Chapter-Two romance instantly on Prime Video.',
-    whyItConverts: 'Instant $3.99 Prime Video digital rental companion to Rory’s cameo.',
+    whyItConverts: 'Instant Prime Video digital rental companion to Rory’s cameo.',
     merchantUrl: 'https://www.amazon.com/dp/B0DKPH9DN2',
   },
   {
     id: 'the-rebound-zeta-jones-prime',
     name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Prime Video Stream & Rent)',
     category: 'cinema_pop_culture',
-    priceDisplay: 'Prime Trial or $2.99 HD Rent',
+    priceDisplay: 'Prime Trial or HD Rent',
     badge: '🎞️ Manhattan Coffee-Shop Stream',
     cheekyPitch:
-      'Stream with a 30-day Prime trial or digitally rent in HD for $2.99: Catherine Zeta-Jones moves above a NYC coffeehouse and falls for 25-year-old Justin Bartha.',
-    whyItConverts: 'Triggers Prime 30-day free-trial bounty or instant $2.99 HD digital rental.',
+      'Stream with a 30-day Prime trial or digitally rent in HD on Prime Video: Catherine Zeta-Jones moves above a NYC coffeehouse and falls for 25-year-old Justin Bartha.',
+    whyItConverts: 'Triggers Prime 30-day free-trial bounty or instant HD digital rental.',
     merchantUrl: 'https://www.amazon.com/dp/B006QSRTWC',
   },
   {
     id: 'linen-picnic-insulated-tote',
     name: 'Woven Wicker Insulated Sunset Picnic Basket & Canvas Tote for Two',
     category: 'date_night',
-    priceDisplay: '$39 Date-Night Pick',
+    priceDisplay: 'Date-Night Picnic Kit',
     badge: '🧺 Golden-Hour Bluff Date Kit',
     cheekyPitch:
       'Pack chilled Sancerre, ripe figs, and triple-cream brie for an effortless coastal bluff or botanical-garden sunset date.',
@@ -426,7 +426,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     id: 'velvet-travel-weekender-duffel',
     name: 'Polare 23-Inch Waxed Canvas & Full-Grain Leather Weekender Duffel',
     category: 'hosting_upgrade',
-    priceDisplay: '$119 Travel Pick',
+    priceDisplay: 'Waxed Leather Duffel',
     badge: '🧳 Weekend Escape Leather Duffel',
     cheekyPitch:
       'Heavy waxed canvas and saddle leather sized cleanly for pressed linen shirts, cedar parfum, and a spontaneous 48-hour coastal getaway.',

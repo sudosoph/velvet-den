@@ -121,17 +121,13 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
       fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
     }
 
-    // Now on Beat 4: verify 1st Sample Free badge on card, zero price on button, EXIF clue, and +10% Spark reveal at 0 Cr cost!
+    // Now on Beat 4: verify photoDrop renders unblurred & free (0 Cr), EXIF clue works, and wallet stays at 5 Cr!
     const photoCard = screen.getByTestId('chat-photo-drop-card');
-    expect(photoCard.textContent).toContain('1st Sample Free');
-    const unblurBtn = within(photoCard).getByRole('button', {
-      name: /^Unblur Portrait & Secret Note$/i,
-    });
-    expect(unblurBtn.textContent).not.toContain('Cr');
+    expect(photoCard.textContent).toContain('Included Free');
+    expect(photoCard.querySelector('.blur-md')).toBeNull();
     fireEvent.click(within(photoCard).getByRole('button', { name: /^Inspect Photo Metadata$/i }));
     expect(screen.getByTestId('photo-exif-clue').textContent).toContain('Live Photo');
-    fireEvent.click(unblurBtn);
-    expect(photoCard.textContent).toContain('+10% Chemistry Spark Unlocked');
+    expect(photoCard.textContent).toContain('Zero Credits Required');
     expect(screen.getByRole('button', { name: /\b5 Cr\b/i })).toBeInTheDocument();
 
     // Finish Beats 4, 5, 6 -> player can click "Not Yet — Keep Bantering on Hinge" AND still have suggestion chips!

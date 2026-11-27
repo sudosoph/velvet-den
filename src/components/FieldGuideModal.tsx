@@ -199,6 +199,11 @@ const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; emojiBadge
     credit: 'Photo: Albert Domasin • CC BY-SA 2.0 via Wikimedia Commons',
     emojiBadge: '🍷 Big Carl Legend',
   },
+  pop_nicole_kim_hamilton: {
+    url: './images/icons/pop_olivia_harry.jpg',
+    credit: 'Photo: Wikimedia Commons • CC BY-SA 4.0',
+    emojiBadge: '🏎️ F1 & Tony Royalty',
+  },
 };
 
 export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
@@ -232,15 +237,12 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
         <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-8 space-y-3.5">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-0.5">
-              <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+              <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
                 Illustrated Spotter’s Deck • {FIELD_GUIDE_ENTRIES.length} Cards
               </div>
               <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
                 The Illustrated Age-Gap Field Guide
               </h2>
-              <p className="text-xs sm:text-sm text-zinc-600">
-                Puma → Cougar → Jaguar → Panther tiers, Golden Cubs vs. Tourists &amp; 24 Celebrity Icons.
-              </p>
             </div>
             <button
               type="button"

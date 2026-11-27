@@ -1672,6 +1672,47 @@ async function handleAiFeedback(request: Request, env: WorkerEnv): Promise<Respo
   return jsonResponse({ ok: true, anonymizedByDefault: !optContact });
 }
 
+async function handleCommunitySubmit(
+  request: Request,
+  env: WorkerEnv,
+  ctx?: ExecutionContextLike,
+): Promise<Response> {
+  let body: { surface?: string; roleTag?: string; content?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ ok: false, error: 'Invalid JSON' }, 400);
+  }
+  const cleanSurface = sanitizeId(body.surface ?? null, 32) || 'checklist';
+  const cleanRoleTag = scrubPiiForLog(String(body.roleTag || '').trim()).slice(0, 48);
+  const cleanContent = scrubPiiForLog(String(body.content || '').trim()).slice(0, 320);
+  if (cleanContent.length < 10) {
+    return jsonResponse({ ok: false, error: 'Idea too short' }, 400);
+  }
+
+  if (env.VELVET_KV) {
+    try {
+      const raw = await env.VELVET_KV.get('community:submissions:v1');
+      const parsed = raw ? JSON.parse(raw) : [];
+      const list = Array.isArray(parsed) ? parsed : [];
+      list.push({
+        ts: new Date().toISOString(),
+        surface: cleanSurface,
+        roleTag: cleanRoleTag || 'Club Member',
+        content: cleanContent,
+      });
+      await env.VELVET_KV.put('community:submissions:v1', JSON.stringify(list.slice(-300)));
+    } catch {
+      // Non-blocking KV write
+    }
+  }
+
+  scheduleEdgePostHogEvent(request, env, ctx, 'community_idea_submitted_server', {
+    surface: cleanSurface,
+  });
+  return jsonResponse({ ok: true });
+}
+
 async function handleVipWaitlist(
   request: Request,
   env: WorkerEnv,
@@ -2053,6 +2094,11 @@ export default {
 
     if (url.pathname === '/api/courtroom/submit') {
       if (request.method === 'POST') return handleCourtroomSubmit(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/community/submit') {
+      if (request.method === 'POST') return handleCommunitySubmit(request, env, ctx);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

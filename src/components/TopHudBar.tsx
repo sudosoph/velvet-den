@@ -38,6 +38,10 @@ interface TopHudBarProps {
   wallet: WalletState;
   activeTab: ClubTopTab;
   activeChatCount: number;
+  passportLevel?: number;
+  passportXp?: number;
+  passportStreak?: number;
+  onOpenPassportModal?: () => void;
   onSelectTab: (tab: ClubTopTab) => void;
   onOpenPersonaModal: () => void;
   onOpenFieldGuide: () => void;
@@ -55,6 +59,10 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
   wallet,
   activeTab,
   activeChatCount,
+  passportLevel = 1,
+  passportXp = 0,
+  passportStreak = 1,
+  onOpenPassportModal,
   onSelectTab,
   onOpenPersonaModal,
   onOpenFieldGuide,
@@ -260,8 +268,23 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           </nav>
         </div>
 
-        {/* RIGHT: Minimal Clean Actions */}
-        <div className="flex shrink-0 items-center gap-2.5 sm:gap-3.5">
+        {/* RIGHT: Visible Club Passport XP + Minimal Clean Actions */}
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          {onOpenPassportModal && (
+            <button
+              type="button"
+              data-testid="hud-passport-pill"
+              onClick={onOpenPassportModal}
+              title="Open Club Passport, Levels & Unlocked Perks"
+              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50/80 hover:bg-rose-100 px-2.5 sm:px-3 text-xs font-bold whitespace-nowrap text-zinc-950 transition-colors cursor-pointer"
+            >
+              <Award className="h-3.5 w-3.5 text-rose-600 shrink-0" />
+              <span>Lv.{passportLevel}</span>
+              <span className="hidden sm:inline text-rose-700 tabular-nums">• {passportXp} XP</span>
+              <span className="hidden xl:inline text-amber-700">• 🔥{passportStreak}d</span>
+            </button>
+          )}
+
           <button
             type="button"
             onClick={onOpenPersonaModal}

@@ -95,7 +95,7 @@ describe('v35 Connected Campaign Flow, Levels, 3-Date Hearts & Cub School Perk',
   it('bridges In The Wild directly into iMessage AND connects Cub School Gold Stars (+8% Spark Perk) back to active matches', () => {
     render(<App />);
 
-    // Jump to In The Wild -> Terminal B Arrivals -> unlock Miles -> click "Open iMessage with Miles Now"
+    // Jump to In The Wild -> Terminal B Arrivals -> clear 3-beat cold-approach -> click "Open iMessage with Miles Now"
     fireEvent.click(screen.getAllByRole('button', { name: /In The Wild/i })[0]);
     fireEvent.click(screen.getByRole('button', { name: /Terminal B Arrivals/i }));
     fireEvent.click(
@@ -103,6 +103,8 @@ describe('v35 Connected Campaign Flow, Levels, 3-Date Hearts & Cub School Perk',
         name: /Hand over both bags with a slow smile/i,
       }),
     );
+    fireEvent.click(screen.getByTestId('wild-followup-pass-option'));
+    fireEvent.click(screen.getByTestId('wild-followup-pass-option'));
 
     const openMilesChatBtn = screen.getByRole('button', {
       name: /Open iMessage with Miles Now/i,

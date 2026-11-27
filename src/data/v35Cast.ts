@@ -77,10 +77,10 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open to yours, content without',
     },
     slides: makeSlides('julian', [
-      '',
+      'Caught mid-rant about London rain vs. Westwood sunshine',
       'Happiest buried in archive notebooks (glasses come off by dinner)',
       '6 AM river miles, promise I’m much calmer by half seven',
-      '',
+      'Thursday uniform once the archive stacks close',
       'Yes I climb library ladders for work, yes I carry allergy pills',
       'Still mourning proper Hampstead cask ale',
     ]),
@@ -163,7 +163,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Doesn’t want kids',
     },
     slides: makeSlides('soren', [
-      '',
+      'Resting Danish face, actually very happy to be here',
       'Clay courts beat hard courts, willing to defend this over drinks',
       'Late-night balsa pavilion model before client review',
       'Post-cold-plunge dock coffee back home',
@@ -512,11 +512,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Prefer not to say',
     },
     slides: makeSlides('graham', [
-      '',
+      'Quick lobby espresso between back-to-back deal meetings',
       'Quick harbor spin before my Sunday phone blackout kicks in',
       'Nine holes before markets open, please don’t tag me lol',
       'Hard stop at 6:42 PM sharp for my nightly Tokyo portfolio call',
-      '',
+      'Strictly offline after 6:45 PM for deep-focus portfolio hours',
       'Strictly cash at hotel bars, keeps corporate expense reports clean',
     ]),
     prompts: [
@@ -597,11 +597,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Not sure yet',
     },
     slides: makeSlides('connor', [
-      '',
+      'Swear Facebook glitched my birth year when I signed up lol',
       '2 AM bathroom mirror check, ignore the bottle of Tito’s on the sink lol',
       'DJing my four roommates’ rooftop day party, pull up',
       'Club lacrosse cardio so I survive frat formal',
-      '',
+      'Post-surf burrito run with the roommates',
       'Who wants to come to "my place in Maui" (it’s my parents’ Week-14 timeshare)',
     ]),
     prompts: [
@@ -682,11 +682,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Someday maybe',
     },
     slides: makeSlides('devon', [
-      '',
+      'Golden hour between studio guitar takes',
       'Already writing verse two about our future Big Sur cabin',
       'Rainy Echo Park lyric notebook, feel everything at volume eleven',
       'Digging through dusty Blue Note vinyl I definitely couldn’t afford',
-      '',
+      'Late-night voice memo session on the porch',
       'Clearing my head on the pier before Friday overthinking kicks in',
     ]),
     prompts: [
@@ -770,11 +770,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Great with kids & dogs',
     },
     slides: makeSlides('rory', [
-      '',
+      'Fresh off the plane from London and squinting at January sun',
       'Inspecting the heritage oaks, still pinch myself this is my day job',
       'Not my dog, just my favorite muddy Tuesday trail regular',
       'Bought two hot chocolates at the Sunday market (one has your name on it)',
-      '',
+      'Sunset overlook check before locking the park gates',
       'Proof I clean up out of ranger boots when you book dinner',
     ]),
     prompts: [
@@ -853,12 +853,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Doesn’t want kids',
     },
     slides: makeSlides('jin', [
-      '',
+      'Rare proof I occasionally step onto the other side of the lens',
       'Contact-sheet edits. I promise I never photograph dinner plates',
       'Twelve-seat vinyl bar in Little Tokyo (saving the stool beside me)',
       'Testing 120mm film in morning window light',
       'Chalking up for the overhang project that humbled me twice',
-      '',
+      'Gallery opening night, phone stayed on silent in my coat',
     ]),
     prompts: [
       {
@@ -936,11 +936,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open to kids',
     },
     slides: makeSlides('liam', [
-      '',
+      'Down from the Ojai ridge before the weekend rush',
       'Raising the main cedar ridge beam before mountain weather rolls in',
       'Winter firewood stacked, cast-iron peach cobbler goes in next',
       'Sunrise paddle in the cedar canoe I built last autumn',
-      '',
+      'Checking timber joinery before the roof trusses go up',
       'Traded sawdust and flannel for wool at the lodge bar',
     ]),
     prompts: [
@@ -1197,12 +1197,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Done / Happy auntie',
     },
     slides: makeSlides('sienna', [
-      '',
+      'Happiest when the courtyard doors stay open past ten',
       'Styling hundred-year-old olive branches for our newest courtyard install',
       'Arguing with myself over travertine samples before nine',
       'String lights, chilled rosé, and zero tolerance for secret dating',
       '7 AM Rose Bowl vintage brass haul, bring strong arms',
-      '',
+      'Dressed up for Friday wine, zero interest in being anyone’s secret',
     ]),
     prompts: [
       {
@@ -1369,11 +1369,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Wants kids in the next few years',
     },
     slides: makeSlides('summer', [
-      '',
+      'Post-surf hair, pre-clinic espresso',
       'Between Beverly Hills consults, mineral SPF 50 remains undefeated',
       'Dawn longboard before clinic rounds (yes I reapplied on my neck)',
       'Sunday farmers-market peonies and iced matcha',
-      '',
+      'Malibu sunset walk after wrapping my last patient chart',
       'Practicing my oceanfront anniversary toast, now taking applications',
     ]),
     prompts: [
@@ -1456,10 +1456,10 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Prefer not to say',
     },
     slides: makeSlides('vanessa', [
-      '',
+      'Slipping away to the Westside for a quiet afternoon glass',
       'Sneaking out between Bel Air property-tax meetings',
       'Wednesday 2 PM hotel pool, my favorite quiet window',
-      '',
+      'Resort tasting notes, strictly allergic to rigid schedules',
       'Phones go on airplane mode after 6:30 PM, darling',
       'Spontaneous afternoon escapes > complicated labels',
     ]),
@@ -1542,9 +1542,9 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Done',
     },
     slides: makeSlides('brooke', [
-      '',
+      'Court 1 warmups before Friday steakhouse plans',
       'Cabana spritzes, bonus points if you look sharp in a navy blazer',
-      '',
+      'Golden-hour terrace check, posture matters',
       'Sunday racquet-club brunch debrief with the girls',
       'Museum gala arrival (yes the photographers were right on cue)',
       '8 PM Friday reservation right across from Table 9 is already locked',
@@ -1631,12 +1631,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Grown kids • Proud Gigi',
     },
     slides: makeSlides('celeste', [
-      '',
+      'Desert afternoon light before opening the gallery doors',
       'Gallery opening toast, icy Gibson up, cocktail onion required',
       'Top down past the San Jacinto palms with Chet Baker on',
       'Quiet sculpture-garden coffee before collectors arrive',
       'Candlelight under the bougainvillea beats loud nightclubs every time',
-      '',
+      'Palm Springs twilight, top goes down at five sharp',
     ]),
     prompts: [
       {
@@ -1714,11 +1714,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Child-free by choice',
     },
     slides: makeSlides('astrid', [
-      '',
+      'Salt air and linen, happiest ten steps from the Pacific',
       'Inspecting solid-oak joinery, zero nails, zero shortcuts',
       'Back home in Sweden where nobody complains about cold water',
       'Post-ocean-plunge cedar sauna, three minutes minimum, no speeches',
-      '',
+      'Studio terrace light before evening wine',
       'Natural wine with zero small talk',
     ]),
     prompts: [
@@ -1798,10 +1798,10 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open',
     },
     slides: makeSlides('camila', [
-      '',
+      'Five quiet minutes with an espresso before dinner service starts',
       'Cellar barrel check before sixty covers walk through the door',
       'Tweezers out on the wood-fired pass, don’t ask me to cook on Mondays',
-      '',
+      'Monday night off, officially banned from touching a skillet',
       '8 AM Wednesday fig & heirloom tomato raid',
       'Rare slow Sunday when someone else finally orders the pastries',
     ]),
@@ -1881,11 +1881,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Grown daughter in Paris',
     },
     slides: makeSlides('vivienne', [
-      '',
+      'Left Bank habits in Beverly Hills sunlight',
       'Screening-room notes, third row center is non-negotiable',
       'Morning espresso along the Croisette before festival madness',
       'Late-August table in Provence that ran until midnight',
-      '',
+      'Festival balcony between afternoon screenings',
       'Premiere night, first man to say "for your age" walks home',
     ]),
     prompts: [

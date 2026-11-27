@@ -1412,6 +1412,306 @@ const WILD_MEET_SEEDS: Record<string, WildMeetCuteSeed> = {
   },
 };
 
+export interface WildFollowUpStep {
+  stageLabel: string;
+  prompt: string;
+  spokenCue: string;
+  choices: [
+    { label: string; replyCue: string; bonus: number },
+    { label: string; replyCue: string; bonus: number },
+    { label: string; failText: string; isMemeFail: true },
+  ];
+}
+
+export interface WildFollowUpSequence {
+  beat2: WildFollowUpStep;
+  beat3: WildFollowUpStep;
+}
+
+const BESPOKE_WILD_FOLLOWUPS: Record<string, WildFollowUpSequence> = {
+  'terminal-b-airport:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Read His Real Intent',
+      prompt:
+        'Inside the quiet car, Miles hands you sparkling water. Off an app, you still do not know if he is just doing neighbor Jade a polite favor or actually pursuing you.',
+      spokenCue:
+        '"Jade swore you never let anyone handle logistics. Am I dropping you straight at your door, or are you actually free Friday?"',
+      choices: [
+        {
+          label:
+            'Test his intent directly: "Wait, did Jade draft you for airport rescue, or are you asking me out?"',
+          replyCue:
+            'Miles holds your gaze in the mirror: "Strictly asking you out. I volunteered the second Jade mentioned Flight 418."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Arch a brow over your espresso: "Depends. Do you track tail numbers for all of Jade’s friends?"',
+          replyCue:
+            'Miles laughs low in his chest: "Only the one I have been wanting to take to dinner all month."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Assume he is just doing neighborly charity, thank him like a rideshare driver, and pop your earbuds in.',
+          failText:
+            'Miles respects the boundary immediately, drops your bags at the gate with a polite wave, and drives off. Never friend-zone your own meet-cute!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Smooth Number Close',
+      prompt:
+        'The car glides up to your curb. You have thirty seconds to lock his personal number cleanly before travel fatigue steals the spark.',
+      spokenCue:
+        '"Get real sleep tonight. Tell me how I reach you for Friday at 8:15."',
+      choices: [
+        {
+          label:
+            'Type your personal cell into his phone before stepping out: "Lock 8:15 for Friday. Text me when you get home."',
+          replyCue:
+            'Miles pockets his phone with a warm grin: "8:15 corner banquette is officially yours. Check your iMessage."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Keep the exit cinematic: "Put your number in mine, hold Friday at eight, and let me go shower off Terminal B."',
+          replyCue:
+            'Miles opens your door smoothly: "Best thirty-second close at LAX. Texting you in five."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Linger in the passenger seat for twenty-five minutes recounting every gate delay since Denver.',
+          failText:
+            'Traffic enforcement flashes lights behind the bumper as the romantic tension fizzles into travel complaints. Always exit on the high note!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'velvet-room:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Ring Check & Intent Pivot',
+      prompt:
+        'Claire glances up from her three-olive Gibson with dry amusement. In a hotel bar, half the crowd is married or killing time before a client dinner.',
+      spokenCue:
+        '"Bold note. Are you waiting on a corporate group at Table 9, or drinking solo on purpose?"',
+      choices: [
+        {
+          label:
+            'Signal clear single intent: "Solo on purpose, zero ring, and much more interested in the woman by the piano."',
+          replyCue:
+            'Claire’s mouth curves: "Direct, single, and observant. Already beating ninety percent of downtown."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Keep it playful: "Zero client dinner, zero curfew. Just checking if your wit matches that Gibson order."',
+          replyCue:
+            'Claire sets her glass down cleanly: "Good answer. I despise men with 6:45 curfews."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Play it way too safe and mumble, "Oh haha just networking before my buddies show up, ma’am!"',
+          failText:
+            'Claire nods once, turns back to the pianist, and closes her tab. "Networking + ma’am" is an instant IRL brush-off!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Leave on the High Note',
+      prompt:
+        'Her car service texts that her driver is out front. If you hover too long you spoil the poise; if you hesitate she vanishes into Manhattan Beach.',
+      spokenCue:
+        '"My car is downstairs. You have fifteen seconds to pitch Thursday properly."',
+      choices: [
+        {
+          label:
+            'Hand her your phone unlocked to Contacts: "Quiet leather banquette Thursday at 7:45. I will handle the spot."',
+          replyCue:
+            'Claire types her personal cell in ten seconds flat: "Bold handwriting and decisive plans. Text me tomorrow."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Stand up as she gathers her clutch: "Take my card, Counselor, or better yet let me text you the Thursday pin right now."',
+          replyCue:
+            'Claire taps her number into your screen with a slow smile: "Don’t be late."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Ask to split an Uber home together right now so you can keep talking about mergers.',
+          failText:
+            'Claire laughs dryly at the elevator doors: "Never rush a good first act, rookie." Rewind and close cleanly!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+};
+
+export function getWildFollowUpSequence(
+  venueId: string,
+  role: 'her' | 'him',
+  leadName: string,
+  isTrapLead = false,
+): WildFollowUpSequence {
+  const key = `${venueId}:${role}`;
+  if (BESPOKE_WILD_FOLLOWUPS[key]) {
+    return BESPOKE_WILD_FOLLOWUPS[key];
+  }
+
+  if (isTrapLead) {
+    return {
+      beat2: {
+        stageLabel: 'Beat 2 of 3 • Probe the Off-App Story',
+        prompt: `You opened smoothly, yet off an app nobody wears a relationship-status label. ${leadName} glances subtly toward the exit clock while smiling at you.`,
+        spokenCue: `"Honestly I barely use apps anymore, spontaneous weekday escapes are much more exciting, don’t you think?"`,
+        choices: [
+          {
+            label: `Smile warmly while testing the tell: "Spontaneous is great, as long as nobody is hiding a 6:45 curfew."`,
+            replyCue: `${leadName} laughs a half-beat too fast: "Haha zero curfews, just crazy schedule math! Let’s grab a drink."`,
+            bonus: 8,
+          },
+          {
+            label: `Keep your poker face calm: "Weekday drinks work if you actually stay past one glass."`,
+            replyCue: `${leadName} leans in eagerly: "Deal, let me give you my direct line so we can lock it in."`,
+            bonus: 8,
+          },
+          {
+            label: `Interrogate ${leadName} loudly in front of three strangers before getting a single clue.`,
+            failText: `${leadName} excuses themselves immediately to "take a call" and slips out the side door before you get the receipt!`,
+            isMemeFail: true,
+          },
+        ],
+      },
+      beat3: {
+        stageLabel: 'Beat 3 of 3 • Pocket the Number & Receipt',
+        prompt: `${leadName} is ready to swap numbers before rushing off. Lock the thread cleanly so you can investigate their story over text.`,
+        spokenCue: `"Here, put your number in before I have to dash, let’s do this week!"`,
+        choices: [
+          {
+            label: `Swap numbers smoothly in ten seconds and clock every detail as ${leadName} heads out.`,
+            replyCue: `Number locked into your phone with zero suspicion. Time to test those excuses in iMessage!`,
+            bonus: 10,
+          },
+          {
+            label: `Let ${leadName} text your line right there so you verify it isn’t a fake digits brush-off.`,
+            replyCue: `Your screen lights up immediately. Direct thread unlocked!`,
+            bonus: 10,
+          },
+          {
+            label: `Fumble your phone on silent mode and tell them to "just find me on LinkedIn later."`,
+            failText: `Nobody follows up via LinkedIn after a cocktail bar meet-cute! Rewind and grab the real digits.`,
+            isMemeFail: true,
+          },
+        ],
+      },
+    };
+  }
+
+  if (role === 'her') {
+    return {
+      beat2: {
+        stageLabel: 'Beat 2 of 3 • Friendly Chat or Real Flirt?',
+        prompt: `${leadName} is smiling warmly, yet in real life younger men often hold back out of respect unless they know you are single and open to flirting.`,
+        spokenCue: `"Not going to lie, I was hoping you would say something. Are you just killing five minutes, or can I steal your attention properly?"`,
+        choices: [
+          {
+            label: `Drop the green handkerchief clearly: "Very single, not rushing anywhere, and enjoying your company."`,
+            replyCue: `You can practically see ${leadName}’s shoulders relax into a confident grin: "Best news I have heard all week."`,
+            bonus: 10,
+          },
+          {
+            label: `Hold playful eye contact: "Depends whether you are being polite or working up the nerve to ask me out."`,
+            replyCue: `${leadName} laughs without looking away: "Definitely working up the nerve, and glad you caught it."`,
+            bonus: 10,
+          },
+          {
+            label: `Panic mid-flirt and pivot into talking like his career mentor about five-year resumes.`,
+            failText: `The electric tension turns instantly into a polite informational interview. Keep it romantic, not corporate!`,
+            isMemeFail: true,
+          },
+        ],
+      },
+      beat3: {
+        stageLabel: 'Beat 3 of 3 • Exit High & Pull the Number',
+        prompt: `Chemistry is unmistakable. Close the number cleanly inside ninety seconds before the moment drags into awkward small talk.`,
+        spokenCue: `"I don’t want to hold up your whole day, though I would hate to walk out of here without your number."`,
+        choices: [
+          {
+            label: `Tap your cell into ${leadName}’s phone with a warm smile: "Text me tonight and pitch a proper Thursday spot."`,
+            replyCue: `${leadName} sends a quick hello text on the spot so you have his line: "Thursday is already mine."`,
+            bonus: 12,
+          },
+          {
+            label: `Let him take the lead cleanly: "Take my number, pick somewhere quiet with good wine, and impress me."`,
+            replyCue: `${leadName} grins ear to ear as your phone buzzes with his contact card.`,
+            bonus: 12,
+          },
+          {
+            label: `Wave vaguely and say "Maybe we will bump into each other here again sometime!" without swapping info.`,
+            failText: `Leaving a real-world spark up to fate in Los Angeles traffic has a 2% survival rate! Grab the number!`,
+            isMemeFail: true,
+          },
+        ],
+      },
+    };
+  }
+
+  return {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Check Availability & Signal Poise',
+      prompt: `${leadName} laughed at your opener, yet accomplished women get friendly small talk all day. You need to read if she is available and signal calm romantic intent.`,
+      spokenCue: `"Most guys around here either stare from thirty feet away or launch a rehearsed speech. Which one are you?"`,
+      choices: [
+        {
+          label: `Hold unhurried eye contact: "Neither. Just a grown man hoping you aren’t spoken for."`,
+          replyCue: `${leadName}’s eyes warm with genuine surprise: "Happily unspoken for, and good recovery."`,
+          bonus: 10,
+        },
+        {
+          label: `Match her dry wit: "Zero speeches promised. Just wanted two minutes to see if you were free this week."`,
+          replyCue: `${leadName} tilts her head with a pleased smile: "Direct and normal. Rare combination."`,
+          bonus: 10,
+        },
+        {
+          label: `Lose your nerve and blurt out, "Oh no speech, you just remind me of my favorite aunt!"`,
+          failText: `Calling an attractive woman your "favorite aunt" in the wild is an automatic ejection seat!`,
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • 60-Second Number Close',
+      prompt: `You passed her availability and vibe check. Propose a decisive next move and step away smoothly before overstaying her personal time.`,
+      spokenCue: `"Alright, you have thirty seconds before I head out. What are you proposing?"`,
+      choices: [
+        {
+          label: `Offer your phone cleanly: "Let me take you for a proper 7:45 drink Thursday. Put your number in and I will handle the table."`,
+          replyCue: `${leadName} types her personal cell in smoothly: "Text me the address tomorrow, and don’t be late."`,
+          bonus: 12,
+        },
+        {
+          label: `Give her zero-pressure control: "Take my number so I stop interrupting your afternoon, and let me plan Friday if you’re free."`,
+          replyCue: `Your phone buzzes ten seconds later with a text from ${leadName}: "Good manners. Friday looks promising."`,
+          bonus: 12,
+        },
+        {
+          label: `Ask "So idk what do u usually like to do, wanna hang out whenever?" while hovering in her path.`,
+          failText: `Vague "wanna hang whenever" energy kills a strong cold approach at the one-yard line. Be decisive!`,
+          isMemeFail: true,
+        },
+      ],
+    },
+  };
+}
+
 export function getWildMeetCuteSeed(leadId: string, venueId?: string): WildMeetCuteSeed | undefined {
   if (venueId && WILD_MEET_SEEDS[`${leadId}:${venueId}`]) {
     return WILD_MEET_SEEDS[`${leadId}:${venueId}`];

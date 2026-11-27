@@ -70,16 +70,29 @@ describe('v35 Editorial Hinge Feed (selective matching, zero clutter) & 10-Spot 
     expect(screen.getAllByText(/Terminal B Arrivals/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Palisades Cul-de-Sac BBQ/i).length).toBeGreaterThanOrEqual(1);
 
-    // Enter Terminal B Arrivals as her -> Miles takes both bags & coordinated car + 8:15 table
+    // Enter Terminal B Arrivals as her -> 3-beat cold-approach sequence (Open -> Read Intent -> Pull Number)
     fireEvent.click(screen.getByRole('button', { name: /Terminal B Arrivals/i }));
     expect(screen.getByText(/takes both of your heavy bags in one hand/i)).toBeTruthy();
+    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/15% Signal/i);
 
+    // Beat 1: Open
     fireEvent.click(
       screen.getByRole('button', {
         name: /Hand over both bags with a slow smile/i,
       }),
     );
+    expect(onUnlockWildLead).not.toHaveBeenCalled();
+    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/52% Signal/i);
+
+    // Beat 2: Read real single/flirt intent
+    fireEvent.click(screen.getByTestId('wild-followup-pass-option'));
+    expect(onUnlockWildLead).not.toHaveBeenCalled();
+    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/84% Signal/i);
+
+    // Beat 3: Smooth number close -> unlocks personal thread + stamp slam!
+    fireEvent.click(screen.getByTestId('wild-followup-pass-option'));
     expect(onUnlockWildLead).toHaveBeenCalledWith('miles', 'terminal-b-airport', 22, undefined);
+    expect(screen.getByTestId('wild-number-pulled-stamp')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Back to City Map/i }));
 
     // Re-render with miles already in activeLeadThreads -> Terminal B plays Claire 3-beat Chemistry Cameo instead of duplicating Chapter 1!
