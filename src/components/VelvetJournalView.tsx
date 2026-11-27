@@ -12,6 +12,7 @@ import {
 import { BRAND_CONFIG } from '../config/brand';
 import { JOURNAL_ARTICLES } from '../data/journalArticles';
 import {
+  AFFILIATE_SUPPORT_COPY,
   buildAffiliateUrl,
   buildPrimeVideoBountyUrl,
   getAffiliateById,
@@ -935,8 +936,8 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950">
                 Insider Guides, Community Receipts &amp; Star-Sign Matcher
               </h1>
-              <p className="text-xs text-zinc-500">
-                Reader disclosure: curated shopping picks below may earn a small affiliate commission at no extra cost to you.
+              <p className="text-xs text-zinc-600 leading-relaxed">
+                {AFFILIATE_SUPPORT_COPY.fullBanner}
               </p>
             </div>
 

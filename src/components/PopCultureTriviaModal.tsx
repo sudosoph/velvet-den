@@ -6,6 +6,7 @@ import {
   type PopCultureTriviaQuestion,
 } from '../data/popCultureTrivia';
 import {
+  AFFILIATE_SUPPORT_COPY,
   buildAffiliateUrl,
   buildPrimeVideoBountyUrl,
   buildPrimeVideoRouteUrl,
@@ -257,6 +258,9 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                       );
                     })}
                   </div>
+                  <p className="text-[11px] text-zinc-500 leading-relaxed">
+                    {AFFILIATE_SUPPORT_COPY.compactInline}
+                  </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-2.5 pt-2">
                   <button
@@ -426,6 +430,12 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                         </span>
                         <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-700" />
                       </a>
+                    )}
+
+                    {(matchedAffiliate || extraPrimeStream || isScreenQuestion) && (
+                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                        {AFFILIATE_SUPPORT_COPY.compactInline}
+                      </p>
                     )}
 
                     <button

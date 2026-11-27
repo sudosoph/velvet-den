@@ -19,7 +19,11 @@ import {
 import { getCastProfileById } from '../data/v35Cast';
 import { V35_CHAT_CHAPTERS, V35_DATE_SCRIPTS } from '../data/v35ChatsAndDates';
 import { getPersonaVibeSpec, type WalletState } from '../domain/economy';
-import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
+import {
+  AFFILIATE_SUPPORT_COPY,
+  buildAffiliateUrl,
+  getAffiliateById,
+} from '../lib/affiliates';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 
@@ -242,11 +246,14 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
       {/* Optional Pre-Date #2 Boutique Touch Strip */}
       {!finished && prepProducts.length > 0 && (
         <section className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5 space-y-3 shadow-2xs">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-zinc-900">
-              Pre-Date Signature Touch (Optional Partner Picks)
-            </span>
-            <span className="text-xs font-medium text-zinc-400">Opens on Amazon</span>
+          <div className="space-y-1">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-900">
+                Pre-Date Signature Touch (Optional Partner Picks)
+              </span>
+              <span className="text-xs font-medium text-zinc-400">Opens on Amazon</span>
+            </div>
+            <p className="text-[11px] text-zinc-500">{AFFILIATE_SUPPORT_COPY.compactInline}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {prepProducts.map((prod) => (

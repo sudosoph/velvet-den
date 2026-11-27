@@ -11,7 +11,11 @@ import {
   WAITLIST_REWARD_CREDITS,
   WALLET_STORAGE_KEY,
 } from '../src/domain/economy';
-import { AFFILIATE_CATALOG, buildAffiliateUrl } from '../src/lib/affiliates';
+import {
+  AFFILIATE_CATALOG,
+  AFFILIATE_SUPPORT_COPY,
+  buildAffiliateUrl,
+} from '../src/lib/affiliates';
 import worker from '../worker/index';
 
 function createMemoryStorage(initial: Record<string, string> = {}) {
@@ -132,6 +136,11 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     for (const item of AFFILIATE_CATALOG) {
       expect(`${item.name} ${item.priceDisplay} ${item.cheekyPitch}`).not.toMatch(/blu-?ray|\bdvd\b/i);
     }
+
+    // Amazon Associates Section 5 compliance + warm indie $0-extra support framing
+    expect(AFFILIATE_SUPPORT_COPY.fullBanner).toMatch(/As an Amazon Associate we earn from qualifying/i);
+    expect(AFFILIATE_SUPPORT_COPY.fullBanner).toMatch(/\$0 Extra to You/i);
+    expect(AFFILIATE_SUPPORT_COPY.compactInline).toMatch(/As an Amazon Associate/i);
 
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'princess-mulberry-silk-robe')?.merchantUrl,

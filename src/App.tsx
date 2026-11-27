@@ -1081,6 +1081,9 @@ export default function App() {
             <p className="text-xs leading-relaxed text-zinc-500 max-w-sm">
               Interactive older-woman × younger-man rom-com, red-flag courtroom, and insider courtship guide for consenting adults (21+).
             </p>
+            <p className="text-[11px] leading-relaxed text-zinc-400 max-w-md">
+              💛 100% banner-ad-free indie project. As an Amazon Associate we earn from qualifying purchases and Prime trials at $0 extra cost to you, helping fund live AI servers and new chapters.
+            </p>
           </div>
 
           <div className="space-y-2.5">

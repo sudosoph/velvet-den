@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ExternalLink, X } from 'lucide-react';
 import { FIELD_GUIDE_ENTRIES } from '../domain/taxonomy';
-import { buildPrimeVideoBountyUrl } from '../lib/affiliates';
+import { AFFILIATE_SUPPORT_COPY, buildPrimeVideoBountyUrl } from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
 
 interface FieldGuideModalProps {
@@ -279,8 +279,11 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
         <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-8 space-y-5">
           {activeFilter === 'pop_culture' && (
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-rose-200 bg-rose-50/60 px-4 py-3">
-              <div className="text-xs sm:text-sm text-zinc-800">
-                <strong className="text-zinc-950">🎬 Watch-Night Queue:</strong> Stream <em>The Idea of You</em>, <em>No Hard Feelings</em>, <em>Babygirl</em>, and <em>The Rebound</em> digitally on Prime Video.
+              <div className="space-y-0.5 text-xs sm:text-sm text-zinc-800">
+                <div>
+                  <strong className="text-zinc-950">🎬 Watch-Night Queue:</strong> Stream <em>The Idea of You</em>, <em>No Hard Feelings</em>, <em>Babygirl</em>, and <em>The Rebound</em> digitally on Prime Video.
+                </div>
+                <div className="text-[11px] text-zinc-600">{AFFILIATE_SUPPORT_COPY.compactInline}</div>
               </div>
               <a
                 href={buildPrimeVideoBountyUrl('field_guide_pop_culture')}

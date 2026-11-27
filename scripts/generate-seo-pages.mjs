@@ -521,7 +521,7 @@ for (const g of STATIC_GUIDES) {
       <a class="badge" href="../../">← Play Cougars &amp; Cubs Club</a>
       <img class="hero" src="${escapeHtml(g.heroImg)}" alt="${escapeHtml(g.title)}" />
       <h1>${escapeHtml(g.title)}</h1>
-      <p class="disclosure">Editorial Guide for Adult Age-Gap Relationships • Reader disclosure: curated shopping links below may earn a small affiliate commission at no extra cost to you.</p>
+      <p class="disclosure">💛 100% Ad-Free Indie Club ($0 Extra to You): Editorial guide for adult age-gap relationships. As an Amazon Associate we earn a small affiliate commission from qualifying purchases and Prime trials at zero extra cost to you, helping fund our live AI servers and new chapters.</p>
       <section aria-label="Editor Picks Above the Fold">
         <div class="picks-grid">
         ${picksHtml}

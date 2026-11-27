@@ -455,7 +455,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                     {fixProduct.name}
                   </div>
                   <div className="text-xs text-zinc-500">
-                    {fixProduct.priceDisplay} • Amazon Partner Pick
+                    {fixProduct.priceDisplay} • 💛 $0 extra to you: As an Amazon Associate, qualifying picks help keep this ad-free indie club running
                   </div>
                 </div>
               </div>

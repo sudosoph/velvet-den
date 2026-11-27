@@ -20,6 +20,7 @@ import { MONETIZATION_CONFIG } from '../config/monetization';
 import type { WalletState } from '../domain/economy';
 import {
   AFFILIATE_CATALOG,
+  AFFILIATE_SUPPORT_COPY,
   buildAffiliateUrl,
   buildPrimeVideoBountyUrl,
   isPrimeVideoDigitalPick,
@@ -828,14 +829,14 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
 
         {activeTab === 'shop' && (
           <div className="space-y-4">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div className="space-y-2.5">
               <h3 className="font-editorial text-2xl font-bold text-[#18101E]">
                 <ShoppingBag className="inline h-5 w-5 mr-1.5 text-rose-600" />
                 Curated Date-Night &amp; Hosting Shop ({AFFILIATE_CATALOG.length} Picks)
               </h3>
-              <span className="text-xs font-medium text-stone-500">
-                Reader Disclosure: Partner links may earn a small commission at zero extra cost.
-              </span>
+              <p className="rounded-xl border border-amber-200 bg-amber-50/70 px-3.5 py-2.5 text-xs font-medium text-stone-700 leading-relaxed">
+                {AFFILIATE_SUPPORT_COPY.fullBanner}
+              </p>
             </div>
 
             <div className="flex flex-wrap gap-2">

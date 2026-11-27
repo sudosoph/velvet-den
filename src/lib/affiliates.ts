@@ -756,6 +756,15 @@ export function buildAffiliateUrl(
   return parsed.toString();
 }
 
+export const AFFILIATE_SUPPORT_COPY = {
+  fullBanner:
+    '💛 100% Ad-Free Indie Club ($0 Extra to You): No banner ads, no pop-ups, no corporate sponsors. As an Amazon Associate we earn from qualifying purchases and Prime trials at zero extra cost to you, funding our live AI servers and new Sunset Hills chapters.',
+  compactInline:
+    '💛 $0 extra to you: As an Amazon Associate we earn from qualifying streams, trials & picks, helping keep this ad-free indie game running.',
+  footerStatement:
+    '100% banner-ad-free indie project. As an Amazon Associate we earn from qualifying purchases and Prime trials at $0 extra cost to you, helping fund live AI servers and new chapters.',
+} as const;
+
 export function getAffiliateById(id?: string): AffiliateProduct | undefined {
   if (!id) return undefined;
   return AFFILIATE_CATALOG.find((item) => item.id === id);
