@@ -33,14 +33,14 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
     <div className="w-full space-y-6 animate-stage-in">
       <section className="editorial-hinge-card rounded-2xl p-6 sm:p-8 space-y-3">
         <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-          Official Club Overview • 21+ Romantic-Comedy Simulation
+          Sunset Hills House Rules • 21+ Age-Gap Rom-Com
         </div>
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950 leading-tight">
           What Is Cougars &amp; Cubs Club?
         </h1>
         <p className="text-sm sm:text-base text-zinc-600 max-w-3xl leading-relaxed">
-          Built as an original interactive romantic-comedy experience inspired by real age-gap dating communities,{' '}
-          <strong className="font-semibold text-zinc-900">Cougars &amp; Cubs Club</strong> is a hybrid romantic-comedy dating simulation, evolving chat studio, and visual etiquette handbook celebrating confident older women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
+          Built from real stories and unwritten rules across modern age-gap dating communities,{' '}
+          <strong className="font-semibold text-zinc-900">Cougars &amp; Cubs Club</strong> is an interactive older-woman × younger-man rom-com, red-flag courtroom, and insider courtship handbook celebrating confident women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
         </p>
 
         <div className="flex flex-wrap gap-2.5 pt-1">
@@ -105,19 +105,19 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
 
         <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
           <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            Act 2 • Evolving Vetting
+            The Vetting Filter
           </div>
           <h2 className="text-base font-semibold text-zinc-950">
             App DM → Earned iMessage &amp; Cut Loose
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Chat freely with live AI or curated replies, consult 5 distinct Club Discord channels, spot disguised Traps before Date #1 with Cut Loose, and graduate worthy matches to iMessage.
+            Banter freely off-the-cuff or tap sharp comebacks, consult 5 Sunset Hills lounge channels, block disguised Traps before Friday with Cut Loose, and graduate real catches to iMessage.
           </p>
         </div>
 
         <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
           <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-            Act 3 • Sunset Dates
+            Three-Date S-Rank Run
           </div>
           <h2 className="text-base font-semibold text-zinc-950">
             Animated Multi-Date S-Rank Stage
@@ -162,7 +162,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
               onClick={onOpenCubSchool}
               className="rounded-full bg-stone-100 hover:bg-stone-200 px-4 py-3 text-xs font-extrabold text-[#18101E] cursor-pointer"
             >
-              🎓 Open 12-Module Cub School
+              🎓 Enter Cub Obedience School
             </button>
             <button
               type="button"

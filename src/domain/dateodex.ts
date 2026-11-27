@@ -33,7 +33,7 @@ export const CLUB_POLAROIDS: PolaroidSpec[] = [
     id: 'polaroid-obedience-s',
     title: 'Certified Good Boy™ Graduation',
     caption: 'Zero Cubsplaining, off-leash heel mastered & ribeye treat earned.',
-    unlockHint: 'Graduate all 12 modules in Cub Obedience School',
+    unlockHint: 'Pass all 12 scenarios in Cub Obedience School',
     imageUrl: './images/cast/dog-park-picnic.jpg',
     rotationClass: '-rotate-1',
   },

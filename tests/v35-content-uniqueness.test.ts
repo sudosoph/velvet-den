@@ -15,7 +15,7 @@ import { V35_CUB_SCHOOL_DRILLS } from '../src/data/v35CubSchool';
 import { V35_WILD_VENUES } from '../src/data/v35WildVenues';
 
 const ZERO_TOLERANCE_BAN_REGEX =
-  /pine\s*pollen|bernedoodle|james\s*webb|oatmeal\s+cashmere|photo\s+\d+\s+of\s+\d+/i;
+  /pine\s*pollen|bernedoodle|james\s*webb|oatmeal\s+cashmere|photo\s+\d+\s+of\s+\d+|2d\s+cub|2d\s+sim|obedience\s+sim|the\s+dating\s+sim|vetting\s+simulation|next\s+module|12-module/i;
 
 const ICONIC_SINGLE_USE_JOKES: {
   name: string;

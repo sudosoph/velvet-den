@@ -362,7 +362,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
     setStories((prev) => [optimistic, ...prev]);
     setHeadlineInput('');
     setStoryInput('');
-    setPitchStatus('Submitted to the Live Courtroom! Top-voted Friday stories get animated into playable scenes.');
+    setPitchStatus('Case added to the Live Docket! Every Friday, the #1 voted disaster or green flag joins the Sunset Hills record.');
 
     onGrantBonusCredits('courtroom_story_pitch', 0);
     setCreditToast('🎉 +15 Club XP earned for pitching a real scenario to the Greenlight Board!');
@@ -456,7 +456,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
             className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
           >
             <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>Open 2D Cub Obedience Sim →</span>
+            <span>Enter Cub Obedience School →</span>
           </button>
         </div>
 
@@ -604,10 +604,10 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
           </div>
 
           <h3 className="text-lg font-semibold tracking-tight text-zinc-950">
-            Put My Date in the Game
+            Drop an Anonymous Field Report
           </h3>
           <p className="text-xs text-zinc-600 leading-relaxed">
-            Submit an anonymous real-life green flag or red flag (zero names or contact info). Every Friday, the #1 community-voted report becomes a playable scene.
+            Submit an anonymous real-life green flag or red flag (zero names or contact info). Every Friday, the #1 community-voted story joins the Sunset Hills Hall of Fame (or Shame).
           </p>
 
           <form onSubmit={handleSubmitStory} className="space-y-3">

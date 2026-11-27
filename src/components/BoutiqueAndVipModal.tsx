@@ -415,7 +415,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   </div>
 
                   <p className="text-sm text-stone-200 leading-relaxed">
-                    Less than one happy-hour martini, unlocks the complete unrestricted romance sim across all 22 characters forever.
+                    Less than one happy-hour martini, unlocks every candid photo drop, secret bestie group-chat leak, bold flirt move, and weekend escape across all 22 regulars forever.
                   </p>
 
                   <ul className="space-y-2.5 text-sm font-medium text-white">
@@ -482,7 +482,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   </div>
 
                   <p className="text-sm text-stone-600 leading-relaxed">
-                    Put a fictionalized Cougar, Cub, or legendary group-chat red flag into the game, just like classic indie dating-sim backer cameos!
+                    Put a fictionalized Cougar, Cub, or legendary group-chat red flag into the Club, immortalized right inside the Sunset Hills roster!
                   </p>
 
                   <ul className="space-y-2.5 text-sm font-medium text-[#18101E]">
@@ -643,7 +643,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     });
                     await shareOrCopy({
                       title: 'Cougars & Cubs Club',
-                      text: 'Pass my Cougars & Cubs Club Vetting Simulation 🍸',
+                      text: 'Think you’d survive dating me? Take my Cougars & Cubs Vetting Audition 🍸',
                       url: refUrl,
                     });
                     setQuestMsg('🔗 Invite link copied! Drop it in your group chat.');

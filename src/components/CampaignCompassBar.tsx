@@ -120,7 +120,7 @@ export function computeCampaignProgress({
         targetTab: 'chats',
         leadId: readyDateThread.leadId,
         launchDateNumber: nextNum,
-        stepTag: `Act 3 • Date #${nextNum} Ready`,
+        stepTag: `Friday Night • Date #${nextNum} Ready`,
         ctaLabel: `Launch Date #${nextNum} with ${p?.name ?? readyDateThread.leadId}`,
       };
     } else if (readyGraduateThread) {
@@ -128,7 +128,7 @@ export function computeCampaignProgress({
       nextStep = {
         targetTab: 'chats',
         leadId: readyGraduateThread.leadId,
-        stepTag: 'Act 2 • Beat 6 Complete',
+        stepTag: 'Beat 6 Complete • Real Digits',
         ctaLabel: `Graduate ${p?.name ?? readyGraduateThread.leadId} to iMessage`,
       };
     } else if (activeVettingThread) {
@@ -137,13 +137,13 @@ export function computeCampaignProgress({
       nextStep = {
         targetTab: 'chats',
         leadId: activeVettingThread.leadId,
-        stepTag: `Act 2 • Beat ${beatLabel}/6 Vetting`,
+        stepTag: `Vetting Filter • Beat ${beatLabel}/6`,
         ctaLabel: `Text ${p?.name ?? activeVettingThread.leadId} (Beat ${beatLabel}/6)`,
       };
     } else if (threads.length === 0) {
       nextStep = {
         targetTab: 'hinge',
-        stepTag: 'Act 1 • Spark Your First Match',
+        stepTag: 'Spark Your First Match',
         ctaLabel: 'Send a Prompt Reply on Hinge',
       };
     } else {
@@ -233,7 +233,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl space-y-1.5 sm:space-y-2">
               <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold uppercase tracking-widest text-rose-600">
-                <span>The Dating Sim</span>
+                <span>Older Women × Younger Men</span>
                 <span className="text-zinc-300">•</span>
                 <span
                   data-testid="hud-friday-hearts"

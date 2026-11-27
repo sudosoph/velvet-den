@@ -203,53 +203,60 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   return (
     <div className="mx-auto w-full max-w-2xl space-y-3.5 animate-stage-in">
       {/* Compact Single-Row HUD: Clean Inline Text + shadcn Segmented Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5">
-        <div
-          data-testid="cub-school-perk-banner"
-          className={`text-xs font-semibold ${
-            perkUnlocked ? 'text-emerald-700' : 'text-zinc-600'
-          }`}
-        >
-          <span>
-            {perkUnlocked
-              ? `✨ +8% Etiquette Spark Active (${bestStars}/12 Stars)`
-              : `${bestStars}/4 Gold Stars for +8% Chat Spark`}
-          </span>
-        </div>
+      <div className="space-y-1.5">
+        <div className="flex flex-wrap items-center justify-between gap-2.5">
+          <div
+            data-testid="cub-school-perk-banner"
+            className={`text-xs font-semibold ${
+              perkUnlocked ? 'text-emerald-700' : 'text-zinc-600'
+            }`}
+          >
+            <span>
+              {perkUnlocked
+                ? `✨ +8% Etiquette Spark Active (${bestStars}/12 Stars)`
+                : `${bestStars}/4 Gold Stars for +8% Chat Spark`}
+            </span>
+          </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {onReturnToActiveMatch && activeMatchName && (
-            <button
-              type="button"
-              onClick={onReturnToActiveMatch}
-              className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-900 px-3 text-xs font-medium text-white cursor-pointer"
-            >
-              <MessageCircle className="h-3.5 w-3.5" />
-              <span>Return to Active Match ({activeMatchName}) →</span>
-            </button>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {onReturnToActiveMatch && activeMatchName && (
+              <button
+                type="button"
+                onClick={onReturnToActiveMatch}
+                className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-900 px-3 text-xs font-medium text-white cursor-pointer"
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                <span>Return to Active Match ({activeMatchName}) →</span>
+              </button>
+            )}
 
-          <div className="inline-flex rounded-lg bg-zinc-100 p-1">
-            <button
-              type="button"
-              onClick={() => handleSwitchMode('headmistress')}
-              className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
-                mode === 'headmistress' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
-              }`}
-            >
-              {mode === 'headmistress' ? 'Headmistress Grading Mode' : 'Headmistress'}
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSwitchMode('candidate')}
-              className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
-                mode === 'candidate' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
-              }`}
-            >
-              {mode === 'candidate' ? 'Cub Candidate Exam' : 'Candidate'}
-            </button>
+            <div className="inline-flex rounded-lg bg-zinc-100 p-1">
+              <button
+                type="button"
+                onClick={() => handleSwitchMode('headmistress')}
+                className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
+                  mode === 'headmistress' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
+                }`}
+              >
+                {mode === 'headmistress' ? 'Headmistress Grading Mode' : 'Headmistress'}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSwitchMode('candidate')}
+                className={`rounded-md px-3 py-1 text-xs font-medium cursor-pointer transition-colors ${
+                  mode === 'candidate' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
+                }`}
+              >
+                {mode === 'candidate' ? 'Cub Candidate Exam' : 'Candidate'}
+              </button>
+            </div>
           </div>
         </div>
+        <p className="text-xs text-zinc-500">
+          {mode === 'headmistress'
+            ? 'Headmistress Desk: Grade 12 real-life moocher tells, midnight crumbs, and coachable Golden-Cub moments.'
+            : 'Candidate Exam: Pass 12 unwritten laws of courting an accomplished woman without rookie fumbles.'}
+        </p>
       </div>
 
       {/* Visual 12-Step Progress Strip */}
@@ -289,7 +296,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           {/* Top-Left Topic Pill */}
           <div className="absolute top-3.5 left-4 flex items-center gap-2">
             <span className="rounded-md bg-white/95 px-2.5 py-1 text-xs font-medium text-zinc-900 shadow-2xs">
-              Drill {drill.moduleNumber} of 12 • {drill.topicTag}
+              Scenario {drill.moduleNumber} of 12 • {drill.topicTag}
             </span>
           </div>
 
@@ -415,7 +422,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                   className="shrink-0 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white transition-colors cursor-pointer"
                 >
                   {drillIdx + 1 < activeDeck.length
-                    ? `Next Module (#${drillIdx + 2}) →`
+                    ? `Next Scenario (#${drillIdx + 2} of 12) →`
                     : 'Claim Official Diploma →'}
                 </button>
               </div>

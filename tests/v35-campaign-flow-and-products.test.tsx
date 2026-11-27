@@ -114,7 +114,7 @@ describe('v35 Connected Campaign Flow, Levels, 3-Date Hearts & Cub School Perk',
     fireEvent.click(screen.getAllByRole('button', { name: /Cub School|🎓 School/i })[0]);
     for (let i = 0; i < 4; i++) {
       fireEvent.click(screen.getByTestId('gold-star-option'));
-      fireEvent.click(screen.getByRole('button', { name: /Next Module/i }));
+      fireEvent.click(screen.getByRole('button', { name: /Next Scenario/i }));
     }
 
     expect(screen.getByTestId('cub-school-perk-banner').textContent).toMatch(

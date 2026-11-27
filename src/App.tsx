@@ -1079,7 +1079,7 @@ export default function App() {
               </span>
             </div>
             <p className="text-xs leading-relaxed text-zinc-500 max-w-sm">
-              Original romantic-comedy dating simulation, live AI chat studio, and shoppable age-gap relationship guide for consenting adults (21+).
+              Interactive older-woman × younger-man rom-com, red-flag courtroom, and insider courtship guide for consenting adults (21+).
             </p>
           </div>
 

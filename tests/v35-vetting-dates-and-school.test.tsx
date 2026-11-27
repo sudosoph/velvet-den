@@ -311,7 +311,7 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
       const goldBtn = screen.getByTestId('gold-star-option');
       fireEvent.click(goldBtn);
       const nextBtn = screen.getByRole('button', {
-        name: i < 11 ? /Next Module/i : /Claim Official Diploma/i,
+        name: i < 11 ? /Next Scenario/i : /Claim Official Diploma/i,
       });
       fireEvent.click(nextBtn);
     }

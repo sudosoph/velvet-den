@@ -497,6 +497,20 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       'Just clocked off three twelve-hour trauma nights with a cardamom cold brew, your message beat hospital coffee by a mile.',
     summer:
       'Wrapped my last Malibu consult before sunset, bonus points right away if you remembered mineral SPF 50 on your neck today.',
+    celeste:
+      'Sipping an icy Gibson on the sculpture terrace before collectors arrive, and your note actually had posture. Rare on here.',
+    astrid:
+      'Just stepped out of the cedar sauna after three minutes in the Pacific. Skipping small talk is already working in your favor.',
+    camila:
+      'Sixty covers just cleared my wood-fired pass and I finally poured a splash of Rioja. Best timing in my inbox all night.',
+    vivienne:
+      'Between screening notes from Paris and questionable California espresso, your message was the first charming line I’ve read today.',
+    rory:
+      'Just rinsed the trail mud off my boots in Topanga and grinned like an idiot reading your note. Proper highlight of my afternoon.',
+    jin:
+      'Hanging 35mm contact sheets to dry in the darkroom and your prompt reply stopped me mid-frame. Zero notes.',
+    liam:
+      'Just came down off a cedar ridge beam in Ojai and saw your message. Worth climbing down the ladder early.',
   };
 
   const bespokeBeat2IncomingById: Record<string, string> = {
@@ -518,6 +532,20 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       'Quick shift-worker check: when blackout curtains are drawn until 2 PM after nights, do you guard the peace or blow up my phone?',
     summer:
       'Playful question first: what’s one harmless guilty pleasure you’d never put on a serious resume?',
+    celeste:
+      'Quick litmus test, darling: Chet Baker on vinyl with the convertible top down, or loud rooftop DJs where nobody can hear a sentence?',
+    astrid:
+      'Honest Swedish question: can you sit through five minutes of ocean sunset without reaching for your phone?',
+    camila:
+      'Crucial chef question: do you actually eat warm sourdough with olive oil, or are you going to count macros across from me?',
+    vivienne:
+      'One ground rule before we flirt properly: utter the words "for your age" and you walk home from the bistro. Deal?',
+    rory:
+      'Be honest with me: if I bake warm berry crumble from scratch, does that forgive five minutes of nervous British blushing?',
+    jin:
+      'Quick check before I book Little Tokyo: twelve-seat vinyl listening bar with phones zipped away, or loud influencer brunch?',
+    liam:
+      'Fair question before Friday: sunset trout over oak embers on the deck, or dressing up for a quiet corner booth in town?',
   };
 
   // Clean role-accurate 6-beat arc for all other Genuine Main Leads & Cameos
@@ -2027,39 +2055,222 @@ function buildTrapOrCameoDateScripts(profile: V35CastProfile): DateSceneScript[]
     ];
   }
 
-  // Cameo joyful 1-date whirlwind romance
+  // Cameo joyful 2-beat bespoke whirlwind romance
+  const cameoScenesById: Record<
+    string,
+    {
+      title: string;
+      backdrop: string;
+      beat1Dialogue: string;
+      beat1Good: string;
+      beat1GoodReply: string;
+      beat1Bad: string;
+      beat1BadReply: string;
+      beat2Dialogue: string;
+      beat2Good: string;
+      beat2GoodReply: string;
+      beat2Vip: string;
+      beat2VipReply: string;
+      leakLine: string;
+    }
+  > = {
+    celeste: {
+      title: 'Powder-Blue Convertible & Desert Gibsons with Celeste',
+      backdrop: './images/scenes/palm-springs-resort.jpg',
+      beat1Dialogue:
+        'Outside the sculpture garden, a twenty-two-year-old valet assumes you are Celeste’s gallery assistant. Celeste doesn’t miss a beat, tossing you the keys to her vintage convertible: "Drive us to dinner, darling. Let him stare."',
+      beat1Good: 'Catch the keys cleanly, open her passenger door first, and grin at the stunned valet.',
+      beat1GoodReply: 'Celeste slides on her sunglasses with a delighted laugh as you pull onto Palm Canyon.',
+      beat1Bad: 'Fumble the keys and over-explain to the valet that this is an actual date.',
+      beat1BadReply: 'Celeste pats your knee lightly: "Never explain yourself to the parking stand, darling."',
+      beat2Dialogue:
+        'Over icy Gibsons with cocktail onions under the bougainvillea, Celeste leans closer: "Most men my age narrate their golf handicap for two hours. Tell me what actually makes you lose track of time."',
+      beat2Good: 'Share a real obsession without trying to sound impressive, then ask what piece she’d never sell.',
+      beat2GoodReply: '"Curious, unhurried, and zero ego," Celeste murmurs, clinking your glass.',
+      beat2Vip: '💎 Hold her gaze: "Right now? Watching a desert icon break every rule in the room."',
+      beat2VipReply: 'Celeste’s silver-screen composure melts into a slow, dangerous smile.',
+      leakLine: 'Celeste: Drove the convertible like a natural and knew a proper Gibson. Keeping him.',
+    },
+    astrid: {
+      title: 'Cold Pacific Plunge & Cedar Sauna Test with Astrid',
+      backdrop: './images/scenes/hotel-pool-sauna.jpg',
+      beat1Dialogue:
+        'Waves crash below Astrid’s Malibu deck at dusk as she hands you a linen towel: "Three minutes in fifty-six-degree surf before the cedar sauna, and zero dramatic speeches. Ready?"',
+      beat1Good: 'Walk straight into the Pacific up to your shoulders, breathe steady, and smile at her stopwatch.',
+      beat1GoodReply: '"Not a single complaint," Astrid beams, ice-blue eyes sparkling. "You just beat half of Stockholm."',
+      beat1Bad: 'Dip one toe in, yelp loudly, and give a ten-minute monologue about hypothermia.',
+      beat1BadReply: 'Astrid laughs into her towel and turns up the sauna stove for mercy.',
+      beat2Dialogue:
+        'Inside the warm cedar sauna, Astrid leans back comfortably: "People think Nordic quiet means coldness. Really I just save my energy for things that matter."',
+      beat2Good: 'Let ten seconds of warm, unhurried eye contact speak before pouring water on the stones.',
+      beat2GoodReply: 'Astrid exhales happily, resting her hand over yours on the cedar bench.',
+      beat2Vip: '💎 Brush a drop of ocean salt from her jaw: "Zero small talk needed. Dinner at my place next."',
+      beat2VipReply: '"Best sentence I have heard all month," Astrid whispers.',
+      leakLine: 'Astrid: Survived the Pacific plunge without whining once. My nervous system approves.',
+    },
+    camila: {
+      title: 'Monday Night Off & Kitchen Cumbia with Camila',
+      backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+      beat1Dialogue:
+        'Camila kicks off her clogs at your kitchen island on her rare Monday off, eyeing your cutting board: "Do not panic, I solemnly swear not to critique your knife grip unless a finger is in danger."',
+      beat1Good: 'Pour her a generous Rioja on the guest side of the counter and slide warm garlic bread across.',
+      beat1GoodReply: 'Camila closes her eyes over the first bite: "Heaven. Nobody ever lets the chef just sit and be fed."',
+      beat1Bad: 'Apologize twelve times for the plating and ask her to salt the pan for you.',
+      beat1BadReply: 'Camila gently confiscates the wooden spoon with an affectionate eye-roll.',
+      beat2Dialogue:
+        'When an old cumbia track comes through the speaker, Camila sets down her glass with a mischievous glint: "Dishes can wait ten minutes. Show me if your kitchen footwork matches the pasta."',
+      beat2Good: 'Spin her barefoot between the island and the stove until you’re both laughing.',
+      beat2GoodReply: 'Camila’s arms loop around your neck: "Best Monday off in two years."',
+      beat2Vip: '💎 Pull her close by the waist: "Chef is officially off the clock until Tuesday noon."',
+      beat2VipReply: 'Camila blushes warm under the pendant light: "Don’t threaten me with peace and good company."',
+      leakLine: 'Camila: Cooked for ME on a Monday and spun me around the kitchen. Send help.',
+    },
+    vivienne: {
+      title: 'Midnight 35mm Revival & Steak Frites with Vivienne',
+      backdrop: './images/scenes/velvet-room-bar.jpg',
+      beat1Dialogue:
+        'Credits roll on a 1960s French thriller in row three as Vivienne slips on her silk scarf: "Alright, critic. Give me your honest verdict in one sentence before the Burgundy arrives."',
+      beat1Good: 'Skip pretentious film-school jargon and defend why the heroine should have stolen the car earlier.',
+      beat1GoodReply: 'Vivienne lets out a delighted French laugh, slipping her arm effortlessly through yours.',
+      beat1Bad: 'Say it was "pretty cool for an old black-and-white movie from your era."',
+      beat1BadReply: 'Vivienne stops on the sidewalk: "Careful, chéri, that taxi stand is ten feet away."',
+      beat2Dialogue:
+        'Across a midnight bistro banquette over steak frites, Vivienne studies you warmly: "Men my age bring résumés to dinner. You actually brought curiosity."',
+      beat2Good: 'Toast her in crisp English, keep your phone buried, and ask about her favorite wild Cannes night.',
+      beat2GoodReply: '"Magnifique," Vivienne smiles, leaning in across the candle.',
+      beat2Vip: '💎 Clink coupes softly: "Paris or Beverly Hills next Friday, producer’s choice, my treat."',
+      beat2VipReply: 'Vivienne’s eyes dance: "Boldness suits you remarkably well."',
+      leakLine: 'Vivienne: Zero "for your age" slips and genuine wit past midnight. Très dangereux.',
+    },
+    rory: {
+      title: 'After-Hours Botanical Terrace & Warm Crumble with Rory',
+      backdrop: './images/scenes/canyon-sunrise-trail.jpg',
+      beat1Dialogue:
+        'Park ranger Rory unlocks the coastal overlook gate at dusk carrying a plaid blanket and a warm tin: "Full confession, I practiced not blushing in the truck mirror for ten minutes and failed inside four seconds."',
+      beat1Good: 'Tease his pink ears warmly and open the thermos tin of homemade berry crumble together.',
+      beat1GoodReply: 'Rory’s dimples appear in full force as night-blooming jasmine drifts up the bluff.',
+      beat1Bad: 'Check Slack messages while he lays out the picnic blanket.',
+      beat1BadReply: 'Rory waits patiently holding two spoons until you lock your screen.',
+      beat2Dialogue:
+        'As city lights flicker on below the ridge, Rory turns earnest: "Some blokes act cool by caring less. Truth is, taking a brilliant woman like you out makes me want to bring my best."',
+      beat2Good: 'Reach for his hand across the blanket and tell him sincerity beats fake cool every night.',
+      beat2GoodReply: '"Best night on this ridge by a country mile," Rory grins.',
+      beat2Vip: '💎 Kiss his cheek so the British blush returns: "Save next Friday for dinner at my place, ranger."',
+      beat2VipReply: 'Rory looks ready to float off the cliff in pure delight.',
+      leakLine: 'Rory: Baked berry crumble from scratch and she actually laughed at my terrible nerves!',
+    },
+    jin: {
+      title: 'Twelve-Seat Little Tokyo Vinyl Bar with Jin',
+      backdrop: V35_SCENE_BACKDROPS['left-bank-books'],
+      beat1Dialogue:
+        'Inside a hidden twelve-seat listening bar, Jin zips both his phone and 35mm Leica into his canvas bag before sitting: "I look through viewfinders all week. Tonight I want zero screens between us."',
+      beat1Good: 'Drop your phone into your clutch on silent and let him order the smoked uni toast and whisky highballs.',
+      beat1GoodReply: 'Jin’s quiet grin says everything as warm analog horns fill the booth.',
+      beat1Bad: 'Turn on your camera flash to film a 360-degree video of the tiny silent bar.',
+      beat1BadReply: 'The bartender and Jin both wince softly at the stadium glare.',
+      beat2Dialogue:
+        'Over the second vinyl side, Jin traces the rim of his glass: "Most dates rush to fill every two-second pause. Being able to breathe beside you feels rare."',
+      beat2Good: 'Match his unhurried cadence and trade favorite late-night neighborhoods.',
+      beat2GoodReply: 'Jin’s knee brushes yours under the hinoki counter with unmistakable warmth.',
+      beat2Vip: '💎 Whisper low under the record: "Shoot one roll of film tomorrow morning if you earn coffee."',
+      beat2VipReply: 'Jin’s dark eyes catch the amber bar light: "Count on it."',
+      leakLine: 'Jin: Phones stayed buried for three straight hours. Pure Wong Kar-wai chemistry.',
+    },
+    liam: {
+      title: 'Ojai Olive-Grove Firepit & Peach Cobbler with Liam',
+      backdrop: './images/scenes/sunday-kitchen-sanctuary.jpg',
+      beat1Dialogue:
+        'Liam steps down from his pickup in a clean wool coat, opens your door before you touch the handle, and laughs softly: "Raised three timber roof beams today, and somehow this had my pulse higher."',
+      beat1Good: 'Brush a tiny fleck of cedar sawdust off his lapel and tell him the wool coat wins.',
+      beat1GoodReply: 'Liam’s whole face warms into a steady, unhurried smile.',
+      beat1Bad: 'Complain that Ojai doesn’t have valet parking ropes.',
+      beat1BadReply: 'Liam chuckles good-naturedly and offers his arm down the gravel path.',
+      beat2Dialogue:
+        'By the oak firepit with cast-iron peach cobbler cooling beside two bourbons, Liam looks straight at you: "I build things meant to last fifty winters. I date the exact same way."',
+      beat2Good: 'Clink glasses by the firelight and welcome steady, drama-free grown-man follow-through.',
+      beat2GoodReply: 'Liam wraps a warm wool blanket around your shoulders and kisses your temple.',
+      beat2Vip: '💎 Lean against his shoulder under the stars: "Good. Show me that sunrise cedar canoe tomorrow."',
+      beat2VipReply: '"Paddles are already in the truck," Liam murmurs against your hair.',
+      leakLine: 'Liam: She didn’t mind a speck of cedar sawdust on my cuff. Done shopping around.',
+    },
+  };
+
+  const cameoPack = cameoScenesById[profile.id];
   return [
     {
       dateNumber: 1,
-      title: `Golden-Hour Whirlwind Date with ${profile.name}`,
-      venueBackdrop:
-        V35_SCENE_BACKDROPS[profile.primaryWildVenueId || 'cougarmarket'] ||
-        V35_SCENE_BACKDROPS['velvet-room'],
-      beats: [
-        {
-          speakerExpression: 'laugh',
-          dialogue: `${profile.name} greets you in warm golden dusk, turning a spontaneous evening into effortless laughter and undeniable spark.`,
-          choices: [
+      title: cameoPack ? cameoPack.title : `Golden-Hour Date with ${profile.name}`,
+      venueBackdrop: cameoPack
+        ? cameoPack.backdrop
+        : V35_SCENE_BACKDROPS[profile.primaryWildVenueId || 'cougarmarket'] ||
+          V35_SCENE_BACKDROPS['velvet-room'],
+      beats: cameoPack
+        ? [
             {
-              label: 'Lean all the way into the adventure and toast to unexpected chemistry.',
-              response: `${profile.name}'s smile lights up the whole terrace: "Best spontaneous Friday all year."`,
-              nextExpression: 'blush',
-              chemistryDelta: 26,
+              speakerExpression: 'smirk',
+              dialogue: cameoPack.beat1Dialogue,
+              choices: [
+                {
+                  label: cameoPack.beat1Good,
+                  response: cameoPack.beat1GoodReply,
+                  nextExpression: 'laugh',
+                  chemistryDelta: 22,
+                },
+                {
+                  label: cameoPack.beat1Bad,
+                  response: cameoPack.beat1BadReply,
+                  nextExpression: 'icked',
+                  chemistryDelta: -8,
+                },
+              ],
             },
             {
-              label: '💎 Extend the night with a moonlight walk and trade favorite records.',
-              response: `An S-Rank cameo memory sealed into your Cougars & Cubs Dateodex!`,
-              nextExpression: 'blush',
-              chemistryDelta: 30,
-              cost: 1,
+              speakerExpression: 'blush',
+              dialogue: cameoPack.beat2Dialogue,
+              choices: [
+                {
+                  label: cameoPack.beat2Good,
+                  response: cameoPack.beat2GoodReply,
+                  nextExpression: 'laugh',
+                  chemistryDelta: 24,
+                },
+                {
+                  label: cameoPack.beat2Vip,
+                  response: cameoPack.beat2VipReply,
+                  nextExpression: 'blush',
+                  chemistryDelta: 30,
+                  cost: 1,
+                },
+              ],
+            },
+          ]
+        : [
+            {
+              speakerExpression: 'laugh',
+              dialogue: `${profile.name} raises a glass across the candlelit corner: "Zero small talk tonight. Tell me the best trouble you got into this week."`,
+              choices: [
+                {
+                  label: 'Lean all the way into the banter and toast to unexpected chemistry.',
+                  response: `${profile.name}'s smile lights up the whole terrace: "Best spontaneous Friday all year."`,
+                  nextExpression: 'blush',
+                  chemistryDelta: 26,
+                },
+                {
+                  label: '💎 Extend the night with a moonlight walk and trade favorite records.',
+                  response: `An S-Rank cameo memory sealed into your Cougars & Cubs Dateodex!`,
+                  nextExpression: 'blush',
+                  chemistryDelta: 30,
+                  cost: 1,
+                },
+              ],
             },
           ],
-        },
-      ],
       secretBestiePovLeak: {
         friendName: profile.role === 'him' ? 'Jade' : 'Sam',
         messages: [
-          `${profile.name}: Still smiling from tonight, tell Sunset Hills they have competition.`,
+          cameoPack
+            ? cameoPack.leakLine
+            : `${profile.name}: Still smiling from tonight, tell Sunset Hills they have competition.`,
         ],
         cost: 2,
       },

@@ -512,7 +512,7 @@ function humanizeChatText(
   options?: { role?: 'her' | 'him'; age?: number; singleLine?: boolean },
 ): string {
   let cleaned = raw
-    .replace(/\s*[—–]+\s*/g, ', ')
+    .replace(/\s*[\u2014\u2013]+\s*/g, ', ')
     .replace(/\s*;\s*/g, '. ')
     .replace(/^\s*as\s+a\s+\d{2}(?:-year-old|yo)?\s+[^,.!?]+,\s*/i, '');
 
@@ -734,10 +734,10 @@ function fallbackEvaluateDm(req: {
       return {
         herReply:
           age >= 28
-            ? `7:30 works—quiet corner booth, phones tucked away, and first round on me.`
-            : `Love that plan—quiet wine bar or late-night sushi when we meet up? 🍷`,
+            ? `7:30 works. Quiet corner booth, phones tucked away, and first round on me.`
+            : `Love that plan, quiet wine bar or late-night sushi when we meet up? 🍷`,
         suggestedReplies: [
-          `Quiet wine bar—loud DJs at dinner are illegal.`,
+          `Quiet wine bar, loud DJs at dinner are illegal.`,
           `Hold on, earn two more witty answers before we lock in Friday.`,
           `💎 Surprise me with your favorite Westside spot and bring your A-game.`,
         ],
@@ -752,16 +752,16 @@ function fallbackEvaluateDm(req: {
       herReply:
         age >= 28
           ? `Okay that actually made me smile. Quick question: what's one hill you'll happily die on that drives everyone else crazy?`
-          : `Haha fair point—you don't hold back at all. What's the most overrated "first message" people send you on here? ✨`,
+          : `Haha fair point, you don't hold back at all. What's the most overrated "first message" people send you on here? ✨`,
       suggestedReplies: [
         `People who rush straight to scheduling before proving they're actually fun.`,
-        `Bad restaurant lighting and small talk—what's yours?`,
-        `💎 Anyone who can't handle dry humor—glad you're keeping up so far.`,
+        `Bad restaurant lighting and small talk. What's yours?`,
+        `💎 Anyone who can't handle dry humor, glad you're keeping up so far.`,
       ],
       maturityDelta: 16,
       chivalryDelta: 16,
       chemistryDelta: 18,
-      coachNote: `Spontaneous spark with ${name}—keep teasing or see where the banter goes!`,
+      coachNote: `Spontaneous spark with ${name}, keep teasing or see where the banter goes!`,
       passedVibeCheck: true,
     };
   }
@@ -872,7 +872,7 @@ function fallbackEvaluateDm(req: {
     maturityDelta: 18,
     chivalryDelta: 18,
     chemistryDelta: 22,
-    coachNote: 'Confident courtship unlocked—keep building toward earning her number!',
+    coachNote: 'Confident courtship unlocked, keep building toward earning her number!',
     passedVibeCheck: true,
   };
 }
@@ -918,7 +918,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     aslTag: '41F × 25M • Los Angeles',
     headline: 'Posted Our Cabo Anniversary Dinner Exclusively to His 9-Person "Close Friends" Ring',
     story:
-      'Four months of great dates, yet when he finally posted our beachfront toast I spotted the neon green circle—populated strictly by out-of-state cousins and zero local pals.',
+      'Four months of great dates, yet when he finally posted our beachfront toast I spotted the neon green circle, populated strictly by out-of-state cousins and zero local pals.',
     vibeBadge: '🟢 Soft-Launch Dodge',
     crownHer: 8,
     dumpHer: 92,
@@ -954,7 +954,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     aslTag: '49F × 29M • Scottsdale',
     headline: 'Secretly Took Three Stick-Shift Lessons So He Could Drive My Classic Carrera Home',
     story:
-      'Never acted weird that he didn’t drive manual—booked an instructor on his own dime and smoothly took the keys after our wine-pairing dinner.',
+      'Never acted weird that he didn’t drive manual, booked an instructor on his own dime and smoothly took the keys after our wine-pairing dinner.',
     vibeBadge: '🏎️ Smooth Operator',
     crownHer: 96,
     dumpHer: 4,
@@ -978,7 +978,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     aslTag: '42F × 25M • Boston',
     headline: 'Wrapped Up a $180 Jar Labeled "Extra-Firming Mature Wrinkle Rescue" for My Birthday',
     story:
-      'Swore the department-store clerk told him it was the luxury bestseller—sweetest handwritten card attached to the most mortifying label on earth.',
+      'Swore the department-store clerk told him it was the luxury bestseller, sweetest handwritten card attached to the most mortifying label on earth.',
     vibeBadge: '🎁 Clueless Sweetheart?',
     crownHer: 38,
     dumpHer: 62,
@@ -990,7 +990,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     aslTag: '51F × 30M • Denver',
     headline: 'Kept His Charger & Toothbrush Inside His Duffel Until I Explicitly Offered Him a Drawer',
     story:
-      'Zero stealth territory-marking in my townhouse for three straight months—waited until I cleared top-drawer space before leaving a single item behind.',
+      'Zero stealth territory-marking in my townhouse for three straight months, waited until I cleared top-drawer space before leaving a single item behind.',
     vibeBadge: '🧳 Sanctuary Respect',
     crownHer: 95,
     dumpHer: 5,
@@ -1014,7 +1014,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     aslTag: '48F × 28M • Miami',
     headline: 'Pre-Paid Valet & Tipped the Hostess Ahead So My Wallet Never Left My Evening Clutch',
     story:
-      'Took me out for my promotion celebration on his sous-chef paycheck—coordinated every detail with the restaurant at 4 PM so the evening glided seamlessly.',
+      'Took me out for my promotion celebration on his sous-chef paycheck, coordinated every detail with the restaurant at 4 PM so the evening glided seamlessly.',
     vibeBadge: '🥂 Pure Class',
     crownHer: 98,
     dumpHer: 2,
@@ -1026,7 +1026,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     aslTag: '40F × 25M • Charleston',
     headline: 'Introduced Me to His 82-Year-Old Grandmother at a Family Wedding as "My Good Friend"',
     story:
-      'Claimed afterward he didn’t want Nana to spill punch on her dress from shock—after I flew two states in heels to be his date.',
+      'Claimed afterward he didn’t want Nana to spill punch on her dress from shock, after I flew two states in heels to be his date.',
     vibeBadge: '💒 Plus-One Foul',
     crownHer: 5,
     dumpHer: 95,
@@ -1452,14 +1452,14 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
             ? `STRICT ANTI-RUSHING RULE (CRITICAL!): DO NOT jump straight to booking a date, picking a restaurant, suggesting Friday/Thursday drinks, or asking for phone numbers! You JUST started talking on Hinge! Focus 100% on fun, witty, spontaneous flirting: react playfully to the EXACT words/joke/detail they just wrote, share a funny or charming personal detail, and toss back ONE playful, unexpected question (e.g. a cheeky hot take, pet peeve, mini 'two truths' tease, or witty challenge) so the conversation feels effortless and alive!`
             : playerMentionedDate
               ? `DATE TOPIC ACTIVE: Since the player brought up meeting/drinks/plans, riff warmly and specifically on that plan without sounding robotic!`
-              : `PLAYFUL CHEMISTRY STAGE: Keep the banter spontaneous, cheeky, and directly responsive to their exact words—you can playfully tease about grabbing a drink ONLY if it flows naturally from what they just said!`;
+              : `PLAYFUL CHEMISTRY STAGE: Keep the banter spontaneous, cheeky, and directly responsive to their exact words. You can playfully tease about grabbing a drink ONLY if it flows naturally from what they just said!`;
 
         const platformContext =
           platform === 'imessage'
             ? 'PLATFORM CONTEXT (PERSONAL iMESSAGE): You already swapped numbers! Text casually like a real person on iMessage (never say "glad we graduated off Hinge" if YOUR SECRET CHARACTER BIBLE says you met offline In The Wild!).'
             : personaRole === 'him'
-              ? 'PLATFORM CONTEXT (HINGE APP DM — YOU ARE FLIRTING WITH HER): The player is a magnetic, witty woman. Match her humor, react directly to what she actually said, and make her smile—never sound like a rigid reservation bot!'
-              : 'PLATFORM CONTEXT (HINGE APP DM — HE IS FLIRTING WITH YOU): The player is a younger man chatting with you on Hinge. React directly to his exact words with playful wit, charm, and humor!';
+              ? 'PLATFORM CONTEXT (HINGE APP DM, YOU ARE FLIRTING WITH HER): The player is a magnetic, witty woman. Match her humor, react directly to what she actually said, and make her smile, never sound like a rigid reservation bot!'
+              : 'PLATFORM CONTEXT (HINGE APP DM, HE IS FLIRTING WITH YOU): The player is a younger man chatting with you on Hinge. React directly to his exact words with playful wit, charm, and humor!';
 
         const coachPerspectiveRule =
           personaRole === 'him'
@@ -1481,7 +1481,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           castLore ? `YOUR SECRET CHARACTER BIBLE: ${castLore}` : '',
           playerIdentityHint,
           `REAL HUMAN TEXTING & AGE-GAP COMEDY RULE (CRITICAL!): Write how an actual witty, attractive ${personaAge}-year-old texts in real life, NOT how an AI chatbot writes! Use natural contractions ("I'm", "don't", "you're"), dry observational humor, and playful age-gap banter grounded in your character's real job and life.`,
-          `BANNED AI CRINGE PHRASING: NEVER write stiff sommelier/romance-novel filler like "of course, to pair with...", "Ah, a fellow...", "Indeed", "I must confess", "Quite the...", or "What is your go-to accompaniment?". Keep it conversational, cheeky, and effortless—like a real text worth screenshotting to the group chat!`,
+          `BANNED AI CRINGE PHRASING: NEVER write stiff sommelier/romance-novel filler like "of course, to pair with...", "Ah, a fellow...", "Indeed", "I must confess", "Quite the...", or "What is your go-to accompaniment?". Keep it conversational, cheeky, and effortless, like a real text worth screenshotting to the group chat!`,
           `CRITICAL COHERENCE RULE: Reply directly to the exact joke, answer, tease, or detail the player just sent!`,
           pacingDirective,
           `LENGTH & CADENCE: 1 to 2 short, punchy texting sentences (10-26 words total) ending with a playful tease, callback, or specific hook so they want to text right back.`,
@@ -1580,15 +1580,15 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
 
         const passed = Boolean(parsed.passedVibeCheck);
         let cleanCoach = humanizeChatText(
-          String(parsed.coachNote || 'Vibe check logged—decide your next move!'),
+          String(parsed.coachNote || 'Vibe check logged, decide your next move!'),
         ).slice(0, 200);
         if (
           /\b(she\s+bolted|he\s+overstepped|she\s+walked|the\s+player)\b/i.test(cleanCoach) ||
           (personaRole === 'him' && /cub\s*obedience|cub\s*school|earn\s*his\s*number/i.test(cleanCoach))
         ) {
           cleanCoach = passed
-            ? `Strong spark with ${personaName}—keep testing their consistency.`
-            : `Sharp instinct—if the red flags pile up, hit Block & Cut Loose anytime!`;
+            ? `Strong spark with ${personaName}, keep testing their consistency.`
+            : `Sharp instinct, if the red flags pile up, hit Block & Cut Loose anytime!`;
         }
         await appendAnonymizedAiLog(env, {
           persona: `${personaName} (${personaAge})`,
