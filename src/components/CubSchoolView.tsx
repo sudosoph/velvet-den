@@ -183,7 +183,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                 className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-5 py-3 text-xs font-extrabold text-white cursor-pointer"
               >
                 <Sparkles className="h-4 w-4" />
-                <span>Use +8% Spark on Hinge →</span>
+                <span>Use +8% Spark on Prowl →</span>
               </button>
             ) : null}
 

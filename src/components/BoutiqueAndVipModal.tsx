@@ -22,7 +22,6 @@ import {
   AFFILIATE_CATALOG,
   AFFILIATE_SUPPORT_COPY,
   buildAffiliateUrl,
-  buildPrimeVideoBountyUrl,
   isPrimeVideoDigitalPick,
   type AffiliateCategory,
 } from '../lib/affiliates';
@@ -223,31 +222,25 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         {/* Pinned Non-Scrolling Header + Tabs (Close X Always Accessible) */}
         <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-8 sm:pt-6 space-y-4">
           <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-zinc-500">
-                <span>
-                  Wallet:{' '}
-                  <strong className="text-zinc-950">
-                    {wallet.isFounderUnlimited
-                      ? '∞ Founder Unlimited'
-                      : `${wallet.credits} Credits`}
-                  </strong>
-                </span>
-                {(wallet.isVip || wallet.isFounderUnlimited) && (
-                  <>
-                    <span className="text-zinc-300">•</span>
-                    <span className="text-emerald-700 font-bold">✓ Lifetime VIP Active</span>
-                  </>
+            <div className="space-y-1.5 min-w-0">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+                {wallet.isVip ? (
+                  <span className="rounded-md bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-emerald-800 font-bold">
+                    ✓ Lifetime VIP Black Card Active
+                  </span>
+                ) : (
+                  <span className="rounded-md bg-zinc-100 px-2.5 py-0.5 text-zinc-700">
+                    Core Game Free to Play
+                  </span>
                 )}
                 {wallet.hasPatronBadge && (
-                  <>
-                    <span className="text-zinc-300">•</span>
-                    <span className="text-amber-700 font-bold">💛 Club Patron</span>
-                  </>
+                  <span className="rounded-md bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-amber-800 font-bold">
+                    💛 Club Patron
+                  </span>
                 )}
               </div>
               <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950">
-                Club Passes, VIP &amp; Date-Night Boutique
+                Club VIP, Real Matchmaking &amp; Date-Night Shop
               </h2>
             </div>
 
@@ -265,9 +258,9 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 rounded-xl bg-zinc-100 p-1">
             {(
               [
-                ['vip', 'Passes & VIP'],
+                ['vip', 'Club VIP & Perks'],
+                ['rewards', 'Real Matchmaking & Discord'],
                 ['shop', `Date-Night Shop (${AFFILIATE_CATALOG.length})`],
-                ['rewards', 'Club Events & Invite'],
               ] as const
             ).map(([tabId, label]) => (
               <button
@@ -343,37 +336,37 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 <div className="space-y-4">
                   <div>
                     <div className="text-xs font-extrabold uppercase tracking-wider text-stone-500">
-                      À La Carte Starter
+                      One-Time Bonus Pack
                     </div>
                     <h3 className="font-editorial text-2xl font-bold text-[#18101E] mt-1">
-                      Weekend Date Pack
+                      Weekend Bonus Pack
                     </h3>
                     <div className="mt-2 flex items-baseline gap-1.5">
                       <span className="font-editorial text-4xl font-bold text-[#18101E]">$2.99</span>
-                      <span className="text-sm font-semibold text-stone-500">one-time • 15 Credits</span>
+                      <span className="text-sm font-semibold text-stone-500">one-time pass</span>
                     </div>
                   </div>
 
                   <p className="text-sm text-stone-600 leading-relaxed">
-                    Top up your wallet for special moments across your favorite matches, never a recurring subscription.
+                    Every regular profile, chat photo, quiz, and 3-date story is free to play. Grab a one-time bonus pack for extra Standout Roses and epilogues.
                   </p>
 
                   <ul className="space-y-2.5 text-sm font-medium text-[#18101E]">
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Send <strong>Standout Roses</strong> &amp; VIP Flirt Moves (1 Cr)</span>
+                      <span>Send extra <strong>Standout Roses</strong> &amp; bold flirt openers</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Unblur <strong>Candid Photo Drops</strong> in chat (1 Cr)</span>
+                      <span>Read <strong>Post-Date Bestie Group-Chat Leaks</strong></span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Read <strong>Secret Bestie Group-Chat Leaks</strong> (2 Cr)</span>
+                      <span>Play <strong>6-Month Weekend Escape Epilogues</strong></span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Play <strong>6-Month Weekend Epilogues</strong> (3 Cr)</span>
+                      <span>Supports ad-free indie hosting (zero recurring charges)</span>
                     </li>
                   </ul>
                 </div>
@@ -386,7 +379,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     rel="noopener noreferrer"
                     className="block w-full rounded-2xl border-2 border-[#18101E] bg-white py-3.5 text-center text-sm sm:text-base font-extrabold text-[#18101E] hover:bg-stone-50 transition"
                   >
-                    Get 15 Credits
+                    Get Weekend Bonus Pack
                   </a>
                 ) : isSandbox ? (
                   <button
@@ -491,7 +484,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <ul className="space-y-2.5 text-sm font-medium text-[#18101E]">
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span><strong>Custom 6-photo Hinge profile</strong> &amp; banter added to the Club</span>
+                      <span><strong>Custom 6-photo Prowl profile</strong> &amp; banter added to the Club</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
@@ -499,7 +492,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Includes <strong>+50 Bonus Credits</strong> immediately</span>
+                      <span>Unlocks every group-chat leak, Polaroid &amp; epilogue</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
@@ -706,13 +699,13 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             >
               <div className="space-y-1">
                 <div className="text-xs font-bold uppercase tracking-wider text-rose-600">
-                  Invite-Only Live &amp; Virtual Events
+                  Real-World Matchmaking &amp; Community Discord
                 </div>
                 <h3 className="font-editorial text-2xl font-bold text-zinc-950">
-                  🥂 Private Club Salon &amp; Live Events Waitlist
+                  🥂 Real-Life Cougars &amp; Cubs Matchmaking &amp; Discord Waitlist
                 </h3>
                 <p className="text-sm text-zinc-600 leading-relaxed max-w-2xl">
-                  Apply for our vetted real-world and virtual member cohort, starting with hosted Pop-Culture Trivia and Speed-Vetting Salons.
+                  Want to meet vetted real-life Cougars (35 to 65+) and Cubs (21 to 35)? Reserve your spot for our private Discord server, vetted city mixers, and curated matchmaking cohort.
                 </p>
               </div>
 
@@ -790,6 +783,39 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               </div>
             </form>
 
+            {/* Real Community Reddit & Discord Strategy Card */}
+            <div className="rounded-3xl border border-indigo-200 bg-indigo-50/40 p-6 sm:p-7 space-y-3 shadow-2xs">
+              <div className="text-xs font-bold uppercase tracking-wider text-indigo-700">
+                Community Conversations &amp; Subreddit Culture
+              </div>
+              <h3 className="font-editorial text-xl font-bold text-zinc-950">
+                💬 Where Real Cougars &amp; Cubs Swap Advice
+              </h3>
+              <p className="text-sm text-zinc-700 leading-relaxed">
+                Joining the waitlist above puts you first in line for our private <strong>Cougars &amp; Cubs Club Discord</strong> invite waves (with verified 21+ roles and zero creeps). Meanwhile, explore real age-gap threads on Reddit communities that inspired our game:
+              </p>
+              <div className="flex flex-wrap gap-2.5 pt-1">
+                <a
+                  href="https://www.reddit.com/r/CougarsAndCubs/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-4 text-xs sm:text-sm font-bold text-zinc-900 hover:border-rose-400 transition"
+                >
+                  <span>Visit r/CougarsAndCubs</span>
+                  <ExternalLink className="h-3.5 w-3.5 text-rose-600" />
+                </a>
+                <a
+                  href="https://www.reddit.com/r/AgeGap/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-4 text-xs sm:text-sm font-bold text-zinc-900 hover:border-rose-400 transition"
+                >
+                  <span>Visit r/AgeGap</span>
+                  <ExternalLink className="h-3.5 w-3.5 text-rose-600" />
+                </a>
+              </div>
+            </div>
+
             {/* Clean Newsletter Dispatch Card */}
             <form
               onSubmit={handleNewsletterSubmit}
@@ -866,34 +892,6 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 </button>
               ))}
             </div>
-
-            {shopFilter === 'cinema_pop_culture' && (
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-200 bg-rose-50/60 p-4">
-                <div className="space-y-0.5">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-rose-700">
-                    📺 Instant Friday Watch Night • Zero Physical Discs Needed
-                  </div>
-                  <p className="text-xs sm:text-sm text-stone-700">
-                    Stream Prime Originals like <em>The Idea of You</em> free with a 30-day Prime trial (or 6-month Young-Adult trial for 18–24 Cubs), or rent 4K/HD titles digitally in seconds.
-                  </p>
-                </div>
-                <a
-                  href={buildPrimeVideoBountyUrl('boutique_prime_trial')}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
-                  onClick={() =>
-                    trackEvent('affiliate_clicked', {
-                      item_id: 'prime-video-trial',
-                      surface: 'boutique_shop',
-                    })
-                  }
-                  className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-4 py-2 text-xs sm:text-sm font-bold text-white hover:bg-rose-700 transition"
-                >
-                  <span>Start 30-Day Prime Free Trial</span>
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-              </div>
-            )}
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
               {filteredProducts.map((item) => (

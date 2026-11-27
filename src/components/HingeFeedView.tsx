@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Briefcase,
@@ -23,7 +23,7 @@ import {
   type V35CastProfile,
 } from '../data/v35Cast';
 import type { WalletState } from '../domain/economy';
-import { sfx } from '../lib/sound';
+import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { liveAiInboxService } from '../services/adapters';
 
 export interface HingeFeedViewProps {
@@ -79,6 +79,24 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   const [focusedLeadId, setFocusedLeadId] = useState<string | null>(null);
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
   const [heardVoiceIds, setHeardVoiceIds] = useState<string[]>([]);
+  const voiceCleanupRef = useRef<(() => void) | null>(null);
+
+  const stopVoicePlayback = () => {
+    if (voiceCleanupRef.current) {
+      voiceCleanupRef.current();
+      voiceCleanupRef.current = null;
+    }
+    setPlayingVoiceId(null);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (voiceCleanupRef.current) {
+        voiceCleanupRef.current();
+        voiceCleanupRef.current = null;
+      }
+    };
+  }, []);
   const [pendingLikes, setPendingLikes] = useState<{ leadId: string; name: string; swipesSince: number }[]>([]);
   const [replyTarget, setReplyTarget] = useState<ActiveReplyTarget | null>(null);
   const [customNote, setCustomNote] = useState('');
@@ -130,16 +148,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
   useEffect(() => {
     setFocusedLeadId(null);
-    setPlayingVoiceId(null);
+    stopVoicePlayback();
   }, [role]);
-
-  useEffect(() => {
-    if (!playingVoiceId) return;
-    const timer = window.setTimeout(() => {
-      setPlayingVoiceId(null);
-    }, 3600);
-    return () => window.clearTimeout(timer);
-  }, [playingVoiceId]);
 
   const advancePendingCounter = (extraPending?: { leadId: string; name: string }) => {
     const updated = pendingLikes.map((item) => ({
@@ -189,9 +199,9 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
   const handlePass = () => {
     if (!currentProfile) return;
+    stopVoicePlayback();
     sfx.swipeLeft();
     setReplyTarget(null);
-    setPlayingVoiceId(null);
     setFocusedLeadId(null);
     setPassedIds((prev) => [...prev, currentProfile.id]);
     advancePendingCounter();
@@ -451,7 +461,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
       {allHingeCast.length > 0 && (
         <section
           data-testid="hinge-cast-strip"
-          aria-label="Tonight's Hinge Lineup"
+          aria-label="Tonight's Prowl Lineup"
           className="rounded-2xl border border-zinc-200/90 bg-white px-4 py-3 shadow-2xs"
         >
           <div className="mb-2.5 flex items-center justify-between gap-2 text-xs">
@@ -481,8 +491,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                       return;
                     }
                     if (isPending) return;
+                    stopVoicePlayback();
                     sfx.messagePop();
-                    setPlayingVoiceId(null);
                     if (isPassed) {
                       setPassedIds((prev) => prev.filter((id) => id !== person.id));
                     }
@@ -540,7 +550,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             <Sparkles className="h-6 w-6" />
           </div>
           <h2 className="font-editorial text-2xl font-bold text-zinc-950">
-            You’ve Seen Today’s Hinge Standouts
+            You’ve Seen Today’s Prowl Standouts
           </h2>
           <p className="text-sm text-zinc-600 max-w-md mx-auto">
             Half of Sunset Hills’ best catches never touch dating apps, step out to The Marlow Lounge,
@@ -669,13 +679,28 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                         : `Play ${currentProfile.name}'s voice prompt`
                     }
                     onClick={() => {
-                      sfx.messagePop();
                       if (playingVoiceId === currentProfile.id) {
-                        setPlayingVoiceId(null);
+                        stopVoicePlayback();
                       } else {
-                        setPlayingVoiceId(currentProfile.id);
+                        stopVoicePlayback();
+                        const profileId = currentProfile.id;
+                        const voiceStyle =
+                          currentProfile.role === 'her'
+                            ? 'her'
+                            : currentProfile.tier === 'trap'
+                              ? 'trap_cub'
+                              : 'green_cub';
+                        setPlayingVoiceId(profileId);
                         setHeardVoiceIds((prev) =>
-                          prev.includes(currentProfile.id) ? prev : [...prev, currentProfile.id],
+                          prev.includes(profileId) ? prev : [...prev, profileId],
+                        );
+                        voiceCleanupRef.current = playVoiceNotePreview(
+                          currentProfile.voicePrompt!.transcript,
+                          voiceStyle,
+                          () => {
+                            voiceCleanupRef.current = null;
+                            setPlayingVoiceId((cur) => (cur === profileId ? null : cur));
+                          },
                         );
                       }
                     }}
@@ -836,7 +861,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 <div className="flex items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#B83253]">
                     <Clapperboard className="h-3.5 w-3.5" />
-                    <span>Friday Story Preview • What Happens Next</span>
+                    <span>If You Two Match</span>
                   </span>
                 </div>
                 <p className="text-sm font-medium text-zinc-900 leading-relaxed">
@@ -1057,7 +1082,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                         </div>
                         {isVip && (
                           <div className="mt-1.5 text-xs font-bold text-rose-800">
-                            🌹 Send a Standout Rose ({wallet.isVip ? 'Included w/ VIP' : '1 Cr'}) • Instant Top-of-Queue Match
+                            🌹 Send a Standout Rose: Instant Top-of-Queue Match
                           </div>
                         )}
                       </button>
@@ -1155,7 +1180,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     {matchCelebration.job}
                   </p>
                   <p className="mt-2.5 text-sm text-zinc-700 leading-relaxed">
-                    Trade a few messages on Hinge to see if {matchCelebration.name} earns your
+                    Trade a few messages on Prowl to see if {matchCelebration.name} earns your
                     personal number and a Friday reservation (or hit 🚩 Block / Cut Loose if red
                     flags drop).
                   </p>
@@ -1206,7 +1231,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     onClick={() => setMatchCelebration(null)}
                     className="w-full sm:w-auto min-h-11 rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer"
                   >
-                    Keep Browsing Hinge
+                    Keep Browsing Prowl
                   </button>
                 </div>
               </div>

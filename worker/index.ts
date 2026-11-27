@@ -51,7 +51,7 @@ export interface WorkerEnv {
 
 const FOUNDER_SALT = 'cc_founder_v1:';
 const DEFAULT_FOUNDER_SHA256 =
-  '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac';
+  'cee2a5c5ce7dfc2fc5145cf7ee4b5c176f973fe04e64314e55ea1a8891265716';
 const DEFAULT_AMAZON_ASSOCIATE_TAG = 'cougarsandcub-20';
 
 const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
@@ -91,6 +91,27 @@ const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
   'somethings-gotta-give-prime': 'https://www.amazon.com/dp/B000N90JG8',
   'magic-mike-last-dance-prime': 'https://www.amazon.com/dp/B0B6MKKGP9',
   'cougar-town-prime': 'https://www.amazon.com/dp/B00RNG9I1G',
+  'the-graduate-prime': 'https://www.amazon.com/dp/B008Y792LC',
+  'bull-durham-prime': 'https://www.amazon.com/dp/B00275EHJG',
+  'american-pie-prime': 'https://www.amazon.com/dp/B000I9WWJW',
+  'the-proposal-prime': 'https://www.amazon.com/dp/B003QSFKCO',
+  'leo-grande-prime': 'https://www.amazon.com/dp/B0B8TCZX9S',
+  'prime-2005-movie': 'https://www.amazon.com/dp/B000I9U8NY',
+  'white-palace-prime': 'https://www.amazon.com/dp/B0012I8B0S',
+  'cha-cha-real-smooth-prime': 'https://www.amazon.com/dp/B09Y96W2M2',
+  'the-good-girl-prime': 'https://www.amazon.com/dp/B000I9X5RU',
+  'harold-and-maude-prime': 'https://www.amazon.com/dp/B000IZ27O2',
+  'home-again-prime': 'https://www.amazon.com/dp/B07575BMTH',
+  'sunset-boulevard-prime': 'https://www.amazon.com/dp/B001K3APQ8',
+  'sex-and-the-city-prime': 'https://www.amazon.com/dp/B00687Q5BM',
+  'succession-prime': 'https://www.amazon.com/dp/B07DPRZ99L',
+  'younger-series-prime': 'https://www.amazon.com/dp/B00V7ORW2I',
+  'hacks-series-prime': 'https://www.amazon.com/dp/B09BF3BGZ2',
+  '30-rock-prime': 'https://www.amazon.com/dp/B001J6O5V6',
+  'mrs-fletcher-prime': 'https://www.amazon.com/dp/B0812DQZ7W',
+  'the-white-lotus-prime': 'https://www.amazon.com/dp/B09C28GPFB',
+  'desperate-housewives-prime': 'https://www.amazon.com/dp/B003Y5H5BA',
+  'fleabag-prime': 'https://www.amazon.com/dp/B0875L39FQ',
   'linen-picnic-insulated-tote': 'https://www.amazon.com/dp/B0GS1TFTY6',
   'velvet-travel-weekender-duffel': 'https://www.amazon.com/dp/B0GTQF7ZK9',
 };

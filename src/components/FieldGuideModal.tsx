@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ExternalLink, X } from 'lucide-react';
 import { FIELD_GUIDE_ENTRIES } from '../domain/taxonomy';
-import { AFFILIATE_SUPPORT_COPY, buildPrimeVideoBountyUrl } from '../lib/affiliates';
+import {
+  AFFILIATE_SUPPORT_COPY,
+  buildAffiliateUrl,
+  getAffiliateById,
+} from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
 
 interface FieldGuideModalProps {
@@ -237,12 +241,12 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
         <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-8 space-y-3.5">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-0.5">
-              <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-                Illustrated Spotter’s Deck • {FIELD_GUIDE_ENTRIES.length} Cards
-              </div>
               <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
-                The Illustrated Age-Gap Field Guide
+                The Age-Gap Field Guide
               </h2>
+              <p className="text-xs text-zinc-500">
+                Browse archetypes, dating etiquette, and real-life celebrity couples.
+              </p>
             </div>
             <button
               type="button"
@@ -280,28 +284,42 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
 
         <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-8 space-y-5">
           {activeFilter === 'pop_culture' && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-rose-200 bg-rose-50/60 px-4 py-3">
-              <div className="space-y-0.5 text-xs sm:text-sm text-zinc-800">
-                <div>
-                  <strong className="text-zinc-950">🎬 Watch-Night Queue:</strong> Stream <em>The Idea of You</em>, <em>No Hard Feelings</em>, <em>Babygirl</em>, and <em>The Rebound</em> digitally on Prime Video.
-                </div>
-                <div className="text-[11px] text-zinc-600">{AFFILIATE_SUPPORT_COPY.compactInline}</div>
+            <div className="rounded-xl border border-rose-200 bg-rose-50/60 p-4 space-y-2.5">
+              <div className="text-xs font-bold uppercase tracking-wider text-rose-800">
+                🎬 Watch Specific Titles Directly on Prime Video
               </div>
-              <a
-                href={buildPrimeVideoBountyUrl('field_guide_pop_culture')}
-                target="_blank"
-                rel="noopener noreferrer sponsored"
-                onClick={() =>
-                  trackEvent('affiliate_clicked', {
-                    item_id: 'prime-video-trial',
-                    surface: 'field_guide',
-                  })
-                }
-                className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 transition-colors"
-              >
-                <span>Start 30-Day Prime Free Trial</span>
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {(
+                  [
+                    'idea-of-you-movie-book',
+                    'no-hard-feelings-jlaw-prime',
+                    'babygirl-movie-prime',
+                    'the-rebound-zeta-jones-prime',
+                  ] as const
+                ).map((affId) => {
+                  const item = getAffiliateById(affId);
+                  if (!item) return null;
+                  return (
+                    <a
+                      key={affId}
+                      href={buildAffiliateUrl(item, `field_guide_${affId}`)}
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      onClick={() =>
+                        trackEvent('affiliate_clicked', {
+                          item_id: item.id,
+                          surface: 'field_guide',
+                        })
+                      }
+                      className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs font-semibold text-zinc-900 hover:border-rose-400 transition"
+                    >
+                      <span>{item.name.split(' (')[0]}</span>
+                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-600" />
+                    </a>
+                  );
+                })}
+              </div>
+              <div className="text-[11px] text-zinc-600">{AFFILIATE_SUPPORT_COPY.compactInline}</div>
             </div>
           )}
           <div className="grid gap-4 sm:grid-cols-2 items-stretch">

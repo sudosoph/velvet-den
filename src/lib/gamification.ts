@@ -14,7 +14,7 @@ export const CLUB_PASSPORT_LEVELS: ClubLevelSpec[] = [
     nextMinXp: 50,
     title: 'Club Newcomer',
     badgeEmoji: '🐣',
-    perkSummary: 'Starter 5 Credits, 3 Friday Hearts & full access to all 4 Club game modes.',
+    perkSummary: '3 Friday Hearts & full free access to all 4 Club game modes.',
   },
   {
     level: 2,
@@ -36,9 +36,9 @@ export const CLUB_PASSPORT_LEVELS: ClubLevelSpec[] = [
     level: 4,
     minXp: 230,
     nextMinXp: 350,
-    title: 'Short-Leash & S-Rank Pro',
+    title: '5-Star Heartthrob',
     badgeEmoji: '🐆',
-    perkSummary: 'Mastered off-app cold approaches, trap radar & multi-date S-Rank chemistry.',
+    perkSummary: 'Mastered off-app cold approaches, red-flag radar & 5-Star date chemistry.',
   },
   {
     level: 5,

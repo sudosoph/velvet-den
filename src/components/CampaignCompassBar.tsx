@@ -49,7 +49,7 @@ const LEVEL_THRESHOLDS: {
   { level: 1, min: 0, nextMin: 40, title: 'Club Newcomer' },
   { level: 2, min: 40, nextMin: 100, title: 'Sharp Flirt & Vetter' },
   { level: 3, min: 100, nextMin: 180, title: 'Inner-Circle Regular' },
-  { level: 4, min: 180, nextMin: 280, title: 'S-Rank Heartthrob' },
+  { level: 4, min: 180, nextMin: 280, title: '5-Star Heartthrob' },
   { level: 5, min: 280, nextMin: 380, title: 'Crown Icon of the Club' },
 ];
 
@@ -158,7 +158,7 @@ export function computeCampaignProgress({
       nextStep = {
         targetTab: 'hinge',
         stepTag: 'Spark Your First Match',
-        ctaLabel: 'Send a Prompt Reply on Hinge',
+        ctaLabel: 'Send a Prompt Reply on Prowl',
       };
     } else {
       nextStep = {
@@ -202,6 +202,7 @@ interface CampaignCompassBarProps {
   onOpenCourtroom?: () => void;
   onSendPartnerAudition?: () => void;
   onOpenPassportModal?: () => void;
+  onOpenMatchmaking?: () => void;
   onResetHearts?: () => void;
 }
 
@@ -226,10 +227,16 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onOpenCourtroom,
   onSendPartnerAudition,
   onOpenPassportModal,
+  onOpenMatchmaking,
   onResetHearts,
 }) => {
   const [showModeGrid, setShowModeGrid] = useState(false);
-  const activeThreads = threads.filter((t) => !cutLooseIds.includes(t.leadId));
+  const [collapsedHomeLobby, setCollapsedHomeLobby] = useState(false);
+  const activeThreads = threads.filter((t) => {
+    if (cutLooseIds.includes(t.leadId)) return false;
+    const profile = getCastProfileById(t.leadId);
+    return Boolean(profile && profile.role !== role);
+  });
   const summary = computeCampaignProgress({
     wallet,
     threads: activeThreads,
@@ -244,46 +251,45 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
       ? '❤️'.repeat(wallet.fridayHearts) + '🤍'.repeat(Math.max(0, 3 - wallet.fridayHearts))
       : '🤍🤍🤍';
 
-  const isFreshHingeLanding =
-    activeThreads.length === 0 && activeTab === 'hinge' && wallet.discernmentXp === 0;
+  const shouldShowModeLauncher =
+    (activeTab === 'hinge' && !collapsedHomeLobby) || showModeGrid;
 
-  if (isFreshHingeLanding || showModeGrid) {
+  if (shouldShowModeLauncher) {
     return (
       <section
         data-testid="campaign-compass-bar"
         aria-label="Campaign Progress and Next Step"
         className="w-full border-b border-zinc-200 bg-white"
       >
-        <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 sm:py-6 space-y-4">
-          {/* Top Row: Headline + Role Toggle + Always-Visible Level Progress Pill */}
+        <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 sm:py-5 space-y-4">
+          {/* Top Row: Clean Stacked Headline + Badges (Zero Dot-Soup) + Role Switcher */}
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold uppercase tracking-widest text-rose-600">
-                <span>Older Women × Younger Men</span>
-                <span className="text-zinc-300">•</span>
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-md bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-xs font-bold text-rose-700">
+                  Older Women × Younger Men
+                </span>
                 <span
                   data-testid="hud-friday-hearts"
-                  className="text-zinc-600 font-semibold normal-case tracking-normal"
+                  className="rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-semibold text-zinc-700"
                   title="Friday Date Energy (3 Hearts)"
                 >
                   {heartsDisplay} 3 Hearts
                 </span>
-                <span className="text-zinc-300">•</span>
                 <button
                   type="button"
                   onClick={onOpenPassportModal}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 px-2.5 py-0.5 text-xs font-bold normal-case tracking-normal text-zinc-900 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 hover:bg-zinc-200 px-2.5 py-0.5 text-xs font-bold text-zinc-900 transition-colors cursor-pointer"
                 >
                   <Award className="h-3.5 w-3.5 text-rose-600" />
                   <span>
-                    Lv.{summary.level} {summary.levelTitle} ({summary.totalPoints} XP)
+                    Lv.{summary.level} {summary.levelTitle}
                   </span>
                 </button>
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 leading-tight">
-                Pick how you want to play tonight.{' '}
-                <span className="text-rose-600">Every mode levels up your Club Passport.</span>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 leading-snug">
+                How do you want to play tonight?
               </h2>
             </div>
 
@@ -317,19 +323,20 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 </div>
               )}
 
-              {showModeGrid && !isFreshHingeLanding && (
-                <button
-                  type="button"
-                  onClick={() => setShowModeGrid(false)}
-                  className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 cursor-pointer"
-                >
-                  Collapse Lobby
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowModeGrid(false);
+                  setCollapsedHomeLobby(true);
+                }}
+                className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 cursor-pointer"
+              >
+                Hide Modes
+              </button>
             </div>
           </div>
 
-          {/* NYT Games / Arcade-Inspired 4 First-Class Mode Cards */}
+          {/* 4 First-Class Game Modes (Clean shadcn Cards, Zero Spec Clutter) */}
           <div
             data-testid="club-onboarding-mode-grid"
             className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
@@ -340,13 +347,13 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                   <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-600 text-white">
                     <Heart className="h-4 w-4" />
                   </span>
-                  <span className="rounded-full bg-white px-2.5 py-0.5 text-[11px] font-bold text-rose-700 border border-rose-200">
-                    22 Singles • +35 XP
+                  <span className="rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-rose-700 border border-rose-200">
+                    Dating Sim
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-zinc-950">1. Swipe &amp; Date Game</h3>
+                <h3 className="text-base font-bold text-zinc-950">Prowl &amp; Offline Dates</h3>
                 <p className="text-xs text-zinc-600 leading-snug">
-                  Match on Hinge or approach offline at 10 Wild Hotspots, block disguised traps, and survive 3 dates.
+                  Match on Prowl or meet offline out in town, spot disguised red flags, and go on 3 dates.
                 </p>
               </div>
               <div className="mt-3 flex flex-wrap gap-1.5">
@@ -355,7 +362,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                   onClick={() => setShowModeGrid(false)}
                   className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-rose-600 hover:bg-rose-700 px-3 text-xs font-bold text-white transition-colors"
                 >
-                  <span>Swipe Hinge ↓</span>
+                  <span>Browse Prowl ↓</span>
                 </a>
                 <button
                   type="button"
@@ -366,7 +373,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                   className="inline-flex h-8 items-center justify-center gap-1 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 px-2.5 text-xs font-bold text-zinc-900 cursor-pointer"
                 >
                   <Compass className="h-3.5 w-3.5 text-rose-600" />
-                  <span>10 Wild Spots</span>
+                  <span>In The Wild</span>
                 </button>
               </div>
             </div>
@@ -385,19 +392,19 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-900">
                       <CheckSquare className="h-4 w-4" />
                     </span>
-                    <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-800">
-                      0-100 Score • +20 XP
+                    <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-800">
+                      Score 0 to 100
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-zinc-950">
-                    2. &ldquo;Have You Ever?&rdquo; Checklist
+                    &ldquo;Have You Ever?&rdquo; Checklist
                   </h3>
                   <p className="text-xs text-zinc-600 leading-snug">
-                    Cougars Only, Cubs Only, and Couples Date-Night editions with full score diagnostic.
+                    Cougars Only, Cubs Only, and Couples Date-Night editions with full score meaning.
                   </p>
                 </div>
                 <span className="mt-3 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-zinc-950 group-hover:bg-rose-600 px-3 text-xs font-bold text-white transition-colors">
-                  <span>Take 3-Way Checklist</span>
+                  <span>Take Checklist</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </span>
               </button>
@@ -417,17 +424,17 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-sky-100 text-sky-900">
                       <Film className="h-4 w-4" />
                     </span>
-                    <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-800">
-                      Easy / Hard • +20 XP
+                    <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-800">
+                      Easy or Hard
                     </span>
                   </div>
-                  <h3 className="text-base font-bold text-zinc-950">3. Pop-Culture Trivia</h3>
+                  <h3 className="text-base font-bold text-zinc-950">Pop-Culture Trivia</h3>
                   <p className="text-xs text-zinc-600 leading-snug">
-                    8-question sprints across Movies, TV Shows, Books, Music &amp; Iconic Couples.
+                    Quick 8-question rounds across Movies, TV Shows, Books, Music &amp; Celebrity Couples.
                   </p>
                 </div>
                 <span className="mt-3 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-zinc-950 group-hover:bg-rose-600 px-3 text-xs font-bold text-white transition-colors">
-                  <span>Pick Trivia Category</span>
+                  <span>Play Trivia</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </span>
               </button>
@@ -439,13 +446,13 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                   <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-900">
                     <GraduationCap className="h-4 w-4" />
                   </span>
-                  <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">
-                    +8% Spark Perk
+                  <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">
+                    Etiquette &amp; Tea
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-zinc-950">4. School &amp; Courtroom</h3>
+                <h3 className="text-base font-bold text-zinc-950">Cub School &amp; Courtroom</h3>
                 <p className="text-xs text-zinc-600 leading-snug">
-                  Train rookie Cubs in Obedience School or vote Today’s Crown-or-Dump case.
+                  Train rookie Cubs in Obedience School or vote on real Crown-or-Dump cases.
                 </p>
               </div>
               <div className="mt-3 flex flex-wrap gap-1.5">
@@ -476,10 +483,25 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
             </div>
           </div>
 
-          {/* Quick Couples / Astro / Guides Utility Strip */}
-          {(onSendPartnerAudition || onOpenGuides) && (
-            <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-zinc-600">
-              <span>🔥 {streakDays}-Day Club Streak Active • Tap any mode to earn Passport XP</span>
+          {/* Quick Matchmaking / Astro / Partner Audition Strip (Clean Separate Links, Zero Dots) */}
+          {(onOpenMatchmaking || onSendPartnerAudition || onOpenGuides) && (
+            <div className="pt-1 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 text-xs font-semibold text-zinc-600">
+              <div className="flex flex-wrap items-center gap-2">
+                {streakDays > 0 && (
+                  <span className="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-amber-900">
+                    🔥 Day {streakDays} Streak
+                  </span>
+                )}
+                {onOpenMatchmaking && (
+                  <button
+                    type="button"
+                    onClick={onOpenMatchmaking}
+                    className="inline-flex items-center gap-1 font-bold text-rose-600 hover:text-rose-700 transition-colors cursor-pointer"
+                  >
+                    <span>🥂 Join Real-Life Matchmaking &amp; Discord Waitlist →</span>
+                  </button>
+                )}
+              </div>
               <div className="flex flex-wrap items-center gap-4">
                 {onSendPartnerAudition && (
                   <button
@@ -498,7 +520,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     className="inline-flex items-center gap-1 text-zinc-700 hover:text-rose-600 transition-colors cursor-pointer"
                   >
                     <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-                    <span>Quick Astro Pairing &amp; Photo Listicles →</span>
+                    <span>Astro Pairing &amp; Photo Listicles →</span>
                   </button>
                 )}
               </div>
@@ -513,7 +535,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
     activeThreads.length === 0 && activeTab === 'hinge'
       ? {
           targetTab: 'wild',
-          stepTag: 'Act 1 • Two Ways to Meet',
+          stepTag: 'Meet Offline',
           ctaLabel: 'Explore 10 In The Wild Spots',
         }
       : summary.nextStep;
@@ -525,18 +547,18 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
       className="w-full border-b border-zinc-200 bg-white"
     >
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
-        {/* Left: Clean Progress Summary + Visible XP Progress Bar */}
-        <div className="flex flex-wrap items-center gap-3.5 text-xs font-medium text-zinc-600">
+        {/* Left: Clean Progress Summary + Visible XP Progress Bar (Zero Dot-Soup) */}
+        <div className="flex flex-wrap items-center gap-2.5 text-xs font-medium text-zinc-600">
           <button
             type="button"
             onClick={onOpenPassportModal}
-            className="inline-flex items-center gap-2 font-semibold text-zinc-950 whitespace-nowrap hover:text-rose-600 transition-colors cursor-pointer"
+            className="inline-flex h-8 items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 font-semibold text-zinc-950 whitespace-nowrap hover:border-rose-300 hover:text-rose-600 transition-colors cursor-pointer"
           >
             <Award className="h-3.5 w-3.5 text-rose-600 shrink-0" />
             <span>
-              Lv.{summary.level} • {summary.levelTitle} ({summary.totalPoints} XP)
+              Lv.{summary.level} {summary.levelTitle}
             </span>
-            <span className="hidden sm:inline-block h-2 w-16 overflow-hidden rounded-full bg-zinc-200">
+            <span className="hidden sm:inline-block h-2 w-14 overflow-hidden rounded-full bg-zinc-200">
               <span
                 className="block h-full rounded-full bg-rose-600 transition-all duration-300"
                 style={{ width: `${summary.progressPercent}%` }}
@@ -546,21 +568,21 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
 
           <button
             type="button"
-            onClick={() => setShowModeGrid(true)}
-            className="rounded-md border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-700 cursor-pointer"
+            onClick={() => {
+              setCollapsedHomeLobby(false);
+              setShowModeGrid(true);
+            }}
+            className="inline-flex h-8 items-center rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-2.5 text-xs font-semibold text-zinc-700 cursor-pointer"
           >
             All 4 Game Modes
           </button>
 
           <div
             data-testid="hud-friday-hearts"
-            className="inline-flex items-center gap-1.5 whitespace-nowrap"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-2.5 whitespace-nowrap"
             title="Friday Date Energy (3 Hearts)"
           >
             <span>{heartsDisplay}</span>
-            {wallet.discernmentXp > 0 && (
-              <span className="text-zinc-500">• {wallet.discernmentXp} XP</span>
-            )}
             {wallet.fridayHearts === 0 && onResetHearts && (
               <button
                 type="button"
@@ -576,10 +598,10 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
             type="button"
             onClick={onOpenCubSchool}
             className={cn(
-              'inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap transition-colors cursor-pointer',
+              'inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 text-xs font-medium whitespace-nowrap transition-colors cursor-pointer',
               summary.etiquetteBonusActive
-                ? 'text-emerald-700 font-semibold'
-                : 'text-zinc-500 hover:text-zinc-950',
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-800 font-semibold'
+                : 'text-zinc-600 hover:text-zinc-950',
             )}
           >
             <GraduationCap className="h-3.5 w-3.5 shrink-0" />

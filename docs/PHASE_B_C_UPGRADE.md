@@ -19,7 +19,7 @@ export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
     const cors = {
-      'Access-Control-Allow-Origin': 'https://sudosoph.github.io',
+      'Access-Control-Allow-Origin': 'https://cougarsandcubs.club',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     };

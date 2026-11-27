@@ -32,10 +32,10 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
     render(<App />);
 
     const modeGrid = screen.getByTestId('club-onboarding-mode-grid');
-    expect(modeGrid.textContent).toMatch(/Swipe & Date/i);
+    expect(modeGrid.textContent).toMatch(/Prowl & Offline Dates/i);
     expect(modeGrid.textContent).toMatch(/Have You Ever/i);
     expect(modeGrid.textContent).toMatch(/Pop-Culture Trivia/i);
-    expect(modeGrid.textContent).toMatch(/School & Courtroom/i);
+    expect(modeGrid.textContent).toMatch(/Cub School & Courtroom/i);
 
     const passportPill = screen.getByTestId('hud-passport-pill');
     fireEvent.click(passportPill);
@@ -149,11 +149,39 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
         onOpenBoutique={() => {}}
       />,
     );
-    expect(screen.getByTestId('photo-drop-cost-badge').textContent).toMatch(/Included Free/i);
+    expect(screen.getByTestId('chat-photo-drop-card')).toBeInTheDocument();
     expect(container.querySelector('.blur-md')).toBeNull();
-    expect(container.textContent).not.toMatch(/Unblur Portrait/i);
+    expect(container.textContent).not.toMatch(/Unblur Portrait|Included Free/i);
 
-    // 3. Worker POST /api/community/submit stores sanitized crowdsourced submissions
+    // 3. Strict opposite-role thread filtering: Prof. Elena (role='her') NEVER shows up when playing as Her!
+    const elenaThread = createInitialThread('elena', 'wild');
+    const julianThread = createInitialThread('julian', 'hinge');
+    const { container: herView } = render(
+      <ChatsAndDatesView
+        role="her"
+        wallet={wallet}
+        threads={[elenaThread, julianThread]}
+        selectedLeadId="elena"
+        cutLooseIds={[]}
+        onUpdateThread={() => {}}
+        onSpendCredits={() => true}
+        onUnlockBucketItem={() => true}
+        onCutLooseTrap={() => {}}
+        onConfirmCutGenuine={() => {}}
+        onLoseHeart={() => {}}
+        onOpenHinge={() => {}}
+        onOpenBoutique={() => {}}
+      />,
+    );
+    expect(herView.textContent).toContain('Julian');
+    expect(herView.textContent).not.toContain('Elena, 44');
+
+    // 4. Zero robotic "I have the frame" or "Private eyes only... wins the corner booth" in date/chat scripts
+    const { V35_DATE_SCRIPTS } = await import('../src/data/v35ChatsAndDates');
+    expect(JSON.stringify(V35_DATE_SCRIPTS)).not.toMatch(/I have the frame/i);
+    expect(JSON.stringify(V35_CHAT_CHAPTERS)).not.toMatch(/Private eyes only|wins the corner booth/i);
+
+    // 5. Worker POST /api/community/submit stores sanitized crowdsourced submissions
     const store = new Map<string, string>();
     const res = await workerApp.fetch(
       new Request('https://cougarsandcubs.club/api/community/submit', {

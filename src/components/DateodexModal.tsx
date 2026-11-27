@@ -46,18 +46,21 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
         >
           <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-7 space-y-3.5">
             <div className="flex items-start justify-between gap-4">
-              <div className="space-y-0.5">
-                <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-                  Cougars &amp; Cubs Dateodex • {stampedCount}/{V35_CAST_PROFILES.length} Logged
-                </div>
+              <div className="space-y-1">
                 <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
-                  Cast Ranks, Dodged Traps &amp; Polaroid Memories
+                  Dateodex &amp; Polaroid Album
                 </h2>
-                <p className="text-xs sm:text-sm text-zinc-600">
-                  Table 9 Conspiracy Clues Collected:{' '}
-                  <strong>{wallet.conspiracyClues.length}/3</strong> • Discernment XP:{' '}
-                  <strong>{wallet.discernmentXp} XP</strong>
-                </p>
+                <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-600">
+                  <span className="rounded-md bg-zinc-100 px-2.5 py-0.5 font-semibold text-zinc-800">
+                    {stampedCount}/{V35_CAST_PROFILES.length} Cast Logged
+                  </span>
+                  <span className="rounded-md bg-zinc-100 px-2.5 py-0.5">
+                    Table 9 Clues: <strong>{wallet.conspiracyClues.length}/3</strong>
+                  </span>
+                  <span className="rounded-md bg-zinc-100 px-2.5 py-0.5">
+                    Discernment XP: <strong>{wallet.discernmentXp} XP</strong>
+                  </span>
+                </div>
               </div>
               <button
                 type="button"
@@ -96,7 +99,7 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                 onClick={() =>
                   setSharePayload({
                     title: `Share Dateodex (${stampedCount}/${V35_CAST_PROFILES.length})`,
-                    message: `🐆📸 Cougars & Cubs Club Dateodex: ${stampedCount}/${V35_CAST_PROFILES.length} Cast Logged • ${sRanks} S-Ranks • ${cutLooseIds.length} Traps Dodged (${wallet.discernmentXp} Discernment XP)!`,
+                    message: `🐆📸 Cougars & Cubs Club Dateodex: ${stampedCount}/${V35_CAST_PROFILES.length} Cast Logged, ${sRanks} 5-Star Romances, ${cutLooseIds.length} Traps Dodged (${wallet.discernmentXp} XP)!`,
                     url: `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}${wallet.referralCode ? `?ref=${encodeURIComponent(wallet.referralCode)}` : ''}`,
                     shareSurface: 'verdict_receipt',
                   })
@@ -133,7 +136,11 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                           </div>
                           {stamp ? (
                             <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-extrabold text-amber-950">
-                              Rank {stamp.rank}
+                              {stamp.rank === 'S'
+                                ? '★★★★★'
+                                : stamp.rank === 'A'
+                                  ? '★★★★☆'
+                                  : '★★★☆☆'}
                             </span>
                           ) : wasCutLoose ? (
                             <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-extrabold text-emerald-900">

@@ -83,7 +83,7 @@ describe('v35 Connected Campaign Flow, Levels, 3-Date Hearts & Cub School Perk',
 
     // Clicking primary "Text Julian Now" CTA hands off seamlessly into Chats & Dates!
     fireEvent.click(screen.getByRole('button', { name: /Text Julian Now/i }));
-    expect(screen.getAllByText(/Hinge App DM/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Prowl App DM|Prowl DM/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByTestId('chat-beat-progress').textContent).toMatch(/Beat 1 of 6/i);
     expect(screen.getByTestId('lead-date-hearts-julian').textContent).toContain('♡♡♡');
 

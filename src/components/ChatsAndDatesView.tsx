@@ -72,7 +72,7 @@ export function createInitialThread(
   const seeded: { sender: 'match' | 'player' | 'system'; text: string }[] = [];
 
   if (originDoor === 'wild' && wildSeed) {
-    seeded.push({ sender: 'system', text: `iMessage • ${wildSeed.venueLabel}` });
+    seeded.push({ sender: 'system', text: `iMessage · ${wildSeed.venueLabel}` });
   }
   if (openerText) {
     seeded.push({ sender: 'player', text: openerText });
@@ -122,7 +122,7 @@ export interface ChatsAndDatesViewProps {
   onLoseHeart: () => void;
   onRecordConspiracyClue?: (clueId: string) => void;
   onOpenHinge: () => void;
-  onOpenBoutique: () => void;
+  onOpenBoutique: (initialTab?: 'shop' | 'vip' | 'rewards') => void;
   onOpenCubSchool?: () => void;
   onSavePersona?: (playerName: string, personaTag: string) => void;
 }
@@ -145,12 +145,18 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   onLoseHeart,
   onRecordConspiracyClue,
   onOpenHinge,
+  onOpenBoutique,
   onOpenCubSchool,
   onSavePersona,
 }) => {
   const visibleThreads = useMemo(
-    () => threads.filter((t) => !cutLooseIds.includes(t.leadId)),
-    [threads, cutLooseIds],
+    () =>
+      threads.filter((t) => {
+        if (cutLooseIds.includes(t.leadId)) return false;
+        const profile = getCastProfileById(t.leadId);
+        return Boolean(profile && profile.role !== role);
+      }),
+    [threads, cutLooseIds, role],
   );
   const etiquetteBonusActive = cubSchoolStars >= 4;
   const activeVibeSpec = getPersonaVibeSpec(wallet.personaTag);
@@ -277,12 +283,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const latestThreadRef = useRef<ActiveMatchThread | undefined>(currentThread);
   latestThreadRef.current = currentThread;
 
-  // Clear transient banners/drawers whenever switching active match
+  // Clear transient banners/drawers whenever switching active match or stage
   useEffect(() => {
     setCoachBanner(null);
     setShowArchivedHinge(false);
     setDmTypingLabel(null);
-  }, [activeLeadId]);
+  }, [activeLeadId, currentThread?.stage]);
   useEffect(() => {
     const el = dmFeedRef.current;
     if (!el) return;
@@ -450,7 +456,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         ...currentThread.messages,
       ],
       messages: [
-        { sender: 'system', text: 'iMessage • Today 6:14 PM' },
+        { sender: 'system', text: 'iMessage · Today 6:14 PM' },
         ...(firstImessage?.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })) ?? []),
       ],
     });
@@ -961,23 +967,26 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-zinc-500">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-600">
           {activeVibeSpec && (
             <span
               data-testid="active-vibe-perk-badge"
-              className="font-semibold text-rose-700"
+              className="rounded-md bg-rose-50 border border-rose-200 px-2.5 py-1 font-semibold text-rose-800"
             >
-              {activeVibeSpec.emoji} {wallet.playerName ? `${wallet.playerName} • ` : ''}
-              {activeVibeSpec.id} ({activeVibeSpec.perkBadge})
+              {activeVibeSpec.emoji}{' '}
+              {wallet.playerName ? `${wallet.playerName} (${activeVibeSpec.id})` : activeVibeSpec.id}
             </span>
           )}
-          <span>
-            Table 9 Clues: {wallet.conspiracyClues.length}/3 • Discernment XP: {wallet.discernmentXp}
+          <span className="rounded-md bg-zinc-100 px-2.5 py-1">
+            Table 9 Clues: <strong>{wallet.conspiracyClues.length}/3</strong>
+          </span>
+          <span className="rounded-md bg-zinc-100 px-2.5 py-1">
+            XP: <strong>{wallet.discernmentXp}</strong>
           </span>
         </div>
       </div>
 
-      {/* Inline 5-Second Persona & Vibe Perk Onboarding Card Before Your First Chat / Date */}
+      {/* Optional First Name & Vibe Card (Clean Two-Row Layout, Zero Cut-Off Inputs or Math Soup) */}
       {surface === 'dm' &&
         visibleThreads.length > 0 &&
         !wallet.playerName &&
@@ -994,62 +1003,59 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 quickVibe,
               );
             }}
-            className="rounded-2xl border border-rose-200 bg-white px-4 py-3.5 sm:px-5 shadow-2xs space-y-2.5"
+            className="rounded-2xl border border-zinc-200 bg-white px-4 py-4 sm:px-5 shadow-2xs space-y-3"
           >
-            <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-3">
               <div className="text-xs sm:text-sm font-medium text-zinc-700">
-                <strong className="font-bold text-rose-600">✨ Optional Name &amp; Vibe Perk:</strong>{' '}
-                Set your first name and pick a Friday Vibe for a chat &amp; date chemistry boost.
+                <strong className="font-semibold text-zinc-950">Optional check-in:</strong>{' '}
+                Add a first name and pick your Friday vibe so dates greet you naturally.
               </div>
               <button
                 type="button"
                 aria-label="Skip persona card"
                 onClick={() => setDismissedPersonaCard(true)}
-                className="rounded-full p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 cursor-pointer"
+                className="shrink-0 rounded-lg p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2.5">
               <input
                 type="text"
                 maxLength={28}
                 value={quickName}
                 onChange={(e) => setQuickName(e.target.value)}
                 aria-label="Quick first name"
-                placeholder={
-                  role === 'her'
-                    ? 'Your first name (e.g. Sophia)...'
-                    : 'Your first name (e.g. Alex)...'
-                }
-                className="w-full sm:w-52 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
+                placeholder="Your first name (optional)"
+                className="h-10 w-full sm:w-72 rounded-lg border border-zinc-300 bg-white px-3.5 text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
               />
-              <div className="flex flex-wrap items-center gap-1.5 flex-1">
-                {PERSONA_VIBE_SPECS.map((spec) => {
-                  const selected = quickVibe === spec.id;
-                  return (
-                    <button
-                      key={spec.id}
-                      type="button"
-                      onClick={() => setQuickVibe(spec.id)}
-                      className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
-                        selected
-                          ? 'border-zinc-950 bg-zinc-950 text-white'
-                          : 'border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100'
-                      }`}
-                    >
-                      {spec.emoji} {spec.id} ({spec.perkBadge})
-                    </button>
-                  );
-                })}
-              </div>
               <button
                 type="submit"
-                className="rounded-full bg-rose-600 hover:bg-rose-700 px-4 py-2 text-xs font-extrabold text-white transition cursor-pointer"
+                className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-zinc-950 hover:bg-rose-600 px-4 text-xs font-semibold text-white transition-colors cursor-pointer"
               >
-                Save Name &amp; Activate Perk →
+                Save Name &amp; Vibe
               </button>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              {PERSONA_VIBE_SPECS.map((spec) => {
+                const selected = quickVibe === spec.id;
+                return (
+                  <button
+                    key={spec.id}
+                    type="button"
+                    onClick={() => setQuickVibe(spec.id)}
+                    className={`rounded-lg border px-3 py-1.5 text-xs font-medium transition cursor-pointer ${
+                      selected
+                        ? 'border-zinc-950 bg-zinc-950 text-white'
+                        : 'border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100'
+                    }`}
+                  >
+                    {spec.emoji} {spec.id}
+                  </button>
+                );
+              })}
             </div>
           </form>
         )}
@@ -1136,40 +1142,78 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           </div>
         </section>
       ) : surface === 'discord' ? (
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-5">
-          {/* 5 Distinct Discord Channels */}
-          <aside className="rounded-2xl border border-zinc-200 bg-white p-4 space-y-1.5 shadow-2xs">
-            <div className="px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-              Cougars & Cubs Club Lounge
+        <div className="overflow-hidden rounded-2xl border border-[#1E1F22] bg-[#313338] text-[#DBDEE1] shadow-xl grid grid-cols-1 lg:grid-cols-[248px_1fr]">
+          {/* Authentic Dark Discord Channel Sidebar */}
+          <aside className="bg-[#2B2D31] flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1F2023]">
+            <div>
+              <div className="flex items-center justify-between gap-2 border-b border-[#1F2023] px-4 py-3.5">
+                <div className="flex items-center gap-2 font-bold text-sm text-white">
+                  <span>🐆</span>
+                  <span>Cougars &amp; Cubs Server</span>
+                </div>
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span>48 Online</span>
+                </span>
+              </div>
+
+              <div className="p-2.5 space-y-1">
+                <div className="px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-[#949BA4]">
+                  Text Channels
+                </div>
+                {V35_DISCORD_CHANNELS.map((ch) => {
+                  const isActive = activeDiscord.id === ch.id;
+                  const bareName = ch.handleLabel.replace(/^#/, '');
+                  return (
+                    <button
+                      key={ch.id}
+                      type="button"
+                      aria-label={ch.handleLabel}
+                      onClick={() => setActiveDiscordId(ch.id)}
+                      className={`w-full flex items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium transition cursor-pointer ${
+                        isActive
+                          ? 'bg-[#404249] text-white font-semibold'
+                          : 'text-[#949BA4] hover:bg-[#35373C] hover:text-[#DBDEE1]'
+                      }`}
+                    >
+                      <Hash className="h-4 w-4 shrink-0 text-[#80848E]" />
+                      <span className="sr-only">#</span>
+                      <span>{bareName}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            {V35_DISCORD_CHANNELS.map((ch) => (
+
+            <div className="p-3 border-t border-[#1F2023] bg-[#232428] space-y-2">
+              <div className="text-[11px] font-medium text-[#B5BAC1] leading-snug">
+                Want to join our vetted real-life community Discord &amp; city mixers?
+              </div>
               <button
-                key={ch.id}
                 type="button"
-                onClick={() => setActiveDiscordId(ch.id)}
-                className={`w-full rounded-xl px-3 py-2.5 text-left text-xs font-semibold transition cursor-pointer ${
-                  activeDiscord.id === ch.id
-                    ? 'bg-[#5865F2] text-white shadow-2xs'
-                    : 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950'
-                }`}
+                onClick={() => onOpenBoutique('rewards')}
+                className="w-full rounded-lg bg-[#5865F2] hover:bg-[#4752C4] px-3 py-2 text-xs font-bold text-white transition cursor-pointer"
               >
-                <div>{ch.handleLabel}</div>
+                🥂 Real Matchmaking &amp; Discord →
               </button>
-            ))}
+            </div>
           </aside>
 
-          <section className="editorial-hinge-card rounded-3xl p-5 sm:p-6 space-y-4">
-            <header className="border-b border-stone-200 pb-3">
-              <h2 className="font-editorial text-xl font-bold text-[#18101E]">
-                {activeDiscord.handleLabel}
-              </h2>
-              <p className="text-xs text-stone-500">{activeDiscord.topicSubtitle}</p>
+          {/* Authentic Dark Discord Main Channel View */}
+          <section className="flex flex-col bg-[#313338]">
+            <header className="flex flex-wrap items-center gap-2.5 border-b border-[#26272D] bg-[#313338] px-5 py-3 shadow-2xs">
+              <div className="flex items-center gap-1.5 font-bold text-base text-white">
+                <Hash className="h-5 w-5 text-[#80848E]" />
+                <span>{activeDiscord.handleLabel.replace(/^#/, '')}</span>
+              </div>
+              <span className="hidden sm:inline text-[#4E5058]">|</span>
+              <p className="text-xs text-[#B5BAC1]">{activeDiscord.topicSubtitle}</p>
             </header>
 
             <div
               ref={discordFeedRef}
               data-testid="discord-message-feed"
-              className="min-h-[380px] sm:min-h-[450px] max-h-[580px] overflow-y-auto scroll-smooth rounded-2xl bg-zinc-50/50 p-4 sm:p-6 space-y-4"
+              className="min-h-[380px] sm:min-h-[430px] max-h-[540px] overflow-y-auto scroll-smooth bg-[#313338] px-4 sm:px-6 py-4 space-y-3"
             >
               {[
                 ...activeDiscord.seededMessages.map((m) => ({ ...m, isPlayer: false })),
@@ -1178,33 +1222,61 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 const reactionKey = `${activeDiscord.id}-${idx}`;
                 const pickedEmojis = discordReactions[reactionKey] || [];
                 const isPlayerPost = Boolean(msg.isPlayer);
+                const avatarColors = [
+                  'bg-[#EB459E]',
+                  'bg-[#5865F2]',
+                  'bg-[#3BA55C]',
+                  'bg-[#FAA61A] text-zinc-950',
+                  'bg-[#ED4245]',
+                ];
+                const nameColors = [
+                  'text-[#F47FFF]',
+                  'text-[#57F287]',
+                  'text-[#FEE75C]',
+                  'text-[#70A5FD]',
+                  'text-[#FF7A90]',
+                ];
+                const colorIdx = Math.abs(msg.sender.charCodeAt(0) + idx) % avatarColors.length;
+                const initial = msg.sender.replace(/[^A-Za-z]/g, '').slice(0, 1).toUpperCase() || 'C';
+                const timeMinute = String((12 + idx * 4) % 60).padStart(2, '0');
+
                 return (
                   <div
                     key={`${msg.sender}-${idx}`}
                     data-testid={idx === 0 ? 'discord-first-message' : undefined}
-                    className={`max-w-2xl rounded-2xl p-4 sm:p-5 space-y-2 transition ${
-                      isPlayerPost
-                        ? 'ml-auto bg-indigo-50 border border-indigo-200'
-                        : idx >= activeDiscord.seededMessages.length
-                          ? 'bg-white border border-indigo-200 border-l-4 border-l-[#5865F2] shadow-2xs'
-                          : 'bg-white border border-zinc-200/80 shadow-2xs'
+                    className={`group flex items-start gap-3.5 rounded-lg px-2.5 py-2 transition ${
+                      isPlayerPost ? 'bg-[#5865F2]/12' : 'hover:bg-[#2E3035]'
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-2 text-xs sm:text-sm font-bold text-zinc-950">
-                      <div className="flex items-center gap-2">
-                        <span>{msg.sender}</span>
+                    <div
+                      className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-extrabold text-white select-none ${
+                        isPlayerPost ? 'bg-[#5865F2]' : avatarColors[colorIdx]
+                      }`}
+                    >
+                      {initial}
+                    </div>
+
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span
-                          className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
-                            isPlayerPost
-                              ? 'bg-[#5865F2] text-white'
-                              : 'bg-indigo-50 text-indigo-800'
+                          className={`text-sm font-semibold ${
+                            isPlayerPost ? 'text-[#949CF7]' : nameColors[colorIdx]
                           }`}
                         >
+                          {msg.sender}
+                        </span>
+                        <span className="rounded bg-[#2B2D31] border border-white/10 px-1.5 py-0.5 text-[10px] font-semibold text-[#DBDEE1]">
                           {msg.badge}
                         </span>
+                        <span className="text-[11px] text-[#949BA4]">
+                          Today at 8:{timeMinute} PM
+                        </span>
                       </div>
+
+                      <p className="text-[15px] text-[#DBDEE1] leading-relaxed">{msg.text}</p>
+
                       {!isPlayerPost && (
-                        <div className="flex items-center gap-1">
+                        <div className="pt-1 flex items-center gap-1.5">
                           {(['🥂', '🔥', '👑'] as const).map((emo) => {
                             const active = pickedEmojis.includes(emo);
                             return (
@@ -1224,10 +1296,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                                     };
                                   });
                                 }}
-                                className={`rounded-full px-1.5 py-0.5 text-xs transition cursor-pointer ${
+                                className={`rounded-md border px-2 py-0.5 text-xs transition cursor-pointer ${
                                   active
-                                    ? 'bg-indigo-100 ring-1 ring-[#5865F2] font-bold'
-                                    : 'opacity-55 hover:opacity-100 hover:bg-zinc-200/60'
+                                    ? 'border-[#5865F2] bg-[#3C4270] font-bold text-white'
+                                    : 'border-white/10 bg-[#2B2D31] text-[#B5BAC1] hover:bg-[#383A40] hover:text-white'
                                 }`}
                               >
                                 {emo}
@@ -1238,7 +1310,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         </div>
                       )}
                     </div>
-                    <p className="text-[15px] sm:text-base text-zinc-800 leading-relaxed">{msg.text}</p>
                   </div>
                 );
               })}
@@ -1246,27 +1317,23 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               {discordTypingLabel && (
                 <div
                   data-testid="discord-typing-indicator"
-                  className="inline-flex items-center gap-2 rounded-2xl border border-indigo-200 bg-indigo-50/70 px-4 py-2.5 text-xs font-semibold text-indigo-950"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-[#B5BAC1]"
                 >
                   <span className="inline-flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#5865F2] animate-bounce" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#5865F2] animate-bounce [animation-delay:120ms]" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#5865F2] animate-bounce [animation-delay:240ms]" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#DBDEE1] animate-bounce" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#DBDEE1] animate-bounce [animation-delay:120ms]" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#DBDEE1] animate-bounce [animation-delay:240ms]" />
                   </span>
                   <span>{discordTypingLabel}…</span>
                 </div>
               )}
             </div>
 
-            {/* Full-Sentence Wrapped Channel Suggestions + Live Open-Ended Discord Input */}
-            <div className="space-y-3 pt-3 border-t border-stone-100">
-              <div className="flex items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider text-zinc-500">
-                <span>Ask Anything or Tap an Icebreaker in {activeDiscord.handleLabel}</span>
-              </div>
-
+            {/* Authentic Discord Dark Composer + Quick Prompt Starters */}
+            <div className="bg-[#313338] px-4 sm:px-5 pb-5 pt-2 space-y-3 border-t border-[#26272D]">
               <form
                 onSubmit={handleDiscordFreeSubmit}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 rounded-lg bg-[#383A40] px-3 py-1.5"
                 data-testid="discord-open-form"
               >
                 <input
@@ -1275,20 +1342,20 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   onChange={(e) => setDiscordFreeInput(e.target.value)}
                   disabled={sendingDiscordAi}
                   aria-label={`Message ${activeDiscord.handleLabel}`}
-                  placeholder={`Write your own question or tea in ${activeDiscord.handleLabel}...`}
-                  className="min-w-0 flex-1 rounded-full border border-zinc-300 bg-white px-4 py-2.5 text-base sm:text-sm text-zinc-950 focus:border-[#5865F2] focus:outline-none"
+                  placeholder={`Message ${activeDiscord.handleLabel}...`}
+                  className="min-w-0 flex-1 bg-transparent px-2 py-1.5 text-sm text-white placeholder:text-[#80848E] focus:outline-none"
                 />
                 <button
                   type="submit"
                   disabled={!discordFreeInput.trim() || sendingDiscordAi || Boolean(discordTypingLabel)}
-                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#5865F2] hover:bg-[#4752C4] disabled:opacity-50 px-5 py-2.5 text-sm font-semibold text-white transition cursor-pointer"
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#5865F2] hover:bg-[#4752C4] disabled:opacity-45 px-3.5 py-1.5 text-xs font-bold text-white transition cursor-pointer"
                 >
                   <Send className="h-3.5 w-3.5" />
                   <span>{sendingDiscordAi || discordTypingLabel ? 'Replying…' : 'Post'}</span>
                 </button>
               </form>
 
-              <div className="grid gap-2">
+              <div className="grid gap-1.5">
                 {(role === 'her'
                   ? activeDiscord.suggestionsHer
                   : activeDiscord.suggestionsHim
@@ -1300,13 +1367,13 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       type="button"
                       disabled={Boolean(discordTypingLabel)}
                       onClick={() => handleDiscordPresetClick(sug, sIdx)}
-                      className={`w-full rounded-2xl border p-3 text-left text-sm font-medium whitespace-normal transition cursor-pointer ${
+                      className={`w-full rounded-lg border px-3 py-2 text-left text-xs sm:text-sm font-medium whitespace-normal transition cursor-pointer ${
                         alreadyAsked
-                          ? 'border-zinc-200 bg-zinc-50 text-zinc-400'
-                          : 'border-zinc-200 bg-white text-zinc-800 hover:border-[#5865F2] hover:bg-indigo-50/30'
+                          ? 'border-white/5 bg-[#2B2D31]/50 text-[#80848E]'
+                          : 'border-white/10 bg-[#2B2D31] text-[#DBDEE1] hover:border-[#5865F2] hover:bg-[#35373C]'
                       }`}
                     >
-                      {alreadyAsked ? `✓ Asked: ${sug}` : sug}
+                      {alreadyAsked ? `✓ ${sug}` : `💬 ${sug}`}
                     </button>
                   );
                 })}
@@ -1320,110 +1387,114 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             Your Inbox Is Wide Open
           </h2>
           <p className="text-sm text-zinc-600 max-w-md mx-auto">
-            Send a thoughtful prompt reply on Hinge or meet someone out at Terminal B, The Marlow
-            Lounge, or Hawthorne University to start your first thread!
+            Send a thoughtful prompt reply on Prowl or meet someone out at Terminal B, The Marlow
+            Lounge, or Hawthorne University to start your first conversation.
           </p>
           <button
             type="button"
             onClick={onOpenHinge}
             className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-6 py-2.5 text-sm font-semibold text-white cursor-pointer"
           >
-            Back to Hinge Discovery →
+            Browse Prowl Profiles →
           </button>
         </section>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-[265px_1fr] gap-6 items-start">
-          {/* Multi-Match Roster Sidebar (Shows ALL Active Matches Simultaneously!) */}
-          <aside className="editorial-hinge-card rounded-3xl p-4 space-y-2">
-            <div className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-zinc-400">
+        <div className="grid grid-cols-1 lg:grid-cols-[265px_1fr] gap-5 items-start">
+          {/* Responsive Match Roster: Compact Horizontal Strip on Mobile, Sidebar on Desktop */}
+          <aside className="editorial-hinge-card rounded-2xl lg:rounded-3xl p-3 lg:p-4 space-y-2">
+            <div className="px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-zinc-400">
               Active Connections ({visibleThreads.length})
             </div>
-            {visibleThreads.map((thread) => {
-              const p = getCastProfileById(thread.leadId);
-              const vis = V35_CAST_VISUALS[thread.leadId];
-              if (!p || !vis) return null;
-              const isSelected = currentThread?.leadId === thread.leadId;
+            <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-1 lg:pb-0">
+              {visibleThreads.map((thread) => {
+                const p = getCastProfileById(thread.leadId);
+                const vis = V35_CAST_VISUALS[thread.leadId];
+                if (!p || !vis) return null;
+                const isSelected = currentThread?.leadId === thread.leadId;
 
-              return (
-                <button
-                  key={thread.leadId}
-                  type="button"
-                  data-testid={`thread-select-${thread.leadId}`}
-                  onClick={() => {
-                    setActiveLeadId(thread.leadId);
-                    onSelectLead?.(thread.leadId);
-                  }}
-                  className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left transition cursor-pointer ${
-                    isSelected
-                      ? 'bg-zinc-950 text-white shadow-sm'
-                      : 'bg-zinc-50/90 text-zinc-950 hover:bg-zinc-100'
-                  }`}
-                >
-                  <img
-                    src={vis.primaryPortrait}
-                    alt={p.name}
-                    className="h-12 w-12 rounded-full object-cover shrink-0"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="font-bold text-sm">
-                        {p.name}, {p.age}
-                      </span>
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                          thread.stage === 'imessage'
-                            ? 'bg-blue-500 text-white'
-                            : isSelected
-                              ? 'bg-white/15 text-rose-200'
-                              : 'bg-rose-100 text-rose-900'
+                return (
+                  <button
+                    key={thread.leadId}
+                    type="button"
+                    data-testid={`thread-select-${thread.leadId}`}
+                    onClick={() => {
+                      setShowArchivedHinge(false);
+                      setActiveLeadId(thread.leadId);
+                      onSelectLead?.(thread.leadId);
+                    }}
+                    className={`flex shrink-0 w-56 lg:w-full items-center gap-3 rounded-2xl p-2.5 lg:p-3 text-left transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'bg-zinc-950 text-white shadow-sm'
+                        : 'bg-zinc-50/90 text-zinc-950 hover:bg-zinc-100'
+                    }`}
+                  >
+                    <img
+                      src={vis.primaryPortrait}
+                      alt={p.name}
+                      className="h-11 w-11 lg:h-12 lg:w-12 rounded-full object-cover shrink-0"
+                    />
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="font-bold text-sm">
+                          {p.name}, {p.age}
+                        </span>
+                        <span
+                          className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                            thread.stage === 'imessage'
+                              ? 'bg-blue-500 text-white'
+                              : isSelected
+                                ? 'bg-white/15 text-rose-200'
+                                : 'bg-rose-100 text-rose-900'
+                          }`}
+                        >
+                          {thread.stage === 'imessage' ? 'iMessage' : 'Prowl DM'}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-1 text-[11px]">
+                        <span
+                          data-testid={`lead-date-hearts-${thread.leadId}`}
+                          className={`font-bold tracking-tight ${
+                            isSelected ? 'text-rose-300' : 'text-rose-600'
+                          }`}
+                        >
+                          {'♥'.repeat(Math.min(3, thread.datesCompleted)) +
+                            '♡'.repeat(Math.max(0, 3 - Math.min(3, thread.datesCompleted)))}
+                          {thread.lastDateRank === 'S'
+                            ? ' ★'
+                            : ''}
+                        </span>
+                        <span className={isSelected ? 'text-amber-200' : 'text-zinc-400'}>
+                          {thread.chemistry}% Spark
+                        </span>
+                      </div>
+                      <p
+                        className={`hidden lg:block text-xs line-clamp-1 ${
+                          isSelected ? 'text-zinc-300' : 'text-zinc-500'
                         }`}
                       >
-                        {thread.stage === 'imessage' ? 'iMessage' : 'App DM'}
-                      </span>
+                        {thread.messages[thread.messages.length - 1]?.text}
+                      </p>
                     </div>
-                    <div className="mt-0.5 flex items-center justify-between gap-1 text-[11px]">
-                      <span
-                        data-testid={`lead-date-hearts-${thread.leadId}`}
-                        className={`font-bold tracking-tight ${
-                          isSelected ? 'text-rose-300' : 'text-rose-600'
-                        }`}
-                      >
-                        {'♥'.repeat(Math.min(3, thread.datesCompleted)) +
-                          '♡'.repeat(Math.max(0, 3 - Math.min(3, thread.datesCompleted)))}
-                        {thread.lastDateRank && thread.lastDateRank !== 'F'
-                          ? ` • ${thread.lastDateRank}-Rank`
-                          : ''}
-                      </span>
-                      <span className={isSelected ? 'text-amber-200' : 'text-zinc-400'}>
-                        {thread.chemistry}% Spark
-                      </span>
-                    </div>
-                    <p
-                      className={`mt-0.5 text-xs line-clamp-1 ${
-                        isSelected ? 'text-zinc-300' : 'text-zinc-500'
-                      }`}
-                    >
-                      {thread.messages[thread.messages.length - 1]?.text}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
+                  </button>
+                );
+              })}
+            </div>
           </aside>
 
-          {/* Single Evolving Thread Stage (Distinct Hinge App DM vs Fresh Apple iMessage Interface) */}
+          {/* Keyed Single Thread Stage (Zero Mobile Superimposition Between Prowl DM & iMessage) */}
           {currentThread && currentProfile && currentChapter && (
             <section
+              key={`${currentThread.leadId}-${currentThread.stage}`}
               data-testid={`chat-stage-${currentThread.stage}`}
-              className={`rounded-3xl overflow-hidden border shadow-xs transition-all ${
+              className={`rounded-3xl overflow-hidden border shadow-xs ${
                 currentThread.stage === 'imessage'
                   ? 'border-sky-200 bg-[#F8FAFC]'
                   : 'editorial-hinge-card border-zinc-200 bg-white'
               }`}
             >
-              {/* Distinct Header: Authentic Apple iOS Contact Bar in iMessage vs Hinge App DM Header */}
+              {/* Distinct Header: Apple iOS Contact Bar in iMessage vs Prowl App DM Header */}
               {currentThread.stage === 'imessage' ? (
-                <header className="border-b border-slate-200/90 bg-gradient-to-b from-[#F1F5F9] to-[#F8FAFC] px-6 py-4">
+                <header className="border-b border-slate-200/90 bg-gradient-to-b from-[#F1F5F9] to-[#F8FAFC] px-5 sm:px-6 py-4">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3.5">
                       <div className="relative">
@@ -1436,14 +1507,17 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           ✓
                         </span>
                       </div>
-                      <div>
-                        <div className="flex flex-wrap items-baseline gap-2">
+                      <div className="space-y-0.5">
+                        <div className="flex flex-wrap items-center gap-2">
                           <h2 className="text-lg font-bold tracking-tight text-slate-950">
                             {currentProfile.name}, {currentProfile.age}
                           </h2>
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#007AFF]">
+                          <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-[#007AFF]">
                             <Smartphone className="h-3.5 w-3.5" />
-                            <span>Earned iMessage • {currentThread.chemistry}% Spark</span>
+                            <span>Earned iMessage</span>
+                          </span>
+                          <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">
+                            {currentThread.chemistry}% Spark
                           </span>
                           {sparkToast && (
                             <span
@@ -1460,13 +1534,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         </div>
                         <p className="text-xs font-medium text-slate-500">
                           {currentThread.originDoor === 'wild'
-                            ? `Personal Cell Unlocked • ${
-                                getWildMeetCuteSeed(
-                                  currentThread.leadId,
-                                  currentThread.originVenueId,
-                                )?.venueLabel ?? 'Met Out In The Wild'
-                              }`
-                            : 'Personal Cell Unlocked • Off-App Blue Bubbles Active'}
+                            ? getWildMeetCuteSeed(
+                                currentThread.leadId,
+                                currentThread.originVenueId,
+                              )?.venueLabel ?? 'Met Out In The Wild'
+                            : 'Personal Number Unlocked'}
                         </p>
                       </div>
                     </div>
@@ -1525,20 +1597,23 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 </header>
               ) : (
-                <header className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b border-zinc-200 bg-white">
+                <header className="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-6 py-4 border-b border-zinc-200 bg-white">
                   <div className="flex items-center gap-3">
                     <img
                       src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
                       alt={currentProfile.name}
                       className="h-11 w-11 rounded-full object-cover"
                     />
-                    <div>
-                      <div className="flex flex-wrap items-baseline gap-2">
+                    <div className="space-y-0.5">
+                      <div className="flex flex-wrap items-center gap-2">
                         <h2 className="text-lg font-bold tracking-tight text-zinc-950">
                           {currentProfile.name}, {currentProfile.age}
                         </h2>
-                        <span className="text-xs font-medium text-zinc-500">
-                          Hinge App DM • {currentThread.chemistry}% Spark
+                        <span className="rounded-md bg-rose-50 px-2 py-0.5 text-xs font-semibold text-rose-800">
+                          Prowl App DM
+                        </span>
+                        <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600">
+                          {currentThread.chemistry}% Spark
                         </span>
                         {sparkToast && (
                           <span
@@ -1555,7 +1630,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       </div>
                       <p className="text-xs text-zinc-500">
                         {role === 'her'
-                          ? 'He is courting your interest, vet his consistency or block him anytime.'
+                          ? 'Vet his vibe here on Prowl, or block him anytime if red flags show up.'
                           : 'Build genuine spark across 6 beats to earn her personal iMessage.'}
                       </p>
                     </div>
@@ -1610,15 +1685,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <div className="text-xs sm:text-sm font-bold text-emerald-950">
                     🍸 Chemistry is high ({currentThread.chemistry}%). Ready for{' '}
                     {nextDateScript.dateNumber === 4
-                      ? `Weekend Escape Epilogue (${
-                          wallet.isVip ||
-                          wallet.isFounderUnlimited ||
-                          wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
-                            ? 'Unlocked'
-                            : '3 Cr'
-                        })`
+                      ? 'Weekend Escape Epilogue'
                       : `Date #${nextDateScript.dateNumber}`}{' '}
-                    with {currentProfile.name}! (Or keep chatting freely below)
+                    with {currentProfile.name}!
                   </div>
                   <button
                     type="button"
@@ -1632,7 +1701,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 </div>
               )}
 
-              {/* Message Stream (Spacious, Eye-Friendly Canvas w/ Generous Whitespace + Readable 15-16px Typography) */}
+              {/* Message Stream (Single Exclusive Thread View: Zero Mobile Superimposition) */}
               <div
                 ref={dmFeedRef}
                 data-testid="dm-message-feed"
@@ -1642,47 +1711,86 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 {currentThread.stage === 'imessage' &&
                   currentThread.archivedAppMessages &&
                   currentThread.archivedAppMessages.length > 0 && (
-                    <div className="space-y-2.5 pb-3 border-b border-slate-100">
-                      <button
-                        type="button"
-                        onClick={() => setShowArchivedHinge((v) => !v)}
-                        className="mx-auto flex items-center gap-1.5 rounded-full bg-slate-100 hover:bg-slate-200/80 px-4 py-1.5 text-xs font-semibold text-slate-600 transition cursor-pointer"
-                      >
-                        <span>
-                          {showArchivedHinge
-                            ? 'Hide Earlier Hinge App Messages'
-                            : `View ${currentThread.archivedAppMessages.filter((m) => m.sender !== 'system').length} Earlier Hinge App Messages`}
-                        </span>
-                        <ChevronDown
-                          className={`h-3.5 w-3.5 transition-transform ${
-                            showArchivedHinge ? 'rotate-180' : ''
+                    <div className="flex items-center justify-center pb-2 border-b border-slate-100">
+                      <div className="inline-flex rounded-xl bg-slate-100 p-1">
+                        <button
+                          type="button"
+                          onClick={() => setShowArchivedHinge(false)}
+                          className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold transition cursor-pointer ${
+                            !showArchivedHinge
+                              ? 'bg-white text-slate-950 shadow-2xs'
+                              : 'text-slate-600 hover:text-slate-950'
                           }`}
-                        />
-                      </button>
-
-                      {showArchivedHinge && (
-                        <div className="rounded-2xl bg-stone-50 border border-stone-200/70 p-4 space-y-2.5 opacity-85">
-                          <div className="text-[11px] font-bold uppercase tracking-wider text-stone-400">
-                            Archived Hinge App Thread
-                          </div>
-                          {currentThread.archivedAppMessages
-                            .filter((m) => m.sender !== 'system')
-                            .map((am, aIdx) => (
-                              <div
-                                key={`arch-${aIdx}`}
-                                className="text-sm text-stone-600 leading-relaxed"
-                              >
-                                <span className="font-bold text-stone-800">
-                                  {am.sender === 'player' ? 'You: ' : `${currentProfile.name}: `}
-                                </span>
-                                {am.text}
-                              </div>
-                            ))}
-                        </div>
-                      )}
+                        >
+                          📱 Current iMessage
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowArchivedHinge((v) => !v)}
+                          className={`inline-flex items-center gap-1 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition cursor-pointer ${
+                            showArchivedHinge
+                              ? 'bg-white text-slate-950 shadow-2xs'
+                              : 'text-slate-600 hover:text-slate-950'
+                          }`}
+                        >
+                          <span>
+                            Earlier Prowl App Messages (
+                            {
+                              currentThread.archivedAppMessages.filter((m) => m.sender !== 'system')
+                                .length
+                            }
+                            )
+                          </span>
+                          <ChevronDown
+                            className={`h-3.5 w-3.5 transition-transform ${
+                              showArchivedHinge ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                      </div>
                     </div>
                   )}
 
+                {showArchivedHinge &&
+                currentThread.stage === 'imessage' &&
+                currentThread.archivedAppMessages ? (
+                  <div className="space-y-4">
+                    <div className="text-center text-xs font-semibold text-zinc-400">
+                      Archived Prowl App Conversation
+                    </div>
+                    {currentThread.archivedAppMessages
+                      .filter((m) => m.sender !== 'system')
+                      .map((am, aIdx) => {
+                        const isPlayerArch = am.sender === 'player';
+                        return (
+                          <div
+                            key={`arch-${aIdx}`}
+                            className={`flex ${isPlayerArch ? 'justify-end' : 'justify-start'}`}
+                          >
+                            <div
+                              className={`max-w-[85%] rounded-3xl px-4 py-3 text-sm leading-relaxed ${
+                                isPlayerArch
+                                  ? 'rounded-br-sm bg-zinc-900 text-white'
+                                  : 'rounded-bl-sm bg-zinc-100 text-zinc-900 border border-zinc-200/70'
+                              }`}
+                            >
+                              {am.text}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    <div className="pt-2 text-center">
+                      <button
+                        type="button"
+                        onClick={() => setShowArchivedHinge(false)}
+                        className="rounded-full bg-[#007AFF] px-4 py-2 text-xs font-bold text-white cursor-pointer"
+                      >
+                        Back to Current iMessage →
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
                 {currentThread.messages.map((m, idx) => {
                   if (m.sender === 'system') {
                     return (
@@ -1810,38 +1918,38 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
-                {/* Beat 4 Private Camera-Roll Portrait Drop (Free 1st Club Sample + Free Metadata Clue + Rich Payoff) */}
+                {/* Clean Native Photo Bubble From Match (Zero Ugly Wrapper Box or "Included Free" Pill) */}
                 {activeBeat?.photoDrop && (
                   <div
                     data-testid="chat-photo-drop-card"
-                    className="rounded-2xl border border-zinc-200 bg-zinc-50/90 p-4 space-y-3 max-w-md shadow-2xs"
+                    className="flex items-end gap-3 max-w-[90%] sm:max-w-[74%]"
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="text-xs font-bold text-zinc-900">
-                        📸 {activeBeat.photoDrop.previewCaption}
-                      </div>
-                      <span
-                        data-testid="photo-drop-cost-badge"
-                        className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-900"
-                      >
-                        Included Free • Live Photo
-                      </span>
-                    </div>
-
-                    <div className="space-y-2.5">
+                    <img
+                      src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
+                      alt={currentProfile.name}
+                      className="h-8 w-8 rounded-full object-cover shrink-0 shadow-2xs border border-zinc-200/80 mb-1"
+                    />
+                    <div className="space-y-2">
                       <img
                         src={activeBeat.photoDrop.imageUrl}
-                        alt={activeBeat.photoDrop.previewCaption}
-                        className="h-64 w-full rounded-xl object-cover object-top"
+                        alt={`Photo from ${currentProfile.name}`}
+                        className="h-72 w-64 sm:w-72 rounded-2xl object-cover object-top shadow-xs border border-zinc-200/80"
                       />
-                      <div className="rounded-xl bg-white border border-zinc-200 p-3 text-xs font-medium text-zinc-800 leading-relaxed">
-                        {activeBeat.photoDrop.secretNote}
+                      <div
+                        className={`px-4 py-3 text-[15px] leading-relaxed max-w-sm ${
+                          currentThread.stage === 'imessage'
+                            ? 'rounded-2xl rounded-bl-sm bg-[#F1F3F5] text-slate-950'
+                            : 'rounded-2xl rounded-bl-sm bg-zinc-100/90 text-zinc-900 border border-zinc-200/70'
+                        }`}
+                      >
+                        {activeBeat.photoDrop.secretNote.replace(/^[“"]|[”"]$/g, '')}
                       </div>
 
-                      <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="pt-0.5">
                         {!inspectedExifIds.includes(activeBeat.photoDrop.id) ? (
                           <button
                             type="button"
+                            aria-label="Inspect Photo Metadata"
                             onClick={() => {
                               sfx.messagePop();
                               setInspectedExifIds((prev) => [
@@ -1849,38 +1957,30 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                                 activeBeat.photoDrop!.id,
                               ]);
                             }}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white hover:bg-zinc-100 px-3 py-1.5 text-[11px] font-bold text-zinc-900 transition cursor-pointer"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-600 hover:text-zinc-950 transition cursor-pointer"
                           >
                             <Search className="h-3 w-3" />
-                            <span>Inspect Photo Metadata</span>
+                            <span>Check photo details</span>
                           </button>
                         ) : (
                           <div
                             data-testid="photo-exif-clue"
-                            className="w-full rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-950 leading-snug"
+                            className="max-w-sm rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-950 leading-snug"
                           >
                             {activeBeat.photoDrop.exifClue}
                           </div>
                         )}
                       </div>
 
-                      {currentChapter.cutLooseVerdict.isActualTrap ? (
-                        <div className="space-y-2">
-                          <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-900">
-                            🚨 Smoking-Gun Receipt Exposed! Cut loose now to claim your Discernment XP.
-                          </div>
-                          <button
-                            type="button"
-                            onClick={handleTriggerCutLoose}
-                            className="w-full rounded-xl bg-rose-600 hover:bg-rose-700 px-4 py-2.5 text-xs font-extrabold text-white transition cursor-pointer"
-                          >
-                            🚫 Block Number &amp; Claim XP Receipt →
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-900">
-                          💖 Candid Check-In Shared • Zero Credits Required
-                        </div>
+                      {currentChapter.cutLooseVerdict.isActualTrap && (
+                        <button
+                          type="button"
+                          onClick={handleTriggerCutLoose}
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 px-3.5 py-2 text-xs font-bold text-white transition cursor-pointer"
+                        >
+                          <Ban className="h-3.5 w-3.5" />
+                          <span>Block Number &amp; Claim +25 XP</span>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -1907,6 +2007,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     </button>
                   </div>
                 )}
+                  </>
+                )}
                 </div>
               </div>
 
@@ -1931,8 +2033,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-blue-50/80 px-4 py-3.5">
                     <div className="text-xs sm:text-sm font-bold text-blue-950">
                       {role === 'her'
-                        ? `📱 Chemistry is buzzing, share your number to move to iMessage, or stay on Hinge as long as you like!`
-                        : `📱 Chemistry is buzzing, move to personal iMessage now, or keep bantering right here on Hinge!`}
+                        ? `📱 Chemistry is buzzing, share your number to move to iMessage, or stay on Prowl as long as you like!`
+                        : `📱 Chemistry is buzzing, move to personal iMessage now, or keep bantering right here on Prowl!`}
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                       <button
@@ -1954,7 +2056,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         }
                         className="rounded-full border border-blue-200 bg-white hover:bg-blue-100/40 px-3.5 py-2 text-xs sm:text-sm font-semibold text-blue-950 cursor-pointer"
                       >
-                        Not Yet, Keep Bantering on Hinge ✨
+                        Not Yet, Keep Bantering on Prowl ✨
                       </button>
                     </div>
                   </div>
@@ -2027,7 +2129,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             <span>{displayClean}</span>
                             {isVipMove && (
                               <span className="ml-2 inline-block rounded-full bg-amber-200/80 px-2.5 py-0.5 text-[11px] font-extrabold text-amber-950">
-                                Bold Spark • {wallet.isVip ? 'VIP Free' : '1 Cr'}
+                                Bold Spark
                               </span>
                             )}
                           </button>
@@ -2053,10 +2155,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           ))}
                         </span>
                         <span>
-                          Beat {currentThread.currentBeat} of 6 •{' '}
-                          {currentThread.stage === 'app_dm'
-                            ? 'Playful Hinge Banter'
-                            : 'Off-App Chemistry'}
+                          Beat {currentThread.currentBeat} of 6
                         </span>
                       </div>
                       {activeBeat.trapClueHint && (
@@ -2082,7 +2181,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             <span>{c.text}</span>
                             {'badge' in c && (
                               <span className="ml-2 inline-block rounded-full bg-amber-200/80 px-2.5 py-0.5 text-[11px] font-extrabold text-amber-950">
-                                {c.badge} • {wallet.isVip ? 'VIP Free' : `${cost} Cr`}
+                                {c.badge}
                               </span>
                             )}
                           </button>
@@ -2105,13 +2204,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           <Sparkles className="h-3.5 w-3.5" />
                           <span>
                             {nextDateScript.dateNumber === 4
-                              ? `Launch Weekend Escape Epilogue (${
-                                  wallet.isVip ||
-                                  wallet.isFounderUnlimited ||
-                                  wallet.unlockedEpilogueIds.includes(`${currentProfile.id}-epilogue-4`)
-                                    ? 'Unlocked'
-                                    : '3 Cr'
-                                }) →`
+                              ? 'Launch Weekend Escape Epilogue →'
                               : `Launch Date #${nextDateScript.dateNumber} →`}
                           </span>
                         </button>
@@ -2140,7 +2233,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             <span>{sugText}</span>
                             {isVipMove && (
                               <span className="ml-2 inline-block rounded-full bg-amber-200/80 px-2.5 py-0.5 text-[11px] font-extrabold text-amber-950">
-                                Bold Spark • {wallet.isVip ? 'VIP Free' : '1 Cr'}
+                                Bold Spark
                               </span>
                             )}
                           </button>
@@ -2232,7 +2325,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
               <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4">
                 <p className="text-xs text-zinc-600">
-                  Your date will greet you by name, and your Signature Vibe applies an active S-Rank chemistry bonus tonight.
+                  Your date will greet you by name, and your Friday vibe adds extra chemistry tonight.
                 </p>
 
               <input
@@ -2240,7 +2333,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 maxLength={28}
                 value={quickName}
                 onChange={(e) => setQuickName(e.target.value)}
-                placeholder={role === 'her' ? 'Your first name (e.g. Sophia)' : 'Your first name (e.g. Alex)'}
+                placeholder="Your first name (optional)"
                 className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-950"
               />
 
@@ -2317,7 +2410,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               <div className="shrink-0 flex items-center justify-between gap-2 border-b border-white/10 px-6 py-4">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-white shadow-sm">
                   <Smartphone className="h-3.5 w-3.5" />
-                  <span>Moved Off Hinge • Personal Cell Unlocked</span>
+                  <span>Moved Off Prowl · Personal Number Unlocked</span>
                 </span>
                 <button
                   type="button"

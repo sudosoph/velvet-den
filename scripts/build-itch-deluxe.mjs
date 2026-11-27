@@ -10,7 +10,7 @@ const zipPath = path.join(releaseDir, 'cougars-and-cubs-club-deluxe-html5.zip');
 const listingPath = path.join(releaseDir, 'ITCH_IO_LISTING.md');
 
 if (!fs.existsSync(distDir)) {
-  throw new Error('dist/ directory missing — run `npm run build` first.');
+  throw new Error('dist/ directory missing, run `npm run build` first.');
 }
 
 fs.rmSync(stageDir, { recursive: true, force: true });
@@ -59,7 +59,7 @@ with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as zf:
 
 fs.rmSync(stageDir, { recursive: true, force: true });
 
-const listingMarkdown = `# Cougars & Cubs Club — Deluxe HTML5 Edition (Itch.io Upload Sheet)
+const listingMarkdown = `# Cougars & Cubs Club, Deluxe HTML5 Edition (Itch.io Upload Sheet)
 
 - **Upload File**: \`release/cougars-and-cubs-club-deluxe-html5.zip\`
 - **Kind of Project**: \`HTML\` ("This file will be played in the browser")
@@ -70,7 +70,7 @@ const listingMarkdown = `# Cougars & Cubs Club — Deluxe HTML5 Edition (Itch.io
 
 ## Copy-Paste Store Description (Includes DR 91 SEO Backlink)
 
-Lower your age slider, dodge the red flags, and find real chemistry in **Cougars & Cubs Club**—an original animated romantic-comedy dating simulator & etiquette game!
+Lower your age slider, dodge the red flags, and find real chemistry in **Cougars & Cubs Club**, an original animated romantic-comedy dating simulator & etiquette game!
 
 - **54 Distinct Characters (Every Single Year From 30–64 & 21–33)**: Heights, star signs, signature cocktails & zero-proof mocktails, and custom plot twists.
 - **78 Animated Scenes & Tactile Arcade Toys**: Swat itemized \$41.63 edamame Venmo requests, escape 7 AM Cheerios roommates, bounce Week-3 "Hobosexual" PS5 bags, pour a *Cougar Town* Big Carl, and melt a cool Black Cat Cougar with patient Golden-Retriever warmth.

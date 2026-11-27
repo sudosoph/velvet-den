@@ -167,22 +167,22 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
       new Request('https://cougarsandcubs.club/api/go/no-hard-feelings-jlaw-prime?src=quiz', {
         method: 'HEAD',
       }),
-      { AMAZON_ASSOCIATE_TAG: 'sophia-20' },
+      { AMAZON_ASSOCIATE_TAG: 'claireclub-20' },
     );
     expect(headRes.status).toBe(302);
     const loc = headRes.headers.get('Location') ?? '';
     expect(loc).toContain('https://www.amazon.com/dp/B0BZMJ7K5H');
-    expect(loc).toContain('tag=sophia-20');
+    expect(loc).toContain('tag=claireclub-20');
     expect(loc).toContain('linkCode=ll2');
 
-    const trialRes = await worker.fetch(
-      new Request('https://cougarsandcubs.club/api/go/prime-video-trial?src=quiz_bounty'),
-      { AMAZON_ASSOCIATE_TAG: 'sophia-20' },
+    const gradRes = await worker.fetch(
+      new Request('https://cougarsandcubs.club/api/go/the-graduate-prime?src=quiz_direct'),
+      { AMAZON_ASSOCIATE_TAG: 'claireclub-20' },
     );
-    expect(trialRes.status).toBe(302);
-    const trialLoc = trialRes.headers.get('Location') ?? '';
-    expect(trialLoc).toContain('https://www.amazon.com/amazonprime');
-    expect(trialLoc).toContain('tag=sophia-20');
+    expect(gradRes.status).toBe(302);
+    const gradLoc = gradRes.headers.get('Location') ?? '';
+    expect(gradLoc).toContain('https://www.amazon.com/dp/B008Y792LC');
+    expect(gradLoc).toContain('tag=claireclub-20');
 
     // Mock Stripe checkout session verification for $5 tip
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(

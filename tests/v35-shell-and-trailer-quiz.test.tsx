@@ -29,27 +29,27 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
 
     // 4 primary navigation tabs inside Primary Club Navigation
     const primaryNav = screen.getByRole('navigation', { name: /Primary Club Navigation/i });
-    expect(within(primaryNav).getByRole('button', { name: /^Hinge$/i })).toBeInTheDocument();
+    expect(within(primaryNav).getByRole('button', { name: /^Prowl$/i })).toBeInTheDocument();
     expect(within(primaryNav).getByRole('button', { name: /^In The Wild$/i })).toBeInTheDocument();
     expect(within(primaryNav).getByRole('button', { name: /^Chats & Dates$/i })).toBeInTheDocument();
     expect(within(primaryNav).getByRole('button', { name: /^Cub School$/i })).toBeInTheDocument();
 
-    // Visible Support This Project link + 3 Friday Hearts + 5 Cr starter balance
+    // Visible Support This Project link + 3 Friday Hearts + Club VIP button (zero cryptic Cr labels)
     const supportLinks = screen.getAllByRole('link', { name: /Support This Project/i });
     expect(supportLinks.length).toBeGreaterThanOrEqual(1);
     expect(supportLinks[0].getAttribute('href')).toBe(MONETIZATION_CONFIG.tipJarUrl);
     expect(screen.getByTestId('hud-friday-hearts').textContent).toContain('❤️❤️❤️');
-    expect(screen.getByRole('button', { name: /\b5 Cr\b/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Club VIP$/i })).toBeInTheDocument();
 
     // Quick 15-second Persona Setup saves playerName + personaTag into wallet
     fireEvent.click(screen.getByRole('button', { name: /Persona/i }));
     const nameInput = screen.getByLabelText(/Your First Name/i);
-    fireEvent.change(nameInput, { target: { value: 'Sophia' } });
+    fireEvent.change(nameInput, { target: { value: 'Vivian' } });
     fireEvent.click(screen.getByRole('button', { name: /Save Persona/i }));
-    expect(screen.getByText(/Sophia/i)).toBeInTheDocument();
+    expect(screen.getByText(/Vivian/i)).toBeInTheDocument();
   });
 
-  it('hides answer images and YouTube embeds in PopCultureTriviaModal before answering (spoiler-free), reveals official trailer after answering with zero figcaption, and grants 0 free credits', () => {
+  it('hides answer images and YouTube embeds in PopCultureTriviaModal before answering (spoiler-free), reveals official trailer + direct Prime Video movie link (zero membership pitch), and grants 0 free credits', () => {
     render(<App />);
 
     fireEvent.click(screen.getByRole('button', { name: /Club Extras/i }));
@@ -69,20 +69,17 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
       }),
     );
 
-    // After answering: reveals official YouTube privacy-enhanced trailer iframe, Prime Video Digital + Prime Free Trial CTAs, & zero figcaption
+    // After answering: reveals official YouTube privacy-enhanced trailer iframe + direct movie link (ZERO Prime Trial membership nag!)
     const iframe = dialog.querySelector('iframe');
     expect(iframe).not.toBeNull();
     expect(iframe?.getAttribute('src')).toContain('youtube-nocookie.com/embed/kIcLb0KAJAs');
     expect(dialog.querySelector('figcaption')).toBeNull();
-    expect(
-      within(dialog).getByRole('link', { name: /Stream \/ Rent Digitally: No Hard Feelings/i }),
-    ).toBeInTheDocument();
-    expect(
-      within(dialog).getByRole('link', { name: /Start 30-Day Prime Video Free Trial/i }),
-    ).toBeInTheDocument();
-
-    // Wallet remains strictly at 5 Cr (0 free credit inflation)
-    expect(screen.getByRole('button', { name: /\b5 Cr\b/i })).toBeInTheDocument();
+    const movieLink = within(dialog).getByRole('link', {
+      name: /Stream \/ Rent Digitally: No Hard Feelings/i,
+    });
+    expect(movieLink).toBeInTheDocument();
+    expect(movieLink.getAttribute('href')).toContain('B0BZMJ7K5H');
+    expect(within(dialog).queryByText(/30-Day Prime/i)).toBeNull();
 
     // Verify trivia order interleaves categories & spaces repeated references >= 12 questions apart
     const nhfIndices = POP_CULTURE_TRIVIA.map((q, idx) =>

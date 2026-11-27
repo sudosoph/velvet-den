@@ -90,7 +90,7 @@ const STATIC_GUIDES = [
     episodeId: 'velvet-room',
     heroImg: '../../images/scenes/velvet-room-bar.jpg',
     dontText: 'never been with a cougar before, bucket list tonight??',
-    doText: 'Booked us the quiet corner booth at 7:30 Friday—Sancerre is already waiting.',
+    doText: 'Booked us the quiet corner booth at 7:30 Friday, Sancerre is already waiting.',
     paragraphs: [
       'In older-woman / younger-man age-gap dating communities such as Cougars & Cubs Club, relationship labels follow clear community etiquette rather than tabloid clichés.',
       'A Puma refers to a woman in her 30s (under 40) dating a younger man. A Cougar is a woman aged 40 or older with at least a 10-year age gap with her younger male partner (Cub) or younger female partner (Kitten). Women in their 50s embrace Jaguar status, and confident women 60+ claim Panther.',
@@ -118,14 +118,14 @@ const STATIC_GUIDES = [
     dontText: 'come thru whenever lol my roommate left dishes in the sink',
     doText: 'Dinner is simmering, lamps are dimmed, and chilled sparkling water is poured whenever you arrive.',
     paragraphs: [
-      'When an accomplished woman in her 40s or 50s visits a younger man’s apartment for the first time, square footage rarely matters—hygiene and adult preparation decide everything.',
+      'When an accomplished woman in her 40s or 50s visits a younger man’s apartment for the first time, square footage rarely matters, hygiene and adult preparation decide everything.',
       'Start with the non-negotiable bathroom checklist: botanical liquid hand soap (never dish soap), two fresh guest hand towels, a spotless mirror, and a bathroom trash can with a closed lid.',
       'In the bedroom, retire dark microfiber dorm sheets for breathable 600-thread-count cotton percale on a real bedframe with four supportive pillows.',
     ],
     faqs: [
       {
         q: 'Do older women care if a younger man lives in a small apartment?',
-        a: 'No—financial responsibility, spotless cleanliness, clean cotton sheets, and a lidded bathroom trash can matter far more than luxury square footage.',
+        a: 'No, financial responsibility, spotless cleanliness, clean cotton sheets, and a lidded bathroom trash can matter far more than luxury square footage.',
       },
     ],
     pickIds: ['hosting-lidded-bin-soap', 'percale-hosting-sheets'],
@@ -138,7 +138,7 @@ const STATIC_GUIDES = [
     episodeId: 'terminal-b-airport',
     heroImg: '../../images/scenes/palm-springs-resort.jpg',
     dontText: 'i didnt know what to get u since u already buy everything lol',
-    doText: 'Remembered the Sicilian olive oil you mentioned three weeks ago—plus Sunday dinner is on me.',
+    doText: 'Remembered the Sicilian olive oil you mentioned three weeks ago, plus Sunday dinner is on me.',
     paragraphs: [
       'When your girlfriend already owns her home and buys her own luxury staples, the best gifts focus on sensory comfort, shared rituals, and taking tasks off her plate.',
       'Top favorites include a 22-momme mulberry silk robe for her evening wind-down, cooking Sunday dinner from scratch in a washed cross-back linen apron, and pairing wine night with an intimacy conversation deck.',
@@ -159,7 +159,7 @@ const STATIC_GUIDES = [
     episodeId: 'left-bank-books',
     heroImg: '../../images/scenes/wine-bar-booth.jpg',
     dontText: 'yo u look crazy good for ur age whats ur snap??',
-    doText: 'Here is my cell—free for a quick 6 PM call Thursday before our Friday 7:30 reservation?',
+    doText: 'Here is my cell, free for a quick 6 PM call Thursday before our Friday 7:30 reservation?',
     paragraphs: [
       'Younger men who thrive in age-gap relationships master generational code-switching: keeping emotional literacy and consent awareness while dropping Snapchat requests and vague midnight texts.',
       'Calibrate to her cohort: Elder Millennial women (34-45) love a quick text before a phone call plus a calendar dinner invite, while Gen-X women (46-60) appreciate a direct 6 PM phone call over all-day work texting.',
@@ -180,7 +180,7 @@ const STATIC_GUIDES = [
     episodeId: 'velvet-palms-bbq',
     heroImg: '../../images/scenes/cozy-rain-suite.jpg',
     dontText: 'wait are people staring at us right now??',
-    doText: 'Corner booth for two, please—and two glasses of the Sancerre.',
+    doText: 'Corner booth for two, please, and two glasses of the Sancerre.',
     paragraphs: [
       'Every real age-gap couple eventually faces three classic moments: laughing off a clueless restaurant host, reassuring silent insecurities in bright morning light, and having an honest conversation about kids and timelines.',
       'While she may privately wonder how softer skin compares to 23-year-olds, he is usually wondering if his composure is strong enough for an accomplished woman to invite him back.',
@@ -201,7 +201,7 @@ const STATIC_GUIDES = [
     episodeId: 'velvet-room',
     heroImg: '../../images/scenes/velvet-room-bar.jpg',
     dontText: 'so is this like a celebrity PR stunt??',
-    doText: 'Queue up No Hard Feelings or The Idea of You Friday—I am bringing takeout.',
+    doText: 'Queue up No Hard Feelings or The Idea of You Friday, I am bringing takeout.',
     paragraphs: [
       'Hollywood’s double standard around older-woman / younger-man relationships has officially collapsed, led by self-made women dating confident younger partners without apology.',
       'Jessica Alba and Danny Ramirez embody effortless 40s Cougar × early-30s Cub chemistry, while Sienna Miller & Oli Green and Ellie Goulding & Beau Minniear welcomed babies together while dominating London and Met Gala red carpets.',
@@ -243,7 +243,7 @@ const STATIC_GUIDES = [
     episodeId: 'left-bank-books',
     heroImg: '../../images/scenes/wine-bar-booth.jpg',
     dontText: 'six years barely even counts!!',
-    doText: 'Six years means you had your driver’s license while I was finishing algebra—still counts.',
+    doText: 'Six years means you had your driver’s license while I was finishing algebra, still counts.',
     paragraphs: [
       'While strict Cougars & Cubs Club taxonomy reserves official Cougar status for a 10+ year gap at age 40+, women who are 5 to 9 years older than their partner proudly claim the "Junior Cougar" title.',
       'A 6-year gap (such as 38F × 32M, or Miley Cyrus & Maxx Morando) blends shared cultural touchstones and zero public stares with homeowner-era intentionality.',
@@ -264,7 +264,7 @@ const STATIC_GUIDES = [
     episodeId: 'velvet-palms-bbq',
     heroImg: '../../images/scenes/sunday-kitchen-sanctuary.jpg',
     dontText: 'im basically the man of the house now right??',
-    doText: 'Already told my mom all about you—she cannot wait to talk 90s concerts over brunch.',
+    doText: 'Already told my mom all about you, she cannot wait to talk 90s concerts over brunch.',
     paragraphs: [
       'One of the most talked-about milestones in 18+ year older-woman / younger-man relationships happens when her adult son or daughter is within a year or two of her partner’s age.',
       'Successful couples follow three golden rules: brief family warmly ahead of time instead of springing doorway ambushes, never try to play "stepdad" to a peer-aged adult child, and carry calm pride onto the dance floor at your first wedding together.',
@@ -285,9 +285,9 @@ const STATIC_GUIDES = [
     episodeId: 'dawn-lap-pool',
     heroImg: '../../images/scenes/campus-autumn-sushi.jpg',
     dontText: 'wanna just come watch TV on my couch??',
-    doText: 'Packed figs, Brie, and sourdough—coastal overlook at 5:30, then retro bowling at 8?',
+    doText: 'Packed figs, Brie, and sourdough, coastal overlook at 5:30, then retro bowling at 8?',
     paragraphs: [
-      'Accomplished women in their late 30s, 40s, 50s, and 60s have already sat through a lifetime of stiff corporate steakhouse dinners—what actually wins their hearts is playful energy, planning effort, and romance.',
+      'Accomplished women in their late 30s, 40s, 50s, and 60s have already sat through a lifetime of stiff corporate steakhouse dinners, what actually wins their hearts is playful energy, planning effort, and romance.',
       'Top fan-favorite dates include a spontaneous 18-hour boutique getaway featuring sunset rooftop cocktails plus a heated hotel pool and cedar sauna, an autumn university quad stroll with omakase sushi, or a hand-packed meadow picnic.',
     ],
     faqs: [
@@ -327,7 +327,7 @@ const STATIC_GUIDES = [
     episodeId: 'havana-salsa',
     heroImg: '../../images/scenes/havana-salsa-studio.jpg',
     dontText: 'astrology is fake lol anyway wyd',
-    doText: 'Texted my mom for my exact birth time—tell me if Scorpio and Taurus survive Friday dinner.',
+    doText: 'Texted my mom for my exact birth time, tell me if Scorpio and Taurus survive Friday dinner.',
     paragraphs: [
       'Astrology-loving Cougars and Cubs swear by cross-element magnetism: fiery Aries and Leo women thrive with grounded, devoted Taurus or Cancer Cubs who worship their boldness without competing for the spotlight.',
       'Meanwhile, perceptive Scorpio and Virgo archetypes gravitate toward emotionally fluent partners who remember tiny comfort details, from passenger-seat warmers to 62°F bamboo-sheet sleep setups.',
@@ -349,7 +349,7 @@ const STATIC_GUIDES = [
     episodeId: 'velvet-room',
     heroImg: '../../images/scenes/velvet-room-bar.jpg',
     dontText: 'never seen any rom-coms lol put on sports highlights',
-    doText: 'Queued up No Hard Feelings and The Rebound—you pick round one.',
+    doText: 'Queued up No Hard Feelings and The Rebound, you pick round one.',
     paragraphs: [
       'From foundational Hollywood classics to the streaming renaissance, older-woman / younger-man cinema has evolved into one of the sharpest, funniest romance genres on earth.',
       'Comedy & Streaming Hits: Jennifer Lawrence & Andrew Barth Feldman in No Hard Feelings (2023), Natalie Portman in Good Sex, Renée Zellweger & Leo Woodall in Bridget Jones: Mad About the Boy (2025), Nicole Kidman & Harris Dickinson in Babygirl (2024), and Anne Hathaway & Nicholas Galitzine in The Idea of You (2024).',
@@ -376,7 +376,7 @@ const STATIC_GUIDES = [
     episodeId: 'velvet-room',
     heroImg: '../../images/scenes/velvet-room-bar.jpg',
     dontText: 'what do you want to watch idk',
-    doText: 'Chilled two coupes—want hotel-bar tension (Babygirl) or Montauk laughs (No Hard Feelings)?',
+    doText: 'Chilled two coupes, want hotel-bar tension (Babygirl) or Montauk laughs (No Hard Feelings)?',
     paragraphs: [
       'Cinema and streaming have entered a full-scale older-woman / younger-man renaissance, led by Nicole Kidman and Harris Dickinson in Babygirl, Jennifer Lawrence in No Hard Feelings, Anne Hathaway and Nicholas Galitzine in The Idea of You, and Renée Zellweger and Leo Woodall in Bridget Jones: Mad About the Boy.',
       'Across every hit, the modern narrative celebrates accomplished women reclaiming desire, humor, and autonomy alongside emotionally present younger men.',
@@ -397,10 +397,10 @@ const STATIC_GUIDES = [
     episodeId: 'palisades-racquet',
     heroImg: '../../images/scenes/terminal-b-arrivals.jpg',
     dontText: 'hey take off your headphones real quick!!',
-    doText: 'Waited until you wrapped up at the smoothie counter—I am Julian, by the way.',
+    doText: 'Waited until you wrapped up at the smoothie counter, I am Julian, by the way.',
     paragraphs: [
       'Younger men frequently ask where to meet confident women in their late 30s, 40s, and 50s offline without coming across as intrusive. Rule #1: never interrupt a woman mid-workout when her headphones are on.',
-      'Instead, focus on organic, high-trust settings: upscale hotel lobby bars between 6 PM and 8:30 PM, racquet clubs, wine tastings, and community salsa studios—and never "Cubsplain" life skills she mastered twenty years ago.',
+      'Instead, focus on organic, high-trust settings: upscale hotel lobby bars between 6 PM and 8:30 PM, racquet clubs, wine tastings, and community salsa studios, and never "Cubsplain" life skills she mastered twenty years ago.',
     ],
     faqs: [
       {
@@ -418,7 +418,7 @@ const STATIC_GUIDES = [
     episodeId: 'velvet-room',
     heroImg: '../../images/scenes/cozy-rain-suite.jpg',
     dontText: 'fine guess ur too busy for me then!!',
-    doText: 'Zero rush at all—I booked Thursday next week just in case, and my evening stays yours.',
+    doText: 'Zero rush at all, I booked Thursday next week just in case, and my evening stays yours.',
     paragraphs: [
       'One of the strongest chemistry pairings in modern age-gap dating is the selective, unhurried "Black Cat" older woman matched with an enthusiastic, sunny "Golden Retriever" younger man.',
       'Unlike insecure dates who get defensive when a woman sets boundaries on Date #1, a true Golden-Retriever Cub loves the slow burn, smiling warmly and proving his reliability week after week.',
@@ -539,7 +539,7 @@ for (const g of STATIC_GUIDES) {
         .join('\n      ')}
       <div class="cta">
         <strong>🎮 Ready to test your instincts in Sunset Hills?</strong>
-        <p style="margin:6px 0 0;font-size:15px;">Step straight into this exact interactive venue as Her or as Him—and text a 60-second Partner Audition link to your real-life Cougar or Cub.</p>
+        <p style="margin:6px 0 0;font-size:15px;">Step straight into this exact interactive venue as Her or as Him, and text a 60-second Partner Audition link to your real-life Cougar or Cub.</p>
         <a class="btn" href="../../?dilemma=${encodeURIComponent(g.episodeId)}">Play Interactive Scenario Free →</a>
       </div>
       <section>

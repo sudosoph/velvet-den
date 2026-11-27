@@ -215,7 +215,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-5 animate-stage-in">
-      <div className="sticky top-14 lg:top-16 z-20 -mx-2 px-2 py-2 bg-[#F7F7F8]/95 border-b border-zinc-200/70 flex flex-wrap items-center justify-between gap-3">
+      <div className="sticky top-24 lg:top-16 z-20 -mx-2 px-2 py-2 bg-[#F7F7F8]/95 border-b border-zinc-200/70 flex flex-wrap items-center justify-between gap-3">
         <button
           type="button"
           onClick={onBackToChats}
@@ -225,29 +225,27 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
           <span>Back to Chats</span>
         </button>
 
-        <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-zinc-600">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-zinc-600">
           {(wallet.playerName || activeVibeSpec) && (
             <span
               data-testid="date-persona-perk-pill"
-              className="font-bold text-rose-700"
+              className="rounded-md bg-rose-50 border border-rose-200 px-2.5 py-1 font-bold text-rose-700"
             >
               {activeVibeSpec ? `${activeVibeSpec.emoji} ` : '✨ '}
-              {wallet.playerName ? `${wallet.playerName} • ` : ''}
-              {activeVibeSpec ? `${activeVibeSpec.id} (+${activeVibeSpec.dateScoreBonus} Score)` : 'VIP Guest'}
+              {wallet.playerName ? `${wallet.playerName}` : activeVibeSpec?.id ?? 'Guest'}
             </span>
           )}
-          <span className="text-zinc-950">
-            Date #{script.dateNumber} • {profile.name} ({profile.age})
+          <span className="rounded-md bg-white border border-zinc-200 px-2.5 py-1 text-zinc-950">
+            Date #{script.dateNumber} with {profile.name}
           </span>
-          <span className="text-zinc-300">•</span>
-          <span>
+          <span className="rounded-md bg-white border border-zinc-200 px-2.5 py-1">
             {'❤️'.repeat(Math.max(0, wallet.fridayHearts)) || '💔 0 Hearts'}
           </span>
           <button
             type="button"
             aria-label="Close date stage"
             onClick={onBackToChats}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
           >
             <X className="h-4 w-4" />
           </button>
@@ -318,7 +316,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
               <div className="ml-auto flex items-center gap-2.5 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-white/15 px-3.5 py-2 shadow-lg">
                 <div className="text-right">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-                    S-Rank Chemistry
+                    Chemistry Meter
                   </div>
                   <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-white/15">
                     <div
@@ -347,7 +345,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
           <div className="absolute inset-x-5 sm:inset-x-7 bottom-4 flex items-end justify-between gap-4">
             <div className="max-w-md space-y-2 pb-1">
               <div className="text-xs font-bold uppercase tracking-widest text-amber-300/90">
-                Date #{script.dateNumber} {!finished ? `• Scene ${beatIdx + 1} of ${script.beats.length}` : '• Finale'}
+                Date #{script.dateNumber} {!finished ? `Scene ${beatIdx + 1} of ${script.beats.length}` : 'Finale'}
               </div>
               <h1 className="text-xl sm:text-3xl font-bold tracking-tight text-white leading-tight drop-shadow-md">
                 {script.title}
@@ -357,9 +355,9 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 <div className="inline-block rounded-xl bg-rose-500/20 backdrop-blur-xs border border-rose-300/30 px-3 py-1.5 text-xs font-medium text-rose-100">
                   {wallet.playerName
                     ? `“So glad it’s finally you across the table, ${wallet.playerName},” ${profile.name} smiles warmly.`
-                    : `${profile.name} clocks your ${activeVibeSpec?.id} energy immediately.`}
+                    : `${profile.name} clocks your ${activeVibeSpec?.id} energy right away.`}
                   {activeVibeSpec
-                    ? ` (${activeVibeSpec.emoji} +${activeVibeSpec.dateScoreBonus} Signature Vibe Bonus applied toward S-Rank!)`
+                    ? ` (${activeVibeSpec.emoji} +${activeVibeSpec.dateScoreBonus} Signature Vibe Bonus Active!)`
                     : ''}
                 </div>
               )}
@@ -407,7 +405,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 </div>
                 {sparringToast && (
                   <span className="text-xs font-semibold text-emerald-300">
-                    🔔 Public Frame Held Under Fire!
+                    🔔 Handled With Total Poise!
                   </span>
                 )}
               </div>
@@ -468,7 +466,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
 
                       {choice.cost && !cleanChoiceLabel.includes('Cr)') && (
                         <span className="shrink-0 rounded-md bg-amber-300/20 border border-amber-300/40 px-2 py-0.5 text-[11px] font-bold text-amber-200">
-                          {wallet.isVip || wallet.isFounderUnlimited ? 'VIP' : `${choice.cost} Cr`}
+                          Bold Move
                         </span>
                       )}
                     </button>
@@ -481,10 +479,16 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-widest text-rose-400">
-                    Date Night Verdict • Date #{script.dateNumber} Complete
+                    Date #{script.dateNumber} Complete
                   </div>
                   <h2 className="mt-1 text-3xl sm:text-4xl font-bold tracking-tight text-white">
-                    {rank === 'F' ? '🚩 DATE DISASTER' : `${rank}-RANK ROMANCE`}
+                    {rank === 'F'
+                      ? '🚩 DATE DISASTER'
+                      : rank === 'S'
+                        ? '★★★★★ 5-STAR CHEMISTRY'
+                        : rank === 'A'
+                          ? '★★★★☆ STRONG CHEMISTRY'
+                          : '★★★☆☆ WARM FIRST SPARK'}
                   </h2>
                   <p className="mt-1 text-sm text-zinc-300">
                     {rank === 'S'
@@ -492,13 +496,13 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                       : rank === 'F'
                         ? `You ignored the chat red flags and lost 1 Friday Night Heart! Next time hit 🚩 Cut Loose in text.`
                         : sRankLockedOut
-                          ? `Rushing Night 1 capped your ceiling at ${rank}-Rank, replay free anytime to earn S-Rank!`
-                          : `Warm connection unlocked, replay free anytime if you want to chase S-Rank!`}
+                          ? `Rushing Night 1 capped your chemistry below 5-Star, replay free anytime to try the slow-burn route!`
+                          : `Warm connection unlocked, replay free anytime if you want 5-Star Chemistry!`}
                   </p>
                 </div>
 
-                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-rose-600 text-4xl font-extrabold text-white shadow-xl">
-                  {rank}
+                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-rose-600 text-2xl font-extrabold text-white shadow-xl">
+                  {rank === 'F' ? '🚩' : rank === 'S' ? '5★' : rank === 'A' ? '4★' : '3★'}
                 </div>
               </div>
 
@@ -506,7 +510,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 <p className="text-sm text-zinc-200 leading-relaxed">{lastFeedback}</p>
               )}
 
-              {/* Secret Group-Chat Leak (Cost on Card Header, Clean Button) */}
+              {/* Secret Group-Chat Leak */}
               <div className="rounded-xl border border-white/15 bg-white/5 p-4 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
@@ -519,7 +523,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                           ? 'Unlocked'
                           : wallet.isVip || wallet.isFounderUnlimited
                             ? 'VIP Included'
-                            : `${script.secretBestiePovLeak.cost} Cr`}
+                            : 'Bonus Peek'}
                       </span>
                     </div>
                     <p className="mt-0.5 text-xs text-zinc-300">
@@ -553,7 +557,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 )}
               </div>
 
-              {/* Velvet Cut 6-Month Weekend Epilogue Card (Cost on Card Header, Clean Button) */}
+              {/* 6-Month Weekend Epilogue Card */}
               {rank !== 'F' && script.dateNumber === 3 && hasDate4Epilogue && onLaunchNextDate && (
                 <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-400/30 bg-amber-500/10 p-4">
                   <div>
@@ -566,7 +570,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                         wallet.isFounderUnlimited ||
                         wallet.unlockedEpilogueIds.includes(epilogueId)
                           ? 'VIP / Unlocked'
-                          : '3 Cr'}
+                          : 'Club VIP Bonus'}
                       </span>
                     </div>
                     <p className="mt-0.5 text-xs text-zinc-200">

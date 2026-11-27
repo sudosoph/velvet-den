@@ -291,7 +291,7 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
         expression: 'laugh',
       },
       {
-        label: 'Check your reflection in the wine glass and brag about your Hinge queue.',
+        label: 'Check your reflection in the wine glass and brag about your Prowl queue.',
         isGoldStar: false,
         headmistressVerdict:
           'She flags the bartender for the check while you admire your jawline.',
@@ -643,7 +643,7 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
         label: 'Spend the rest of dinner dissecting every detail of his college breakups.',
         isGoldStar: false,
         headmistressVerdict:
-          'Keep your therapist pad closed; one sharp sentence sets the frame.',
+          'Keep your therapist pad closed; one calm boundary says everything.',
         expression: 'icked',
       },
     ],
@@ -909,7 +909,7 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
         label: 'Catch his wrists with a slow smile, slow his breathing, and whisper what feels best.',
         isGoldStar: true,
         headmistressVerdict:
-          'Signature Cougar superpower. Warm direction turns eager energy into S-Rank magic.',
+          'Signature Cougar superpower. Warm direction turns eager energy into unforgettable chemistry.',
         expression: 'blush',
       },
       {
@@ -929,7 +929,7 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
     sceneImage: './images/scenes/coastal-convertible.jpg',
     punchyQuestion:
       'He upgraded his sheets, booked 7:30 Friday, and held your hand proudly all night. Move?',
-    title: 'Reinforcing S-Rank Effort With Unmistakable Warmth',
+    title: 'Reinforcing Real Effort With Unmistakable Warmth',
     redditComplaintQuote:
       '"Tell a devoted younger man Good boy when he nails Friday logistics and he will move mountains."',
     scenarioSetup:

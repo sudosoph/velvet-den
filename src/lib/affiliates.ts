@@ -75,7 +75,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     name: '"Trophy Husband (In Training)" Pocket Chef Apron',
     category: 'cougar_cub_merch',
     priceDisplay: 'Sous-Chef Amazon Pick',
-    badge: '🐕 S-Rank Sous-Chef Apron',
+    badge: '🐕 5-Star Sous-Chef Apron',
     cheekyPitch:
       'Dual-pocket chef apron for the vetted younger partner who sears rosemary ribeye, washes every skillet before midnight, and wears his title with a grin.',
     whyItConverts: 'Self-aware kitchen gift for Sunday dinner dates and Cub School graduates.',
@@ -380,35 +380,35 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'idea-of-you-movie-book',
-    name: 'The Idea of You (Anne Hathaway & Nicholas Galitzine • Prime Video Original)',
+    name: 'The Idea of You (Anne Hathaway & Nicholas Galitzine · Prime Video)',
     category: 'cinema_pop_culture',
-    priceDisplay: 'Included w/ Prime Trial',
-    badge: '🎨 Prime Video Exclusive Stream',
+    priceDisplay: 'Watch on Prime Video',
+    badge: '🎨 Prime Video Original',
     cheekyPitch:
-      'Stream Anne Hathaway and Nicholas Galitzine’s Silver Lake-meets-Coachella romance exclusively on Prime Video (included free with a 30-day Prime trial).',
-    whyItConverts: 'Prime Video Original exclusive drives Amazon Prime 30-day free-trial bounties.',
+      'Watch Anne Hathaway and Nicholas Galitzine’s Silver Lake-meets-Coachella romance directly on Prime Video.',
+    whyItConverts: 'Direct Prime Video movie page.',
     merchantUrl: 'https://www.amazon.com/dp/B0CV72X1BL',
   },
   {
     id: 'bridget-jones-cougar-town-watch',
-    name: 'Bridget Jones: Mad About the Boy (Renée Zellweger & Leo Woodall • Prime Video Digital)',
+    name: 'Bridget Jones: Mad About the Boy (Renée Zellweger & Leo Woodall · Prime Video)',
     category: 'cinema_pop_culture',
     priceDisplay: 'Prime Video Digital Rent',
     badge: '🌳 Hampstead Park-Ranger Stream',
     cheekyPitch:
-      'Digitally rent or buy Renée Zellweger and Leo Woodall’s hilarious Hampstead Heath Chapter-Two romance instantly on Prime Video.',
+      'Digitally rent or buy Renée Zellweger and Leo Woodall’s hilarious Hampstead Heath Chapter-Two romance directly on Prime Video.',
     whyItConverts: 'Instant Prime Video digital rental companion to Rory’s cameo.',
     merchantUrl: 'https://www.amazon.com/dp/B0DKPH9DN2',
   },
   {
     id: 'the-rebound-zeta-jones-prime',
-    name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Prime Video Stream & Rent)',
+    name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha · Prime Video)',
     category: 'cinema_pop_culture',
-    priceDisplay: 'Prime Trial or HD Rent',
+    priceDisplay: 'Watch on Prime Video',
     badge: '🎞️ Manhattan Coffee-Shop Stream',
     cheekyPitch:
-      'Stream with a 30-day Prime trial or digitally rent in HD on Prime Video: Catherine Zeta-Jones moves above a NYC coffeehouse and falls for 25-year-old Justin Bartha.',
-    whyItConverts: 'Triggers Prime 30-day free-trial bounty or instant HD digital rental.',
+      'Watch or digitally rent in HD on Prime Video: Catherine Zeta-Jones moves above a NYC coffeehouse and falls for 25-year-old Justin Bartha.',
+    whyItConverts: 'Direct Prime Video HD digital rental and stream.',
     merchantUrl: 'https://www.amazon.com/dp/B006QSRTWC',
   },
   {
@@ -791,23 +791,128 @@ export interface ExtraPrimeVideoStreamPick {
 export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStreamPick> = {
   'stella-groove-jamaica': {
     goSlug: 'stella-groove-prime',
-    label: 'How Stella Got Her Groove Back (Prime Video Stream / Rent)',
+    label: 'How Stella Got Her Groove Back',
     merchantUrl: 'https://www.amazon.com/dp/B001LGW1LI',
   },
   'somethings-gotta-give-keanu': {
     goSlug: 'somethings-gotta-give-prime',
-    label: 'Something’s Gotta Give (Prime Video & Paramount+ Trial)',
+    label: 'Something’s Gotta Give',
     merchantUrl: 'https://www.amazon.com/dp/B000N90JG8',
   },
   'magic-mike-last-dance-london': {
     goSlug: 'magic-mike-last-dance-prime',
-    label: 'Magic Mike’s Last Dance (Prime Video Digital Rent / Stream)',
+    label: 'Magic Mike’s Last Dance',
     merchantUrl: 'https://www.amazon.com/dp/B0B6MKKGP9',
   },
   'cougar-town-big-carl': {
     goSlug: 'cougar-town-prime',
-    label: 'Cougar Town Complete Series (Prime Video Digital)',
+    label: 'Cougar Town',
     merchantUrl: 'https://www.amazon.com/dp/B00RNG9I1G',
+  },
+  'the-graduate-real-age-gap': {
+    goSlug: 'the-graduate-prime',
+    label: 'The Graduate',
+    merchantUrl: 'https://www.amazon.com/dp/B008Y792LC',
+  },
+  'bull-durham-sarandon-robbins': {
+    goSlug: 'bull-durham-prime',
+    label: 'Bull Durham',
+    merchantUrl: 'https://www.amazon.com/dp/B00275EHJG',
+  },
+  'american-pie-stiflers-mom': {
+    goSlug: 'american-pie-prime',
+    label: 'American Pie',
+    merchantUrl: 'https://www.amazon.com/dp/B000I9WWJW',
+  },
+  'the-proposal-bullock-reynolds': {
+    goSlug: 'the-proposal-prime',
+    label: 'The Proposal',
+    merchantUrl: 'https://www.amazon.com/dp/B003QSFKCO',
+  },
+  'leo-grande-emma-thompson': {
+    goSlug: 'leo-grande-prime',
+    label: 'Good Luck to You, Leo Grande',
+    merchantUrl: 'https://www.amazon.com/dp/B0B8TCZX9S',
+  },
+  'prime-meryl-streep-twist': {
+    goSlug: 'prime-2005-movie',
+    label: 'Prime (2005)',
+    merchantUrl: 'https://www.amazon.com/dp/B000I9U8NY',
+  },
+  'white-palace-sarandon-spader': {
+    goSlug: 'white-palace-prime',
+    label: 'White Palace',
+    merchantUrl: 'https://www.amazon.com/dp/B0012I8B0S',
+  },
+  'cha-cha-real-smooth-sundance': {
+    goSlug: 'cha-cha-real-smooth-prime',
+    label: 'Cha Cha Real Smooth',
+    merchantUrl: 'https://www.amazon.com/dp/B09Y96W2M2',
+  },
+  'the-good-girl-aniston-gyllenhaal': {
+    goSlug: 'the-good-girl-prime',
+    label: 'The Good Girl',
+    merchantUrl: 'https://www.amazon.com/dp/B000I9X5RU',
+  },
+  'harold-and-maude-cat-stevens': {
+    goSlug: 'harold-and-maude-prime',
+    label: 'Harold and Maude',
+    merchantUrl: 'https://www.amazon.com/dp/B000IZ27O2',
+  },
+  'home-again-reese-witherspoon': {
+    goSlug: 'home-again-prime',
+    label: 'Home Again',
+    merchantUrl: 'https://www.amazon.com/dp/B07575BMTH',
+  },
+  'sunset-boulevard-norma-desmond': {
+    goSlug: 'sunset-boulevard-prime',
+    label: 'Sunset Boulevard',
+    merchantUrl: 'https://www.amazon.com/dp/B001K3APQ8',
+  },
+  'satc-samantha-smith-jerrod': {
+    goSlug: 'sex-and-the-city-prime',
+    label: 'Sex and the City',
+    merchantUrl: 'https://www.amazon.com/dp/B00687Q5BM',
+  },
+  'succession-gerri-roman': {
+    goSlug: 'succession-prime',
+    label: 'Succession',
+    merchantUrl: 'https://www.amazon.com/dp/B07DPRZ99L',
+  },
+  'younger-liza-josh-tattoo': {
+    goSlug: 'younger-series-prime',
+    label: 'Younger',
+    merchantUrl: 'https://www.amazon.com/dp/B00V7ORW2I',
+  },
+  'hacks-deborah-vance': {
+    goSlug: 'hacks-series-prime',
+    label: 'Hacks',
+    merchantUrl: 'https://www.amazon.com/dp/B09BF3BGZ2',
+  },
+  '30-rock-liz-lemon-criss': {
+    goSlug: '30-rock-prime',
+    label: '30 Rock',
+    merchantUrl: 'https://www.amazon.com/dp/B001J6O5V6',
+  },
+  'mrs-fletcher-kathryn-hahn': {
+    goSlug: 'mrs-fletcher-prime',
+    label: 'Mrs. Fletcher',
+    merchantUrl: 'https://www.amazon.com/dp/B0812DQZ7W',
+  },
+  'white-lotus-resort-canon': {
+    goSlug: 'the-white-lotus-prime',
+    label: 'The White Lotus',
+    merchantUrl: 'https://www.amazon.com/dp/B09C28GPFB',
+  },
+  'desperate-housewives-gaby-gardener': {
+    goSlug: 'desperate-housewives-prime',
+    label: 'Desperate Housewives',
+    merchantUrl: 'https://www.amazon.com/dp/B003Y5H5BA',
+  },
+  'fleabag-belinda-hotel-bar-speech': {
+    goSlug: 'fleabag-prime',
+    label: 'Fleabag',
+    merchantUrl: 'https://www.amazon.com/dp/B0875L39FQ',
   },
 };
 

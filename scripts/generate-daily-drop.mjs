@@ -166,13 +166,13 @@ ${entry.question}
 > **Insider Lore:** ${entry.datingLoreFact}
 
 - 🎮 **Test your instincts in today’s interactive scene:** ${dilemmaUrl}
-- 🛍️ **Featured Concierge Pick:** [${product.name}](${taggedProductUrl}) *(Disclosure: affiliate link—may earn a small commission at no extra cost to you.)*
+- 🛍️ **Featured Concierge Pick:** [${product.name}](${taggedProductUrl}) *(Disclosure: affiliate link, may earn a small commission at no extra cost to you.)*
 
 ---
 
 ## 2. TikTok / Reels / Shorts 15-Second Script
 - **On-Screen Hook (0–3s):** ${entry.tiktokHook}
-- **Body Overlay (3–10s):** "${entry.headline}" — ${entry.question}
+- **Body Overlay (3–10s):** "${entry.headline}", ${entry.question}
 - **CTA (10–15s):** "Play the Cougar & Cub Vetting Audition in bio & send your score to your crush 👀🐆"
 
 ---

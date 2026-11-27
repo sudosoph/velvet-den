@@ -151,7 +151,7 @@ Test:
 1. `createDefaultWallet()` starts with `credits: 3`, `fridayHearts: 3`, `discernmentXp: 0`, `isVip: false`.
 2. `loadWallet()` across a simulated next-day UTC boundary does **not** refill credits (`0` daily refill), and migrates `isVip: true` if `velvet_den_wallet_v1` contains `stripe_session_cs_live_123`, while resetting unverified legacy credits to `3`.
 3. Every single item in `AFFILIATE_CATALOG` and `AFFILIATE_REDIRECT_URLS` resolves to a specific `https://www.amazon.com/dp/<10-char-ASIN>` product URL (zero `/s?k=` search URLs!), includes `no-hard-feelings-jlaw-prime` and `part-of-your-world-book` (`/dp/1538704374`), and contains zero `seed-oil` IDs or descriptions.
-4. `worker.fetch(new Request('https://cougarsandcubs.club/api/go/no-hard-feelings-jlaw-prime', { method: 'HEAD' }), { AMAZON_ASSOCIATE_TAG: 'sophia-20' })` returns `302` with `tag=sophia-20` and `linkCode=ll2` in `Location`.
+4. `worker.fetch(new Request('https://cougarsandcubs.club/api/go/no-hard-feelings-jlaw-prime', { method: 'HEAD' }), { AMAZON_ASSOCIATE_TAG: 'claireclub-20' })` returns `302` with `tag=claireclub-20` and `linkCode=ll2` in `Location`.
 5. `worker/index.ts` source contains zero matches for `/pine\s*pollen|qigong|tai\s*chi|seed[- ]oil|bernedoodle/i`, and `POST /api/inbox-vet` with `personaRole: 'him'` (meaning human player is `her`) instructs AI / heuristic `coachNote` from the Cougar's perspective (never lecturing her like a Cub).
 
 - [ ] **Step 2: Run test to verify it fails**

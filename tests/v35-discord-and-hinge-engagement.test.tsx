@@ -121,21 +121,19 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
       fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
     }
 
-    // Now on Beat 4: verify photoDrop renders unblurred & free (0 Cr), EXIF clue works, and wallet stays at 5 Cr!
+    // Now on Beat 4: verify photoDrop renders as a clean unblurred native bubble with EXIF clue (zero "Included Free" pill clutter!)
     const photoCard = screen.getByTestId('chat-photo-drop-card');
-    expect(photoCard.textContent).toContain('Included Free');
     expect(photoCard.querySelector('.blur-md')).toBeNull();
-    fireEvent.click(within(photoCard).getByRole('button', { name: /^Inspect Photo Metadata$/i }));
+    expect(photoCard.textContent).not.toContain('Included Free');
+    fireEvent.click(within(photoCard).getByRole('button', { name: /Inspect Photo Metadata/i }));
     expect(screen.getByTestId('photo-exif-clue').textContent).toContain('Live Photo');
-    expect(photoCard.textContent).toContain('Zero Credits Required');
-    expect(screen.getByRole('button', { name: /\b5 Cr\b/i })).toBeInTheDocument();
 
-    // Finish Beats 4, 5, 6 -> player can click "Not Yet — Keep Bantering on Hinge" AND still have suggestion chips!
+    // Finish Beats 4, 5, 6 -> player can click "Not Yet, Keep Bantering on Prowl" AND still have suggestion chips!
     for (let b = 4; b <= 6; b++) {
       fireEvent.click(screen.getAllByTestId('chat-suggestion-btn')[0]);
     }
 
-    const notYetBtn = screen.getByRole('button', { name: /Not Yet, Keep Bantering on Hinge/i });
+    const notYetBtn = screen.getByRole('button', { name: /Not Yet, Keep Bantering on Prowl/i });
     fireEvent.click(notYetBtn);
     expect(screen.getAllByTestId('chat-suggestion-btn')).toHaveLength(3);
 
@@ -146,7 +144,7 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
       screen.queryByText(/What do you think about keeping our own apartments long-term/i),
     ).toBeNull();
     expect(
-      screen.getByRole('button', { name: /Earlier Hinge App Messages/i }),
+      screen.getByRole('button', { name: /Earlier Prowl App Messages/i }),
     ).toBeInTheDocument();
   });
 
@@ -180,12 +178,12 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
       getPersonaVibeSpec,
     } = await import('../src/domain/economy');
     let wallet = createDefaultWallet();
-    wallet = updatePlayerPersona(wallet, 'Sophia', 'Zero-Nonsense Executive');
+    wallet = updatePlayerPersona(wallet, 'Vivian', 'Zero-Nonsense Executive');
     wallet = recordBulletDodged(wallet, 'connor', 'clue-connor-card');
     expect(wallet.discernmentXp).toBe(35);
     expect(getPersonaVibeSpec('Corner-Booth Connoisseur')?.dateScoreBonus).toBe(8);
 
-    // Verify pre-chat / pre-date 5-Second Club Check-In onboarding card renders when Name & Vibe are unset
+    // Verify pre-chat / pre-date Optional Check-In card renders when Name & Vibe are unset
     window.localStorage.clear();
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: /Like prompt 1:/i }));
@@ -200,23 +198,23 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
     const onboardingForm = screen.getByTestId('inline-persona-onboarding');
     expect(onboardingForm).toBeInTheDocument();
     const nameInput = within(onboardingForm).getByLabelText(/Quick first name/i);
-    fireEvent.change(nameInput, { target: { value: 'Sophia' } });
+    fireEvent.change(nameInput, { target: { value: 'Vivian' } });
     fireEvent.click(
       within(onboardingForm).getByRole('button', { name: /Corner-Booth Connoisseur/i }),
     );
     fireEvent.click(
-      within(onboardingForm).getByRole('button', { name: /Save Name & Activate Perk/i }),
+      within(onboardingForm).getByRole('button', { name: /Save Name & Vibe/i }),
     );
 
     const perkBadge = screen.getByTestId('active-vibe-perk-badge');
-    expect(perkBadge.textContent).toContain('Sophia');
-    expect(perkBadge.textContent).toContain('+8 Date Score');
+    expect(perkBadge.textContent).toContain('Vivian');
+    expect(perkBadge.textContent).toContain('Corner-Booth Connoisseur');
 
-    // Verify RomanticDateStage applies +8 score bonus and greets Sophia by name on Scene 1
+    // Verify RomanticDateStage applies +8 score bonus and greets Vivian by name on Scene 1
     const { RomanticDateStage } = await import('../src/components/RomanticDateStage');
     const dateWallet = updatePlayerPersona(
       createDefaultWallet(),
-      'Sophia',
+      'Vivian',
       'Corner-Booth Connoisseur',
     );
     const { container } = render(
@@ -233,7 +231,7 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
         onBackToChats={() => {}}
       />,
     );
-    expect(container.textContent).toContain('So glad it’s finally you across the table, Sophia');
-    expect(container.textContent).toContain('+8 Signature Vibe Bonus applied toward S-Rank');
+    expect(container.textContent).toContain('So glad it’s finally you across the table, Vivian');
+    expect(container.textContent).toContain('+8 Signature Vibe Bonus Active');
   });
 });

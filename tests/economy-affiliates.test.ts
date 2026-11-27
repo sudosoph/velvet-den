@@ -87,7 +87,7 @@ describe('Wallet economy, affiliate router & Worker security seams (v35)', () =>
 
     expect(await verifyFounderPassphrase('foundermode')).toBe(false);
     expect(await verifyFounderPassphrase('wrong-passphrase-2026')).toBe(false);
-    expect(await verifyFounderPassphrase('ChampagneClub!2026#Sophia')).toBe(true);
+    expect(await verifyFounderPassphrase('SunsetHills!2026#VaultKey')).toBe(true);
 
     const granted = grantFounderAccess(initial);
     expect(granted.isFounderUnlimited).toBe(true);
@@ -183,7 +183,7 @@ describe('Wallet economy, affiliate router & Worker security seams (v35)', () =>
       new Request('https://cougarsandcubs.club/api/founder-auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passphrase: 'ChampagneClub!2026#Sophia' }),
+        body: JSON.stringify({ passphrase: 'SunsetHills!2026#VaultKey' }),
       }),
       mockEnv,
     );

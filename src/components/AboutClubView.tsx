@@ -33,7 +33,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
     <div className="w-full space-y-6 animate-stage-in">
       <section className="editorial-hinge-card rounded-2xl p-6 sm:p-8 space-y-3">
         <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-          Sunset Hills House Rules • 21+ Age-Gap Rom-Com
+          Sunset Hills House Rules
         </div>
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950 leading-tight">
           What Is Cougars &amp; Cubs Club?
@@ -50,7 +50,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white cursor-pointer"
           >
             <Smartphone className="h-4 w-4" />
-            <span>Explore Hinge Profiles</span>
+            <span>Explore Prowl Profiles</span>
           </button>
           <button
             type="button"
@@ -73,7 +73,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             onClick={onOpenGuides}
             className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-medium text-zinc-900 cursor-pointer"
           >
-            <span>Read 16 Shoppable Guides</span>
+            <span>Read Club Guides</span>
           </button>
         </div>
       </section>
@@ -81,10 +81,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 items-stretch">
         <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
           <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            Door 1 • Selective Hinge
+            Prowl Dating App
           </div>
           <h2 className="text-base font-semibold text-zinc-950">
-            6 Bespoke Photos &amp; Real Prompts
+            6 Candid Photos &amp; Real Prompts
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
             Every profile features 6 unique activity photos and casual first-person prompts. Low-effort openers sit in Pending Likes; thoughtful notes or a Standout Rose spark the match.
@@ -93,10 +93,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
 
         <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
           <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            Door 2 • In The Wild
+            In The Wild
           </div>
           <h2 className="text-base font-semibold text-zinc-950">
-            {V35_WILD_VENUES.length} Illustrated Sunset Hills Venues
+            {V35_WILD_VENUES.length} Sunset Hills Venues
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
             Meet offline at Terminal B Arrivals, Hawthorne University, The Marlow Lounge Hotel Bar, Havana Social Salsa, and Palisades Racquet, going straight to real phone numbers.
@@ -108,22 +108,22 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             The Vetting Filter
           </div>
           <h2 className="text-base font-semibold text-zinc-950">
-            App DM → Earned iMessage &amp; Cut Loose
+            Prowl DM to Personal iMessage
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Banter freely off-the-cuff or tap sharp comebacks, consult 5 Sunset Hills lounge channels, block disguised Traps before Friday with Cut Loose, and graduate real catches to iMessage.
+            Banter freely off-the-cuff or tap sharp comebacks, consult 5 Sunset Hills Discord channels, block disguised Traps before Friday with Cut Loose, and graduate real catches to iMessage.
           </p>
         </div>
 
         <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
           <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-            Three-Date S-Rank Run
+            Three-Date Chemistry
           </div>
           <h2 className="text-base font-semibold text-zinc-950">
-            Animated Multi-Date S-Rank Stage
+            Multi-Date Romance Stage
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Experience full-bleed sunset dates with animated character expressions, free S-Rank replays, Secret Group-Chat Leaks, Weekend Escape Epilogues, and the hidden Table 9 Takedown.
+            Experience full-bleed sunset dates with expressive character reactions, free replays, Secret Group-Chat Leaks, Weekend Escape Epilogues, and the hidden Table 9 Takedown.
           </p>
         </div>
       </section>
@@ -146,7 +146,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
         <div className="editorial-hinge-card rounded-2xl p-6 bg-white flex flex-col justify-between gap-4">
           <div className="space-y-2.5">
             <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-              {herCount} Women × {himCount} Men • 132 Bespoke Photos
+              {herCount} Women &amp; {himCount} Men in the Roster
             </div>
             <h2 className="text-xl font-semibold tracking-tight text-zinc-950">
               Explore Every Corner of Sunset Hills

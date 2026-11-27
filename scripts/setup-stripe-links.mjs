@@ -3,7 +3,7 @@
  * One-shot Stripe Products & Payment Links provisioner for Cougars & Cubs Club.
  *
  * SAFETY GUARDRAIL:
- * - Refuses to run against natalwealth.app (acct_1H31MFAJieCRWgkr)!
+ * - Refuses to run against other-projects (acct_1H31MFAJieCRWgkr)!
  * - Verifies active Stripe account ID matches Cougars & Cubs Club (acct_1UfZxrGe1v4Y7bXE)
  *   before creating products (+15 Velvet Credits $2.99, VIP Black Card $6.99, Martini Tip $5, Cameo $29).
  *
@@ -12,7 +12,7 @@
  */
 
 const EXPECTED_ACCOUNT_ID = 'acct_1UfZxrGe1v4Y7bXE';
-const FORBIDDEN_ACCOUNT_ID = 'acct_1H31MFAJieCRWgkr'; // natalwealth.app — NEVER TOUCH
+const FORBIDDEN_ACCOUNT_ID = 'acct_1H31MFAJieCRWgkr'; // other-projects, NEVER TOUCH
 
 const apiKey = process.env.STRIPE_SECRET_KEY;
 if (!apiKey) {
@@ -46,7 +46,7 @@ async function stripePost(path, params) {
 const acct = await stripeGet('/account');
 if (acct.id === FORBIDDEN_ACCOUNT_ID) {
   console.error(
-    `ABORTING: Key belongs to ${FORBIDDEN_ACCOUNT_ID} (natalwealth.app)! Use the key from Cougars & Cubs Club (${EXPECTED_ACCOUNT_ID}).`,
+    `ABORTING: Key belongs to ${FORBIDDEN_ACCOUNT_ID} (other-projects)! Use the key from Cougars & Cubs Club (${EXPECTED_ACCOUNT_ID}).`,
   );
   process.exit(1);
 }
@@ -62,21 +62,21 @@ console.log(`Verified dedicated Stripe account: ${acct.id} (${acct.settings?.das
 const catalog = [
   {
     key: 'stripeCreditPackUrl',
-    name: 'Cougars & Cubs Club — +15 Velvet Credits Pack',
+    name: 'Cougars & Cubs Club, +15 Velvet Credits Pack',
     amount: '299',
     tier: 'credits',
     successUrl: 'https://cougarsandcubs.club/?session_id={CHECKOUT_SESSION_ID}',
   },
   {
     key: 'stripeVipPassUrl',
-    name: 'Cougars & Cubs Club — Lifetime VIP Black Card',
+    name: 'Cougars & Cubs Club, Lifetime VIP Black Card',
     amount: '699',
     tier: 'vip',
     successUrl: 'https://cougarsandcubs.club/?session_id={CHECKOUT_SESSION_ID}&unlock=VELVETVIP',
   },
   {
     key: 'tipJarUrl',
-    name: 'Espresso Martini Creator Tip — Cougars & Cubs Club',
+    name: 'Espresso Martini Creator Tip, Cougars & Cubs Club',
     amount: '500',
     tier: 'tip',
     successUrl: 'https://cougarsandcubs.club/',

@@ -12,7 +12,7 @@ jobs:
   daily-drop:
     runs-on: ubuntu-latest
     env:
-      PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL || 'https://sudosoph.github.io/velvet-den/' }}
+      PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL || 'https://cougarsandcubs.club/' }}
       AMAZON_ASSOCIATE_TAG: ${{ vars.AMAZON_ASSOCIATE_TAG || '' }}
       PARTNER_SUB_ID: ${{ vars.PARTNER_SUB_ID || '' }}
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || '' }}

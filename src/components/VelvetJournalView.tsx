@@ -14,7 +14,6 @@ import { JOURNAL_ARTICLES } from '../data/journalArticles';
 import {
   AFFILIATE_SUPPORT_COPY,
   buildAffiliateUrl,
-  buildPrimeVideoBountyUrl,
   getAffiliateById,
   isPrimeVideoDigitalPick,
 } from '../lib/affiliates';
@@ -639,7 +638,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       topReply: '↳ u/WestsidePuma_38F: Effort + playfulness > corporate expense-account dinners ALWAYS.',
     },
     poll: {
-      question: '🗳️ Friday Date Draft: Pick this weekend’s S-Rank itinerary!',
+      question: '🗳️ Friday Date Draft: Pick this weekend’s 5-Star itinerary!',
       options: [
         { label: '🧖‍♀️ 18-hour boutique hotel rooftop + midnight pool & sauna', pct: 51 },
         { label: '🧺 Sunset bluff fig-and-Brie picnic + retro neon bowling', pct: 31 },
@@ -1503,29 +1502,11 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             </div>
 
-            {/* Shoppable Cinema Watchlist Strip on Movie Guides */}
+            {/* Shoppable Cinema Watchlist Strip on Movie Guides (Direct Title Links Only) */}
             {isMovieGuide && (
               <div className="rounded-2xl border border-rose-200 bg-rose-50/40 p-4 sm:p-5 space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-rose-800">
-                    🎬 Stream or Digitally Rent on Prime Video
-                  </div>
-                  <a
-                    href={buildPrimeVideoBountyUrl(`watchlist_prime_${active.slug}`)}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    onClick={() =>
-                      trackEvent('affiliate_clicked', {
-                        item_id: 'prime-video-trial',
-                        surface: 'journal_watchlist',
-                        slug: active.slug,
-                      })
-                    }
-                    className="inline-flex items-center gap-1 rounded-full bg-rose-600 px-3 py-1 text-xs font-bold text-white hover:bg-rose-700 transition"
-                  >
-                    <span>Start 30-Day Prime Free Trial</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
+                <div className="text-xs font-extrabold uppercase tracking-wider text-rose-800">
+                  🎬 Watch Directly on Prime Video
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">
                   {MOVIE_WATCHLIST_IDS.map((id) => {

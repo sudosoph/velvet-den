@@ -72,7 +72,7 @@
       const id2 = getOrCreateStablePlayerUuid();
       expect(id1).toBe(id2);
       expect(id1).toMatch(/^cc_[a-z0-9-]+$/i);
-      expect(() => identifyPlayerWithContact('sophia@example.com', { role: 'her' })).not.toThrow();
+      expect(() => identifyPlayerWithContact('vivian@example.com', { role: 'her' })).not.toThrow();
     });
   });
   ```

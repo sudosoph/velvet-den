@@ -86,7 +86,7 @@ export async function verifyFounderPassphrase(passphrase: string): Promise<boole
     const hash = await sha256Hex(`cc_founder_v1:${trimmed}`);
     return constantTimeEquals(
       hash,
-      '6db6ba6ecc5e83f90d1678b2dc636713c7583ac9cdf51b92c10b26c0c9d36dac',
+      'cee2a5c5ce7dfc2fc5145cf7ee4b5c176f973fe04e64314e55ea1a8891265716',
     );
   } catch {
     return false;
@@ -313,8 +313,8 @@ export const PERSONA_VIBE_SPECS: PersonaVibeSpec[] = [
   {
     id: 'Corner-Booth Connoisseur',
     emoji: '🍸',
-    perkBadge: '+8 Date Score',
-    perkSummary: 'Hostesses upgrade your booth and every date starts +8 toward S-Rank.',
+    perkBadge: 'Date Chemistry Perk',
+    perkSummary: 'Hostesses upgrade your booth and every date starts with a warm chemistry boost.',
     chatSparkBonus: 2,
     dateScoreBonus: 8,
     trapXpBonus: 0,
@@ -323,8 +323,8 @@ export const PERSONA_VIBE_SPECS: PersonaVibeSpec[] = [
   {
     id: 'Playful Slow-Burn Romantic',
     emoji: '✨',
-    perkBadge: '+5% Chat Spark',
-    perkSummary: 'Playful banter and teasing earn +5% bonus Spark in every conversation.',
+    perkBadge: 'Banter Spark Perk',
+    perkSummary: 'Playful banter and teasing earn extra chemistry in every conversation.',
     chatSparkBonus: 5,
     dateScoreBonus: 5,
     trapXpBonus: 0,
@@ -333,8 +333,8 @@ export const PERSONA_VIBE_SPECS: PersonaVibeSpec[] = [
   {
     id: 'Zero-Nonsense Executive',
     emoji: '👑',
-    perkBadge: '+10 Trap XP & +5 Date',
-    perkSummary: 'Blocking red-flag traps awards +35 XP (up from +25) and commands respect.',
+    perkBadge: 'Red-Flag Radar Perk',
+    perkSummary: 'Blocking disguised red-flag traps awards bonus Club XP and commands respect.',
     chatSparkBonus: 2,
     dateScoreBonus: 5,
     trapXpBonus: 10,
@@ -343,8 +343,8 @@ export const PERSONA_VIBE_SPECS: PersonaVibeSpec[] = [
   {
     id: 'Golden-Hour Weekend Escapist',
     emoji: '🌅',
-    perkBadge: '+12% Wild Spark & +6 Date',
-    perkSummary: 'Meeting leads In The Wild grants +12% extra chemistry plus +6 Date Score.',
+    perkBadge: 'Off-App Spark Perk',
+    perkSummary: 'Meeting people Out In The Wild starts with higher off-app chemistry.',
     chatSparkBonus: 3,
     dateScoreBonus: 6,
     trapXpBonus: 0,

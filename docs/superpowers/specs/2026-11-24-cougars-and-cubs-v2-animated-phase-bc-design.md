@@ -2,8 +2,8 @@
 
 **Date:** 2026-11-24  
 **Status:** Ready for Partner Approval (Builder Check Passed)  
-**Target Domain:** `cougarsandcubs.club` (Clean Free Cloudflare URL: `https://cougarsandcubs.pages.dev` — zero `sophiaraji.workers.dev` exposure!)  
-**GitHub Repository:** `sudosoph/velvet-den`
+**Target Domain:** `cougarsandcubs.club` (Clean Free Cloudflare URL: `https://cougarsandcubs.pages.dev` — zero `example.workers.dev` exposure!)  
+**GitHub Repository:** `clubhost/velvet-den`
 
 ---
 
@@ -14,7 +14,7 @@ v1 proved the concept on GitHub Pages, and playtesting surfaced four clear upgra
 1. **Attraction & Visual Appeal (Style A Photorealism)**: Players coming for a cheeky Cougar & Cub game want to see **genuinely handsome young men** and **stunning, radiant women**—not flat vector icons.
 2. **Zero-Wall-of-Text Animated Onboarding**: Replace the dense single-page setup form with a fast, visual 3-step onboarding flow, Tinder-style spring swipe physics, and smooth transitions.
 3. **2x Deeper Cohesive Storyline (26 Subplots Across 5 Chapters)**: Expand from 14 scenes to **26 lived-in subreddit subplots** spanning a 5-chapter relationship arc so free play feels rich and Credit/VIP Story Packs have massive replay pull.
-4. **Full Phase B + Phase C Interactivity & Isolated Monetization**: Move off `natalwealth.app` onto a **dedicated Stripe sub-account** + **Unified Cloudflare Worker + KV + Workers AI** deployment on `cougarsandcubs.club`, unlocking live global crowd choice stats (**Phase B**), server-verified Stripe Checkout unlocks (**Phase B**), and live interactive AI *"Survive Her Inbox / Late-Night Text"* banter rounds (**Phase C**).
+4. **Full Phase B + Phase C Interactivity & Isolated Monetization**: Move off `other-projects` onto a **dedicated Stripe sub-account** + **Unified Cloudflare Worker + KV + Workers AI** deployment on `cougarsandcubs.club`, unlocking live global crowd choice stats (**Phase B**), server-verified Stripe Checkout unlocks (**Phase B**), and live interactive AI *"Survive Her Inbox / Late-Night Text"* banter rounds (**Phase C**).
 
 ---
 
@@ -70,9 +70,9 @@ v1 proved the concept on GitHub Pages, and playtesting surfaced four clear upgra
      - *Stage 4*: **Protective Best Friends' Dinner** (*"We won't let some 30-year-old break Celeste's heart"*).
      - *Stage 5*: **The Real Timeline & Aging Conversation** (*"When I'm 75 and you're 45..."* — met with grounded, adult love and eyes-wide-open commitment).
 4. **Phase B — Unified Cloudflare Pages + Pages Functions (`https://cougarsandcubs.pages.dev` + `https://cougarsandcubs.club`)**:
-   - Deployed as a **Cloudflare Pages + Functions** project (`cougarsandcubs`) rather than a `.workers.dev` route so your personal `sophiaraji` handle never appears in the URL (and your existing `agentic-architecture.sophiaraji.workers.dev` Worker stays untouched!).
+   - Deployed as a **Cloudflare Pages + Functions** project (`cougarsandcubs`) rather than a `.workers.dev` route so your personal `clubhost` handle never appears in the URL (and your existing `agentic-architecture.example.workers.dev` Worker stays untouched!).
    - **Live Global Crowd Percentages (`/api/stats`)**: Backed by Cloudflare KV (`VELVET_KV`), recording real player choices and returning live community percentages with graceful local fallback if offline.
-   - **Isolated Stripe Account + Verified Checkout (`/api/verify-checkout`)**: Dedicated Stripe sub-account separate from `natalwealth.app` providing live Payment Links for:
+   - **Isolated Stripe Account + Verified Checkout (`/api/verify-checkout`)**: Dedicated Stripe sub-account separate from `other-projects` providing live Payment Links for:
      1. **Espresso Martini Creator Tip Jar** (Stripe customer-chooses-amount tip link, \$5 default — zero Ko-fi account needed unless desired),
      2. **+15 Velvet Credits (\$2.99)**,
      3. **VIP Black Card All-Access (\$6.99)**,
@@ -88,7 +88,7 @@ v1 proved the concept on GitHub Pages, and playtesting surfaced four clear upgra
 - Explicit NSFW imagery or adult chat (strictly prohibited to protect the dedicated Stripe account).
 
 ### Anti-Goals
-- Never bill or display `natalwealth.app` on any payment link or receipt—Stripe configuration must target ONLY the dedicated `Cougars & Cubs Club` Stripe account.
+- Never bill or display `other-projects` on any payment link or receipt—Stripe configuration must target ONLY the dedicated `Cougars & Cubs Club` Stripe account.
 - Never revert to walls of text on the landing page—every onboarding step must fit comfortably above the fold on mobile and desktop.
 
 ---
@@ -96,7 +96,7 @@ v1 proved the concept on GitHub Pages, and playtesting surfaced four clear upgra
 ## 3. Approaches Considered
 
 1. **Option 1 — Unified Cloudflare Worker (Static Assets + `/api/*` + KV + Workers AI) + Separate Stripe Account (Selected)**
-   - Zero CORS issues, \$0 base cost on Cloudflare's free tier, native Workers AI for Phase C without requiring an external LLM billing key, instant deployment on `sophiaraji.workers.dev` + 1-click custom domain attachment to `cougarsandcubs.club`.
+   - Zero CORS issues, \$0 base cost on Cloudflare's free tier, native Workers AI for Phase C without requiring an external LLM billing key, instant deployment on `example.workers.dev` + 1-click custom domain attachment to `cougarsandcubs.club`.
 2. **Option 2 — Split GitHub Pages + Separate Gemini Worker**: Rejected due to split origins/CORS and mandatory external LLM API key setup before Phase C works.
 3. **Option 3 — D1 Email/Password Accounts**: Rejected because login friction hurts viral link conversion.
 
@@ -104,8 +104,8 @@ v1 proved the concept on GitHub Pages, and playtesting surfaced four clear upgra
 
 ## 4. Constraints & Builder Calls
 
-- **Graceful Progressive Enhancement**: All `/api/stats`, `/api/verify-checkout`, and `/api/inbox-vet` calls run live on Cloudflare (`cougars-and-cubs-club.sophiaraji.workers.dev` / `cougarsandcubs.club`) and gracefully fall back if previewed statically on GitHub Pages.
-- **No Dead Placeholder Ko-fi / Payment Links *(Builder Call)***: Remove the uncreated `https://ko-fi.com/sudosoph` URL so players never hit an external 404; Tip Martini & Cameo buttons route through the in-app Creator Lounge modal when `tipJarUrl` / `cameoCommissionUrl` are blank, and automatically open live **Stripe Payment Links** (including a Stripe *"Choose What You Pay"* Tip Link!) the moment the dedicated `Cougars & Cubs Club` Stripe sub-account is connected.
-- **Non-Blocking Stripe Provisioning + Auto-Live Lock *(Builder Call)***: Ship both `/api/verify-checkout` (`?session_id={CHECKOUT_SESSION_ID}` HMAC token verification) AND a 1-command `scripts/setup-stripe-links.mjs` provisioning script (plus live Stripe MCP provisioning as soon as the new sub-account is authorized in session, strictly ignoring `natalwealth.app`). Once live Stripe URLs are populated, `sandboxPreviewMode` automatically locks off free demo unlocks.
+- **Graceful Progressive Enhancement**: All `/api/stats`, `/api/verify-checkout`, and `/api/inbox-vet` calls run live on Cloudflare (`cougars-and-cubs-club.example.workers.dev` / `cougarsandcubs.club`) and gracefully fall back if previewed statically on GitHub Pages.
+- **No Dead Placeholder Ko-fi / Payment Links *(Builder Call)***: Remove the uncreated `https://ko-fi.com/clubhost` URL so players never hit an external 404; Tip Martini & Cameo buttons route through the in-app Creator Lounge modal when `tipJarUrl` / `cameoCommissionUrl` are blank, and automatically open live **Stripe Payment Links** (including a Stripe *"Choose What You Pay"* Tip Link!) the moment the dedicated `Cougars & Cubs Club` Stripe sub-account is connected.
+- **Non-Blocking Stripe Provisioning + Auto-Live Lock *(Builder Call)***: Ship both `/api/verify-checkout` (`?session_id={CHECKOUT_SESSION_ID}` HMAC token verification) AND a 1-command `scripts/setup-stripe-links.mjs` provisioning script (plus live Stripe MCP provisioning as soon as the new sub-account is authorized in session, strictly ignoring `other-projects`). Once live Stripe URLs are populated, `sandboxPreviewMode` automatically locks off free demo unlocks.
 - **Image Performance *(Builder Call)***: Store generated Style A `.jpg` portraits under `public/images/` with `object-cover object-top` framing so faces never crop awkwardly on mobile or desktop.
-- **SEO Domain Sync *(Builder Call)***: Update `BRAND_CONFIG` to `Cougars & Cubs Club` (`https://cougarsandcubs.club/`, with live Worker preview at `https://cougars-and-cubs-club.sophiaraji.workers.dev/`).
+- **SEO Domain Sync *(Builder Call)***: Update `BRAND_CONFIG` to `Cougars & Cubs Club` (`https://cougarsandcubs.club/`, with live Worker preview at `https://cougars-and-cubs-club.example.workers.dev/`).

@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-24  
 **Status:** Approved (Phased Roadmap A → B → C + Automated Growth & Affiliate Engine)  
-**Target GitHub Account:** `sudosoph`
+**Target GitHub Account:** `clubhost`
 
 ---
 
@@ -17,7 +17,7 @@ It serves the fast-growing **Cougar/Cub** age-gap community (`r/CougarsAndCubs` 
 ## 2. Goals, Non-Goals & Anti-Goals
 
 ### Goals
-1. **Instant-Play Browser Game on GitHub Pages**: Zero-login, mobile-first responsive web game hosted free on a new `sudosoph` GitHub repository via GitHub Pages.
+1. **Instant-Play Browser Game on GitHub Pages**: Zero-login, mobile-first responsive web game hosted free on a new `clubhost` GitHub repository via GitHub Pages.
 2. **Interactive Wildlife Field Guide (Taxonomy Encyclopedia)**: Playfully teaches players the community's age-tier feline scale and younger-partner archetypes, unlocking collectible dossier stamps as players play:
    - **Lynx** (22–29) & **Puma** (30–39 — official `r/CougarsAndCubs` under-40 term)
    - **Cougar** (40–49, 10+ year gap)
@@ -115,7 +115,7 @@ Every episode and dilemma is pulled directly from recurring community threads so
 
 ## 3. Constraints
 
-- **Hosting**: Static single-page web application deployable via GitHub Actions to **GitHub Pages** (`https://sudosoph.github.io/<repo-name>/` with relative Vite `base` support).
+- **Hosting**: Static single-page web application deployable via GitHub Actions to **GitHub Pages** (`https://clubhost.github.io/<repo-name>/` with relative Vite `base` support).
 - **Payment Compliance**: All text, SVG illustrations, and external affiliate links must comply with Stripe's Prohibited & Restricted Businesses policy and Ko-fi's Content Guidelines (§1 & §2.2).
 - **IP Cleanliness**: Pop-art comic cel-shading, angled mosaic split-panels, sunset neon coral/teal/gold gradients, and bold geometric display fonts (`Bebas Neue` / `Anton` + `Plus Jakarta Sans` via Google Fonts or system fallbacks) evoke sun-drenched crime/romance satire purely through uncopyrightable genre style.
 - **UX**: Full playability on mobile portrait viewports (375px+) and desktop widescreen without horizontal scroll.
@@ -146,13 +146,13 @@ Every episode and dilemma is pulled directly from recurring community threads so
   - Picking up the bill (*Cougar ≠ Sugar Mama*), chivalry balanced with Gen-Z MeToo/Title IX awareness, and earned fade-to-black "houseboy" choreplay/mommy banter.
   - Real niche subplots including the kids/fertility mismatch (she's done/can't have more; he wants kids).
 - **Distribution**: Respect `r/CougarsAndCubs` rules organically; automate owned channels (Discord / brand hub) + viral shareable receipts.
-- **Architecture**: Approach A in a new GitHub repo on `sudosoph`.
+- **Architecture**: Approach A in a new GitHub repo on `clubhost`.
 
 ---
 
 ## 6. Builder Calls & Implementation Architecture (Left to Builder / Defaulted Explicitly)
 
-- **Repository Name & Visibility** *(Builder Call — Partner can override)*: Public repository `sudosoph/velvet-den` (so free GitHub Pages works immediately out of the box) with automated GitHub Pages deployment workflow (`.github/workflows/deploy-pages.yml`).
+- **Repository Name & Visibility** *(Builder Call — Partner can override)*: Public repository `clubhost/velvet-den` (so free GitHub Pages works immediately out of the box) with automated GitHub Pages deployment workflow (`.github/workflows/deploy-pages.yml`).
 - **Brand & Config Single Source of Truth**: `src/config/monetization.ts` holds placeholder-ready URLs for Ko-fi (`kofiUsername`), Stripe Payment Links (`creditPackUrl`, `vipPassUrl`, plus return query token `?unlock=...` & manual VIP unlock code), Discord invite URL, brand subreddit URL, and affiliate tag defaults—making going live with real payouts a 2-minute config edit.
 - **Tech Stack**: Vite 6 + React 19 + TypeScript + Tailwind CSS v4 + Lucide Icons + HTML5 Canvas API (receipt card export) + Vitest (unit tests for taxonomy calculator, pairing subplot router, stat/red-flag engine, and credit/unlock manager).
 - **Visual Assets**: Custom bespoke pop-art comic SVG character portraits, dating-app photo cards (including the "Golden Hour Trail Shot" vs. "Liquor Bottle Mirror Pic" toggle!), mosaic frames, and animated stat toasts (`MATURITY +15`, `SHORT LEASH UNLOCKED`, `RED FLAG!`) built directly into the repo with zero external broken image dependencies.

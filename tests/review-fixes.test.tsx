@@ -30,7 +30,7 @@ describe('Security, Worker, Boutique, Checklist, Zodiac & Audition Regression Su
     fireEvent.click(screen.getByRole('button', { name: /Unlock Founder Vault/i }));
     expect(await screen.findByText(/Invalid Founder passphrase/i)).toBeInTheDocument();
 
-    fireEvent.change(passInput, { target: { value: 'ChampagneClub!2026#Sophia' } });
+    fireEvent.change(passInput, { target: { value: 'SunsetHills!2026#VaultKey' } });
     fireEvent.click(screen.getByRole('button', { name: /Unlock Founder Vault/i }));
     expect((await screen.findAllByText(/Founder Playtest Vault/i)).length).toBeGreaterThanOrEqual(1);
   });

@@ -13,7 +13,6 @@ import {
 import {
   AFFILIATE_SUPPORT_COPY,
   buildAffiliateUrl,
-  buildPrimeVideoBountyUrl,
   buildPrimeVideoRouteUrl,
   EXTRA_TRIVIA_PRIME_VIDEO_STREAMS,
   getAffiliateById,
@@ -121,11 +120,6 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
   const current = deck[qIdx] ?? POP_CULTURE_TRIVIA[0];
   const matchedAffiliate = current.affiliateId ? getAffiliateById(current.affiliateId) : undefined;
   const extraPrimeStream = EXTRA_TRIVIA_PRIME_VIDEO_STREAMS[current.id];
-  const isScreenQuestion = Boolean(
-    current.youtubeEmbedUrl ||
-      extraPrimeStream ||
-      (matchedAffiliate && isPrimeVideoDigitalPick(matchedAffiliate)),
-  );
 
   const handlePick = (idx: number) => {
     if (selectedOpt !== null) return;
@@ -211,12 +205,12 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
           <div className="shrink-0 border-b border-zinc-200 bg-white px-5 py-3.5 sm:px-7 space-y-2.5">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-                  {deck.length}-Question Sprint • +20 Passport XP
-                </div>
                 <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
                   Pop-Culture Trivia
                 </h2>
+                <p className="text-xs text-zinc-500">
+                  Pick a category and difficulty below, or shuffle a fresh 8-question round.
+                </p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 {!finished && (
@@ -322,25 +316,8 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                   </div>
                 )}
                 <div className="rounded-xl border border-zinc-200 bg-white p-4 text-left space-y-2.5">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-                      🎬 Friday Watch-Night • Prime Video Digital &amp; Free Trial
-                    </span>
-                    <a
-                      href={buildPrimeVideoBountyUrl('quiz_finish_prime_trial')}
-                      target="_blank"
-                      rel="noopener noreferrer sponsored"
-                      onClick={() =>
-                        trackEvent('affiliate_clicked', {
-                          item_id: 'prime-video-trial',
-                          surface: 'pop_quiz_finish',
-                        })
-                      }
-                      className="inline-flex items-center gap-1 rounded-md bg-zinc-900 px-2.5 py-1 text-xs font-semibold text-white hover:bg-zinc-800 transition-colors"
-                    >
-                      <span>Start 30-Day Prime Free Trial</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+                    🎬 Watch These Movies Directly on Prime Video
                   </div>
                   <div className="grid gap-2 sm:grid-cols-2">
                     {[
@@ -423,7 +400,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                     </span>
                   </div>
                   <span className="text-zinc-500">
-                    Question {qIdx + 1} of {deck.length} • Score: {score}
+                    Question {qIdx + 1} of {deck.length} · Score: {score}
                   </span>
                 </div>
 
@@ -535,32 +512,12 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                         }
                         className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors"
                       >
-                        <span>🎬 Stream / Rent Digitally: {extraPrimeStream.label}</span>
+                        <span>🎬 Watch on Prime Video: {extraPrimeStream.label}</span>
                         <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-500" />
                       </a>
                     )}
 
-                    {isScreenQuestion && (
-                      <a
-                        href={buildPrimeVideoBountyUrl(`trivia_prime_${current.id}`)}
-                        target="_blank"
-                        rel="noopener noreferrer sponsored"
-                        onClick={() =>
-                          trackEvent('affiliate_clicked', {
-                            item_id: 'prime-video-trial',
-                            surface: 'pop_quiz_prime_bounty',
-                          })
-                        }
-                        className="flex items-center justify-between gap-2 rounded-lg border border-rose-200 bg-rose-50/70 px-4 py-2 text-xs sm:text-sm font-semibold text-rose-900 hover:bg-rose-100/70 transition-colors"
-                      >
-                        <span>
-                          📺 Start 30-Day Prime Video Free Trial (or 6-Mo Young-Adult Cub Trial)
-                        </span>
-                        <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-700" />
-                      </a>
-                    )}
-
-                    {(matchedAffiliate || extraPrimeStream || isScreenQuestion) && (
+                    {(matchedAffiliate || extraPrimeStream) && (
                       <p className="text-[11px] text-zinc-500 leading-relaxed">
                         {AFFILIATE_SUPPORT_COPY.compactInline}
                       </p>

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build and deploy **The Velvet Den: Cougars & Cubs** (Phase A static browser game + 3-part viral engine + automated affiliate/SEO/Discord growth engine + Phase B/C serverless seams) into a new `sudosoph/velvet-den` GitHub repository with automated GitHub Pages deployment.
+**Goal:** Build and deploy **The Velvet Den: Cougars & Cubs** (Phase A static browser game + 3-part viral engine + automated affiliate/SEO/Discord growth engine + Phase B/C serverless seams) into a new `clubhost/velvet-den` GitHub repository with automated GitHub Pages deployment.
 
 **Architecture:** A zero-backend Vite + React 19 + TypeScript + Tailwind v4 single-page web application backed by pure domain modules (`taxonomy`, `economy`, `affiliates`, `gameEngine`, `viral`) and swappable Phase B/C service interfaces (`adapters`). All monetization URLs (Ko-fi 0%-fee tips, Stripe Payment Links, Cameo commissions, newsletter capture, and affiliate tags) live in `src/config/monetization.ts`, paired with pre-rendered/crawlable Velvet Journal SEO guides, `sitemap.xml` generation, and a daily GitHub Actions growth bot for Discord and owned social hubs.
 
@@ -15,7 +15,7 @@
 - **Zero Explicit NSFW / Payment Rail Safety:** Strictly PG-13/R-rated cheeky comedy and fade-to-black romance; zero explicit erotica, nudity, or adult-toy store domains so Stripe and Ko-fi (§1 & §2.2) remain 100% compliant.
 - **Zero Rockstar / Take-Two IP Infringement:** Never use `GTA`, `Grand Theft Auto`, `Pricedown` font, Rockstar star logos, or traced cover layouts; use original Vice-Sunset pop-art SVG mosaic panels and `Bebas Neue` + `Plus Jakarta Sans`.
 - **Zero Third-Party Subreddit Spam:** Automated scripts target ONLY owned Discord webhooks, owned brand subreddits, and generated social copy—never `r/CougarsAndCubs`.
-- **GitHub Pages Relative Asset Compatibility:** Vite `base` must be `'./'` so assets and query-param deep links (`?challenge=`, `?dilemma=`, `?journal=`, `?unlock=`) work under `https://sudosoph.github.io/velvet-den/` and custom domains alike.
+- **GitHub Pages Relative Asset Compatibility:** Vite `base` must be `'./'` so assets and query-param deep links (`?challenge=`, `?dilemma=`, `?journal=`, `?unlock=`) work under `https://clubhost.github.io/velvet-den/` and custom domains alike.
 - **Responsive Viewport Support:** Zero horizontal overflow from `375px` mobile portrait through `1440px+` desktop widescreen.
 
 ## Review Focus
@@ -302,7 +302,7 @@ git commit -m "feat: build Vice-Sunset game UI, viral partner auditions, concier
 - Produces:
   - `scripts/generate-daily-drop.mjs`: selects the deterministic daily entry from `src/data/dailyDilemmas.json` (30 days of *"Vet or Ghost?"* dilemmas + taxonomy facts + TikTok/Reels hooks + auto-tagged affiliate pick), writes `dist-social/daily-drop.json` & `dist-social/social-pack.md`, and if `DISCORD_WEBHOOK_URL` is set, POSTs a rich Discord embed with a `?dilemma=` deep link.
   - `scripts/generate-sitemap.mjs`: generates `public/sitemap.xml` (covering root, journal slugs, and public dilemma deep links) and `public/robots.txt`, hooked into `prebuild` in `package.json`.
-  - GitHub repository `sudosoph/velvet-den` pushed with GitHub Pages deployment live.
+  - GitHub repository `clubhost/velvet-den` pushed with GitHub Pages deployment live.
 
 - [ ] **Step 1: Write failing test in `tests/growth-scripts.test.ts`**
 
@@ -320,12 +320,12 @@ Expected: FAIL.
 Run: `npm test && node scripts/generate-daily-drop.mjs --dry-run && npm run build`
 Expected: All tests PASS, `dist-social/social-pack.md` generated, `public/sitemap.xml` generated, `dist/` built cleanly.
 
-- [ ] **Step 5: Commit, create GitHub repository `sudosoph/velvet-den`, push `main`, and configure GitHub Pages**
+- [ ] **Step 5: Commit, create GitHub repository `clubhost/velvet-den`, push `main`, and configure GitHub Pages**
 
 ```bash
 git add . && git commit -m "feat: add daily Discord/social growth bot, SEO sitemap, and Phase B/C upgrade kit"
-gh repo create sudosoph/velvet-den --public --source=. --remote=origin --push
-gh api -X POST repos/sudosoph/velvet-den/pages -f build_type=workflow || true
+gh repo create clubhost/velvet-den --public --source=. --remote=origin --push
+gh api -X POST repos/clubhost/velvet-den/pages -f build_type=workflow || true
 ```
 
-Expected: Repository `https://github.com/sudosoph/velvet-den` created, code pushed, and `deploy-pages.yml` workflow triggered.
+Expected: Repository `https://github.com/clubhost/velvet-den` created, code pushed, and `deploy-pages.yml` workflow triggered.

@@ -79,207 +79,232 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
   {
     id: 'velvet-lounge',
     handleLabel: '#friday-lounge',
-    topicSubtitle: 'Sunset Hills Friday check-ins, outfit checks & pre-date hype',
+    topicSubtitle: 'Friday date plans, outfit gut-checks & live pre-drink chat',
     seededMessages: [
       {
-        sender: 'Jade_42F',
-        badge: '🐆 Sunset Hills Host',
-        text: 'Friday roll call: Miles just renovated the patio lanterns at The Marlow Lounge and Claire is already holding down the corner bar stool.',
+        sender: 'Maya_43F',
+        badge: '🐆 Cougar Regular',
+        text: 'Honest poll before I get dressed: he booked a 7:30 wine bar on a rainy Friday. Silk blouse + jeans, or am I putting on heels after a 50-hour workweek?',
       },
       {
-        sender: 'Hampstead_Julian',
-        badge: '🇬🇧 Visiting Fellow',
-        text: 'Fair warning, the pianist is taking Sade requests tonight if anyone fancies a proper drink before eight.',
+        sender: 'Liam_29M',
+        badge: '🥂 Vetted Cub',
+        text: 'Silk blouse + comfortable boots wins ten times out of ten. If a guy cares more about heels than you actually enjoying your glass of red, leave him at the bar.',
+      },
+      {
+        sender: 'Jade_42F',
+        badge: '🐆 Lounge Host',
+        text: 'Co-signing Liam! Also shoutout to whoever reminded the 20-somethings in here that a noon Friday "Still excited for 7:30 tonight" text is hotter than any pickup line.',
       },
     ],
     suggestionsHer: [
-      'Just moved into Sunset Hills, tell me which cocktail bar has zero tech-bro shouting.',
-      'Testing a 27-year-old British fellow on Thursday logistics. Wish him luck.',
-      'Who else refuses to leave the house after 8:30 PM unless the reservation is confirmed?',
+      'Just moved to town, which neighborhood wine bar is quiet enough to actually hear your date?',
+      'Meeting a 27-year-old British guy for Thursday drinks. Give me your quickest green-flag test.',
+      'Anyone else refuse to get out of loungewear after 8:30 PM unless plans were locked by noon?',
     ],
     suggestionsHim: [
-      'Booked a quiet corner banquette for 7:30 Friday, peonies in the car or too much for Date #1?',
-      'New to Sunset Hills: best florist open past six near Westwood?',
-      'Taking notes so I never fumble a second date in this zip code.',
+      'Booked a 7:30 patio table for Date #1 tonight. Flowers in the car for after dinner or wait for Date #2?',
+      'Best local florist open past 6 PM when you want zero cheesy red roses?',
+      'Taking notes in here so I don’t pull a rookie move on a second date.',
     ],
     repliesHer: [
-      'Jade_42F: Slip straight into The Marlow Lounge’s back piano lounge or Left Bank’s courtyard, acoustic warmth, proper glassware, zero finance vests shouting.',
-      'Claire_M&A: If it’s Hampstead Julian, you are in very good hands, he arrives five minutes early and actually silences his phone.',
-      'Sienna_Design: Hard Club law! After 8:30 PM I am already in silk loungewear unless a confirmed Resy pin hit my phone by noon.',
+      'Jade_42F: Try the back room at The Marlow Lounge or Left Bank’s courtyard, warm lighting, real glassware, and zero shouting over bass.',
+      'Claire_M&A: Watch two things: whether he shows up five minutes early and how he treats the bartender. Everything else follows.',
+      'Sienna_Design: Hard rule in this server! After 8:30 PM my skincare is on and my phone is on Do Not Disturb unless dinner was confirmed by midday.',
     ],
     repliesHim: [
-      'Claire_M&A: Keep a small paper-wrapped bouquet in the trunk for the walk back to her car after dinner so she doesn’t carry stems across the bar.',
-      'Sienna_Design: Left Bank Botanica on Westwood stays open until 7:30 PM, ask for ivory ranunculus or pale peonies, zero baby’s breath.',
-      'Jade_42F: Confirm at noon Friday, stand up when she arrives, and listen twice as much as you pitch, you’ll outclass ninety percent of the city.',
+      'Claire_M&A: Save flowers for Date #2 or keep a small paper-wrapped bunch in the trunk for the walk back to her car so she isn’t holding stems all night.',
+      'Sienna_Design: Left Bank Botanica stays open until 7:30 PM, ask for ivory ranunculus or peonies and skip the baby’s breath.',
+      'Jade_42F: Confirm at noon Friday, put your phone face-down when she sits, and actually listen. You’ll lap ninety percent of men out there.',
     ],
     botReplies: [
-      'Jade_42F: Quiet corner banquette at 7:30 is undefeated, keep your phone off the table and you are golden.',
-      'Claire_M&A: One single stem or small seasonal bouquet works wonders; carrying a parade float across the bar does not.',
+      'Jade_42F: Confirming by noon and putting your phone away at the table beats every rehearsed line in the book.',
+      'Claire_M&A: Relax, listen well, and pick a spot quiet enough for real conversation.',
     ],
   },
   {
     id: 'red-flag-emergency',
     handleLabel: '#red-flag-emergency',
-    topicSubtitle: 'Live triage for suspicious curfews, filter liars & Friday flakes',
+    topicSubtitle: 'Live gut-checks on shady schedules, age-filter liars & Friday flakes',
     seededMessages: [
       {
-        sender: 'Sienna_Design',
-        badge: '🏡 Sunset Hills',
-        text: 'PSA: If a blonde finance guy in a navy blazer vanishes at 6:44 PM sharp every weekday for "Tokyo calls," check his left ring finger.',
+        sender: 'Tasha_41F',
+        badge: '🐆 Cougar Regular',
+        text: 'Need a sanity check: matched with a 34M finance guy who only wants 5:15 PM drinks and says his phone is muted after 6:45 PM for "Tokyo markets." Married, right?',
       },
       {
         sender: 'Priya_TraumaRN',
         badge: '🏥 Night Shift',
-        text: 'Also watch out for the Palisades tennis regular who keeps booking Table 9 just so her ex-husband walks past!',
+        text: '1000% married. Tokyo opens at 5 PM Pacific and is closed Saturday night! That 6:45 PM cutoff is him pulling into his driveway in Montecito.',
+      },
+      {
+        sender: 'Sam_27M',
+        badge: '🏡 Vetted Cub',
+        text: 'Same energy on our side when someone says they’re "practically divorced" while still living in the same house for property taxes. Instant block.',
       },
     ],
     suggestionsHer: [
       'He says his evenings after 6:45 PM are blocked for Tokyo markets, am I crazy or is that a commuter train home?',
-      'He confessed on Message 2 that Hinge "accidentally" listed him as 27 instead of 21. Hitting Cut Loose immediately.',
+      'He confessed on Message 2 that the app "accidentally" listed him as 27 instead of 21. Blocking right now.',
       'Wrote me three paragraphs of poetry on Tuesday and just went radio silent Friday afternoon.',
     ],
     suggestionsHim: [
       'She says she is "practically divorced" while still sharing the Bel Air house, run for the hills?',
-      'She insisted I wear a navy blazer and sit facing Table 9 where her ex dines every Friday.',
-      'How do I tell normal post-divorce caution apart from someone using me as a rebound prop?',
+      'She insisted I wear a navy blazer and sit right across from Table 9 where her ex eats every Friday.',
+      'How do I tell normal post-divorce caution apart from someone using me to make an ex jealous?',
     ],
     repliesHer: [
-      'Jade_42F: Trust your gut! Tokyo opens at 5 PM Pacific and closes Friday, a nightly + Sunday 6:45 blackout is 100% a Montecito marriage curfew. Hit Cut Loose!',
-      'Priya_TraumaRN: Instant Cut Loose! Nobody "accidentally" ages six years via Facebook, he deliberately bypassed women’s age filters.',
-      'Claire_M&A: Textbook Tuesday poet, Friday 4 PM flake. Love-bombing before Date #1 is fantasy projection, not real follow-through.',
+      'Jade_42F: Trust your gut! Tokyo closes Friday afternoon, a nightly + Sunday 6:45 blackout is 100% a suburban marriage schedule. Hit Cut Loose!',
+      'Priya_TraumaRN: Instant block! Nobody "accidentally" ages six years linking an account, he deliberately bypassed your age filter.',
+      'Claire_M&A: Classic Tuesday poet, Friday 4 PM flake. Big speeches before Date #1 are almost always fantasy projection.',
     ],
     repliesHim: [
-      'Sam_27M: Sprint, brother! "Practically divorced in the same Bel Air house" means Lawrence is eating breakfast in that kitchen right now.',
-      'Jade_42F: That’s Brooke’s Friday revenge audition! Wait, Graham’s 6:45 vanish AND Table 9 are connected. Check #blind-spark-dm!',
-      'Prof_Elena: Healthy caution protects her peace and moves steadily in private; a rebound prop only wants noisy public photo ops in front of an ex.',
+      'Sam_27M: Sprint, brother! "Practically divorced in the same house" means her husband is making coffee in that kitchen right now.',
+      'Jade_42F: Oh no, that’s the Table 9 revenge setup! Wait, the 6:45 commuter guy and Table 9 are connected. Check #blind-spark-dm!',
+      'Prof_Elena: Healthy caution protects privacy and moves steadily; someone using you as a prop only cares who sees you two in public.',
     ],
     botReplies: [
-      'Priya_TraumaRN: Clock it and hit Cut Loose! Saving your Friday night heart beats playing unpaid marriage counselor.',
-      'Jade_42F: Wait, Graham’s 6:45 vanish AND Brooke’s Table 9 obsession are connected. Check #blind-spark-dm!',
+      'Priya_TraumaRN: Clock it and hit Cut Loose! Protecting your Friday night beats playing detective for free.',
+      'Jade_42F: Wait, the 6:45 curfew guy and the Table 9 drama are connected. Check #blind-spark-dm!',
     ],
     conspiracyClueId: 'clue-discord-triage',
   },
   {
     id: 'ask-a-cougar',
     handleLabel: '#ask-a-cougar',
-    topicSubtitle: 'Direct Q&A with Claire, Elena, Priya & seasoned Sunset Hills regulars',
+    topicSubtitle: 'Honest Q&A between Cougars and Cubs on etiquette, money & pacing',
     seededMessages: [
+      {
+        sender: 'Jordan_26M',
+        badge: '🥂 Honest Cub Q',
+        text: 'Genuine question for the women in here: if she’s a director making way more than me, does planning a casual taco-and-jazz night look cheap, or is it all about owning the plan?',
+      },
       {
         sender: 'Prof_Elena',
         badge: '🎓 Literature Chair',
-        text: 'Office hours are open for five minutes: ask your honest courtship questions before I pour my Sancerre.',
+        text: 'Own the plan inside your real budget every single time. A thoughtful $40 evening you planned yourself beats nervously splitting a $300 steakhouse tab.',
       },
       {
         sender: 'Claire_M&A',
         badge: '🍸 Deal Partner',
-        text: 'Rule one: never ask us to plan the neighborhood, restaurant, and time after we just led meetings for ten hours.',
+        text: '100% this. We already fund our own lives; we date younger for warmth, curiosity, and zero boardroom ego at dinner.',
       },
     ],
     suggestionsHer: [
       'Ladies, when a sweet 26-year-old gets nervous about earning less than me, what puts him at ease without mothering him?',
-      'Do we give a second chance to a guy who nervously talked too fast for the first ten minutes?',
+      'Do we give a second chance to a guy who talked a little too fast from first-date nerves?',
       'Best boundary line when you love Living-Apart-Together and never want to merge houses again?',
     ],
     suggestionsHim: [
       'When she makes triple my grad stipend, what is the classiest way to handle alternating date nights?',
-      'How early should I prep my mom before introducing a partner who is closer to her age?',
-      'Does sending a calm confirmation text at noon on Friday still count as a top-tier green flag?',
+      'How early should I give my mom a heads-up before introducing a partner closer to her age?',
+      'Does sending a quick confirmation text around noon on Friday still count as a big green flag?',
     ],
     repliesHer: [
-      'Prof_Elena: Let him plan and pay squarely inside his budget when he invites, then host weekend escapes you initiate. Alternate turns as equals, never mother him.',
-      'Priya_TraumaRN: Ten minutes of first-date nerves is endearing if he settles down and truly listens. Smooth players rehearse; real Cubs actually care what you think.',
+      'Prof_Elena: Let him plan and host squarely inside his budget when he invites, then treat him when you pick a weekend getaway. Equal turns, zero mothering.',
+      'Priya_TraumaRN: Ten minutes of first-date nerves is honestly sweet if he settles in and listens. Smooth players rehearse; good guys actually care.',
       'Claire_M&A: Toast to it early: "I want real commitment and great weekends together, and I am keeping my own house keys forever." Secure men love Living-Apart-Together clarity.',
     ],
     repliesHim: [
-      'Prof_Elena: Plan thoughtful dates squarely inside your budget and pay cleanly when you invite, pretension fails, sincerity wins.',
-      'Sienna_Design: Prep your mom warmly a full week ahead so she feels respected and zero people blink at Sunday dinner, never spring an ambush.',
-      'Claire_M&A: A noon Friday confirmation text ("Looking forward to 7:30 tonight, table is set") puts you in the top two percent.',
+      'Prof_Elena: Plan thoughtful dates squarely inside your budget and cover the tab cleanly when you invite. Sincerity always beats pretending.',
+      'Sienna_Design: Tell your mom warmly a week ahead so nobody is caught off guard at Sunday dinner, never spring a surprise.',
+      'Claire_M&A: A calm noon Friday confirmation ("Still looking forward to 7:30 tonight, see you there") puts you in the top two percent.',
     ],
     botReplies: [
-      'Prof_Elena: Plan thoughtful dates squarely inside your budget and pay cleanly when you invite, pretension fails, sincerity wins.',
-      'Claire_M&A: A noon Friday confirmation text ("Looking forward to 7:30 tonight, table is set") puts you in the top two percent.',
+      'Prof_Elena: Plan thoughtful dates inside your real budget and cover the check cleanly when you invite.',
+      'Claire_M&A: A simple noon confirmation text on Friday puts you ahead of almost everyone on the apps.',
     ],
   },
   {
     id: 'spotted-in-the-wild',
     handleLabel: '#spotted-in-the-wild',
-    topicSubtitle: 'Missed connections at Terminal B, Dawn Lap Pool & Left Bank Books',
+    topicSubtitle: 'Real-world meet-cutes, grocery-aisle fumbles & off-app wins',
     seededMessages: [
       {
-        sender: 'Sam_27M',
-        badge: '🏡 Cul-de-Sac Neighbor',
-        text: 'Just watched a wildlife officer at Dawn Lap Pool explain to a tourist from Paramus that "there aren’t wild cougars in New Jersey."',
+        sender: ' Devon_44F_Runner',
+        badge: '🐆 Morning Crew',
+        text: 'Shoutout to the polite 28-year-old at Dawn Lap Pool who waited until I took my swim cap and goggles off at the smoothie counter before asking me out.',
       },
       {
         sender: 'Rory_Ranger',
-        badge: '🌳 Hampstead Exchange',
-        text: 'Still blushing from tapping the wrong woman on the shoulder in the fig aisle at Cougarmarket, thank heaven she laughed.',
+        badge: '🌳 Park Service',
+        text: 'Better than me yesterday! Asked a woman in the olive-oil aisle how to pick ripe figs while holding an empty basket and turned bright red.',
+      },
+      {
+        sender: 'Sienna_Design',
+        badge: '🏡 Pasadena',
+        text: 'Haha pro tip for every Cub in here: put at least two real groceries in your basket first so you don’t look like you’re doing laps around aisle four!',
       },
     ],
     suggestionsHer: [
-      'To the platinum-blonde architect on Court 3 with the wicked lefty slice, rematch Thursday?',
-      'Whoever met his match curbside at Terminal B with two hot espressos and a town car just raised the bar for the whole city.',
-      'Spotted at Havana & Vine: clean-shaven woodworker who spun three partners effortlessly without spilling a drop.',
+      'To the tall architect on Court 3 with the lefty slice, rematch Thursday evening?',
+      'Meeting someone curbside at Terminal B with hot coffee in hand still beats six weeks of app texting.',
+      'Best body-language cue to give a younger guy at a bookstore so he knows it’s okay to say hi?',
     ],
     suggestionsHim: [
-      'To the honey-blonde professor at Left Bank Books, waiting respectfully until Friday 5 PM when grades post!',
-      'Survived three weeks of polite nods at Dawn Lap Pool before saying hi at the smoothie counter. Worth every lap.',
-      'Note to self: empty grocery baskets in the Rioja aisle fool zero women.',
+      'Waiting until Friday 5 PM when university grades lock before asking a literature professor to coffee.',
+      'Three weeks of friendly nods at the lap pool before talking at the smoothie counter actually worked!',
+      'Note to self: put actual food in the basket before striking up conversation in the wine aisle.',
     ],
     repliesHer: [
-      'Jade_42F: That’s Søren on Court 3 at Palisades Racquet! Step onto the In The Wild map, he loves a fearless mixed-doubles challenge.',
-      'Claire_M&A: Guilty, Miles met me at Terminal B Baggage Claim and handled both weekender bags in one hand. Check Terminal B on the map!',
-      'Sienna_Design: That’s Rafael from Silver Lake! Catch him Thursday night at Havana & Vine before the brass band wraps.',
+      'Jade_42F: That sounds like Søren at Palisades Racquet! Check Out In The Wild, he never turns down mixed doubles.',
+      'Claire_M&A: Airport pickups with your coffee order memorized are undefeated. Check Terminal B on the map!',
+      'Sienna_Design: Close your book for a second, catch his eye with a real smile, and ask what he’s reading. Good guys just want to know they aren’t bothering you.',
     ],
     repliesHim: [
-      'Prof_Elena: Punctual and ethically literate, meet me on the north quad bench at 5:01 PM sharp once registrar grades lock.',
-      'Priya_TraumaRN: Slow-burn lap-pool etiquette works every time, zero mid-set interruptions, warm conversation over smoothies after.',
-      'Sienna_Design: Haha put actual olive oil and figs in the basket first, we spot empty-basket aisle lurkers from thirty paces!',
+      'Prof_Elena: Smart man. Waiting until grades officially post at 5:00 PM Friday shows actual integrity.',
+      'Priya_TraumaRN: Never interrupting mid-workout and chatting calmly afterward is textbook gym etiquette.',
+      'Sienna_Design: Olive oil, sourdough, and lemons in the basket first, works like a charm!',
     ],
     botReplies: [
-      'Sam_27M: Confirmed, half the best romances in Sunset Hills started curbside at Terminal B or by the fig counter.',
-      'Jade_42F: Go check the In The Wild map before someone else claims that 8:15 corner table!',
+      'Sam_27M: Half the best couples in here met at the grocery store, airport pickup lane, or tennis courts.',
+      'Jade_42F: Tap In The Wild up top if you want to try offline meet-cutes instead of swiping!',
     ],
   },
   {
     id: 'blind-velvet-dm',
     handleLabel: '#blind-spark-dm',
-    topicSubtitle: 'Anonymous handle mystery channel & Table 9 Alibi Club leaks',
+    topicSubtitle: 'Anonymous neighborhood gossip & the Table 9 married-alibi investigation',
     seededMessages: [
       {
-        sender: 'Anon_Cedar_7',
-        badge: '🎭 Mystery Regular',
-        text: 'Insider tip from behind the mahogany bar: Table 9 at The Marlow Lounge is booked every Friday under a shared shell account called "The 6:45 Tokyo Call."',
+        sender: 'Bartender_Anon',
+        badge: '🍸 Service Industry Tea',
+        text: 'Service-industry PSA: three married guys in navy blazers split one cash tab every Friday at Table 9 under the fake calendar invite "6:45 Tokyo Call."',
       },
       {
         sender: 'Anon_Marlow_9',
-        badge: '🕵️ Insider',
-        text: 'Graham, Vanessa’s husband, AND Brooke’s ex Richard split that booth tab to cover each other’s alibis. Collect 3 clues to crash their dinner!',
+        badge: '🕵️ Regular',
+        text: 'Wait, it gets messier: Graham, Vanessa’s husband Lawrence, AND Brooke’s ex Richard are all covering each other’s alibis at that exact booth!',
+      },
+      {
+        sender: 'Jade_42F',
+        badge: '🐆 Lounge Host',
+        text: 'If you collect 3 Table 9 clues across red-flag chats and lounge channels, we can crash their Friday dinner together.',
       },
     ],
     suggestionsHer: [
-      'Wait, Graham’s 6:45 Tokyo call is actually a shared alibi tab at Table 9?! Tell me everything.',
-      'Who is behind Anon_Cedar_7, your cadence sounds suspiciously like someone who builds cedar pergolas.',
-      'Count me in for crashing the Table 9 Alibi Club once I have all three receipts.',
+      'Wait, Graham’s 6:45 "Tokyo call" excuse is actually a shared cash tab at Table 9?! Spill everything.',
+      'How are three different husbands running the exact same Friday alibi at one restaurant?',
+      'Count me in for crashing Table 9 once I’ve collected all three receipts.',
     ],
     suggestionsHim: [
-      'So Brooke only wanted me at that steakhouse to rattle Richard at Table 9, and Vanessa’s husband is in on it?!',
-      'Anon_Cedar_7, drop one clue who you are in Sunset Hills.',
-      'Logging this Table 9 receipt right now, nobody uses us as alibi props on Friday night.',
+      'So Brooke only wanted me across from Table 9 to rattle Richard, and Vanessa’s husband is in on it too?!',
+      'Paying cash so nothing hits their joint credit-card statements is diabolical.',
+      'Logging this Table 9 clue right now, nobody uses us as Friday night props.',
     ],
     repliesHer: [
-      'Anon_Cedar_7: Every word is true, three husbands split one cash ledger at Table 9 so none of their credit cards show The Marlow Lounge. Clue logged!',
-      'Anon_Cedar_7: Let’s just say I care deeply about room acoustics, cedar joinery, and making sure good women don’t waste Friday nights on liars.',
-      'Anon_Marlow_9: Dossier updated! Grab two more clues from #red-flag-emergency or Cut Loose vetting to unlock the Table 9 Takedown finale.',
+      'Bartender_Anon: Every word is true, one shared cash envelope at Table 9 so zero spouses see The Marlow Lounge on a statement. Clue logged!',
+      'Anon_Marlow_9: They rotate who "hosts clients" each week while the other two slip out until 6:40 PM. Clue added to your file!',
+      'Anon_Marlow_9: Dossier updated! Catch two more clues from #red-flag-emergency or blocking Trap profiles to unlock the Table 9 Takedown.',
     ],
     repliesHim: [
       'Anon_Marlow_9: Bingo, Richard, Lawrence, and Graham run a three-way alibi ring out of Table 9 every Friday at 6:15 PM. Clue logged!',
-      'Anon_Cedar_7: Check Terminal B or the mahogany bar rail. I build the rooms where Sunset Hills regulars tell the truth.',
-      'Anon_Marlow_9: Receipt locked into your vault! Hit 3/3 clues to crash their Friday booth in the secret finale.',
+      'Bartender_Anon: Tipped terribly too, which is why the whole bar staff is rooting for you to expose them. Clue logged!',
+      'Anon_Marlow_9: Receipt saved! Hit 3/3 clues to unlock the secret Friday Takedown finale.',
     ],
     botReplies: [
-      'Anon_Cedar_7: Sharp eye. Clock three Table 9 clues across your chats and venues to unlock the secret Friday Takedown episode.',
-      'Anon_Marlow_9: Clue logged! Keep vetting suspicious curfews via Cut Loose to complete the dossier.',
+      'Bartender_Anon: Clock three Table 9 clues across your chats and channels to unlock the secret Friday Takedown.',
+      'Anon_Marlow_9: Clue logged! Block suspicious curfew traps in your DMs to complete all 3/3 clues.',
     ],
     conspiracyClueId: 'clue-discord-table9',
   },
@@ -335,7 +360,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
               delta: 18,
             },
             {
-              text: 'People who treat Hinge like a calendar invite before proving they’re actually fun to talk to.',
+              text: 'People who treat dating apps like a calendar invite before proving they’re actually fun to talk to.',
               reply: 'Haha noted, zero rushing from me, half the fun is seeing if our banter actually sparks xx',
               delta: 16,
             },
@@ -344,7 +369,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
               reply: 'Bloody hell, that’s my favorite thing on earth, ambition looks brilliant on you xx',
               delta: 24,
               cost: 1,
-              badge: 'Queen Frame',
+              badge: 'Bold Spark',
             },
           ],
         },
@@ -380,11 +405,11 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
           ],
           photoDrop: {
             id: 'photo-julian-scull',
-            previewCaption: 'Private camera-roll evening portrait from Julian',
+            previewCaption: 'Photo from Julian',
             imageUrl: photos[5],
             unlockCost: 1,
-            exifClue: '📍 Live Photo • Taken 4 min ago near Westwood • Zero filters, real pub-garden grin.',
-            secretNote: '“Didn’t put this one at the top of Hinge, practicing my Thursday toast to you xx”',
+            exifClue: '📍 Live Photo · Taken 4 min ago near Westwood · Unfiltered late-afternoon walk.',
+            secretNote: 'Just escaped the library stacks before sunset, finally getting some fresh air x',
           },
           choices: [
             {
@@ -580,7 +605,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
           },
           {
             text: isHimMatch
-              ? `💎 Skip the rehearsed Hinge script, ${profile.name}, tell me one thing about you nobody guesses right away.`
+              ? `💎 Skip the rehearsed dating-app script, ${profile.name}, tell me one thing about you nobody guesses right away.`
               : `💎 No generic small talk here, give me one unpopular opinion you stand by 100%.`,
             reply: isHimMatch
               ? `People expect nonstop extrovert energy, when really I’m happiest cooking late-night pasta for one person.`
@@ -657,29 +682,31 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
           },
           {
             text: isHimMatch
-              ? `💎 Good, because I don’t audition rookies, I only date men who step up as equals.`
+              ? `💎 Good to hear. I’m way past casual games, so honesty goes a long way with me.`
               : `💎 Unhurried pace respected, earning your trust slowly is half the fun.`,
             reply: isHimMatch
               ? `Loud and clear, wouldn’t want it any other way.`
               : `Okay, you definitely know what you’re doing.`,
             delta: 24,
             cost: 1,
-            badge: 'Magnetic Polarity',
+            badge: 'Real Talk',
           },
         ],
       },
       {
         beatNumber: 4,
         incomingMessages: [
-          `Stepped outside for five minutes of golden-hour air and thought of our Friday plan.`,
+          `Stepped outside for five minutes of fresh air before my afternoon wraps.`,
         ],
         photoDrop: {
           id: `photo-${profile.id}-candid`,
-          previewCaption: `Private evening camera-roll check-in from ${profile.name}`,
+          previewCaption: `Photo from ${profile.name}`,
           imageUrl: photos[5],
           unlockCost: 1,
-          exifClue: `📍 Live Camera Roll • Taken 6 min ago • Authentic portrait, zero app retouching.`,
-          secretNote: `“Saved this dressed-up look for Friday night, fair warning, I clean up well for you.”`,
+          exifClue: `📍 Live Photo · Taken 6 min ago · Natural camera roll, zero filters.`,
+          secretNote: isHimMatch
+            ? `Quick coffee breather before my last call. Counting down to Friday.`
+            : `Finally off work calls for five minutes. How is your afternoon going?`,
         },
         choices: [
           {
@@ -736,7 +763,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
               : `Smooth from start to finish.`,
             delta: 24,
             cost: 1,
-            badge: 'S-Tier Chemistry',
+            badge: '5-Star Chemistry',
           },
         ],
       },
@@ -744,16 +771,16 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         beatNumber: 6,
         incomingMessages: [
           profile.id === 'rory'
-            ? `Friday is sorted on my end x Only if you fancy getting off this noisy app, let me text you from my proper number.`
+            ? `Friday is sorted on my end x Only if you fancy getting off this app, let me text you from my proper number.`
             : isHimMatch
               ? profile.age >= 30
                 ? `Friday at eight is handled. Share your number when you are ready and I will send the confirmation directly.`
-                : `Everything is set for Friday night. Whenever you’re ready to leave the app behind, I’d love to text you directly.`
+                : `Everything is set for Friday night. Whenever you’re ready to get off Prowl, I’d love to text you directly.`
               : profile.age >= 55
                 ? `You passed my filter cleanly. Take my personal number, and do not waste it on small talk.`
                 : profile.age >= 40
                   ? `You survived my app filter. Take my cell so we can lock Friday cleanly on iMessage.`
-                  : `Okay, zero notes so far. Take my real number so we can coordinate Friday off Hinge ✨`,
+                  : `Okay, zero notes so far. Take my real number so we can coordinate Friday off Prowl ✨`,
         ],
         choices: [
           {
@@ -788,7 +815,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
           },
           {
             text: isHimMatch
-              ? `💎 You earned my personal number, ${profile.name}, don’t make me regret graduating you off Hinge.`
+              ? `💎 You earned my personal number, ${profile.name}, don’t make me regret moving off Prowl.`
               : `💎 Personal number saved. I’ll text you the exact pin on iMessage right now.`,
             reply:
               profile.id === 'rory'
@@ -852,19 +879,19 @@ function buildImessageFollowup(
           : isComposed30sZaddy
             ? `Good to have your direct line. Friday at 7:45 is confirmed on my calendar.`
             : isHimMatch
-              ? `Real number saved. Still smiling from earlier, glad we moved off Hinge.`
+              ? `Got your number saved! Way easier texting you here than on Prowl.`
               : isIconHer
-                ? `Much better off that noisy app. You have my actual line now, use it wisely.`
+                ? `Much better off the app. You have my actual line now, use it wisely.`
                 : isGenXHer
                   ? `Much cleaner off the app. You have my direct line now.`
-                  : `Officially off Hinge ✨ Saved your number, much better energy in here.`;
+                  : `Officially off Prowl ✨ Saved your number, much easier texting here.`;
 
   const beat1ReplyA = isGenZTrap
     ? `haha chill i text whenever vibes hit lol`
     : isUkCub
-      ? `Strictly top-shelf banter during office hours, promise x`
+      ? `Promise not to blow up your phone during meetings x`
       : isHimMatch
-        ? `Strictly high-signal texts only, promise.`
+        ? `Deal, I won’t blow up your phone while you’re working.`
         : isIconHer
           ? `Punctual and concise. Keep it up.`
           : isGenXHer
@@ -874,36 +901,36 @@ function buildImessageFollowup(
   const beat2Incoming = isGenZTrap
     ? `quick q before friday tho... u cool driving or splitting the uber lol`
     : isUkCub
-      ? `Quick check before Friday: shall I meet you by the host stand five minutes early, or send a car round for you? x`
+      ? `Quick check before Friday: want to meet me right inside at 7:40, or shall I pick you up? x`
       : isHimMatch
-        ? `Quick question before Friday: do you prefer I meet you right at the host stand, or send a car for you?`
+        ? `Quick check before Friday: want to meet there around 7:40, or would you rather I pick you up?`
         : isIconHer
           ? `One logistical question: do you arrive five minutes early, or make excuses about traffic?`
           : isGenXHer
             ? `Quick litmus test: are you an "arrive ten minutes early" adult or a last-second sprinter?`
-            : `Honest check before Friday: ten minutes early at the bar, or sprinting through valet at 7:46?`;
+            : `Honest check before Friday: ten minutes early at the bar, or sprinting through parking at 7:46?`;
 
   const beat5Incoming = isGenZTrap
     ? `hey so friday is lowkey getting hectic on my end... still figuring tonight out lol`
     : isUkCub
-      ? `Friday midday check-in: corner booth is sorted for 7:45 sharp, weather’s lovely, and my evening is all yours xx`
+      ? `Friday check-in: table is all set for 7:45 tonight, weather’s lovely, looking forward to seeing you xx`
       : isIconHer
-        ? `Friday confirmation: our corner booth is set for 7:45 sharp. 👍`
+        ? `Friday confirmation: we are set for 7:45 tonight. 👍`
         : isGenXHer
-          ? `Sounds good for tonight. Corner table is locked for 7:45, see you there.`
-          : `Friday noon check-in: table confirmed for tonight, weather is warm, and my evening is 100% yours.`;
+          ? `Sounds good for 7:45 tonight. Looking forward to it.`
+          : `Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.`;
 
   const beat6Incoming = isGenZTrap
     ? `wait just pulled up outside where r u sitting 👀`
     : isUkCub
-      ? `Just claimed our corner booth, candles are lit and the barman knows your order x Ready whenever you walk in.`
+      ? `Just got here and grabbed us a great table near the back, take your time walking in x`
       : isIconHer
-        ? `Seated in the corner booth with an icy martini. Walk in like you own the room.`
+        ? `I’m at a quiet table near the bar with a cold martini. Come say hello.`
         : isGenXHer
-          ? `At our corner booth now. Candlelight is right and the bartender knows your order.`
+          ? `Just sat down at our table near the patio. No rush parking.`
           : isUnderstatedMid20sCub || isComposed30sZaddy
-            ? `Just arrived and grabbed our corner booth. Candlelight is warm and the bartender has your drink ready.`
-            : `Just arrived and grabbed our corner table, candlelight is warm and the bartender knows your drink ✨`;
+            ? `Just got here and grabbed our table. Let me know what you want to drink if you’re two minutes out.`
+            : `Just got here and grabbed our table! Text me when you pull up ✨`;
 
   return [
     {
@@ -918,7 +945,7 @@ function buildImessageFollowup(
           delta: 16,
         },
         {
-          text: `Glad we graduated off Hinge, how is your evening winding down?`,
+          text: `So much easier off the app, how’s your night winding down?`,
           reply: isGenZTrap
             ? `just chillin on the couch scrolling tiktok lol wbu`
             : isUkCub
@@ -1038,11 +1065,17 @@ function buildImessageFollowup(
       ],
       photoDrop: {
         id: `photo-${name.toLowerCase()}-imessage`,
-        previewCaption: `Private iMessage pre-date outfit check from ${name}`,
+        previewCaption: `Photo from ${name}`,
         imageUrl: candidUrl,
         unlockCost: 1,
-        exifClue: `📍 Personal iMessage Live Photo • Sent just now • Dressed for tonight’s reservation.`,
-        secretNote: `“Private eyes only before 7:45, tell me honestly if this wins the corner booth.”`,
+        exifClue: `📍 Live Photo · Sent just now on iMessage · Getting ready for dinner.`,
+        secretNote: isGenZTrap
+          ? `honest fit check before tmrw lol thoughts?`
+          : isUkCub
+            ? `Quick check before tomorrow night, too dressed up or about right? x`
+            : isHimMatch
+              ? `Trying to decide between this jacket or keeping it more casual tomorrow night. Honest thoughts?`
+              : `Thinking of wearing this tomorrow night. What do you think?`,
       },
       choices: [
         {
@@ -1339,7 +1372,7 @@ function buildTrapChapter(
     { m1: string; m2: string; m3: string; headline: string; note: string; clue?: string }
   > = {
     connor: {
-      m1: 'Yo!! Okay funny story before we meet. Hinge locked my birth year at 27 from an old account lol, I’m actually 21 turning 22 next spring.',
+      m1: 'Yo!! Okay funny story before we meet. The app locked my birth year at 27 from an old account lol, I’m actually 21 turning 22 next spring.',
       m2: 'Age is just a number anyway right?? Skip crowded bars, just send me your home address and I’ll Uber straight over tonight.',
       m3: 'My four frat roommates are throwing a dye tournament so my place is packed, yours has a pool right?',
       headline: '🏆 BULLET DODGED: Age-Filter Liar & House-Invite Tourist Blocked!',
@@ -1729,7 +1762,7 @@ const BESPOKE_MAIN_LEAD_STORIES: Record<string, BespokeLeadStoryPack> = {
   rafael: {
     date1Title: 'Havana Courtyard Salsa & Midnight Garlic Oil',
     date1Beat1Dialogue:
-      'Under courtyard string lights, Rafael spins you cleanly before your Rioja touches the table: "Relax your shoulders. I have the frame, nobody bumps into you on my watch."',
+      'Under the courtyard string lights, Rafael catches your hand with an easy grin as the brass band starts up: "Come on, dance one song with me before our wine gets here. Don’t worry, I’ve got you."',
     date1Beat2Dialogue:
       'Rafael traces the joinery calluses on his palm with quiet pride: "Built every inch of my Silver Lake studio by hand, zero family money."',
     date2Title: 'Date #2: Industry Black-Tie Gala & The Whisper Test',
@@ -2023,7 +2056,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
         },
         {
           speakerExpression: 'blush',
-          dialogue: `Outside under warm evening streetlights, ${profile.name}'s hand brushes yours. The Night-1 Pacing Test arrives: rush straight upstairs tonight, or let the slow burn build toward S-Rank?`,
+          dialogue: `Outside under warm evening streetlights, ${profile.name}'s hand brushes yours. Rush straight home tonight, or let the slow burn build toward Date #2?`,
           choices: [
             {
               label: 'Savor a lingering goodnight kiss by the car and lock in Date #2 so the slow burn builds properly.',
@@ -2033,7 +2066,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
             },
             {
               label: 'Push hard to rush straight home on Night 1 before real trust is built.',
-              response: `Hot spark in the moment, though rushing past ${profile.name}'s slow-burn guard caps your final relationship rank below S-Rank!`,
+              response: `Hot spark in the moment, though rushing past ${profile.name}'s guard caps your chemistry below 5-Star!`,
               nextExpression: 'smirk',
               chemistryDelta: 6,
               locksOutSRank: true,
@@ -2106,7 +2139,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
                 : 'Pass with flying colors: phones silent after nine and honest communication.',
               response: pack
                 ? pack.date2Beat2GoodResponse
-                : `"Certified S-Rank manners," ${profile.name} grins.`,
+                : `"Ten out of ten manners," ${profile.name} grins.`,
               nextExpression: 'laugh',
               chemistryDelta: 24,
             },
@@ -2167,7 +2200,7 @@ function buildMainLeadDateScripts(profile: V35CastProfile): DateSceneScript[] {
       secretBestiePovLeak: {
         friendName: bestie,
         messages: [
-          `${profile.name}: Just deleted Hinge off my phone for good.`,
+          `${profile.name}: Just deleted Prowl off my phone for good.`,
           `${bestie}: POPPING CHAMPAGNE ON THE CUL-DE-SAC RIGHT NOW 🥂👑`,
         ],
         cost: 2,
@@ -2234,7 +2267,7 @@ function buildTrapOrCameoDateScripts(profile: V35CastProfile): DateSceneScript[]
                 triggersDisasterHeartLoss: true,
               },
               {
-                label: '💎 Turn the Tables (1 Cr): Clink glasses with the ambushed ex/bartender, expose the Table 9 alibi, and walk out laughing!',
+                label: '💎 Turn the Tables: Clink glasses with the ambushed ex/bartender, expose the Table 9 alibi, and walk out laughing!',
                 response:
                   'Legendary exit! The entire mahogany bar applauds as you pocket a Table 9 Conspiracy Clue unscathed!',
                 nextExpression: 'laugh',
@@ -2458,7 +2491,7 @@ function buildTrapOrCameoDateScripts(profile: V35CastProfile): DateSceneScript[]
                 },
                 {
                   label: '💎 Extend the night with a moonlight walk and trade favorite records.',
-                  response: `An S-Rank cameo memory sealed into your Cougars & Cubs Dateodex!`,
+                  response: `A 5-Star cameo memory sealed into your Cougars & Cubs Dateodex!`,
                   nextExpression: 'blush',
                   chemistryDelta: 30,
                   cost: 1,

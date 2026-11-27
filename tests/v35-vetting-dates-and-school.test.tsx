@@ -87,8 +87,8 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
     expect(screen.getAllByText(/Søren/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Graham/i).length).toBeGreaterThanOrEqual(1);
 
-    // Ungraduated Hinge thread shows App DM badge and NEVER tells Her to earn his number or enroll in Cub Obedience School
-    expect(screen.getAllByText(/Hinge App DM/i).length).toBeGreaterThanOrEqual(1);
+    // Ungraduated Prowl thread shows Prowl DM badge and NEVER tells Her to earn his number or enroll in Cub Obedience School
+    expect(screen.getAllByText(/Prowl App DM|Prowl DM/i).length).toBeGreaterThanOrEqual(1);
     expect(container.textContent || '').not.toMatch(
       /enroll in cub obedience|earn his number/i,
     );
@@ -192,8 +192,8 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
       }),
     );
 
-    // Date Rank summary appears with S-RANK + Free Replay + 2 Cr Secret Group-Chat Leak
-    expect(screen.getByText(/S-RANK/i)).toBeTruthy();
+    // Date summary appears with 5-STAR CHEMISTRY + Free Replay + Secret Group-Chat Leak
+    expect(screen.getByText(/5-STAR CHEMISTRY/i)).toBeTruthy();
     expect(screen.getByRole('button', { name: /Replay Date Free/i })).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: /Unlock Secret Group-Chat Leak/i }));
@@ -252,7 +252,7 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
       />,
     );
     expect(screen.getByText(/Julian Speaks/i)).toBeInTheDocument();
-    expect(screen.getByText(/S-Rank Chemistry/i)).toBeInTheDocument();
+    expect(screen.getByText(/Chemistry Meter/i)).toBeInTheDocument();
   });
 
   it('unlocks the Secret Table 9 Conspiracy Takedown episode once 3 clues are collected', () => {

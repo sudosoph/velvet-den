@@ -67,7 +67,7 @@ describe('v35 Boutique Security (Paid-Session-Only Cameo Briefs) & Consumer Roma
     expect(screen.queryByTestId('verified-cameo-composer')).toBeNull();
 
     // Direct $29 Stripe Checkout link is prominently wired on the Producer card, and card buttons NEVER repeat dollar prices already on cards
-    const creditsLink = screen.getByRole('link', { name: /^Get 15 Credits$/i });
+    const creditsLink = screen.getByRole('link', { name: /^Get Weekend Bonus Pack$/i });
     const vipLink = screen.getByRole('link', { name: /^Unlock Lifetime VIP$/i });
     const cameoLink = screen.getByRole('link', { name: /^Sponsor a Character$/i });
     const tipLink = screen.getByRole('link', { name: /^Send an Espresso Martini$/i });
@@ -85,8 +85,8 @@ describe('v35 Boutique Security (Paid-Session-Only Cameo Briefs) & Consumer Roma
     expect(screen.getByPlaceholderText(/Email used on Stripe/i)).toBeInTheDocument();
     expect(vipDialog.textContent).not.toMatch(/velvet/i);
 
-    // Switch to Club Events & Invite tab: verify clean waitlist card with spacious 2-button role picker (no <select>) and zero Velvet theme leftovers
-    fireEvent.click(screen.getByRole('button', { name: /Club Events & Invite/i }));
+    // Switch to Real Matchmaking & Discord tab: verify clean waitlist card with spacious 2-button role picker (no <select>) and zero Velvet theme leftovers
+    fireEvent.click(screen.getByRole('button', { name: /Real Matchmaking & Discord/i }));
     const waitlistForm = screen.getByTestId('private-club-waitlist-form');
     expect(waitlistForm.querySelector('select')).toBeNull();
     expect(

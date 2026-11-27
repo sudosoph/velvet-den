@@ -840,7 +840,7 @@ function buildScoreDiagnostic(
     if (score >= 65) {
       return {
         percentileLabel,
-        meaningHeadline: `What ${score}/100 Means: Certified S-Rank Partner (Top ${topPct}%)`,
+        meaningHeadline: `What ${score}/100 Means: Certified 5-Star Partner (Top ${topPct}%)`,
         meaningBody: `At ${score}/100, you’ve graduated light-years past tourist curiosity: lidded-bin & hosting game (${interPts}/30) is dialed, and your public pride + family poise (${deepPts}/50) put you in rare air.`,
       };
     }

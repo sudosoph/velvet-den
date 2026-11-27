@@ -287,6 +287,13 @@ export default function App() {
 
   const setRole = (next: PlayerRole) => {
     setRoleState(next);
+    const nextValidThread = threads.find((t) => {
+      if (cutLooseIds.includes(t.leadId)) return false;
+      const p = getCastProfileById(t.leadId);
+      return Boolean(p && p.role !== next);
+    });
+    setSelectedChatLeadId(nextValidThread?.leadId ?? null);
+    setWildVenueFocusId(undefined);
     if (!import.meta.env.VITEST && typeof window !== 'undefined') {
       try {
         window.localStorage.setItem('velvet_player_role_v1', next);
@@ -331,7 +338,7 @@ export default function App() {
   );
   const [noticeBanner, setNoticeBanner] = useState<string | null>(
     initialUrl.corruptedChallenge
-      ? 'Heads up: that audition link looked truncated or expired, browse Hinge or In The Wild below!'
+      ? 'Heads up: that audition link looked truncated or expired, browse Prowl or In The Wild below!'
       : null,
   );
 
@@ -367,8 +374,13 @@ export default function App() {
   }, []);
 
   const activeVisibleThreads = useMemo(
-    () => threads.filter((t) => !cutLooseIds.includes(t.leadId)),
-    [threads, cutLooseIds],
+    () =>
+      threads.filter((t) => {
+        if (cutLooseIds.includes(t.leadId)) return false;
+        const profile = getCastProfileById(t.leadId);
+        return Boolean(profile && profile.role !== role);
+      }),
+    [threads, cutLooseIds, role],
   );
   const campaignSummary = useMemo(
     () =>
@@ -466,7 +478,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (!founderDeviceSeal || import.meta.env.VITEST || typeof fetch !== 'function') return;
+    if (import.meta.env.PROD || !founderDeviceSeal || import.meta.env.VITEST || typeof fetch !== 'function') return;
     let cancelled = false;
     fetch('/api/founder-auth', {
       method: 'POST',
@@ -571,6 +583,7 @@ export default function App() {
   }, [initialUrl.stripeSessionId, wallet.claimedRewards]);
 
   const handleFounderUnlockSubmit = async (e: React.FormEvent) => {
+    if (import.meta.env.PROD) return;
     e.preventDefault();
     const trimmed = founderPassInput.trim();
     if (trimmed.length < 12) {
@@ -633,6 +646,7 @@ export default function App() {
   };
 
   const handleSaveFounderAmazonTag = async (e: React.FormEvent) => {
+    if (import.meta.env.PROD) return;
     e.preventDefault();
     if (!founderSessionPass && !founderDeviceSeal) {
       setFounderModalOpen(true);
@@ -670,6 +684,7 @@ export default function App() {
   };
 
   const handleLockFounderMode = () => {
+    if (import.meta.env.PROD) return;
     updateWallet(revokeFounderAccess(wallet));
     setFounderSessionPass('');
     setFounderDeviceSeal('');
@@ -720,7 +735,7 @@ export default function App() {
       <TopHudBar
         wallet={wallet}
         activeTab={activeTab}
-        activeChatCount={threads.length}
+        activeChatCount={activeVisibleThreads.length}
         passportLevel={passportResolved.spec.level}
         passportXp={campaignSummary.totalPoints}
         passportStreak={passportMeta.streakDays}
@@ -741,17 +756,21 @@ export default function App() {
         onOpenChecklist={() => setChecklistOpen(true)}
         onSendPartnerAudition={handleSendPartnerAudition}
         onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
-        onRequestFounderModal={() => {
-          setFounderAuthError(null);
-          setFounderModalOpen(true);
-        }}
+        onRequestFounderModal={
+          !import.meta.env.PROD
+            ? () => {
+                setFounderAuthError(null);
+                setFounderModalOpen(true);
+              }
+            : undefined
+        }
         onGoHome={() => {
           setActiveChallenge(null);
           setActiveTab('hinge');
         }}
       />
 
-      {wallet.isFounderUnlimited && (
+      {!import.meta.env.PROD && wallet.isFounderUnlimited && (
         <div className="border-b border-amber-300 bg-amber-50 px-4 py-2.5 sm:px-6 text-xs">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2">
             <span className="inline-flex items-center gap-1.5 font-extrabold text-zinc-950">
@@ -805,7 +824,7 @@ export default function App() {
           activeTab === 'school') && (
           <CampaignCompassBar
             wallet={wallet}
-            threads={threads}
+            threads={activeVisibleThreads}
             cutLooseIds={cutLooseIds}
             cubSchoolStars={cubSchoolStars}
             completedCameoCount={completedCameoVenues.length}
@@ -815,6 +834,7 @@ export default function App() {
             activeTab={activeTab}
             onSwitchRole={(nextRole) => setRole(nextRole)}
             onOpenPassportModal={() => setPassportModalOpen(true)}
+            onOpenMatchmaking={() => openBoutiqueWithTab('rewards')}
             onNavigateStep={(step) => {
               if (step.leadId) setSelectedChatLeadId(step.leadId);
               setOpenConspiracyDirectly(Boolean(step.openConspiracy));
@@ -939,7 +959,7 @@ export default function App() {
           <ChatsAndDatesView
             role={role}
             wallet={wallet}
-            threads={threads}
+            threads={activeVisibleThreads}
             selectedLeadId={selectedChatLeadId}
             cutLooseIds={cutLooseIds}
             cubSchoolStars={cubSchoolStars}
@@ -963,7 +983,7 @@ export default function App() {
                   if (sRankBonus.granted) {
                     updateWallet(sRankBonus.wallet);
                     setNoticeBanner(
-                      '🏆 First S-Rank Date Bonus: +2 Club Credits unlocked! Try a Post-Date Secret Group-Chat Leak or Candid Portrait.',
+                      '🏆 First 5-Star Date Unlocked! Polaroid memory added to your Dateodex.',
                     );
                   }
                 }
@@ -1033,7 +1053,7 @@ export default function App() {
               updateWallet(addConspiracyClue(wallet, clueId));
             }}
             onOpenHinge={() => setActiveTab('hinge')}
-            onOpenBoutique={() => openBoutiqueWithTab('vip')}
+            onOpenBoutique={(tab) => openBoutiqueWithTab(tab ?? 'vip')}
             onOpenCubSchool={() => setActiveTab('school')}
             onSavePersona={(pName, pVibe) => {
               updateWallet(updatePlayerPersona(wallet, pName, pVibe));
@@ -1045,7 +1065,7 @@ export default function App() {
             initialGoldStars={cubSchoolStars}
             activeMatchName={
               (() => {
-                const activeMatch = threads.find((t) => !cutLooseIds.includes(t.leadId));
+                const activeMatch = activeVisibleThreads[0];
                 return activeMatch
                   ? (getCastProfileById(activeMatch.leadId)?.name ?? null)
                   : null;
@@ -1059,7 +1079,7 @@ export default function App() {
               setDateodex((prev) => unlockDateodexPolaroid(prev, 'polaroid-obedience-s'));
             }}
             onReturnToActiveMatch={() => {
-              const activeMatch = threads.find((t) => !cutLooseIds.includes(t.leadId));
+              const activeMatch = activeVisibleThreads[0];
               if (activeMatch) setSelectedChatLeadId(activeMatch.leadId);
               setOpenConspiracyDirectly(false);
               setActiveTab('chats');
@@ -1146,7 +1166,7 @@ export default function App() {
                 onClick={() => setActiveTab('hinge')}
                 className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
-                Hinge Feed
+                Prowl Dating App
               </button>
               <button
                 type="button"
@@ -1198,6 +1218,13 @@ export default function App() {
               >
                 Date-Night Shop
               </button>
+              <button
+                type="button"
+                onClick={() => openBoutiqueWithTab('rewards')}
+                className="text-zinc-900 hover:text-rose-600 font-semibold transition-colors cursor-pointer"
+              >
+                Real Matchmaking &amp; Discord
+              </button>
               <a
                 href={MONETIZATION_CONFIG.tipJarUrl}
                 target="_blank"
@@ -1206,22 +1233,24 @@ export default function App() {
               >
                 Support This Project →
               </a>
-              <button
-                type="button"
-                onClick={() => {
-                  if (wallet.isFounderUnlimited) {
-                    handleLockFounderMode();
-                  } else {
-                    setFounderAuthError(null);
-                    setFounderModalOpen(true);
-                  }
-                }}
-                className="inline-flex items-center gap-1 pt-1 text-xs font-medium text-zinc-400 hover:text-zinc-700 transition-colors cursor-pointer"
-                aria-label="Founder Vault"
-              >
-                <Lock className="h-3 w-3" />
-                <span>{wallet.isFounderUnlimited ? 'Lock Founder' : 'Founder'}</span>
-              </button>
+              {!import.meta.env.PROD && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (wallet.isFounderUnlimited) {
+                      handleLockFounderMode();
+                    } else {
+                      setFounderAuthError(null);
+                      setFounderModalOpen(true);
+                    }
+                  }}
+                  className="inline-flex items-center gap-1 pt-1 text-xs font-medium text-zinc-400 hover:text-zinc-700 transition-colors cursor-pointer"
+                  aria-label="Founder Vault"
+                >
+                  <Lock className="h-3 w-3" />
+                  <span>{wallet.isFounderUnlimited ? 'Lock Founder' : 'Founder'}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -1276,10 +1305,10 @@ export default function App() {
                   id="persona-name-input"
                   type="text"
                   maxLength={28}
-                  placeholder={role === 'her' ? 'e.g. Sophia' : 'e.g. Alex'}
+                  placeholder="Your first name (optional)"
                   value={draftName}
                   onChange={(e) => setDraftName(e.target.value)}
-                  className="w-full h-10 rounded-lg border border-zinc-200 bg-white px-3.5 text-sm text-zinc-900"
+                  className="w-full h-11 rounded-lg border border-zinc-300 bg-white px-3.5 text-sm text-zinc-900"
                 />
               </div>
 
@@ -1343,8 +1372,8 @@ export default function App() {
         </div>
       )}
 
-      {/* Founder Passphrase Modal */}
-      {founderModalOpen && (
+      {/* Dev / Test Only Passphrase Modal */}
+      {!import.meta.env.PROD && founderModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-4"
           role="dialog"

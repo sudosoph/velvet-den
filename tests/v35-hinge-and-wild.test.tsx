@@ -73,7 +73,7 @@ describe('v35 Editorial Hinge Feed (selective matching, zero clutter) & 10-Spot 
     // Enter Terminal B Arrivals as her -> 3-beat cold-approach sequence (Open -> Read Intent -> Pull Number)
     fireEvent.click(screen.getByRole('button', { name: /Terminal B Arrivals/i }));
     expect(screen.getByText(/takes both of your heavy bags in one hand/i)).toBeTruthy();
-    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/15% Signal/i);
+    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/15% Spark/i);
 
     // Beat 1: Open
     fireEvent.click(
@@ -82,12 +82,12 @@ describe('v35 Editorial Hinge Feed (selective matching, zero clutter) & 10-Spot 
       }),
     );
     expect(onUnlockWildLead).not.toHaveBeenCalled();
-    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/52% Signal/i);
+    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/52% Spark/i);
 
     // Beat 2: Read real single/flirt intent
     fireEvent.click(screen.getByTestId('wild-followup-pass-option'));
     expect(onUnlockWildLead).not.toHaveBeenCalled();
-    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/84% Signal/i);
+    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/84% Spark/i);
 
     // Beat 3: Smooth number close -> unlocks personal thread + stamp slam!
     fireEvent.click(screen.getByTestId('wild-followup-pass-option'));

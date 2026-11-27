@@ -292,24 +292,21 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
             ) : (
               <>
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-300">
-                    <span>Offline Cold Approach</span>
-                    {primaryProfile && (
-                      <span>
-                        • {primaryProfile.name}, {primaryProfile.age} ({primaryProfile.vitals.job})
-                      </span>
-                    )}
+                  <div className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                    {primaryProfile
+                      ? `${primaryProfile.name}, ${primaryProfile.age} (${primaryProfile.vitals.job})`
+                      : 'In-Person Meet-Cute'}
                   </div>
                   <span className="text-[11px] font-semibold text-amber-200/90">
                     {outcomeCard?.unlockedLeadId
-                      ? '3/3 Cleared • Number Pulled!'
+                      ? 'Number Pulled!'
                       : activeFollowStep
                         ? activeFollowStep.stageLabel
-                        : 'Beat 1 of 3 • Open Without Fumbling'}
+                        : 'Step 1 of 3'}
                   </span>
                 </div>
 
-                {/* Live 3-Beat Room-Read Signal Meter */}
+                {/* Clean 3-Step Chemistry Meter */}
                 <div
                   data-testid="wild-signal-meter"
                   className="rounded-2xl border border-white/12 bg-white/[0.04] px-4 py-3 space-y-2"
@@ -317,9 +314,9 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                   <div className="flex items-center justify-between text-xs font-bold">
                     <span className="inline-flex items-center gap-1.5 text-zinc-200">
                       <Radio className="h-3.5 w-3.5 text-amber-300" />
-                      <span>Room-Read Signal Meter (Off-App IRL Stakes)</span>
+                      <span>Read the Room</span>
                     </span>
-                    <span className="text-amber-300">{signalPct}% Signal</span>
+                    <span className="text-amber-300">{signalPct}% Spark</span>
                   </div>
                   <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
                     <div
@@ -499,13 +496,13 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
     <div className="mx-auto w-full max-w-6xl space-y-5 animate-stage-in">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-zinc-200 pb-4">
         <div className="space-y-1">
-          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500">
-            <MapPin className="h-3.5 w-3.5 text-rose-600" />
-            <span>10 Hotspots • 3-Beat IRL Cold-Approach Challenge (+35 XP)</span>
-          </span>
-          <h1 className="text-2xl font-semibold tracking-tight text-zinc-950">
-            Out In The Wild
+          <h1 className="text-2xl font-semibold tracking-tight text-zinc-950 flex items-center gap-2">
+            <MapPin className="h-5 w-5 text-rose-600" />
+            <span>Out In The Wild</span>
           </h1>
+          <p className="text-sm text-zinc-600">
+            Skip the apps and strike up a real conversation around Sunset Hills.
+          </p>
         </div>
         <CrowdsourceSubmissionBar surface="wild" compact />
       </div>

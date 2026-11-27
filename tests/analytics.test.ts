@@ -32,7 +32,7 @@ describe('PostHog analytics contract & safe no-op guard', () => {
     const headers = getPostHogTracingHeaders();
     expect(headers['X-POSTHOG-DISTINCT-ID']).toBe(id1);
     expect(() =>
-      identifyPlayerWithContact('sophia@example.com', { role: 'her' }),
+      identifyPlayerWithContact('vivian@example.com', { role: 'her' }),
     ).not.toThrow();
   });
 
