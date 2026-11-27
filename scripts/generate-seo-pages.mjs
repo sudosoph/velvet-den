@@ -463,7 +463,11 @@ for (const g of STATIC_GUIDES) {
           <div class="pick-body">
             <span class="pick-price">${escapeHtml(prod.price)}</span>
             <strong>${escapeHtml(prod.name)}</strong>
-            <span class="pick-cta">Shop Protected Pick on Amazon →</span>
+            <span class="pick-cta">${
+              /prime|movie|watch/i.test(pid)
+                ? 'Stream / Rent Digitally on Prime Video →'
+                : 'Shop Protected Pick on Amazon →'
+            }</span>
           </div>
         </a>`;
     })

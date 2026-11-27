@@ -347,20 +347,20 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'no-hard-feelings-jlaw-prime',
-    name: 'No Hard Feelings (Jennifer Lawrence & Andrew Barth Feldman • Blu-ray + Digital)',
+    name: 'No Hard Feelings (Jennifer Lawrence & Andrew Barth Feldman • Prime Video Digital)',
     category: 'cinema_pop_culture',
-    priceDisplay: '$14 Blu-ray + Digital',
-    badge: '🎬 Montauk Rom-Com Watch Night',
+    priceDisplay: 'Prime Video Rent / Stream',
+    badge: '🎬 Montauk Rom-Com Stream',
     cheekyPitch:
-      'Queue up Jennifer Lawrence and Andrew Barth Feldman’s hilarious Montauk summer comedy, featuring that unforgettable piano bar rendition of "Maneater."',
-    whyItConverts: 'Instant movie-night pickup straight from the Trailer Quiz.',
-    merchantUrl: 'https://www.amazon.com/dp/B0C8BTYH4M',
+      'Stream or digitally rent Jennifer Lawrence and Andrew Barth Feldman’s hilarious Montauk comedy on Prime Video, including that piano-bar rendition of "Maneater."',
+    whyItConverts: 'Earns Amazon Digital Video rental/purchase commission and Prime Video trial bounties.',
+    merchantUrl: 'https://www.amazon.com/dp/B0BZMJ7K5H',
   },
   {
     id: 'part-of-your-world-book',
-    name: 'Part of Your World. Abby Jimenez Bestselling Paperback Novel',
+    name: 'Part of Your World. Abby Jimenez Bestselling Novel (Kindle & Paperback)',
     category: 'cinema_pop_culture',
-    priceDisplay: '$14 Bestseller',
+    priceDisplay: '$14 Kindle / Book',
     badge: '📚 #1 BookTok Age-Gap Romance',
     cheekyPitch:
       'ER doctor Alexis Montgomery (37) meets small-town carpenter Daniel Grant (28), the gold-standard modern novel on navigating two worlds with heart.',
@@ -369,47 +369,47 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'babygirl-movie-prime',
-    name: 'Babygirl (Nicole Kidman & Harris Dickinson • A24 4K Prime Video)',
+    name: 'Babygirl (Nicole Kidman & Harris Dickinson • A24 4K Prime Video Digital)',
     category: 'cinema_pop_culture',
-    priceDisplay: 'Prime Video',
-    badge: '🥛 Viral Hotel-Bar Power Play',
+    priceDisplay: 'Prime Video 4K Rent / Buy',
+    badge: '🥛 Viral Hotel-Bar Stream',
     cheekyPitch:
-      'Queue up Halina Reijn’s electric A24 thriller starring Nicole Kidman and Harris Dickinson for Friday night, tall glass of milk optional.',
-    whyItConverts: 'Instant streaming conversion from cinema trivia and guides.',
-    merchantUrl: 'https://www.amazon.com/dp/B0DTK694FD',
+      'Digitally rent or stream Halina Reijn’s electric A24 thriller starring Nicole Kidman and Harris Dickinson in 4K UHD on Prime Video, tall glass of milk optional.',
+    whyItConverts: 'Instant 4K digital video rental/purchase & Prime Video trial conversion.',
+    merchantUrl: 'https://www.amazon.com/dp/B0DD3TTPFS',
   },
   {
     id: 'idea-of-you-movie-book',
-    name: 'The Idea of You. Robinne Lee Novel (Silver Lake Gallery Edition)',
+    name: 'The Idea of You (Anne Hathaway & Nicholas Galitzine • Prime Video Original)',
     category: 'cinema_pop_culture',
-    priceDisplay: '$15 Book Club Pick',
-    badge: '🎨 Coachella VIP Trailer Classic',
+    priceDisplay: 'Included w/ Prime Trial',
+    badge: '🎨 Prime Video Exclusive Stream',
     cheekyPitch:
-      'Read Robinne Lee’s intoxicating original novel behind Anne Hathaway and Nicholas Galitzine’s global hit, and debate the book vs. movie ending together.',
-    whyItConverts: 'Perennial #1 woman-older romance book.',
-    merchantUrl: 'https://www.amazon.com/dp/B01MQLZ12X',
+      'Stream Anne Hathaway and Nicholas Galitzine’s Silver Lake-meets-Coachella romance exclusively on Prime Video (included free with a 30-day Prime trial).',
+    whyItConverts: 'Prime Video Original exclusive drives Amazon Prime 30-day free-trial bounties.',
+    merchantUrl: 'https://www.amazon.com/dp/B0CV72X1BL',
   },
   {
     id: 'bridget-jones-cougar-town-watch',
-    name: 'Bridget Jones: Mad About the Boy. Helen Fielding Novel',
+    name: 'Bridget Jones: Mad About the Boy (Renée Zellweger & Leo Woodall • Prime Video Digital)',
     category: 'cinema_pop_culture',
-    priceDisplay: '$16 Paperback',
-    badge: '🌳 Hampstead Park-Ranger Swooner',
+    priceDisplay: '$3.99 Digital Rent • Prime',
+    badge: '🌳 Hampstead Park-Ranger Stream',
     cheekyPitch:
-      'Read Helen Fielding’s hilarious London diary behind Renée Zellweger and Leo Woodall’s Hampstead Heath Chapter-Two romance.',
-    whyItConverts: 'Direct companion to Rory’s Hampstead park-ranger cameo.',
-    merchantUrl: 'https://www.amazon.com/dp/0099584433',
+      'Digitally rent or buy Renée Zellweger and Leo Woodall’s hilarious Hampstead Heath Chapter-Two romance instantly on Prime Video.',
+    whyItConverts: 'Instant $3.99 Prime Video digital rental companion to Rory’s cameo.',
+    merchantUrl: 'https://www.amazon.com/dp/B0DKPH9DN2',
   },
   {
     id: 'the-rebound-zeta-jones-prime',
-    name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Blu-ray)',
+    name: 'The Rebound (Catherine Zeta-Jones & Justin Bartha • Prime Video Stream & Rent)',
     category: 'cinema_pop_culture',
-    priceDisplay: '$14 Rom-Com Pick',
-    badge: '🎞️ Manhattan Coffee-Shop Classic',
+    priceDisplay: 'Prime Trial or $2.99 HD Rent',
+    badge: '🎞️ Manhattan Coffee-Shop Stream',
     cheekyPitch:
-      'Catherine Zeta-Jones moves above a NYC coffeehouse after her divorce and falls for 25-year-old charmer Justin Bartha in this underrated gem.',
-    whyItConverts: 'Feel-good Friday night rom-com watch.',
-    merchantUrl: 'https://www.amazon.com/dp/B006JIL0AG',
+      'Stream with a 30-day Prime trial or digitally rent in HD for $2.99: Catherine Zeta-Jones moves above a NYC coffeehouse and falls for 25-year-old Justin Bartha.',
+    whyItConverts: 'Triggers Prime 30-day free-trial bounty or instant $2.99 HD digital rental.',
+    merchantUrl: 'https://www.amazon.com/dp/B006QSRTWC',
   },
   {
     id: 'linen-picnic-insulated-tote',
@@ -759,4 +759,89 @@ export function buildAffiliateUrl(
 export function getAffiliateById(id?: string): AffiliateProduct | undefined {
   if (!id) return undefined;
   return AFFILIATE_CATALOG.find((item) => item.id === id);
+}
+
+const PRIME_VIDEO_DIGITAL_IDS = new Set([
+  'no-hard-feelings-jlaw-prime',
+  'babygirl-movie-prime',
+  'idea-of-you-movie-book',
+  'bridget-jones-cougar-town-watch',
+  'the-rebound-zeta-jones-prime',
+]);
+
+export function isPrimeVideoDigitalPick(item: Pick<AffiliateProduct, 'id'>): boolean {
+  return PRIME_VIDEO_DIGITAL_IDS.has(item.id);
+}
+
+export interface ExtraPrimeVideoStreamPick {
+  goSlug: string;
+  label: string;
+  merchantUrl: string;
+}
+
+export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStreamPick> = {
+  'stella-groove-jamaica': {
+    goSlug: 'stella-groove-prime',
+    label: 'How Stella Got Her Groove Back (Prime Video Stream / Rent)',
+    merchantUrl: 'https://www.amazon.com/dp/B001LGW1LI',
+  },
+  'somethings-gotta-give-keanu': {
+    goSlug: 'somethings-gotta-give-prime',
+    label: 'Something’s Gotta Give (Prime Video & Paramount+ Trial)',
+    merchantUrl: 'https://www.amazon.com/dp/B000N90JG8',
+  },
+  'magic-mike-last-dance-london': {
+    goSlug: 'magic-mike-last-dance-prime',
+    label: 'Magic Mike’s Last Dance (Prime Video Digital Rent / Stream)',
+    merchantUrl: 'https://www.amazon.com/dp/B0B6MKKGP9',
+  },
+  'cougar-town-big-carl': {
+    goSlug: 'cougar-town-prime',
+    label: 'Cougar Town Complete Series (Prime Video Digital)',
+    merchantUrl: 'https://www.amazon.com/dp/B00RNG9I1G',
+  },
+};
+
+export function buildPrimeVideoRouteUrl(
+  goSlug: string,
+  rawAmazonUrl: string,
+  placement: string,
+  overrides?: AffiliateTagOverrides,
+): string {
+  const parsed = validateSafeMerchantDomain(rawAmazonUrl);
+  const safePlacement = placement.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 48) || 'pop_culture';
+
+  if (!overrides && isLiveBrowserEdgeRuntime()) {
+    return `/api/go/${encodeURIComponent(goSlug)}?src=${encodeURIComponent(safePlacement)}`;
+  }
+
+  const amazonTag = (
+    overrides?.amazonAssociateTag ?? MONETIZATION_CONFIG.amazonAssociateTag
+  ).trim();
+  const subId = (overrides?.partnerSubId ?? MONETIZATION_CONFIG.partnerSubId).trim();
+
+  if (amazonTag) {
+    parsed.searchParams.set('tag', amazonTag);
+    parsed.searchParams.set('linkCode', 'll2');
+  }
+  if (subId) {
+    parsed.searchParams.set('subId', subId);
+  }
+  parsed.searchParams.set('utm_source', 'cougarsandcubs');
+  parsed.searchParams.set('utm_medium', 'affiliate');
+  parsed.searchParams.set('utm_campaign', safePlacement);
+
+  return parsed.toString();
+}
+
+export function buildPrimeVideoBountyUrl(
+  placement: string,
+  overrides?: AffiliateTagOverrides,
+): string {
+  return buildPrimeVideoRouteUrl(
+    'prime-video-trial',
+    'https://www.amazon.com/amazonprime',
+    placement,
+    overrides,
+  );
 }

@@ -21,6 +21,8 @@ import type { WalletState } from '../domain/economy';
 import {
   AFFILIATE_CATALOG,
   buildAffiliateUrl,
+  buildPrimeVideoBountyUrl,
+  isPrimeVideoDigitalPick,
   type AffiliateCategory,
 } from '../lib/affiliates';
 import {
@@ -841,7 +843,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 [
                   ['all', `✨ All (${AFFILIATE_CATALOG.length})`],
                   ['cougar_cub_merch', '🐆 Club Merch'],
-                  ['cinema_pop_culture', '🎬 Movies & Books'],
+                  ['cinema_pop_culture', '🎬 Prime Video & Books'],
                   ['houseboy', '🥂 Kitchen & Aprons'],
                   ['princess_luxury', '👑 Silk & Soft Life'],
                   ['hosting_upgrade', '🛏️ Hosting & Bedding'],
@@ -863,6 +865,34 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                 </button>
               ))}
             </div>
+
+            {shopFilter === 'cinema_pop_culture' && (
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-200 bg-rose-50/60 p-4">
+                <div className="space-y-0.5">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-rose-700">
+                    📺 Instant Friday Watch Night • Zero Physical Discs Needed
+                  </div>
+                  <p className="text-xs sm:text-sm text-stone-700">
+                    Stream Prime Originals like <em>The Idea of You</em> free with a 30-day Prime trial (or 6-month Young-Adult trial for 18–24 Cubs), or rent 4K/HD titles digitally in seconds.
+                  </p>
+                </div>
+                <a
+                  href={buildPrimeVideoBountyUrl('boutique_prime_trial')}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  onClick={() =>
+                    trackEvent('affiliate_clicked', {
+                      item_id: 'prime-video-trial',
+                      surface: 'boutique_shop',
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-4 py-2 text-xs sm:text-sm font-bold text-white hover:bg-rose-700 transition"
+                >
+                  <span>Start 30-Day Prime Free Trial</span>
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              </div>
+            )}
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
               {filteredProducts.map((item) => (
@@ -897,7 +927,11 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     }
                     className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#18101E] py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-stone-800 transition"
                   >
-                    <span>Shop on Amazon</span>
+                    <span>
+                      {isPrimeVideoDigitalPick(item)
+                        ? 'Stream / Rent on Prime Video'
+                        : 'Shop on Amazon'}
+                    </span>
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 </div>

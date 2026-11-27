@@ -5,7 +5,14 @@ import {
   POP_CULTURE_TRIVIA,
   type PopCultureTriviaQuestion,
 } from '../data/popCultureTrivia';
-import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
+import {
+  buildAffiliateUrl,
+  buildPrimeVideoBountyUrl,
+  buildPrimeVideoRouteUrl,
+  EXTRA_TRIVIA_PRIME_VIDEO_STREAMS,
+  getAffiliateById,
+  isPrimeVideoDigitalPick,
+} from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
 import { sfx } from '../lib/sound';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
@@ -64,6 +71,12 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
 
   const current = deck[qIdx] ?? POP_CULTURE_TRIVIA[0];
   const matchedAffiliate = current.affiliateId ? getAffiliateById(current.affiliateId) : undefined;
+  const extraPrimeStream = EXTRA_TRIVIA_PRIME_VIDEO_STREAMS[current.id];
+  const isScreenQuestion = Boolean(
+    current.youtubeEmbedUrl ||
+      extraPrimeStream ||
+      (matchedAffiliate && isPrimeVideoDigitalPick(matchedAffiliate)),
+  );
 
   const handlePick = (idx: number) => {
     if (selectedOpt !== null) return;
@@ -189,11 +202,62 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                     ? 'Certified Red-Carpet Cougar Historian! Angela Bassett, Tina Turner, Cher, Priyanka, Jennifer Lawrence, and Sienna would wave you straight to Table 1.'
                     : 'Solid run! Queue up No Hard Feelings, Babygirl, and The Rebound on Friday night and run a fresh shuffled deck.'}
                 </p>
-                {stampUnlocked && (
+                 {stampUnlocked && (
                   <div className="rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm font-medium text-emerald-900">
                     Unlocked the Pop-Culture Historian Stamp in your Field Guide!
                   </div>
                 )}
+                <div className="rounded-xl border border-zinc-200 bg-white p-4 text-left space-y-2.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+                      🎬 Friday Watch-Night • Prime Video Digital &amp; Free Trial
+                    </span>
+                    <a
+                      href={buildPrimeVideoBountyUrl('quiz_finish_prime_trial')}
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      onClick={() =>
+                        trackEvent('affiliate_clicked', {
+                          item_id: 'prime-video-trial',
+                          surface: 'pop_quiz_finish',
+                        })
+                      }
+                      className="inline-flex items-center gap-1 rounded-md bg-zinc-900 px-2.5 py-1 text-xs font-semibold text-white hover:bg-zinc-800 transition-colors"
+                    >
+                      <span>Start 30-Day Prime Free Trial</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {[
+                      'idea-of-you-movie-book',
+                      'no-hard-feelings-jlaw-prime',
+                      'babygirl-movie-prime',
+                      'the-rebound-zeta-jones-prime',
+                    ].map((affId) => {
+                      const pick = getAffiliateById(affId);
+                      if (!pick) return null;
+                      return (
+                        <a
+                          key={affId}
+                          href={buildAffiliateUrl(pick, `quiz_finish_${affId}`)}
+                          target="_blank"
+                          rel="noopener noreferrer sponsored"
+                          onClick={() =>
+                            trackEvent('affiliate_clicked', {
+                              item_id: pick.id,
+                              surface: 'pop_quiz_finish',
+                            })
+                          }
+                          className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-900 hover:bg-zinc-100 transition-colors"
+                        >
+                          <span className="truncate">{pick.name.split(' (')[0]} • {pick.priceDisplay}</span>
+                          <ExternalLink className="h-3 w-3 shrink-0 text-zinc-500" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
                 <div className="flex flex-wrap justify-center gap-2.5 pt-2">
                   <button
                     type="button"
@@ -313,8 +377,54 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                         }
                         className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors"
                       >
-                        <span>Watch / Read Pick: {matchedAffiliate.name}</span>
+                        <span>
+                          {isPrimeVideoDigitalPick(matchedAffiliate)
+                            ? `🎬 Stream / Rent Digitally: ${matchedAffiliate.name}`
+                            : `📚 Club Pick: ${matchedAffiliate.name}`}
+                        </span>
                         <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-500" />
+                      </a>
+                    )}
+
+                    {extraPrimeStream && (
+                      <a
+                        href={buildPrimeVideoRouteUrl(
+                          extraPrimeStream.goSlug,
+                          extraPrimeStream.merchantUrl,
+                          `trivia_${current.id}`,
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        onClick={() =>
+                          trackEvent('affiliate_clicked', {
+                            item_id: extraPrimeStream.goSlug,
+                            surface: 'pop_quiz_reveal',
+                          })
+                        }
+                        className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors"
+                      >
+                        <span>🎬 Stream / Rent Digitally: {extraPrimeStream.label}</span>
+                        <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-500" />
+                      </a>
+                    )}
+
+                    {isScreenQuestion && (
+                      <a
+                        href={buildPrimeVideoBountyUrl(`trivia_prime_${current.id}`)}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        onClick={() =>
+                          trackEvent('affiliate_clicked', {
+                            item_id: 'prime-video-trial',
+                            surface: 'pop_quiz_prime_bounty',
+                          })
+                        }
+                        className="flex items-center justify-between gap-2 rounded-lg border border-rose-200 bg-rose-50/70 px-4 py-2 text-xs sm:text-sm font-semibold text-rose-900 hover:bg-rose-100/70 transition-colors"
+                      >
+                        <span>
+                          📺 Start 30-Day Prime Video Free Trial (or 6-Mo Young-Adult Cub Trial)
+                        </span>
+                        <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-700" />
                       </a>
                     )}
 

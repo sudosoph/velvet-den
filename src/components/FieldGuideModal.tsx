@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { X } from 'lucide-react';
+import { ExternalLink, X } from 'lucide-react';
 import { FIELD_GUIDE_ENTRIES } from '../domain/taxonomy';
+import { buildPrimeVideoBountyUrl } from '../lib/affiliates';
+import { trackEvent } from '../lib/analytics';
 
 interface FieldGuideModalProps {
   open: boolean;
@@ -274,7 +276,29 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
           </div>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-8">
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-8 space-y-5">
+          {activeFilter === 'pop_culture' && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-rose-200 bg-rose-50/60 px-4 py-3">
+              <div className="text-xs sm:text-sm text-zinc-800">
+                <strong className="text-zinc-950">🎬 Watch-Night Queue:</strong> Stream <em>The Idea of You</em>, <em>No Hard Feelings</em>, <em>Babygirl</em>, and <em>The Rebound</em> digitally on Prime Video.
+              </div>
+              <a
+                href={buildPrimeVideoBountyUrl('field_guide_pop_culture')}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                onClick={() =>
+                  trackEvent('affiliate_clicked', {
+                    item_id: 'prime-video-trial',
+                    surface: 'field_guide',
+                  })
+                }
+                className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-zinc-800 transition-colors"
+              >
+                <span>Start 30-Day Prime Free Trial</span>
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-2 items-stretch">
           {visibleEntries.map((entry, idx) => {
             const stamped = unlockedStamps.includes(entry.id);

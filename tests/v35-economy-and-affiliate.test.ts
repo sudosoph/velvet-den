@@ -128,22 +128,32 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     const uniquePhotos = new Set(AFFILIATE_CATALOG.map((item) => item.photoUrl));
     expect(uniquePhotos.size).toBe(AFFILIATE_CATALOG.length);
 
-    // Verified live 200 OK replacements for the 4 previously broken/mismatched ASINs
+    // Zero DVD or Blu-ray physical disc listings; all cinema picks point to live Prime Video digital / stream ASINs
+    for (const item of AFFILIATE_CATALOG) {
+      expect(`${item.name} ${item.priceDisplay} ${item.cheekyPitch}`).not.toMatch(/blu-?ray|\bdvd\b/i);
+    }
+
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'princess-mulberry-silk-robe')?.merchantUrl,
     ).toBe('https://www.amazon.com/dp/B0FD3H89H5');
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'no-hard-feelings-jlaw-prime')?.merchantUrl,
-    ).toBe('https://www.amazon.com/dp/B0C8BTYH4M');
+    ).toBe('https://www.amazon.com/dp/B0BZMJ7K5H');
+    expect(
+      AFFILIATE_CATALOG.find((i) => i.id === 'babygirl-movie-prime')?.merchantUrl,
+    ).toBe('https://www.amazon.com/dp/B0DD3TTPFS');
+    expect(
+      AFFILIATE_CATALOG.find((i) => i.id === 'idea-of-you-movie-book')?.merchantUrl,
+    ).toBe('https://www.amazon.com/dp/B0CV72X1BL');
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'bridget-jones-cougar-town-watch')?.merchantUrl,
-    ).toBe('https://www.amazon.com/dp/0099584433');
+    ).toBe('https://www.amazon.com/dp/B0DKPH9DN2');
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'the-rebound-zeta-jones-prime')?.merchantUrl,
-    ).toBe('https://www.amazon.com/dp/B006JIL0AG');
+    ).toBe('https://www.amazon.com/dp/B006QSRTWC');
   });
 
-  it('supports HEAD and GET on /api/go/:id with specific /dp/<ASIN> redirect and grants patron badge (0 credits) on $5 tip checkout', async () => {
+  it('supports HEAD and GET on /api/go/:id for Prime Video digital ASINs & Prime Free Trial bounty, and grants patron badge (0 credits) on $5 tip checkout', async () => {
     const headRes = await worker.fetch(
       new Request('https://cougarsandcubs.club/api/go/no-hard-feelings-jlaw-prime?src=quiz', {
         method: 'HEAD',
@@ -152,9 +162,18 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     );
     expect(headRes.status).toBe(302);
     const loc = headRes.headers.get('Location') ?? '';
-    expect(loc).toContain('https://www.amazon.com/dp/B0C8BTYH4M');
+    expect(loc).toContain('https://www.amazon.com/dp/B0BZMJ7K5H');
     expect(loc).toContain('tag=sophia-20');
     expect(loc).toContain('linkCode=ll2');
+
+    const trialRes = await worker.fetch(
+      new Request('https://cougarsandcubs.club/api/go/prime-video-trial?src=quiz_bounty'),
+      { AMAZON_ASSOCIATE_TAG: 'sophia-20' },
+    );
+    expect(trialRes.status).toBe(302);
+    const trialLoc = trialRes.headers.get('Location') ?? '';
+    expect(trialLoc).toContain('https://www.amazon.com/amazonprime');
+    expect(trialLoc).toContain('tag=sophia-20');
 
     // Mock Stripe checkout session verification for $5 tip
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(

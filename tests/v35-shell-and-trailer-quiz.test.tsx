@@ -69,11 +69,17 @@ describe('v35 Unified Editorial Shell, Spoiler-Free Trailer Quiz, Visual Shoppab
       }),
     );
 
-    // After answering: reveals official YouTube privacy-enhanced trailer iframe & zero figcaption
+    // After answering: reveals official YouTube privacy-enhanced trailer iframe, Prime Video Digital + Prime Free Trial CTAs, & zero figcaption
     const iframe = dialog.querySelector('iframe');
     expect(iframe).not.toBeNull();
     expect(iframe?.getAttribute('src')).toContain('youtube-nocookie.com/embed/kIcLb0KAJAs');
     expect(dialog.querySelector('figcaption')).toBeNull();
+    expect(
+      within(dialog).getByRole('link', { name: /Stream \/ Rent Digitally: No Hard Feelings/i }),
+    ).toBeInTheDocument();
+    expect(
+      within(dialog).getByRole('link', { name: /Start 30-Day Prime Video Free Trial/i }),
+    ).toBeInTheDocument();
 
     // Wallet remains strictly at 5 Cr (0 free credit inflation)
     expect(screen.getByRole('button', { name: /\b5 Cr\b/i })).toBeInTheDocument();
