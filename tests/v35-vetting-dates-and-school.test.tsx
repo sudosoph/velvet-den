@@ -134,9 +134,13 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
     ];
     render(<Harness initialThreads={threads} role="her" />);
 
-    // Cut disguised Trap Graham loose -> +25 XP, 3 hearts preserved, receipt shown
+    // Cut disguised Trap Graham loose -> +25 XP, 3 hearts preserved, scannable 3-tile receipt modal shown
     fireEvent.click(screen.getByRole('button', { name: /Cut Loose/i }));
-    expect(screen.getByText(/BULLET DODGED/i)).toBeTruthy();
+    const dodgedModal = screen.getByTestId('bullet-dodged-modal');
+    expect(dodgedModal.textContent).toMatch(/BULLET DODGED/i);
+    expect(dodgedModal.textContent).toContain('+25 XP');
+    expect(dodgedModal.textContent).toContain('Friday Heart');
+    expect(dodgedModal.textContent).toContain('Table 9 File');
     expect(screen.getByTestId('wallet-summary').textContent).toContain('Hearts:3|XP:25');
     expect(screen.getByTestId('wallet-summary').textContent).toContain('Clues:1');
 
@@ -147,7 +151,7 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
     expect(screen.getByTestId('wallet-summary').textContent).toContain('XP:25');
   });
 
-  it('plays RomanticDateStage with live expression transitions, Night-1 Pacing Test, S/A/B Date Rank (free replay, zero Smooth Rewind), Secret Group-Chat Leak, and Disaster heart loss on Traps', () => {
+  it('plays RomanticDateStage with live expression transitions, Night-1 Pacing Test, S/A/B Date Rank (free replay, zero Smooth Rewind), Secret Group-Chat Leak, and Disaster heart loss on Traps', async () => {
     const onCompleteDate = vi.fn();
     const onLoseHeart = vi.fn();
     const onUnlockPov = vi.fn(() => true);
@@ -218,6 +222,37 @@ describe('v35 Multi-Match Evolving Chats, Cut-Loose Discernment, Romantic Date S
     );
     expect(onLoseHeart).toHaveBeenCalledTimes(1);
     expect(container.textContent || '').not.toMatch(/smooth rewind/i);
+
+    // Zero spoken "xx" text sign-offs anywhere inside spoken V35_DATE_SCRIPTS, and Julian Date #2 splits Stage Action from Spoken Card
+    const { V35_DATE_SCRIPTS } = await import('../src/data/v35ChatsAndDates');
+    for (const scripts of Object.values(V35_DATE_SCRIPTS)) {
+      for (const s of scripts) {
+        for (const b of s.beats) {
+          expect(b.dialogue).not.toMatch(/\bxx\b/i);
+          for (const ch of b.choices) {
+            expect(ch.label).not.toMatch(/\bxx\b/i);
+            expect(ch.response).not.toMatch(/\bxx\b/i);
+          }
+        }
+      }
+    }
+
+    rerender(
+      <RomanticDateStage
+        leadId="julian"
+        dateNumber={2}
+        role="her"
+        wallet={wallet}
+        onCompleteDate={onCompleteDate}
+        onLoseHeart={onLoseHeart}
+        onSpendCredits={() => true}
+        onUnlockPov={onUnlockPov}
+        onUnlockEpilogue={() => true}
+        onBackToChats={vi.fn()}
+      />,
+    );
+    expect(screen.getByText(/Julian Speaks/i)).toBeInTheDocument();
+    expect(screen.getByText(/S-Rank Chemistry/i)).toBeInTheDocument();
   });
 
   it('unlocks the Secret Table 9 Conspiracy Takedown episode once 3 clues are collected', () => {

@@ -179,3 +179,72 @@
 .v35-portrait-icked {
   animation: v35IckedRecoil 0.35s ease-in-out both;
 }
+
+@keyframes vnKenBurns {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate3d(-1%, -1%, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes vnFloatParticle {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.75);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.12);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(-10px) scale(1);
+  }
+}
+
+@keyframes vnDialogueEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vnDeltaPop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.85);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-ken-burns {
+  animation: vnKenBurns 18s ease-in-out infinite;
+}
+
+.animate-float-particle {
+  animation: vnFloatParticle 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-vn-dialogue {
+  animation: vnDialogueEnter 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-vn-delta-pop {
+  animation: vnDeltaPop 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}

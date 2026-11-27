@@ -76,6 +76,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
   const [disasterHit, setDisasterHit] = useState(false);
   const [sparringToast, setSparringToast] = useState(false);
   const [lastFeedback, setLastFeedback] = useState<string | null>(null);
+  const [lastDelta, setLastDelta] = useState<number | null>(null);
   const [finished, setFinished] = useState(false);
   const [povUnlocked, setPovUnlocked] = useState(false);
   const [copiedPolaroid, setCopiedPolaroid] = useState(false);
@@ -89,6 +90,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
     setDisasterHit(false);
     setSparringToast(false);
     setLastFeedback(null);
+    setLastDelta(null);
     setFinished(false);
     setPovUnlocked(wallet.unlockedPovIds.includes(`${leadId}-date-${dateNumber}`));
     setCopiedPolaroid(false);
@@ -130,6 +132,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
     setScore(nextScore);
     setSRankLockedOut(nextLocked);
     setLastFeedback(choice.response);
+    setLastDelta(choice.chemistryDelta);
 
     if (choice.triggersCubSparring) {
       setSparringToast(true);
@@ -173,8 +176,27 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
     setScore(startingVibeScore);
     setDisasterHit(false);
     setLastFeedback(null);
+    setLastDelta(null);
     setFinished(false);
   };
+
+  const splitDialogueParts = (raw: string): { stageLine: string | null; spokenLine: string } => {
+    const cleaned = raw.replace(/\s+xx([.!?"]*$)/gi, '$1').trim();
+    const quoteMatch = cleaned.match(/^(.*?[:.,])\s*[“"]([^”"]{10,})[”"]\s*([.!?]?)$/);
+    if (quoteMatch) {
+      const stagePart = quoteMatch[1].replace(/:\s*$/, '.').trim();
+      const spokenPart = quoteMatch[2].trim();
+      return {
+        stageLine: stagePart.length > 4 ? stagePart : null,
+        spokenLine: `“${spokenPart}”`,
+      };
+    }
+    return { stageLine: null, spokenLine: cleaned };
+  };
+
+  const parsedBeat = currentBeat ? splitDialogueParts(currentBeat.dialogue) : { stageLine: null, spokenLine: '' };
+  const sRankMeterPct = Math.max(8, Math.min(100, Math.round((Math.max(0, score) / 48) * 100)));
+  const CHOICE_KEYS = ['A', 'B', 'C'] as const;
 
   const rank = computeRank();
   const povId = `${leadId}-date-${script.dateNumber}`;
@@ -253,117 +275,189 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
         </section>
       )}
 
-      {/* Full-Bleed Sunset Visual-Novel Stage */}
-      <section className="relative overflow-hidden rounded-2xl bg-zinc-950 text-white shadow-xl">
-        <div className="relative h-72 sm:h-96 w-full overflow-hidden">
+      {/* Graphic Visual-Novel Stage + Breathable Split Dialogue Box */}
+      <section className="relative overflow-hidden rounded-3xl bg-zinc-950 text-white shadow-2xl border border-zinc-800">
+        <div className="relative h-80 sm:h-[410px] w-full overflow-hidden">
           <img
             src={script.venueBackdrop}
             alt={script.title}
-            className="h-full w-full object-cover animate-ken-burns opacity-80"
+            className="h-full w-full object-cover animate-ken-burns opacity-75"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/35 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/35 to-zinc-950/30" />
 
-          {/* Expressive Animated Character Bust */}
-          <div className="absolute inset-x-6 bottom-4 flex items-end justify-between gap-4">
-            <div className="max-w-lg space-y-1.5">
-              <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-2.5 py-1 text-xs font-bold text-zinc-950">
-                <span>{preset.particle}</span>
-                <span>
-                  {profile.name} • {preset.badge}
-                </span>
-              </span>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-md">
+          {/* Top Stage HUD: Floating Bestie iOS Notification (Left) + Live S-Rank Chemistry Meter (Right) */}
+          {!finished && (
+            <div className="absolute inset-x-4 sm:inset-x-6 top-4 flex flex-wrap items-start justify-between gap-2.5 z-10">
+              {currentBeat?.bestiePopIn ? (
+                <div className="max-w-xs sm:max-w-sm rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-white/15 px-3.5 py-2 text-xs text-zinc-100 shadow-lg animate-vn-dialogue">
+                  <span className="font-bold text-rose-400">📱 Bestie Ping • </span>
+                  <span>{currentBeat.bestiePopIn}</span>
+                </div>
+              ) : (
+                <span />
+              )}
+
+              <div className="ml-auto flex items-center gap-2.5 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-white/15 px-3.5 py-2 shadow-lg">
+                <div className="text-right">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                    S-Rank Chemistry
+                  </div>
+                  <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-white/15">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-rose-500 to-amber-300 transition-all duration-500"
+                      style={{ width: `${sRankMeterPct}%` }}
+                    />
+                  </div>
+                </div>
+                {lastDelta !== null && (
+                  <span
+                    key={`delta-${beatIdx}-${score}`}
+                    className={`rounded-lg px-2 py-1 text-xs font-extrabold animate-vn-delta-pop ${
+                      lastDelta >= 0
+                        ? 'bg-emerald-500/25 text-emerald-200 border border-emerald-400/40'
+                        : 'bg-rose-500/25 text-rose-200 border border-rose-400/40'
+                    }`}
+                  >
+                    {lastDelta >= 0 ? `+${lastDelta} ♥` : `${lastDelta}`}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Expressive Animated Character Cutout & Scene Header */}
+          <div className="absolute inset-x-5 sm:inset-x-7 bottom-4 flex items-end justify-between gap-4">
+            <div className="max-w-md space-y-2 pb-1">
+              <div className="text-xs font-bold uppercase tracking-widest text-amber-300/90">
+                Date #{script.dateNumber} {!finished ? `• Scene ${beatIdx + 1} of ${script.beats.length}` : '• Finale'}
+              </div>
+              <h1 className="text-xl sm:text-3xl font-bold tracking-tight text-white leading-tight drop-shadow-md">
                 {script.title}
               </h1>
-            </div>
 
-            <div className="relative shrink-0">
-              <span
-                key={`${expression}-${beatIdx}`}
-                className="pointer-events-none absolute -top-4 -right-2 z-10 text-2xl animate-float-particle"
-              >
-                {preset.particle}
-              </span>
-              <img
-                src={portraitSrc}
-                alt={profile.name}
-                className={`h-40 w-30 sm:h-52 sm:w-40 rounded-xl object-cover ring-2 shadow-2xl transition-all duration-300 ${preset.tintClass} ${preset.motionClass}`}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Clean Dialogue Dock OR Date Rank Summary */}
-        <div className="border-t border-white/10 bg-zinc-950 p-6 sm:p-8 space-y-5">
-          {!finished ? (
-            <>
-              <div className="flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                <span className="inline-flex items-center gap-1.5">
-                  {script.beats.map((_, i) => (
-                    <span
-                      key={i}
-                      className={`h-1.5 w-6 rounded-full transition-all ${
-                        i <= beatIdx ? 'bg-rose-500' : 'bg-white/15'
-                      }`}
-                    />
-                  ))}
-                  <span className="ml-1.5 text-zinc-300">
-                    Scene {beatIdx + 1} of {script.beats.length}
-                  </span>
-                </span>
-                <span className="text-rose-400">Chase S-Rank ♥♥♥</span>
-              </div>
-
-              {currentBeat.bestiePopIn && (
-                <div className="rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs sm:text-sm font-medium text-zinc-200">
-                  📱 {currentBeat.bestiePopIn}
-                </div>
-              )}
-
-              {sparringToast && (
-                <div className="rounded-xl bg-emerald-500/15 border border-emerald-400/30 px-4 py-2.5 text-xs font-semibold text-emerald-200">
-                  🔔 Etiquette Sparring Round Activated. Public Frame Held Under Fire!
-                </div>
-              )}
-
-              {lastFeedback && (
-                <div className="rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm italic text-zinc-200">
-                  {lastFeedback}
-                </div>
-              )}
-
-              {beatIdx === 0 && (wallet.playerName || activeVibeSpec) && (
-                <div className="rounded-xl bg-rose-500/15 border border-rose-400/30 px-4 py-2.5 text-xs sm:text-sm font-medium text-rose-100">
+              {!finished && beatIdx === 0 && (wallet.playerName || activeVibeSpec) && (
+                <div className="inline-block rounded-xl bg-rose-500/20 backdrop-blur-xs border border-rose-300/30 px-3 py-1.5 text-xs font-medium text-rose-100">
                   {wallet.playerName
                     ? `“So glad it’s finally you across the table, ${wallet.playerName},” ${profile.name} smiles warmly.`
-                    : `${profile.name} spots your ${activeVibeSpec?.id} energy right away.`}
+                    : `${profile.name} clocks your ${activeVibeSpec?.id} energy immediately.`}
                   {activeVibeSpec
                     ? ` (${activeVibeSpec.emoji} +${activeVibeSpec.dateScoreBonus} Signature Vibe Bonus applied toward S-Rank!)`
                     : ''}
                 </div>
               )}
+            </div>
 
-              <p className="text-lg sm:text-xl font-medium leading-relaxed text-white">
-                {currentBeat.dialogue}
-              </p>
+            <div className="relative shrink-0">
+              <span
+                key={`${expression}-${beatIdx}`}
+                className="pointer-events-none absolute -top-5 -right-2 z-20 text-3xl animate-float-particle drop-shadow-md"
+              >
+                {preset.particle}
+              </span>
+              <img
+                key={`portrait-${portraitIdx}-${expression}`}
+                src={portraitSrc}
+                alt={profile.name}
+                className={`h-44 w-32 sm:h-56 sm:w-42 rounded-2xl object-cover object-top ring-2 shadow-2xl transition-all duration-300 ${preset.tintClass} ${preset.motionClass}`}
+              />
+              <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-2.5 py-0.5 text-[11px] font-bold text-zinc-950 shadow-md">
+                {profile.name} • {preset.badge}
+              </span>
+            </div>
+          </div>
+        </div>
 
-              <div className="grid gap-2.5 pt-1">
-                {currentBeat.choices.map((choice) => (
-                  <button
-                    key={choice.label}
-                    type="button"
-                    onClick={() => handleChoice(choice)}
-                    className={`w-full rounded-xl p-4 text-left text-sm sm:text-base font-medium whitespace-normal transition-colors cursor-pointer ${
-                      choice.cost
-                        ? 'border border-rose-500/60 bg-rose-600/15 text-white hover:bg-rose-600/25'
-                        : 'border border-white/15 bg-white/5 text-white hover:bg-white/12 hover:border-white/30'
-                    }`}
-                  >
-                    {choice.label}
-                  </button>
-                ))}
+        {/* Spacious Visual-Novel Dialogue Box OR Date Rank Summary */}
+        <div className="border-t border-white/10 bg-zinc-950 px-5 py-6 sm:px-8 sm:py-7 space-y-5">
+          {!finished ? (
+            <div key={`beat-box-${beatIdx}`} className="space-y-5 animate-vn-dialogue">
+              {/* Step Dots + Optional Previous Turn Reaction Strip */}
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="inline-flex items-center gap-1.5">
+                  {script.beats.map((_, i) => (
+                    <span
+                      key={i}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        i === beatIdx
+                          ? 'w-8 bg-rose-500'
+                          : i < beatIdx
+                            ? 'w-4 bg-emerald-400'
+                            : 'w-4 bg-white/15'
+                      }`}
+                    />
+                  ))}
+                </div>
+                {sparringToast && (
+                  <span className="text-xs font-semibold text-emerald-300">
+                    🔔 Public Frame Held Under Fire!
+                  </span>
+                )}
               </div>
-            </>
+
+              {lastFeedback && (
+                <div className="flex items-start gap-2.5 rounded-2xl bg-emerald-500/10 border border-emerald-400/25 px-4 py-3 text-xs sm:text-sm text-emerald-100 leading-relaxed">
+                  <Sparkles className="h-4 w-4 shrink-0 text-emerald-300 mt-0.5" />
+                  <span>{lastFeedback}</span>
+                </div>
+              )}
+
+              {/* Split Stage Action + Crisp Character Speech Card */}
+              <div className="space-y-3">
+                {parsedBeat.stageLine && (
+                  <p className="text-sm sm:text-base text-amber-100/80 leading-relaxed pl-3.5 border-l-2 border-amber-300/50">
+                    {parsedBeat.stageLine}
+                  </p>
+                )}
+
+                <div className="relative rounded-2xl border border-white/15 bg-white/[0.06] px-5 pt-5 pb-4 sm:px-6 sm:pt-6 sm:pb-5">
+                  <span className="absolute -top-3 left-4 inline-flex items-center gap-1.5 rounded-md bg-rose-600 px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wider text-white shadow-sm">
+                    {parsedBeat.stageLine ? `${profile.name} Speaks` : `Scene ${beatIdx + 1}`}
+                  </span>
+                  <p className="text-lg sm:text-xl font-medium leading-relaxed text-white">
+                    {parsedBeat.spokenLine}
+                  </p>
+                </div>
+              </div>
+
+              {/* Spacious Keycap Choice Cards */}
+              <div className="grid gap-3 pt-1">
+                {currentBeat.choices.map((choice, cIdx) => {
+                  const keyBadge = choice.cost ? '💎' : CHOICE_KEYS[cIdx] || String(cIdx + 1);
+                  const cleanChoiceLabel = choice.label.replace(/^💎\s*/, '');
+                  return (
+                    <button
+                      key={choice.label}
+                      type="button"
+                      onClick={() => handleChoice(choice)}
+                      className={`group flex w-full items-center justify-between gap-3 rounded-2xl p-4 text-left text-sm sm:text-base font-medium whitespace-normal transition-all duration-150 hover:translate-x-1 cursor-pointer ${
+                        choice.cost
+                          ? 'border border-amber-300/60 bg-gradient-to-r from-rose-600/20 to-amber-500/15 text-white hover:border-amber-300'
+                          : 'border border-white/15 bg-white/[0.04] text-zinc-100 hover:bg-white/[0.1] hover:border-white/35'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3.5">
+                        <span
+                          className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-extrabold transition-colors ${
+                            choice.cost
+                              ? 'bg-amber-300 text-zinc-950'
+                              : 'bg-white/12 text-white group-hover:bg-rose-600'
+                          }`}
+                        >
+                          {keyBadge}
+                        </span>
+                        <span className="leading-snug">{cleanChoiceLabel}</span>
+                      </div>
+
+                      {choice.cost && !cleanChoiceLabel.includes('Cr)') && (
+                        <span className="shrink-0 rounded-md bg-amber-300/20 border border-amber-300/40 px-2 py-0.5 text-[11px] font-bold text-amber-200">
+                          {wallet.isVip || wallet.isFounderUnlimited ? 'VIP' : `${choice.cost} Cr`}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           ) : (
             <div className="space-y-5 animate-stage-in">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">

@@ -2343,117 +2343,171 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             onClick={() => setCutLooseModal(null)}
           >
             <div
-              className="w-full max-w-lg rounded-3xl bg-white p-6 sm:p-7 shadow-2xl space-y-4 animate-stage-in"
+              data-testid="bullet-dodged-modal"
+              className="flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl animate-stage-in"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between gap-2">
-                <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-wider ${
-                    cutLooseModal.verdict.isActualTrap
-                      ? 'bg-rose-100 text-rose-900'
-                      : 'bg-amber-100 text-amber-950'
-                  }`}
-                >
-                  <Ban className="h-3.5 w-3.5" />
-                  <span>
+              {/* Pinned Top Header */}
+              <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-4">
+                <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider">
+                  <Ban
+                    className={`h-4 w-4 ${
+                      cutLooseModal.verdict.isActualTrap ? 'text-rose-600' : 'text-amber-600'
+                    }`}
+                  />
+                  <span
+                    className={
+                      cutLooseModal.verdict.isActualTrap ? 'text-rose-600' : 'text-amber-700'
+                    }
+                  >
                     {cutLooseModal.verdict.isActualTrap
-                      ? 'Number Blocked • Receipt Saved'
-                      : 'Bestie Gut-Check Before Blocking'}
+                      ? '🏆 BULLET DODGED • NUMBER BLOCKED'
+                      : '💬 BESTIE GUT-CHECK BEFORE BLOCKING'}
                   </span>
-                </span>
+                </div>
                 <button
                   type="button"
                   aria-label="Close block modal"
                   onClick={() => setCutLooseModal(null)}
-                  className="rounded-full p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800 cursor-pointer"
+                  className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
 
-              <h3 className="font-editorial text-2xl font-bold text-[#18101E]">
-                {cutLooseModal.verdict.headline}
-              </h3>
-
-              {cutLooseModal.verdict.isActualTrap && (
-                <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-1.5">
-                  <div className="inline-block rounded-2xl rounded-bl-xs bg-[#E9E9EB] px-3.5 py-2 text-xs font-medium text-zinc-700">
-                    Wait hold on, let me explain that last part!!
+              {/* Spacious Scrollable Receipt Body */}
+              <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-5">
+                <div className="flex items-center gap-4">
+                  <div className="relative shrink-0">
+                    <img
+                      src={
+                        V35_CAST_VISUALS[cutLooseModal.leadId]?.primaryPortrait ||
+                        './images/cast/hero-couple.jpg'
+                      }
+                      alt="Profile"
+                      className={`h-16 w-16 rounded-2xl object-cover border border-zinc-200 ${
+                        cutLooseModal.verdict.isActualTrap ? 'grayscale opacity-80' : ''
+                      }`}
+                    />
+                    {cutLooseModal.verdict.isActualTrap && (
+                      <span className="absolute -bottom-1.5 -right-1.5 rounded-md bg-rose-600 px-1.5 py-0.5 text-[10px] font-extrabold text-white shadow-xs">
+                        BLOCKED
+                      </span>
+                    )}
                   </div>
-                  <div className="text-[11px] font-bold text-rose-600">
-                    ❗ Not Delivered. Number Blocked by You
+                  <div className="space-y-1 min-w-0">
+                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 leading-snug">
+                      {cutLooseModal.verdict.headline.replace(/^🏆\s*BULLET DODGED:\s*/i, '')}
+                    </h3>
                   </div>
                 </div>
-              )}
 
-              <p className="text-sm text-stone-700 leading-relaxed">
-                {cutLooseModal.verdict.bestieNote}
-              </p>
-
-              {cutLooseModal.verdict.isActualTrap ? (
-                <div className="space-y-4">
-                  <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-xs font-bold text-emerald-900">
-                    +25 Discernment XP Awarded • ❤️ Friday Night Heart Preserved!
-                    {cutLooseModal.verdict.conspiracyClueId
-                      ? ' • 🕵️ Table 9 Conspiracy Clue Logged!'
-                      : ''}
-                  </div>
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex gap-2">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          shareOrCopy({
-                            title: 'Bullet Dodged Receipt',
-                            text: cutLooseModal.verdict.receiptShareLine,
-                            url: 'https://cougarsandcubs.club',
-                          })
-                        }
-                        className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-4 py-2 text-xs font-bold text-white cursor-pointer"
-                      >
-                        <Share2 className="h-3.5 w-3.5" />
-                        <span>Share Receipt</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setCutLooseModal(null)}
-                        className="rounded-full border border-stone-300 px-4 py-2 text-xs font-bold text-stone-800 cursor-pointer"
-                      >
-                        Back to Connections
-                      </button>
+                {cutLooseModal.verdict.isActualTrap && (
+                  <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 space-y-2">
+                    <div className="inline-block rounded-2xl rounded-bl-xs bg-zinc-200/90 px-4 py-2 text-xs sm:text-sm font-medium text-zinc-800">
+                      “Wait hold on, let me explain that last part!!”
                     </div>
-                    <a
-                      href={MONETIZATION_CONFIG.tipJarUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-bold text-amber-800 hover:underline"
-                    >
-                      <Heart className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                      <span>Support This Project</span>
-                    </a>
+                    <div className="text-xs font-bold text-rose-600">
+                      ❗ Not Delivered • Blocked by You
+                    </div>
                   </div>
+                )}
+
+                <div className="rounded-2xl border border-zinc-200 bg-white p-4 space-y-1">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                    Bestie Verdict
+                  </div>
+                  <p className="text-sm sm:text-base text-zinc-800 leading-relaxed">
+                    {cutLooseModal.verdict.bestieNote}
+                  </p>
                 </div>
-              ) : (
-                <div className="flex flex-wrap gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setCutLooseModal(null)}
-                    className="rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
-                  >
-                    Keep Chatting (Listen to Bestie!)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onConfirmCutGenuine(cutLooseModal.leadId);
-                      setCutLooseModal(null);
-                    }}
-                    className="rounded-full border border-rose-300 bg-rose-50 px-4 py-2.5 text-xs font-bold text-rose-900 hover:bg-rose-100 cursor-pointer"
-                  >
-                    🚫 Block &amp; Unmatch Anyway
-                  </button>
-                </div>
-              )}
+
+                {cutLooseModal.verdict.isActualTrap ? (
+                  <div className="space-y-5">
+                    <div className="grid grid-cols-3 gap-2.5 text-center">
+                      <div className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-3">
+                        <div className="text-base sm:text-lg font-extrabold text-emerald-800">
+                          +{25 + (activeVibeSpec?.trapXpBonus ?? 0)} XP
+                        </div>
+                        <div className="text-[11px] font-medium text-emerald-700">
+                          Discernment
+                        </div>
+                      </div>
+                      <div className="rounded-xl border border-rose-200 bg-rose-50/70 p-3">
+                        <div className="text-base sm:text-lg font-extrabold text-rose-700">
+                          ❤️ Saved
+                        </div>
+                        <div className="text-[11px] font-medium text-rose-700">
+                          Friday Heart
+                        </div>
+                      </div>
+                      <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-3">
+                        <div className="text-base sm:text-lg font-extrabold text-amber-900">
+                          {cutLooseModal.verdict.conspiracyClueId ? '🕵️ +1 Clue' : '✓ Clean'}
+                        </div>
+                        <div className="text-[11px] font-medium text-amber-800">
+                          {cutLooseModal.verdict.conspiracyClueId ? 'Table 9 File' : 'Inbox'}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                      <div className="flex flex-wrap gap-2.5">
+                        <button
+                          type="button"
+                          onClick={() => setCutLooseModal(null)}
+                          className="h-10 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-5 text-xs sm:text-sm font-bold text-white cursor-pointer"
+                        >
+                          Back to Connections
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            shareOrCopy({
+                              title: 'Bullet Dodged Receipt',
+                              text: cutLooseModal.verdict.receiptShareLine,
+                              url: 'https://cougarsandcubs.club',
+                            })
+                          }
+                          className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
+                        >
+                          <Share2 className="h-3.5 w-3.5" />
+                          <span>Share Receipt</span>
+                        </button>
+                      </div>
+                      <a
+                        href={MONETIZATION_CONFIG.tipJarUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500 hover:text-rose-600"
+                      >
+                        <Heart className="h-3.5 w-3.5 text-rose-500" />
+                        <span>Support Project</span>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap gap-2.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => setCutLooseModal(null)}
+                      className="h-10 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-5 text-xs sm:text-sm font-bold text-white cursor-pointer"
+                    >
+                      Keep Chatting (Listen to Bestie)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onConfirmCutGenuine(cutLooseModal.leadId);
+                        setCutLooseModal(null);
+                      }}
+                      className="h-10 rounded-xl border border-rose-200 bg-rose-50 px-4 text-xs sm:text-sm font-semibold text-rose-800 hover:bg-rose-100 cursor-pointer"
+                    >
+                      🚫 Block &amp; Unmatch Anyway
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>,
           document.body,
