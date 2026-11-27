@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Send } from 'lucide-react';
+import { Check, Send, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { renderRichText } from '../lib/richText';
 import {
@@ -58,11 +58,11 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
   if (scenarios.length === 0) {
     return (
       <div className="editorial-hinge-card mx-auto max-w-xl rounded-3xl bg-white p-8 text-center space-y-4">
-        <p className="text-base text-[#18101E] font-bold">This audition had no valid scenarios.</p>
+        <p className="text-base text-zinc-950 font-bold">This audition had no valid scenarios.</p>
         <button
           type="button"
           onClick={onExitToMainGame}
-          className="rounded-full bg-[#18101E] px-6 py-3 text-sm font-extrabold text-white cursor-pointer"
+          className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-6 py-3 text-sm font-extrabold text-white cursor-pointer"
         >
           Play Full Game
         </button>
@@ -117,16 +117,16 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
             <span className="font-editorial text-5xl sm:text-6xl font-bold text-rose-600">
               {result.matchPercent}%
             </span>
-            <span className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
+            <span className="font-editorial text-2xl sm:text-3xl font-bold text-zinc-950">
               {result.verdictTitle}
             </span>
           </div>
 
-          <ul className="space-y-2.5 text-sm sm:text-base font-semibold text-stone-800">
+          <ul className="space-y-2.5 text-sm sm:text-base font-semibold text-zinc-800">
             {result.roastNotes.map((note, idx) => (
               <li
                 key={idx}
-                className="rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3"
+                className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3"
               >
                 {note}
               </li>
@@ -149,7 +149,7 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
             <button
               type="button"
               onClick={onExitToMainGame}
-              className="rounded-full border border-stone-300 bg-white px-6 py-3.5 text-base font-bold text-[#18101E] cursor-pointer"
+              className="rounded-full border border-zinc-300 bg-white hover:bg-zinc-50 px-6 py-3.5 text-base font-bold text-zinc-950 cursor-pointer"
             >
               Play Full Game →
             </button>
@@ -170,13 +170,23 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
 
   return (
     <div className="mx-auto max-w-2xl editorial-hinge-card rounded-3xl bg-white p-6 sm:p-8 space-y-5 animate-stage-in">
-      <div className="rounded-2xl bg-amber-100 border border-amber-300/70 px-4 py-3 font-editorial text-lg sm:text-xl font-bold text-[#18101E]">
-        🐆 {challenge.senderName} Sent You an Official Vetting Audition ({step + 1} /{' '}
-        {scenarios.length})
+      <div className="flex items-center justify-between gap-3 rounded-2xl bg-amber-100 border border-amber-300/70 px-4 py-3">
+        <div className="font-editorial text-base sm:text-xl font-bold text-zinc-950">
+          🐆 {challenge.senderName} Sent You an Official Vetting Audition ({step + 1} /{' '}
+          {scenarios.length})
+        </div>
+        <button
+          type="button"
+          aria-label="Exit audition to full game"
+          onClick={onExitToMainGame}
+          className="shrink-0 rounded-lg border border-amber-300 bg-white/90 p-1.5 text-zinc-700 hover:bg-white hover:text-zinc-950 cursor-pointer"
+        >
+          <X className="h-4 w-4" />
+        </button>
       </div>
 
-      <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">{ep.title}</h2>
-      <p className="text-base font-medium leading-relaxed text-stone-700">
+      <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-zinc-950">{ep.title}</h2>
+      <p className="text-base font-medium leading-relaxed text-zinc-700">
         {renderRichText(setupCopy)}
       </p>
 
@@ -190,9 +200,9 @@ export const PartnerAuditionView: React.FC<PartnerAuditionViewProps> = ({
               key={originalIdx}
               type="button"
               onClick={() => handlePick(originalIdx)}
-              className="w-full rounded-2xl border border-stone-200 bg-stone-50/70 p-4 sm:p-5 text-left text-sm sm:text-base font-semibold whitespace-normal text-[#18101E] hover:border-stone-400 hover:bg-white transition cursor-pointer"
+              className="w-full rounded-2xl border border-zinc-200 bg-zinc-50/70 p-4 sm:p-5 text-left text-sm sm:text-base font-semibold whitespace-normal text-zinc-950 hover:border-zinc-400 hover:bg-white transition cursor-pointer"
             >
-              <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#18101E] text-xs font-extrabold text-amber-300">
+              <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-zinc-950 text-xs font-extrabold text-amber-300">
                 {String.fromCharCode(65 + displayIdx)}
               </span>
               {renderRichText(choiceCopy)}

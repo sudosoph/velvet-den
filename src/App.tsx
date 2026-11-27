@@ -710,7 +710,7 @@ export default function App() {
       {wallet.isFounderUnlimited && (
         <div className="border-b border-amber-300 bg-amber-50 px-4 py-2.5 sm:px-6 text-xs">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2">
-            <span className="inline-flex items-center gap-1.5 font-extrabold text-[#18101E]">
+            <span className="inline-flex items-center gap-1.5 font-extrabold text-zinc-950">
               <Wrench className="h-4 w-4 text-rose-600" />
               👑 Founder Playtest Vault • ∞ Credits &amp; All Unlocks Active
             </span>
@@ -729,7 +729,7 @@ export default function App() {
                 placeholder="cougarsandcub-20"
                 value={founderTagInput}
                 onChange={(e) => setFounderTagInput(e.target.value)}
-                className="w-38 rounded-full border border-stone-300 bg-white px-3 py-1 text-xs font-bold text-[#18101E]"
+                className="w-38 rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-bold text-zinc-950"
               />
               <button
                 type="submit"
@@ -744,7 +744,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={handleLockFounderMode}
-                className="inline-flex items-center gap-1 rounded-full bg-[#18101E] px-3 py-1 font-bold text-white cursor-pointer"
+                className="inline-flex items-center gap-1 rounded-full bg-zinc-950 px-3 py-1 font-bold text-white cursor-pointer"
               >
                 <Lock className="h-3 w-3" />
                 <span>Lock Founder</span>
@@ -792,6 +792,8 @@ export default function App() {
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
             onOpenGuides={() => setActiveTab('journal')}
+            onOpenCourtroom={() => setActiveTab('courtroom')}
+            onSendPartnerAudition={handleSendPartnerAudition}
             onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
           />
         )}
@@ -804,7 +806,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setNoticeBanner(null)}
-              className="rounded-full bg-white px-2.5 py-0.5 text-xs font-extrabold text-[#18101E] cursor-pointer"
+              className="rounded-full bg-white px-2.5 py-0.5 text-xs font-extrabold text-zinc-950 cursor-pointer"
               aria-label="Dismiss notice"
             >
               ✕

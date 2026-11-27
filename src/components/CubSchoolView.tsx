@@ -451,7 +451,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                   className="h-10 w-10 rounded-lg object-cover shrink-0 border border-zinc-200 bg-white"
                 />
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-zinc-900 truncate group-hover:underline">
+                  <div className="text-sm font-medium text-zinc-900 leading-snug group-hover:underline">
                     {fixProduct.name}
                   </div>
                   <div className="text-xs text-zinc-500">
@@ -460,7 +460,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                 </div>
               </div>
 
-              <span className="shrink-0 inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-900 px-3 text-xs font-medium text-white group-hover:bg-zinc-800 transition-colors">
+              <span className="shrink-0 inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-3.5 text-sm font-medium text-white group-hover:bg-zinc-800 transition-colors">
                 <span>Shop the Fix on Amazon</span>
                 <ExternalLink className="h-3.5 w-3.5" />
               </span>

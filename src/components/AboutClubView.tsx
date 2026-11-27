@@ -160,14 +160,14 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             <button
               type="button"
               onClick={onOpenCubSchool}
-              className="rounded-full bg-stone-100 hover:bg-stone-200 px-4 py-3 text-xs font-extrabold text-[#18101E] cursor-pointer"
+              className="rounded-full bg-zinc-100 hover:bg-zinc-200 px-4 py-3 text-sm font-bold text-zinc-950 cursor-pointer"
             >
               🎓 Enter Cub Obedience School
             </button>
             <button
               type="button"
               onClick={onOpenBoutique}
-              className="rounded-full bg-[#18101E] px-4 py-3 text-xs font-extrabold text-white inline-flex items-center justify-center gap-1.5 cursor-pointer"
+              className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-4 py-3 text-sm font-bold text-white inline-flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <ShoppingBag className="h-4 w-4 text-amber-300" />
               <span>Date-Night Shop ({AFFILIATE_CATALOG.length})</span>

@@ -47,7 +47,8 @@
   font-weight: 600;
 }
 
-/* Enforce Human-Readable Minimum Font Floor (Ban 10px/11px Micro-Text) */
+/* Enforce Human-Readable Minimum Font Floor (Ban 9px/10px/11px Micro-Text) */
+.text-\[9px\],
 .text-\[10px\],
 .text-\[11px\] {
   font-size: 0.75rem !important;

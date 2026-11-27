@@ -1110,7 +1110,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           sfx.messagePop();
                           setHerSignId(e.target.value);
                         }}
-                        className="rounded-xl border border-stone-300 bg-stone-50 px-2.5 py-1 text-xs font-bold text-[#18101E]"
+                        className="rounded-xl border border-zinc-300 bg-zinc-50 px-2.5 py-1 text-xs font-bold text-zinc-950"
                       >
                         {ZODIAC_SIGNS.map((s) => (
                           <option key={s.id} value={s.id}>
@@ -1119,7 +1119,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         ))}
                       </select>
                     </label>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
                       {ZODIAC_SIGNS.map((s) => {
                         const activeChip = s.id === herSignId;
                         return (
@@ -1131,23 +1131,23 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                               sfx.messagePop();
                               setHerSignId(s.id);
                             }}
-                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1 text-[11px] font-bold transition cursor-pointer ${
+                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1.5 text-xs font-semibold transition cursor-pointer ${
                               activeChip
                                 ? 'border-rose-600 bg-rose-600 text-white shadow-xs'
-                                : 'border-stone-200 bg-stone-50/70 text-[#18101E] hover:border-rose-300'
+                                : 'border-zinc-200 bg-zinc-50/70 text-zinc-900 hover:border-rose-300'
                             }`}
                           >
                             <span className="text-sm leading-none">{s.symbol}</span>
-                            <span className="mt-0.5 truncate max-w-full">{s.label}</span>
+                            <span className="mt-0.5 leading-tight">{s.label}</span>
                           </button>
                         );
                       })}
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-stone-200 bg-white p-3.5 space-y-2.5">
+                  <div className="rounded-2xl border border-zinc-200 bg-white p-3.5 space-y-2.5">
                     <label className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-extrabold uppercase tracking-wide text-[#18101E]">
+                      <span className="text-xs font-extrabold uppercase tracking-wide text-zinc-950">
                         🥂 His Star Sign
                       </span>
                       <select
@@ -1157,7 +1157,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           sfx.messagePop();
                           setHimSignId(e.target.value);
                         }}
-                        className="rounded-xl border border-stone-300 bg-stone-50 px-2.5 py-1 text-xs font-bold text-[#18101E]"
+                        className="rounded-xl border border-zinc-300 bg-zinc-50 px-2.5 py-1 text-xs font-bold text-zinc-950"
                       >
                         {ZODIAC_SIGNS.map((s) => (
                           <option key={s.id} value={s.id}>
@@ -1166,7 +1166,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         ))}
                       </select>
                     </label>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
                       {ZODIAC_SIGNS.map((s) => {
                         const activeChip = s.id === himSignId;
                         return (
@@ -1178,14 +1178,14 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                               sfx.messagePop();
                               setHimSignId(s.id);
                             }}
-                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1 text-[11px] font-bold transition cursor-pointer ${
+                            className={`flex flex-col items-center justify-center rounded-xl border py-1.5 px-1.5 text-xs font-semibold transition cursor-pointer ${
                               activeChip
-                                ? 'border-[#18101E] bg-[#18101E] text-white shadow-xs'
-                                : 'border-stone-200 bg-stone-50/70 text-[#18101E] hover:border-stone-400'
+                                ? 'border-zinc-950 bg-zinc-950 text-white shadow-xs'
+                                : 'border-zinc-200 bg-zinc-50/70 text-zinc-900 hover:border-zinc-400'
                             }`}
                           >
                             <span className="text-sm leading-none">{s.symbol}</span>
-                            <span className="mt-0.5 truncate max-w-full">{s.label}</span>
+                            <span className="mt-0.5 leading-tight">{s.label}</span>
                           </button>
                         );
                       })}
@@ -1194,10 +1194,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                 </div>
 
                 {/* Illustrated Result Card: Cast Avatars + Scene Photo + 4 Visual Meters */}
-                <div className="rounded-3xl border border-stone-200 bg-white p-5 space-y-4 shadow-2xs">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-3">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-5 space-y-4 shadow-2xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 pb-3">
                     <div>
-                      <div className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E]">
+                      <div className="font-editorial text-xl sm:text-2xl font-bold text-zinc-950">
                         {herSign.symbol} {herSign.label} Her × {himSign.symbol} {himSign.label} Cub
                       </div>
                       <div className="text-xs font-extrabold uppercase tracking-wide text-rose-700 mt-0.5">

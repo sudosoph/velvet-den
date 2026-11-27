@@ -273,11 +273,12 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
           <button
             type="button"
+            aria-label="Shop"
             onClick={() => onOpenBoutique('shop')}
             className="inline-flex items-center gap-1 text-xs sm:text-sm font-medium whitespace-nowrap text-zinc-600 hover:text-zinc-950 transition-colors cursor-pointer"
           >
-            <ShoppingBag className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-            <span>Shop</span>
+            <ShoppingBag className="h-4 w-4 shrink-0" />
+            <span className="hidden sm:inline">Shop</span>
           </button>
 
           <button
@@ -356,6 +357,17 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           type="button"
           onClick={() => {
             setMobileMenuOpen(false);
+            onSelectTab('courtroom');
+          }}
+          className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-zinc-700 cursor-pointer"
+        >
+          ⚖️ Daily
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setMobileMenuOpen(false);
             onOpenPopTrivia();
           }}
           className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-rose-600 cursor-pointer"
@@ -371,7 +383,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           }}
           className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-zinc-700 cursor-pointer"
         >
-          ✅ 25-Pt
+          ✅ 3-Tier
         </button>
       </div>
 
@@ -416,7 +428,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               }}
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
             >
-              25-Pt Experience Test
+              3-Tier Experience Test
             </button>
             <button
               type="button"

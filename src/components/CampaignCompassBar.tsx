@@ -183,6 +183,8 @@ interface CampaignCompassBarProps {
   onOpenPopTrivia?: () => void;
   onOpenChecklist?: () => void;
   onOpenGuides?: () => void;
+  onOpenCourtroom?: () => void;
+  onSendPartnerAudition?: () => void;
   onResetHearts?: () => void;
 }
 
@@ -202,6 +204,8 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onOpenPopTrivia,
   onOpenChecklist,
   onOpenGuides,
+  onOpenCourtroom,
+  onSendPartnerAudition,
   onResetHearts,
 }) => {
   const activeThreads = threads.filter((t) => !cutLooseIds.includes(t.leadId));
@@ -247,7 +251,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 Lower your age slider.{' '}
                 <span className="text-rose-600">Dodge the red flags.</span>
               </h2>
-              <p className="text-xs sm:text-base text-zinc-600 leading-relaxed max-w-xl">
+              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-xl">
                 Swipe below or step out In The Wild, spot the traps, graduate real catches to iMessage, and survive three Friday dates.
               </p>
             </div>
@@ -259,7 +263,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     type="button"
                     onClick={() => onSwitchRole('her')}
                     className={cn(
-                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer',
+                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
                       role === 'her'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -271,7 +275,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     type="button"
                     onClick={() => onSwitchRole('him')}
                     className={cn(
-                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer',
+                      'rounded-md px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
                       role === 'him'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -285,14 +289,14 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
               <div className="flex flex-wrap items-center gap-2">
                 <a
                   href="#hinge-stage"
-                  className="inline-flex h-9 sm:h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-3.5 sm:px-4 text-xs sm:text-sm font-semibold text-white shadow-xs transition-colors"
+                  className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-sm font-semibold text-white shadow-xs transition-colors"
                 >
                   <span>Start Swiping ↓</span>
                 </a>
                 <button
                   type="button"
                   onClick={onOpenWildMap}
-                  className="inline-flex h-9 sm:h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 sm:px-4 text-xs sm:text-sm font-semibold text-zinc-900 transition-colors cursor-pointer"
+                  className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-semibold text-zinc-900 transition-colors cursor-pointer"
                 >
                   <span>10 Wild Spots</span>
                   <ArrowRight className="h-3.5 w-3.5 text-zinc-400" />
@@ -301,20 +305,20 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
             </div>
           </div>
 
-          {/* Bottom Zone: Distinct Quick Party Quizzes & Club Lore */}
-          {(onOpenPopTrivia || onOpenChecklist || onOpenGuides) && (
-            <div className="mt-3.5 pt-3 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-2 text-xs">
-              <span className="font-bold uppercase tracking-wider text-zinc-400">
-                60-Sec Party Quizzes &amp; Lore
+          {/* Bottom Zone: Distinct Quick Party Quizzes, Daily Drop & Partner Audition */}
+          {(onOpenPopTrivia || onOpenChecklist || onOpenGuides || onOpenCourtroom || onSendPartnerAudition) && (
+            <div className="mt-4 pt-3.5 border-t border-zinc-100 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+                60-Sec Party Quizzes &amp; Daily Drop
               </span>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 font-semibold">
-                {onOpenPopTrivia && (
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 font-semibold">
+                {onOpenCourtroom && (
                   <button
                     type="button"
-                    onClick={onOpenPopTrivia}
-                    className="text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
+                    onClick={onOpenCourtroom}
+                    className="text-rose-600 hover:text-rose-700 transition-colors cursor-pointer"
                   >
-                    🎬 Pop-Culture &amp; Movie Quiz →
+                    ⚖️ Daily Crown-or-Dump →
                   </button>
                 )}
                 {onOpenChecklist && (
@@ -326,13 +330,31 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     ✅ 3-Tier &ldquo;Have You Ever?&rdquo; Test →
                   </button>
                 )}
+                {onOpenPopTrivia && (
+                  <button
+                    type="button"
+                    onClick={onOpenPopTrivia}
+                    className="text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
+                  >
+                    🎬 Pop-Culture Quiz →
+                  </button>
+                )}
+                {onSendPartnerAudition && (
+                  <button
+                    type="button"
+                    onClick={onSendPartnerAudition}
+                    className="text-zinc-700 hover:text-rose-600 transition-colors cursor-pointer"
+                  >
+                    💌 60s Partner Audition →
+                  </button>
+                )}
                 {onOpenGuides && (
                   <button
                     type="button"
                     onClick={onOpenGuides}
                     className="text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
                   >
-                    🔮 Zodiac &amp; 16 Club Guides →
+                    🔮 Zodiac &amp; 16 Guides →
                   </button>
                 )}
               </div>
@@ -448,7 +470,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 onNavigateStep(effectiveNextStep);
               }
             }}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-3.5 text-xs font-semibold text-white transition-colors cursor-pointer"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-semibold text-white transition-colors cursor-pointer"
           >
             <span>{effectiveNextStep.ctaLabel}</span>
             <ArrowRight className="h-3.5 w-3.5 shrink-0" />

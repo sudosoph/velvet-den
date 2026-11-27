@@ -129,7 +129,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
       ok
         ? '✨ Unlocked! VIP / Gift access applied to your wallet.'
         : isSandbox
-          ? 'Code not recognized (try VELVETVIP in preview mode).'
+          ? 'Code not recognized (try BLACKCARD in preview mode).'
           : 'Code not recognized. Double-check your gift code and try again.',
     );
     if (ok) setPromoCode('');
@@ -583,7 +583,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                       />
                       <button
                         type="submit"
-                        className="shrink-0 rounded-xl bg-[#18101E] px-4 py-2.5 text-sm font-bold text-white cursor-pointer"
+                        className="shrink-0 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-4 py-2.5 text-sm font-bold text-white cursor-pointer"
                       >
                         Restore
                       </button>
@@ -592,20 +592,20 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   </form>
 
                   <form onSubmit={handlePromoSubmit} className="space-y-2">
-                    <label className="block text-sm font-bold text-[#18101E]">
+                    <label className="block text-sm font-bold text-zinc-950">
                       Redeem a Gift or Creator Code
                     </label>
                     <div className="flex gap-2">
                       <input
                         type="text"
-                        placeholder={isSandbox ? 'Enter code (e.g. VELVETVIP)' : 'Enter gift code'}
+                        placeholder={isSandbox ? 'Enter code (e.g. BLACKCARD)' : 'Enter gift code'}
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value)}
-                        className="min-w-0 flex-1 rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2.5 text-sm font-medium text-[#18101E]"
+                        className="min-w-0 flex-1 rounded-xl border border-zinc-300 bg-zinc-50 px-3.5 py-2.5 text-sm font-medium text-zinc-950"
                       />
                       <button
                         type="submit"
-                        className="shrink-0 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm font-bold text-[#18101E] hover:bg-stone-50 cursor-pointer"
+                        className="shrink-0 rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm font-bold text-zinc-950 hover:bg-zinc-50 cursor-pointer"
                       >
                         Redeem
                       </button>

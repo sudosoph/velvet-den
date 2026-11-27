@@ -428,31 +428,31 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
           className="editorial-hinge-card relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4 sm:px-7">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-                Have You Ever? • Rookie → Regular → Deep Cuts (0 to 100 Score)
+          <div className="shrink-0 border-b border-zinc-200 bg-white px-5 py-4 sm:px-7 space-y-3.5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+                  Have You Ever? • Rookie → Regular → Deep Cuts (0 to 100 Score)
+                </div>
+                <h2 className="mt-0.5 text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950 leading-tight">
+                  The 3-Tier Cougars &amp; Cubs Experience Test
+                </h2>
+                <p className="mt-1 text-xs sm:text-sm text-zinc-600">
+                  Weighted by real-life subculture depth (+2 Rookie, +3 Regular, +5 Deep Cuts) to measure how seasoned you actually are.
+                </p>
               </div>
-              <h2 className="mt-0.5 text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950 leading-tight">
-                The 3-Tier Cougars &amp; Cubs Experience Test
-              </h2>
-              <p className="mt-1 text-xs sm:text-sm text-zinc-600">
-                Weighted by real-life subculture depth (+2 Rookie, +3 Regular, +5 Deep Cuts) to measure how seasoned you actually are.
-              </p>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close Checklist"
+                className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close Checklist"
-              className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
 
-          <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 space-y-6">
-            {/* Live Weighted Score & 3-Tier Breakdown Banner */}
-            <div className="sticky top-0 z-10 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3.5 shadow-2xs space-y-2.5">
+            {/* Live Weighted Score & 3-Tier Breakdown Pinned Cleanly in Header */}
+            <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wide text-zinc-900">
@@ -485,12 +485,15 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 pt-1 border-t border-zinc-200/80 text-[11px] font-semibold text-zinc-700">
+              <div className="grid grid-cols-3 gap-2 pt-1 border-t border-zinc-200/80 text-xs font-semibold text-zinc-700">
                 <div>🐣 Rookie: {rookieCount}/10</div>
                 <div>🔥 Regular: {interCount}/10</div>
                 <div>👑 Deep Cuts: {deepCount}/10</div>
               </div>
             </div>
+          </div>
+
+          <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 space-y-6">
 
             {/* 3 Escalating Lifestyle Sections */}
             {TIER_ORDER.map((tierKey) => {

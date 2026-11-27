@@ -514,14 +514,14 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                       </span>
                     )}
                     {isPending && !isMatched && (
-                      <span className="absolute -right-0.5 -bottom-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[9px] font-bold text-zinc-950 shadow-xs">
+                      <span className="absolute -right-0.5 -bottom-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-zinc-950 shadow-xs">
                         ⏳
                       </span>
                     )}
                   </div>
                   <span
                     className={`text-[11px] leading-tight whitespace-nowrap ${
-                      isCurrent ? 'font-bold text-[#B83253]' : 'font-medium text-zinc-700'
+                      isCurrent ? 'font-bold text-rose-600' : 'font-medium text-zinc-700'
                     }`}
                   >
                     {person.name}, {person.age}
@@ -539,10 +539,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-700">
             <Sparkles className="h-6 w-6" />
           </div>
-          <h2 className="font-editorial text-2xl font-bold text-[#18101E]">
+          <h2 className="font-editorial text-2xl font-bold text-zinc-950">
             You’ve Seen Today’s Hinge Standouts
           </h2>
-          <p className="text-sm text-stone-600 max-w-md mx-auto">
+          <p className="text-sm text-zinc-600 max-w-md mx-auto">
             Half of Sunset Hills’ best catches never touch dating apps, step out to The Marlow Lounge,
             Terminal B, or Hawthorne University, or revisit passed profiles.
           </p>
@@ -550,14 +550,14 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             <button
               type="button"
               onClick={onOpenWildMap}
-              className="rounded-full bg-[#18101E] px-5 py-2.5 text-xs font-bold text-white cursor-pointer"
+              className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-5 py-2.5 text-sm font-semibold text-white cursor-pointer"
             >
               🗺️ Explore 10 In The Wild Hotspots
             </button>
             <button
               type="button"
               onClick={() => setPassedIds([])}
-              className="rounded-full border border-stone-300 bg-white px-5 py-2.5 text-xs font-bold text-stone-800 cursor-pointer"
+              className="rounded-full border border-zinc-300 bg-white hover:bg-zinc-50 px-5 py-2.5 text-sm font-semibold text-zinc-800 cursor-pointer"
             >
               Shuffle Passed Profiles
             </button>
@@ -568,13 +568,13 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           {/* Authentic Minimal Hinge Header: Just Name, Age & Subtle Status Dot */}
           <header className="flex items-baseline justify-between px-6 pt-6 pb-3">
             <div className="flex items-baseline gap-2.5">
-              <h1 className="font-editorial text-3xl font-bold tracking-tight text-[#18101E]">
+              <h1 className="font-editorial text-3xl font-bold tracking-tight text-zinc-950">
                 {currentProfile.name}
               </h1>
-              <span className="text-xl font-medium text-stone-500">{currentProfile.age}</span>
+              <span className="text-xl font-medium text-zinc-500">{currentProfile.age}</span>
             </div>
 
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-500">
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500">
               <span
                 className={`h-2 w-2 rounded-full ${
                   currentProfile.matchSelectivity === 'standout'
@@ -715,7 +715,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 {heardVoiceIds.includes(currentProfile.id) && (
                   <div
                     data-testid="hinge-voice-subtext"
-                    className="rounded-xl bg-white border border-zinc-200 px-3 py-2 text-xs font-medium text-zinc-700"
+                    className="rounded-xl bg-white border border-zinc-200 px-3.5 py-2.5 text-sm font-medium text-zinc-700"
                   >
                     <span className="font-bold text-zinc-950">Bestie Read: </span>
                     {currentProfile.voicePrompt.subtextTell}
@@ -1094,11 +1094,11 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   value={customNote}
                   onChange={(e) => setCustomNote(e.target.value)}
                   placeholder={`Optional: write your own note to ${currentProfile.name}...`}
-                  className="flex-1 rounded-full border border-stone-300 px-4 py-2.5 text-sm text-[#18101E]"
+                  className="min-w-0 flex-1 rounded-full border border-zinc-300 px-4 py-2.5 text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 rounded-full bg-[#B83253] hover:bg-[#9E2846] px-5 py-2.5 text-xs font-bold text-white shadow-xs transition cursor-pointer"
+                  className="shrink-0 rounded-full bg-rose-600 hover:bg-rose-700 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition cursor-pointer"
                 >
                   {customNote.trim() ? 'Send Like + Note' : 'Send Like'}
                 </button>
@@ -1116,95 +1116,99 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             data-testid="hinge-match-celebration"
             className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-4"
             role="dialog"
+            aria-modal="true"
             aria-label={`Matched with ${matchCelebration.name}`}
             onClick={() => setMatchCelebration(null)}
           >
             <div
-              className="editorial-hinge-card relative w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-2xl space-y-4"
+              className="editorial-hinge-card flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <button
-                type="button"
-                onClick={() => setMatchCelebration(null)}
-                aria-label="Close match splash"
-                className="absolute right-4 top-4 rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
-              >
-                <X className="h-4 w-4" />
-              </button>
-
-              <div className="text-xs font-extrabold uppercase tracking-widest text-rose-600">
-                {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : 'It’s a Match!'}
-              </div>
-
-              <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-amber-300 shadow-lg">
-                <img
-                  src={matchCelebration.portrait}
-                  alt={matchCelebration.name}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              <div>
-                <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#18101E]">
-                  {matchCelebration.name}, {matchCelebration.age}
-                </h2>
-                <p className="mt-0.5 text-xs font-semibold text-stone-500">
-                  {matchCelebration.job}
-                </p>
-                <p className="mt-2 text-xs sm:text-sm text-stone-700 leading-relaxed">
-                  Act 2 Unlocked: Vet {matchCelebration.name} across 6 punchy Hinge DM beats to
-                  graduate to personal iMessage &amp; unlock Date #1 (or hit 🚩 Cut Loose if red
-                  flags drop!).
-                </p>
-                {matchCelebration.customPlayerNote && (
-                  <div
-                    data-testid="hinge-custom-live-reply"
-                    className="mt-3 rounded-2xl border border-zinc-200 bg-white p-3.5 text-left space-y-1.5"
-                  >
-                    <div className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-                      Your Open-Ended Note: “{matchCelebration.customPlayerNote}”
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-zinc-900 leading-snug">
-                      {matchCelebration.loadingCustomReply ? (
-                        <span className="text-zinc-500 italic">
-                          {matchCelebration.name} is typing a reply…
-                        </span>
-                      ) : (
-                        <>
-                          <span className="font-bold text-[#B83253]">
-                            {matchCelebration.name}:{' '}
-                          </span>
-                          {matchCelebration.liveCustomReply}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">
-                {onOpenChats && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const targetId = matchCelebration.leadId;
-                      setMatchCelebration(null);
-                      onOpenChats(targetId);
-                    }}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#18101E] hover:bg-stone-800 px-6 py-3 text-xs sm:text-sm font-extrabold text-white cursor-pointer"
-                  >
-                    <MessageCircle className="h-4 w-4 text-amber-300" />
-                    <span>Text {matchCelebration.name} Now →</span>
-                  </button>
-                )}
-
+              <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-100 bg-white px-6 py-4">
+                <div className="text-xs font-extrabold uppercase tracking-widest text-rose-600">
+                  {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : 'It’s a Match!'}
+                </div>
                 <button
                   type="button"
                   onClick={() => setMatchCelebration(null)}
-                  className="w-full sm:w-auto rounded-full border border-stone-300 bg-white px-5 py-3 text-xs font-bold text-stone-700 hover:bg-stone-50 cursor-pointer"
+                  aria-label="Close match splash"
+                  className="shrink-0 rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
                 >
-                  Keep Browsing Hinge
+                  <X className="h-4 w-4" />
                 </button>
+              </div>
+
+              <div className="flex-1 min-h-0 overflow-y-auto p-6 text-center space-y-4">
+                <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-amber-300 shadow-lg">
+                  <img
+                    src={matchCelebration.portrait}
+                    alt={matchCelebration.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+
+                <div>
+                  <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-zinc-950">
+                    {matchCelebration.name}, {matchCelebration.age}
+                  </h2>
+                  <p className="mt-0.5 text-xs font-semibold text-zinc-500">
+                    {matchCelebration.job}
+                  </p>
+                  <p className="mt-2.5 text-sm text-zinc-700 leading-relaxed">
+                    Trade a few messages on Hinge to see if {matchCelebration.name} earns your
+                    personal number and a Friday reservation (or hit 🚩 Block / Cut Loose if red
+                    flags drop).
+                  </p>
+                  {matchCelebration.customPlayerNote && (
+                    <div
+                      data-testid="hinge-custom-live-reply"
+                      className="mt-3 rounded-2xl border border-zinc-200 bg-zinc-50 p-3.5 text-left space-y-1.5"
+                    >
+                      <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+                        Your Open-Ended Note: “{matchCelebration.customPlayerNote}”
+                      </div>
+                      <div className="text-sm font-medium text-zinc-900 leading-snug">
+                        {matchCelebration.loadingCustomReply ? (
+                          <span className="text-zinc-500 italic">
+                            {matchCelebration.name} is typing a reply…
+                          </span>
+                        ) : (
+                          <>
+                            <span className="font-bold text-rose-600">
+                              {matchCelebration.name}:{' '}
+                            </span>
+                            {matchCelebration.liveCustomReply}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">
+                  {onOpenChats && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const targetId = matchCelebration.leadId;
+                        setMatchCelebration(null);
+                        onOpenChats(targetId);
+                      }}
+                      className="w-full sm:w-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-zinc-950 hover:bg-zinc-800 px-6 py-2.5 text-sm font-bold text-white cursor-pointer"
+                    >
+                      <MessageCircle className="h-4 w-4 text-amber-300" />
+                      <span>Text {matchCelebration.name} Now →</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => setMatchCelebration(null)}
+                    className="w-full sm:w-auto min-h-11 rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer"
+                  >
+                    Keep Browsing Hinge
+                  </button>
+                </div>
               </div>
             </div>
           </div>,

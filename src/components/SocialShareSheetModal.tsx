@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Check, Copy, Download, Share2, X } from 'lucide-react';
 import { trackEvent } from '../lib/analytics';
 
@@ -57,6 +58,19 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
   onClose,
 }) => {
   const [statusBanner, setStatusBanner] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!payload) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown, true);
+    return () => window.removeEventListener('keydown', onKeyDown, true);
+  }, [payload, onClose]);
 
   if (!payload) return null;
 
@@ -159,17 +173,17 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
     fg: string;
   }[] = [
     { id: 'imessage', label: 'iMessage / SMS', icon: '💬', bg: '#10B981', fg: '#FFFFFF' },
-    { id: 'whatsapp', label: 'WhatsApp', icon: '🟢', bg: '#25D366', fg: '#1E1022' },
+    { id: 'whatsapp', label: 'WhatsApp', icon: '🟢', bg: '#25D366', fg: '#09090B' },
     { id: 'instagram', label: 'Instagram', icon: '📸', bg: '#E1306C', fg: '#FFFFFF' },
-    { id: 'tiktok', label: 'TikTok', icon: '🎵', bg: '#1E1022', fg: '#FFFFFF' },
+    { id: 'tiktok', label: 'TikTok', icon: '🎵', bg: '#09090B', fg: '#FFFFFF' },
     { id: 'discord', label: 'Discord', icon: '👾', bg: '#5865F2', fg: '#FFFFFF' },
     { id: 'x', label: 'X', icon: '𝕏', bg: '#0F172A', fg: '#FFFFFF' },
     { id: 'threads', label: 'Threads', icon: '🧵', bg: '#27272A', fg: '#FFFFFF' },
     { id: 'telegram', label: 'Telegram', icon: '✈️', bg: '#0EA5E9', fg: '#FFFFFF' },
-    { id: 'copy_link', label: 'Copy Link', icon: '🔗', bg: '#FFBE0B', fg: '#1E1022' },
+    { id: 'copy_link', label: 'Copy Link', icon: '🔗', bg: '#FFBE0B', fg: '#09090B' },
   ];
 
-  return (
+  const modalNode = (
     <div
       className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-zinc-950/60 p-3 sm:p-5"
       role="dialog"
@@ -186,7 +200,7 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
             <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
               Send to Group Chat or Bestie
             </div>
-            <h3 className="mt-0.5 text-lg font-semibold text-zinc-950 truncate">{payload.title}</h3>
+            <h3 className="mt-0.5 text-lg font-semibold text-zinc-950 leading-snug">{payload.title}</h3>
           </div>
           <button
             type="button"
@@ -199,9 +213,9 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
         </div>
 
         <div className="flex-1 min-h-0 overflow-y-auto p-5 space-y-4">
-          <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-xs font-medium text-zinc-800 space-y-1">
-            <p className="line-clamp-3 leading-relaxed">{payload.message}</p>
-            <p className="truncate font-mono text-[11px] font-semibold text-rose-600">{payload.url}</p>
+          <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-sm font-medium text-zinc-800 space-y-1.5">
+            <p className="whitespace-pre-line leading-relaxed">{payload.message}</p>
+            <p className="break-all font-mono text-xs font-semibold text-rose-600">{payload.url}</p>
           </div>
 
           <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-3">
@@ -219,60 +233,62 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
                 >
                   {ch.icon}
                 </span>
-                <span className="text-[11px] font-semibold text-zinc-800 leading-tight">
+                <span className="text-xs font-semibold text-zinc-800 leading-tight">
                   {ch.label}
                 </span>
               </button>
             ))}
           </div>
 
-        <div className="flex flex-wrap gap-2">
-          {payload.onDownloadStoryPng && (
+          <div className="flex flex-wrap gap-2">
+            {payload.onDownloadStoryPng && (
+              <button
+                type="button"
+                onClick={() => {
+                  trackEvent('share_triggered', {
+                    channel: 'instagram_story_png',
+                    share_surface: payload.shareSurface,
+                    url: payload.url,
+                  });
+                  payload.onDownloadStoryPng?.();
+                  setStatusBanner('Downloaded 9:16 Story Card PNG!');
+                }}
+                className="flex-1 inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 px-3.5 py-2 text-sm font-semibold text-white transition-colors cursor-pointer"
+              >
+                <Download className="h-4 w-4" />
+                <span>Save 9:16 Story PNG</span>
+              </button>
+            )}
+            {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
+              <button
+                type="button"
+                onClick={() => handleChannel('native')}
+                className="flex-1 inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 py-2 text-sm font-semibold text-zinc-900 transition-colors cursor-pointer"
+              >
+                <Share2 className="h-4 w-4" />
+                <span>More Apps</span>
+              </button>
+            )}
             <button
               type="button"
-              onClick={() => {
-                trackEvent('share_triggered', {
-                  channel: 'instagram_story_png',
-                  share_surface: payload.shareSurface,
-                  url: payload.url,
-                });
-                payload.onDownloadStoryPng?.();
-                setStatusBanner('Downloaded 9:16 Story Card PNG!');
-              }}
-              className="pop-btn flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#FF2E63] px-3 py-2.5 text-xs font-extrabold text-white cursor-pointer"
+              onClick={() => handleChannel('copy_link')}
+              className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 px-4 py-2 text-sm font-semibold text-white transition-colors cursor-pointer"
             >
-              <Download className="h-3.5 w-3.5" />
-              <span>Save 9:16 Story PNG</span>
+              <Copy className="h-4 w-4" />
+              <span>Quick Copy</span>
             </button>
-          )}
-          {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
-            <button
-              type="button"
-              onClick={() => handleChannel('native')}
-              className="pop-btn flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-3 py-2.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
-            >
-              <Share2 className="h-3.5 w-3.5" />
-              <span>More Apps</span>
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={() => handleChannel('copy_link')}
-            className="pop-btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#FFFBEB] px-3 py-2.5 text-xs font-extrabold text-[#1E1022] cursor-pointer"
-          >
-            <Copy className="h-3.5 w-3.5" />
-            <span>Quick Copy</span>
-          </button>
-        </div>
-
-        {statusBanner && (
-          <div className="flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-900">
-            <Check className="h-4 w-4 shrink-0" />
-            <span>{statusBanner}</span>
           </div>
-        )}
+
+          {statusBanner && (
+            <div className="flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-semibold text-emerald-900">
+              <Check className="h-4 w-4 shrink-0" />
+              <span>{statusBanner}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalNode, document.body) : modalNode;
 };

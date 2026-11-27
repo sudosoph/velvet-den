@@ -92,25 +92,25 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
         </button>
 
         {/* Visual-Novel Offline Encounter Stage */}
-        <section className="relative overflow-hidden rounded-3xl bg-[#18101E] text-white shadow-2xl border border-white/10">
+        <section className="relative overflow-hidden rounded-3xl bg-zinc-950 text-white shadow-2xl border border-white/10">
           <div className="relative h-60 sm:h-76 w-full overflow-hidden">
             <img
               src={activeSpot.backdropUrl}
               alt={activeSpot.name}
               className="h-full w-full object-cover animate-ken-burns"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#18101E] via-[#18101E]/45 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/45 to-transparent" />
 
             <div className="absolute left-5 bottom-4 right-5 sm:left-6 sm:right-6 flex items-end justify-between gap-3">
               <div className="min-w-0">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/95 px-3 py-1 text-[11px] font-extrabold text-[#18101E]">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/95 px-3 py-1 text-xs font-extrabold text-zinc-950">
                   <span>{activeSpot.emoji}</span>
                   <span>Hotspot #{activeSpot.number}</span>
                 </span>
                 <h1 className="mt-2 font-editorial text-xl sm:text-3xl font-bold text-white leading-tight">
                   {activeSpot.name}
                 </h1>
-                <p className="text-xs sm:text-sm text-amber-100/90 truncate">
+                <p className="text-xs sm:text-sm text-amber-100/90 leading-snug">
                   {activeSpot.subtitle}
                 </p>
               </div>

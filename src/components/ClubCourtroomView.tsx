@@ -13,6 +13,7 @@ import { BRAND_CONFIG } from '../config/brand';
 import type { PlayerRole } from '../domain/taxonomy';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
+import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 export interface CourtroomStory {
   id: string;
@@ -243,6 +244,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
   const [votes, setVotes] = useState<Record<string, 'crown' | 'dump'>>({});
   const [copiedDaily, setCopiedDaily] = useState(false);
   const [creditToast, setCreditToast] = useState<string | null>(null);
+  const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   // Pitch Story Form
   const [aslInput, setAslInput] = useState('43F × 26M • Los Angeles');
@@ -333,7 +335,39 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
       url,
     });
     setCopiedDaily(true);
+    setSharePayload({
+      title: `Cougars & Cubs Daily #${dropNum}`,
+      message: receipt,
+      url,
+      shareSurface: 'verdict_receipt',
+    });
     window.setTimeout(() => setCopiedDaily(false), 2600);
+  };
+
+  const handleShareCaseReceipt = async (item: CourtroomStory) => {
+    const picked = votes[item.id] ?? 'dump';
+    const herTotal = Math.max(1, item.crownHer + item.dumpHer);
+    const herDumpPct = Math.round((item.dumpHer / herTotal) * 100);
+    const himTotal = Math.max(1, item.crownHim + item.dumpHim);
+    const himCrownPct = Math.round((item.crownHim / himTotal) * 100);
+    const url =
+      typeof window !== 'undefined' && window.location.origin.startsWith('http')
+        ? `${window.location.origin}/?court=1`
+        : `${BRAND_CONFIG.publicBaseUrl}/?court=1`;
+    const receipt = `⚖️ Club Courtroom (${item.aslTag}): "${item.headline}"\nMy Verdict: ${
+      picked === 'crown' ? '👑 CROWN HIM' : '🚩 DUMP HIM'
+    } • Cougars: ${herDumpPct}% Dump vs. Cubs: ${himCrownPct}% Crown!`;
+    await shareOrCopy({
+      title: `Club Courtroom Verdict (${item.aslTag})`,
+      text: receipt,
+      url,
+    });
+    setSharePayload({
+      title: `Club Courtroom Verdict (${item.aslTag})`,
+      message: receipt,
+      url,
+      shareSurface: 'verdict_receipt',
+    });
   };
 
   const handleSubmitStory = async (e: React.FormEvent) => {
@@ -394,13 +428,13 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
     const himDumpPct = 100 - himCrownPct;
 
     return (
-      <div className="rounded-2xl border border-slate-200 bg-[#FFFDF9] p-3.5 space-y-2.5">
-        <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#64748B]">
+      <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-2.5">
+        <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-500">
           Live Blind-Spot Split: 🐆 How Cougars Voted vs. 🐕 How Cubs Thought
         </div>
 
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
+          <div className="flex items-center justify-between text-xs font-extrabold text-zinc-950">
             <span>🐆 Cougars (35-65F) Voted:</span>
             <span>
               <strong className="text-[#059669]">{herCrownPct}% 👑 Crown</strong> •{' '}
@@ -414,7 +448,7 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
         </div>
 
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs font-extrabold text-[#18101E]">
+          <div className="flex items-center justify-between text-xs font-extrabold text-zinc-950">
             <span>🐕 Cubs (21-34M) Guessed:</span>
             <span>
               <strong className="text-[#059669]">{himCrownPct}% 👑 Crown</strong> •{' '}
@@ -590,7 +624,19 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
                     </button>
                   </div>
 
-                  {voted && renderSplitBars(item)}
+                  {voted && (
+                    <div className="space-y-2.5">
+                      {renderSplitBars(item)}
+                      <button
+                        type="button"
+                        onClick={() => handleShareCaseReceipt(item)}
+                        className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 transition-colors cursor-pointer"
+                      >
+                        <Share2 className="h-3.5 w-3.5" />
+                        <span>Share Case Receipt</span>
+                      </button>
+                    </div>
+                  )}
                 </article>
               );
             })}
@@ -671,6 +717,11 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
           )}
         </aside>
       </div>
+
+      <SocialShareSheetModal
+        payload={sharePayload}
+        onClose={() => setSharePayload(null)}
+      />
     </div>
   );
 };

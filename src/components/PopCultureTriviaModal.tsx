@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Award, CheckCircle2, ExternalLink, Share2, Shuffle, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import {
@@ -141,7 +142,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
     });
   };
 
-  return (
+  const modalNode = (
     <>
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-3 sm:p-6"
@@ -252,7 +253,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                           }
                           className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-900 hover:bg-zinc-100 transition-colors"
                         >
-                          <span className="truncate">{pick.name.split(' (')[0]} • {pick.priceDisplay}</span>
+                          <span className="leading-snug">{pick.name.split(' (')[0]} • {pick.priceDisplay}</span>
                           <ExternalLink className="h-3 w-3 shrink-0 text-zinc-500" />
                         </a>
                       );
@@ -461,4 +462,6 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
       />
     </>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalNode, document.body) : modalNode;
 };

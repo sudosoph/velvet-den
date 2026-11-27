@@ -42,6 +42,7 @@ import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 import { liveAiInboxService } from '../services/adapters';
 import { RomanticDateStage } from './RomanticDateStage';
+import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 export interface ActiveMatchThread {
   leadId: string;
@@ -221,6 +222,25 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     dateNumber: 1 | 2 | 3 | 4;
   } | null>(null);
   const [conspiracyOutcome, setConspiracyOutcome] = useState<string | null>(null);
+  const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
+
+  useEffect(() => {
+    if (!imessageGradSplash && !pendingDateAfterPersona && !cutLooseModal) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (imessageGradSplash) {
+        setImessageGradSplash(null);
+      } else if (cutLooseModal) {
+        setCutLooseModal(null);
+      } else if (pendingDateAfterPersona) {
+        const target = pendingDateAfterPersona;
+        setPendingDateAfterPersona(null);
+        setActiveDateModal(target);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [imessageGradSplash, pendingDateAfterPersona, cutLooseModal]);
 
   useEffect(() => {
     if (initialOpenConspiracy) {
@@ -1043,7 +1063,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               alt={V35_TABLE_9_CONSPIRACY.title}
               className="h-full w-full object-cover opacity-75"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#18101E] to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent" />
             <div className="absolute left-6 bottom-4">
               <h2 className="font-editorial text-2xl sm:text-3xl font-bold">
                 {V35_TABLE_9_CONSPIRACY.title}
@@ -1055,15 +1075,47 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               {V35_TABLE_9_CONSPIRACY.beats[0].dialogue}
             </p>
             {conspiracyOutcome ? (
-              <div className="rounded-2xl bg-emerald-950/80 border border-emerald-400/50 p-5 space-y-3">
-                <p className="text-base font-semibold text-emerald-100">{conspiracyOutcome}</p>
-                <button
-                  type="button"
-                  onClick={() => setSurface('dm')}
-                  className="rounded-full bg-amber-300 px-5 py-2 text-xs font-extrabold text-[#18101E] cursor-pointer"
-                >
-                  Return to Matches
-                </button>
+              <div className="rounded-2xl bg-emerald-950/80 border border-emerald-400/50 p-5 space-y-4">
+                <p className="text-base font-semibold text-emerald-100 leading-relaxed">{conspiracyOutcome}</p>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setSurface('dm')}
+                    className="rounded-full bg-amber-300 hover:bg-amber-200 px-5 py-2.5 text-sm font-bold text-zinc-950 cursor-pointer"
+                  >
+                    Return to Matches
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const text =
+                        '🕵️‍♀️ Cracked the Secret Table 9 / 6:45 Alibi Club Takedown in Sunset Hills on Cougars & Cubs Club!';
+                      const url = 'https://cougarsandcubs.club';
+                      shareOrCopy({
+                        title: 'Table 9 Takedown Unlocked',
+                        text,
+                        url,
+                      });
+                      setSharePayload({
+                        title: 'Secret Table 9 Takedown Unlocked',
+                        message: text,
+                        url,
+                        shareSurface: 'verdict_receipt',
+                      });
+                    }}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 hover:bg-white/20 px-4 py-2.5 text-sm font-semibold text-white cursor-pointer"
+                  >
+                    <Share2 className="h-4 w-4" />
+                    <span>Share Takedown Receipt</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConspiracyOutcome(null)}
+                    className="rounded-full border border-white/20 px-4 py-2.5 text-sm font-medium text-emerald-100 hover:bg-white/10 cursor-pointer"
+                  >
+                    Try Another Takedown Move
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="grid gap-3">
@@ -1225,12 +1277,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   disabled={sendingDiscordAi}
                   aria-label={`Message ${activeDiscord.handleLabel}`}
                   placeholder={`Write your own question or tea in ${activeDiscord.handleLabel}...`}
-                  className="flex-1 rounded-full border border-zinc-300 bg-white px-4 py-2.5 text-xs sm:text-sm text-zinc-950 focus:border-[#5865F2] focus:outline-none"
+                  className="min-w-0 flex-1 rounded-full border border-zinc-300 bg-white px-4 py-2.5 text-base sm:text-sm text-zinc-950 focus:border-[#5865F2] focus:outline-none"
                 />
                 <button
                   type="submit"
                   disabled={!discordFreeInput.trim() || sendingDiscordAi || Boolean(discordTypingLabel)}
-                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#5865F2] hover:bg-[#4752C4] disabled:opacity-50 px-5 py-2.5 text-xs font-bold text-white transition cursor-pointer"
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#5865F2] hover:bg-[#4752C4] disabled:opacity-50 px-5 py-2.5 text-sm font-semibold text-white transition cursor-pointer"
                 >
                   <Send className="h-3.5 w-3.5" />
                   <span>{sendingDiscordAi || discordTypingLabel ? 'Replying…' : 'Post'}</span>
@@ -1249,7 +1301,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       type="button"
                       disabled={Boolean(discordTypingLabel)}
                       onClick={() => handleDiscordPresetClick(sug, sIdx)}
-                      className={`w-full rounded-2xl border p-3 text-left text-xs sm:text-sm font-medium whitespace-normal transition cursor-pointer ${
+                      className={`w-full rounded-2xl border p-3 text-left text-sm font-medium whitespace-normal transition cursor-pointer ${
                         alreadyAsked
                           ? 'border-zinc-200 bg-zinc-50 text-zinc-400'
                           : 'border-zinc-200 bg-white text-zinc-800 hover:border-[#5865F2] hover:bg-indigo-50/30'
@@ -1265,17 +1317,17 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         </div>
       ) : visibleThreads.length === 0 ? (
         <section className="editorial-hinge-card rounded-3xl p-8 text-center space-y-4">
-          <h2 className="font-editorial text-2xl font-bold text-[#18101E]">
+          <h2 className="font-editorial text-2xl font-bold text-zinc-950">
             Your Inbox Is Wide Open
           </h2>
-          <p className="text-sm text-stone-600 max-w-md mx-auto">
+          <p className="text-sm text-zinc-600 max-w-md mx-auto">
             Send a thoughtful prompt reply on Hinge or meet someone out at Terminal B, The Marlow
             Lounge, or Hawthorne University to start your first thread!
           </p>
           <button
             type="button"
             onClick={onOpenHinge}
-            className="rounded-full bg-[#18101E] px-6 py-2.5 text-xs font-bold text-white cursor-pointer"
+            className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-6 py-2.5 text-sm font-semibold text-white cursor-pointer"
           >
             Back to Hinge Discovery →
           </button>
@@ -1284,7 +1336,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-[265px_1fr] gap-6 items-start">
           {/* Multi-Match Roster Sidebar (Shows ALL Active Matches Simultaneously!) */}
           <aside className="editorial-hinge-card rounded-3xl p-4 space-y-2">
-            <div className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-stone-400">
+            <div className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-zinc-400">
               Active Connections ({visibleThreads.length})
             </div>
             {visibleThreads.map((thread) => {
@@ -1304,8 +1356,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   }}
                   className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left transition cursor-pointer ${
                     isSelected
-                      ? 'bg-[#18101E] text-white shadow-sm'
-                      : 'bg-stone-50/80 text-[#18101E] hover:bg-stone-100'
+                      ? 'bg-zinc-950 text-white shadow-sm'
+                      : 'bg-zinc-50/90 text-zinc-950 hover:bg-zinc-100'
                   }`}
                 >
                   <img
@@ -1343,13 +1395,13 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           ? ` • ${thread.lastDateRank}-Rank`
                           : ''}
                       </span>
-                      <span className={isSelected ? 'text-amber-200' : 'text-stone-400'}>
+                      <span className={isSelected ? 'text-amber-200' : 'text-zinc-400'}>
                         {thread.chemistry}% Spark
                       </span>
                     </div>
                     <p
                       className={`mt-0.5 text-xs line-clamp-1 ${
-                        isSelected ? 'text-stone-300' : 'text-stone-500'
+                        isSelected ? 'text-zinc-300' : 'text-zinc-500'
                       }`}
                     >
                       {thread.messages[thread.messages.length - 1]?.text}
@@ -1379,31 +1431,26 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <img
                           src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
                           alt={currentProfile.name}
-                          className="h-13 w-13 rounded-full object-cover ring-2 ring-[#007AFF] shadow-xs"
+                          className="h-12 w-12 rounded-full object-cover ring-2 ring-[#007AFF] shadow-xs"
                         />
-                        <span className="absolute -right-0.5 -bottom-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#007AFF] text-[9px] font-bold text-white">
+                        <span className="absolute -right-0.5 -bottom-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#007AFF] text-[10px] font-bold text-white">
                           ✓
                         </span>
                       </div>
                       <div>
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex flex-wrap items-baseline gap-2">
                           <h2 className="text-lg font-bold tracking-tight text-slate-950">
                             {currentProfile.name}, {currentProfile.age}
                           </h2>
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#007AFF] px-2.5 py-0.5 text-[11px] font-bold text-white">
-                            <Smartphone className="h-3 w-3" />
-                            <span>Earned iMessage</span>
-                          </span>
-                          <span className="rounded-full bg-white border border-slate-200 px-2.5 py-0.5 text-[11px] font-bold text-slate-700">
-                            {currentThread.chemistry}% Spark
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#007AFF]">
+                            <Smartphone className="h-3.5 w-3.5" />
+                            <span>Earned iMessage • {currentThread.chemistry}% Spark</span>
                           </span>
                           {sparkToast && (
                             <span
                               key={sparkToast.nonce}
-                              className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold animate-bounce ${
-                                sparkToast.delta >= 0
-                                  ? 'bg-emerald-100 text-emerald-900'
-                                  : 'bg-rose-100 text-rose-900'
+                              className={`text-xs font-bold ${
+                                sparkToast.delta >= 0 ? 'text-emerald-700' : 'text-rose-600'
                               }`}
                             >
                               {sparkToast.delta >= 0
@@ -1412,7 +1459,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             </span>
                           )}
                         </div>
-                        <p className="text-xs font-medium text-[#007AFF]">
+                        <p className="text-xs font-medium text-slate-500">
                           {currentThread.originDoor === 'wild'
                             ? `Personal Cell Unlocked • ${
                                 getWildMeetCuteSeed(
@@ -2148,8 +2195,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             onClick={() => void sendSpontaneousTurn(sugText, isVipMove ? 1 : 0)}
                             className={`w-full rounded-2xl px-4 py-3.5 sm:px-5 sm:py-4 text-left text-sm sm:text-[15px] leading-relaxed whitespace-normal transition cursor-pointer disabled:opacity-55 ${
                               isVipMove
-                                ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E]'
-                                : 'border border-stone-200 bg-white font-medium text-stone-800 hover:border-stone-400 shadow-2xs'
+                                ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-zinc-950'
+                                : 'border border-zinc-200 bg-white font-medium text-zinc-800 hover:border-zinc-400 shadow-2xs'
                             }`}
                           >
                             <span>{sugText}</span>
@@ -2165,20 +2212,20 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
-                {/* Free-Typing Live AI Bar (0 Credits. Comfortable 48px Height & Readable Font) */}
+                {/* Free-Typing Live AI Bar (Always Free, Comfortable 48px Height & Readable Font) */}
                 <form onSubmit={handleFreeTextSubmit} className="flex gap-2.5 pt-1">
                   <input
                     type="text"
                     value={freeInput}
                     onChange={(e) => setFreeInput(e.target.value)}
                     disabled={sendingAi || Boolean(dmTypingLabel)}
-                    placeholder={`Type anything freely to ${currentProfile.name} (open-ended AI, 0 Cr)...`}
-                    className="h-12 flex-1 rounded-full border border-stone-300 bg-white px-5 text-[15px] sm:text-base text-[#18101E] shadow-2xs focus:border-zinc-950 focus:outline-none"
+                    placeholder={`Type anything freely to ${currentProfile.name} (always free)...`}
+                    className="min-w-0 h-12 flex-1 rounded-full border border-zinc-300 bg-white px-5 text-base text-zinc-950 shadow-2xs focus:border-zinc-950 focus:outline-none"
                   />
                   <button
                     type="submit"
                     disabled={!freeInput.trim() || sendingAi || Boolean(dmTypingLabel)}
-                    className="inline-flex h-12 items-center gap-1.5 rounded-full bg-[#18101E] hover:bg-zinc-800 disabled:opacity-50 px-6 text-sm font-bold text-white transition cursor-pointer"
+                    className="shrink-0 inline-flex h-12 items-center gap-1.5 rounded-full bg-zinc-950 hover:bg-zinc-800 disabled:opacity-50 px-6 text-sm font-bold text-white transition cursor-pointer"
                   >
                     <Send className="h-4 w-4" />
                     <span>{sendingAi || dmTypingLabel ? 'Typing…' : 'Send'}</span>
@@ -2326,71 +2373,84 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             onClick={() => setImessageGradSplash(null)}
           >
             <div
-              className="w-full max-w-md overflow-hidden rounded-3xl bg-gradient-to-b from-[#0F172A] via-[#1E293B] to-[#0F172A] p-6 text-center text-white shadow-2xl space-y-4 animate-stage-in"
+              className="flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-3xl bg-gradient-to-b from-[#0F172A] via-[#1E293B] to-[#0F172A] text-center text-white shadow-2xl animate-stage-in"
               onClick={(e) => e.stopPropagation()}
             >
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider text-white shadow-sm">
-                <Smartphone className="h-3.5 w-3.5" />
-                <span>Moved Off Hinge • Personal Cell Unlocked</span>
-              </span>
-
-              <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-[#007AFF] shadow-xl">
-                <img
-                  src={imessageGradSplash.portrait}
-                  alt={imessageGradSplash.name}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              <div>
-                <div className="text-[11px] font-semibold uppercase tracking-widest text-sky-300">
-                  New iOS Contact Poster Saved
-                </div>
-                <h3 className="mt-0.5 text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                  {imessageGradSplash.name}, {imessageGradSplash.age}
-                </h3>
-                <p className="text-xs text-slate-300">{imessageGradSplash.job}</p>
-              </div>
-
-              <div className="rounded-2xl bg-white/10 border border-white/15 p-3.5 text-left space-y-1">
-                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-sky-300">
-                  <span>💬 First Off-App iMessage Just Landed</span>
-                  <span>Now</span>
-                </div>
-                <p className="text-xs sm:text-sm text-white leading-snug">
-                  “{imessageGradSplash.openingLine}”
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] font-bold text-emerald-300">
-                <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3 py-1">
-                  <Check className="inline h-3 w-3 mr-1" />
-                  +10% Spark Boost
+              <div className="shrink-0 flex items-center justify-between gap-2 border-b border-white/10 px-6 py-4">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-white shadow-sm">
+                  <Smartphone className="h-3.5 w-3.5" />
+                  <span>Moved Off Hinge • Personal Cell Unlocked</span>
                 </span>
-                <span className="rounded-full bg-rose-500/15 border border-rose-400/30 px-3 py-1 text-rose-200">
-                  🔥 After-Dark Mode Ready
-                </span>
+                <button
+                  type="button"
+                  aria-label="Close iMessage splash"
+                  onClick={() => setImessageGradSplash(null)}
+                  className="shrink-0 rounded-lg border border-white/15 bg-white/10 p-1.5 text-slate-200 hover:bg-white/20 hover:text-white cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setImessageGradSplash(null)}
-                className="w-full rounded-full bg-[#007AFF] hover:bg-blue-500 px-6 py-3 text-sm font-extrabold text-white shadow-lg transition cursor-pointer"
-              >
-                Open Clean iMessage Thread →
-              </button>
+              <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4">
+                <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-[#007AFF] shadow-xl">
+                  <img
+                    src={imessageGradSplash.portrait}
+                    alt={imessageGradSplash.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-widest text-sky-300">
+                    New iOS Contact Poster Saved
+                  </div>
+                  <h3 className="mt-0.5 text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                    {imessageGradSplash.name}, {imessageGradSplash.age}
+                  </h3>
+                  <p className="text-xs text-slate-300">{imessageGradSplash.job}</p>
+                </div>
+
+                <div className="rounded-2xl bg-white/10 border border-white/15 p-3.5 text-left space-y-1">
+                  <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-sky-300">
+                    <span>💬 First Off-App iMessage Just Landed</span>
+                    <span>Now</span>
+                  </div>
+                  <p className="text-sm text-white leading-snug">
+                    “{imessageGradSplash.openingLine}”
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-emerald-300">
+                  <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-3 py-1">
+                    <Check className="inline h-3 w-3 mr-1" />
+                    +10% Spark Boost
+                  </span>
+                  <span className="rounded-full bg-rose-500/15 border border-rose-400/30 px-3 py-1 text-rose-200">
+                    🔥 After-Dark Mode Ready
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setImessageGradSplash(null)}
+                  className="w-full rounded-full bg-[#007AFF] hover:bg-blue-500 px-6 py-3 text-sm font-extrabold text-white shadow-lg transition cursor-pointer"
+                >
+                  Open Clean iMessage Thread →
+                </button>
+              </div>
             </div>
           </div>,
           document.body,
         )}
 
-      {/* Comedy Dating-Sim Block Receipt / Bestie Self-Sabotage Check Modal (Crisp Scrim, Zero Blur Glitch) */}
+      {/* Comedy Block Receipt / Bestie Self-Sabotage Check Modal (Crisp Scrim, Zero Blur Glitch) */}
       {cutLooseModal &&
         createPortal(
           <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/65 p-4"
             role="dialog"
             aria-modal="true"
+            aria-label="Block or Cut Loose Verdict"
             onClick={() => setCutLooseModal(null)}
           >
             <div
@@ -2455,7 +2515,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
                 {cutLooseModal.verdict.isActualTrap && (
                   <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 space-y-2">
-                    <div className="inline-block rounded-2xl rounded-bl-xs bg-zinc-200/90 px-4 py-2 text-xs sm:text-sm font-medium text-zinc-800">
+                    <div className="inline-block rounded-2xl rounded-bl-xs bg-zinc-200/90 px-4 py-2 text-sm font-medium text-zinc-800">
                       “Wait hold on, let me explain that last part!!”
                     </div>
                     <div className="text-xs font-bold text-rose-600">
@@ -2465,7 +2525,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 )}
 
                 <div className="rounded-2xl border border-zinc-200 bg-white p-4 space-y-1">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                  <div className="text-xs font-bold uppercase tracking-wider text-zinc-400">
                     Bestie Verdict
                   </div>
                   <p className="text-sm sm:text-base text-zinc-800 leading-relaxed">
@@ -2480,7 +2540,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <div className="text-base sm:text-lg font-extrabold text-emerald-800">
                           +{25 + (activeVibeSpec?.trapXpBonus ?? 0)} XP
                         </div>
-                        <div className="text-[11px] font-medium text-emerald-700">
+                        <div className="text-xs font-medium text-emerald-700">
                           Discernment
                         </div>
                       </div>
@@ -2488,7 +2548,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <div className="text-base sm:text-lg font-extrabold text-rose-700">
                           ❤️ Saved
                         </div>
-                        <div className="text-[11px] font-medium text-rose-700">
+                        <div className="text-xs font-medium text-rose-700">
                           Friday Heart
                         </div>
                       </div>
@@ -2496,7 +2556,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <div className="text-base sm:text-lg font-extrabold text-amber-900">
                           {cutLooseModal.verdict.conspiracyClueId ? '🕵️ +1 Clue' : '✓ Clean'}
                         </div>
-                        <div className="text-[11px] font-medium text-amber-800">
+                        <div className="text-xs font-medium text-amber-800">
                           {cutLooseModal.verdict.conspiracyClueId ? 'Table 9 File' : 'Inbox'}
                         </div>
                       </div>
@@ -2507,22 +2567,29 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <button
                           type="button"
                           onClick={() => setCutLooseModal(null)}
-                          className="h-10 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-5 text-xs sm:text-sm font-bold text-white cursor-pointer"
+                          className="min-h-10 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-5 py-2 text-sm font-bold text-white cursor-pointer"
                         >
                           Back to Connections
                         </button>
                         <button
                           type="button"
-                          onClick={() =>
+                          onClick={() => {
+                            const url = 'https://cougarsandcubs.club';
                             shareOrCopy({
                               title: 'Bullet Dodged Receipt',
                               text: cutLooseModal.verdict.receiptShareLine,
-                              url: 'https://cougarsandcubs.club',
-                            })
-                          }
-                          className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
+                              url,
+                            });
+                            setSharePayload({
+                              title: 'Bullet Dodged Receipt',
+                              message: cutLooseModal.verdict.receiptShareLine,
+                              url,
+                              shareSurface: 'verdict_receipt',
+                            });
+                          }}
+                          className="inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 px-4 py-2 text-sm font-semibold text-zinc-800 cursor-pointer"
                         >
-                          <Share2 className="h-3.5 w-3.5" />
+                          <Share2 className="h-4 w-4" />
                           <span>Share Receipt</span>
                         </button>
                       </div>
@@ -2542,7 +2609,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     <button
                       type="button"
                       onClick={() => setCutLooseModal(null)}
-                      className="h-10 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-5 text-xs sm:text-sm font-bold text-white cursor-pointer"
+                      className="min-h-10 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-5 py-2 text-sm font-bold text-white cursor-pointer"
                     >
                       Keep Chatting (Listen to Bestie)
                     </button>
@@ -2552,7 +2619,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         onConfirmCutGenuine(cutLooseModal.leadId);
                         setCutLooseModal(null);
                       }}
-                      className="h-10 rounded-xl border border-rose-200 bg-rose-50 px-4 text-xs sm:text-sm font-semibold text-rose-800 hover:bg-rose-100 cursor-pointer"
+                      className="min-h-10 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-800 hover:bg-rose-100 cursor-pointer"
                     >
                       🚫 Block &amp; Unmatch Anyway
                     </button>
@@ -2563,6 +2630,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           </div>,
           document.body,
         )}
+
+      <SocialShareSheetModal
+        payload={sharePayload}
+        onClose={() => setSharePayload(null)}
+      />
     </div>
   );
 };

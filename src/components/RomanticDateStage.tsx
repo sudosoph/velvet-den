@@ -9,6 +9,7 @@ import {
   Share2,
   Sparkles,
   Unlock,
+  X,
 } from 'lucide-react';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import {
@@ -26,6 +27,7 @@ import {
 } from '../lib/affiliates';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
+import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 export interface RomanticDateStageProps {
   leadId: string;
@@ -84,6 +86,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
   const [finished, setFinished] = useState(false);
   const [povUnlocked, setPovUnlocked] = useState(false);
   const [copiedPolaroid, setCopiedPolaroid] = useState(false);
+  const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   useEffect(() => {
     const firstExp = script?.beats[0]?.speakerExpression ?? 'neutral';
@@ -212,11 +215,11 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-5 animate-stage-in">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="sticky top-14 lg:top-16 z-20 -mx-2 px-2 py-2 bg-[#F7F7F8]/95 border-b border-zinc-200/70 flex flex-wrap items-center justify-between gap-3">
         <button
           type="button"
           onClick={onBackToChats}
-          className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 cursor-pointer"
+          className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-sm font-semibold text-zinc-800 hover:bg-zinc-50 cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Chats</span>
@@ -240,6 +243,14 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
           <span>
             {'❤️'.repeat(Math.max(0, wallet.fridayHearts)) || '💔 0 Hearts'}
           </span>
+          <button
+            type="button"
+            aria-label="Close date stage"
+            onClick={onBackToChats}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
       </div>
 
@@ -577,45 +588,75 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                 </div>
               )}
 
-              {/* Action Bar: Free Replay, Next Date, Share Polaroid, Support */}
+              {/* Action Bar: Free Replay, Next Date / Return, Share Polaroid, Support */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                 <div className="flex flex-wrap gap-2.5">
                   <button
                     type="button"
                     onClick={handleFreeReplay}
-                    className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 bg-white/5 px-3.5 text-xs font-semibold text-white hover:bg-white/15 cursor-pointer"
+                    className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15 cursor-pointer"
                   >
-                    <RotateCcw className="h-3.5 w-3.5" />
+                    <RotateCcw className="h-4 w-4" />
                     <span>Replay Date Free</span>
                   </button>
 
-                  {rank !== 'F' && script.dateNumber < 3 && onLaunchNextDate && (
+                  {rank !== 'F' && script.dateNumber < 3 && onLaunchNextDate ? (
                     <button
                       type="button"
                       onClick={() =>
                         onLaunchNextDate((script.dateNumber + 1) as 1 | 2 | 3 | 4)
                       }
-                      className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 px-4 text-xs font-semibold text-white hover:bg-rose-500 cursor-pointer"
+                      className="inline-flex min-h-10 items-center gap-1.5 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 cursor-pointer"
                     >
-                      <Sparkles className="h-3.5 w-3.5" />
+                      <Sparkles className="h-4 w-4" />
                       <span>Continue to Date #{script.dateNumber + 1} →</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={onBackToChats}
+                      className="inline-flex min-h-10 items-center gap-1.5 rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 cursor-pointer"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      <span>Return to Inbox →</span>
                     </button>
                   )}
 
                   <button
                     type="button"
                     onClick={async () => {
+                      const shareTitle =
+                        rank === 'F'
+                          ? `Date Disaster Receipt with ${profile.name}`
+                          : `${rank}-Rank Date with ${profile.name}`;
+                      const shareText =
+                        rank === 'F'
+                          ? `🚩 Survived an F-RANK Date #${script.dateNumber} disaster with ${profile.name} on Cougars & Cubs Club!`
+                          : `🐆 Scored ${rank}-RANK on Date #${script.dateNumber} with ${profile.name} (${role === 'her' ? 'Cougar' : 'Cub'} Campaign) on Cougars & Cubs Club!`;
+                      const url = 'https://cougarsandcubs.club';
                       await shareOrCopy({
-                        title: `${rank}-Rank Date with ${profile.name}`,
-                        text: `🐆 Scored ${rank}-RANK on Date #${script.dateNumber} with ${profile.name} (${role === 'her' ? 'Cougar' : 'Cub'} Campaign) on Cougars & Cubs Club!`,
-                        url: 'https://cougarsandcubs.club',
+                        title: shareTitle,
+                        text: shareText,
+                        url,
                       });
                       setCopiedPolaroid(true);
+                      setSharePayload({
+                        title: shareTitle,
+                        message: shareText,
+                        url,
+                        shareSurface: 'verdict_receipt',
+                      });
                     }}
-                    className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 px-3.5 text-xs font-semibold text-white hover:bg-white/10 cursor-pointer"
+                    className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-white/20 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10 cursor-pointer"
                   >
-                    <Share2 className="h-3.5 w-3.5" />
-                    <span>{copiedPolaroid ? 'Polaroid Copied!' : 'Share Polaroid'}</span>
+                    <Share2 className="h-4 w-4" />
+                    <span>
+                      {copiedPolaroid
+                        ? 'Receipt Copied!'
+                        : rank === 'F'
+                          ? 'Share Disaster Receipt'
+                          : 'Share Polaroid'}
+                    </span>
                   </button>
                 </div>
 
@@ -623,7 +664,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                   href={MONETIZATION_CONFIG.tipJarUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-9 items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-white transition-colors"
+                  className="inline-flex min-h-10 items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-white transition-colors"
                 >
                   <Heart className="h-3.5 w-3.5 text-rose-500" />
                   <span>Support This Project</span>
@@ -633,6 +674,11 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
           )}
         </div>
       </section>
+
+      <SocialShareSheetModal
+        payload={sharePayload}
+        onClose={() => setSharePayload(null)}
+      />
     </div>
   );
 };
