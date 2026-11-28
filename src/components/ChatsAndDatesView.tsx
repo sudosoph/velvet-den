@@ -267,6 +267,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [playingVoiceLeadId, setPlayingVoiceLeadId] = useState<string | null>(null);
   const voiceStopRef = useRef<(() => void) | null>(null);
   const [dmReactions, setDmReactions] = useState<Record<string, string>>({});
+  const [rewardedTapbackKeys, setRewardedTapbackKeys] = useState<string[]>([]);
+  const [tapbackOutcomes, setTapbackOutcomes] = useState<
+    Record<string, { tone: 'pos' | 'neg' | 'trap'; label: string }>
+  >({});
+  const [flaggedSuspectLeadIds, setFlaggedSuspectLeadIds] = useState<string[]>([]);
   const [sparkToast, setSparkToast] = useState<{ delta: number; nonce: number } | null>(null);
   const [inspectedExifIds, setInspectedExifIds] = useState<string[]>([]);
   const [recoveredUnsentIds, setRecoveredUnsentIds] = useState<string[]>([]);
@@ -400,7 +405,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     const el = dmFeedRef.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
-  }, [currentThread?.leadId, currentThread?.messages.length, dmTypingLabel, surface]);
+  }, [
+    currentThread?.leadId,
+    currentThread?.messages.length,
+    currentThread?.currentBeat,
+    currentThread?.chemistry,
+    dmTypingLabel,
+    surface,
+  ]);
 
   // Always auto-scroll Discord Lounge feed to the newest message / typing bubble
   useEffect(() => {
@@ -881,6 +893,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     Boolean(currentThread) &&
     currentThread!.stage === 'app_dm' &&
     currentThread!.currentBeat > 6;
+
+  const canGraduateToImessage =
+    Boolean(currentThread) &&
+    currentThread!.stage === 'app_dm' &&
+    (currentThread!.currentBeat > 6 || currentThread!.chemistry >= 75);
 
   const availableDates = currentThread ? (V35_DATE_SCRIPTS[currentThread.leadId] ?? []) : [];
   const nextDateScript = currentThread
@@ -1680,6 +1697,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                                         : [...cur, emo],
                                     };
                                   });
+                                  if (!active) {
+                                    awardPassportBonusXp(
+                                      `discord_react_${reactionKey}`,
+                                      2,
+                                      'Co-Signed Server Post!',
+                                      `${emo} +2 XP`,
+                                    );
+                                  }
                                 }}
                                 className={`rounded-md border px-2 py-0.5 text-xs tabular-nums transition cursor-pointer ${
                                   active
@@ -2161,7 +2186,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   datesCompleted: currentThread.datesCompleted,
                   hasTrapBeatHint: Boolean(activeBeat?.trapClueHint),
                   inspectedPhotoClue: hasInspectedPhoto,
-                  recoveredUnsentSlip: recoveredUnsentIds.includes(currentThread.leadId),
+                  recoveredUnsentSlip:
+                    recoveredUnsentIds.includes(currentThread.leadId) ||
+                    flaggedSuspectLeadIds.includes(currentThread.leadId),
                   phoneAFriendChecked: phoneFriendCheckedIds.includes(currentThread.leadId),
                 });
 
@@ -2549,31 +2576,150 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       )}
 
                       {!isPlayer && (
-                        <div className="mt-1.5 pl-11 flex items-center gap-1 opacity-45 group-hover:opacity-100 transition">
+                        <div className="mt-1.5 pl-11 flex flex-wrap items-center gap-1.5 opacity-85 group-hover:opacity-100 transition">
+                          {idx ===
+                            currentThread.messages.reduce(
+                              (last, item, i) => (item.sender === 'match' ? i : last),
+                              -1,
+                            ) &&
+                            !activeTapback && (
+                              <span className="text-[11px] font-medium text-zinc-400 mr-0.5">
+                                React:
+                              </span>
+                            )}
                           {(['❤️', '🔥', '😂', '🚩'] as const).map((emo) => (
                             <button
                               key={emo}
                               type="button"
                               aria-label={`Tapback ${emo}`}
                               onClick={() => {
-                                sfx.messagePop();
+                                const togglingOff = activeTapback === emo;
                                 setDmReactions((prev) => ({
                                   ...prev,
-                                  [msgKey]: prev[msgKey] === emo ? '' : emo,
+                                  [msgKey]: togglingOff ? '' : emo,
                                 }));
+
+                                if (togglingOff) {
+                                  sfx.messagePop();
+                                  return;
+                                }
+
                                 if (emo === '🚩') {
                                   setCalloutPromptLeadId(currentThread.leadId);
+                                }
+
+                                // One-time tactical gameplay effect per message bubble (no infinite farming)
+                                if (!rewardedTapbackKeys.includes(msgKey)) {
+                                  setRewardedTapbackKeys((prev) => [...prev, msgKey]);
+
+                                  if (emo === '🚩') {
+                                    if (currentProfile.tier === 'trap') {
+                                      sfx.greenFlag();
+                                      setFlaggedSuspectLeadIds((prev) =>
+                                        prev.includes(currentThread.leadId)
+                                          ? prev
+                                          : [...prev, currentThread.leadId],
+                                      );
+                                      awardPassportBonusXp(
+                                        `flag_pin_${msgKey}`,
+                                        5,
+                                        'Shady Subtext Clocked!',
+                                        '🚩 +5 XP',
+                                      );
+                                      setTapbackOutcomes((prev) => ({
+                                        ...prev,
+                                        [msgKey]: {
+                                          tone: 'trap',
+                                          label: '🎯 Shady subtext clocked! (+5 XP · Radar Updated)',
+                                        },
+                                      }));
+                                    } else {
+                                      sfx.redFlag();
+                                      const nextChem = Math.max(0, currentThread.chemistry - 1);
+                                      onUpdateThread({ ...currentThread, chemistry: nextChem });
+                                      setSparkToast({ delta: -1, nonce: Date.now() });
+                                      setTapbackOutcomes((prev) => ({
+                                        ...prev,
+                                        [msgKey]: {
+                                          tone: 'neg',
+                                          label: '⚠️ Genuine text · careful over-flagging (-1% Spark)',
+                                        },
+                                      }));
+                                    }
+                                    return;
+                                  }
+
+                                  if (
+                                    emo === '🔥' &&
+                                    currentThread.stage === 'app_dm' &&
+                                    currentThread.currentBeat === 1 &&
+                                    currentThread.chemistry < 65
+                                  ) {
+                                    sfx.redFlag();
+                                    const nextChem = Math.max(0, currentThread.chemistry - 1);
+                                    onUpdateThread({ ...currentThread, chemistry: nextChem });
+                                    setSparkToast({ delta: -1, nonce: Date.now() });
+                                    setTapbackOutcomes((prev) => ({
+                                      ...prev,
+                                      [msgKey]: {
+                                        tone: 'neg',
+                                        label: '😬 Premature 🔥 on Beat 1 before rapport (-1% Spark)',
+                                      },
+                                    }));
+                                    return;
+                                  }
+
+                                  const sparkBoost = emo === '🔥' ? 3 : 2;
+                                  sfx.greenFlag();
+                                  const nextChem = Math.min(100, currentThread.chemistry + sparkBoost);
+                                  onUpdateThread({ ...currentThread, chemistry: nextChem });
+                                  setSparkToast({ delta: sparkBoost, nonce: Date.now() });
+                                  awardPassportBonusXp(
+                                    `tapback_${msgKey}`,
+                                    2,
+                                    `${emo} Reaction Landed!`,
+                                    `+${sparkBoost}% Spark`,
+                                  );
+                                  setTapbackOutcomes((prev) => ({
+                                    ...prev,
+                                    [msgKey]: {
+                                      tone: 'pos',
+                                      label:
+                                        emo === '🔥'
+                                          ? `🔥 Bold timing! ${currentProfile.name} noticed (+3% Spark)`
+                                          : emo === '😂'
+                                            ? `😄 Landed the banter! (+2% Spark)`
+                                            : `💗 ${currentProfile.name} smiled at your ❤️ (+2% Spark)`,
+                                    },
+                                  }));
+                                } else {
+                                  sfx.messagePop();
                                 }
                               }}
                               className={`rounded-full px-1.5 py-0.5 text-xs transition cursor-pointer ${
                                 activeTapback === emo
                                   ? 'bg-rose-50 ring-1 ring-rose-300 opacity-100'
-                                  : 'hover:bg-zinc-100'
+                                  : 'bg-zinc-50/80 border border-zinc-200/70 hover:bg-zinc-100'
                               }`}
                             >
                               {emo}
                             </button>
                           ))}
+
+                          {tapbackOutcomes[msgKey] && (
+                            <span
+                              data-testid="tapback-outcome-pill"
+                              className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold animate-stage-in ${
+                                tapbackOutcomes[msgKey].tone === 'trap'
+                                  ? 'bg-amber-100 text-amber-950 border border-amber-300'
+                                  : tapbackOutcomes[msgKey].tone === 'pos'
+                                    ? 'bg-emerald-50 text-emerald-900 border border-emerald-200'
+                                    : 'bg-rose-50 text-rose-900 border border-rose-200'
+                              }`}
+                            >
+                              {tapbackOutcomes[msgKey].label}
+                            </span>
+                          )}
                         </div>
                       )}
                     </div>
@@ -2755,6 +2901,91 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     </button>
                   </div>
                 )}
+                {/* Inline Number-Drop Contact Card RIGHT AFTER the Last Message Bubble! */}
+                {canGraduateToImessage &&
+                  !dmTypingLabel &&
+                  !snoozedImessageIds.includes(currentThread.leadId) && (
+                    <div
+                      data-testid="inline-imessage-graduation-card"
+                      className="flex items-end gap-3 pt-2 animate-stage-in"
+                    >
+                      <img
+                        src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
+                        alt={currentProfile.name}
+                        className="h-8 w-8 rounded-full object-cover shrink-0 shadow-2xs border border-zinc-200/80 mb-1"
+                      />
+                      <div className="flex-1 rounded-2xl rounded-bl-sm border-2 border-[#007AFF]/40 bg-gradient-to-br from-blue-50 via-white to-sky-50 p-4 space-y-3 shadow-sm">
+                        <div className="space-y-1">
+                          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF]/10 px-2.5 py-0.5 text-[11px] font-bold text-[#007AFF]">
+                            <Smartphone className="h-3 w-3" />
+                            <span>
+                              {isReadyToGraduate
+                                ? '6/6 Prowl Beats Complete · Personal Cell Unlocked'
+                                : `${currentThread.chemistry}% High Spark · Early Number Drop!`}
+                            </span>
+                          </div>
+                          <p className="text-sm font-semibold text-slate-950 leading-snug">
+                            {role === 'her'
+                              ? `${currentProfile.name} passed your Prowl vibe check. Ready to drop your real number and switch to blue-bubble iMessage?`
+                              : `“Honestly I barely check notifications on this app, text my actual number instead.”`}
+                          </p>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={handleGraduateToImessage}
+                            className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-[#007AFF] hover:bg-blue-600 px-4 text-xs sm:text-sm font-bold text-white shadow-xs transition cursor-pointer"
+                          >
+                            <Unlock className="h-3.5 w-3.5" />
+                            <span>
+                              {role === 'her'
+                                ? '📱 Give Him My Number (Move to iMessage)'
+                                : '📱 Save Her Number (Move to iMessage)'}
+                            </span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSnoozedImessageIds((prev) => [...prev, currentThread.leadId])
+                            }
+                            className="inline-flex h-9 items-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-3 text-xs font-medium text-slate-600 cursor-pointer"
+                          >
+                            Not Yet, Keep Bantering on Prowl
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                {/* Inline Friday Date Invitation Card RIGHT AFTER the Last iMessage Bubble! */}
+                {isDateReady && nextDateScript && !dmTypingLabel && (
+                  <div
+                    data-testid="inline-date-ready-card"
+                    className="rounded-2xl border-2 border-emerald-300 bg-gradient-to-r from-emerald-50 via-white to-teal-50 p-4 flex flex-wrap items-center justify-between gap-3 shadow-xs animate-stage-in"
+                  >
+                    <div className="space-y-0.5">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">
+                        🍸 Offline Chemistry Unlocked ({currentThread.chemistry}% Spark)
+                      </div>
+                      <div className="text-sm font-bold text-zinc-950">
+                        {nextDateScript.dateNumber === 4
+                          ? `Weekend Escape Epilogue with ${currentProfile.name} is ready!`
+                          : `Ready for Friday Date #${nextDateScript.dateNumber} with ${currentProfile.name}!`}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => launchDateWithGate(currentProfile.id, nextDateScript)}
+                      className="inline-flex h-10 items-center rounded-xl bg-zinc-950 hover:bg-rose-600 px-4 text-xs sm:text-sm font-bold text-white transition cursor-pointer"
+                    >
+                      {nextDateScript.dateNumber === 4
+                        ? '🌙 Start Weekend Escape →'
+                        : `🍸 Start Date #${nextDateScript.dateNumber} Now →`}
+                    </button>
+                  </div>
+                )}
                   </>
                 )}
                 </div>
@@ -2791,36 +3022,19 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
-                {isReadyToGraduate && !snoozedImessageIds.includes(currentThread.leadId) && (
-                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-blue-50/80 px-4 py-3.5">
-                    <div className="text-xs sm:text-sm font-semibold text-blue-950">
-                      {role === 'her'
-                        ? `📱 Chemistry is high: share your number for iMessage, or stay on Prowl.`
-                        : `📱 Chemistry is high: move to personal iMessage, or keep chatting here.`}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={handleGraduateToImessage}
-                        className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#007AFF] hover:bg-blue-600 px-3.5 text-xs sm:text-sm font-semibold text-white cursor-pointer"
-                      >
-                        <Unlock className="h-3.5 w-3.5" />
-                        <span>
-                          {role === 'her'
-                            ? '📱 Give Him My Number (Move to iMessage)'
-                            : '📱 Save Her Number (Move to iMessage)'}
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSnoozedImessageIds((prev) => [...prev, currentThread.leadId])
-                        }
-                        className="inline-flex h-9 items-center rounded-lg border border-blue-200 bg-white hover:bg-blue-100/40 px-3 text-xs sm:text-sm font-medium text-blue-950 cursor-pointer"
-                      >
-                        Not Yet, Keep Bantering on Prowl
-                      </button>
-                    </div>
+                {isReadyToGraduate && (
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-blue-50/80 px-4 py-3">
+                    <span className="text-xs sm:text-sm font-semibold text-blue-950">
+                      📱 All 6 Prowl beats complete! Continue on personal iMessage (+10% Spark):
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleGraduateToImessage}
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#007AFF] hover:bg-blue-600 px-3.5 text-xs sm:text-sm font-semibold text-white cursor-pointer"
+                    >
+                      <Unlock className="h-3.5 w-3.5" />
+                      <span>Open Personal iMessage Thread →</span>
+                    </button>
                   </div>
                 )}
 

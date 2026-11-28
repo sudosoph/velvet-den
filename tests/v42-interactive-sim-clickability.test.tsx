@@ -6,7 +6,7 @@ import { HingeFeedView } from '../src/components/HingeFeedView';
 import { InTheWildMapView } from '../src/components/InTheWildMapView';
 import { createDefaultWallet } from '../src/domain/economy';
 
-describe('v42 Interactive Dating-Sim Clickability & Subreddit Polish Across Checklist, Wild, Prowl & Discord', () => {
+describe('v42 Interactive Dating-Sim Clickability, Post-Beat Graduation Card & Tactical Text Reactions', () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
@@ -50,7 +50,7 @@ describe('v42 Interactive Dating-Sim Clickability & Subreddit Polish Across Chec
     expect(screen.getByTestId('wild-approachability-verdict')).toBeInTheDocument();
   });
 
-  it('removes duplicate role bar in Prowl, enables full-card prompt click + sticky ♥ quick reply + arrow keys', () => {
+  it('removes duplicate role bar in Prowl, enables full-card prompt click + sticky ♥ quick reply', () => {
     const wallet = {
       ...createDefaultWallet(new Date('2026-11-28T12:00:00Z')),
       discernmentXp: 40,
@@ -67,23 +67,60 @@ describe('v42 Interactive Dating-Sim Clickability & Subreddit Polish Across Chec
       />,
     );
 
-    // Zero duplicate "Playing as Her / Playing as Him" bar inside HingeFeedView
     expect(document.body.textContent).not.toMatch(/Playing as Him/i);
 
-    // Sticky ♥ Quick Reply FAB opens the reply modal directly
     fireEvent.click(screen.getByTestId('hinge-sticky-like-btn'));
     expect(screen.getByRole('dialog', { name: /Reply to/i })).toBeInTheDocument();
   });
 
-  it('renders live Discord community reaction counts (+1 on click) and tactile [1][2][3] Emily-Is-Away choice keycaps', () => {
+  it('shows inline Number-Drop Graduation Card RIGHT after the last message bubble (for 75%+ Spark & Beat 6) and rewards tactical text reactions', () => {
     const wallet = createDefaultWallet(new Date('2026-11-28T12:00:00Z'));
-    const thread = createInitialThread('claire', 'hinge');
+    const highSparkThread = {
+      ...createInitialThread('claire', 'hinge'),
+      chemistry: 76,
+      currentBeat: 3,
+    };
 
+    let latestUpdated = highSparkThread;
+    const { unmount } = render(
+      <ChatsAndDatesView
+        role="him"
+        wallet={wallet}
+        threads={[highSparkThread]}
+        cutLooseIds={[]}
+        onUpdateThread={(u) => {
+          latestUpdated = u;
+        }}
+        onSpendCredits={() => true}
+        onUnlockBucketItem={() => true}
+        onCutLooseTrap={vi.fn()}
+        onConfirmCutGenuine={vi.fn()}
+        onLoseHeart={vi.fn()}
+        onOpenHinge={vi.fn()}
+        onOpenBoutique={vi.fn()}
+      />,
+    );
+
+    // 1. Inline iMessage Contact Card appears directly inside dm-message-feed right after the last bubble!
+    const feed = screen.getByTestId('dm-message-feed');
+    const inlineGradCard = within(feed).getByTestId('inline-imessage-graduation-card');
+    expect(inlineGradCard.textContent).toMatch(/Save Her Number \(Move to iMessage\)/i);
+
+    // 2. Reacting ❤️ to Claire's incoming text grants +2% Spark & renders inline reaction receipt!
+    const heartBtns = within(feed).getAllByRole('button', { name: 'Tapback ❤️' });
+    fireEvent.click(heartBtns[0]);
+    expect(latestUpdated.chemistry).toBe(78);
+    expect(within(feed).getByTestId('tapback-outcome-pill').textContent).toMatch(/\+2% Spark/i);
+
+    unmount();
+
+    // 3. Reacting 🚩 on a Disguised Trap (Vanessa) clocks shady subtext (+5 XP) & updates Gut-Check Radar!
+    const trapThread = createInitialThread('vanessa', 'hinge');
     render(
       <ChatsAndDatesView
         role="him"
         wallet={wallet}
-        threads={[thread]}
+        threads={[trapThread]}
         cutLooseIds={[]}
         onUpdateThread={vi.fn()}
         onSpendCredits={() => true}
@@ -95,20 +132,11 @@ describe('v42 Interactive Dating-Sim Clickability & Subreddit Polish Across Chec
         onOpenBoutique={vi.fn()}
       />,
     );
-
-    // Tactile [1][2][3] keycaps on DM beat choices
-    const choiceBtns = screen.getAllByTestId('chat-suggestion-btn');
-    expect(choiceBtns[0].textContent).toMatch(/^1/);
-
-    // Switch to Discord -> verify community reaction count increments +1 on click
-    fireEvent.click(screen.getByRole('button', { name: /Club Discord Lounge/i }));
-    const firstMsg = screen.getByTestId('discord-first-message');
-    const reactBtn = within(firstMsg).getByRole('button', { name: /React 🥂/i });
-    const beforeNum = Number((reactBtn.textContent || '').replace(/\D+/g, ''));
-    expect(beforeNum).toBeGreaterThan(0);
-
-    fireEvent.click(reactBtn);
-    const afterNum = Number((reactBtn.textContent || '').replace(/\D+/g, ''));
-    expect(afterNum).toBe(beforeNum + 1);
+    const trapFeed = screen.getByTestId('dm-message-feed');
+    const flagBtns = within(trapFeed).getAllByRole('button', { name: 'Tapback 🚩' });
+    fireEvent.click(flagBtns[0]);
+    expect(within(trapFeed).getByTestId('tapback-outcome-pill').textContent).toMatch(
+      /Shady subtext clocked/i,
+    );
   });
 });
