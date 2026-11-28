@@ -915,6 +915,7 @@ function baselineRoleCounts(episodeId: string, choiceCount: number, role: 'her' 
 interface StoredCourtStory {
   id: string;
   aslTag: string;
+  subject?: 'him' | 'her';
   headline: string;
   story: string;
   vibeBadge: string;
@@ -927,8 +928,161 @@ interface StoredCourtStory {
 
 const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
+    id: 'court-fleetwood-mac-flat-tire',
+    aslTag: '39F × 24M • Phoenix',
+    subject: 'him',
+    headline:
+      'Changed My Flat Highway Tire in Eight Minutes Flat, Then Asked If Fleetwood Mac Was "That TikTok Cranberry Juice Band"',
+    story:
+      'Pulled onto a scorching shoulder while I stayed in white linen, swapped my spare without me lifting a finger, hopped back into the driver’s seat, and deadpan called Stevie Nicks a promising new indie vocalist.',
+    vibeBadge: '⚡ Split-Jury Classic',
+    crownHer: 74,
+    dumpHer: 26,
+    crownHim: 93,
+    dumpHim: 7,
+  },
+  {
+    id: 'court-lasagna-macro-scale',
+    aslTag: '42F × 26M • Chicago',
+    subject: 'him',
+    headline:
+      'Pulled a Pocket Digital Food Scale Out at My Dinner Party to Weigh My Homemade Short-Rib Lasagna to the Gram',
+    story:
+      'Simmered Sunday ragu for five hours for six close friends. Before taking a bite, he zeroed out a stainless macro scale beside my Bordeaux stems and logged "estimated ricotta density" into his phone.',
+    vibeBadge: '⚖️ Gym-Bro Blind Spot',
+    crownHer: 6,
+    dumpHer: 94,
+    crownHim: 44,
+    dumpHim: 56,
+  },
+  {
+    id: 'court-sunday-715am-robe-boot',
+    aslTag: '28M × 51F • Manhattan Beach',
+    subject: 'her',
+    headline:
+      'Handed Me an Iced Espresso & Forehead Kiss at 7:15 AM Sharp Because "Sunday Morning Is Strictly Solo Robe & Crossword Time"',
+    story:
+      'Unbelievable Saturday steak dinner and chemistry, then at 7:15 AM she cheerfully walked me out to my car holding warm banana bread and locked her courtyard gate behind me.',
+    vibeBadge: '🐆 Peak Cougar Boundary',
+    crownHer: 96,
+    dumpHer: 4,
+    crownHim: 58,
+    dumpHim: 42,
+  },
+  {
+    id: 'court-close-friends-green-circle',
+    aslTag: '41F × 25M • Los Angeles',
+    subject: 'him',
+    headline: 'Posted Our Cabo Anniversary Dinner Exclusively to His 9-Person "Close Friends" Ring',
+    story:
+      'Four months of great dates, yet when he finally posted our beachfront toast I spotted the neon green circle, populated strictly by out-of-state cousins and zero local pals.',
+    vibeBadge: '🟢 Soft-Launch Dodge',
+    crownHer: 8,
+    dumpHer: 92,
+    crownHim: 29,
+    dumpHim: 71,
+  },
+  {
+    id: 'court-1999-prom-king-crossover',
+    aslTag: '45F × 25M • Austin',
+    subject: 'him',
+    headline:
+      'Discovered Over Mimosas That His 47-Year-Old Mom & I Both Dated the Exact Same 1999 High-School Quarterback',
+    story:
+      'His mom mentioned senior prom in Evanston, opened an old photo album, and there stood my 1999 ex Chad in frosted tips. My boyfriend laughed, clinked glasses with both of us, and ordered French toast.',
+    vibeBadge: '🥂 Unflappable King',
+    crownHer: 88,
+    dumpHer: 12,
+    crownHim: 92,
+    dumpHim: 8,
+  },
+  {
+    id: 'court-cabo-gate-bellhop-dodge',
+    aslTag: '27M × 45F • Miami',
+    subject: 'her',
+    headline:
+      'Upgraded Us Both to First Class to Cabo, Then Told Her Country-Club Neighbor at Gate D12 I Was "Helping With Her Carry-On"',
+    story:
+      'Four months of nonstop chemistry at home, yet the instant her Boca tennis partner strolled up at boarding, she panicked and demoted me to unpaid airport skycap until takeoff.',
+    vibeBadge: '✈️ Secret Skycap Foul',
+    crownHer: 19,
+    dumpHer: 81,
+    crownHim: 9,
+    dumpHim: 91,
+  },
+  {
+    id: 'court-wifi-79-vintage-blurt',
+    aslTag: '46F × 27M • Seattle',
+    subject: 'him',
+    headline:
+      'Cracked My Home Wi-Fi Password Because It Ended in "79" and Immediately Blurted Out "Whoa, Vintage!"',
+    story:
+      'Connected his laptop on Date #3, guessed my birth-year digits in ten seconds, whispered "Whoa, vintage," saw my expression, and sprinted to the wine shop for my favorite Pinot Noir as penance.',
+    vibeBadge: '🍷 Saved by Pinot?',
+    crownHer: 53,
+    dumpHer: 47,
+    crownHim: 79,
+    dumpHim: 21,
+  },
+  {
+    id: 'court-ex-husband-ribeye-tongs',
+    aslTag: '48F × 29M • Denver',
+    subject: 'him',
+    headline:
+      'My Petty Ex Showed Up Forty Minutes Early to Rattle Him; My Boyfriend Handed Him Tongs & Asked How He Takes His Ribeye',
+    story:
+      'Richard walked onto the patio expecting awkward panic. My 29-year-old didn’t flinch once at the grill, poured him sparkling water with lime, and dissolved the whole power play inside ninety seconds.',
+    vibeBadge: '🥩 Zero-Ego Mastery',
+    crownHer: 99,
+    dumpHer: 1,
+    crownHim: 96,
+    dumpHim: 4,
+  },
+  {
+    id: 'court-roommates-crashed-sonoma',
+    aslTag: '46F × 24M • Napa',
+    subject: 'him',
+    headline: 'Two Uninvited Roommates Pulled Up to Our Vineyard Cottage Carrying Warm Seltzer Packs',
+    story:
+      'I booked a quiet Sonoma rental for our weekend escape. At 9 PM gravel crunches outside and his two buddies stroll in asking for the Wi-Fi password and pool towels.',
+    vibeBadge: '🚩 Boundary Crash',
+    crownHer: 4,
+    dumpHer: 96,
+    crownHim: 18,
+    dumpHim: 82,
+  },
+  {
+    id: 'court-stealth-omakase-ego-test',
+    aslTag: '26M × 43F • New York',
+    subject: 'her',
+    headline:
+      'Handed the Hostess Her Amex Before We Even Sat Down on Date #2 "Just to See If Covering Omakase Would Bruise My Ego"',
+    story:
+      'When I reached for the bill, the server smiled and said it was settled at 7:30 PM. She watched my reaction over sake and grinned: "Good, zero pouting. Nightcaps down the block are on you."',
+    vibeBadge: '🍣 Power-Move Test',
+    crownHer: 84,
+    dumpHer: 16,
+    crownHim: 88,
+    dumpHim: 12,
+  },
+  {
+    id: 'court-pta-mom-compliment-fumble',
+    aslTag: '41F × 23M • San Diego',
+    subject: 'him',
+    headline:
+      'Tried to Praise My Patio Hosting Skills by Saying "You Have Such Elite Hot-Carpool-Mom Energy"',
+    story:
+      'Carried out prosciutto figs and chilled rosé onto my deck, and he earnestly believed comparing me to his childhood neighborhood crush was Shakespearean flattery.',
+    vibeBadge: '💀 Compliment Crime',
+    crownHer: 9,
+    dumpHer: 91,
+    crownHim: 41,
+    dumpHim: 59,
+  },
+  {
     id: 'court-delta-hold-rebook-hero',
     aslTag: '44F × 27M • Atlanta',
+    subject: 'him',
     headline:
       'Connecting Flight Cancelled at 10 PM; He Sat on Hold With Delta for 47 Minutes While I Showered',
     story:
@@ -940,44 +1094,50 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     dumpHim: 8,
   },
   {
-    id: 'court-close-friends-green-circle',
-    aslTag: '41F × 25M • Los Angeles',
-    headline: 'Posted Our Cabo Anniversary Dinner Exclusively to His 9-Person "Close Friends" Ring',
+    id: 'court-mature-skin-birthday-box',
+    aslTag: '42F × 25M • Boston',
+    subject: 'him',
+    headline: 'Wrapped Up a $180 Jar Labeled "Extra-Firming Mature Wrinkle Rescue" for My Birthday',
     story:
-      'Four months of great dates, yet when he finally posted our beachfront toast I spotted the neon green circle, populated strictly by out-of-state cousins and zero local pals.',
-    vibeBadge: '🟢 Soft-Launch Dodge',
-    crownHer: 8,
-    dumpHer: 92,
-    crownHim: 29,
-    dumpHim: 71,
+      'Swore the department-store clerk told him it was the luxury bestseller, sweetest handwritten card attached to the most mortifying label on earth.',
+    vibeBadge: '🎁 Clueless Sweetheart?',
+    crownHer: 38,
+    dumpHer: 62,
+    crownHim: 64,
+    dumpHim: 36,
   },
   {
-    id: 'court-allergen-brownies-soccer',
-    aslTag: '43F × 28M • Seattle',
-    headline: 'Baked Nut-Free Fudge Brownies From Scratch for My Teenager’s Regional Soccer Bus',
+    id: 'court-percale-63f-thermostat',
+    aslTag: '49F × 30M • Dallas',
+    subject: 'him',
+    headline:
+      'Quietly Swapped His Heavy Duvet for Crisp Cotton Percale & Set the Bedroom to 63°F Without Making a Speech',
     story:
-      'Remembered from one passing comment six weeks earlier that my son’s goalkeeper has a tree-nut allergy, labeled every tin neatly, and cheered from the top bleacher.',
-    vibeBadge: '🧁 High-EQ King',
-    crownHer: 98,
-    dumpHer: 2,
+      'Mentioned once in passing that warm bedrooms wreck my sleep. Next Friday at his place, a quiet fan was running, ice water sat on my nightstand, and zero awkward commentary was made.',
+    vibeBadge: '❄️ 63°F Sanctuary King',
+    crownHer: 99,
+    dumpHer: 1,
     crownHim: 94,
     dumpHim: 6,
   },
   {
-    id: 'court-roommates-crashed-sonoma',
-    aslTag: '46F × 24M • Napa',
-    headline: 'Two Uninvited Roommates Pulled Up to Our Vineyard Cottage Carrying Warm Seltzer Packs',
+    id: 'court-air-fryer-hobosexual-creep',
+    aslTag: '43F × 25M • Nashville',
+    subject: 'him',
+    headline:
+      'Left Three Hoodies, a Dual-Basket Air Fryer & a PS5 at My House After Month One, Then Asked About "Our Wi-Fi Speed"',
     story:
-      'I booked a quiet Sonoma rental for our weekend escape. At 9 PM gravel crunches outside and his two buddies stroll in asking for the Wi-Fi password and pool towels.',
-    vibeBadge: '🚩 Boundary Crash',
-    crownHer: 4,
-    dumpHer: 96,
-    crownHim: 18,
-    dumpHim: 82,
+      'Never discussed moving in. Walked into my kitchen Thursday morning to discover my espresso machine pushed aside for a giant black air fryer and gaming headset.',
+    vibeBadge: '🎮 Stealth Squatting',
+    crownHer: 3,
+    dumpHer: 97,
+    crownHim: 21,
+    dumpHim: 79,
   },
   {
     id: 'court-stick-shift-porsche-lessons',
     aslTag: '49F × 29M • Scottsdale',
+    subject: 'him',
     headline: 'Secretly Took Three Stick-Shift Lessons So He Could Drive My Classic Carrera Home',
     story:
       'Never acted weird that he didn’t drive manual, booked an instructor on his own dime and smoothly took the keys after our wine-pairing dinner.',
@@ -990,6 +1150,7 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
   {
     id: 'court-shut-down-buddy-joke',
     aslTag: '45F × 26M • Chicago',
+    subject: 'him',
     headline: 'Shut Down His Friend’s "Mrs. Robinson" Crack in Three Calm Words Without Raising His Voice',
     story:
       'At his friend’s birthday pub night, one guy made a tired movie joke. My boyfriend smiled deadpan, said "Show some class," and moved us to a cozy corner banquette.',
@@ -1000,32 +1161,9 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     dumpHim: 7,
   },
   {
-    id: 'court-mature-skin-birthday-box',
-    aslTag: '42F × 25M • Boston',
-    headline: 'Wrapped Up a $180 Jar Labeled "Extra-Firming Mature Wrinkle Rescue" for My Birthday',
-    story:
-      'Swore the department-store clerk told him it was the luxury bestseller, sweetest handwritten card attached to the most mortifying label on earth.',
-    vibeBadge: '🎁 Clueless Sweetheart?',
-    crownHer: 38,
-    dumpHer: 62,
-    crownHim: 64,
-    dumpHim: 36,
-  },
-  {
-    id: 'court-toothbrush-stays-in-bag',
-    aslTag: '51F × 30M • Denver',
-    headline: 'Kept His Charger & Toothbrush Inside His Duffel Until I Explicitly Offered Him a Drawer',
-    story:
-      'Zero stealth territory-marking in my townhouse for three straight months, waited until I cleared top-drawer space before leaving a single item behind.',
-    vibeBadge: '🧳 Sanctuary Respect',
-    crownHer: 95,
-    dumpHer: 5,
-    crownHim: 87,
-    dumpHim: 13,
-  },
-  {
     id: 'court-four-monitor-snowstorm',
     aslTag: '44F × 24M • Minneapolis',
+    subject: 'him',
     headline: 'Set Up Four Curved Crypto Monitors on My Dining Table During a Two-Day Blizzard',
     story:
       'Came over before the snow hit carrying two suitcases of cables and turned my walnut dining room into a glowing day-trading command bunker until Tuesday.',
@@ -1036,20 +1174,23 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     dumpHim: 73,
   },
   {
-    id: 'court-prepaid-valet-surprise',
-    aslTag: '48F × 28M • Miami',
-    headline: 'Pre-Paid Valet & Tipped the Hostess Ahead So My Wallet Never Left My Evening Clutch',
+    id: 'court-joan-didion-cram-session',
+    aslTag: '44F × 27M • Cambridge',
+    subject: 'him',
+    headline:
+      'Accidentally Revealed on AirPlay That He Watched a 40-Minute Joan Didion Lecture Before Meeting My Book-Club Friends',
     story:
-      'Took me out for my promotion celebration on his sous-chef paycheck, coordinated every detail with the restaurant at 4 PM so the evening glided seamlessly.',
-    vibeBadge: '🥂 Pure Class',
-    crownHer: 98,
-    dumpHer: 2,
+      'Queued up dinner jazz from his phone and flashed three nights of secret study notes on Slouching Towards Bethlehem because he wanted to hold his own at my table.',
+    vibeBadge: '📚 Homework Sweetheart',
+    crownHer: 97,
+    dumpHer: 3,
     crownHim: 91,
     dumpHim: 9,
   },
   {
     id: 'court-wedding-grandma-friend-dodge',
     aslTag: '40F × 25M • Charleston',
+    subject: 'him',
     headline: 'Introduced Me to His 82-Year-Old Grandmother at a Family Wedding as "My Good Friend"',
     story:
       'Claimed afterward he didn’t want Nana to spill punch on her dress from shock, after I flew two states in heels to be his date.',
@@ -1060,8 +1201,22 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     dumpHim: 78,
   },
   {
+    id: 'court-toothbrush-stays-in-bag',
+    aslTag: '51F × 30M • Boulder',
+    subject: 'him',
+    headline: 'Kept His Charger & Toothbrush Inside His Duffel Until I Explicitly Offered Him a Drawer',
+    story:
+      'Zero stealth territory-marking in my townhouse for three straight months, waited until I cleared top-drawer space before leaving a single item behind.',
+    vibeBadge: '🧳 Sanctuary Respect',
+    crownHer: 95,
+    dumpHer: 5,
+    crownHim: 87,
+    dumpHim: 13,
+  },
+  {
     id: 'court-birthday-receipt-calculator',
     aslTag: '43F × 26M • San Francisco',
+    subject: 'him',
     headline: 'Pulled Out a Receipt-Scanning Tax App to Itemize Who Ate Which Calamari Ring',
     story:
       'Invited me out for HIS idea of tapas, then spent eleven minutes under the candle photographing the paper slip to calculate exact 8.625% tax.',
@@ -1072,20 +1227,22 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     dumpHim: 81,
   },
   {
-    id: 'court-fixed-moms-wifi-printer',
-    aslTag: '47F × 27M • Portland',
-    headline: 'Spent Ninety Patient Minutes Fixing My 74-Year-Old Mom’s Wireless Printer & Wrote Big Labels',
+    id: 'court-prepaid-valet-surprise',
+    aslTag: '48F × 28M • Miami',
+    subject: 'him',
+    headline: 'Pre-Paid Valet & Tipped the Hostess Ahead So My Wallet Never Left My Evening Clutch',
     story:
-      'Never sighed once, drew her a laminated three-step cheat sheet in thick marker, and stayed for lemon bars at her kitchen table.',
-    vibeBadge: '🖨️ Son-in-Law Tier',
-    crownHer: 99,
-    dumpHer: 1,
-    crownHim: 96,
-    dumpHim: 4,
+      'Took me out for my promotion celebration on his sous-chef paycheck, coordinated every detail with the restaurant at 4 PM so the evening glided seamlessly.',
+    vibeBadge: '🥂 Pure Class',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 91,
+    dumpHim: 9,
   },
   {
     id: 'court-kept-boyfriend-kitchen-reel',
     aslTag: '45F × 23M • Dallas',
+    subject: 'him',
     headline: 'Filmed a "Day in the Life of a Kept Boyfriend" Reel in My Marble Kitchen While I Worked',
     story:
       'Found my espresso machine and backyard pool trending with 90,000 views while he posed in my robe pretending I pay his car note.',
@@ -1094,18 +1251,6 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     dumpHer: 98,
     crownHim: 14,
     dumpHim: 86,
-  },
-  {
-    id: 'court-groomer-pickup-deposition',
-    aslTag: '50F × 29M • Washington DC',
-    headline: 'Left Work Early to Pick Up My Muddy Golden Retriever When My Deposition Ran Late',
-    story:
-      'Picked up Cooper before the kennel late fee hit, towel-dried every paw, walked him two miles, and had Thai curry waiting when I got home at eight.',
-    vibeBadge: '🐾 Ride-or-Die Partner',
-    crownHer: 99,
-    dumpHer: 1,
-    crownHim: 97,
-    dumpHim: 3,
   },
 ];
 
@@ -1188,13 +1333,14 @@ async function handleCourtroomVote(request: Request, env: WorkerEnv): Promise<Re
 }
 
 async function handleCourtroomSubmit(request: Request, env: WorkerEnv): Promise<Response> {
-  let body: { aslTag?: string; headline?: string; story?: string } = {};
+  let body: { aslTag?: string; subject?: string; headline?: string; story?: string } = {};
   try {
     body = (await request.json()) as typeof body;
   } catch {
     return jsonResponse({ error: 'Invalid JSON' }, 400);
   }
   const aslTag = scrubPiiForLog(String(body.aslTag || '42F × 26M • Club Member')).slice(0, 36);
+  const subject: 'him' | 'her' = body.subject === 'her' ? 'her' : 'him';
   const headline = scrubPiiForLog(String(body.headline || '').trim()).slice(0, 95);
   const story = scrubPiiForLog(String(body.story || '').trim()).slice(0, 260);
 
@@ -1205,9 +1351,10 @@ async function handleCourtroomSubmit(request: Request, env: WorkerEnv): Promise<
   const created: StoredCourtStory = {
     id: `user-${Date.now().toString(36)}`,
     aslTag,
+    subject,
     headline,
     story,
-    vibeBadge: '✨ Player Field Report',
+    vibeBadge: '✨ Live Player Field Report',
     crownHer: 4,
     dumpHer: 4,
     crownHim: 4,

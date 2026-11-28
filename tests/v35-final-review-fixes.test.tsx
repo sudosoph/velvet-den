@@ -241,7 +241,7 @@ describe('v35 Whole-Branch Final Review Fixes (Critical #1-#4 & Important #1-#7)
     expect(screen.getByText(/Surprise Match Pop-In/i)).toBeInTheDocument();
   });
 
-  it('Important #3: Worker GET /api/courtroom returns all 15 v35 seed stories matching SEED_COURTROOM_STORIES IDs', async () => {
+  it('Important #3: Worker GET /api/courtroom returns all 24 seed stories matching SEED_COURTROOM_STORIES IDs, and mobile Anon Field Report opens inline at top', async () => {
     const res = await workerApp.fetch(new Request('https://cougarsandcubs.club/api/courtroom'), {});
     expect(res.status).toBe(200);
     const data = (await res.json()) as { stories: { id: string }[] };
