@@ -30,7 +30,6 @@ import { emitOrganicBingoUnlock } from '../lib/organicInterspersion';
 import { sfx } from '../lib/sound';
 import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
-import { Badge } from './ui/primitives';
 
 function getDeterministicWildOrder(seed: string): [number, number, number] {
   const perms: [number, number, number][] = [
@@ -403,9 +402,8 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
           </button>
 
           <div className="flex items-center gap-2">
-            <Badge variant="accent">High-Stakes Signal Detection</Badge>
             <span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700">
-              {clearedCount} / {V35_WILD_VENUES.length} Cleared
+              {clearedCount} / {V35_WILD_VENUES.length} Spots Cleared
             </span>
           </div>
         </div>
@@ -424,7 +422,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
               <div className="min-w-0">
                 <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-zinc-950">
                   <span>{activeSpot.emoji}</span>
-                  <span>Hotspot #{activeSpot.number} • 1-in-3 Signal Precision</span>
+                  <span>Spot #{activeSpot.number} · Read the Room</span>
                 </span>
                 <h1 className="mt-2 text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight">
                   {activeSpot.name}
@@ -621,18 +619,39 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
                   <span className="inline-flex items-center gap-1.5 font-semibold text-zinc-100">
                     <Eye className="h-4 w-4 text-amber-300" />
-                    <span>Decipher Intentions: Tap All 3 Signals to Detect If Approachable</span>
+                    <span>Decipher Intentions · Check 3 Tells</span>
                   </span>
-                  <span
-                    className={`rounded-md px-2.5 py-0.5 text-xs font-bold ${
-                      allSignalsDecoded
-                        ? 'bg-emerald-400/20 text-emerald-200 border border-emerald-400/40'
-                        : 'bg-amber-400/20 text-amber-200 border border-amber-300/30'
-                    }`}
-                  >
-                    {revealedClueIndices.length}/3 Signals Read
-                    {!allSignalsDecoded ? ' • Blind Risk!' : ' • +5 XP Decoded'}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {!allSignalsDecoded && (
+                      <button
+                        type="button"
+                        data-testid="wild-quick-scan-all-btn"
+                        onClick={() => {
+                          sfx.cardHoverTick();
+                          setRevealedClueIndices([0, 1, 2]);
+                          awardPassportBonusXp(
+                            `wild_scan_${activeSpot.id}_${role}`,
+                            5,
+                            'All 3 Room Signals Decoded!',
+                            '👁️ +5 XP',
+                          );
+                        }}
+                        className="rounded-md bg-white/15 hover:bg-white/25 px-2.5 py-0.5 text-xs font-semibold text-white transition cursor-pointer"
+                      >
+                        Scan All 3
+                      </button>
+                    )}
+                    <span
+                      className={`rounded-md px-2.5 py-0.5 text-xs font-bold ${
+                        allSignalsDecoded
+                          ? 'bg-emerald-400/20 text-emerald-200 border border-emerald-400/40'
+                          : 'bg-amber-400/20 text-amber-200 border border-amber-300/30'
+                      }`}
+                    >
+                      {revealedClueIndices.length}/3 Signals Read
+                      {allSignalsDecoded ? ' · +5 XP' : ''}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -891,19 +910,16 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
     <div className="mx-auto w-full max-w-6xl space-y-5 animate-stage-in">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 pb-4">
         <div className="space-y-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-rose-600" />
-              <span>In The Wild • Offline Signal Detection</span>
-            </h1>
-            <Badge variant="accent">Harder Than Apps • 1-in-3 Precision</Badge>
-          </div>
-          <p className="text-sm sm:text-base text-zinc-600">
-            Nobody wears an age-slider in real life. Scan all 3 micro-signals (+5 XP) to detect if they are single and open before making your move.
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 flex items-center gap-2">
+            <MapPin className="h-5 w-5 text-rose-600" />
+            <span>In The Wild</span>
+          </h1>
+          <p className="text-sm text-zinc-600">
+            Ten Sunset Hills hangouts. Check three body-language tells before saying hello, then earn their personal number.
           </p>
         </div>
         <span className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs sm:text-sm font-semibold text-zinc-800">
-          {clearedCount} / {V35_WILD_VENUES.length} Hotspots Cleared
+          {clearedCount} / {V35_WILD_VENUES.length} Cleared
         </span>
       </div>
 

@@ -300,7 +300,6 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   etiquetteBonusActive = false,
   onSendHingeOpener,
   onDeliverCustomOpenerReply,
-  onSwitchRole,
   onOpenWildMap,
   onOpenChats,
   onOpenAstroMatcher,
@@ -618,57 +617,39 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
     }
   };
 
-  const showCompactRoleBar = matchedLeadIds.length > 0 || wallet.discernmentXp > 0;
+  // Keyboard <- Pass / -> Quick Reply shortcuts (like Reigns / Hinge desktop)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onKey = (e: KeyboardEvent) => {
+      if (!currentProfile || replyTarget || matchCelebration) return;
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePass();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setReplyTarget({
+          kind: 'prompt',
+          label: currentProfile.prompts[0].question,
+          previewText: currentProfile.prompts[0].answer,
+          prompt: currentProfile.prompts[0],
+        });
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentProfile, replyTarget, matchCelebration]);
 
   return (
     <div id="hinge-stage" className="mx-auto w-full max-w-xl space-y-4 animate-stage-in scroll-mt-20">
-      {/* Compact Role Switcher (Shown Only After Leaving Fresh Hero, Or Pending Likes Counter) */}
-      {(showCompactRoleBar || pendingLikes.length > 0) && (
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-          {showCompactRoleBar && (
-            <div className="inline-flex rounded-lg bg-zinc-200/70 p-0.5">
-              <button
-                type="button"
-                onClick={() => {
-                  setPassedIds([]);
-                  setPendingLikes([]);
-                  setStatusBanner(null);
-                  setMatchCelebration(null);
-                  onSwitchRole('her');
-                }}
-                className={`rounded-md px-3 py-1 text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
-                  role === 'her'
-                    ? 'bg-white text-zinc-950 shadow-2xs'
-                    : 'text-zinc-600 hover:text-zinc-950'
-                }`}
-              >
-                Playing as Her
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setPassedIds([]);
-                  setPendingLikes([]);
-                  setStatusBanner(null);
-                  setMatchCelebration(null);
-                  onSwitchRole('him');
-                }}
-                className={`rounded-md px-3 py-1 text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
-                  role === 'him'
-                    ? 'bg-white text-zinc-950 shadow-2xs'
-                    : 'text-zinc-600 hover:text-zinc-950'
-                }`}
-              >
-                Playing as Him
-              </button>
-            </div>
-          )}
-
-          {pendingLikes.length > 0 && (
-            <span className="font-semibold text-rose-600">
-              ⏳ {pendingLikes.length} Sent Like • Pending (matches pop in within 2 swipes)
-            </span>
-          )}
+      {/* Pending Likes Counter (Zero Duplicate Role Bar - Role Switcher Lives in CampaignCompassBar) */}
+      {pendingLikes.length > 0 && (
+        <div className="flex items-center justify-end text-xs">
+          <span className="font-semibold text-rose-600">
+            ⏳ {pendingLikes.length} Sent Like · Pending (matches pop in within 2 swipes)
+          </span>
         </div>
       )}
 
@@ -1020,10 +1001,23 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               )}
             </div>
 
-            {/* Prompt 1 */}
-            <div className="editorial-prompt-card relative rounded-2xl p-6 pr-16">
-              <div className="text-xs font-medium text-zinc-500">
-                {currentProfile.prompts[0].question}
+            {/* Prompt 1 (Entire Card Clickable + Heart Button) */}
+            <div
+              onClick={() =>
+                setReplyTarget({
+                  kind: 'prompt',
+                  label: currentProfile.prompts[0].question,
+                  previewText: currentProfile.prompts[0].answer,
+                  prompt: currentProfile.prompts[0],
+                })
+              }
+              className="editorial-prompt-card group relative rounded-2xl p-6 pr-16 hover:border-zinc-400 transition-colors cursor-pointer"
+            >
+              <div className="flex items-center justify-between gap-2 text-xs font-medium text-zinc-500">
+                <span>{currentProfile.prompts[0].question}</span>
+                <span className="text-[11px] text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Tap to reply 💬
+                </span>
               </div>
               <p className="mt-1.5 font-hinge-quote text-lg sm:text-xl leading-snug text-zinc-950">
                 {currentProfile.prompts[0].answer}
@@ -1031,14 +1025,15 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               <button
                 type="button"
                 aria-label={`Like prompt 1: ${currentProfile.prompts[0].question}`}
-                onClick={() =>
+                onClick={(e) => {
+                  e.stopPropagation();
                   setReplyTarget({
                     kind: 'prompt',
                     label: currentProfile.prompts[0].question,
                     previewText: currentProfile.prompts[0].answer,
                     prompt: currentProfile.prompts[0],
-                  })
-                }
+                  });
+                }}
                 className="hinge-heart-fab absolute right-4 bottom-4 flex h-11 w-11 items-center justify-center rounded-full cursor-pointer"
               >
                 <Heart className="h-5 w-5" />
@@ -1288,10 +1283,23 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               )}
             </div>
 
-            {/* Prompt 2 */}
-            <div className="editorial-prompt-card relative rounded-2xl p-6 pr-16">
-              <div className="text-xs font-medium text-zinc-500">
-                {currentProfile.prompts[1].question}
+            {/* Prompt 2 (Entire Card Clickable + Heart Button) */}
+            <div
+              onClick={() =>
+                setReplyTarget({
+                  kind: 'prompt',
+                  label: currentProfile.prompts[1].question,
+                  previewText: currentProfile.prompts[1].answer,
+                  prompt: currentProfile.prompts[1],
+                })
+              }
+              className="editorial-prompt-card group relative rounded-2xl p-6 pr-16 hover:border-zinc-400 transition-colors cursor-pointer"
+            >
+              <div className="flex items-center justify-between gap-2 text-xs font-medium text-zinc-500">
+                <span>{currentProfile.prompts[1].question}</span>
+                <span className="text-[11px] text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Tap to reply 💬
+                </span>
               </div>
               <p className="mt-1.5 font-hinge-quote text-lg sm:text-xl leading-snug text-zinc-950">
                 {currentProfile.prompts[1].answer}
@@ -1299,14 +1307,15 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               <button
                 type="button"
                 aria-label={`Like prompt 2: ${currentProfile.prompts[1].question}`}
-                onClick={() =>
+                onClick={(e) => {
+                  e.stopPropagation();
                   setReplyTarget({
                     kind: 'prompt',
                     label: currentProfile.prompts[1].question,
                     previewText: currentProfile.prompts[1].answer,
                     prompt: currentProfile.prompts[1],
-                  })
-                }
+                  });
+                }}
                 className="hinge-heart-fab absolute right-4 bottom-4 flex h-11 w-11 items-center justify-center rounded-full cursor-pointer"
               >
                 <Heart className="h-5 w-5" />
@@ -1457,8 +1466,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             </div>
           </div>
 
-          {/* Authentic Hinge Sticky Bottom-Left Floating Pass (✕) Button */}
-          <div className="sticky bottom-6 z-30 pointer-events-none flex items-center justify-start px-7 sm:px-9 pb-5 -mt-20">
+          {/* Symmetric Hinge Sticky Bottom Pass (✕) + Quick Reply (♥) Action Pair */}
+          <div className="sticky bottom-6 z-30 pointer-events-none flex items-center justify-between px-7 sm:px-9 pb-5 -mt-20">
             <button
               type="button"
               data-testid="hinge-sticky-pass-btn"
@@ -1468,6 +1477,24 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               className="pointer-events-auto flex h-14 w-14 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-950 shadow-lg hover:scale-105 hover:bg-zinc-900 hover:text-white active:scale-95 transition cursor-pointer"
             >
               <X className="h-6 w-6 stroke-[2.5]" />
+            </button>
+
+            <button
+              type="button"
+              data-testid="hinge-sticky-like-btn"
+              aria-label={`Quick reply to ${currentProfile.name}`}
+              title={`Send a prompt reply to ${currentProfile.name} (→)`}
+              onClick={() =>
+                setReplyTarget({
+                  kind: 'prompt',
+                  label: currentProfile.prompts[0].question,
+                  previewText: currentProfile.prompts[0].answer,
+                  prompt: currentProfile.prompts[0],
+                })
+              }
+              className="pointer-events-auto flex h-14 w-14 items-center justify-center rounded-full bg-rose-600 text-white shadow-lg hover:scale-105 hover:bg-rose-700 active:scale-95 transition cursor-pointer"
+            >
+              <Heart className="h-6 w-6 fill-white" />
             </button>
           </div>
         </article>

@@ -1656,9 +1656,14 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       <p className="text-[15px] text-[#DBDEE1] leading-relaxed">{msg.text}</p>
 
                       {!isPlayerPost && (
-                        <div className="pt-1 flex items-center gap-1.5">
-                          {(['🥂', '🔥', '👑'] as const).map((emo) => {
+                        <div className="pt-1 flex flex-wrap items-center gap-1.5">
+                          {(['🥂', '🔥', '👑', '🚩'] as const).map((emo, emoIdx) => {
                             const active = pickedEmojis.includes(emo);
+                            const baseCount =
+                              emo === '🚩' && activeDiscord.id !== 'red-flag-emergency'
+                                ? 2 + ((idx * 3) % 4)
+                                : 13 + ((idx * 3 + emoIdx * 2) % 6);
+                            const displayCount = baseCount + (active ? 1 : 0);
                             return (
                               <button
                                 key={emo}
@@ -1676,14 +1681,13 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                                     };
                                   });
                                 }}
-                                className={`rounded-md border px-2 py-0.5 text-xs transition cursor-pointer ${
+                                className={`rounded-md border px-2 py-0.5 text-xs tabular-nums transition cursor-pointer ${
                                   active
                                     ? 'border-[#5865F2] bg-[#3C4270] font-bold text-white'
                                     : 'border-white/10 bg-[#2B2D31] text-[#B5BAC1] hover:bg-[#383A40] hover:text-white'
                                 }`}
                               >
-                                {emo}
-                                {active ? ' 1' : ''}
+                                {emo} {displayCount}
                               </button>
                             );
                           })}
@@ -2173,20 +2177,20 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           : 'border-zinc-200 bg-zinc-50 text-zinc-800';
 
                 return (
-                  <div className="border-b border-zinc-200 bg-zinc-50/75 px-4 sm:px-6 py-3 space-y-2.5 text-zinc-900">
-                    {/* 5-Stage Progression Track */}
+                  <div className="border-b border-zinc-200 bg-zinc-50/75 px-4 sm:px-5 py-2 space-y-2 text-zinc-900">
+                    {/* Compact 5-Stage Progression Track */}
                     <div
                       data-testid="relationship-stage-stepper"
-                      className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"
+                      className="flex items-center gap-1 overflow-x-auto no-scrollbar"
                     >
                       {steps.map((st) => (
                         <span
                           key={st.step}
-                          className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold transition ${
+                          className={`shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold transition ${
                             st.status === 'done'
                               ? 'bg-emerald-600 text-white'
                               : st.status === 'active'
-                                ? 'bg-zinc-950 text-white ring-2 ring-rose-400/50'
+                                ? 'bg-zinc-950 text-white'
                                 : 'bg-white border border-zinc-200 text-zinc-400'
                           }`}
                         >
@@ -2195,17 +2199,17 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       ))}
                     </div>
 
-                    {/* Dual Meters: Attraction Spark % vs. Gut-Check Red/Green Flag Radar + Phone-a-Friend */}
+                    {/* Sleek Compact Dual Meters: Chemistry Spark % + Red/Green Flag Radar */}
                     <div
                       data-testid="dual-dating-sim-meters"
-                      className="grid grid-cols-1 md:grid-cols-2 gap-2.5"
+                      className="grid grid-cols-1 md:grid-cols-2 gap-2"
                     >
-                      <div className="rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 space-y-1.5">
+                      <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 space-y-1">
                         <div className="flex items-center justify-between gap-2 text-xs">
-                          <span className="font-bold text-zinc-900">
+                          <span className="font-semibold text-zinc-900">
                             💗 Chemistry Spark: {currentThread.chemistry}%
                           </span>
-                          <span className="text-[11px] font-medium text-zinc-500">
+                          <span className="text-[11px] text-zinc-500">
                             {currentThread.stage === 'app_dm'
                               ? currentThread.chemistry >= 75 || currentThread.currentBeat > 6
                                 ? '✓ iMessage Ready!'
@@ -2215,7 +2219,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                                 : `Next: Date #${currentThread.datesCompleted + 1}`}
                           </span>
                         </div>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100">
+                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100">
                           <div
                             className={`h-full rounded-full transition-all duration-300 ${
                               currentThread.chemistry >= 75 ? 'bg-emerald-500' : 'bg-rose-500'
@@ -2227,15 +2231,15 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
                       <div
                         data-testid="vetting-flag-radar"
-                        className={`rounded-xl border px-3.5 py-2.5 flex flex-col justify-between gap-1.5 ${radarStyle}`}
+                        className={`rounded-lg border px-3 py-2 flex flex-col justify-between gap-1 ${radarStyle}`}
                       >
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <span className="text-xs font-extrabold">{radar.badgeText}</span>
+                          <span className="text-xs font-bold">{radar.badgeText}</span>
                           <button
                             type="button"
                             data-testid="phone-a-friend-discord-btn"
                             onClick={handlePhoneAFriendCurrentMatch}
-                            className="inline-flex items-center gap-1 rounded-lg bg-[#5865F2] hover:bg-[#4752C4] px-2.5 py-1 text-[11px] font-bold text-white shadow-2xs transition cursor-pointer"
+                            className="inline-flex items-center gap-1 rounded-md bg-[#5865F2] hover:bg-[#4752C4] px-2 py-0.5 text-[11px] font-semibold text-white transition cursor-pointer"
                           >
                             <Hash className="h-3 w-3" />
                             <span>
@@ -2991,8 +2995,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         <span className="text-rose-700 font-semibold">🕵️ Intuition Alert</span>
                       )}
                     </div>
-                    <div className="grid gap-2.5">
-                      {activeBeat.choices.map((c) => {
+                    <div className="grid gap-2">
+                      {activeBeat.choices.map((c, choiceIdx) => {
                         const cost = 'cost' in c ? c.cost : 0;
                         return (
                           <button
@@ -3001,18 +3005,29 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             disabled={Boolean(dmTypingLabel) || sendingAi}
                             data-testid="chat-suggestion-btn"
                             onClick={() => handlePickChoice(c.text, c.reply, c.delta, cost)}
-                            className={`w-full rounded-xl px-4 py-3.5 text-left text-sm sm:text-[15px] leading-relaxed whitespace-normal transition cursor-pointer disabled:opacity-55 ${
+                            className={`group flex items-start gap-3 w-full rounded-xl px-4 py-3 text-left text-sm sm:text-[15px] leading-relaxed whitespace-normal transition cursor-pointer disabled:opacity-55 ${
                               cost > 0
                                 ? 'border border-rose-200 bg-rose-50/60 font-semibold text-zinc-950 hover:border-rose-400'
-                                : 'border border-zinc-200 bg-white font-medium text-zinc-800 hover:border-zinc-400 shadow-2xs'
+                                : 'border border-zinc-200 bg-white font-medium text-zinc-800 hover:border-zinc-900 shadow-2xs'
                             }`}
                           >
-                            <span>{c.text}</span>
-                            {'badge' in c && (
-                              <span className="ml-2 inline-block rounded-md bg-rose-600 px-2 py-0.5 text-xs font-semibold text-white">
-                                {c.badge}
-                              </span>
-                            )}
+                            <span
+                              className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-[11px] font-bold transition ${
+                                cost > 0
+                                  ? 'bg-rose-600 text-white'
+                                  : 'bg-zinc-100 text-zinc-600 group-hover:bg-zinc-950 group-hover:text-white'
+                              }`}
+                            >
+                              {choiceIdx + 1}
+                            </span>
+                            <span className="flex-1">
+                              {c.text}
+                              {'badge' in c && (
+                                <span className="ml-2 inline-block rounded-md bg-rose-600 px-2 py-0.5 text-xs font-semibold text-white">
+                                  {c.badge}
+                                </span>
+                              )}
+                            </span>
                           </button>
                         );
                       })}

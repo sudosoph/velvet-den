@@ -9,6 +9,7 @@ import { sfx } from '../lib/sound';
 import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
+import { Progress } from './ui/primitives';
 
 interface CougarCubChecklistModalProps {
   open: boolean;
@@ -882,6 +883,19 @@ function buildScoreDiagnostic(
   };
 }
 
+const SUBREDDIT_INSIDER_QUIPS: Record<string, string> = {
+  math2008: '📅 Classic r/CougarsAndCubs rite of passage: realizing one of you was refinancing a condo while the other was trading Pokemon cards.',
+  late1900s: '💀 Hearing 1998 called "the late 1900s" across a candlelit booth has humbled every 40+ icon at least once.',
+  snapchatick: '🚫 Asking a grown woman for Snapchat past age 35 is the fastest recorded unmatch in human history.',
+  liddedbin: '🧴 Covered bathroom bin + real hand soap = automatic advancement to Sunday morning coffee.',
+  bamboo62: '❄️ 62°F perimenopause sleep sanctuary + crisp percale sheets = non-negotiable club law.',
+  twoqueens: '🏨 "Two Queen beds?" at hotel check-in: the undisputed #1 Hall-of-Fame subreddit story.',
+  sameagemom: '🥂 Graduating the exact same year as his mom and still owning Sunday dinner is grandmaster poise.',
+  houseboysunday: '🍳 Guest side of your own kitchen island with Pinot Noir while he scrubs the skillet = peak soft life.',
+  'cub-lidded-bin-run': '🛒 That emergency Target run for four cotton pillows and a lidded bin just saved your whole Friday.',
+  'cub-banned-for-your-age': '🛑 Deleting "for your age" forever immediately puts you ahead of 90% of app tourists.',
+};
+
 const TIER_ORDER: ChecklistLifestyleTier[] = ['rookie', 'intermediate', 'deep_cuts'];
 
 export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = ({
@@ -897,6 +911,7 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
     cubs: loadChecklistCheckedIds('cubs'),
     couples: loadChecklistCheckedIds('couples'),
   }));
+  const [lastQuip, setLastQuip] = useState<string | null>(null);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   React.useEffect(() => {
@@ -941,9 +956,21 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
   const nextUncheckedQuests = activeItems.filter((i) => !checkedIds.includes(i.id)).slice(0, 2);
 
   const toggleItem = (id: string) => {
+    const wasChecked = checkedIds.includes(id);
     sfx.messagePop();
     const next = toggleChecklistItemInStorage(id, activeTab);
     setCheckedByTab((prev) => ({ ...prev, [activeTab]: next }));
+    if (!wasChecked) {
+      const itemObj = activeItems.find((i) => i.id === id);
+      const customQuip =
+        SUBREDDIT_INSIDER_QUIPS[id] ??
+        (itemObj?.tier === 'deep_cuts'
+          ? '👑 +5 Deep-Cut Legend points unlocked! Subreddit Hall-of-Fame territory.'
+          : itemObj?.tier === 'intermediate'
+            ? '🔥 +3 Regular Rotation points! You know the unwritten rules.'
+            : '✨ +2 Initiation points logged on your club card.');
+      setLastQuip(customQuip);
+    }
     if (next.length === 5) {
       awardPassportBonusXp(
         `checklist_5_${activeTab}`,
@@ -1047,40 +1074,51 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               ))}
             </div>
 
-            {/* Compact Score Bar (Zero Subtitle Clutter) */}
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-semibold text-zinc-950">{rank.title}</span>
-                <span className="rounded-md bg-rose-50 border border-rose-200 px-2 py-0.5 text-xs font-medium text-rose-700">
-                  {diagnostic.percentileLabel}
-                </span>
-                <span className="hidden md:inline text-xs text-zinc-500">
-                  🐣 {rookieCount}/10 · 🔥 {interCount}/10 · 👑 {deepCount}/10
-                </span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <div className="flex items-baseline gap-2">
-                  <span
-                    data-testid="checklist-weighted-score"
-                    className="text-xl sm:text-2xl font-bold leading-none text-zinc-950 tabular-nums"
-                  >
-                    {score}/100
+            {/* Compact Score Bar + Live Progress + Insider Quip */}
+            <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 space-y-2">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-semibold text-zinc-950">{rank.title}</span>
+                  <span className="rounded-md bg-white border border-zinc-200 px-2 py-0.5 text-xs font-medium text-zinc-700">
+                    {diagnostic.percentileLabel}
                   </span>
-                  <span className="text-xs font-medium text-zinc-500">
-                    ({checkedIds.length}/{activeItems.length})
+                  <span className="hidden md:inline text-xs text-zinc-500">
+                    🐣 {rookieCount}/10 · 🔥 {interCount}/10 · 👑 {deepCount}/10
                   </span>
                 </div>
-                {checkedIds.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={resetAll}
-                    title="Reset checkboxes"
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 cursor-pointer"
-                  >
-                    <RotateCcw className="h-3.5 w-3.5" />
-                  </button>
-                )}
+                <div className="flex items-center gap-2.5">
+                  <div className="flex items-baseline gap-2">
+                    <span
+                      data-testid="checklist-weighted-score"
+                      className="text-xl sm:text-2xl font-bold leading-none text-zinc-950 tabular-nums"
+                    >
+                      {score}/100
+                    </span>
+                    <span className="text-xs font-medium text-zinc-500">
+                      ({checkedIds.length}/{activeItems.length})
+                    </span>
+                  </div>
+                  {checkedIds.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={resetAll}
+                      title="Reset checkboxes"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 cursor-pointer"
+                    >
+                      <RotateCcw className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
               </div>
+              <Progress value={score} />
+              {lastQuip && (
+                <div
+                  data-testid="checklist-live-quip"
+                  className="text-xs font-medium text-rose-700 animate-stage-in"
+                >
+                  {lastQuip}
+                </div>
+              )}
             </div>
           </div>
 
