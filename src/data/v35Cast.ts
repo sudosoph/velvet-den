@@ -15,7 +15,7 @@ export interface HingeVoicePrompt {
   question: string;
   duration: string;
   transcript: string;
-  subtextTell: string;
+  audioUrl: string;
 }
 
 export interface V35CastProfile {
@@ -164,26 +164,26 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('soren', [
       'Resting Danish face, actually very happy to be here',
-      'Clay courts beat hard courts, willing to defend this over drinks',
-      'Late-night balsa pavilion model before client review',
-      'Post-cold-plunge dock coffee back home',
+      'Weekend hit before grabbing coffee',
+      'Up way too late finishing a studio model',
+      'Cold ocean swim, hot coffee right after',
       'Saturday sourdough run on two wheels',
-      'Cleaned up for the museum benefit',
+      'Cleaned up for a friend’s museum benefit',
     ]),
     prompts: [
       {
         id: 'soren-p1',
         question: 'My simple pleasures',
         answer:
-          'Morning ocean swims, honest Scandinavian silence that doesn’t need filling, and cooking lemon sole with the terrace doors wide open.',
+          'Morning ocean swims, comfortable silence that doesn’t need filling, and cooking dinner with the patio doors wide open.',
         openers: [
           { text: 'Wow ur super tall!!', delta: -8 },
           {
-            text: 'Comfortable silence plus lemon sole with the doors open might be the best pitch on this app.',
+            text: 'Comfortable silence plus home-cooked dinner with the doors open might be the best pitch on here.',
             delta: 18,
           },
           {
-            text: '🌹 Standout Rose: Save the small talk, bring that clay-court focus to Thursday martinis at 8.',
+            text: '🌹 Standout Rose: Skip the small talk, let’s grab Thursday martinis at eight.',
             delta: 26,
             isVipSmooth: true,
           },
@@ -193,15 +193,15 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'soren-p2',
         question: 'First round is on me if',
         answer:
-          'You can return my left-handed slice on clay, or ruthlessly roast bad restaurant lighting with me.',
+          'You agree that bright overhead lighting in restaurants should be illegal, or you can beat me at backgammon.',
         openers: [
-          { text: 'I dont play tennis haha', delta: -6 },
+          { text: 'I dont play games haha', delta: -6 },
           {
             text: 'Overhead fluorescent bulbs in restaurants should be illegal, first round is officially on you.',
             delta: 17,
           },
           {
-            text: '🌹 One set of mixed doubles at Palisades followed by dim candlelight, winner picks the wine.',
+            text: '🌹 Bring a travel backgammon board to a dim wine bar Friday, winner picks the bottle.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -251,11 +251,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     },
     slides: makeSlides('miles', [
       'Curbside with two espressos beats airport chaos every time',
-      'Checking cedar pergola sightlines before opening night',
-      'Timber terrace walkthrough',
-      'Happiest under canvas when the wind picks up',
-      '8:15 corner table, already handled',
-      'Sunrise bluff miles before site calls',
+      'Site walkthrough before the weekend starts',
+      'Checking the patio build before opening night',
+      'Out on the water whenever the wind picks up',
+      '8:15 dinner reservation, already handled',
+      'Morning miles before client calls',
     ]),
     prompts: [
       {
@@ -298,15 +298,15 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'miles-p3',
         question: 'I geek out on',
         answer:
-          'Acoustic room warmth, aged bourbon, and classic wooden sailboats that require real rope work.',
+          'Restaurants where you can actually hear each other talk, good bourbon, and getting out on the water on Sundays.',
         openers: [
           { text: 'Boats are fun', delta: -6 },
           {
-            text: 'Tell me which restaurant in town actually nailed its room acoustics so we don’t have to shout.',
+            text: 'Tell me which restaurant in town actually lets two people talk without shouting.',
             delta: 17,
           },
           {
-            text: '🌹 Quiet booth acoustics and a proper bourbon pour, show me your favorite room you built.',
+            text: '🌹 Good bourbon and zero shouting over music, show me your favorite spot in town.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -337,27 +337,27 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open to the future',
     },
     slides: makeSlides('rafael', [
-      'Waiting on the courtyard band to kick in',
-      'Hand-planing a twelve-foot black walnut dining slab',
+      'Waiting on the live band to start',
+      'Long afternoon in the woodshop',
       'Thursday nights at Havana & Vine',
-      'Stovetop espresso before sawdust hours',
-      'Seven-string acoustic by the rocks at dusk',
-      'Cleaned the wood shavings off for rooftop drinks',
+      'Morning espresso before heading to the shop',
+      'Brought my guitar out to the beach at sunset',
+      'Cleaned up for rooftop drinks',
     ]),
     prompts: [
       {
         id: 'rafael-p1',
         question: 'Together, we could',
         answer:
-          'Turn your kitchen into a midnight dance floor while fresh garlic oil sizzles on the stove.',
+          'Cook dinner together on a Friday night with old salsa records playing and nowhere else we need to be.',
         openers: [
           { text: 'I cant dance lol', delta: -5 },
           {
-            text: 'Fair warning: my kitchen spin requires steady hands and a good playlist.',
+            text: 'Fair warning: you’re going to have to talk me through the dance steps.',
             delta: 18,
           },
           {
-            text: '🌹 Bring the seven-string playlist. I’ll pour the Rioja while you lead.',
+            text: '🌹 Bring the playlist. I’ll pour the red wine while you cook.',
             delta: 25,
             isVipSmooth: true,
           },
@@ -393,7 +393,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
             delta: 18,
           },
           {
-            text: '🌹 Oat cortado at 8 AM, and let’s test that salsa frame first.',
+            text: '🌹 Oat cortado at 8 AM, and save me a song on Friday night.',
             delta: 24,
             isVipSmooth: true,
           },
@@ -587,7 +587,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
     discoveryDoor: 'hinge',
     matchSelectivity: 'warm',
     activeStatusLabel: 'Active now',
-    tagline: 'Campus "founder" & model who swears Hinge glitched his birth year.',
+    tagline: 'Campus "founder" & model who swears Prowl glitched his birth year.',
     vitals: {
       height: '6\'0"',
       job: 'Stealth Founder / Campus Rep',
@@ -609,11 +609,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'connor-p1',
         question: 'Two truths and a lie',
         answer:
-          'I played club lacrosse, I casually flex "my place in Maui" before admitting it’s my parents’ Week-14 timeshare, and Hinge totally locked my age wrong when I linked Facebook lol.',
+          'I played club lacrosse, I casually flex "my place in Maui" before admitting it’s my parents’ Week-14 timeshare, and this app totally locked my age wrong when I linked Facebook lol.',
         openers: [
           { text: 'Haha wait how old are you really?', delta: 16 },
           {
-            text: 'Whenever a guy blames Facebook for his age on Hinge, the real number starts with a 2 and ends with a 1.',
+            text: 'Whenever a guy blames Facebook for his age on Prowl, the real number starts with a 2 and ends with a 1.',
             delta: 18,
           },
           {
@@ -853,11 +853,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Doesn’t want kids',
     },
     slides: makeSlides('jin', [
-      'Rare proof I occasionally step onto the other side of the lens',
-      'Contact-sheet edits. I promise I never photograph dinner plates',
-      'Twelve-seat vinyl bar in Little Tokyo (saving the stool beside me)',
-      'Testing 120mm film in morning window light',
-      'Chalking up for the overhang project that humbled me twice',
+      'Rare proof I occasionally step onto the other side of the camera',
+      'Editing rolls from last weekend (promise I never photograph dinner)',
+      'Favorite listening bar in Little Tokyo',
+      'Morning coffee before heading into the studio',
+      'Bouldering route that humbled me twice this week',
       'Gallery opening night, phone stayed on silent in my coat',
     ]),
     prompts: [
@@ -901,11 +901,11 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'jin-p3',
         question: 'I geek out on',
         answer:
-          'Japanese kissaten pour-overs, architectural shadow lines, and handmade ceramics.',
+          'Good pour-over coffee, late-night ramen spots, and shooting film on weekends.',
         openers: [
           { text: 'Love matcha!', delta: -2 },
           {
-            text: 'Show me the best kissaten pour-over downtown and I’ll critique your favorite gallery.',
+            text: 'Show me the best pour-over spot downtown and I’ll buy the late-night ramen.',
             delta: 17,
           },
           {
@@ -936,12 +936,12 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
       kidsStance: 'Open to kids',
     },
     slides: makeSlides('liam', [
-      'Down from the Ojai ridge before the weekend rush',
-      'Raising the main cedar ridge beam before mountain weather rolls in',
-      'Winter firewood stacked, cast-iron peach cobbler goes in next',
-      'Sunrise paddle in the cedar canoe I built last autumn',
-      'Checking timber joinery before the roof trusses go up',
-      'Traded sawdust and flannel for wool at the lodge bar',
+      'Heading down from Ojai for the weekend',
+      'Framing day up in the hills before the rain hit',
+      'Firewood stacked, peach cobbler goes in next',
+      'Early morning paddle out on the lake',
+      'Coffee break on the job site',
+      'Traded work boots and flannel for a real jacket',
     ]),
     prompts: [
       {
@@ -966,7 +966,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'liam-p2',
         question: 'Together, we could',
         answer:
-          'Escape city traffic for Ojai olive groves, grill trout over oak embers, and watch Perseid meteors from the wrap-around deck.',
+          'Get out of LA traffic on Friday, grill fresh trout up in Ojai, and sit out on the deck watching the stars.',
         openers: [
           { text: 'Love Ojai!', delta: -2 },
           {
@@ -1744,7 +1744,7 @@ export const V35_CAST_PROFILES: V35CastProfile[] = [
         id: 'astrid-p2',
         question: 'My simple pleasures',
         answer:
-          'Dawn qigong and tai chi on the bluff, a strictly seed-oil-free kitchen, and honest conversation without small-talk filler.',
+          'Early ocean walks in Malibu, warm cardamom buns, and yes I check labels for seed oils lol.',
         openers: [
           { text: 'Hey how are you!', delta: -8 },
           {
@@ -1953,245 +1953,245 @@ const CAST_STORY_HOOKS_AND_VOICES: Record<
 > = {
   julian: {
     voicePrompt: {
-      question: 'My ideal Thursday night in 12 seconds',
-      duration: '0:12',
+      question: 'Fair warning before we match',
+      duration: '0:09',
       transcript:
-        '“Quiet corner wine bar at half seven, phones face-down in my coat pocket, and you telling me the unfiltered truth about the exhibition we just walked out of.”',
-      subtextTell: 'Warm Hampstead cadence, zero rehearsed pickup script, genuinely locks in on 1-on-1 conversation.',
+        '“Fair warning before you match me... I still say half seven instead of seven-thirty, and yeah, I actually show up five minutes early.”',
+      audioUrl: './audio/voices/julian.mp3',
     },
     fridayStoryHook:
-      'If you match: Shows up five minutes early with peonies, until your snooty gallery acquaintance mistakes him for “the new intern” in front of the room.',
+      'If you match: Shows up five minutes early with flowers, right before a snooty acquaintance mistakes him for your intern.',
   },
   soren: {
     voicePrompt: {
-      question: 'A wager I will gladly make you',
-      duration: '0:14',
+      question: 'My honest restaurant rule',
+      duration: '0:10',
       transcript:
-        '“One tiebreak set on clay before dinner. If you pass me down the line, cocktails are on me, and either way, I am not rushing our first night.”',
-      subtextTell: 'Unhurried Nordic confidence, treats chemistry like a slow-burn rally rather than a sprint.',
+        '“Okay be honest... if we walk into a restaurant and they have bright white overhead lights on, are you cool walking right back out with me and grabbing wine somewhere normal?”',
+      audioUrl: './audio/voices/soren.mp3',
     },
     fridayStoryHook:
-      'If you match: Challenges you to twilight mixed doubles at Palisades Racquet, then drops a disarmingly honest confession over post-match spritzes.',
+      'If you match: Pulls you out of an overrated bright restaurant into the coziest neighborhood wine bar in Santa Monica.',
   },
   miles: {
     voicePrompt: {
-      question: 'Proof I actually plan ahead',
-      duration: '0:13',
+      question: 'How I handle Friday plans',
+      duration: '0:08',
       transcript:
-        '“Tell me your flight landed twenty minutes early and I am already waiting by baggage claim with two proper espressos and dinner booked.”',
-      subtextTell: 'Calm structural-engineer steadiness, zero flaking, zero chaos.',
+        '“Honestly, best part of Friday is telling you I already booked dinner at seven-thirty, so all you have to do is get in the car and unwind.”',
+      audioUrl: './audio/voices/miles.mp3',
     },
     fridayStoryHook:
-      'If you match: Turns a chaotic Terminal B delay into the smoothest impromptu bistro table in town.',
+      'If you match: Turns a chaotic Terminal B flight delay into the easiest Friday dinner of your month.',
   },
   rafael: {
     voicePrompt: {
-      question: 'How you know I like you',
-      duration: '0:11',
+      question: 'If you swear you have two left feet',
+      duration: '0:08',
       transcript:
-        '“I pull you onto the salsa floor during the brass break, spin you clean on the one, and save you the last plate of maduros.”',
-      subtextTell: 'Playful rhythm and direct eye contact, zero hesitation about leading.',
+        '“Look, if you say you can’t dance, don’t stress at all... give me one song in the kitchen while pasta water’s boiling and I’ll prove you wrong.”',
+      audioUrl: './audio/voices/rafael.mp3',
     },
     fridayStoryHook:
-      'If you match: Leads you onto the Havana Lounge brass floor before half the room realizes you only met ten minutes ago.',
+      'If you match: Gets you laughing on the Havana & Vine patio inside three minutes flat.',
   },
   marcus: {
     voicePrompt: {
-      question: 'Sunday afternoon at my place sounds like',
-      duration: '0:15',
+      question: 'Checking in after shift',
+      duration: '0:09',
       transcript:
-        '“Vinyl spinning low, oak smoke drifting off the patio, and me defending why slow-smoked brisket refuses to be rushed for anybody.”',
-      subtextTell: 'Grounded pitmaster patience, shows care through feeding people well.',
+        '“Just got off a twenty-four hour shift, got iced coffee in hand... honestly just looking for someone funny who doesn’t play weird texting games.”',
+      audioUrl: './audio/voices/marcus.mp3',
     },
     fridayStoryHook:
-      'If you match: Pulls two VIP plates off the smoker and tests whether you can handle friendly banter with his regular crew.',
+      'If you match: Shows up off-duty well-rested, easygoing, and completely unbothered by public stares.',
   },
   graham: {
     voicePrompt: {
-      question: 'Why my calendar looks ruthless',
-      duration: '0:13',
+      question: 'Let’s grab an early drink',
+      duration: '0:08',
       transcript:
-        '“Deal weeks get intense, so let’s grab an early 5:15 corner martini near Century City before my 6:45 client dinner, efficiency is romantic, right?”',
-      subtextTell: 'Polished Wharton baritone, yet listen closely to that suspiciously hard 6:45 PM cutoff.',
+        '“Hey, crazy week at the office as usual... let’s grab a quick 5:15 drink Thursday before my 6:45 Tokyo call. Super easy.”',
+      audioUrl: './audio/voices/graham.mp3',
     },
     fridayStoryHook:
-      'If you match: Effortless 5:15 PM steakhouse charm, so why do three different men near Table 9 check their watches at 6:42 sharp?',
+      'If you match: Effortless 5:15 PM hotel-bar charm, so why do three men near Table 9 check their watches at 6:42 sharp?',
   },
   connor: {
     voicePrompt: {
-      question: 'Quick disclaimer about my profile',
-      duration: '0:14',
+      question: 'Quick note about my age on here',
+      duration: '0:09',
       transcript:
-        '“Okay swear Facebook glitched my birth year when I made this account, ignore the 27, anyway pull up to our rooftop pregame Friday, my boys are DJing!”',
-      subtextTell: 'Background bass thumping + three roommates yelling from a frat balcony mid-recording.',
+        '“Yo swear this app messed up my age when I connected Facebook, ignore the 27... anyway my roommates are throwing a little rooftop thing Friday, pull up!”',
+      audioUrl: './audio/voices/connor.mp3',
     },
     fridayStoryHook:
-      'If you match: Swears an app glitch changed his age, while four undergrad roommates argue over speaker cables in his living room.',
+      'If you match: Blames Facebook for his birth year while four roommates argue over Xbox cables in the background.',
   },
   devon: {
     voicePrompt: {
-      question: 'My love language in one take',
-      duration: '0:12',
+      question: 'My ideal first hangout',
+      duration: '0:07',
       transcript:
-        '“Honestly I’m a cozy homebody king, why drop crazy money at loud restaurants when you could host me on your sectional and order takeout?”',
-      subtextTell: 'Calls himself a “low-key homebody,” yet every suggestion conveniently relies on your sofa and your tab.',
+        '“Honestly I’m way over overpriced restaurants lately... why not just order Thai food to your couch tonight and keep it super chill?”',
+      audioUrl: './audio/voices/devon.mp3',
     },
     fridayStoryHook:
-      'If you match: Talks up a romantic Friday night, then tries to audit the appetizer math down to the penny.',
+      'If you match: Writes romantic texts all Tuesday, then tries to invite himself over on a zero-dollar budget Friday.',
   },
   rory: {
     voicePrompt: {
-      question: 'Best perk of dating a British park ranger',
-      duration: '0:13',
+      question: 'Four months into California life',
+      duration: '0:10',
       transcript:
-        '“I know every hidden wildflower overlook on the coast, my berry crumble is undefeated, and I only blush catastrophically for the first five minutes.”',
-      subtextTell: 'Earnest London warmth, wears his heart right on his sleeve.',
+        '“Alright, full confession... I’ve been in California four months and I still get sunburned in January, so if you know a shady patio spot, first round’s on me.”',
+      audioUrl: './audio/voices/rory.mp3',
     },
     fridayStoryHook:
-      'If you match: Guides you to a private after-hours botanical terrace with warm crumble and zero pretense.',
+      'If you match: Saves you a shady garden bench after hours with warm berry crumble and zero pretense.',
   },
   jin: {
     voicePrompt: {
-      question: 'My golden rule at a twelve-seat vinyl bar',
-      duration: '0:11',
+      question: 'Biggest first-date green flag',
+      duration: '0:10',
       transcript:
-        '“I shoot 35mm portraits all day, which means my camera and phone stay zipped away all night when you’re across the table.”',
-      subtextTell: 'Arts District creative-director poise with a dry late-night wit.',
+        '“Big green flag for me? Actually putting phones away at dinner. Like, if the food shows up and nobody takes a photo of it, I’m already half in love.”',
+      audioUrl: './audio/voices/jin.mp3',
     },
     fridayStoryHook:
-      'If you match: Holds two stools at a tucked-away Little Tokyo listening bar for smoked uni toast and vinyl.',
+      'If you match: Books two seats at a quiet Little Tokyo vinyl bar where both phones stay in coat pockets.',
   },
   liam: {
     voicePrompt: {
-      question: 'Sunday morning up in Topanga sounds like',
-      duration: '0:13',
+      question: 'Friday plans down from Ojai',
+      duration: '0:08',
       transcript:
-        '“Sawdust brushed off my boots, acoustic Willie Nelson on the deck, and cast-iron peach cobbler cooling after a sunrise paddle.”',
-      subtextTell: 'Steady custom-home-builder calm, shows up when he says he will.',
+        '“Heading down from Ojai on Friday, truck’s finally washed... tell me your favorite neighborhood bar and let’s grab a real drink.”',
+      audioUrl: './audio/voices/liam.mp3',
     },
     fridayStoryHook:
-      'If you match: Drives down from his mountain timber build in a wool coat and opens every door without fanfare.',
+      'If you match: Drives down from his Ojai build in a clean jacket and opens every door without making a big deal of it.',
   },
   summer: {
     voicePrompt: {
-      question: 'Clinical verdict before our first drink',
-      duration: '0:12',
+      question: 'Before you confess your skincare routine',
+      duration: '0:08',
       transcript:
-        '“Apply mineral SPF 50 to your neck, respect the gym earbud code, and please actually know what you want out of life.”',
-      subtextTell: 'Sunny Malibu dermatologist warmth, allergic to passive “idk wherever u want” texts.',
+        '“Yes I’m a dermatologist, no I won’t judge if you forgot sunscreen today... okay I might tease you a little bit, but drinks are still on.”',
+      audioUrl: './audio/voices/summer.mp3',
     },
     fridayStoryHook:
-      'If you match: Trades Beverly Hills clinic coats for wet-hair Malibu fish tacos and real commitment talk.',
+      'If you match: Trades Beverly Hills clinic hours for Malibu fish tacos and honest talk about what you both want.',
   },
   sienna: {
     voicePrompt: {
-      question: 'Fair warning before you match me',
-      duration: '0:13',
+      question: 'One question about your apartment',
+      duration: '0:08',
       transcript:
-        '“I run negotiations all day, so when a man shows up on time with an actual reservation and zero ego games, my guard drops fast.”',
-      subtextTell: 'Direct courtroom-grade clarity paired with genuine warmth once you lead cleanly.',
+        '“Quick question... why does every guy’s apartment either have zero lamps or one blinding ceiling bulb? Please tell me you own a lamp.”',
+      audioUrl: './audio/voices/sienna.mp3',
     },
     fridayStoryHook:
-      'If you match: Gives you forty-five minutes between wine tastings to prove your banter holds up offline.',
+      'If you match: Invites you to a backyard Pasadena wine night to see how well you hold your own around her friends.',
   },
   elena: {
     voicePrompt: {
-      question: 'Office hours are officially closed when',
-      duration: '0:14',
+      question: 'One ground rule before messaging me',
+      duration: '0:08',
       transcript:
-        '“Friday hits five o’clock, the red grading pen stays in my satchel, and someone brave enough to skip academic flattery asks me to sushi.”',
-      subtextTell: 'Warm seminar-leader voice, spots hollow flattery in three seconds flat.',
+        '“Okay, ground rule... please don’t open with hey professor. Just pick a great sushi spot for Friday night and talk to me like a normal person.”',
+      audioUrl: './audio/voices/elena.mp3',
     },
     fridayStoryHook:
-      'If you match: Leaves faculty politics behind at Hawthorne Gate, if you can hold your own across a candlelit omakase counter.',
+      'If you match: Leaves campus talk at the door for late-night sushi and dry humor.',
   },
   claire: {
     voicePrompt: {
-      question: 'What twenty-four hours of freedom looks like',
-      duration: '0:13',
+      question: 'Easiest way to win Friday night',
+      duration: '0:09',
       transcript:
-        '“Board deck signed, out-of-office on, and one bold dinner invitation from someone who doesn’t treat my title like an interview panel.”',
-      subtextTell: 'Crisp M&A precision, craves playfulness, not a LinkedIn pitch.',
+        '“Look, I make decisions at work from seven AM to six... if you just text me I booked a table for eight, you’re already ahead of ninety percent of men.”',
+      audioUrl: './audio/voices/claire.mp3',
     },
     fridayStoryHook:
-      'If you match: Trades the executive lounge for a tucked-away jazz banquette where status games stay at the door.',
+      'If you match: Steps out of deal week for martinis where corporate small talk is strictly banned.',
   },
   priya: {
     voicePrompt: {
-      question: 'Post-night-shift decompression rule',
-      duration: '0:12',
+      question: 'Finally off three night shifts',
+      duration: '0:08',
       transcript:
-        '“Feed me real street tacos, tell me one funny story from outside the hospital, and don’t ask me to diagnose your roommate’s sprained ankle.”',
-      subtextTell: 'Quick, grounded ER humor, values emotional steadiness over flash.',
+        '“Just finished three night shifts in a row, finally human again... take me somewhere with good tacos and zero hospital talk, and I’m yours.”',
+      audioUrl: './audio/voices/priya.mp3',
     },
     fridayStoryHook:
-      'If you match: Meets you after a twelve-hour trauma shift where sincerity beats smooth lines every time.',
+      'If you match: Meets you off-shift ready to laugh, tease back, and ignore every work alert.',
   },
   vanessa: {
     voicePrompt: {
-      question: 'Why spontaneity is everything to me',
-      duration: '0:14',
+      question: 'Why I prefer weekday afternoons',
+      duration: '0:08',
       transcript:
-        '“Montecito charity galas get exhausting. I just want discreet Thursday afternoon champagne at a hotel bar where nobody knows our last names.”',
-      subtextTell: 'Purring luxury cadence, notice how weekends and her own neighborhood are mysteriously off-limits.',
+        '“Weekends are always so chaotic at the house... honestly nothing beats sneaking off to a quiet hotel bar on a Wednesday afternoon.”',
+      audioUrl: './audio/voices/vanessa.mp3',
     },
     fridayStoryHook:
-      'If you match: Orders vintage Bollinger in a shadowy corner banquette, until her phone lights up with an estate security alert.',
+      'If you match: Orders afternoon Champagne in a shadowy hotel booth until her home security app starts buzzing.',
   },
   brooke: {
     voicePrompt: {
-      question: 'Energy check before we grab matcha',
-      duration: '0:13',
+      question: 'Friday at eight sharp',
+      duration: '0:08',
       transcript:
-        '“Hold that grin right there, wait, turn ten degrees toward the ring light! Sorry babe, my followers eat up spontaneous older-woman younger-guy content.”',
-      subtextTell: 'You can literally hear a tripod clicking into place mid-sentence.',
+        '“So there’s this great steakhouse in the Palisades... Friday at eight sharp, sit facing the middle booth with me and just laugh at all my jokes, deal?”',
+      audioUrl: './audio/voices/brooke.mp3',
     },
     fridayStoryHook:
-      'If you match: Turns a simple coffee date into an unannounced three-camera livestream audition.',
+      'If you match: Insists on one exact Palisades patio table right across from her ex-husband Richard at Table 9.',
   },
   celeste: {
     voicePrompt: {
-      question: 'What running a desert gallery taught me',
-      duration: '0:14',
+      question: 'What I actually want on a Friday',
+      duration: '0:08',
       transcript:
-        '“Good taste shows up in ninety seconds: icy Gibson with an onion, Chet Baker on vinyl, and a man who looks at the art before reading the wall plaque.”',
-      subtextTell: 'Effortless Palm Springs gallerist poise and zero patience for pretension.',
+        '“I’m way past loud nightclubs and shouting over a DJ... give me a cold martini, a quiet booth, and a man who actually listens.”',
+      audioUrl: './audio/voices/celeste.mp3',
     },
     fridayStoryHook:
-      'If you match: Tosses you the keys to her powder-blue convertible after a private sculpture garden toast.',
+      'If you match: Hands you the keys to her vintage convertible after a Palm Springs gallery opening.',
   },
   astrid: {
     voicePrompt: {
-      question: 'Morning ritual I won’t compromise on',
-      duration: '0:12',
+      question: 'Swedish honesty vs. LA flaking',
+      duration: '0:10',
       transcript:
-        '“Cold plunge at sunrise, cedar sauna breathwork right after, and a man whose nervous system isn’t permanently wired to push notifications.”',
-      subtextTell: 'Serene, hypnotic cadence, will 100% read your posture within five seconds.',
+        '“People in LA always say let’s grab drinks soon and never mean it. I’m Swedish... if I say Friday at eight, I actually mean Friday at eight.”',
+      audioUrl: './audio/voices/astrid.mp3',
     },
     fridayStoryHook:
-      'If you match: Invites you to her coastal studio terrace to test whether your calm matches your opener.',
+      'If you match: Invites you for Malibu sunset wine where small talk and flaking don’t exist.',
   },
   camila: {
     voicePrompt: {
-      question: 'Fastest way into a chef’s good graces',
-      duration: '0:12',
+      question: 'Why Mondays are sacred',
+      duration: '0:08',
       transcript:
-        '“Eat warm sourdough without counting macros, pour the Rioja, and cook me one simple meal on Monday so I finally get to sit down.”',
-      subtextTell: 'Warm wood-fired osteria chef energy, feeds everyone she adores.',
+        '“Since I cook for sixty people every night, I’m banned from my own stove on Mondays... make me grilled cheese and pour some red wine, that’s literally it.”',
+      audioUrl: './audio/voices/camila.mp3',
     },
     fridayStoryHook:
-      'If you match: Saves two seats at her wood-fired kitchen pass, then spins cumbia in the kitchen after close.',
+      'If you match: Saves you two seats at her wood-fired counter, then lets you cook on her Monday off.',
   },
   vivienne: {
     voicePrompt: {
-      question: 'Three words you must never say at dinner',
-      duration: '0:13',
+      question: 'One rule before dinner',
+      duration: '0:07',
       transcript:
-        '“Book the corner banquette at eight, order the Burgundy without flinching, and never utter the words ‘for your age’ unless you enjoy dining solo.”',
-      subtextTell: 'Effortless Left Bank wit, equal parts intimidating and magnetic.',
+        '“Simple rule before we go to dinner... show up on time, skip the small talk, and never add the words for your age to a compliment.”',
+      audioUrl: './audio/voices/vivienne.mp3',
     },
     fridayStoryHook:
-      'If you match: Takes you to a midnight 35mm French New Wave screening and grades your third-act take over steak frites.',
+      'If you match: Takes you to a midnight 35mm French film screening followed by late steak frites.',
   },
 };
 

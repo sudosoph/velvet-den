@@ -695,7 +695,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                           prev.includes(profileId) ? prev : [...prev, profileId],
                         );
                         voiceCleanupRef.current = playVoiceNotePreview(
-                          currentProfile.voicePrompt!.transcript,
+                          currentProfile.voicePrompt!.audioUrl,
                           voiceStyle,
                           () => {
                             voiceCleanupRef.current = null;
@@ -736,16 +736,6 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 <p className="text-sm italic text-zinc-800 leading-relaxed">
                   {currentProfile.voicePrompt.transcript}
                 </p>
-
-                {heardVoiceIds.includes(currentProfile.id) && (
-                  <div
-                    data-testid="hinge-voice-subtext"
-                    className="rounded-xl bg-white border border-zinc-200 px-3.5 py-2.5 text-sm font-medium text-zinc-700"
-                  >
-                    <span className="font-bold text-zinc-950">Bestie Read: </span>
-                    {currentProfile.voicePrompt.subtextTell}
-                  </div>
-                )}
 
                 <button
                   type="button"

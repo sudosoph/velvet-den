@@ -193,7 +193,7 @@ export const sfx = {
 };
 
 export function playVoiceNotePreview(
-  text: string,
+  audioUrl: string,
   style: 'her' | 'green_cub' | 'trap_cub',
   onEnd?: () => void,
 ): () => void {
@@ -203,96 +203,58 @@ export function playVoiceNotePreview(
   }
 
   let finished = false;
-  let fallbackTimer: number | null = null;
   let safetyTimer: number | null = null;
+  let audioEl: HTMLAudioElement | null = null;
+
   const finishOnce = () => {
     if (finished) return;
     finished = true;
-    if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
     if (safetyTimer !== null) window.clearTimeout(safetyTimer);
     onEnd?.();
   };
 
-  // Ensure WebAudio wakes inside the direct click gesture and plays an immediate tactile voice-note cue
-  if (style === 'trap_cub') {
-    playTone(340, 0.09, 'sawtooth', 0.065, 0, 250);
-  } else {
-    playTone(523.25, 0.09, 'triangle', 0.075, 0, 740);
-  }
+  // Subtle warm voice-memo tap click inside user gesture
+  playTone(style === 'her' ? 540 : 440, 0.045, 'sine', 0.035);
 
-  const synth = window.speechSynthesis;
-  const voices =
-    synth && typeof synth.getVoices === 'function' ? synth.getVoices() : [];
-
-  // Only rely on SpeechSynthesis as primary voice when real OS/browser voices are installed and ready
-  if (synth && typeof window.SpeechSynthesisUtterance === 'function' && voices.length > 0) {
+  if (typeof window.Audio === 'function' && audioUrl) {
     try {
-      synth.cancel();
-      if (synth.paused) {
-        synth.resume();
-      }
-      const cleaned = text.replace(/[^\w\s.,?!'’"-]/g, '').slice(0, 240);
-      const utter = new window.SpeechSynthesisUtterance(cleaned);
-      const preferred =
-        style === 'her'
-          ? voices.find((v) =>
-              /Samantha|Ava|Victoria|Karen|Moira|Google US English|Zira|Female/i.test(v.name),
-            )
-          : voices.find((v) =>
-              /Daniel|Alex|Aaron|Arthur|Google UK English Male|David|Male/i.test(v.name),
-            );
-      if (preferred) utter.voice = preferred;
-      utter.pitch = style === 'her' ? 1.06 : style === 'trap_cub' ? 1.18 : 0.92;
-      utter.rate = style === 'trap_cub' ? 1.12 : 0.98;
-      utter.volume = 0.95;
-      utter.onend = () => finishOnce();
-      utter.onerror = () => finishOnce();
-      synth.speak(utter);
+      audioEl = new window.Audio(audioUrl);
+      audioEl.preload = 'auto';
+      audioEl.volume = 0.96;
+      audioEl.onended = () => finishOnce();
+      audioEl.onerror = () => finishOnce();
 
-      // Guard against browsers where speechSynthesis silently stalls without firing onend
-      const estMs = Math.max(2600, Math.min(9500, cleaned.length * 62));
-      safetyTimer = window.setTimeout(() => finishOnce(), estMs);
+      const playPromise = audioEl.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          finishOnce();
+        });
+      }
+
+      safetyTimer = window.setTimeout(() => finishOnce(), 18000);
 
       return () => {
         finished = true;
         if (safetyTimer !== null) window.clearTimeout(safetyTimer);
-        try {
-          synth.cancel();
-        } catch {
-          // Ignore cancel errors
+        if (audioEl) {
+          try {
+            audioEl.onended = null;
+            audioEl.onerror = null;
+            audioEl.pause();
+            audioEl.currentTime = 0;
+          } catch {
+            // Ignore media cleanup errors
+          }
         }
       };
     } catch {
-      // Fall through to rich WebAudio conversational cadence
+      finishOnce();
     }
   }
 
-  // Rich WebAudio conversational cadence fallback (always audible on Linux, mobile webviews & zero-TTS setups)
-  const wordCount = Math.max(6, Math.min(14, Math.ceil(text.trim().split(/\s+/).length * 0.45)));
-  const baseScale =
-    style === 'trap_cub'
-      ? [330, 311.13, 349.23, 293.66, 261.63, 311.13, 246.94, 220]
-      : style === 'her'
-        ? [392.0, 440.0, 523.25, 587.33, 523.25, 659.25, 587.33, 523.25]
-        : [220.0, 261.63, 293.66, 329.63, 293.66, 349.23, 329.63, 261.63];
-
-  for (let i = 0; i < wordCount; i += 1) {
-    const freq = baseScale[i % baseScale.length];
-    const nextFreq = baseScale[(i + 1) % baseScale.length];
-    playTone(
-      freq,
-      0.16,
-      style === 'trap_cub' ? 'sawtooth' : 'triangle',
-      0.075,
-      0.08 + i * 0.17,
-       freq * 0.92 + nextFreq * 0.08,
-    );
-  }
-  fallbackTimer = window.setTimeout(() => finishOnce(), 120 + wordCount * 175);
-
+  finishOnce();
   return () => {
     finished = true;
-    if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
     if (safetyTimer !== null) window.clearTimeout(safetyTimer);
   };
 }

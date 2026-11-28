@@ -70,10 +70,10 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
     expect(reactBtns[0].textContent).toContain('🥂 1');
   });
 
-  it('equips every Hinge profile with Cast Strip jumping, playable Voice Prompt + Bestie subtext, Friday Story Preview, and live AI custom opener replies', async () => {
+  it('equips every Hinge profile with Cast Strip jumping, playable Voice Prompt (zero Bestie Read clutter), Friday Story Preview, and live AI custom opener replies', async () => {
     for (const p of V35_CAST_PROFILES) {
       expect(p.voicePrompt?.transcript.length).toBeGreaterThan(20);
-      expect(p.voicePrompt?.subtextTell.length).toBeGreaterThan(15);
+      expect(p.voicePrompt?.audioUrl).toMatch(/^\.\/audio\/voices\/[a-z]+\.mp3$/);
       expect(p.fridayStoryHook?.startsWith('If you match:')).toBe(true);
     }
 
@@ -90,10 +90,11 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
     fireEvent.click(screen.getByTestId('cast-jump-julian'));
     expect(screen.getByRole('heading', { name: /^Julian$/i })).toBeInTheDocument();
 
-    // 2. Voice Prompt plays & unlocks Bestie subtext tell
+    // 2. Voice Prompt plays cleanly with ZERO Bestie Read subtext box
     expect(screen.queryByTestId('hinge-voice-subtext')).toBeNull();
     fireEvent.click(screen.getByTestId('hinge-voice-play-btn'));
-    expect(screen.getByTestId('hinge-voice-subtext').textContent).toContain('Bestie Read:');
+    expect(screen.queryByTestId('hinge-voice-subtext')).toBeNull();
+    expect(document.body.textContent).not.toContain('Bestie Read:');
 
     // 3. Custom open-ended Hinge opener receives a live contextual reply in Match Celebration & Chat
     fireEvent.click(screen.getByRole('button', { name: /Like prompt 1:/i }));
