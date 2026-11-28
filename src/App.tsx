@@ -85,30 +85,57 @@ interface PersistedSimState {
   threads: ActiveMatchThread[];
   cutLooseIds: string[];
   completedCameoVenues: string[];
+  completedWildVenues?: string[];
   cubSchoolStars: number;
 }
 
 function loadSimState(): PersistedSimState {
   try {
     if (typeof window === 'undefined' || !window.localStorage) {
-      return { threads: [], cutLooseIds: [], completedCameoVenues: [], cubSchoolStars: 0 };
+      return {
+        threads: [],
+        cutLooseIds: [],
+        completedCameoVenues: [],
+        completedWildVenues: [],
+        cubSchoolStars: 0,
+      };
     }
     const raw = window.localStorage.getItem(SIM_STORAGE_KEY);
-    if (!raw) return { threads: [], cutLooseIds: [], completedCameoVenues: [], cubSchoolStars: 0 };
+    if (!raw) {
+      return {
+        threads: [],
+        cutLooseIds: [],
+        completedCameoVenues: [],
+        completedWildVenues: [],
+        cubSchoolStars: 0,
+      };
+    }
     const parsed = JSON.parse(raw) as Partial<PersistedSimState>;
+    const threads = Array.isArray(parsed.threads) ? parsed.threads : [];
+    const seededWild = threads
+      .filter((t) => Boolean(t.originVenueId))
+      .map((t) => t.originVenueId as string);
+    const savedWild = Array.isArray(parsed.completedWildVenues) ? parsed.completedWildVenues : [];
     return {
-      threads: Array.isArray(parsed.threads) ? parsed.threads : [],
+      threads,
       cutLooseIds: Array.isArray(parsed.cutLooseIds) ? parsed.cutLooseIds : [],
       completedCameoVenues: Array.isArray(parsed.completedCameoVenues)
         ? parsed.completedCameoVenues
         : [],
+      completedWildVenues: Array.from(new Set([...seededWild, ...savedWild])),
       cubSchoolStars:
         typeof parsed.cubSchoolStars === 'number' && Number.isFinite(parsed.cubSchoolStars)
           ? Math.max(0, Math.min(12, Math.floor(parsed.cubSchoolStars)))
           : 0,
     };
   } catch {
-    return { threads: [], cutLooseIds: [], completedCameoVenues: [], cubSchoolStars: 0 };
+    return {
+      threads: [],
+      cutLooseIds: [],
+      completedCameoVenues: [],
+      completedWildVenues: [],
+      cubSchoolStars: 0,
+    };
   }
 }
 
@@ -308,6 +335,9 @@ export default function App() {
   const [completedCameoVenues, setCompletedCameoVenues] = useState<string[]>(
     initialSim.completedCameoVenues,
   );
+  const [completedWildVenues, setCompletedWildVenues] = useState<string[]>(
+    initialSim.completedWildVenues ?? [],
+  );
   const [cubSchoolStars, setCubSchoolStars] = useState<number>(initialSim.cubSchoolStars);
   const [openConspiracyDirectly, setOpenConspiracyDirectly] = useState(false);
   const [autoLaunchDateRequest, setAutoLaunchDateRequest] = useState<{
@@ -421,8 +451,14 @@ export default function App() {
   const [founderTagStatus, setFounderTagStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    saveSimState({ threads, cutLooseIds, completedCameoVenues, cubSchoolStars });
-  }, [threads, cutLooseIds, completedCameoVenues, cubSchoolStars]);
+    saveSimState({
+      threads,
+      cutLooseIds,
+      completedCameoVenues,
+      completedWildVenues,
+      cubSchoolStars,
+    });
+  }, [threads, cutLooseIds, completedCameoVenues, completedWildVenues, cubSchoolStars]);
 
   useEffect(() => {
     const anyModalOpen =
@@ -695,11 +731,17 @@ export default function App() {
     setNoticeBanner('🔒 Founder Mode locked: viewing standard 5-Credit player mode.');
   };
 
+  const openWildMapOverview = () => {
+    setWildVenueFocusId(undefined);
+    setActiveChallenge(null);
+    setActiveTab('wild');
+  };
+
   const handleLaunchScenarioSlug = (slug: string) => {
     const resolved = resolveDilemmaRoute(slug);
     if (!resolved) return;
     if (resolved.roleOverride) setRole(resolved.roleOverride);
-    if (resolved.venueId) setWildVenueFocusId(resolved.venueId);
+    setWildVenueFocusId(resolved.venueId);
     setActiveChallenge(null);
     setActiveTab(resolved.tab);
   };
@@ -741,6 +783,10 @@ export default function App() {
         passportStreak={passportMeta.streakDays}
         onOpenPassportModal={() => setPassportModalOpen(true)}
         onSelectTab={(tab) => {
+          if (tab === 'wild') {
+            openWildMapOverview();
+            return;
+          }
           setActiveChallenge(null);
           setActiveTab(tab);
         }}
@@ -855,7 +901,7 @@ export default function App() {
               setActiveTab('chats');
             }}
             onOpenCubSchool={() => setActiveTab('school')}
-            onOpenWildMap={() => setActiveTab('wild')}
+            onOpenWildMap={openWildMapOverview}
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
             onOpenGuides={() => setActiveTab('journal')}
@@ -894,7 +940,7 @@ export default function App() {
             onGoToHinge={() => setActiveTab('hinge')}
             onOpenChats={() => setActiveTab('chats')}
             onOpenCubSchool={() => setActiveTab('school')}
-            onOpenWildMap={() => setActiveTab('wild')}
+            onOpenWildMap={openWildMapOverview}
             onOpenBoutique={() => openBoutiqueWithTab('shop')}
             onOpenGuides={() => setActiveTab('journal')}
           />
@@ -918,13 +964,25 @@ export default function App() {
             role={role}
             activeLeadThreads={threads.map((t) => t.leadId)}
             completedCameoVenues={completedCameoVenues}
+            completedWildVenues={completedWildVenues}
             initialVenueId={wildVenueFocusId}
+            onClearInitialVenue={() => setWildVenueFocusId(undefined)}
             onUnlockWildLead={(leadId, venueId, bonus, clueId) => {
               if (clueId) {
                 updateWallet(addConspiracyClue(wallet, clueId));
               }
+              setCompletedWildVenues((prev) =>
+                prev.includes(venueId) ? prev : [...prev, venueId],
+              );
+              const alreadyMatched = threads.some((t) => t.leadId === leadId);
               setThreads((prev) => {
-                if (prev.some((t) => t.leadId === leadId)) return prev;
+                if (prev.some((t) => t.leadId === leadId)) {
+                  return prev.map((t) =>
+                    t.leadId === leadId
+                      ? { ...t, chemistry: Math.min(100, t.chemistry + 8) }
+                      : t,
+                  );
+                }
                 const created = createInitialThread(leadId, 'wild', undefined, false, venueId);
                 const wildPerk = getPersonaVibeSpec(wallet.personaTag)?.wildChemistryBonus ?? 0;
                 created.chemistry = Math.min(96, created.chemistry + bonus + wildPerk);
@@ -932,9 +990,11 @@ export default function App() {
               });
               setSelectedChatLeadId(leadId);
               const person = getCastProfileById(leadId);
-              setNoticeBanner(
-                `🍸 Met ${person?.name ?? leadId} offline! Direct iMessage thread unlocked in Chats & Dates.`,
-              );
+              if (!alreadyMatched) {
+                setNoticeBanner(
+                  `🍸 Pulled ${person?.name ?? leadId}’s number! Keep exploring Sunset Hills or message them anytime in Chats & Dates.`,
+                );
+              }
             }}
             onCompleteCameo={(venueId, leadId, bonus) => {
               setCompletedCameoVenues((prev) =>
@@ -1128,7 +1188,7 @@ export default function App() {
               );
             }}
             onSwitchRole={(nextRole) => setRole(nextRole)}
-            onOpenWildMap={() => setActiveTab('wild')}
+            onOpenWildMap={openWildMapOverview}
             onOpenChats={(leadId) => {
               if (leadId) setSelectedChatLeadId(leadId);
               setActiveTab('chats');
@@ -1170,7 +1230,7 @@ export default function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('wild')}
+                onClick={openWildMapOverview}
                 className="text-zinc-600 hover:text-rose-600 transition-colors cursor-pointer"
               >
                 In The Wild
@@ -1544,6 +1604,7 @@ export default function App() {
         onJumpToMode={(mode) => {
           if (mode === 'checklist') setChecklistOpen(true);
           else if (mode === 'trivia') setPopTriviaOpen(true);
+          else if (mode === 'wild') openWildMapOverview();
           else setActiveTab(mode);
         }}
       />

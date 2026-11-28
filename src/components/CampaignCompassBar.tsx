@@ -643,23 +643,25 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
           </div>
         )}
 
-        {/* Right: Single Bold Poppy Next-Action Button */}
-        <div className="flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => {
-              if (effectiveNextStep.targetTab === 'wild' && !effectiveNextStep.leadId) {
-                onOpenWildMap();
-              } else {
-                onNavigateStep(effectiveNextStep);
-              }
-            }}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-semibold text-white transition-colors cursor-pointer"
-          >
-            <span>{effectiveNextStep.ctaLabel}</span>
-            <ArrowRight className="h-3.5 w-3.5 shrink-0" />
-          </button>
-        </div>
+        {/* Right: Single Bold Poppy Next-Action Button (Hidden on In The Wild so exploring venues never nudges into Chat) */}
+        {activeTab !== 'wild' && (
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => {
+                if (effectiveNextStep.targetTab === 'wild' && !effectiveNextStep.leadId) {
+                  onOpenWildMap();
+                } else {
+                  onNavigateStep(effectiveNextStep);
+                }
+              }}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-semibold text-white transition-colors cursor-pointer"
+            >
+              <span>{effectiveNextStep.ctaLabel}</span>
+              <ArrowRight className="h-3.5 w-3.5 shrink-0" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

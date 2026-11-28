@@ -110,6 +110,23 @@ describe('v35 Editorial Hinge Feed (selective matching, zero clutter) & 10-Spot 
     const cameoBtn = screen.getByRole('button', { name: /Claim \+15% Chemistry Cameo/i });
     fireEvent.click(cameoBtn);
     expect(onCompleteCameo).toHaveBeenCalledWith('terminal-b-airport', 'miles', 15);
+
+    // Even when both matched AND cameo completed, Terminal B STILL keeps its full 3-step scene playable & replayable (zero dead-end Return to Chat lock!)
+    rerender(
+      <InTheWildMapView
+        role="her"
+        activeLeadThreads={['miles']}
+        completedCameoVenues={['terminal-b-airport']}
+        completedWildVenues={['terminal-b-airport']}
+        onUnlockWildLead={onUnlockWildLead}
+        onCompleteCameo={onCompleteCameo}
+      />,
+    );
+    expect(screen.queryByText(/Return to .* Chat/i)).toBeNull();
+    expect(screen.getByTestId('wild-signal-meter').textContent).toMatch(/15% Spark/i);
+    expect(
+      screen.getByRole('button', { name: /Hand over both bags with a slow smile/i }),
+    ).toBeTruthy();
   });
 
   it('seeds Wild-origin iMessage threads with hotspot-specific meet-cute banter, zero app-graduation confusion, and 3 comedic choices per hotspot', async () => {
