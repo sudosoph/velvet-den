@@ -431,6 +431,33 @@ const STATIC_GUIDES = [
     ],
     pickIds: ['short-leash-leather-dog-leash', 'fill-in-love-coupon-cards', 'silk-pillowcase-sleepover-duo'],
   },
+  {
+    slug: 'elizabeth-holmes-billy-evans-katie-holmes-plot-twist-couples',
+    title:
+      '6 Plot-Twist Celebrity Cougar & Cub Couples: Elizabeth Holmes & Billy Evans, Katie Holmes, Joan Collins & Ryan Gosling',
+    description:
+      'From Elizabeth Holmes & Billy Evans’s asset-proof MIT ring and Katie Holmes’s NYC toyboy era to Dame Joan Collins and Sandra Bullock & Ryan Gosling.',
+    episodeId: 'pop-culture-cougar-renaissance',
+    heroImg: '../../images/scenes/velvet-room-bar.jpg',
+    dontText: 'didnt realize elizabeth holmes married a younger guy lol wild',
+    doText:
+      'Okay wait - Billy Evans proposing with his MIT signet ring so federal prosecutors could not seize a diamond is peak plot-twist trivia.',
+    paragraphs: [
+      'Beyond Cher, Madonna, and Priyanka & Nick lies a wilder pop-culture vault of older-woman / younger-man plot twists: Elizabeth Holmes (born 1984) pivoting from 19-years-older Sunny Balwani to San Diego Evans Hotels heir Billy Evans (born 1992, 8 years younger), who debuted with her at Burning Man 2018 and proposed with his MIT class signet ring.',
+      'Meanwhile in downtown Manhattan, Katie Holmes traded older A-list scrutiny for creative joy with SoHo chef Emilio Vitolo Jr. (8 years younger) and Grammy-nominated Broadway bassist Bobby Wooten III (10 years younger), joining icons like Dame Joan Collins & Percy Gibson (32-year gap, married since 2002) and Sandra Bullock & 21-year-old Ryan Gosling.',
+    ],
+    faqs: [
+      {
+        q: 'What is the age difference between Elizabeth Holmes and Billy Evans?',
+        a: 'Elizabeth Holmes (born February 1984) is roughly 8 years older than husband Billy Evans (born January 1992), an MIT graduate and heir to San Diego’s Evans Hotels group.',
+      },
+      {
+        q: 'Who were Katie Holmes’s younger boyfriends in New York?',
+        a: 'Katie Holmes famously dated NYC chef Emilio Vitolo Jr. (8 years younger) in 2020-2021 and Grammy-nominated Broadway bassist Bobby Wooten III (10 years younger) in 2022.',
+      },
+    ],
+    pickIds: ['all-fours-book', 'bridget-jones-cougar-town-watch'],
+  },
 ];
 
 function escapeHtml(str) {

@@ -26,6 +26,7 @@ const GUIDE_SLUGS = [
   'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man',
   'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',
   'black-cat-older-woman-golden-retriever-younger-man-dating-guide',
+  'elizabeth-holmes-billy-evans-katie-holmes-plot-twist-couples',
 ];
 
 const today = new Date().toISOString().slice(0, 10);
