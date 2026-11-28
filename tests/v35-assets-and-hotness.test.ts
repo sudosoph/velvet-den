@@ -96,7 +96,12 @@ describe('v35 cast hotness floor, 6-photo uniqueness, scenes & product photograp
       path.resolve(process.cwd(), 'src/components/HingeFeedView.tsx'),
       'utf8',
     );
+    const chatsTsx = fs.readFileSync(
+      path.resolve(process.cwd(), 'src/components/ChatsAndDatesView.tsx'),
+      'utf8',
+    );
     expect(soundTs).not.toMatch(/speechSynthesis|SpeechSynthesisUtterance/);
     expect(feedTsx).not.toMatch(/speechSynthesis|Bestie Read|subtextTell|hinge-voice-subtext/);
+    expect(chatsTsx).not.toMatch(/Bestie Read/);
   });
 });

@@ -182,7 +182,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [dmTypingLabel, setDmTypingLabel] = useState<string | null>(null);
   const [dmReactions, setDmReactions] = useState<Record<string, string>>({});
   const [sparkToast, setSparkToast] = useState<{ delta: number; nonce: number } | null>(null);
-  const [coachBanner, setCoachBanner] = useState<{ leadId: string; text: string } | null>(null);
   const [inspectedExifIds, setInspectedExifIds] = useState<string[]>([]);
   const [calloutPromptLeadId, setCalloutPromptLeadId] = useState<string | null>(null);
   const [snoozedImessageIds, setSnoozedImessageIds] = useState<string[]>([]);
@@ -285,7 +284,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
   // Clear transient banners/drawers whenever switching active match or stage
   useEffect(() => {
-    setCoachBanner(null);
     setShowArchivedHinge(false);
     setDmTypingLabel(null);
   }, [activeLeadId, currentThread?.stage]);
@@ -360,7 +358,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         : delta;
     const newChemistry = Math.max(0, Math.min(100, currentThread.chemistry + boostedDelta));
 
-    setCoachBanner(null);
     setSparkToast({ delta: boostedDelta, nonce: Date.now() });
 
     if (isTestEnv) {
@@ -435,7 +432,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const handleGraduateToImessage = () => {
     if (!currentThread || !currentChapter || !currentProfile) return;
     sfx.victoryFanfare();
-    setCoachBanner(null);
     setCalloutPromptLeadId(null);
     setShowArchivedHinge(false);
 
@@ -550,7 +546,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       ]);
 
       sfx.messagePop();
-      setCoachBanner({ leadId: targetLeadId, text: res.coachNote });
       const vibeChatBonus = activeVibeSpec?.chatSparkBonus ?? 0;
       const boostedDelta =
         res.chemistryDelta > 0
@@ -2011,20 +2006,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 )}
                 </div>
               </div>
-
-              {coachBanner && coachBanner.leadId === currentThread.leadId && (
-                <div className="flex items-center justify-between gap-2 bg-amber-50/90 border-t border-amber-200 px-6 py-2.5 text-xs sm:text-sm font-semibold text-amber-950">
-                  <span>💡 Bestie Read: {coachBanner.text}</span>
-                  <button
-                    type="button"
-                    aria-label="Dismiss Bestie tip"
-                    onClick={() => setCoachBanner(null)}
-                    className="rounded-full p-0.5 text-amber-800 hover:bg-amber-200/60 cursor-pointer"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              )}
 
               {/* Spontaneous Adaptive Replies + Optional Non-Blocking iMessage Swap (Breathable Reading Measure) */}
               <div className="border-t border-stone-200/80 bg-stone-50/70 px-5 py-6 sm:px-10 sm:py-7">
