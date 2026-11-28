@@ -2172,6 +2172,150 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "category": "music_celebs",
     "difficulty": "hard",
     "level": 3
+  },
+  {
+    "id": "boomer-vinyl-rotary-phone-patience",
+    "badge": "☎️ Silver Panther Era • Pre-Caller-ID Courage",
+    "question": "Before Caller ID or smartphones existed, how did Boomer & Silver Panther daters know who was on the line when the kitchen wall phone rang on Friday afternoon?",
+    "options": [
+      "You answered blind with a warm hello and zero screen preview",
+      "You dialed star-sixty-nine first to print a paper caller slip",
+      "You checked the scrolling amber LED strip on the receiver",
+      "You waited for the local operator to announce their full name"
+    ],
+    "correctIndex": 0,
+    "funFact": "Calling someone’s landline took real nerve, especially when a parent, roommate, or grown kid could pick up on the second ring!",
+    "imageUrl": "./images/scenes/velvet-room-bar.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "genx-cassette-pencil-rewind-ritual",
+    "badge": "📼 Gen-X Mixtape Engineering (1965–1980)",
+    "question": "Every Gen-X Jaguar immediately recognizes the sacred bond between a handmade 90-minute cassette mixtape and a wooden No. 2 pencil. What was the pencil used for?",
+    "options": [
+      "Cleaning static dust off the stereo volume dial",
+      "Winding loose magnetic ribbon neatly back onto the spool",
+      "Etching track names onto the clear plastic spine",
+      "Popping a jammed tape out of a dashboard deck"
+    ],
+    "correctIndex": 1,
+    "funFact": "Recording songs off the radio without catching the DJ’s voice and rescuing eaten tape with a No. 2 pencil was peak Gen-X courtship.",
+    "imageUrl": "./images/scenes/neon-bowling-lounge.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "boomer-cher-battleship-turn-back-time",
+    "badge": "⚓ 1989 Boomer Rock-Goddess Anthem",
+    "question": "In 1989, 43-year-old icon Cher filmed her unforgettable \"If I Could Turn Back Time\" video surrounded by hundreds of cheering Navy sailors aboard which real battleship?",
+    "options": [
+      "USS Missouri",
+      "USS Enterprise",
+      "USS Constitution",
+      "USS Lexington"
+    ],
+    "correctIndex": 0,
+    "funFact": "Filmed overnight in Long Beach with her 12-year-old son Elijah Blue Allman playing guitar in the band, Cher’s USS Missouri video remains untouchable.",
+    "imageUrl": "./images/icons/pop_cher_icons.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "genx-mtv-unplugged-1990s-date-night",
+    "badge": "🕯️ 1990s Gen-X Apartment Soundtrack",
+    "question": "Ask a Gen-X woman about peak 1990s candlelit date-night music (from Nirvana and Eric Clapton to Mariah Carey and Lauryn Hill) and she will name which iconic acoustic TV series?",
+    "options": [
+      "MTV Unplugged",
+      "VH1 Pop-Up Video",
+      "Total Request Live",
+      "Midnight Special"
+    ],
+    "correctIndex": 0,
+    "funFact": "MTV Unplugged albums owned 1990s vinyl and CD shelves, setting the mood long before algorithmic streaming playlists existed.",
+    "imageUrl": "./images/scenes/wine-bar-booth.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "boomer-book-club-diane-keaton-fonda",
+    "badge": "🍷 Silver Panther Cinema Hit",
+    "question": "Celebrating vibrant 60s and 70s romance over generous pours of Pinot Noir, 2018’s box-office smash \"Book Club\" starred Diane Keaton, Jane Fonda, Candice Bergen, and which fourth Oscar winner?",
+    "options": [
+      "Sally Field",
+      "Sigourney Weaver",
+      "Mary Steenburgen",
+      "Jessica Lange"
+    ],
+    "correctIndex": 2,
+    "funFact": "\"Book Club\" grossed over $104 million worldwide, proving audiences love witty, glamorous Silver Panther leads owning their love lives.",
+    "imageUrl": "./images/icons/pop_goldie_kurt.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "genx-before-sunrise-vienna-benchmark",
+    "badge": "🚆 1995 Gen-X Romance Gold Standard",
+    "question": "Which 1995 Richard Linklater film starring Ethan Hawke and Julie Delpy walking through Vienna until dawn became Gen-X’s ultimate benchmark for phone-free conversation chemistry?",
+    "options": [
+      "Singles",
+      "Before Sunrise",
+      "Reality Bites",
+      "Say Anything"
+    ],
+    "correctIndex": 1,
+    "funFact": "Meeting on a European train with zero smartphones and talking for fourteen straight hours remains every Gen-X romantic’s north star.",
+    "imageUrl": "./images/scenes/coastal-convertible.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "boomer-studio-54-halston-glamour",
+    "badge": "🪩 Late-1970s Silver Panther Lore",
+    "question": "When a stylish Silver Panther references late-1970s Manhattan disco glamour, Halston silk halters, and Bianca Jagger’s birthday entrance, which legendary West 54th Street club is she invoking?",
+    "options": [
+      "Paradise Garage",
+      "The Limelight",
+      "Studio 54",
+      "Max’s Kansas City"
+    ],
+    "correctIndex": 2,
+    "funFact": "Opened in 1977 in a former Broadway theater, Studio 54 defined an unforgettable era of fearless Boomer nightlife and fashion.",
+    "imageUrl": "./images/icons/pop_tina_erwin.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "boomer-helen-mirren-taylor-hackford",
+    "badge": "👑 70+ Silver Panther Royalty",
+    "question": "Dame Helen Mirren, the undisputed icon of unapologetic Silver Panther confidence, has been happily married since New Year’s Eve 1997 to which \"An Officer and a Gentleman\" and \"Ray\" director?",
+    "options": [
+      "Lawrence Kasdan",
+      "Adrian Lyne",
+      "Sydney Pollack",
+      "Taylor Hackford"
+    ],
+    "correctIndex": 3,
+    "funFact": "Helen Mirren and Taylor Hackford waited eleven years together before marrying on December 31, 1997, proving grown-up romance runs on its own clock.",
+    "imageUrl": "./images/icons/pop_madonna_mariahc_sarandon.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "hard",
+    "level": 3
   }
 ];
 

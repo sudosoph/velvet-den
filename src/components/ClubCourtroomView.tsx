@@ -579,6 +579,102 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     crownHim: 64,
     dumpHim: 36,
   },
+  {
+    id: 'court-bartender-sugar-mama-shutdown',
+    aslTag: '26M × 45F • Miami',
+    subject: 'her',
+    headline:
+      'Nosy Bartender Smirked "Must Be Nice Having Her Bankroll Tonight" & She Calmly Closed Out to Let Me Host Next Door',
+    story:
+      'Stepped back from the restroom right as the guy behind the taps made a loud kept-boy crack. She signed zero-drama, linked my arm smiling, and let me grab jazz-lounge cocktails down the block.',
+    vibeBadge: '🛡️ Sugar-Myth Shutdown',
+    topComment:
+      'Starving rude strangers of oxygen and moving the date somewhere classy is grandmaster poise.',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 96,
+    dumpHim: 4,
+  },
+  {
+    id: 'court-holiday-gala-dirty-secret-dodge',
+    aslTag: '44F × 27M • Boston',
+    subject: 'him',
+    headline:
+      'Spent Six Months Weekend-Living at My Brownstone, Then Swore His Firm’s Winter Gala Allowed "Zero Plus-Ones"',
+    story:
+      'Cooked him Sunday roasts since June, yet in December he claimed partners banned guests, twelve hours before his coworker posted ballroom couples photos.',
+    vibeBadge: '🚩 Pocket-Secret Foul',
+    topComment:
+      'Enjoying five-star home comfort on Sunday while hiding your partner on Friday is an instant courtroom eviction.',
+    crownHer: 3,
+    dumpHer: 97,
+    crownHim: 12,
+    dumpHim: 88,
+  },
+  {
+    id: 'court-34-baby-fever-honest-check',
+    aslTag: '46F × 28M • Denver',
+    subject: 'him',
+    headline:
+      'Brought Up the Future-Kids Timeline Himself at Month Three So I Would Never Worry About Him Turning Thirty-Four',
+    story:
+      'Without me asking, he poured two glasses of Cabernet and laid out clearly why he has been happily child-free for years and wants a travel-first partnership.',
+    vibeBadge: '🧭 Timeline Clarity',
+    topComment:
+      'Proactive emotional honesty at Month Three saves two people years of silent anxiety.',
+    crownHer: 97,
+    dumpHer: 3,
+    crownHim: 92,
+    dumpHim: 8,
+  },
+  {
+    id: 'court-college-son-unannounced-laundry-key',
+    aslTag: '27M × 44F • Atlanta',
+    subject: 'her',
+    headline:
+      'Forgot Her 20-Year-Old Sophomore Had a Spare Key Until He Walked In Carrying Dorm Laundry During Sunday Pancakes',
+    story:
+      'Flipping blueberry stacks in plaid lounge pants at 9:30 AM when the front lock clicked and two duffel bags of varsity jerseys hit the foyer.',
+    vibeBadge: '🧺 Dorm-Key Ambush',
+    topComment:
+      'Once you start hosting overnight guests, college kids move strictly to the twenty-minute heads-up text policy.',
+    crownHer: 48,
+    dumpHer: 52,
+    crownHim: 39,
+    dumpHim: 61,
+  },
+  {
+    id: 'court-st-barts-suite-proportional-split',
+    aslTag: '26M × 49F • New York',
+    subject: 'her',
+    headline:
+      'Booked Our Oceanfront Resort Suite on Corporate Points & Let Me Proudly Cover Every Sunset Bistro Tab',
+    story:
+      'Knew a seven-hundred-dollar nightly villa would stretch my junior architect paycheck, so she framed the suite as miles and let me own dinners and espresso runs.',
+    vibeBadge: '🏝️ Proportional Class',
+    topComment:
+      'Proportional generosity where both people contribute proudly beats awkward 50/50 ledger math every trip.',
+    crownHer: 99,
+    dumpHer: 1,
+    crownHim: 97,
+    dumpHim: 3,
+  },
+  {
+    id: 'court-ikea-bookcase-lower-back-pride',
+    aslTag: '43F × 25M • Seattle',
+    subject: 'him',
+    headline:
+      'Waved Off Two Movers to Solo-Carry My Solid Oak Bookcase Up Three Flights & Spent Date Night on Ice Packs',
+    story:
+      'Insisted his twenty-five-year-old back needed zero assistance, pulled a lumbar muscle on landing two, and watched rom-coms flat on my rug all evening.',
+    vibeBadge: '🧊 Heroics vs. Lumbar',
+    topComment:
+      'Points for enthusiasm, minus ten points for fighting gravity against solid oak.',
+    crownHer: 77,
+    dumpHer: 23,
+    crownHim: 86,
+    dumpHim: 14,
+  },
 ];
 
 function isLiveHttpRuntime(): boolean {

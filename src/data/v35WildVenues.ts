@@ -1412,15 +1412,32 @@ const WILD_MEET_SEEDS: Record<string, WildMeetCuteSeed> = {
   },
 };
 
+export type WildFollowUpChoice =
+  | {
+      label: string;
+      replyCue: string;
+      bonus: number;
+      isPoliteBrushOff?: false;
+      isMemeFail?: false;
+    }
+  | {
+      label: string;
+      brushOffText: string;
+      isPoliteBrushOff: true;
+      isMemeFail?: false;
+    }
+  | {
+      label: string;
+      failText: string;
+      isMemeFail: true;
+      isPoliteBrushOff?: false;
+    };
+
 export interface WildFollowUpStep {
   stageLabel: string;
   prompt: string;
   spokenCue: string;
-  choices: [
-    { label: string; replyCue: string; bonus: number },
-    { label: string; replyCue: string; bonus: number },
-    { label: string; failText: string; isMemeFail: true },
-  ];
+  choices: [WildFollowUpChoice, WildFollowUpChoice, WildFollowUpChoice];
 }
 
 export interface WildFollowUpSequence {
@@ -3045,6 +3062,336 @@ const BESPOKE_WILD_FOLLOWUPS: Record<string, WildFollowUpSequence> = {
   },
 };
 
+const WILD_APPROACHABILITY_READS: Record<
+  string,
+  { status: 'green' | 'caution'; headline: string; rule: string }
+> = {
+  'velvet-room:her': {
+    status: 'caution',
+    headline: 'TRAP SIGNAL: Pale Ring-Tan Line + Fake 6:45 Tokyo Alibi',
+    rule: 'He IS approachable, because he is hunting a weekday secret! Stay cool, pocket his real cell for receipts, and never buy his curfew excuse.',
+  },
+  'velvet-room:him': {
+    status: 'green',
+    headline: 'OPEN WINDOW (Narrow): Bare Ring Finger + Backbar Mirror Glance',
+    rule: 'She is decompressing solo and open to a sharp younger man, provided you never hover, ask her to reassure your age, or overstay her car call.',
+  },
+  'hawthorne-campus:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Two Espressos + Singled You Out Off-Lectern',
+    rule: 'Julian wants romantic banter, not academic mentoring. Signal unmistakable woman-to-man spark and swap personal numbers.',
+  },
+  'hawthorne-campus:him': {
+    status: 'green',
+    headline: 'GREEN LIGHT (Post-5:00 PM Only): Grades Sealed + Lingering by Urn',
+    rule: 'Elena is approachable now that grades posted. Hold confident adult frame without asking if she "ever dates younger men" or pushing past her 6 PM dinner.',
+  },
+  'terminal-b-airport:her': {
+    status: 'green',
+    headline: 'HIGH-INTENT PURSUIT: Tracked Tail Radar + Remembered Cortado',
+    rule: 'Miles volunteered specifically to ask you out. Verify his intent directly without brushing him off as Jade’s errand boy.',
+  },
+  'terminal-b-airport:him': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Catalog Closed + Open-Ended Gibson Remark',
+    rule: 'Celeste tossed you a conversational handkerchief during the delay. Match her dry wit and offer your card before Group 1 boards.',
+  },
+  'havana-salsa:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Held Frame Past the Three-Minute Rotation Bell',
+    rule: 'Friendly dancers rotate on the bell; Rafael lingered to ditch class with you. Accept warmly and swap real digits.',
+  },
+  'havana-salsa:him': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Subtle Single-Check ("Did a Girlfriend Teach You?")',
+    rule: 'When an older woman asks if a girlfriend taught you to cook, she is checking if you are single! Answer clearly and skip Instagram.',
+  },
+  'palisades-racquet:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Waved You Onto His Side Over Two Younger Players',
+    rule: 'Søren’s dry Nordic calm is pure confidence, not disinterest. Match his bold baseline energy and lock Thursday dinner.',
+  },
+  'palisades-racquet:him': {
+    status: 'caution',
+    headline: 'AGENDA WARNING: Three Court-4 Glances Toward Ex-Husband Richard',
+    rule: 'Brooke wants you in Richard’s sightline for Table 9 divorce theater. Call the play with amused poise so you keep your dignity.',
+  },
+  'st-jude-coffee:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Lingering Past Post-Shift Nap Time for You',
+    rule: 'A tired night-shift paramedic only stays on a bench at 7 AM when he is smitten. Ask his off-shift night and let him go sleep.',
+  },
+  'st-jude-coffee:him': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Playful Cup-Name Roast = Trauma-RN Flirting',
+    rule: 'Priya teases to test your spine. Propose a zero-decision Friday taco plan and respect her daytime blackout-curtain sleep.',
+  },
+  'left-bank-books:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Ten-Minute Recon + Colette’s Chéri Callback',
+    rule: 'He lingered in French fiction specifically to meet you. Reward his nerve warmly and lock a candlelit Thursday table.',
+  },
+  'left-bank-books:him': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Testing Whether Her Age Gap Rattles You',
+    rule: 'When Celeste mentions opening her gallery while you were in grade school, smile unbothered and never ask for reassurance.',
+  },
+  'dawn-lap-pool:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Explicitly Said He Didn’t Want to Wait Until Tuesday',
+    rule: 'That is a textbook off-app ask-out cue. Confirm weekend drinks warmly and swap numbers before commuters crowd the deck.',
+  },
+  'dawn-lap-pool:him': {
+    status: 'green',
+    headline: 'GREEN LIGHT (Smoothie Counter Only): AirPods Clicked Into Case',
+    rule: 'Never approach mid-set; at the counter keep it breezy and hand HER your number so Lane 3 stays zero-pressure.',
+  },
+  'cougarmarket:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Stayed Blushing to Confess He Is Single',
+    rule: 'A guy who only made a mistake bolts down Aisle 5; Rory stayed to flirt. Give him a clear green light before checkout.',
+  },
+  'cougarmarket:him': {
+    status: 'green',
+    headline: 'GREEN LIGHT: "Cooking for Two or Solo?" Availability Check',
+    rule: 'Polite shoppers talk olive oil and walk away; Camila checked if you are single. Offer to cook on her Monday off!',
+  },
+  'velvet-palms-bbq:her': {
+    status: 'green',
+    headline: 'GREEN LIGHT: Hostess Pre-Vetted + Volunteered in Four Seconds',
+    rule: 'Jade set the alley-oop and Rafael stepped right in. Lock Friday one-on-one dinner before heading to your quiet bed.',
+  },
+  'velvet-palms-bbq:him': {
+    status: 'green',
+    headline: 'DAYLIGHT POISE TEST: Watching How You Act Around Twenty-Somethings',
+    rule: 'Show zero sheepishness when Sam’s friends look over, and respect her 9:45 PM Sunday exit boundary.',
+  },
+};
+
+export function getWildApproachabilityRead(
+  venueId: string,
+  role: 'her' | 'him',
+): { status: 'green' | 'caution'; headline: string; rule: string } {
+  return (
+    WILD_APPROACHABILITY_READS[`${venueId}:${role}`] ?? {
+      status: 'green',
+      headline: 'GREEN LIGHT: Open Posture + Second Glance Confirmed',
+      rule: 'Signal calm romantic intent and offer a low-pressure phone number swap.',
+    }
+  );
+}
+
+const WILD_SUBTLE_MISREADS: Record<
+  string,
+  {
+    beat2Label: string;
+    beat2BrushOff: string;
+    beat3Label: string;
+    beat3BrushOff: string;
+  }
+> = {
+  'velvet-room:her': {
+    beat2Label:
+      'Confront him heatedly about the pale ring-tan line before getting his last name or phone number.',
+    beat2BrushOff:
+      'Tipping your hand too early lets Graham toss cash on the bar and vanish before you log his real digits or Table 9 receipt!',
+    beat3Label:
+      'Let him promise to "message you on Instagram tomorrow" without capturing his real phone number.',
+    beat3BrushOff:
+      'A burner handle gives you zero Table 9 leverage. Make him text your phone directly at the bar!',
+  },
+  'velvet-room:him': {
+    beat2Label:
+      'Ask hesitantly: "Wait, be honest, would an M&A partner like you actually go out with a younger guy?"',
+    beat2BrushOff:
+      'Claire sighs softly over her Gibson: asking her to validate your age insecurity flips you from intriguing man to nervous audition.',
+    beat3Label:
+      'Ask for her Instagram handle while hovering beside her stool as her car waits downstairs.',
+    beat3BrushOff:
+      'Claire slips her phone into her clutch: "I don’t do Instagram roster games." Offer a real phone number and a decisive 7:45 plan!',
+  },
+  'hawthorne-campus:her': {
+    beat2Label:
+      'Keep your tone strictly collegial and ask which academic journal is publishing his paper.',
+    beat2BrushOff:
+      'Julian reads your polite faculty tone as "zero romantic interest" and steps back respectfully. Drop a clear flirtatious cue!',
+    beat3Label:
+      'Suggest connecting on academic LinkedIn first before trading personal phone numbers.',
+    beat3BrushOff:
+      'LinkedIn networking drains 100% of the rainy-afternoon chemistry before the dean arrives!',
+  },
+  'hawthorne-campus:him': {
+    beat2Label:
+      'Ask self-consciously: "Do you ever date younger men, or am I way out of bounds asking?"',
+    beat2BrushOff:
+      'Elena’s warm smile cools into polite professor distance: never make her defend liking younger men before Date #1!',
+    beat3Label:
+      'Press her to cancel her 6:00 PM dinner across town so you can grab drinks right this second.',
+    beat3BrushOff:
+      'Pushing past an accomplished woman’s stated 6 PM commitment reads impatient. Pitch Friday cleanly and give her an easy exit!',
+  },
+  'terminal-b-airport:her': {
+    beat2Label:
+      'Keep the ride strictly about LAX traffic and weather so you don’t risk misreading Jade’s favor.',
+    beat2BrushOff:
+      'Playing ultra-neutral convinces Miles you only wanted a polite ride home! Test his romantic intent directly.',
+    beat3Label:
+      'Say "Tell Jade to set up a group dinner for all of us sometime next month!" at the curb.',
+    beat3BrushOff:
+      'Routing a one-on-one spark back through a group hang stalls the momentum cold. Lock Friday at 8:15 directly!',
+  },
+  'terminal-b-airport:him': {
+    beat2Label:
+      'Ask curiously: "So do women in Palm Springs actually date guys in their twenties?"',
+    beat2BrushOff:
+      'Celeste arches a silver brow: turning a natural connection into an age-gap survey breaks the spell immediately.',
+    beat3Label:
+      'Ask if you can follow her gallery’s public Instagram page to stay in touch.',
+    beat3BrushOff:
+      'Following a business account puts you in customer limbo with 14,000 strangers. Hand her your personal number cleanly!',
+  },
+  'havana-salsa:her': {
+    beat2Label:
+      'Say "Let’s finish three more partner rotations first so the instructor doesn’t notice!"',
+    beat2BrushOff:
+      'By the fourth bell the courtyard crowd swallows the moment. When a great man invites a patio mutiny, take it!',
+    beat3Label:
+      'Tell him to "just drop into Thursday salsa again next week" instead of trading numbers.',
+    beat3BrushOff:
+      'Leaving Friday dinner up to next week’s class attendance lets a ten-out-of-ten spark cool off!',
+  },
+  'havana-salsa:him': {
+    beat2Label:
+      'Play coy when she asks about a girlfriend: "Haha a gentleman never tells, gotta keep some mystery!"',
+    beat2BrushOff:
+      'Sienna reads "mystery" as "has a girlfriend at home" and turns back to the prep island. Confirm you are single clearly!',
+    beat3Label:
+      'Join the six classmates crowding around to drop your Instagram @ in the class group chat.',
+    beat3BrushOff:
+      'She literally just told you she barely checks Instagram DMs! Step up with real phone numbers.',
+  },
+  'palisades-racquet:her': {
+    beat2Label:
+      'Laugh nervously and ask if twenty-six-year-old guys only invite older partners for mixed-doubles strategy.',
+    beat2BrushOff:
+      'Putting age doubt in his mouth stalls a man who already picked you over the whole patio. Own the baseline!',
+    beat3Label:
+      'Tell Søren to message you through the club’s pickleball booking app ladder.',
+    beat3BrushOff:
+      'Club ladder notifications are for 7 AM court fees, not oyster dates. Swap real iMessage digits!',
+  },
+  'palisades-racquet:him': {
+    beat2Label:
+      'Pretend you didn’t notice Court 4 at all and gush that Table 9 sounds super romantic.',
+    beat2BrushOff:
+      'Walking blind into Brooke’s ex-husband crossfire turns you into an unpaid prop! Clock the Court 4 tell with dry humor.',
+    beat3Label:
+      'Promise right now to wear whatever outfit she texts you for Friday’s patio parade.',
+    beat3BrushOff:
+      'Agreeing to wardrobe staging hands away all your leverage before the first text!',
+  },
+  'st-jude-coffee:her': {
+    beat2Label:
+      'Keep it polite and brief: "Have a good sleep after your shift!" and turn back to your phone.',
+    beat2BrushOff:
+      'Marcus takes your phone turn as a polite brush-off and heads to his truck. Catch his bench linger cue!',
+    beat3Label:
+      'Insist on hammering out exact Thursday restaurant menus right now while he is exhausted off a 12-hour shift.',
+    beat3BrushOff:
+      'Making a sleep-deprived paramedic plan logistics at 7:15 AM drains the magic. Grab his cell and let him rest!',
+  },
+  'st-jude-coffee:him': {
+    beat2Label:
+      'Get defensive about your cup spelling and ask if she’s always this intimidating to younger guys.',
+    beat2BrushOff:
+      'Priya smirks into her cold brew: taking playful trauma-RN banter personally fails her reflex check!',
+    beat3Label:
+      'Tell her you will call around noon just to check if she woke up early.',
+    beat3BrushOff:
+      'She explicitly said blackout curtains until 4 PM! Honor her sleep window and confirm at 5 PM sharp.',
+  },
+  'left-bank-books:her': {
+    beat2Label:
+      'Ask teasingly if Colette’s Chéri is required reading for "young guys looking for a cougar."',
+    beat2BrushOff:
+      'Labeling a sincere 27-year-old romantic with internet tropes makes Julian worry you aren’t taking him seriously.',
+    beat3Label:
+      'Give him your email address instead of your phone number to "keep things old-fashioned."',
+    beat3BrushOff:
+      'Email threads feel like university admin! Trade personal cell numbers while the wine bar glow is hot.',
+  },
+  'left-bank-books:him': {
+    beat2Label:
+      'Try too hard to sound older by claiming you actually hate everyone in your own generation.',
+    beat2BrushOff:
+      'Celeste sees right through the "I’m so mature I hate my peers" routine. Quiet unbothered confidence wins!',
+    beat3Label:
+      'Ask if you can walk her up to her car and keep chatting for twenty more minutes at the curb.',
+    beat3BrushOff:
+      'When her town car is already idling at the curb, lingering stalls a graceful close. Lock Thursday in ten seconds!',
+  },
+  'dawn-lap-pool:her': {
+    beat2Label:
+      'Assume "talk to you before Tuesday" just means swapping swim workouts and reply with a thumbs-up.',
+    beat2BrushOff:
+      'Minimalist gym replies read like "please don’t hit on me here" to a respectful man. Match his directness!',
+    beat3Label:
+      'Ask him to hold your phone while you search through damp swim gear for three minutes.',
+    beat3BrushOff:
+      'Locker-room rush swallows slow fumbles. Type your digits cleanly in fifteen seconds!',
+  },
+  'dawn-lap-pool:him': {
+    beat2Label:
+      'Ask her right at the smoothie counter what year she graduated college to figure out the age gap.',
+    beat2BrushOff:
+      'Summer raises one eyebrow: quizzing a woman’s graduation year at 7 AM kills breezy Malibu chemistry!',
+    beat3Label:
+      'Insist she type her number into your phone and text you back before leaving so you know it’s real.',
+    beat3BrushOff:
+      'With 60 seconds before her 8:30 clinic, demanding an on-the-spot verification text feels pushy. Hand her YOUR number cleanly!',
+  },
+  'cougarmarket:her': {
+    beat2Label:
+      'Joke that you are "way outside his usual age bracket" to test if he pushes harder.',
+    beat2BrushOff:
+      'In a grocery aisle, respectful guys treat "outside your bracket" as a polite no and back off! Give a real green light.',
+    beat3Label:
+      'Tell him you shop here most Sundays at six if he wants to try bumping into you again.',
+    beat3BrushOff:
+      'Grocery-aisle roulette fails nine times out of ten. Put his number in your phone before Register 3!',
+  },
+  'cougarmarket:him': {
+    beat2Label:
+      'Try to impress the chef by lecturing her for four minutes on smoke points of Sicilian olive oils.',
+    beat2BrushOff:
+      'Camila smiles tightly: Cubsplaining olive oil to a woman who owns an osteria turns spark into comedy!',
+    beat3Label:
+      'Ask if you can drop by her restaurant kitchen unannounced Friday night during dinner rush.',
+    beat3BrushOff:
+      'Ambushing a chef during Friday dinner service is chaos! Swap personal digits while respecting her melting gelato.',
+  },
+  'velvet-palms-bbq:her': {
+    beat2Label:
+      'Downplay it in front of the patio: "Oh, Jade exaggerates, go mingle with the rest of the party!"',
+    beat2BrushOff:
+      'Sending him away when he just confessed volunteering in four seconds reads like rejection!',
+    beat3Label:
+      'Invite him straight inside for a midnight nightcap even though your 9:30 Sunday sanctuary battery is spent.',
+    beat3BrushOff:
+      'Overriding your own peaceful Sunday boundary creates Monday regret. Pull his number at the gate and keep him excited for Friday!',
+  },
+  'velvet-palms-bbq:him': {
+    beat2Label:
+      'Call Sam’s twenty-something friends over to the firepit to get their approval of the vibe.',
+    beat2BrushOff:
+      'Turning private firepit chemistry into a buddy-group huddle evaporates Sienna’s intrigue immediately!',
+    beat3Label:
+      'Ask to follow her home tonight at 9:45 PM right after she said her social battery is spent.',
+    beat3BrushOff:
+      'Ignoring a clear "social battery spent" cue fails Rule #1 of grown-up dating. Walk her to her car and book Friday!',
+  },
+};
+
 export function getWildFollowUpSequence(
   venueId: string,
   role: 'her' | 'him',
@@ -3053,7 +3400,35 @@ export function getWildFollowUpSequence(
 ): WildFollowUpSequence {
   const key = `${venueId}:${role}`;
   if (BESPOKE_WILD_FOLLOWUPS[key]) {
-    return BESPOKE_WILD_FOLLOWUPS[key];
+    const base = BESPOKE_WILD_FOLLOWUPS[key];
+    const misread = WILD_SUBTLE_MISREADS[key];
+    if (!misread) return base;
+    return {
+      beat2: {
+        ...base.beat2,
+        choices: [
+          base.beat2.choices[0],
+          {
+            label: misread.beat2Label,
+            brushOffText: misread.beat2BrushOff,
+            isPoliteBrushOff: true,
+          },
+          base.beat2.choices[2],
+        ],
+      },
+      beat3: {
+        ...base.beat3,
+        choices: [
+          base.beat3.choices[0],
+          {
+            label: misread.beat3Label,
+            brushOffText: misread.beat3BrushOff,
+            isPoliteBrushOff: true,
+          },
+          base.beat3.choices[2],
+        ],
+      },
+    };
   }
 
   if (isTrapLead) {

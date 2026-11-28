@@ -231,10 +231,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   const allHingeCast = useMemo(
     () =>
       V35_CAST_PROFILES.filter(
-        (p) =>
-          p.role === targetRole &&
-          p.discoveryDoor !== 'wild' &&
-          !cutLooseIds.includes(p.id),
+        (p) => p.role === targetRole && !cutLooseIds.includes(p.id),
+      ).sort(
+        (a, b) =>
+          (a.discoveryDoor === 'wild' ? 1 : 0) - (b.discoveryDoor === 'wild' ? 1 : 0),
       ),
     [targetRole, cutLooseIds],
   );
@@ -683,12 +683,17 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
       ) : (
         <article className="relative rounded-2xl border border-zinc-200 bg-white shadow-2xs">
           {/* Authentic Minimal Profile Header */}
-          <header className="flex items-baseline justify-between px-6 pt-6 pb-3">
-            <div className="flex items-baseline gap-2.5">
+          <header className="flex flex-wrap items-baseline justify-between gap-2 px-6 pt-6 pb-3">
+            <div className="flex flex-wrap items-baseline gap-2.5">
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
                 {currentProfile.name}
               </h1>
               <span className="text-xl font-medium text-zinc-500">{currentProfile.age}</span>
+              {currentProfile.discoveryDoor === 'wild' && (
+                <span className="inline-flex items-center rounded-full border border-rose-200 bg-rose-50 px-2.5 py-0.5 text-xs font-semibold text-rose-700">
+                  🍸 Also Spotted In The Wild
+                </span>
+              )}
             </div>
 
             <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500">

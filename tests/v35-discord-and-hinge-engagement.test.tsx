@@ -79,9 +79,9 @@ describe('v35 Discord Topic-Exact Replies + Open-Ended AI & Hinge Novel Engageme
 
     render(<App />);
 
-    // 1. Cast Strip shows Tonight's 8 Singles and lets player jump straight to Graham and back to Julian
+    // 1. Cast Strip shows Tonight's 11 Singles (full symmetric 11x11 cast) and lets player jump straight to Graham and back to Julian
     const castStrip = screen.getByTestId('hinge-cast-strip');
-    expect(within(castStrip).getAllByRole('button')).toHaveLength(8);
+    expect(within(castStrip).getAllByRole('button')).toHaveLength(11);
 
     fireEvent.click(screen.getByTestId('cast-jump-graham'));
     expect(screen.getByRole('heading', { name: /^Graham$/i })).toBeInTheDocument();

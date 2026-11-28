@@ -1113,6 +1113,9 @@ export default function App() {
                 ),
               );
             }}
+            onLoseHeart={() => {
+              updateWallet(loseFridayHeart(wallet));
+            }}
             onOpenChatWithLead={(leadId) => {
               setSelectedChatLeadId(leadId);
               setOpenConspiracyDirectly(false);

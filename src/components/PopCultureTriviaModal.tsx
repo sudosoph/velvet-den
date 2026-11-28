@@ -255,7 +255,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                     { id: 'music_celebs', label: '🎤 Celebs & Music' },
                     { id: 'sports', label: '🏆 Sports' },
                     { id: 'royals_history', label: '👑 Royals & History' },
-                    { id: 'era_culture', label: '📟 90s vs. Gen-Z' },
+                    { id: 'era_culture', label: '📟 Boomers & Gen-X to Gen-Z' },
                   ] as const
                 ).map((cat) => (
                   <button

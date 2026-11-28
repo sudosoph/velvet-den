@@ -509,8 +509,8 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
 
     render(<VelvetJournalView onPlayScenario={() => {}} />);
     const gridBtn = screen.getByTestId('toggle-all-guides-grid');
-    expect(gridBtn.textContent).toMatch(/View All 16 Guides/i);
+    expect(gridBtn.textContent).toMatch(/Collapse Grid/i);
     fireEvent.click(gridBtn);
-    expect(gridBtn.textContent).toMatch(/Compact Strip/i);
+    expect(gridBtn.textContent).toMatch(/View All 16 Guides/i);
   });
 });
