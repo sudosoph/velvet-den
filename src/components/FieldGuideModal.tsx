@@ -8,6 +8,7 @@ import {
   getAffiliateById,
 } from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
+import { Tabs, TabsList, TabsTrigger } from './ui/primitives';
 
 interface FieldGuideModalProps {
   open: boolean;
@@ -15,209 +16,210 @@ interface FieldGuideModalProps {
   onClose: () => void;
 }
 
-const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; emojiBadge: string }> = {
-  // === 16 Illustrated Feline, Cub & Polarity Lore Cards ===
+const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; subtitleTag: string }> = {
   lynx: {
     url: './images/cast/chloe-37f.jpg',
-    emojiBadge: '🐾 Pre-Puma Tier',
+    subtitleTag: 'Pre-Puma Tier',
   },
   junior_cougar: {
     url: './images/cast/sienna-38f.jpg',
-    emojiBadge: '🥂 6-Yr Sweet Spot',
+    subtitleTag: '6-Yr Sweet Spot',
   },
   puma: {
     url: './images/cast/camila-39f.jpg',
-    emojiBadge: '🐆 30s Puma',
+    subtitleTag: '30s Puma',
   },
   cougar: {
     url: './images/cast/claire-45f.jpg',
-    emojiBadge: '👑 40s Benchmark',
+    subtitleTag: '40s Benchmark',
   },
   princess_cougar: {
     url: './images/cast/elena-prof-44f.jpg',
-    emojiBadge: '💐 Sweeping Romance',
+    subtitleTag: 'Sweeping Romance',
   },
   jaguar: {
     url: './images/cast/diana-50f.jpg',
-    emojiBadge: '🔥 50s Gen-X Apex',
+    subtitleTag: '50s Gen-X Apex',
   },
   panther: {
     url: './images/cast/celeste-62f.jpg',
-    emojiBadge: '💎 60+ Silver Icon',
+    subtitleTag: '60+ Silver Icon',
   },
   golden_cub: {
     url: './images/cast/rory-24m.jpg',
-    emojiBadge: '🐕 Golden Cub',
+    subtitleTag: 'Golden Cub',
+  },
+  trophy_boy_toy_lore: {
+    url: './images/cast/miles-32m.jpg',
+    subtitleTag: 'Earned Boy Toy',
   },
   cub_daddy_zaddy_lore: {
     url: './images/cast/miles-zaddy-31m.jpg',
-    emojiBadge: '🥃 Decisive Lead',
+    subtitleTag: 'Decisive Lead',
   },
   soft_mommy_domme_lore: {
     url: './images/cast/brooke-glam-42f.jpg',
-    emojiBadge: '✨ Confident Command',
+    subtitleTag: 'Confident Command',
   },
   cubsplaining_lore: {
     url: './images/cast/julian-27m.jpg',
-    emojiBadge: '🤓 Rookie Fumble',
+    subtitleTag: 'Rookie Fumble',
   },
   bucket_list_tourist_lore: {
     url: './images/cast/chadwick-24m.jpg',
-    emojiBadge: '🚩 Instant Unmatch',
+    subtitleTag: 'Instant Unmatch',
   },
   black_cat_golden_retriever: {
     url: './images/cast/hero-couple.jpg',
-    emojiBadge: '🐈‍⬛ × 🐕 #1 Polarity',
+    subtitleTag: '#1 Polarity',
   },
   dm_goblin: {
     url: './images/cast/connor-bottle-trap.jpg',
-    emojiBadge: '🚨 Block On Sight',
+    subtitleTag: 'Block On Sight',
   },
   kitten: {
     url: './images/cast/isla-31f.jpg',
-    emojiBadge: '🌸 Younger Her',
+    subtitleTag: 'Younger Her',
   },
   mountain_lion: {
     url: './images/cast/miles-32m.jpg',
-    emojiBadge: '🍸 Silver Counterpart',
+    subtitleTag: 'Silver Counterpart',
   },
-
-  // === 23 Illustrated Celebrity & Cinema Icons ===
   pop_priyanka_nick: {
     url: './images/icons/pop_priyanka_nick.jpg',
     credit: 'Photo: Bollywood Hungama • CC BY 3.0 via Wikimedia Commons',
-    emojiBadge: '💍 10-Yr Power Pair',
+    subtitleTag: '10-Yr Power Pair',
   },
   pop_heidi_tom: {
     url: './images/icons/pop_heidi_tom.jpg',
     credit: 'Photo: Colleen Sturtevant • CC BY-SA 4.0 via Wikimedia Commons',
-    emojiBadge: '⛵ 16-Yr Capri Joy',
+    subtitleTag: '16-Yr Capri Joy',
   },
   pop_tina_erwin: {
     url: './images/icons/pop_tina_erwin.jpg',
     credit: 'Photo: HBO • Public Domain via Wikimedia Commons',
-    emojiBadge: '🏆 38-Yr Devotion',
+    subtitleTag: '38-Yr Devotion',
   },
   pop_cher_icons: {
     url: './images/icons/pop_cher_icons.jpg',
     credit: 'Photo: Raph_PH • CC BY-SA 4.0 via Wikimedia Commons',
-    emojiBadge: '👑 Eternal Goddess',
+    subtitleTag: 'Eternal Icon',
   },
   pop_demi_ashton: {
     url: './images/icons/pop_demi_ashton.jpg',
     credit: 'Photo: Gabriel Hutchinson • CC BY-SA 4.0 via Wikimedia Commons',
-    emojiBadge: '📸 2003 Watershed',
+    subtitleTag: '2003 Watershed',
   },
   pop_caroline_sergio: {
     url: './images/icons/pop_caroline_sergio.jpg',
     credit: 'Photo: Gilzetbase • CC BY-SA 4.0 via Wikimedia Commons',
-    emojiBadge: '🥂 18-Yr Dubai Royalty',
+    subtitleTag: '18-Yr Pair',
   },
   pop_kris_corey: {
     url: './images/icons/pop_kris_corey.jpg',
     credit: 'Photo: Gage Skidmore • CC BY-SA 3.0 via Wikimedia Commons',
-    emojiBadge: '🥂 25-Yr Power Duo',
+    subtitleTag: '25-Yr Power Duo',
   },
   pop_macrons: {
     url: './images/icons/pop_macrons.jpg',
     credit: 'Photo: European Commission • CC BY 4.0 via Wikimedia Commons',
-    emojiBadge: '🇫🇷 24-Yr Élysée Pair',
+    subtitleTag: '24-Yr Élysée Pair',
   },
   pop_gabrielle_dwyane: {
     url: './images/icons/pop_gabrielle_dwyane.jpg',
     credit: 'Photo: Adam Chitayat • CC BY-SA 4.0 via Wikimedia Commons',
-    emojiBadge: '✨ 9-Yr Met Royalty',
+    subtitleTag: '9-Yr Met Royalty',
   },
   pop_julianne_bart: {
     url: './images/icons/pop_julianne_bart.jpg',
     credit: 'Photo: Wikimedia Commons • CC BY-SA 4.0',
-    emojiBadge: '🎬 25+ Yrs Married',
+    subtitleTag: '25+ Yrs Married',
   },
   pop_cameron_benji: {
     url: './images/icons/pop_cameron_benji.jpg',
     credit: 'Photo: Wikimedia Commons • CC BY 4.0',
-    emojiBadge: '🎸 Sanctuary Couple',
+    subtitleTag: 'Sanctuary Couple',
   },
   pop_eva_ryan: {
     url: './images/icons/pop_eva_ryan.jpg',
     credit: 'Photo: Wikimedia Commons • CC BY 2.0',
-    emojiBadge: '🌴 6.5-Yr Dream Pair',
+    subtitleTag: '6.5-Yr Dream Pair',
   },
   pop_goldie_kurt: {
     url: './images/icons/pop_goldie_kurt.jpg',
     credit: 'Photo: Peabody Awards • CC BY-SA 3.0 via Wikimedia Commons',
-    emojiBadge: '💛 40+ Yrs Laughing',
+    subtitleTag: '40+ Yrs Laughing',
   },
   pop_meghan_harry: {
     url: './images/icons/pop_meghan_harry.jpg',
     credit: 'Photo: Fuzheado • CC BY 4.0 via Wikimedia Commons',
-    emojiBadge: '🇬🇧 Royal Micro-Gap',
+    subtitleTag: 'Royal Micro-Gap',
   },
   pop_madonna_mariahc_sarandon: {
     url: './images/icons/pop_madonna_mariahc_sarandon.jpg',
     credit: 'Photo: Wikimedia Commons • CC BY-SA 4.0',
-    emojiBadge: '🌟 Trailblazers',
+    subtitleTag: 'Trailblazers',
   },
   pop_olivia_harry: {
     url: './images/icons/pop_olivia_harry.jpg',
     credit: 'Photo: Wikimedia Commons • CC BY-SA 4.0',
-    emojiBadge: '🎤 Pop Whiplash',
+    subtitleTag: 'Pop Crossover',
   },
   pop_stella_cinema: {
     url: './images/icons/pop_stella_cinema.jpg',
     credit: 'Photo: Gabriel Hutchinson • CC BY-SA 4.0 via Wikimedia Commons',
-    emojiBadge: '🍿 Film Hall of Fame',
+    subtitleTag: 'Film Canon',
   },
   pop_kristin_montana: {
     url: './images/icons/pop_kristin_montana.jpg',
     credit: 'Photo: Nick Stepowyj • CC BY 2.0 via Wikimedia Commons',
-    emojiBadge: '🤠 Age-Slider Viral',
+    subtitleTag: 'Age-Slider Dare',
   },
   pop_jessica_danny: {
     url: './images/icons/pop_jessica_danny.jpg',
     credit: 'Photo: Kevin Paul • CC BY 4.0 via Wikimedia Commons',
-    emojiBadge: '🔥 Cabo Glow-Up',
+    subtitleTag: 'Cabo Glow-Up',
   },
   pop_sienna_oli: {
     url: './images/icons/pop_sienna_oli.jpg',
     credit: 'Photo: Martin Kraft • CC BY-SA 3.0 via Wikimedia Commons',
-    emojiBadge: '👶 15-Yr London Glow',
+    subtitleTag: '15-Yr London Glow',
   },
   pop_ellie_beau: {
     url: './images/icons/pop_ellie_beau.jpg',
     credit: 'Photo: Office of the President of Ukraine • CC BY 4.0 via Wikimedia Commons',
-    emojiBadge: '🎶 11-Yr Chapter',
+    subtitleTag: '11-Yr Chapter',
   },
   pop_miley_maxx: {
     url: './images/icons/pop_miley_maxx.jpg',
     credit: 'Photo: TNT Brasil • CC BY 3.0 via Wikimedia Commons',
-    emojiBadge: '🥁 6-Yr Newlyweds',
+    subtitleTag: '6-Yr Pair',
   },
   pop_cub_grooming_joke: {
     url: './images/icons/pop_cub_grooming_joke.jpg',
     credit: 'Photo: Raph_PH • CC BY 2.0 via Wikimedia Commons',
-    emojiBadge: '🧴 Beard-Oil Glow-Up',
+    subtitleTag: 'Beard-Oil Glow-Up',
   },
   pop_cougar_town: {
     url: './images/icons/pop_cougar_town.jpg',
     credit: 'Photo: Albert Domasin • CC BY-SA 2.0 via Wikimedia Commons',
-    emojiBadge: '🍷 Big Carl Legend',
+    subtitleTag: 'Big Carl Legend',
   },
   pop_nicole_kim_hamilton: {
     url: './images/icons/pop_olivia_harry.jpg',
     credit: 'Photo: Wikimedia Commons • CC BY-SA 4.0',
-    emojiBadge: '🏎️ F1 & Tony Royalty',
+    subtitleTag: 'F1 & West End',
   },
 };
+
+type GuideFilterTab = 'all' | 'feline_scale' | 'cub_taxonomy' | 'crossover_lore' | 'pop_culture';
 
 export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
   open,
   unlockedStamps,
   onClose,
 }) => {
-  const [activeFilter, setActiveFilter] = useState<
-    'all' | 'feline_scale' | 'cub_taxonomy' | 'crossover_lore' | 'pop_culture'
-  >('all');
+  const [activeFilter, setActiveFilter] = useState<GuideFilterTab>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -242,18 +244,24 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="editorial-hinge-card relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
+        className="relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Clean Header: Title + Radix Tabs + Instant Search (Zero Pill Stack) */}
         <div className="shrink-0 border-b border-zinc-200 bg-white px-5 py-4 sm:px-7 space-y-3">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-950">
-              Age-Gap Field Guide
-            </h2>
+            <div className="flex items-baseline gap-2.5">
+              <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-950">
+                Field Guide
+              </h2>
+              <span className="text-xs text-zinc-400">
+                {FIELD_GUIDE_ENTRIES.length} entries
+              </span>
+            </div>
             <button
               type="button"
               onClick={onClose}
-              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
               aria-label="Close Field Guide"
             >
               <X className="h-4 w-4" />
@@ -261,28 +269,28 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-            <div className="inline-flex flex-wrap items-center gap-1 rounded-xl bg-zinc-100 p-1">
-              {[
-                { id: 'all', label: `All (${FIELD_GUIDE_ENTRIES.length})` },
-                { id: 'feline_scale', label: 'Feline Scale' },
-                { id: 'cub_taxonomy', label: 'Cubs vs. Goblins' },
-                { id: 'crossover_lore', label: 'Polarity' },
-                { id: 'pop_culture', label: 'Celebrity Icons' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
-                  className={`rounded-lg px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
-                    activeFilter === tab.id
-                      ? 'bg-white font-semibold text-zinc-950 shadow-2xs'
-                      : 'text-zinc-600 hover:text-zinc-950'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            <Tabs
+              value={activeFilter}
+              onValueChange={(v) => setActiveFilter(v as GuideFilterTab)}
+            >
+              <TabsList className="flex-wrap h-auto gap-0.5">
+                <TabsTrigger value="all" className="text-xs px-2.5 py-1">
+                  All
+                </TabsTrigger>
+                <TabsTrigger value="feline_scale" className="text-xs px-2.5 py-1">
+                  Feline Scale
+                </TabsTrigger>
+                <TabsTrigger value="cub_taxonomy" className="text-xs px-2.5 py-1">
+                  Cubs &amp; Boy Toys
+                </TabsTrigger>
+                <TabsTrigger value="crossover_lore" className="text-xs px-2.5 py-1">
+                  Polarity
+                </TabsTrigger>
+                <TabsTrigger value="pop_culture" className="text-xs px-2.5 py-1">
+                  Icons
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
 
             <div className="relative w-full sm:w-56">
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
@@ -291,18 +299,18 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                 data-testid="field-guide-search-input"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Puma, Cher, Goblin..."
-                className="h-9 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-8 pr-3 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:outline-none"
+                placeholder="Search Boy Toy, Puma, Cher..."
+                className="h-9 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-8 pr-3 text-xs text-zinc-900 focus:bg-white focus:border-zinc-950 focus:outline-none"
               />
             </div>
           </div>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 space-y-5">
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 space-y-5 bg-zinc-50/40">
           {activeFilter === 'pop_culture' && (
-            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 space-y-2.5">
+            <div className="rounded-xl border border-zinc-200 bg-white p-4 space-y-2.5">
               <div className="text-xs font-semibold text-zinc-900">
-                🎬 Stream on Prime Video
+                Stream Essential Titles on Prime Video
               </div>
               <div className="grid gap-2 sm:grid-cols-2">
                 {(
@@ -327,106 +335,99 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                           surface: 'field_guide',
                         })
                       }
-                      className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-zinc-900 hover:bg-zinc-50 transition"
+                      className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50/70 px-3 py-2 text-xs font-medium text-zinc-900 hover:bg-zinc-100 transition"
                     >
                       <span>{item.name.split(' (')[0]}</span>
-                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-600" />
+                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-500" />
                     </a>
                   );
                 })}
               </div>
-              <div className="text-xs text-zinc-500">{AFFILIATE_SUPPORT_COPY.compactInline}</div>
+              <div className="text-[11px] text-zinc-500">{AFFILIATE_SUPPORT_COPY.compactInline}</div>
             </div>
           )}
+
+          {/* Clean Architectural Lexicon Cards (Typographic Metadata, Zero 3-Pill Header Stacks!) */}
           <div className="grid gap-4 sm:grid-cols-2 items-stretch">
-          {visibleEntries.map((entry) => {
-            const stamped = unlockedStamps.includes(entry.id);
-            const portrait = ENTRY_PORTRAITS[entry.id] ?? {
-              url: './images/cast/hero-couple.jpg',
-              emojiBadge: '✨ Club Lore',
-            };
-            return (
-              <div
-                key={entry.id}
-                className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5 space-y-3 h-full flex flex-col justify-between shadow-2xs"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3.5">
-                    <img
-                      src={portrait.url}
-                      alt={entry.label}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = './images/cast/hero-couple.jpg';
-                      }}
-                      className="h-22 w-18 shrink-0 rounded-xl border border-zinc-200 bg-zinc-100 object-cover object-top"
-                    />
-                    <div className="min-w-0 flex-1 space-y-1.5">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700">
-                          {portrait.emojiBadge}
-                        </span>
-                        <span className="rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-xs font-medium text-zinc-600">
-                          {entry.ageRange}
-                        </span>
-                        {stamped && (
-                          <span className="rounded-md bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-xs font-medium text-emerald-800">
-                            ✓ Stamped
-                          </span>
-                        )}
+            {visibleEntries.map((entry) => {
+              const stamped = unlockedStamps.includes(entry.id);
+              const portrait = ENTRY_PORTRAITS[entry.id] ?? {
+                url: './images/cast/hero-couple.jpg',
+                subtitleTag: 'Club Lore',
+              };
+              return (
+                <article
+                  key={entry.id}
+                  className="editorial-hinge-card rounded-xl border border-zinc-200 bg-white p-4 sm:p-5 space-y-3 h-full flex flex-col justify-between shadow-2xs"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3.5">
+                      <img
+                        src={portrait.url}
+                        alt={entry.label}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = './images/cast/hero-couple.jpg';
+                        }}
+                        className="h-20 w-16 shrink-0 rounded-lg border border-zinc-200 bg-zinc-100 object-cover object-top"
+                      />
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <div className="text-xs font-medium text-zinc-500">
+                          {portrait.subtitleTag} · {entry.ageRange}
+                          {stamped ? ' · ✓ Stamped' : ''}
+                        </div>
+                        <h3 className="text-base font-semibold text-zinc-950 leading-snug">
+                          {entry.label}
+                        </h3>
                       </div>
-                      <h3 className="text-base font-semibold text-zinc-950 leading-snug">
-                        {entry.label}
-                      </h3>
                     </div>
+
+                    <p className="text-sm leading-relaxed text-zinc-600">
+                      {entry.insiderLore}
+                    </p>
                   </div>
 
-                  <p className="text-sm leading-relaxed text-zinc-600">
-                    {entry.insiderLore}
-                  </p>
-                </div>
-
-                <div className="space-y-1.5 pt-1">
-                  <div className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700">
-                    <span>
-                      <strong className="font-semibold text-zinc-950">Tell:</strong>{' '}
-                      {entry.signatureTell}
-                    </span>
-                    <button
-                      type="button"
-                      aria-label={`Copy ${entry.label} definition`}
-                      onClick={async () => {
-                        const snippet = `${portrait.emojiBadge} ${entry.label} (${entry.ageRange}): ${entry.insiderLore} Signature tell: ${entry.signatureTell}`;
-                        try {
-                          await navigator.clipboard?.writeText(snippet);
-                        } catch {
-                          // Ignore clipboard restriction
-                        }
-                        setCopiedId(entry.id);
-                        window.setTimeout(() => setCopiedId(null), 2000);
-                      }}
-                      className="shrink-0 inline-flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2 py-1 text-[11px] font-semibold text-zinc-700 hover:text-rose-600 cursor-pointer"
-                    >
-                      {copiedId === entry.id ? (
-                        <>
-                          <Check className="h-3 w-3 text-emerald-600" />
-                          <span>Copied</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="h-3 w-3" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
+                  <div className="space-y-1.5 pt-2 border-t border-zinc-100">
+                    <div className="flex items-center justify-between gap-2 text-xs text-zinc-600">
+                      <span>
+                        <strong className="font-semibold text-zinc-900">Tell:</strong>{' '}
+                        {entry.signatureTell}
+                      </span>
+                      <button
+                        type="button"
+                        aria-label={`Copy ${entry.label} definition`}
+                        onClick={async () => {
+                          const snippet = `${entry.label} (${entry.ageRange}): ${entry.insiderLore} Signature tell: ${entry.signatureTell}`;
+                          try {
+                            await navigator.clipboard?.writeText(snippet);
+                          } catch {
+                            // Ignore clipboard restriction
+                          }
+                          setCopiedId(entry.id);
+                          window.setTimeout(() => setCopiedId(null), 2000);
+                        }}
+                        className="shrink-0 inline-flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2 py-1 text-[11px] font-medium text-zinc-600 hover:text-zinc-950 cursor-pointer"
+                      >
+                        {copiedId === entry.id ? (
+                          <>
+                            <Check className="h-3 w-3 text-emerald-600" />
+                            <span>Copied</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-3 w-3" />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    {portrait.credit && (
+                      <p className="text-[11px] text-zinc-400">{portrait.credit}</p>
+                    )}
                   </div>
-                  {portrait.credit && (
-                    <p className="text-xs text-zinc-400">{portrait.credit}</p>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+                </article>
+              );
+            })}
           </div>
         </div>
       </div>

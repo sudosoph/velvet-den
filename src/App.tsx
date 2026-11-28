@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Check, Lock, ShieldCheck, Wrench, X } from 'lucide-react';
+import { Check, Lock, RotateCcw, ShieldCheck, Wrench, X } from 'lucide-react';
 import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AboutClubView } from './components/AboutClubView';
@@ -47,6 +47,7 @@ import {
 import {
   addConspiracyClue,
   applyUnlockCodeOrQuery,
+  createDefaultWallet,
   getPersonaVibeSpec,
   grantFounderAccess,
   grantPatronBadge,
@@ -399,10 +400,74 @@ export default function App() {
   );
 
   const [personaModalOpen, setPersonaModalOpen] = useState(false);
+  const [confirmingAccountReset, setConfirmingAccountReset] = useState(false);
   const [draftName, setDraftName] = useState(wallet.playerName);
   const [draftVibe, setDraftVibe] = useState(
     wallet.personaTag || PERSONA_VIBE_OPTIONS[0],
   );
+
+  const handleResetAccountProgress = () => {
+    const clearKeys = [
+      SIM_STORAGE_KEY,
+      'velvet_dateodex_v35',
+      'cc_passport_meta_v1',
+      'cc_courtroom_votes_v1',
+      'cc_guide_poll_votes_v1',
+      'cc_hosting_10pt_v1',
+      'cc_auto_bingo_seen_v1',
+      'cc_after_dark_free_v1',
+      'cc_free_roast_runs_v1',
+      'cc_checklist_checked_v1',
+      'cc_cub_checklist_v1',
+      'cc_couples_checklist_v1',
+    ];
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        for (const k of clearKeys) {
+          window.localStorage.removeItem(k);
+        }
+      }
+    } catch {
+      // Ignore storage error
+    }
+
+    const freshBase = createDefaultWallet();
+    const paidRewards = wallet.claimedRewards.filter((r) => r.startsWith('stripe_'));
+    const nextWallet: WalletState = {
+      ...freshBase,
+      isVip: wallet.isVip,
+      hasPatronBadge: wallet.hasPatronBadge,
+      isFounderUnlimited: wallet.isFounderUnlimited,
+      claimedRewards: paidRewards,
+      referralCode: wallet.referralCode,
+    };
+    saveWallet(nextWallet);
+    setWallet(nextWallet);
+    setDraftName('');
+    setDraftVibe(PERSONA_VIBE_OPTIONS[0]);
+    setThreads([]);
+    setCutLooseIds([]);
+    setCompletedCameoVenues([]);
+    setCompletedWildVenues([]);
+    setCubSchoolStars(0);
+    setSelectedChatLeadId(null);
+    setDateodex(loadDateodex());
+    setPassportMeta(loadPassportMeta());
+    setConfirmingAccountReset(false);
+    setPersonaModalOpen(false);
+    setActiveTab('hinge');
+    setNoticeBanner('✨ Fresh Season Started! Old messages, matches, and checklists cleared (paid VIP preserved).');
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('reset') === '1') {
+      handleResetAccountProgress();
+      window.history.replaceState({}, '', '/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [fieldGuideOpen, setFieldGuideOpen] = useState(false);
   const [dateodexOpen, setDateodexOpen] = useState(false);
@@ -945,6 +1010,7 @@ export default function App() {
         onOpenPersonaModal={() => {
           setDraftName(wallet.playerName);
           setDraftVibe(wallet.personaTag || PERSONA_VIBE_OPTIONS[0]);
+          setConfirmingAccountReset(false);
           setPersonaModalOpen(true);
         }}
         onOpenFieldGuide={() => setFieldGuideOpen(true)}
@@ -955,6 +1021,11 @@ export default function App() {
         onOpenClubLounge={(mode = 'hub') => {
           setClubLoungeInitialMode(mode);
           setClubLoungeOpen(true);
+        }}
+        onOpenRoastLab={() => {
+          setRoastInitialTool('profile_teardown');
+          setRoastInitialPrefill('');
+          setRoastLabOpen(true);
         }}
         onSendPartnerAudition={handleSendPartnerAudition}
         onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
@@ -1062,7 +1133,7 @@ export default function App() {
             onOpenChecklist={() => setChecklistOpen(true)}
             onOpenBlindSync={() => setBlindSyncOpen(true)}
             onOpenRoastLab={() => {
-              setRoastInitialTool('roast_opener');
+              setRoastInitialTool('profile_teardown');
               setRoastInitialPrefill('');
               setRoastLabOpen(true);
             }}
@@ -1650,6 +1721,48 @@ export default function App() {
                 >
                   Save Persona
                 </button>
+              </div>
+
+              <div className="border-t border-zinc-200 pt-4 mt-2 space-y-2">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <div className="text-xs font-semibold text-zinc-900">
+                      Start a Fresh Season
+                    </div>
+                    <p className="text-[11px] text-zinc-500">
+                      Clears old chats, matches, blocks &amp; checklists. Paid VIP stays active.
+                    </p>
+                  </div>
+                  {!confirmingAccountReset ? (
+                    <button
+                      type="button"
+                      data-testid="reset-story-progress-btn"
+                      onClick={() => setConfirmingAccountReset(true)}
+                      className="shrink-0 inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-rose-50 hover:border-rose-200 hover:text-rose-700 px-3 text-xs font-medium text-zinc-700 transition-colors cursor-pointer"
+                    >
+                      <RotateCcw className="h-3.5 w-3.5" />
+                      <span>Reset Story</span>
+                    </button>
+                  ) : (
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        type="button"
+                        data-testid="confirm-reset-story-btn"
+                        onClick={handleResetAccountProgress}
+                        className="inline-flex h-8 items-center rounded-lg bg-rose-600 hover:bg-rose-700 px-3 text-xs font-semibold text-white cursor-pointer"
+                      >
+                        Confirm Wipe
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmingAccountReset(false)}
+                        className="inline-flex h-8 items-center rounded-lg border border-zinc-200 bg-white px-2.5 text-xs font-medium text-zinc-600 cursor-pointer"
+                      >
+                        Keep
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </form>

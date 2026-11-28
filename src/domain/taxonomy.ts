@@ -1784,6 +1784,16 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
     signatureTell: 'When she says "Slow down, eager puppy," he grins ear-to-ear instead of sulking.',
   },
   {
+    id: 'trophy_boy_toy_lore',
+    label: 'Trophy Boy Toy (Earned Title vs. Bio Cringe)',
+    ageRange: 'Ages 22-34 • Conferred By Her Only',
+    category: 'cub_taxonomy',
+    headline: 'Never Self-Proclaimed in Slide 1; Proudly Worn Once She Claims Him',
+    insiderLore:
+      'Writing "looking to be your boy toy" in a dating bio screams zero-effort rookie. Earning the affectionate "my Boy Toy" title by hauling both suitcases, mixing frothy espresso martinis, and owning poolside stares with zero fragile ego is peak Club honor.',
+    signatureTell: 'Grins over his shoulder carrying two weekender bags while she holds her iced latte.',
+  },
+  {
     id: 'cub_daddy_zaddy_lore',
     label: '🥂 "Cub Daddy" / Junior Zaddy',
     ageRange: 'Ages 25-35 • Decisive Lead',

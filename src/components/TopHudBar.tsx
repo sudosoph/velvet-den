@@ -6,6 +6,7 @@ import {
   ChevronDown,
   Compass,
   Crown,
+  Flame,
   Heart,
   Info,
   Menu,
@@ -53,6 +54,7 @@ interface TopHudBarProps {
   onOpenPopTrivia: () => void;
   onOpenChecklist: () => void;
   onOpenClubLounge?: (initialMode?: 'hub' | 'quiz') => void;
+  onOpenRoastLab?: () => void;
   onSendPartnerAudition: () => void;
   onResetHearts?: () => void;
   onRequestFounderModal?: () => void;
@@ -75,6 +77,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
   onOpenPopTrivia,
   onOpenChecklist,
   onOpenClubLounge,
+  onOpenRoastLab,
   onSendPartnerAudition,
   onRequestFounderModal,
   onGoHome,
@@ -119,22 +122,22 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
 
   const navItemClass = (isActive: boolean) =>
     cn(
-      'relative inline-flex h-14 lg:h-16 shrink-0 items-center justify-center gap-1.5 px-1 text-sm whitespace-nowrap transition-colors cursor-pointer border-b-2',
+      'relative inline-flex h-14 lg:h-15 shrink-0 items-center justify-center gap-1.5 px-1 text-sm whitespace-nowrap transition-colors cursor-pointer border-b-2',
       isActive
-        ? 'border-rose-600 font-semibold text-zinc-950'
+        ? 'border-zinc-950 font-semibold text-zinc-950'
         : 'border-transparent font-medium text-zinc-500 hover:text-zinc-950',
     );
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white">
-      <div className="mx-auto flex h-14 lg:h-16 w-full max-w-6xl items-center justify-between gap-3 sm:gap-5 px-3.5 sm:px-6">
-        {/* LEFT: Clean Bold Typographic Brand Mark */}
+    <header className="sticky top-0 z-40 border-b border-zinc-200/90 bg-white/95 backdrop-blur-xs">
+      <div className="mx-auto flex h-14 lg:h-15 w-full max-w-6xl items-center justify-between gap-3 sm:gap-5 px-3.5 sm:px-6">
+        {/* LEFT: Architectural Brand Mark */}
         <button
           type="button"
           onClick={handleLogoClick}
           className="group flex shrink-0 items-center gap-2 text-left whitespace-nowrap cursor-pointer"
         >
-          <span className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-rose-600 text-sm font-bold text-white shadow-2xs group-hover:bg-zinc-950 transition-colors">
+          <span className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-950 text-sm font-bold text-white shadow-2xs group-hover:bg-rose-600 transition-colors">
             🐆
           </span>
           <span className="text-sm sm:text-base font-bold tracking-tight whitespace-nowrap text-zinc-950">
@@ -142,11 +145,11 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           </span>
         </button>
 
-        {/* CENTER: Core Game Navigation + Highlighted Party Quizzes */}
-        <div className="hidden lg:flex items-center gap-5 shrink-0">
+        {/* CENTER: Sleek 5-Tab Desktop Navigation (Zero Pill Borders) */}
+        <div className="hidden lg:flex items-center gap-6 shrink-0">
           <nav
             aria-label="Primary Club Navigation"
-            className="flex items-center gap-5 shrink-0"
+            className="flex items-center gap-6 shrink-0"
           >
             <button
               type="button"
@@ -171,7 +174,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             >
               <span>Chats &amp; Dates</span>
               {activeChatCount > 0 && (
-                <span className="rounded-full bg-rose-600 px-1.5 py-0.5 text-xs leading-none font-bold text-white">
+                <span className="rounded-full bg-rose-600 px-1.5 py-0.5 text-[11px] leading-none font-bold text-white">
                   {activeChatCount}
                 </span>
               )}
@@ -209,9 +212,18 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               {extrasOpen && (
                 <div
                   role="menu"
-                  className="absolute right-0 top-14 w-64 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl space-y-0.5 z-50"
+                  className="absolute right-0 top-13 w-64 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl space-y-0.5 z-50"
                 >
                   {[
+                    ...(onOpenRoastLab
+                      ? [
+                          {
+                            icon: Flame,
+                            label: 'AI Profile & Opener Roast',
+                            action: () => onOpenRoastLab(),
+                          },
+                        ]
+                      : []),
                     ...(onOpenClubLounge
                       ? [
                           {
@@ -222,9 +234,9 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                         ]
                       : []),
                     {
-                      icon: Sparkles,
-                      label: 'Real Matchmaking & Discord',
-                      action: () => onOpenBoutique('rewards'),
+                      icon: Newspaper,
+                      label: 'Club Guides & Zodiac Matcher',
+                      action: () => onSelectTab('journal'),
                     },
                     {
                       icon: Award,
@@ -242,11 +254,6 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                       action: () => onOpenChecklist(),
                     },
                     {
-                      icon: Newspaper,
-                      label: 'Club Guides & Zodiac Matcher',
-                      action: () => onSelectTab('journal'),
-                    },
-                    {
                       icon: Camera,
                       label: 'Dateodex & Polaroids',
                       action: () => onOpenDateodex(),
@@ -260,6 +267,11 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                       icon: Send,
                       label: 'Send 60s Partner Audition',
                       action: () => onSendPartnerAudition(),
+                    },
+                    {
+                      icon: Sparkles,
+                      label: 'Real Matchmaking & Discord',
+                      action: () => onOpenBoutique('rewards'),
                     },
                     {
                       icon: Info,
@@ -276,7 +288,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                           setExtrasOpen(false);
                           item.action();
                         }}
-                        className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium text-zinc-800 hover:bg-zinc-50 hover:text-rose-600 transition-colors cursor-pointer"
+                        className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm font-medium text-zinc-800 hover:bg-zinc-50 hover:text-zinc-950 transition-colors cursor-pointer"
                       >
                         <Icon className="h-4 w-4 text-zinc-400 shrink-0" />
                         <span>{item.label}</span>
@@ -289,46 +301,45 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           </nav>
         </div>
 
-        {/* RIGHT: Uniform h-9 shadcn Action Toolbar (100% Pixel-Aligned Buttons & Sound Icon) */}
-        <div className="flex shrink-0 items-center gap-2">
+        {/* RIGHT: Quiet, Uniform h-9 Action Toolbar */}
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           {onOpenPassportModal && (
             <button
               type="button"
               data-testid="hud-passport-pill"
               onClick={onOpenPassportModal}
-              title="Club Rank 1 to 5 Ladder (Unlocks +1 Free Credit at Rank 2 & Rank 4)"
-              className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50/80 hover:bg-rose-100 px-2.5 sm:px-3 text-xs font-bold whitespace-nowrap text-zinc-950 transition-colors cursor-pointer"
+              title={`Club Rank ${passportLevel}/5 · ${passportXp} XP${passportStreak > 1 ? ` · ${passportStreak}d streak` : ''}`}
+              className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-2.5 sm:px-3 text-xs font-semibold whitespace-nowrap text-zinc-900 transition-colors cursor-pointer"
             >
-              <Award className="h-4 w-4 text-rose-600 shrink-0" />
+              <Award className="h-3.5 w-3.5 text-rose-600 shrink-0" />
               <span>Rank {passportLevel}/5</span>
-              <span className="hidden sm:inline rounded bg-white/90 px-1.5 py-0.5 text-[11px] font-semibold text-rose-700 tabular-nums">
-                {passportXp} XP
+              <span className="hidden xl:inline text-zinc-400 font-normal tabular-nums">
+                · {passportXp} XP
               </span>
-              {passportStreak > 1 && (
-                <span className="hidden xl:inline text-[11px] font-semibold text-amber-700">
-                  🔥{passportStreak}d
-                </span>
-              )}
             </button>
           )}
 
           <button
             type="button"
+            aria-label="Persona & Account Reset"
             onClick={onOpenPersonaModal}
-            className="hidden md:inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3 text-xs font-medium whitespace-nowrap text-zinc-700 hover:text-zinc-950 transition-colors cursor-pointer"
+            title="Your Name, Vibe & Account Reset"
+            className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-2.5 sm:px-3 text-xs font-medium whitespace-nowrap text-zinc-700 hover:text-zinc-950 transition-colors cursor-pointer"
           >
             <User className="h-4 w-4 shrink-0 text-zinc-500" />
-            <span>{wallet.playerName ? wallet.playerName : 'Persona'}</span>
+            <span className="hidden sm:inline">
+              {wallet.playerName ? wallet.playerName : 'Persona'}
+            </span>
           </button>
 
           <button
             type="button"
             aria-label="Shop"
             onClick={() => onOpenBoutique('shop')}
-            className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-2.5 sm:px-3 text-xs font-medium whitespace-nowrap text-zinc-700 hover:text-zinc-950 transition-colors cursor-pointer"
+            className="hidden sm:inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3 text-xs font-medium whitespace-nowrap text-zinc-700 hover:text-zinc-950 transition-colors cursor-pointer"
           >
             <ShoppingBag className="h-4 w-4 shrink-0 text-zinc-500" />
-            <span className="hidden sm:inline">Shop</span>
+            <span>Shop</span>
           </button>
 
           <button
@@ -356,7 +367,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               const nextMuted = toggleSoundMute();
               setMuted(nextMuted);
             }}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950 transition-colors cursor-pointer"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 hover:text-zinc-950 transition-colors cursor-pointer"
             aria-label={muted ? 'Unmute game audio' : 'Mute game audio'}
             title={muted ? 'Unmute game audio' : 'Mute game audio'}
           >
@@ -374,94 +385,41 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Navigation Bar (< lg): Core Game + 1-Tap Quiz & 3-Tier Test */}
-      <div className="lg:hidden border-t border-zinc-100 bg-white px-2 flex items-center justify-between gap-0.5 overflow-x-auto no-scrollbar">
-        {(
-          [
-            ['hinge', 'Prowl'],
-            ['wild', 'Wild'],
-            ['chats', `Chats${activeChatCount > 0 ? ` (${activeChatCount})` : ''}`],
-            ['school', 'School'],
-          ] as const
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              onSelectTab(id);
-            }}
-            className={cn(
-              'py-2 px-2 text-xs whitespace-nowrap border-b-2 transition-colors cursor-pointer',
-              activeTab === id
-                ? 'border-rose-600 font-bold text-zinc-950'
-                : 'border-transparent font-medium text-zinc-500',
-            )}
-          >
-            {label}
-          </button>
-        ))}
-
-        <span className="h-3.5 w-px bg-zinc-200 shrink-0" aria-hidden="true" />
-
-        <button
-          type="button"
-          onClick={() => {
-            setMobileMenuOpen(false);
-            onSelectTab('courtroom');
-          }}
-          className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-zinc-700 cursor-pointer"
-        >
-          ⚖️ Daily
-        </button>
-
-        <button
-          type="button"
-          onClick={() => {
-            setMobileMenuOpen(false);
-            onOpenPopTrivia();
-          }}
-          className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-rose-600 cursor-pointer"
-        >
-          🎬 Quiz
-        </button>
-
-        <button
-          type="button"
-          onClick={() => {
-            setMobileMenuOpen(false);
-            onOpenChecklist();
-          }}
-          className="py-2 px-1.5 text-xs font-semibold whitespace-nowrap text-zinc-700 cursor-pointer"
-        >
-          ✅ 3-Tier
-        </button>
-      </div>
-
+      {/* Clean Mobile Drawer Menu (< lg), Zero Duplicate Horizontal Sub-Bar! */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-zinc-200 bg-white px-4 py-3 space-y-2">
+        <div className="lg:hidden border-t border-zinc-200 bg-white px-4 py-3.5 space-y-2.5 shadow-lg">
           <div className="grid grid-cols-2 gap-2 text-sm font-medium">
-            {onOpenClubLounge && (
+            {onOpenRoastLab && (
               <button
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  onOpenClubLounge('quiz');
+                  onOpenRoastLab();
                 }}
-                className="col-span-2 rounded-lg border border-zinc-900 bg-zinc-950 px-3 py-2 text-left font-semibold text-white"
+                className="col-span-2 rounded-lg bg-zinc-950 px-3.5 py-2.5 text-left font-semibold text-white"
               >
-                🎭 60s Archetype Run &amp; Party Lounge
+                📸 AI Profile Teardown &amp; Opener Roast
               </button>
             )}
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenPersonaModal();
+                onSelectTab('school');
               }}
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
             >
-              {wallet.playerName ? wallet.playerName : 'Set Persona'}
+              Cub School &amp; Certificates
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onSelectTab('journal');
+              }}
+              className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
+            >
+              16 Guides &amp; Astro
             </button>
             <button
               type="button"
@@ -471,7 +429,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               }}
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
             >
-              {POP_CULTURE_TRIVIA.length}-Q Trailer Quiz
+              Pop-Culture Trivia
             </button>
             <button
               type="button"
@@ -497,16 +455,6 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
-                onSelectTab('journal');
-              }}
-              className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
-            >
-              16 Guides &amp; Zodiac
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
                 onOpenFieldGuide();
               }}
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
@@ -517,11 +465,31 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
+                onOpenPersonaModal();
+              }}
+              className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
+            >
+              Persona &amp; Reset Account
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenBoutique('shop');
+              }}
+              className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-left text-zinc-900"
+            >
+              Date-Night Shop
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
                 onOpenBoutique('rewards');
               }}
-              className="col-span-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-left font-semibold text-rose-900"
+              className="col-span-2 rounded-lg border border-rose-200 bg-rose-50/70 px-3 py-2 text-left font-semibold text-rose-900"
             >
-              🥂 Real Matchmaking &amp; Discord Community
+              Real Matchmaking &amp; Discord Community
             </button>
           </div>
           {liveTipUrl && (
@@ -529,7 +497,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               href={liveTipUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-lg bg-zinc-900 px-3 py-2 text-center text-sm font-medium text-white"
+              className="block rounded-lg border border-zinc-200 bg-white px-3 py-2 text-center text-sm font-medium text-zinc-800 hover:bg-zinc-50"
             >
               Support This Project
             </a>
@@ -552,7 +520,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             }}
             className={cn(
               'flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition cursor-pointer',
-              activeTab === 'hinge' ? 'bg-rose-50 text-rose-600' : 'text-zinc-600 hover:text-zinc-950',
+              activeTab === 'hinge' ? 'bg-zinc-100 text-zinc-950' : 'text-zinc-500 hover:text-zinc-950',
             )}
           >
             <Heart className="h-4 w-4" />
@@ -567,7 +535,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             }}
             className={cn(
               'flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition cursor-pointer',
-              activeTab === 'wild' ? 'bg-rose-50 text-rose-600' : 'text-zinc-600 hover:text-zinc-950',
+              activeTab === 'wild' ? 'bg-zinc-100 text-zinc-950' : 'text-zinc-500 hover:text-zinc-950',
             )}
           >
             <Compass className="h-4 w-4" />
@@ -582,7 +550,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
             }}
             className={cn(
               'relative flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition cursor-pointer',
-              activeTab === 'chats' ? 'bg-rose-50 text-rose-600' : 'text-zinc-600 hover:text-zinc-950',
+              activeTab === 'chats' ? 'bg-zinc-100 text-zinc-950' : 'text-zinc-500 hover:text-zinc-950',
             )}
           >
             <MessageCircle className="h-4 w-4" />
@@ -604,7 +572,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                 onOpenPopTrivia();
               }
             }}
-            className="flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold text-zinc-600 hover:text-rose-600 transition cursor-pointer"
+            className="flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold text-zinc-500 hover:text-zinc-950 transition cursor-pointer"
           >
             <Sparkles className="h-4 w-4 text-rose-600" />
             <span>Lounge</span>

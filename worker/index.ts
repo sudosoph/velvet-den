@@ -26,12 +26,14 @@ export interface WorkersAiBinding {
   run(
     model: string,
     inputs: {
-      messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
+      messages?: { role: 'system' | 'user' | 'assistant'; content: string }[];
+      prompt?: string;
+      image?: number[];
       max_tokens?: number;
       temperature?: number;
       response_format?: { type: string };
     },
-  ): Promise<{ response?: string | Record<string, unknown> }>;
+  ): Promise<{ response?: string | Record<string, unknown>; description?: string }>;
 }
 
 export interface AssetsBinding {
@@ -56,18 +58,18 @@ const DEFAULT_AMAZON_ASSOCIATE_TAG = 'cougarsandcub-20';
 
 const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
   'trophy-boyfriend-cooking-apron': 'https://www.amazon.com/dp/B0BXXDBB8F',
-  'leopard-print-cougar-apron': 'https://www.amazon.com/dp/B0GLPF6K39',
+  'leopard-print-cougar-apron': 'https://www.amazon.com/dp/B08MWM5QJV',
   'good-boy-brass-training-clicker': 'https://www.amazon.com/dp/B08FQQ3R3S',
   'funny-cougar-stemless-wine-glass': 'https://www.amazon.com/dp/B077TC25XQ',
   'golden-retriever-boyfriend-mug': 'https://www.amazon.com/dp/B07MLLXW4Q',
-  'black-cat-girlfriend-leopard-mug': 'https://www.amazon.com/dp/B0DNJ8P9Z3',
+  'black-cat-girlfriend-leopard-mug': 'https://www.amazon.com/dp/B0HC6KRFD8',
   'cougar-hunter-retro-trucker-hat': 'https://www.amazon.com/dp/B0D5BRYPVT',
   'houseboy-linen-apron': 'https://www.amazon.com/dp/B093GJW13K',
   'trail-hydration-vest': 'https://www.amazon.com/dp/B0D59W2JZX',
-  'princess-mulberry-silk-robe': 'https://www.amazon.com/dp/B0FD3H89H5',
-  'hosting-lidded-bin-soap': 'https://www.amazon.com/dp/B0FHH85CXQ',
+  'princess-mulberry-silk-robe': 'https://www.amazon.com/dp/B07C2NYLGX',
+  'hosting-lidded-bin-soap': 'https://www.amazon.com/dp/B00203PSRA',
   'percale-hosting-sheets': 'https://www.amazon.com/dp/B0C7LGBLYJ',
-  'date-night-oud-bergamot': 'https://www.amazon.com/dp/B0DX3V4YC1',
+  'date-night-oud-bergamot': 'https://www.amazon.com/dp/B0097A5BA8',
   'espresso-martini-barware': 'https://www.amazon.com/dp/B08KQCX9Z9',
   'after-dark-couples-deck': 'https://www.amazon.com/dp/B0B7V56B7H',
   'cooling-bamboo-sheets': 'https://www.amazon.com/dp/B08HR2WW6T',
@@ -77,13 +79,13 @@ const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
   'silk-pillowcase-sleepover-duo': 'https://www.amazon.com/dp/B00V5WN3HE',
   'zero-proof-botanical-mocktail-set': 'https://www.amazon.com/dp/B0B545FNBW',
   'fill-in-love-coupon-cards': 'https://www.amazon.com/dp/B0D9LZGXXM',
-  'short-leash-leather-dog-leash': 'https://www.amazon.com/dp/B0H2XPRGDS',
+  'short-leash-leather-dog-leash': 'https://www.amazon.com/dp/B0758CD12K',
   'big-carl-giant-wine-glass': 'https://www.amazon.com/dp/B0053T01UM',
   'chic-candlelit-menu-readers': 'https://www.amazon.com/dp/B088JPW8PD',
   'no-hard-feelings-jlaw-prime': 'https://www.amazon.com/dp/B0BZMJ7K5H',
   'part-of-your-world-book': 'https://www.amazon.com/dp/1538704374',
   'babygirl-movie-prime': 'https://www.amazon.com/dp/B0DD3TTPFS',
-  'idea-of-you-movie-book': 'https://www.amazon.com/dp/B0CV72X1BL',
+  'idea-of-you-movie-book': 'https://www.amazon.com/dp/B0HRHRZ8NV',
   'bridget-jones-cougar-town-watch': 'https://www.amazon.com/dp/B0DKPH9DN2',
   'the-rebound-zeta-jones-prime': 'https://www.amazon.com/dp/B006QSRTWC',
   'prime-video-trial': 'https://www.amazon.com/amazonprime',
@@ -91,37 +93,37 @@ const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
   'somethings-gotta-give-prime': 'https://www.amazon.com/dp/B000N90JG8',
   'magic-mike-last-dance-prime': 'https://www.amazon.com/dp/B0B6MKKGP9',
   'cougar-town-prime': 'https://www.amazon.com/dp/B00RNG9I1G',
-  'the-graduate-prime': 'https://www.amazon.com/dp/B008Y792LC',
+  'the-graduate-prime': 'https://www.amazon.com/dp/B0H51HT6LC',
   'bull-durham-prime': 'https://www.amazon.com/dp/B00275EHJG',
-  'american-pie-prime': 'https://www.amazon.com/dp/B000I9WWJW',
-  'the-proposal-prime': 'https://www.amazon.com/dp/B003QSFKCO',
-  'leo-grande-prime': 'https://www.amazon.com/dp/B0B8TCZX9S',
-  'prime-2005-movie': 'https://www.amazon.com/dp/B000I9U8NY',
-  'white-palace-prime': 'https://www.amazon.com/dp/B0012I8B0S',
-  'cha-cha-real-smooth-prime': 'https://www.amazon.com/dp/B09Y96W2M2',
-  'the-good-girl-prime': 'https://www.amazon.com/dp/B000I9X5RU',
-  'harold-and-maude-prime': 'https://www.amazon.com/dp/B000IZ27O2',
-  'home-again-prime': 'https://www.amazon.com/dp/B07575BMTH',
-  'sunset-boulevard-prime': 'https://www.amazon.com/dp/B001K3APQ8',
-  'sex-and-the-city-prime': 'https://www.amazon.com/dp/B00687Q5BM',
-  'succession-prime': 'https://www.amazon.com/dp/B07DPRZ99L',
-  'younger-series-prime': 'https://www.amazon.com/dp/B00V7ORW2I',
-  'hacks-series-prime': 'https://www.amazon.com/dp/B09BF3BGZ2',
-  '30-rock-prime': 'https://www.amazon.com/dp/B001J6O5V6',
+  'american-pie-prime': 'https://www.amazon.com/dp/B0FH9NKM4Y',
+  'the-proposal-prime': 'https://www.amazon.com/dp/B004X75RCW',
+  'leo-grande-prime': 'https://www.amazon.com/dp/B0CM6XX2NL',
+  'prime-2005-movie': 'https://www.amazon.com/dp/B000I9YLV2',
+  'white-palace-prime': 'https://www.amazon.com/dp/B0B8RMJPN3',
+  'cha-cha-real-smooth-prime': 'https://www.amazon.com/dp/B0DBBV94HY',
+  'the-good-girl-prime': 'https://www.amazon.com/dp/B007QN5QYO',
+  'harold-and-maude-prime': 'https://www.amazon.com/dp/B001DCZ4IW',
+  'home-again-prime': 'https://www.amazon.com/dp/B075M1NJQG',
+  'sunset-boulevard-prime': 'https://www.amazon.com/dp/B0GWDFL215',
+  'sex-and-the-city-prime': 'https://www.amazon.com/dp/B0BZQY3K5W',
+  'succession-prime': 'https://www.amazon.com/dp/B0GYMN2FMS',
+  'younger-series-prime': 'https://www.amazon.com/dp/B0D61ZJKDM',
+  'hacks-series-prime': 'https://www.amazon.com/dp/B0GXMY1SHY',
+  '30-rock-prime': 'https://www.amazon.com/dp/B001QGI7F2',
   'mrs-fletcher-prime': 'https://www.amazon.com/dp/B0812DQZ7W',
-  'the-white-lotus-prime': 'https://www.amazon.com/dp/B09C28GPFB',
+  'the-white-lotus-prime': 'https://www.amazon.com/dp/B0GZJ4D7QY',
   'desperate-housewives-prime': 'https://www.amazon.com/dp/B003Y5H5BA',
-  'fleabag-prime': 'https://www.amazon.com/dp/B0875L39FQ',
-  'linen-picnic-insulated-tote': 'https://www.amazon.com/dp/B0GS1TFTY6',
-  'velvet-travel-weekender-duffel': 'https://www.amazon.com/dp/B0GTQF7ZK9',
-  'all-fours-book': 'https://www.amazon.com/dp/B0CLKZ582G',
+  'fleabag-prime': 'https://www.amazon.com/dp/B0H37GG1QV',
+  'linen-picnic-insulated-tote': 'https://www.amazon.com/dp/B0BC191RG8',
+  'velvet-travel-weekender-duffel': 'https://www.amazon.com/dp/B0BH87JR8V',
+  'all-fours-book': 'https://www.amazon.com/dp/0593714636',
   'ethical-slut-enm-guide': 'https://www.amazon.com/dp/0399579664',
-  'romantic-comedy-book': 'https://www.amazon.com/dp/B0B6G6R2PH',
-  'vladimir-book': 'https://www.amazon.com/dp/B096TTBFYR',
+  'romantic-comedy-book': 'https://www.amazon.com/dp/0593449592',
+  'vladimir-book': 'https://www.amazon.com/dp/1982187638',
   'rumours-vinyl': 'https://www.amazon.com/dp/B004OKFISQ',
-  'warm-amber-table-lamp': 'https://www.amazon.com/dp/B0B24R6J78',
-  'bedside-braided-charger-duo': 'https://www.amazon.com/dp/B0BPCBP46P',
-  'pineapple-upside-down-cocktail-pins': 'https://www.amazon.com/dp/B089Q3GVWM',
+  'warm-amber-table-lamp': 'https://www.amazon.com/dp/B0DGY3F6J9',
+  'bedside-braided-charger-duo': 'https://www.amazon.com/dp/B0BPC67DLC',
+  'pineapple-upside-down-cocktail-pins': 'https://www.amazon.com/dp/B09FYWV4J6',
 };
 
 const JSON_HEADERS = {
@@ -2688,6 +2690,166 @@ async function handleVerifyCheckout(
   }
 }
 
+async function handleProfileTeardown(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: {
+    role?: 'her' | 'him';
+    promptsText?: string;
+    imageBytes?: number[];
+    imageCount?: number;
+    imageStats?: { avgBrightness?: number; warmRatio?: number };
+  } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+
+  const role: 'her' | 'him' = body.role === 'her' ? 'her' : 'him';
+  const promptsText = String(body.promptsText || '').trim().slice(0, 700);
+  const rawBytes = Array.isArray(body.imageBytes) ? body.imageBytes.slice(0, 220_000) : [];
+  const imageCount = Math.max(0, Math.min(6, Number(body.imageCount) || (rawBytes.length > 0 ? 1 : 0)));
+  const lower = promptsText.toLowerCase();
+
+  let visionNote = '';
+  if (env.AI && rawBytes.length > 64) {
+    try {
+      const visionOut = await env.AI.run('@cf/llava-hf/llava-1.5-7b-hf', {
+        image: rawBytes,
+        prompt:
+          'Describe this dating app profile photo or screenshot in 2 concise sentences: note lighting warmth, setting, outfit, background cleanliness, and whether it is a mirror selfie or candid portrait.',
+        max_tokens: 120,
+      });
+      const rawDesc =
+        typeof visionOut.description === 'string'
+          ? visionOut.description
+          : typeof visionOut.response === 'string'
+            ? visionOut.response
+            : '';
+      visionNote = rawDesc.replace(/\s*[\u2014\u2013]+\s*/g, ', ').trim().slice(0, 260);
+    } catch {
+      visionNote = '';
+    }
+  }
+
+  const hasBoyToyOrFetish =
+    /boy\s*toy|cougar|milf|bucket\s*list|for your age|for ur age|sugar\s*mama|mommy/i.test(lower);
+  const hasAppCliche =
+    /fluent in sarcasm|partner in crime|just ask|idk what to write|snapchat|\bsnap\b|gym selfie|fish/i.test(
+      lower,
+    ) || /mirror|bathroom|gym|dim|clutter/i.test(visionNote.toLowerCase());
+  const hasNegativity = /tired of games|no drama|swipe left if|sick of|waste my time/i.test(lower);
+
+  let score = imageCount >= 2 ? 84 : imageCount === 1 ? 78 : 74;
+  if (hasBoyToyOrFetish) score = 16;
+  else if (hasAppCliche) score = 42;
+  else if (hasNegativity) score = 51;
+  else if (promptsText.length > 45 && imageCount >= 1) score = 89;
+
+  const avgBright = body.imageStats?.avgBrightness ?? 135;
+  const lightingNote = visionNote
+    ? `AI Vision Photo Read: ${visionNote}`
+    : imageCount > 0
+      ? avgBright < 85
+        ? `AI Vision Photo Read: Screenshot (${imageCount} slide${imageCount > 1 ? 's' : ''}) skews dark/under-exposed; swap Slide 1 for golden-hour or warm 2700K bistro light so your eyes read clearly.`
+        : `AI Vision Photo Read: Clean exposure across ${imageCount} uploaded slide${imageCount > 1 ? 's' : ''}; lead with your warmest waist-up candid smile and zero sunglasses in Slide 1.`
+      : 'No screenshot attached yet (text-only audit): upload 1 to 3 profile screenshots anytime for a full lighting & background scan.';
+
+  const fallback = {
+    score,
+    verdictBadge: hasBoyToyOrFetish
+      ? '🚨 SLIDE-1 BOY-TOY / FETISH CLICHÉ'
+      : hasAppCliche
+        ? '🛠️ DORM CLICHÉ CLEANUP NEEDED'
+        : hasNegativity
+          ? '⚡ SWAP DEFENSIVE BIO FOR MAGNETISM'
+          : '💎 TABLE-1 PROFILE CONTENDER',
+    panelSpeaker:
+      role === 'him' ? 'Claire, 46 (M&A Partner) & Prof. Elena, 44' : 'Julian, 27 & Astrid, 41',
+    visionSummary: lightingNote,
+    photoAuditBullets: (role === 'him'
+      ? [
+          'Slide 1: Waist-up daylight or warm wine-bar portrait in a collared shirt or knit (retire bathroom/gym mirrors).',
+          'Slide 2–3: Competent lifestyle proof (cooking in a clean kitchen, racquet/trail candid, zero cropped exes).',
+          'Background Check: Ensure zero unmade beds, harsh overhead glare, or liquor-bottle shelves behind you.',
+        ]
+      : [
+          'Slide 1: Warm, unhurried solo portrait with direct eye contact that lets high-EQ younger men open naturally.',
+          'Slide 2–3: Full-length evening/travel candid + one weekend hobby shot so conversation hooks write themselves.',
+          'Filter Shield: Clear lifestyle texture automatically intimidates low-effort "hey" tourists from swiping.',
+        ]) as [string, string, string],
+    clicheScan: hasBoyToyOrFetish
+      ? 'Never self-proclaim "boy toy" or mention "cougars / bucket list" in your bio: she confers the Boy Toy title AFTER you earn Date #2.'
+      : hasAppCliche
+        ? 'Detected generic app filler ("fluent in sarcasm" / "just ask" / mirror selfie energy). Specific Friday sensory details convert 4x higher.'
+        : hasNegativity
+          ? 'Listing what you hate ("tired of games") attracts rule-breakers; stating the exact Friday vibe you love attracts keepers.'
+          : 'Zero fetish clichés or defensive disclaimers detected! Sharp, confident adult tone.',
+    promptRewrites: (role === 'him'
+      ? [
+          'Together, we could: Split a bottle of Sancerre at a quiet corner booth while I handle the reservation and parking.',
+          'Green flags I look for: Calm confidence, dry humor, and strong opinions on Sunday brunch or Fleetwood Mac.',
+          'A life goal of mine: Mastering five-hour short-rib ragu from scratch and leaving the kitchen cleaner than I found it.',
+        ]
+      : [
+          'I geek out on:Peaceful Sunday mornings, great Pinot Noir, and a man who books a 7:30 table without twenty texts.',
+          'First round is on me if: You show up five minutes early, keep your phone face-down, and can hold real banter.',
+          'Together, we could: Trade favorite vinyl records on Friday night and pack one carry-on for a coastal escape.',
+        ]).map((s) => s.replace('on:Peaceful', 'on: Peaceful')) as [string, string, string],
+  };
+
+  if (env.AI && (promptsText.length > 8 || visionNote)) {
+    try {
+      const aiRes = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You are the Cougars & Cubs Club Private Profile Teardown Panel. Return ONLY valid JSON with keys: score (0-100 integer), verdictBadge (short string), clichéScan (1 sharp sentence, never use em-dashes), and promptRewrites (array of 3 ready-to-paste Hinge prompt answers). Penalize premature "boy toy"/"cougar"/"for your age"/"snapchat" bios below 20.',
+          },
+          {
+            role: 'user',
+            content: `Player role: ${role === 'him' ? 'Younger man (Cub, 21-35) wanting to attract accomplished 35-60+ women' : 'Confident woman (35-60+) wanting high-EQ younger men while filtering DM goblins'}.\nVision photo notes: ${visionNote || 'none'}\nCurrent prompts/bio: ${promptsText || 'none'}`,
+          },
+        ],
+        max_tokens: 340,
+        temperature: 0.4,
+      });
+      const rawText =
+        typeof aiRes.response === 'string' ? aiRes.response : JSON.stringify(aiRes.response || '');
+      const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]) as {
+          score?: number;
+          verdictBadge?: string;
+          clicheScan?: string;
+          clichéScan?: string;
+          promptRewrites?: string[];
+        };
+        if (typeof parsed.score === 'number' && !hasBoyToyOrFetish) {
+          fallback.score = Math.max(8, Math.min(99, Math.round(parsed.score)));
+        }
+        if (parsed.verdictBadge && !hasBoyToyOrFetish) {
+          fallback.verdictBadge = parsed.verdictBadge.replace(/[\u2014\u2013]/g, '-').slice(0, 44);
+        }
+        const scan = parsed.clicheScan || parsed.clichéScan;
+        if (scan && !hasBoyToyOrFetish) {
+          fallback.clicheScan = scan.replace(/[\u2014\u2013]/g, ', ').slice(0, 220);
+        }
+        if (Array.isArray(parsed.promptRewrites) && parsed.promptRewrites.length >= 3) {
+          fallback.promptRewrites = [
+            String(parsed.promptRewrites[0]).replace(/[\u2014\u2013]/g, ', '),
+            String(parsed.promptRewrites[1]).replace(/[\u2014\u2013]/g, ', '),
+            String(parsed.promptRewrites[2]).replace(/[\u2014\u2013]/g, ', '),
+          ];
+        }
+      }
+    } catch {
+      // Keep crisp deterministic teardown
+    }
+  }
+
+  return jsonResponse(fallback);
+}
 function escapeXml(raw: string): string {
   return raw
     .replace(/&/g, '&amp;')
@@ -2938,6 +3100,11 @@ export default {
 
     if (url.pathname === '/api/roast-utility') {
       if (request.method === 'POST') return handleRoastUtility(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/profile-teardown') {
+      if (request.method === 'POST') return handleProfileTeardown(request, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 

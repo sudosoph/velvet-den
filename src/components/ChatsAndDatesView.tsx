@@ -53,6 +53,7 @@ import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { shareOrCopy } from '../lib/viral';
 import { liveAiInboxService } from '../services/adapters';
 import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
+import { evaluateRoastLocally } from './RoastAndWingwomanModal';
 import { RomanticDateStage } from './RomanticDateStage';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
@@ -1708,8 +1709,69 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               )}
             </div>
 
-            {/* Authentic Discord Dark Composer + Quick Prompt Starters */}
-            <div className="bg-[#313338] px-4 sm:px-5 pb-5 pt-2 space-y-3 border-t border-[#26272D]">
+            {/* Authentic Discord Dark Composer + Inbound Real-Life Text/ENM Vetter */}
+            <div className="bg-[#313338] px-4 sm:px-5 pb-5 pt-2.5 space-y-3 border-t border-[#26272D]">
+              <div
+                data-testid="discord-inbound-vetter-bar"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/10 bg-[#2B2D31] px-3 py-2 text-xs text-[#DBDEE1]"
+              >
+                <span className="font-medium">
+                  🕵️ Decode a real text or ENM / married pitch right in {activeDiscord.handleLabel}:
+                </span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {[
+                    {
+                      label: 'Decode "Sounds good. 👍"',
+                      mode: 'decode_text' as const,
+                      sample: 'Sounds good. 👍',
+                    },
+                    {
+                      label: 'Check 5:15 Curfew Text',
+                      mode: 'decode_text' as const,
+                      sample:
+                        'Can only do 5:15 PM drinks before my 6:45 Tokyo call, phone stays on DND after!',
+                    },
+                    {
+                      label: 'Check Telegram DADT / ENM',
+                      mode: 'enm_check' as const,
+                      sample:
+                        'We have an open Don’t Ask Don’t Tell marriage, message me on Telegram only!',
+                    },
+                  ].map((item) => (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={() => {
+                        sfx.messagePop();
+                        const read = evaluateRoastLocally(item.mode, item.sample, role);
+                        const senderLabel =
+                          wallet.playerName || (role === 'her' ? 'You (Queen)' : 'You');
+                        setDiscordExtraMsgs((prev) => ({
+                          ...prev,
+                          [activeDiscord.id]: [
+                            ...(prev[activeDiscord.id] || []),
+                            {
+                              sender: senderLabel,
+                              badge: '🕵️ Real-Text Check',
+                              text: `Can the council decode this: "${item.sample}"`,
+                              isPlayer: true,
+                            },
+                            {
+                              sender: read.panelSpeaker.split('&')[0].trim(),
+                              badge: read.verdictBadge,
+                              text: `${read.roastRead} Reply with: "${read.upgradedRewrite}"`,
+                            },
+                          ],
+                        }));
+                      }}
+                      className="rounded-md bg-[#383A40] hover:bg-[#5865F2] px-2.5 py-1 text-[11px] font-semibold text-white transition cursor-pointer"
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <form
                 onSubmit={handleDiscordFreeSubmit}
                 className="flex items-center gap-2 rounded-lg bg-[#383A40] px-3 py-1.5"

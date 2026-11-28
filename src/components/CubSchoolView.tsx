@@ -77,6 +77,12 @@ const CERTIFICATE_SEAL_PRESETS = [
     shortOption: '🥂 Power Couple Seal',
     citation: 'Verified Mutual Chemistry, Proportional Generosity & Living-Apart-Together Harmony',
   },
+  {
+    id: 'boy_toy_crown',
+    label: '🥂 Certified Trophy Boy Toy (Conferred By Her)',
+    shortOption: '🥂 Trophy Boy Toy Seal',
+    citation: 'Earned For Carrying Both Suitcases, Frothy Espresso Martinis & Zero Poolside Ego',
+  },
 ] as const;
 
 export const CubSchoolView: React.FC<CubSchoolViewProps> = ({

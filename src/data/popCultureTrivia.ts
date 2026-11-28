@@ -2316,6 +2316,24 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "category": "era_culture",
     "difficulty": "hard",
     "level": 3
+  },
+  {
+    "id": "madonna-1984-boy-toy-belt-buckle",
+    "badge": "🎤 1984 VMAs Pop History",
+    "question": "At the inaugural 1984 MTV Video Music Awards, Madonna performed \"Like a Virgin\" atop a giant wedding cake wearing a belt buckle stamped with which iconic two-word phrase, later flipped affectionately onto younger male partners?",
+    "options": [
+      "BOY TOY",
+      "MATERIAL GIRL",
+      "WILD HEART",
+      "LUCKY STAR"
+    ],
+    "correctIndex": 0,
+    "funFact": "Madonna’s 1984 \"BOY TOY\" belt buckle entered the Rock & Roll Hall of Fame lexicon before tabloids spent decades flipping the exact phrase onto her own twenty-something partners.",
+    "imageUrl": "./images/icons/pop_madonna_mariahc_sarandon.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
   }
 ];
 

@@ -144,7 +144,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
 
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'princess-mulberry-silk-robe')?.merchantUrl,
-    ).toBe('https://www.amazon.com/dp/B0FD3H89H5');
+    ).toBe('https://www.amazon.com/dp/B07C2NYLGX');
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'no-hard-feelings-jlaw-prime')?.merchantUrl,
     ).toBe('https://www.amazon.com/dp/B0BZMJ7K5H');
@@ -153,7 +153,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     ).toBe('https://www.amazon.com/dp/B0DD3TTPFS');
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'idea-of-you-movie-book')?.merchantUrl,
-    ).toBe('https://www.amazon.com/dp/B0CV72X1BL');
+    ).toBe('https://www.amazon.com/dp/B0HRHRZ8NV');
     expect(
       AFFILIATE_CATALOG.find((i) => i.id === 'bridget-jones-cougar-town-watch')?.merchantUrl,
     ).toBe('https://www.amazon.com/dp/B0DKPH9DN2');
@@ -181,7 +181,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     );
     expect(gradRes.status).toBe(302);
     const gradLoc = gradRes.headers.get('Location') ?? '';
-    expect(gradLoc).toContain('https://www.amazon.com/dp/B008Y792LC');
+    expect(gradLoc).toContain('https://www.amazon.com/dp/B0H51HT6LC');
     expect(gradLoc).toContain('tag=claireclub-20');
 
     // Mock Stripe checkout session verification for $5 tip
@@ -256,7 +256,7 @@ describe('v35 strict 3-credit campaign wallet, Patron badge, verified ASIN catal
     });
     try {
       const localUrl = buildAffiliateUrl(sample, 'cub_school_m1');
-      expect(localUrl).toContain('https://www.amazon.com/dp/B0FHH85CXQ');
+      expect(localUrl).toContain('https://www.amazon.com/dp/B00203PSRA');
       expect(localUrl).toContain('tag=cougarsandcub-20');
       expect(localUrl).not.toContain('/api/go/');
 

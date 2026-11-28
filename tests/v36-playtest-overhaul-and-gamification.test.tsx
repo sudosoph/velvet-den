@@ -28,14 +28,13 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
     window.history.replaceState({}, '', '/');
   });
 
-  it('renders the 4-Mode Home Onboarding Switcher and opens the 5-Level Club Passport Modal from the HUD pill', () => {
+  it('renders the sleek 1-Bar Campaign Compass and opens the 5-Level Club Passport Modal from the HUD pill', () => {
     render(<App />);
 
-    const modeGrid = screen.getByTestId('club-onboarding-mode-grid');
-    expect(modeGrid.textContent).toMatch(/Prowl & Offline Dates/i);
-    expect(modeGrid.textContent).toMatch(/Have You Ever/i);
-    expect(modeGrid.textContent).toMatch(/Pop-Culture Trivia/i);
-    expect(modeGrid.textContent).toMatch(/Cub School & Courtroom/i);
+    const compass = screen.getByTestId('campaign-compass-bar');
+    expect(compass.textContent).toMatch(/Play as Her/i);
+    expect(compass.textContent).toMatch(/Play as Him/i);
+    expect(compass.textContent).toMatch(/Profile & Opener Roast/i);
 
     const passportPill = screen.getByTestId('hud-passport-pill');
     fireEvent.click(passportPill);
@@ -508,9 +507,7 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
     expect(triviaIds.has('natalie-portman-good-sex-romcom')).toBe(true);
 
     render(<VelvetJournalView onPlayScenario={() => {}} />);
-    const gridBtn = screen.getByTestId('toggle-all-guides-grid');
-    expect(gridBtn.textContent).toMatch(/Collapse Grid/i);
-    fireEvent.click(gridBtn);
-    expect(gridBtn.textContent).toMatch(/View All 16 Guides/i);
+    expect(screen.getByLabelText(/Jump to Guide/i)).toBeInTheDocument();
+    expect(screen.getByTestId('guide-directory-browser')).toBeInTheDocument();
   });
 });

@@ -93,9 +93,9 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     priceDisplay: 'Signature Hostess Pick',
     badge: '🐆 Iconic Spotted Hostess Apron',
     cheekyPitch:
-      'Whether she wears it shaking chilled martinis or ties it onto her 26-year-old sous-chef on Sunday morning, deep pockets hold the wine key and meat thermometer.',
+      'Whether she wears it shaking chilled martinis or ties it onto her 26-year-old boy toy sous-chef on Sunday morning, deep pockets hold the wine key and meat thermometer.',
     whyItConverts: 'Playful visual wink for couples cooking nights.',
-    merchantUrl: 'https://www.amazon.com/dp/B0GLPF6K39',
+    merchantUrl: 'https://www.amazon.com/dp/B08MWM5QJV',
   },
   {
     id: 'good-boy-brass-training-clicker',
@@ -139,7 +139,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     cheekyPitch:
       'Pairs beside his Golden-Retriever mug on the counter, built for the poised Black-Cat woman whose calendar and standards stay undefeated.',
     whyItConverts: 'Natural his-and-hers pair alongside the Golden Retriever mug.',
-    merchantUrl: 'https://www.amazon.com/dp/B0DNJ8P9Z3',
+    merchantUrl: 'https://www.amazon.com/dp/B0HC6KRFD8',
   },
   {
     id: 'cougar-hunter-retro-trucker-hat',
@@ -183,18 +183,18 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     cheekyPitch:
       'She ran everyone else’s meetings all week. Pour a chilled Pinot, run the bath, and wrap her in pure Grade-6A mulberry silk charmeuse.',
     whyItConverts: 'High-ticket anniversary and weekend getaway gift.',
-    merchantUrl: 'https://www.amazon.com/dp/B0FD3H89H5',
+    merchantUrl: 'https://www.amazon.com/dp/B07C2NYLGX',
   },
   {
     id: 'hosting-lidded-bin-soap',
-    name: 'Sleek Matte-Black Step Bathroom Trash Can With Soft-Close Lid',
+    name: 'simplehuman Compact Step Bathroom Trash Can With Soft-Close Lid',
     category: 'hosting_upgrade',
     priceDisplay: 'Cub Hosting Fix',
     badge: '🧴 Cub School Drill #1 Fix',
     cheekyPitch:
       'Rule one of Cub Obedience School before inviting a grown woman over: retire the open plastic wastebasket and put a lidded bin beside clean hand towels.',
     whyItConverts: 'Direct practical fix from Cub School Drill #1.',
-    merchantUrl: 'https://www.amazon.com/dp/B0FHH85CXQ',
+    merchantUrl: 'https://www.amazon.com/dp/B00203PSRA',
   },
   {
     id: 'percale-hosting-sheets',
@@ -209,14 +209,14 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'date-night-oud-bergamot',
-    name: 'NOIR Essence Bergamot, Cedar & Warm Amber Eau de Parfum (3.4 oz)',
+    name: 'Warm Bergamot, Dry Cedarwood & Amber Eau de Parfum (3.4 oz)',
     category: 'date_night',
     priceDisplay: 'Signature Scent Pick',
     badge: '🌲 Close-Collarbone Signature',
     cheekyPitch:
       'Leaves locker-room body spray in college. Warm bergamot, dry cedarwood, and subtle amber built for leaning across a mahogany cocktail bar.',
     whyItConverts: 'Easy pre-date confidence upgrade.',
-    merchantUrl: 'https://www.amazon.com/dp/B0DX3V4YC1',
+    merchantUrl: 'https://www.amazon.com/dp/B0097A5BA8',
   },
   {
     id: 'espresso-martini-barware',
@@ -319,14 +319,14 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'short-leash-leather-dog-leash',
-    name: 'Taglory Hand-Braided Leather Dog Leash With Solid Brass Clasp',
+    name: 'Hand-Braided Full-Grain Leather Dog Leash With Solid Brass Clasp',
     category: 'funny_cute',
     priceDisplay: 'Braided Leather Pick',
     badge: '🦮 Park-Walk & Inside-Joke Classic',
     cheekyPitch:
-      'Built with full-grain braided leather and a 360-degree solid brass clasp for Hampstead park walks, plus an undefeated couples inside joke.',
+      'Built with full-grain braided leather and a 360-degree solid brass clasp for Hampstead park walks, plus an undefeated Boy Toy inside joke.',
     whyItConverts: 'Handsome pet upgrade and playful wink.',
-    merchantUrl: 'https://www.amazon.com/dp/B0H2XPRGDS',
+    merchantUrl: 'https://www.amazon.com/dp/B0758CD12K',
   },
   {
     id: 'big-carl-giant-wine-glass',
@@ -392,7 +392,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     cheekyPitch:
       'Watch Anne Hathaway and Nicholas Galitzine’s Silver Lake-meets-Coachella romance directly on Prime Video.',
     whyItConverts: 'Direct Prime Video movie page.',
-    merchantUrl: 'https://www.amazon.com/dp/B0CV72X1BL',
+    merchantUrl: 'https://www.amazon.com/dp/B0HRHRZ8NV',
   },
   {
     id: 'bridget-jones-cougar-town-watch',
@@ -425,7 +425,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     cheekyPitch:
       'Pack chilled Sancerre, ripe figs, and triple-cream brie for an effortless coastal bluff or botanical-garden sunset date.',
     whyItConverts: 'Romantic outdoor date upgrade.',
-    merchantUrl: 'https://www.amazon.com/dp/B0GS1TFTY6',
+    merchantUrl: 'https://www.amazon.com/dp/B0BC191RG8',
   },
   {
     id: 'velvet-travel-weekender-duffel',
@@ -436,7 +436,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     cheekyPitch:
       'Heavy waxed canvas and saddle leather sized cleanly for pressed linen shirts, cedar parfum, and a spontaneous 48-hour coastal getaway.',
     whyItConverts: 'Handsome weekend travel bag tied to Date #4 epilogues.',
-    merchantUrl: 'https://www.amazon.com/dp/B0GTQF7ZK9',
+    merchantUrl: 'https://www.amazon.com/dp/B0BH87JR8V',
   },
   {
     id: 'all-fours-book',
@@ -447,7 +447,7 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     cheekyPitch:
       'Miranda July’s fearless, razor-funny bestseller about midlife desire, hotel-room reinvention, and designing an unconventional arrangement on your own terms.',
     whyItConverts: 'Viral book-club conversation starter across r/CougarsAndCubs and Literary Twitter.',
-    merchantUrl: 'https://www.amazon.com/dp/B0CLKZ582G',
+    merchantUrl: 'https://www.amazon.com/dp/0593714636',
   },
   {
     id: 'ethical-slut-enm-guide',
@@ -480,29 +480,29 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     cheekyPitch:
       'Rule two of hosting a grown partner: turn off the blinding surgical ceiling fixture forever and set warm 2700K bistro glow on the nightstand.',
     whyItConverts: 'Solves harsh apartment lighting in ten seconds with zero wiring.',
-    merchantUrl: 'https://www.amazon.com/dp/B0B24R6J78',
+    merchantUrl: 'https://www.amazon.com/dp/B0DGY3F6J9',
   },
   {
     id: 'bedside-braided-charger-duo',
-    name: 'Anker 10-Foot Braided Fast-Charge USB-C Bedside Cable Duo (2-Pack)',
+    name: 'Anker Braided Fast-Charge USB-C Bedside Cable Duo (2-Pack)',
     category: 'hosting_upgrade',
-    priceDisplay: '10-Foot 2-Pack Pick',
+    priceDisplay: 'Fast-Charge 2-Pack',
     badge: '🔌 Guest-Side Nightstand Hero',
     cheekyPitch:
-      'Nothing says five-star sleepover sanctuary faster than having a dedicated ten-foot woven fast charger waiting right on their side of the bed.',
+      'Nothing says five-star sleepover sanctuary faster than having a dedicated woven fast charger waiting right on her side of the bed.',
     whyItConverts: 'High-utility checklist staple #10 for overnight hosting.',
-    merchantUrl: 'https://www.amazon.com/dp/B0BPCBP46P',
+    merchantUrl: 'https://www.amazon.com/dp/B0BPC67DLC',
   },
   {
     id: 'pineapple-upside-down-cocktail-pins',
-    name: 'Solid Brass Pineapple Cocktail Picks & Martini Garnish Skewers (Set of 6)',
+    name: 'Gold Brass Pineapple Cocktail Picks & Martini Garnish Skewers',
     category: 'funny_cute',
-    priceDisplay: '6-Piece Brass Bar Picks',
+    priceDisplay: 'Brass Martini Picks',
     badge: '🍸 Subtle Lounge Wink Skewers',
     cheekyPitch:
       'Skewer three Castelvetrano olives for a proper Dirty Gibson while dropping the funniest subtle "if you know, you know" wink at home bar night.',
     whyItConverts: 'Cheeky barware conversation piece for cocktail hosts and ENM insiders alike.',
-    merchantUrl: 'https://www.amazon.com/dp/B089Q3GVWM',
+    merchantUrl: 'https://www.amazon.com/dp/B09FYWV4J6',
   },
 ];
 
@@ -926,7 +926,7 @@ export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStr
   'the-graduate-real-age-gap': {
     goSlug: 'the-graduate-prime',
     label: 'The Graduate',
-    merchantUrl: 'https://www.amazon.com/dp/B008Y792LC',
+    merchantUrl: 'https://www.amazon.com/dp/B0H51HT6LC',
   },
   'bull-durham-sarandon-robbins': {
     goSlug: 'bull-durham-prime',
@@ -936,77 +936,77 @@ export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStr
   'american-pie-stiflers-mom': {
     goSlug: 'american-pie-prime',
     label: 'American Pie',
-    merchantUrl: 'https://www.amazon.com/dp/B000I9WWJW',
+    merchantUrl: 'https://www.amazon.com/dp/B0FH9NKM4Y',
   },
   'the-proposal-bullock-reynolds': {
     goSlug: 'the-proposal-prime',
     label: 'The Proposal',
-    merchantUrl: 'https://www.amazon.com/dp/B003QSFKCO',
+    merchantUrl: 'https://www.amazon.com/dp/B004X75RCW',
   },
   'leo-grande-emma-thompson': {
     goSlug: 'leo-grande-prime',
     label: 'Good Luck to You, Leo Grande',
-    merchantUrl: 'https://www.amazon.com/dp/B0B8TCZX9S',
+    merchantUrl: 'https://www.amazon.com/dp/B0CM6XX2NL',
   },
   'prime-meryl-streep-twist': {
     goSlug: 'prime-2005-movie',
     label: 'Prime (2005)',
-    merchantUrl: 'https://www.amazon.com/dp/B000I9U8NY',
+    merchantUrl: 'https://www.amazon.com/dp/B000I9YLV2',
   },
   'white-palace-sarandon-spader': {
     goSlug: 'white-palace-prime',
     label: 'White Palace',
-    merchantUrl: 'https://www.amazon.com/dp/B0012I8B0S',
+    merchantUrl: 'https://www.amazon.com/dp/B0B8RMJPN3',
   },
   'cha-cha-real-smooth-sundance': {
     goSlug: 'cha-cha-real-smooth-prime',
     label: 'Cha Cha Real Smooth',
-    merchantUrl: 'https://www.amazon.com/dp/B09Y96W2M2',
+    merchantUrl: 'https://www.amazon.com/dp/B0DBBV94HY',
   },
   'the-good-girl-aniston-gyllenhaal': {
     goSlug: 'the-good-girl-prime',
     label: 'The Good Girl',
-    merchantUrl: 'https://www.amazon.com/dp/B000I9X5RU',
+    merchantUrl: 'https://www.amazon.com/dp/B007QN5QYO',
   },
   'harold-and-maude-cat-stevens': {
     goSlug: 'harold-and-maude-prime',
     label: 'Harold and Maude',
-    merchantUrl: 'https://www.amazon.com/dp/B000IZ27O2',
+    merchantUrl: 'https://www.amazon.com/dp/B001DCZ4IW',
   },
   'home-again-reese-witherspoon': {
     goSlug: 'home-again-prime',
     label: 'Home Again',
-    merchantUrl: 'https://www.amazon.com/dp/B07575BMTH',
+    merchantUrl: 'https://www.amazon.com/dp/B075M1NJQG',
   },
   'sunset-boulevard-norma-desmond': {
     goSlug: 'sunset-boulevard-prime',
     label: 'Sunset Boulevard',
-    merchantUrl: 'https://www.amazon.com/dp/B001K3APQ8',
+    merchantUrl: 'https://www.amazon.com/dp/B0GWDFL215',
   },
   'satc-samantha-smith-jerrod': {
     goSlug: 'sex-and-the-city-prime',
     label: 'Sex and the City',
-    merchantUrl: 'https://www.amazon.com/dp/B00687Q5BM',
+    merchantUrl: 'https://www.amazon.com/dp/B0BZQY3K5W',
   },
   'succession-gerri-roman': {
     goSlug: 'succession-prime',
     label: 'Succession',
-    merchantUrl: 'https://www.amazon.com/dp/B07DPRZ99L',
+    merchantUrl: 'https://www.amazon.com/dp/B0GYMN2FMS',
   },
   'younger-liza-josh-tattoo': {
     goSlug: 'younger-series-prime',
     label: 'Younger',
-    merchantUrl: 'https://www.amazon.com/dp/B00V7ORW2I',
+    merchantUrl: 'https://www.amazon.com/dp/B0D61ZJKDM',
   },
   'hacks-deborah-vance': {
     goSlug: 'hacks-series-prime',
     label: 'Hacks',
-    merchantUrl: 'https://www.amazon.com/dp/B09BF3BGZ2',
+    merchantUrl: 'https://www.amazon.com/dp/B0GXMY1SHY',
   },
   '30-rock-liz-lemon-criss': {
     goSlug: '30-rock-prime',
     label: '30 Rock',
-    merchantUrl: 'https://www.amazon.com/dp/B001J6O5V6',
+    merchantUrl: 'https://www.amazon.com/dp/B001QGI7F2',
   },
   'mrs-fletcher-kathryn-hahn': {
     goSlug: 'mrs-fletcher-prime',
@@ -1016,7 +1016,7 @@ export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStr
   'white-lotus-resort-canon': {
     goSlug: 'the-white-lotus-prime',
     label: 'The White Lotus',
-    merchantUrl: 'https://www.amazon.com/dp/B09C28GPFB',
+    merchantUrl: 'https://www.amazon.com/dp/B0GZJ4D7QY',
   },
   'desperate-housewives-gaby-gardener': {
     goSlug: 'desperate-housewives-prime',
@@ -1026,24 +1026,24 @@ export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStr
   'fleabag-belinda-hotel-bar-speech': {
     goSlug: 'fleabag-prime',
     label: 'Fleabag',
-    merchantUrl: 'https://www.amazon.com/dp/B0875L39FQ',
+    merchantUrl: 'https://www.amazon.com/dp/B0H37GG1QV',
   },
   'miranda-july-all-fours': {
     goSlug: 'all-fours-book',
     label: 'All Fours by Miranda July (Kindle & Hardcover)',
-    merchantUrl: 'https://www.amazon.com/dp/B0CLKZ582G',
+    merchantUrl: 'https://www.amazon.com/dp/0593714636',
     ctaPrefix: '📚 Read on Amazon',
   },
   'curtis-sittenfeld-romantic-comedy': {
     goSlug: 'romantic-comedy-book',
     label: 'Romantic Comedy by Curtis Sittenfeld',
-    merchantUrl: 'https://www.amazon.com/dp/B0B6G6R2PH',
+    merchantUrl: 'https://www.amazon.com/dp/0593449592',
     ctaPrefix: '📚 Read on Amazon',
   },
   'vladimir-julia-may-jonas': {
     goSlug: 'vladimir-book',
     label: 'Vladimir by Julia May Jonas',
-    merchantUrl: 'https://www.amazon.com/dp/B096TTBFYR',
+    merchantUrl: 'https://www.amazon.com/dp/1982187638',
     ctaPrefix: '📚 Read on Amazon',
   },
   'fleetwood-mac-dreams-cranberry-2020': {

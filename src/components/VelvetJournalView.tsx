@@ -28,7 +28,19 @@ import { sfx } from '../lib/sound';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
 import { ProductVisualThumbnail } from './ProductVisualThumbnail';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
-import { Badge, Button, Card } from './ui/primitives';
+import {
+  Button,
+  Card,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Separator,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+} from './ui/primitives';
 
 interface VelvetJournalViewProps {
   initialSlug?: string | null;
@@ -192,7 +204,7 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
   },
   {
     id: 'sagittarius',
-    label: '♐',
+    label: 'Sagittarius',
     symbol: '♐',
     dates: 'Nov 22 – Dec 21',
     element: 'Fire',
@@ -259,9 +271,6 @@ const ZODIAC_SIGNS: ZodiacSignInfo[] = [
     himMoodScene: './images/scenes/candlelit-cocktails.jpg',
   },
 ];
-
-// Fix Sagittarius label typo cleanly right in place:
-ZODIAC_SIGNS[8].label = 'Sagittarius';
 
 function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
   const pairKey = `${her.element}-${him.element}`;
@@ -401,7 +410,7 @@ function computeZodiacPairing(her: ZodiacSignInfo, him: ZodiacSignInfo) {
 }
 
 interface GuideVisualMeta {
-  categoryPill: string;
+  categoryLabel: string;
   directoryGroup: Exclude<GuideDirectoryCategory, 'all'>;
   heroPhoto: string;
   sectionPhotos: string[];
@@ -421,7 +430,7 @@ interface GuideVisualMeta {
 
 const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   'cougar-vs-puma-vs-jaguar-dating-age-chart': {
-    categoryPill: 'Subculture Slang',
+    categoryLabel: 'Subculture Taxonomy',
     directoryGroup: 'astro_slang',
     heroPhoto: './images/scenes/velvet-room-bar.jpg',
     sectionPhotos: [
@@ -445,20 +454,20 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'first-time-hosting-older-woman-apartment-checklist': {
-    categoryPill: '10-Item Hosting Check',
+    categoryLabel: 'Hosting Etiquette',
     directoryGroup: 'etiquette',
     heroPhoto: './images/scenes/sunday-kitchen-sanctuary.jpg',
     sectionPhotos: [
       './images/products/hosting-lidded-bin-soap.jpg',
       './images/products/date-night-oud-bergamot.jpg',
       './images/products/cub-grooming-beard-skincare-kit.jpg',
-      './images/scenes/luxury-bedroom-sanctuary.jpg',
+      './images/products/warm-amber-table-lamp.jpg',
       './images/products/percale-hosting-sheets.jpg',
       './images/products/cooling-bamboo-sheets.jpg',
-      './images/scenes/candlelit-cocktails.jpg',
-      './images/scenes/wine-bar-booth.jpg',
+      './images/products/espresso-martini-barware.jpg',
+      './images/products/zero-proof-botanical-mocktail-set.jpg',
       './images/products/silk-pillowcase-sleepover-duo.jpg',
-      './images/scenes/cozy-rain-suite.jpg',
+      './images/products/bedside-braided-charger-duo.jpg',
     ],
     dontText: 'come thru whenever lol my roommate left dishes in the sink',
     doText: 'Dinner is on, lamps are dimmed, and sparkling water is chilled whenever you get here.',
@@ -474,7 +483,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'best-gifts-for-older-woman-girlfriend-dating-guide': {
-    categoryPill: 'Date-Night & Gifts',
+    categoryLabel: 'Gifting & Effort',
     directoryGroup: 'etiquette',
     heroPhoto: './images/scenes/palm-springs-resort.jpg',
     sectionPhotos: [
@@ -498,7 +507,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'millennial-vs-gen-z-age-gap-dating-code-switching': {
-    categoryPill: 'All-Era Decoder',
+    categoryLabel: 'Texting Decoder',
     directoryGroup: 'astro_slang',
     heroPhoto: './images/scenes/wine-bar-booth.jpg',
     sectionPhotos: [
@@ -522,7 +531,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'older-woman-younger-man-relationship-problems-kids-stigma': {
-    categoryPill: 'Real Dilemmas',
+    categoryLabel: 'Real Dilemmas',
     directoryGroup: 'dilemmas',
     heroPhoto: './images/scenes/cozy-rain-suite.jpg',
     sectionPhotos: [
@@ -547,7 +556,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'black-cat-older-woman-golden-retriever-younger-man-dating-guide': {
-    categoryPill: 'Relationship Polarity',
+    categoryLabel: 'Relationship Polarity',
     directoryGroup: 'dilemmas',
     heroPhoto: './images/scenes/candlelit-cocktails.jpg',
     sectionPhotos: [
@@ -570,7 +579,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'celebrity-cougars-and-cubs-pop-culture-guide': {
-    categoryPill: 'Pop Culture Icons',
+    categoryLabel: 'Pop Culture',
     directoryGroup: 'pop_culture',
     heroPhoto: './images/scenes/coastal-convertible.jpg',
     sectionPhotos: [
@@ -589,12 +598,12 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       options: [
         { label: 'Tina Turner & Erwin Bach (16-yr gap • 38 years)', baseVotes: 69 },
         { label: 'Priyanka & Nick / Heidi Klum & Tom Kaulitz', baseVotes: 47 },
-        { label: 'Cher, Nicole Scherzinger & Kim K × Lewis Hamilton era', baseVotes: 34 },
+        { label: 'Cher, Madonna & Sienna Miller’s modern era', baseVotes: 34 },
       ],
     },
   },
   'dating-younger-man-perimenopause-menopause-intimacy': {
-    categoryPill: 'Sleep & Intimacy',
+    categoryLabel: 'Sleep & Intimacy',
     directoryGroup: 'dilemmas',
     heroPhoto: './images/scenes/luxury-bedroom-sanctuary.jpg',
     sectionPhotos: [
@@ -617,7 +626,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'junior-cougar-6-year-age-gap-relationship-guide': {
-    categoryPill: '4–9 Year Gap',
+    categoryLabel: '4–9 Year Gap',
     directoryGroup: 'astro_slang',
     heroPhoto: './images/scenes/cougarmarket-wine.jpg',
     sectionPhotos: [
@@ -640,7 +649,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'older-woman-grown-son-same-age-meeting-parents-guide': {
-    categoryPill: 'Family & Weddings',
+    categoryLabel: 'Family & Weddings',
     directoryGroup: 'dilemmas',
     heroPhoto: './images/scenes/wedding-gala-cheers.jpg',
     sectionPhotos: [
@@ -663,7 +672,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man': {
-    categoryPill: 'Date Ideas',
+    categoryLabel: 'Date Ideas',
     directoryGroup: 'etiquette',
     heroPhoto: './images/scenes/campus-autumn-sushi.jpg',
     sectionPhotos: [
@@ -687,7 +696,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'cougar-town-pop-culture-age-gap-dating-history': {
-    categoryPill: 'TV Binge List',
+    categoryLabel: 'TV Canon',
     directoryGroup: 'pop_culture',
     heroPhoto: './images/scenes/canyon-sunrise-trail.jpg',
     sectionPhotos: [
@@ -711,7 +720,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'astrology-zodiac-compatibility-older-woman-younger-man': {
-    categoryPill: '12×12 Star Signs',
+    categoryLabel: '12×12 Astrology',
     directoryGroup: 'astro_slang',
     heroPhoto: './images/scenes/havana-salsa-studio.jpg',
     sectionPhotos: [
@@ -734,7 +743,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'master-list-cougar-cub-movies-older-woman-younger-man': {
-    categoryPill: '22-Film Watchlist',
+    categoryLabel: '22-Film Vault',
     directoryGroup: 'pop_culture',
     heroPhoto: './images/scenes/neon-bowling-lounge.jpg',
     sectionPhotos: [
@@ -757,7 +766,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man': {
-    categoryPill: 'Watch-Night Moods',
+    categoryLabel: 'Watch-Night Pairing',
     directoryGroup: 'pop_culture',
     heroPhoto: './images/scenes/hotel-pool-sauna.jpg',
     sectionPhotos: [
@@ -780,7 +789,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette': {
-    categoryPill: 'Offline Field Guide',
+    categoryLabel: 'Offline Etiquette',
     directoryGroup: 'etiquette',
     heroPhoto: './images/scenes/terminal-b-arrivals.jpg',
     sectionPhotos: [
@@ -812,10 +821,6 @@ function getGuideVisualMeta(slug: string): GuideVisualMeta {
   );
 }
 
-/**
- * Largest-remainder percentage calculation so poll bars ALWAYS sum to 100%
- * and genuinely reflect every single vote cast.
- */
 export function computeExactPollPercentages(counts: readonly number[]): number[] {
   const safeCounts = counts.map((c) => Math.max(0, Math.floor(c)));
   const total = safeCounts.reduce((acc, c) => acc + c, 0);
@@ -898,11 +903,11 @@ const MOVIE_WATCHLIST_IDS = [
 ];
 
 const DIRECTORY_FILTERS: { id: GuideDirectoryCategory; label: string }[] = [
-  { id: 'all', label: `⚡ All ${JOURNAL_ARTICLES.length} Listicles` },
-  { id: 'etiquette', label: '🏠 Hosting & Offline Etiquette' },
-  { id: 'dilemmas', label: '💬 Real-Life Dilemmas' },
-  { id: 'pop_culture', label: '🎬 Movies, TV & Celebs' },
-  { id: 'astro_slang', label: '🔮 Astro & Era Decoder' },
+  { id: 'all', label: `All (${JOURNAL_ARTICLES.length})` },
+  { id: 'etiquette', label: 'Hosting & Offline' },
+  { id: 'dilemmas', label: 'Real Dilemmas' },
+  { id: 'pop_culture', label: 'Movies & Icons' },
+  { id: 'astro_slang', label: 'Astro & Slang' },
 ];
 
 export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
@@ -917,7 +922,6 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
     initialSlug === 'astrology-zodiac-compatibility-older-woman-younger-man',
   );
   const [directoryCategory, setDirectoryCategory] = useState<GuideDirectoryCategory>('all');
-  const [showAllGuidesGrid, setShowAllGuidesGrid] = useState(true);
   const [hostingChecks, setHostingChecks] = useState<number[]>(() => loadHostingChecks());
   const [herSignId, setHerSignId] = useState<string>('scorpio');
   const [himSignId, setHimSignId] = useState<string>('taurus');
@@ -944,7 +948,6 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   const isHostingChecklistGuide =
     active.slug === 'first-time-hosting-older-woman-apartment-checklist';
 
-  // Sync live KV poll percentages when running in browser
   useEffect(() => {
     if (!isLiveHttpRuntime()) return;
     let cancelled = false;
@@ -1064,7 +1067,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   const handleShareGuide = () => {
     setSharePayload({
       title: active.headline,
-      message: `📖 Cougars & Cubs Magazine: "${active.headline}" (${active.readTime})`,
+      message: `📖 "${active.headline}" (${active.readTime})`,
       url: guideBaseUrl,
       shareSurface: 'guide',
       discordMarkdown: `**📖 ${active.headline}** (${active.readTime})\n${active.metaDescription}\nRead here: ${guideBaseUrl}`,
@@ -1122,204 +1125,79 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
 
   return (
     <>
-      <div className="mx-auto w-full max-w-5xl space-y-8 animate-stage-in">
-        {/* Top Magazine Masthead + Quick Astro Toggle + Easy Multi-Row Directory */}
-        <header className="space-y-5 border-b border-zinc-200 pb-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div className="space-y-1.5">
-              <Badge variant="accent">Club Magazine • 16 Shoppable Photo Listicles</Badge>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
-                Viral Photo Listicles, Visual Charts &amp; Date-Night Playbooks
-              </h1>
-              <p className="text-sm sm:text-base text-zinc-600">
-                Browse any of the 16 illustrated guides below, test your 12×12 star signs, or share individual picks straight to your group chat.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
-              <Button
-                variant="outline"
-                onClick={() => setAstroOpen((v) => !v)}
-                className="min-h-11 border-rose-200 bg-rose-50/70 text-sm font-semibold text-zinc-950 hover:bg-rose-100/80"
-              >
-                <span>
-                  🔮 Quick Astro: {herSign.symbol} × {himSign.symbol}
-                </span>
-                <ChevronDown
-                  className={`h-4 w-4 text-rose-600 transition-transform ${
-                    showAstroMatcher ? 'rotate-180' : ''
-                  }`}
-                />
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => copyQuickLink(guideBaseUrl, 'top-copy')}
-                className="min-h-11 text-sm"
-              >
-                <Copy className="h-4 w-4 text-zinc-500" />
-                <span>{copiedKey === 'top-copy' ? 'Copied Link!' : 'Copy Link'}</span>
-              </Button>
-              <Button variant="accent" onClick={handleShareGuide} className="min-h-11 text-sm">
-                <Share2 className="h-4 w-4" />
-                <span>Share Listicle</span>
-              </Button>
-            </div>
+      <div className="mx-auto w-full max-w-4xl space-y-6 animate-stage-in">
+        {/* Sleek Single-Row Editorial Bar (Story Opens Immediately Below, Zero Pill Clutter!) */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-2xs">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <span className="hidden md:inline text-xs font-medium text-zinc-400 shrink-0">
+              Issue {String(activeIdx + 1).padStart(2, '0')}/{JOURNAL_ARTICLES.length}
+            </span>
+            <Select value={active.slug} onValueChange={handleSelectArticle}>
+              <SelectTrigger aria-label="Jump to Guide" className="max-w-md font-semibold">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {JOURNAL_ARTICLES.map((art, i) => (
+                  <SelectItem key={art.slug} value={art.slug}>
+                    {String(i + 1).padStart(2, '0')}. {art.headline}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          {/* 5 Featured 1-Tap Editorial Tabs */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 border-b border-zinc-200 pb-3">
-            {[
-              {
-                slug: 'cougar-vs-puma-vs-jaguar-dating-age-chart',
-                label: '🐆 Feline Age Chart',
-              },
-              {
-                slug: 'first-time-hosting-older-woman-apartment-checklist',
-                label: '🏠 10-Pt Apartment Check',
-              },
-              {
-                slug: 'older-woman-younger-man-relationship-problems-kids-stigma',
-                label: '💬 6 Real Dilemmas',
-              },
-              {
-                slug: 'master-list-cougar-cub-movies-older-woman-younger-man',
-                label: '🎬 22-Film Watchlist',
-              },
-              {
-                slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
-                label: '🔮 12×12 Astro Matcher',
-              },
-            ].map((pill) => {
-              const isCurrent = active.slug === pill.slug;
-              return (
-                <button
-                  key={pill.slug}
-                  type="button"
-                  onClick={() => handleSelectArticle(pill.slug)}
-                  className={`min-h-10 rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors cursor-pointer ${
-                    isCurrent
-                      ? 'border-rose-600 bg-rose-600 text-white shadow-2xs'
-                      : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 hover:text-zinc-950'
-                  }`}
-                >
-                  {pill.label}
-                </button>
-              );
-            })}
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setAstroOpen((v) => !v)}
+              className="h-9 text-xs sm:text-sm font-semibold"
+            >
+              <span>🔮 12×12 Astro Matcher</span>
+              <ChevronDown
+                className={`h-3.5 w-3.5 text-zinc-400 transition-transform ${
+                  showAstroMatcher ? 'rotate-180' : ''
+                }`}
+              />
+            </Button>
+
+            <a
+              href="#guide-library-index"
+              className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-3 text-xs font-medium text-zinc-700 transition-colors"
+            >
+              All 16 Guides
+            </a>
+
+            <Button variant="default" size="sm" onClick={handleShareGuide} className="h-9">
+              <Share2 className="h-3.5 w-3.5" />
+              <span>Share</span>
+            </Button>
           </div>
+        </div>
 
-          {/* Always-Browsable Multi-Row Magazine Directory Grid (Zero Hidden Horizontal Strip!) */}
-          <div className="space-y-3" data-testid="guide-directory-browser">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-wrap items-center gap-1.5">
-                {DIRECTORY_FILTERS.map((cat) => {
-                  const activeCat = directoryCategory === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => {
-                        setDirectoryCategory(cat.id);
-                        setShowAllGuidesGrid(true);
-                      }}
-                      className={`min-h-9 rounded-lg px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
-                        activeCat
-                          ? 'bg-zinc-900 text-white'
-                          : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200/80 hover:text-zinc-950'
-                      }`}
-                    >
-                      {cat.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <button
-                type="button"
-                data-testid="toggle-all-guides-grid"
-                onClick={() => setShowAllGuidesGrid((v) => !v)}
-                className="text-sm font-semibold text-rose-600 hover:text-zinc-950 transition-colors cursor-pointer"
-              >
-                {showAllGuidesGrid
-                  ? `Reading #${String(activeIdx + 1).padStart(2, '0')} • Collapse Grid ↑`
-                  : `View All ${JOURNAL_ARTICLES.length} Guides ↓`}
-              </button>
-            </div>
-
-            {showAllGuidesGrid && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {visibleDirectoryArticles.map((art) => {
-                  const globalIdx = JOURNAL_ARTICLES.findIndex((a) => a.slug === art.slug);
-                  const isSelected = art.slug === active.slug;
-                  const artMeta = getGuideVisualMeta(art.slug);
-                  return (
-                    <button
-                      key={art.slug}
-                      type="button"
-                      onClick={() => handleSelectArticle(art.slug)}
-                      className={`group flex items-center gap-3 rounded-xl border p-3 text-left transition cursor-pointer w-full ${
-                        isSelected
-                          ? 'border-zinc-950 bg-zinc-950 text-white shadow-sm ring-2 ring-rose-500/30'
-                          : 'border-zinc-200 bg-white text-zinc-900 hover:border-rose-300 hover:bg-zinc-50'
-                      }`}
-                    >
-                      <img
-                        src={artMeta.heroPhoto}
-                        alt=""
-                        loading="lazy"
-                        className="h-12 w-12 shrink-0 rounded-lg object-cover object-center border border-zinc-200/50"
-                      />
-                      <div className="min-w-0 flex-1 space-y-0.5">
-                        <div
-                          className={`text-xs font-semibold ${
-                            isSelected ? 'text-rose-300' : 'text-rose-600'
-                          }`}
-                        >
-                          #{String(globalIdx + 1).padStart(2, '0')} • {artMeta.categoryPill}
-                        </div>
-                        <div className="text-sm font-semibold leading-snug line-clamp-2">
-                          {art.seoTitle}
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </header>
-
-        {/* Pure Astrological 12×12 Cougar × Cub Matcher (Zero Random Game Cast, Crisp Large Typography) */}
+        {/* Pure Astrological 12×12 Cougar × Cub Matcher */}
         {showAstroMatcher && (
-          <Card className="p-6 sm:p-8 space-y-6" data-testid="zodiac-12x12-matcher">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 pb-4">
-              <div className="space-y-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="accent">
-                    <Sparkles className="h-3.5 w-3.5" /> 12×12 Astrological Matcher
-                  </Badge>
-                  <Badge variant="default">{zodiacMatch.rating}</Badge>
+          <Card className="p-5 sm:p-7 space-y-6" data-testid="zodiac-12x12-matcher">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 pb-4">
+              <div className="space-y-0.5">
+                <div className="text-xs font-medium text-rose-600">
+                  {zodiacMatch.rating}
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950">
                   🔮 {herSign.symbol} {herSign.label} Her × {himSign.symbol} {himSign.label} Cub
                 </h2>
               </div>
-              <Button
-                variant="outline"
-                onClick={handleShareZodiac}
-                className="min-h-10 text-sm font-semibold"
-              >
-                <Share2 className="h-4 w-4 text-rose-600" />
-                <span>Share Astrological Reading</span>
+              <Button variant="outline" size="sm" onClick={handleShareZodiac} className="h-9">
+                <Share2 className="h-3.5 w-3.5 text-rose-600" />
+                <span>Share Reading</span>
               </Button>
             </div>
 
-            {/* Sign Pickers */}
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-4 space-y-3">
+              <div className="rounded-xl border border-zinc-200 bg-zinc-50/60 p-4 space-y-3">
                 <label className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-bold uppercase tracking-wide text-rose-600">
-                    🐆 Her Cougar Star Sign
+                  <span className="text-xs font-semibold text-zinc-700">
+                    🐆 Her Star Sign
                   </span>
                   <select
                     aria-label="Her Star Sign"
@@ -1328,7 +1206,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                       sfx.messagePop();
                       setHerSignId(e.target.value);
                     }}
-                    className="h-10 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900"
+                    className="h-9 rounded-lg border border-zinc-200 bg-white px-2.5 text-xs sm:text-sm font-semibold text-zinc-900"
                   >
                     {ZODIAC_SIGNS.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -1349,13 +1227,13 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           sfx.messagePop();
                           setHerSignId(s.id);
                         }}
-                        className={`flex flex-col items-center justify-center rounded-xl border py-2 px-1.5 text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                        className={`flex flex-col items-center justify-center rounded-lg border py-1.5 px-1 text-xs font-semibold transition cursor-pointer ${
                           activeChip
-                            ? 'border-rose-600 bg-rose-600 text-white shadow-2xs'
-                            : 'border-zinc-200 bg-white text-zinc-800 hover:border-rose-300'
+                            ? 'border-zinc-950 bg-zinc-950 text-white'
+                            : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400'
                         }`}
                       >
-                        <span className="text-base leading-none">{s.symbol}</span>
+                        <span className="text-sm leading-none">{s.symbol}</span>
                         <span className="mt-1 truncate max-w-full">{s.label.slice(0, 3)}</span>
                       </button>
                     );
@@ -1363,10 +1241,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-4 space-y-3">
+              <div className="rounded-xl border border-zinc-200 bg-zinc-50/60 p-4 space-y-3">
                 <label className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-bold uppercase tracking-wide text-zinc-900">
-                    🐕 His Cub Star Sign
+                  <span className="text-xs font-semibold text-zinc-700">
+                    🐕 His Star Sign
                   </span>
                   <select
                     aria-label="His Star Sign"
@@ -1375,7 +1253,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                       sfx.messagePop();
                       setHimSignId(e.target.value);
                     }}
-                    className="h-10 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-semibold text-zinc-900"
+                    className="h-9 rounded-lg border border-zinc-200 bg-white px-2.5 text-xs sm:text-sm font-semibold text-zinc-900"
                   >
                     {ZODIAC_SIGNS.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -1396,13 +1274,13 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           sfx.messagePop();
                           setHimSignId(s.id);
                         }}
-                        className={`flex flex-col items-center justify-center rounded-xl border py-2 px-1.5 text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                        className={`flex flex-col items-center justify-center rounded-lg border py-1.5 px-1 text-xs font-semibold transition cursor-pointer ${
                           activeChip
-                            ? 'border-zinc-900 bg-zinc-900 text-white shadow-2xs'
-                            : 'border-zinc-200 bg-white text-zinc-800 hover:border-zinc-400'
+                            ? 'border-rose-600 bg-rose-600 text-white'
+                            : 'border-zinc-200 bg-white text-zinc-700 hover:border-rose-300'
                         }`}
                       >
-                        <span className="text-base leading-none">{s.symbol}</span>
+                        <span className="text-sm leading-none">{s.symbol}</span>
                         <span className="mt-1 truncate max-w-full">{s.label.slice(0, 3)}</span>
                       </button>
                     );
@@ -1411,9 +1289,8 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             </div>
 
-            {/* Readable, Zero-Squint Astrological Archetype Cards (Pure Astrology + Editorial Mood Scenes) */}
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-zinc-200 bg-white overflow-hidden flex flex-col">
+              <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden flex flex-col">
                 <div className="relative h-36 w-full overflow-hidden bg-zinc-100">
                   <img
                     src={herSign.herMoodScene}
@@ -1422,21 +1299,21 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-zinc-950/25 to-transparent flex items-end p-4">
                     <div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-rose-300">
-                        {herSign.symbol} {herSign.label} Cougar • {herSign.element} ({herSign.modality}) • Ruled by {herSign.ruler}
+                      <div className="text-xs font-medium text-rose-200">
+                        {herSign.symbol} {herSign.label} • {herSign.element} ({herSign.modality}) • {herSign.ruler}
                       </div>
-                      <h3 className="text-lg font-bold text-white leading-snug">
+                      <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
                         {herSign.herTitle}
                       </h3>
                     </div>
                   </div>
                 </div>
-                <p className="p-4 sm:p-5 text-sm sm:text-base text-zinc-700 leading-relaxed">
+                <p className="p-4 text-sm sm:text-base text-zinc-700 leading-relaxed">
                   {herSign.herAstroProfile}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-zinc-200 bg-white overflow-hidden flex flex-col">
+              <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden flex flex-col">
                 <div className="relative h-36 w-full overflow-hidden bg-zinc-100">
                   <img
                     src={himSign.himMoodScene}
@@ -1445,41 +1322,37 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-zinc-950/25 to-transparent flex items-end p-4">
                     <div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-amber-200">
-                        {himSign.symbol} {himSign.label} Cub • {himSign.element} ({himSign.modality}) • Ruled by {himSign.ruler}
+                      <div className="text-xs font-medium text-amber-200">
+                        {himSign.symbol} {himSign.label} • {himSign.element} ({himSign.modality}) • {himSign.ruler}
                       </div>
-                      <h3 className="text-lg font-bold text-white leading-snug">
+                      <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
                         {himSign.himTitle}
                       </h3>
                     </div>
                   </div>
                 </div>
-                <p className="p-4 sm:p-5 text-sm sm:text-base text-zinc-700 leading-relaxed">
+                <p className="p-4 text-sm sm:text-base text-zinc-700 leading-relaxed">
                   {himSign.himAstroProfile}
                 </p>
               </div>
             </div>
 
-            {/* Pairing Synthesis + Ideal Date Scene + 4 Compatibility Meters */}
             <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] items-stretch">
-              <div className="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-5 space-y-3">
-                <div className="text-xs font-bold uppercase tracking-wider text-rose-600">
-                  ✨ Why {herSign.label} × {himSign.label} Sparks Across an Age Gap
-                </div>
-                <h4 className="text-lg sm:text-xl font-bold text-zinc-950 leading-snug">
+              <div className="rounded-xl border border-zinc-200 bg-zinc-50/70 p-5 space-y-3">
+                <h4 className="text-lg font-bold text-zinc-950 leading-snug">
                   {zodiacMatch.pairingHeadline}
                 </h4>
                 <p className="text-sm sm:text-base text-zinc-700 leading-relaxed">
                   {zodiacMatch.whyItWorks}
                 </p>
-                <div className="rounded-xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-zinc-800 leading-relaxed">
-                  <strong className="font-semibold text-zinc-950">🔭 Watch-Out Cue: </strong>
+                <div className="rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-700 leading-relaxed">
+                  <strong className="font-semibold text-zinc-950">Watch-Out Cue: </strong>
                   {zodiacMatch.blindSpot}
                 </div>
               </div>
 
               <div className="flex flex-col justify-between gap-4">
-                <div className="relative overflow-hidden rounded-2xl border border-zinc-200 min-h-[130px] flex-1">
+                <div className="relative overflow-hidden rounded-xl border border-zinc-200 min-h-[130px] flex-1">
                   <img
                     src={zodiacMatch.scenePhoto}
                     alt="Ideal astrological date setting"
@@ -1487,10 +1360,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/35 to-transparent flex items-end p-4">
                     <div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-rose-300">
-                        Ideal First Date Setting
+                      <div className="text-xs font-medium text-rose-200">
+                        Ideal First Date
                       </div>
-                      <p className="text-sm sm:text-base font-semibold text-white leading-snug">
+                      <p className="text-sm font-semibold text-white leading-snug">
                         {zodiacMatch.dateIdea}
                       </p>
                     </div>
@@ -1499,17 +1372,17 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
 
                 <div
                   data-testid="zodiac-meter-grid"
-                  className="grid grid-cols-2 gap-3 rounded-2xl border border-zinc-200 bg-zinc-50/80 p-4"
+                  className="grid grid-cols-2 gap-3 rounded-xl border border-zinc-200 bg-zinc-50/80 p-4"
                 >
                   {zodiacMatch.meters.map((m) => (
                     <div key={m.label} className="space-y-1.5">
-                      <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-zinc-900">
+                      <div className="flex items-center justify-between text-xs font-semibold text-zinc-900">
                         <span className="truncate">{m.label}</span>
                         <span className="font-bold text-rose-600 shrink-0">{m.pct}%</span>
                       </div>
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200">
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-200">
                         <div
-                          className="h-full rounded-full bg-rose-600 transition-all duration-300"
+                          className="h-full rounded-full bg-zinc-950 transition-all duration-300"
                           style={{ width: `${m.pct}%` }}
                         />
                       </div>
@@ -1521,52 +1394,41 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
           </Card>
         )}
 
-        {/* Airy Single-Column BuzzFeed Photo Listicle Canvas */}
+        {/* Airy Editorial BuzzFeed Story Canvas, Story & Lede First, Sells Earned Naturally */}
         <Card
           id="club-guide-reader-card"
-          className="mx-auto max-w-3xl p-6 sm:p-10 space-y-10 scroll-mt-20"
+          className="mx-auto max-w-3xl p-6 sm:p-10 space-y-9 scroll-mt-20"
         >
-          {/* Clean Title + Readable Intro + Viral Share Strip + Widescreen Hero */}
-          <header className="space-y-4 border-b border-zinc-200 pb-8">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="accent">
-                  #{String(activeIdx + 1).padStart(2, '0')} • {visualMeta.categoryPill}
-                </Badge>
-                <Badge variant="outline">{active.readTime}</Badge>
-                {isHostingChecklistGuide && active.checklistItems && (
-                  <Badge variant="default">
-                    ✓ {hostingChecks.length} / {active.sections.length} Ticked Off
-                  </Badge>
-                )}
-              </div>
+          <header className="space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-medium text-zinc-500">
+              <span>
+                {visualMeta.categoryLabel} · {active.readTime}
+                {isHostingChecklistGuide
+                  ? ` · ${hostingChecks.length}/${active.sections.length} checked`
+                  : ''}
+              </span>
 
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => copyQuickLink(guideBaseUrl, 'hero-copy')}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-xs sm:text-sm font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer"
+                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 cursor-pointer"
                 >
-                  <Link2 className="h-3.5 w-3.5 text-rose-600" />
-                  <span>{copiedKey === 'hero-copy' ? 'Link Copied!' : 'Copy Link'}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleShareGuide}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 px-3.5 text-xs sm:text-sm font-semibold text-white cursor-pointer"
-                >
-                  <Share2 className="h-3.5 w-3.5" />
-                  <span>Share</span>
+                  <Link2 className="h-3.5 w-3.5 text-zinc-400" />
+                  <span>{copiedKey === 'hero-copy' ? 'Copied!' : 'Copy Link'}</span>
                 </button>
               </div>
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-zinc-950 leading-tight">
-              {active.headline}
-            </h2>
-            <p className="text-base sm:text-lg leading-relaxed text-zinc-700">
-              {active.intro}
-            </p>
+            <div className="space-y-3">
+              <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-zinc-950 leading-tight">
+                {active.headline}
+              </h1>
+              <p className="text-base sm:text-xl leading-relaxed text-zinc-600">
+                {active.intro}
+              </p>
+            </div>
+
             <div className="overflow-hidden rounded-2xl border border-zinc-200 aspect-[16/9] bg-zinc-100">
               <img
                 src={visualMeta.heroPhoto}
@@ -1575,28 +1437,30 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                 className="h-full w-full object-cover object-center"
               />
             </div>
+
+            {/* Warm BuzzFeed Editorial Lede & Subreddit Reality Pull-Quote BEFORE Jumping Into Numbered List */}
+            <div
+              data-testid="guide-buzzfeed-lede"
+              className="space-y-4 pt-2 text-base sm:text-[17px] leading-relaxed text-zinc-800"
+            >
+              {active.buzzfeedLede.map((para) => (
+                <p key={para.slice(0, 32)}>{para}</p>
+              ))}
+
+              <blockquote className="border-l-2 border-rose-600 bg-zinc-50/90 rounded-r-xl px-4 py-3 text-sm sm:text-base font-medium text-zinc-900">
+                <Sparkles className="inline h-4 w-4 text-rose-600 mr-1.5 -mt-0.5" />
+                {active.insiderCallout}
+              </blockquote>
+            </div>
           </header>
 
-          {/* Spacious BuzzFeed Numbered Photo Listicle Stream (Wrapped in guide-hosting-checklist on the 10-Pt Guide so all 10 illustrated shop picks live inside!) */}
+          <Separator />
+
+          {/* Numbered Photo Listicle Stream */}
           <div
             data-testid={isHostingChecklistGuide ? 'guide-hosting-checklist' : undefined}
-            className="space-y-10"
+            className="space-y-11"
           >
-            {isHostingChecklistGuide && (
-              <div className="rounded-2xl border border-zinc-200 bg-zinc-50/80 p-5 flex flex-wrap items-center justify-between gap-3">
-                <div className="space-y-1">
-                  <Badge variant="accent">Interactive 10-of-10 Visual Apartment Audit</Badge>
-                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-zinc-950">
-                    Tick Off All 10 Illustrated Upgrades Below Before She Comes Over
-                  </h3>
-                </div>
-                <Badge variant="default">
-                  {hostingChecks.length} / {active.sections.length} Ready
-                </Badge>
-              </div>
-            )}
-
-          <div className="space-y-12">
             {active.sections.map((sec, idx) => {
               const itemNumber = idx + 1;
               const photoUrl =
@@ -1622,20 +1486,18 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   className="space-y-4 scroll-mt-24 border-b border-zinc-100 pb-10 last:border-b-0 last:pb-0"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3.5 min-w-0">
-                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-600 text-base font-bold text-white">
+                    <div className="space-y-1 min-w-0">
+                      <div className="text-xs font-bold tracking-wide text-rose-600">
                         {String(itemNumber).padStart(2, '0')}
-                      </span>
-                      <div className="space-y-1 min-w-0">
-                        <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 leading-snug">
-                          {cleanHeading}
-                        </h3>
-                        {sec.subhead && (
-                          <p className="text-sm sm:text-base font-semibold text-rose-600">
-                            {sec.subhead}
-                          </p>
-                        )}
                       </div>
+                      <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 leading-snug">
+                        {cleanHeading}
+                      </h2>
+                      {sec.subhead && (
+                        <p className="text-sm sm:text-base font-medium text-zinc-500">
+                          {sec.subhead}
+                        </p>
+                      )}
                     </div>
 
                     <button
@@ -1644,13 +1506,13 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         handleShareSectionItem(itemNumber, cleanHeading, sec.subhead)
                       }
                       aria-label={`Share item ${itemNumber}: ${cleanHeading}`}
-                      className="shrink-0 inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-xs sm:text-sm font-semibold text-zinc-700 hover:border-rose-300 hover:text-rose-600 transition cursor-pointer"
+                      className="shrink-0 inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 text-xs font-medium text-zinc-600 hover:border-zinc-400 hover:text-zinc-950 transition cursor-pointer"
                     >
                       <Share2 className="h-3.5 w-3.5" />
                       <span>
                         {copiedKey === `sec-${itemNumber}`
-                          ? 'Copied!'
-                          : `Share #${String(itemNumber).padStart(2, '0')}`}
+                          ? 'Copied'
+                          : `#${String(itemNumber).padStart(2, '0')}`}
                       </span>
                     </button>
                   </div>
@@ -1663,30 +1525,32 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     />
                   </div>
 
-                  {hasExplicitBullets ? (
-                    <ul className="grid gap-2.5 pt-1">
-                      {bulletLines.map((line) => (
-                        <li
-                          key={line}
-                          className="flex items-start gap-3 rounded-xl border border-zinc-200/90 bg-zinc-50/70 px-4 py-3 text-base text-zinc-800 leading-relaxed"
-                        >
-                          <span className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-rose-600" />
-                          <span>{line}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-base sm:text-lg leading-relaxed text-zinc-800">
-                      {sec.body}
-                    </p>
-                  )}
+                  {/* Engaging BuzzFeed Storytelling Paragraphs BEFORE Any Shop Card */}
+                  <div className="space-y-3 text-base sm:text-[17px] leading-relaxed text-zinc-800">
+                    {sec.storyHook && <p>{sec.storyHook}</p>}
 
-                  {/* Interactive Tick-Off Button Right Inside Each of the 10 Hosting Cards */}
+                    {hasExplicitBullets ? (
+                      <ul className="grid gap-2 pt-1">
+                        {bulletLines.map((line) => (
+                          <li
+                            key={line}
+                            className="flex items-start gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/60 px-4 py-2.5 text-sm sm:text-base text-zinc-800 leading-relaxed"
+                          >
+                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-600" />
+                            <span>{line}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>{sec.body}</p>
+                    )}
+                  </div>
+
                   {isHostingChecklistGuide && (
                     <button
                       type="button"
                       onClick={() => toggleHostingCheck(idx)}
-                      className={`inline-flex min-h-11 w-full sm:w-auto items-center gap-2.5 rounded-xl border px-4 py-2.5 text-sm sm:text-base font-semibold transition cursor-pointer ${
+                      className={`inline-flex h-10 items-center gap-2 rounded-xl border px-3.5 text-sm font-semibold transition cursor-pointer ${
                         isChecked
                           ? 'border-emerald-600 bg-emerald-50 text-emerald-950'
                           : 'border-zinc-200 bg-white text-zinc-800 hover:border-zinc-400'
@@ -1699,35 +1563,31 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                       )}
                       <span>
                         {isChecked
-                          ? `✓ Upgrade #${itemNumber} Ready in My Apartment`
-                          : `Mark Upgrade #${itemNumber} Ready`}
+                          ? `✓ Upgrade #${itemNumber} Ready in My Place`
+                          : `Check Off Upgrade #${itemNumber}`}
                       </span>
                     </button>
                   )}
 
-                  {/* Illustrated BuzzFeed Shop Pick Card With Real Product Photo & Fun Description */}
                   {linkedProduct && (
                     <div
                       data-testid="guide-inline-shop-card"
-                      className="rounded-2xl border border-zinc-200 bg-zinc-50/75 p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
+                      className="rounded-xl border border-zinc-200 bg-zinc-50/70 p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
                     >
-                      <div className="sm:w-44 shrink-0">
+                      <div className="sm:w-36 shrink-0">
                         <ProductVisualThumbnail item={linkedProduct} compact />
                       </div>
-                      <div className="min-w-0 flex-1 space-y-2">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Badge variant="accent">{linkedProduct.badge}</Badge>
-                          <span className="text-xs font-semibold text-zinc-500">
-                            {linkedProduct.priceDisplay}
-                          </span>
+                      <div className="min-w-0 flex-1 space-y-1.5">
+                        <div className="text-xs font-medium text-zinc-500">
+                          Editor’s Pick · {linkedProduct.priceDisplay}
                         </div>
-                        <h4 className="text-base font-bold text-zinc-950 leading-snug">
+                        <h3 className="text-sm sm:text-base font-bold text-zinc-950 leading-snug">
                           {linkedProduct.name}
-                        </h4>
-                        <p className="text-sm text-zinc-700 leading-relaxed">
+                        </h3>
+                        <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
                           {linkedProduct.cheekyPitch}
                         </p>
-                        <div className="pt-1 flex flex-wrap items-center gap-2">
+                        <div className="pt-1">
                           <a
                             href={buildAffiliateUrl(
                               linkedProduct,
@@ -1742,12 +1602,12 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                                 slug: active.slug,
                               })
                             }
-                            className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-xs sm:text-sm font-semibold text-white transition"
+                            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-zinc-950 hover:bg-zinc-800 px-3.5 text-xs font-semibold text-white transition"
                           >
                             <span>
                               {isPrimeVideoDigitalPick(linkedProduct)
-                                ? `Stream on Prime Video`
-                                : `Shop Pick on Amazon`}
+                                ? 'Stream on Prime Video'
+                                : 'View on Amazon'}
                             </span>
                             <ExternalLink className="h-3.5 w-3.5" />
                           </a>
@@ -1759,32 +1619,31 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               );
             })}
           </div>
-          </div>
 
-          {/* Quick Side-by-Side Recap: Text This Not That + 2-Line Cheat Sheet */}
+          {/* Text This, Not That + Cheat Sheet */}
           <div className="grid gap-4 md:grid-cols-2 border-t border-zinc-200 pt-8">
             <div
               data-testid="guide-text-this-not-that"
-              className="rounded-2xl border border-zinc-200 bg-zinc-50/60 p-5 space-y-3"
+              className="rounded-xl border border-zinc-200 bg-zinc-50/60 p-5 space-y-3"
             >
-              <div className="flex items-center justify-between gap-2">
-                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-900">
+              <div className="flex items-center justify-between gap-2 text-xs font-semibold text-zinc-900">
+                <span className="inline-flex items-center gap-1.5">
                   <MessageCircle className="h-4 w-4 text-[#007AFF]" />
                   <span>Text This, Not That</span>
-                </div>
-                <span className="text-xs font-medium text-zinc-500">iMessage</span>
+                </span>
+                <span className="font-normal text-zinc-400">iMessage</span>
               </div>
 
               <div className="flex flex-col gap-2.5">
-                <div className="self-start max-w-[92%] rounded-2xl rounded-bl-sm bg-[#E9E9EB] px-4 py-3 text-sm sm:text-base text-zinc-900">
-                  <div className="text-xs font-semibold text-zinc-500 mb-0.5">
+                <div className="self-start max-w-[92%] rounded-2xl rounded-bl-sm bg-[#E9E9EB] px-4 py-3 text-sm text-zinc-900">
+                  <div className="text-[11px] font-medium text-zinc-500 mb-0.5">
                     Left on Read
                   </div>
                   &ldquo;{visualMeta.dontText}&rdquo;
                 </div>
 
-                <div className="self-end max-w-[92%] rounded-2xl rounded-br-sm bg-[#007AFF] px-4 py-3 text-sm sm:text-base text-white">
-                  <div className="text-xs font-semibold text-sky-100 mb-0.5">
+                <div className="self-end max-w-[92%] rounded-2xl rounded-br-sm bg-[#007AFF] px-4 py-3 text-sm text-white">
+                  <div className="text-[11px] font-medium text-sky-100 mb-0.5">
                     Gets the Friday Table ✓
                   </div>
                   &ldquo;{visualMeta.doText}&rdquo;
@@ -1794,20 +1653,20 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
 
             <div
               data-testid="guide-quick-takeaway"
-              className="rounded-2xl border border-zinc-200 bg-zinc-50/60 p-5 flex flex-col justify-between gap-3"
+              className="rounded-xl border border-zinc-200 bg-zinc-50/60 p-5 flex flex-col justify-between gap-3"
             >
-              <div className="text-xs font-bold uppercase tracking-wider text-zinc-900">
-                10-Second Cheat Sheet
+              <div className="text-xs font-semibold text-zinc-900">
+                Quick Takeaway
               </div>
-              <div className="space-y-2.5 text-sm sm:text-base">
-                <div className="flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-white p-3.5 text-zinc-800">
+              <div className="space-y-2.5 text-sm">
+                <div className="flex items-start gap-2.5 rounded-lg border border-zinc-200 bg-white p-3.5 text-zinc-800">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                   <div>
                     <span className="font-semibold text-zinc-950">Do this: </span>
                     <span>{visualMeta.doSummary}</span>
                   </div>
                 </div>
-                <div className="flex items-start gap-2.5 rounded-xl border border-rose-200 bg-white p-3.5 text-zinc-800">
+                <div className="flex items-start gap-2.5 rounded-lg border border-zinc-200 bg-white p-3.5 text-zinc-800">
                   <X className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" />
                   <div>
                     <span className="font-semibold text-zinc-950">Skip this: </span>
@@ -1818,23 +1677,23 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             </div>
           </div>
 
-          {/* Live-Calculated & KV-Persisted 1-Tap Club Poll */}
+          {/* Live Reader Poll */}
           <section
             data-testid="guide-club-poll"
-            className="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-5 sm:p-6 space-y-3.5"
+            className="rounded-xl border border-zinc-200 bg-zinc-50/70 p-5 space-y-3"
           >
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="accent">Live Reader Poll</Badge>
-              <span className="text-xs sm:text-sm font-medium text-zinc-600">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-500">
+              <span className="font-semibold text-zinc-900">Reader Poll</span>
+              <span>
                 {selectedPollIdx !== undefined
                   ? `✓ Vote counted • ${totalPollVotes} total votes`
                   : `${totalPollVotes} votes • Tap to vote`}
               </span>
             </div>
-            <h3 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950">
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-zinc-950">
               {visualMeta.poll.question}
             </h3>
-            <div className="grid gap-2.5">
+            <div className="grid gap-2">
               {visualMeta.poll.options.map((opt, oIdx) => {
                 const hasVoted = selectedPollIdx !== undefined;
                 const isPicked = selectedPollIdx === oIdx;
@@ -1844,16 +1703,16 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     key={opt.label}
                     type="button"
                     onClick={() => handleVotePoll(oIdx)}
-                    className={`relative overflow-hidden rounded-xl border px-4 py-3.5 text-left text-sm sm:text-base font-medium transition cursor-pointer ${
+                    className={`relative overflow-hidden rounded-xl border px-4 py-3 text-left text-sm font-medium transition cursor-pointer ${
                       isPicked
-                        ? 'border-rose-600 bg-white text-zinc-950 font-semibold'
+                        ? 'border-zinc-950 bg-white text-zinc-950 font-semibold'
                         : 'border-zinc-200 bg-white text-zinc-800 hover:border-zinc-300'
                     }`}
                   >
                     {hasVoted && (
                       <div
                         className={`absolute inset-y-0 left-0 transition-all duration-300 ${
-                          isPicked ? 'bg-rose-100/90' : 'bg-zinc-100'
+                          isPicked ? 'bg-rose-100/80' : 'bg-zinc-100'
                         }`}
                         style={{ width: `${pct}%` }}
                       />
@@ -1864,7 +1723,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                         {opt.label}
                       </span>
                       {hasVoted && (
-                        <span className="shrink-0 font-bold tabular-nums text-rose-600">
+                        <span className="shrink-0 font-bold tabular-nums text-zinc-900">
                           {pct}%
                         </span>
                       )}
@@ -1875,11 +1734,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             </div>
           </section>
 
-          {/* Illustrated Prime Video Cards on Movie Watchlists */}
           {isMovieGuide && (
-            <div className="rounded-2xl border border-zinc-200 bg-zinc-50/60 p-5 space-y-3.5">
-              <div className="text-xs font-bold uppercase tracking-wider text-zinc-900">
-                🎬 Stream Essential Watchlist Titles on Prime Video
+            <div className="rounded-xl border border-zinc-200 bg-zinc-50/60 p-5 space-y-3">
+              <div className="text-xs font-semibold text-zinc-900">
+                Stream Watchlist Titles on Prime Video
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {MOVIE_WATCHLIST_IDS.map((id) => {
@@ -1891,14 +1749,14 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                       href={buildAffiliateUrl(movieItem, `watchlist_${active.slug}`)}
                       target="_blank"
                       rel="noopener noreferrer sponsored"
-                      className="flex flex-col justify-between gap-2.5 rounded-xl border border-zinc-200 bg-white p-3.5 hover:border-rose-400 transition"
+                      className="flex flex-col justify-between gap-2.5 rounded-xl border border-zinc-200 bg-white p-3.5 hover:border-zinc-400 transition"
                     >
                       <div className="space-y-2">
                         <ProductVisualThumbnail item={movieItem} compact />
                         <div className="text-sm font-bold text-zinc-950 leading-snug">
                           {movieItem.name}
                         </div>
-                        <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed line-clamp-2">
+                        <p className="text-xs text-zinc-600 leading-relaxed line-clamp-2">
                           {movieItem.cheekyPitch}
                         </p>
                       </div>
@@ -1913,16 +1771,16 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             </div>
           )}
 
-          {/* Compact 2-Card Shoppable Footer */}
+          {/* Subtle 2-Card Editor's Picks Footer (After Delivering Full Editorial Value) */}
           <section
             data-testid="guide-above-fold-shop"
-            className="rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 space-y-3.5"
+            className="rounded-xl border border-zinc-200 bg-zinc-50/50 p-5 space-y-3.5"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-900">
-                🛍️ Editor’s Top Picks for This Listicle
+              <span className="text-xs font-semibold text-zinc-900">
+                Editor’s Picks Mentioned in This Issue
               </span>
-              <span className="text-xs text-zinc-500">
+              <span className="text-[11px] text-zinc-500">
                 {AFFILIATE_SUPPORT_COPY.compactInline}
               </span>
             </div>
@@ -1935,12 +1793,12 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     key={item.id}
                     className="rounded-xl border border-zinc-200 bg-white p-4 flex flex-col justify-between gap-3"
                   >
-                    <div className="space-y-2.5">
+                    <div className="space-y-2">
                       <ProductVisualThumbnail item={item} />
-                      <h4 className="text-base font-bold text-zinc-950 leading-snug">
+                      <h4 className="text-sm font-bold text-zinc-950 leading-snug">
                         {item.name}
                       </h4>
-                      <p className="text-sm text-zinc-600 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
                         {item.cheekyPitch}
                       </p>
                     </div>
@@ -1955,12 +1813,12 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           slug: active.slug,
                         })
                       }
-                      className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-xs sm:text-sm font-semibold text-white transition"
+                      className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-zinc-950 hover:bg-zinc-800 text-xs font-semibold text-white transition"
                     >
                       <span>
                         {isPrimeVideoDigitalPick(item)
-                          ? `Stream on Prime Video (${item.priceDisplay})`
-                          : `View on Amazon (${item.priceDisplay})`}
+                          ? `Stream on Prime Video`
+                          : `View on Amazon`}
                       </span>
                       <ExternalLink className="h-3.5 w-3.5" />
                     </a>
@@ -1970,29 +1828,24 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             </div>
           </section>
 
-          {/* Bottom Viral Share + Keep-Reading Next/Previous Listicle Cards */}
-          <footer className="space-y-5 border-t border-zinc-200 pt-8">
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-200 bg-rose-50/60 px-5 py-4">
-              <div className="space-y-0.5">
-                <div className="text-sm font-bold text-zinc-950">
-                  Know someone who needs this listicle before Friday?
-                </div>
-                <p className="text-xs sm:text-sm text-zinc-600">
-                  Send it straight to iMessage, Reddit, or your group chat in one tap.
-                </p>
+          {/* Next / Previous + Share */}
+          <footer className="space-y-4 border-t border-zinc-200 pt-7">
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3.5">
+              <div className="text-sm font-semibold text-zinc-900">
+                Send this guide to a partner or group chat
               </div>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={() => copyQuickLink(guideBaseUrl, 'footer-copy')}
-                  className="min-h-10 text-sm bg-white"
                 >
-                  <Copy className="h-4 w-4" />
+                  <Copy className="h-3.5 w-3.5" />
                   <span>{copiedKey === 'footer-copy' ? 'Copied!' : 'Copy Link'}</span>
                 </Button>
-                <Button variant="accent" onClick={handleShareGuide} className="min-h-10 text-sm">
-                  <Share2 className="h-4 w-4" />
-                  <span>Share This Guide</span>
+                <Button variant="accent" size="sm" onClick={handleShareGuide}>
+                  <Share2 className="h-3.5 w-3.5" />
+                  <span>Share</span>
                 </Button>
               </div>
             </div>
@@ -2003,11 +1856,11 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   type="button"
                   aria-label="Previous Guide"
                   onClick={() => handleSelectArticle(prevArticle.slug)}
-                  className="flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-4 text-left hover:border-rose-300 hover:bg-zinc-50 transition cursor-pointer"
+                  className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 text-left hover:border-zinc-400 transition cursor-pointer"
                 >
-                  <ArrowLeft className="h-4 w-4 shrink-0 text-zinc-500" />
+                  <ArrowLeft className="h-4 w-4 shrink-0 text-zinc-400" />
                   <div className="min-w-0">
-                    <div className="text-xs font-semibold text-zinc-500">Previous Guide</div>
+                    <div className="text-xs text-zinc-500">Previous</div>
                     <div className="text-sm font-bold text-zinc-950 line-clamp-1">
                       {prevArticle.headline}
                     </div>
@@ -2019,10 +1872,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                   type="button"
                   aria-label="Read Next Listicle"
                   onClick={() => handleSelectArticle(nextArticle.slug)}
-                  className="flex items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white p-4 text-left hover:border-rose-300 hover:bg-zinc-50 transition cursor-pointer"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white p-4 text-left hover:border-zinc-400 transition cursor-pointer"
                 >
                   <div className="min-w-0">
-                    <div className="text-xs font-semibold text-rose-600">Read Next Listicle</div>
+                    <div className="text-xs text-rose-600 font-medium">Up Next</div>
                     <div className="text-sm font-bold text-zinc-950 line-clamp-1">
                       {nextArticle.headline}
                     </div>
@@ -2035,6 +1888,70 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
 
           <CrowdsourceSubmissionBar surface="guides" compact />
         </Card>
+
+        {/* Clean Bottom Library Index (All 16 Guides Accessible Without Pushing the Story Down!) */}
+        <section
+          id="guide-library-index"
+          data-testid="guide-directory-browser"
+          className="mx-auto max-w-3xl space-y-4 pt-2"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <h2 className="text-lg font-bold tracking-tight text-zinc-950">
+              More Stories in the Club Library
+            </h2>
+            <Tabs
+              value={directoryCategory}
+              onValueChange={(v) => setDirectoryCategory(v as GuideDirectoryCategory)}
+            >
+              <TabsList className="flex-wrap h-auto gap-0.5">
+                {DIRECTORY_FILTERS.map((cat) => (
+                  <TabsTrigger key={cat.id} value={cat.id} className="text-xs px-2.5 py-1">
+                    {cat.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {visibleDirectoryArticles.map((art) => {
+              const globalIdx = JOURNAL_ARTICLES.findIndex((a) => a.slug === art.slug);
+              const isSelected = art.slug === active.slug;
+              const artMeta = getGuideVisualMeta(art.slug);
+              return (
+                <button
+                  key={art.slug}
+                  type="button"
+                  onClick={() => handleSelectArticle(art.slug)}
+                  className={`group flex items-center gap-3.5 rounded-xl border p-3 text-left transition cursor-pointer w-full ${
+                    isSelected
+                      ? 'border-zinc-950 bg-zinc-950 text-white shadow-xs'
+                      : 'border-zinc-200 bg-white text-zinc-900 hover:border-zinc-400 hover:bg-zinc-50'
+                  }`}
+                >
+                  <img
+                    src={artMeta.heroPhoto}
+                    alt=""
+                    loading="lazy"
+                    className="h-14 w-14 shrink-0 rounded-lg object-cover object-center border border-zinc-200/40"
+                  />
+                  <div className="min-w-0 flex-1 space-y-0.5">
+                    <div
+                      className={`text-xs font-medium ${
+                        isSelected ? 'text-zinc-400' : 'text-zinc-500'
+                      }`}
+                    >
+                      {String(globalIdx + 1).padStart(2, '0')} · {artMeta.categoryLabel} · {art.readTime}
+                    </div>
+                    <div className="text-sm font-semibold leading-snug line-clamp-2">
+                      {art.seoTitle}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
       </div>
 
       {sharePayload && (
