@@ -5,6 +5,8 @@ import { CougarCubChecklistModal } from '../src/components/CougarCubChecklistMod
 import { HingeFeedView } from '../src/components/HingeFeedView';
 import { InTheWildMapView } from '../src/components/InTheWildMapView';
 import { createDefaultWallet } from '../src/domain/economy';
+import { evaluateDmLocally } from '../src/services/adapters';
+import workerApp from '../worker/index';
 
 describe('v42 Interactive Dating-Sim Clickability, Post-Beat Graduation Card & Tactical Text Reactions', () => {
   beforeEach(() => {
@@ -138,5 +140,81 @@ describe('v42 Interactive Dating-Sim Clickability, Post-Beat Graduation Card & T
     expect(within(trapFeed).getByTestId('tapback-outcome-pill').textContent).toMatch(
       /Shady subtext clocked/i,
     );
+  });
+
+  it('normalizes multi-turn chat history into alternating user/assistant messages for Workers AI and answers contextual free-text questions directly', async () => {
+    let capturedRoles: string[] = [];
+    const mockEnv = {
+      AI: {
+        run: async (_model: string, payload: { messages: { role: string; content: string }[] }) => {
+          capturedRoles = payload.messages.map((m) => m.role);
+          const sys = payload.messages[0]?.content || '';
+          // Ensure prompt template contains valid JSON literals (never invalid ":number(" or ":boolean")
+          expect(sys).not.toContain(':number(');
+          expect(sys).not.toContain(':boolean');
+          return {
+            response: {
+              herReply:
+                'Definitely big scruffy dogs on Hampstead Heath, and I made sourdough eggs this morning x Which camp are you in?',
+              suggestedReplies: [
+                'Loyal dog camp too, sourdough eggs sound dangerously competent.',
+                'Wait, do you actually bake the sourdough or buy it?',
+                '💎 Save me a slice on Sunday morning and prove it.',
+              ],
+              maturityDelta: 16,
+              chivalryDelta: 15,
+              chemistryDelta: 18,
+              coachNote: 'Warm personal banter landed cleanly.',
+              passedVibeCheck: true,
+            },
+          };
+        },
+      },
+    };
+
+    const res = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/inbox-vet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          personaId: 'julian',
+          personaName: 'Julian',
+          personaAge: 27,
+          personaTitle: 'Architectural Restorer',
+          personaRole: 'him',
+          playerRole: 'her',
+          platform: 'tinder',
+          playerMessage: 'Do you like dogs or cats more, and what did you have for breakfast?',
+          history: [
+            { sender: 'match', text: 'Caught me sketching cornices.' },
+            { sender: 'match', text: 'Tell me you rescue my afternoon.' },
+            {
+              sender: 'player',
+              text: 'Do you like dogs or cats more, and what did you have for breakfast?',
+            },
+          ],
+        }),
+      }),
+      mockEnv as never,
+    );
+
+    expect(res.status).toBe(200);
+    const json = (await res.json()) as { herReply: string; source: string };
+    expect(json.source).toBe('workers-ai');
+    expect(json.herReply).toMatch(/dogs/i);
+
+    // Verify strictly alternating roles: system -> user -> assistant -> user (zero duplicate user/user or assistant/assistant!)
+    expect(capturedRoles).toEqual(['system', 'user', 'assistant', 'user']);
+
+    // Also verify offline contextual fallback answers everyday questions directly
+    const localReply = evaluateDmLocally({
+      personaId: 'julian',
+      personaName: 'Julian',
+      personaAge: 27,
+      personaRole: 'him',
+      playerRole: 'her',
+      playerMessage: 'Do you prefer dogs or cats?',
+    });
+    expect(localReply.herReply).toMatch(/dog|cat/i);
   });
 });

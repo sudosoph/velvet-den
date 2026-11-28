@@ -264,6 +264,78 @@ export function evaluateDmLocally(params: {
       lower,
     );
 
+  const hasPetsTopic = /\b(dog|dogs|puppy|cat|cats|kitten|pet|pets)\b/.test(lower);
+  const hasFoodTopic = /\b(breakfast|brunch|pasta|steak|pizza|pancakes|eggs|toast|ramen|hungry|favorite\s+food)\b/.test(
+    lower,
+  );
+  const hasMusicBookMovieTopic = /\b(music|song|album|band|concert|playlist|movie|film|book|reading)\b/.test(
+    lower,
+  );
+
+  if (hasPetsTopic) {
+    return {
+      maturityDelta: 16,
+      chivalryDelta: 15,
+      chemistryDelta: 18,
+      herReply:
+        params.personaRole === 'him'
+          ? isBritish
+            ? `Proper soft spot for big scruffy dogs on muddy Hampstead walks, though a judgemental house cat is hilarious x Which side are you on?`
+            : `Dogs for trail runs, cats for rainy Sunday naps, honestly hard to pick against either. Do you have one at home?`
+          : `Selective black-cat energy at first, fiercely loyal once you pass the vibe check. Tell me you're good with animals.`,
+      suggestedReplies: [
+        `Loyal dog person, though I respect a cat with high standards.`,
+        `Black-cat energy makes total sense on you, noted.`,
+        `💎 Test me in person, animals and bartenders always trust me immediately.`,
+      ],
+      coachNote: 'Playful everyday questions make the conversation feel natural and unforced!',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasFoodTopic) {
+    return {
+      maturityDelta: 16,
+      chivalryDelta: 16,
+      chemistryDelta: 18,
+      herReply:
+        params.personaRole === 'him'
+          ? isBritish
+            ? `Sourdough, proper salted butter, soft-scrambled eggs, and a flat white, and yes, I clean the kitchen as I go x What's your Sunday order?`
+            : `Soft-scrambled eggs, sourdough, and black coffee, plus I scrub every pan before sitting down. What's your go-to comfort meal?`
+          : `Slow espresso first, then something savory when nobody is rushing the morning. Do you actually cook from scratch or just order takeout?`,
+      suggestedReplies: [
+        `Scratch cooking every time, leaving a spotless kitchen is half the flex.`,
+        `Bold claim on cleaning as you go, I might have to audit that.`,
+        `💎 Deal: you pour the wine and judge my cooking from the counter.`,
+      ],
+      coachNote: 'Kitchen competence and Sunday morning rituals build instant warmth!',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
+  if (hasMusicBookMovieTopic) {
+    return {
+      maturityDelta: 17,
+      chivalryDelta: 15,
+      chemistryDelta: 19,
+      herReply:
+        params.personaRole === 'him'
+          ? `Al Green or Fleetwood Mac while making dinner, and a paperback with actual dog-eared pages. What's been on heavy rotation for you?`
+          : `Warm vinyl, sharp cinema with grown-up dialogue, and zero algorithm playlists. Give me one album or film you swear by.`,
+      suggestedReplies: [
+        `Rumours front to back on rainy nights, zero skips allowed.`,
+        `Careful, I judge film taste ruthlessly on a second drink.`,
+        `💎 Trade top three albums over a glass this week, loser buys round one.`,
+      ],
+      coachNote: 'Specific taste cues beat generic small talk ten times out of ten!',
+      passedVibeCheck: true,
+      source: 'local-heuristic',
+    };
+  }
+
   if (hasSplitBillTopic) {
     const isDiscord = platform === 'discord';
     return {

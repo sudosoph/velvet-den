@@ -694,7 +694,47 @@ function fallbackEvaluateDm(req: {
   const msg = String(req.playerMessage || '').trim();
   const lower = msg.toLowerCase();
 
-  // Topic-aware responses first so open-ended questions (splitting bills, moving in together, finances, family, etc.) NEVER get generic reservation replies
+  if (/\b(dog|dogs|puppy|cat|cats|kitten|pet|pets)\b/.test(lower)) {
+    return {
+      herReply:
+        role === 'him'
+          ? `Dogs for morning canyon runs, though a judgmental cat on a sunny windowsill has serious charm. Which camp are you in?`
+          : `Black-cat loyalty all day, selective at first, completely devoted once you earn your spot on the sofa. Do you have pets?`,
+      maturityDelta: 16,
+      chivalryDelta: 15,
+      chemistryDelta: 18,
+      coachNote: `Playful everyday chemistry with ${name}, easy personal details build fast rapport.`,
+      passedVibeCheck: true,
+    };
+  }
+
+  if (/\b(breakfast|brunch|cook|cooking|food|pasta|steak|tacos|sushi|pizza|hungry|eat)\b/.test(lower)) {
+    return {
+      herReply:
+        role === 'him'
+          ? `Sourdough toast, soft-scrambled eggs, and strong espresso, plus I always wash the skillet after. What is your signature dish?`
+          : `Strong coffee first, then something savory with zero rush. Bonus points if you actually season cast iron properly, do you cook?`,
+      maturityDelta: 16,
+      chivalryDelta: 16,
+      chemistryDelta: 18,
+      coachNote: `Food & Sunday morning rituals are undefeated banter hooks.`,
+      passedVibeCheck: true,
+    };
+  }
+
+  if (/\b(music|song|album|vinyl|band|concert|movie|film|watch|book|reading)\b/.test(lower)) {
+    return {
+      herReply:
+        role === 'him'
+          ? `Fleetwood Mac or Sade on vinyl while cooking, and late-90s thrillers on rainy nights. What has been on repeat for you lately?`
+          : `Anything with real instruments, sharp dialogue, and zero algorithm filler. Give me your top desert-island album right now.`,
+      maturityDelta: 17,
+      chivalryDelta: 15,
+      chemistryDelta: 19,
+      coachNote: `Trading taste in music, books, and film sparks effortless chemistry.`,
+      passedVibeCheck: true,
+    };
+  }
   if (/\b(split\s+(?:the\s+)?(?:bill|check|tab)|went?\s+dutch|go\s+dutch|pay\s+half|50\s*\/\s*50)\b/.test(lower)) {
     return {
       herReply:
@@ -2146,10 +2186,11 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
           afterDarkDirective,
           `REAL HUMAN TEXTING & AGE-GAP COMEDY RULE (CRITICAL!): Write how an actual witty, attractive ${personaAge}-year-old texts in real life, NOT how an AI chatbot writes! Use natural contractions ("I'm", "don't", "you're"), dry observational humor, and playful age-gap banter grounded in your character's real job and life.`,
           `BANNED AI CRINGE PHRASING: NEVER write stiff sommelier/romance-novel filler like "of course, to pair with...", "Ah, a fellow...", "Indeed", "I must confess", "Quite the...", or "What is your go-to accompaniment?". Keep it conversational, cheeky, and effortless, like a real text worth screenshotting to the group chat!`,
-          `CRITICAL COHERENCE RULE: Reply directly to the exact joke, answer, tease, or detail the player just sent!`,
+          `CRITICAL COHERENCE & DIRECT ANSWER RULE (NON-NEGOTIABLE!): Read every word the player just sent. If they ask a question (e.g. dogs vs cats, breakfast, food, music, work, hobbies, weekend plans, or calling out a shady detail), ANSWER THEIR EXACT QUESTION SPECIFICALLY FIRST in sentence 1 using your character's voice and lore before adding a playful tease or follow-up in sentence 2! NEVER dodge with generic lines like "Haha fair point" or "Bold answer"!`,
           pacingDirective,
-          `LENGTH & CADENCE: 1 to 2 short, punchy texting sentences (10-26 words total) ending with a playful tease, callback, or specific hook so they want to text right back.`,
+          `LENGTH & CADENCE: 1 to 2 short, punchy texting sentences (12-28 words total) ending with a playful tease, callback, or specific hook so they want to text right back.`,
           `ADAPTIVE NEXT-TURN SUGGESTIONS (CRITICAL!): Generate "suggestedReplies": 3 distinct, genuinely funny first-person replies (7-15 words each) in the PLAYER'S voice (${playerVoiceDesc}) that directly riff on YOUR new "herReply"! Option 1: quick witty comeback; Option 2: playful skeptic test or tease; Option 3: bold, confident flirty move.`,
+          `SCORING RULE: Set maturityDelta, chivalryDelta, and chemistryDelta as integers from -22 to 24, and set passedVibeCheck to true unless the player was rude, lazy ("hey"/"wyd"), asked for Snapchat, or used "for your age" / sugar-mama cliches.`,
           `STRICT PUNCTUATION RULE: NEVER use em-dashes or semicolons, and avoid inner double quotes inside JSON string values.`,
           platformContext,
           coachPerspectiveRule,
@@ -2158,28 +2199,58 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
             personaRole,
             String(body.personaOrigin || '').slice(0, 64),
           ),
-          `Respond ONLY with valid single-line JSON (no markdown fences):`,
-          `{"herReply":"1 to 2 natural, witty in-character text sentences (10-26 words)","suggestedReplies":["Witty comeback to your herReply","Playful tease or test","Bold flirty reply"],"maturityDelta":number(-20..25),"chivalryDelta":number(-20..25),"chemistryDelta":number(-20..25),"coachNote":"1 short punchy 2nd-person Bestie read","passedVibeCheck":boolean}`,
+          `Respond ONLY with valid single-line JSON (no markdown fences, all numbers and booleans must be valid JSON literals):`,
+          `{"herReply":"Direct, witty in-character reply answering their exact message (12-28 words)","suggestedReplies":["Witty comeback to your reply","Playful tease or test","Bold flirty reply"],"maturityDelta":14,"chivalryDelta":14,"chemistryDelta":16,"coachNote":"Short punchy 2nd-person Bestie read","passedVibeCheck":true}`,
         ]
           .filter(Boolean)
           .join(' ');
       }
 
-      const recentTurns = Array.isArray(body.history)
-        ? body.history.slice(-14).map((t) => ({
-            role: (t.sender === 'player' ? 'user' : 'assistant') as 'user' | 'assistant',
-            content: String(t.text || '').slice(0, 280),
-          }))
-        : [];
+      // Normalize multi-turn history into strictly alternating user/assistant messages for Llama 3.3
+      const rawHistory = Array.isArray(body.history) ? body.history.slice(-14) : [];
+      const cleanedHistory: { role: 'user' | 'assistant'; content: string }[] = [];
+      for (const turn of rawHistory) {
+        const content = String(turn?.text || '').trim().slice(0, 280);
+        if (!content) continue;
+        const turnRole: 'user' | 'assistant' = turn.sender === 'player' ? 'user' : 'assistant';
+        const prev = cleanedHistory[cleanedHistory.length - 1];
+        if (prev && prev.role === turnRole) {
+          prev.content = `${prev.content} ${content}`.slice(0, 420);
+        } else {
+          cleanedHistory.push({ role: turnRole, content });
+        }
+      }
+      // Strip trailing user turn if caller already appended playerMessage into history
+      if (
+        cleanedHistory.length > 0 &&
+        cleanedHistory[cleanedHistory.length - 1].role === 'user' &&
+        cleanedHistory[cleanedHistory.length - 1].content.toLowerCase() ===
+          playerMessage.toLowerCase()
+      ) {
+        cleanedHistory.pop();
+      }
+      // Llama chat templates expect the first non-system turn to be 'user'
+      if (cleanedHistory.length > 0 && cleanedHistory[0].role === 'assistant') {
+        cleanedHistory.unshift({
+          role: 'user',
+          content: '(Matched on Prowl and opened conversation)',
+        });
+      }
+      // If cleanedHistory still ends with 'user', merge it with playerMessage so we never send user->user
+      let finalUserContent = playerMessage;
+      if (cleanedHistory.length > 0 && cleanedHistory[cleanedHistory.length - 1].role === 'user') {
+        const prevUser = cleanedHistory.pop()!;
+        finalUserContent = `${prevUser.content}\n${playerMessage}`.slice(0, 420);
+      }
 
       const chatPayload = {
         messages: [
           { role: 'system' as const, content: systemPrompt },
-          ...recentTurns,
-          { role: 'user' as const, content: playerMessage },
+          ...cleanedHistory,
+          { role: 'user' as const, content: finalUserContent },
         ],
-        max_tokens: 380,
-        temperature: platform === 'discord' ? 0.62 : 0.74,
+        max_tokens: 420,
+        temperature: platform === 'discord' ? 0.62 : 0.72,
       };
 
       let rawResult: { response?: string | Record<string, unknown> };
