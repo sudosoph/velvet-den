@@ -275,9 +275,17 @@ describe('v35 7-bucket non-overlapping content vault, banned-trope purge & 55-Q 
     }
   });
 
-  it('guarantees 17/17 bespoke non-repeating Prowl & iMessage beats across genuine leads and 75+ Trivia questions organized across 3 Levels x 4 Categories', () => {
-    expect(POP_CULTURE_TRIVIA.length).toBeGreaterThanOrEqual(75);
-    for (const cat of ['movies', 'tv', 'books', 'music_celebs'] as const) {
+  it('guarantees 17/17 bespoke non-repeating Prowl & iMessage beats across genuine leads and 110+ Trivia questions organized across 3 Levels x 7 Categories', () => {
+    expect(POP_CULTURE_TRIVIA.length).toBeGreaterThanOrEqual(110);
+    for (const cat of [
+      'movies',
+      'tv',
+      'books',
+      'music_celebs',
+      'sports',
+      'royals_history',
+      'era_culture',
+    ] as const) {
       for (const lvl of [1, 2, 3] as const) {
         const count = POP_CULTURE_TRIVIA.filter(
           (q) => resolveTriviaCategory(q) === cat && resolveTriviaLevel(q) === lvl,

@@ -195,18 +195,13 @@ export const SocialShareSheetModal: React.FC<SocialShareSheetModalProps> = ({
         className="flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4">
-          <div className="min-w-0">
-            <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-              Send to Group Chat or Bestie
-            </div>
-            <h3 className="mt-0.5 text-lg font-semibold text-zinc-950 leading-snug">{payload.title}</h3>
-          </div>
+        <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4">
+          <h3 className="text-base sm:text-lg font-semibold text-zinc-950 leading-snug">{payload.title}</h3>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close share sheet"
-            className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
           >
             <X className="h-4 w-4" />
           </button>

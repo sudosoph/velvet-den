@@ -448,7 +448,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             <button
               type="button"
               onClick={() => onOpenChats(statusBanner.leadId)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#18101E] px-3.5 py-1.5 text-xs font-bold text-white cursor-pointer"
+              className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-900 px-3.5 text-xs font-semibold text-white hover:bg-zinc-800 cursor-pointer"
             >
               <MessageCircle className="h-3.5 w-3.5" />
               <span>Open Chat</span>
@@ -457,19 +457,16 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         </div>
       )}
 
-      {/* Tonight's Cast Strip. Jump Straight to Any Intriguing Character or Track Matches */}
+      {/* Tonight's Cast Strip */}
       {allHingeCast.length > 0 && (
         <section
           data-testid="hinge-cast-strip"
           aria-label="Tonight's Prowl Lineup"
-          className="rounded-2xl border border-zinc-200/90 bg-white px-4 py-3 shadow-2xs"
+          className="rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-2xs"
         >
-          <div className="mb-2.5 flex items-center justify-between gap-2 text-xs">
-            <span className="font-bold text-zinc-900">
+          <div className="mb-2 flex items-center justify-between gap-2 text-xs">
+            <span className="font-semibold text-zinc-900">
               Tonight’s {allHingeCast.length} Singles
-            </span>
-            <span className="text-[11px] font-medium text-zinc-500">
-              Tap any portrait to jump or open chat
             </span>
           </div>
           <div className="flex items-center gap-3 overflow-x-auto pb-1">
@@ -505,7 +502,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   <div
                     className={`relative h-12 w-12 rounded-full p-0.5 transition ${
                       isCurrent
-                        ? 'ring-2 ring-[#B83253] ring-offset-1'
+                        ? 'ring-2 ring-rose-600 ring-offset-1'
                         : isMatched
                           ? 'ring-2 ring-emerald-500'
                           : isPending
@@ -530,8 +527,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     )}
                   </div>
                   <span
-                    className={`text-[11px] leading-tight whitespace-nowrap ${
-                      isCurrent ? 'font-bold text-rose-600' : 'font-medium text-zinc-700'
+                    className={`text-xs leading-tight whitespace-nowrap ${
+                      isCurrent ? 'font-semibold text-rose-600' : 'font-medium text-zinc-700'
                     }`}
                   >
                     {person.name}, {person.age}
@@ -545,40 +542,39 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
       {/* Empty Deck State */}
       {!currentProfile ? (
-        <div className="editorial-hinge-card rounded-3xl p-8 text-center space-y-4">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-700">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center space-y-4 shadow-2xs">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-rose-50 text-rose-700">
             <Sparkles className="h-6 w-6" />
           </div>
-          <h2 className="font-editorial text-2xl font-bold text-zinc-950">
+          <h2 className="text-xl sm:text-2xl font-semibold text-zinc-950">
             You’ve Seen Today’s Prowl Standouts
           </h2>
           <p className="text-sm text-zinc-600 max-w-md mx-auto">
-            Half of Sunset Hills’ best catches never touch dating apps, step out to The Marlow Lounge,
-            Terminal B, or Hawthorne University, or revisit passed profiles.
+            Step out to The Marlow Lounge, Terminal B, or Hawthorne University, or shuffle passed profiles.
           </p>
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
+          <div className="flex flex-wrap justify-center gap-2.5 pt-1">
             <button
               type="button"
               onClick={onOpenWildMap}
-              className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-5 py-2.5 text-sm font-semibold text-white cursor-pointer"
+              className="inline-flex h-10 items-center rounded-lg bg-zinc-900 hover:bg-zinc-800 px-5 text-sm font-semibold text-white cursor-pointer"
             >
-              🗺️ Explore 10 In The Wild Hotspots
+              Explore 10 In The Wild Hotspots
             </button>
             <button
               type="button"
               onClick={() => setPassedIds([])}
-              className="rounded-full border border-zinc-300 bg-white hover:bg-zinc-50 px-5 py-2.5 text-sm font-semibold text-zinc-800 cursor-pointer"
+              className="inline-flex h-10 items-center rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-5 text-sm font-semibold text-zinc-800 cursor-pointer"
             >
               Shuffle Passed Profiles
             </button>
           </div>
         </div>
       ) : (
-        <article className="editorial-hinge-card relative rounded-3xl">
-          {/* Authentic Minimal Hinge Header: Just Name, Age & Subtle Status Dot */}
+        <article className="relative rounded-2xl border border-zinc-200 bg-white shadow-2xs">
+          {/* Authentic Minimal Profile Header */}
           <header className="flex items-baseline justify-between px-6 pt-6 pb-3">
             <div className="flex items-baseline gap-2.5">
-              <h1 className="font-editorial text-3xl font-bold tracking-tight text-zinc-950">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
                 {currentProfile.name}
               </h1>
               <span className="text-xl font-medium text-zinc-500">{currentProfile.age}</span>
@@ -661,10 +657,10 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-600">
-                    <Volume2 className="h-3.5 w-3.5 text-[#B83253]" />
+                    <Volume2 className="h-3.5 w-3.5 text-rose-600" />
                     <span>{currentProfile.voicePrompt.question}</span>
                   </span>
-                  <span className="text-[11px] font-semibold tabular-nums text-zinc-400">
+                  <span className="text-xs font-semibold tabular-nums text-zinc-400">
                     {currentProfile.voicePrompt.duration}
                   </span>
                 </div>
@@ -704,7 +700,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                         );
                       }
                     }}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white hover:bg-[#B83253] transition cursor-pointer"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white hover:bg-rose-600 transition cursor-pointer"
                   >
                     {playingVoiceId === currentProfile.id ? (
                       <Pause className="h-4 w-4 fill-white" />
@@ -722,7 +718,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                           style={{ height: `${isPlaying ? Math.min(100, pct + ((barIdx % 3) * 8)) : pct}%` }}
                           className={`flex-1 rounded-full transition-all duration-300 ${
                             isPlaying
-                              ? 'bg-[#B83253] animate-pulse'
+                              ? 'bg-rose-600 animate-pulse'
                               : heardVoiceIds.includes(currentProfile.id)
                                 ? 'bg-zinc-500'
                                 : 'bg-zinc-300'
@@ -846,15 +842,15 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             {currentProfile.fridayStoryHook && (
               <div
                 data-testid="hinge-story-hook"
-                className="rounded-2xl border border-rose-200 bg-rose-50/50 p-5 space-y-2.5"
+                className="rounded-2xl border border-rose-200 bg-rose-50/40 p-5 space-y-2"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#B83253]">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-700">
                     <Clapperboard className="h-3.5 w-3.5" />
-                    <span>If You Two Match</span>
+                    <span>Friday Night Storyline</span>
                   </span>
                 </div>
-                <p className="text-sm font-medium text-zinc-900 leading-relaxed">
+                <p className="text-sm text-zinc-800 leading-relaxed">
                   {currentProfile.fridayStoryHook}
                 </p>
                 <button
@@ -867,9 +863,9 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                       prompt: currentProfile.prompts[0],
                     })
                   }
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#B83253] hover:text-zinc-950 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-600 hover:text-zinc-950 transition-colors cursor-pointer"
                 >
-                  <span>Match with {currentProfile.name} to play this storyline →</span>
+                  <span>Match with {currentProfile.name} to play →</span>
                 </button>
               </div>
             )}
@@ -978,7 +974,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                     prompt: currentProfile.prompts[0],
                   })
                 }
-                className="inline-flex h-12 items-center gap-2 rounded-full bg-[#B83253] px-7 text-sm font-bold text-white shadow-sm hover:bg-[#9E2846] transition cursor-pointer"
+                className="inline-flex h-11 items-center gap-2 rounded-lg bg-rose-600 px-6 text-sm font-semibold text-white shadow-2xs hover:bg-rose-700 transition cursor-pointer"
               >
                 <Heart className="h-4 w-4 fill-white" />
                 <span>Send a Note or Rose</span>
@@ -986,7 +982,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             </div>
           </div>
 
-          {/* Authentic Hinge Sticky Bottom-Left Floating Pass (✕) Button. Always Visible Without Scrolling */}
+          {/* Authentic Hinge Sticky Bottom-Left Floating Pass (✕) Button */}
           <div className="sticky bottom-6 z-30 pointer-events-none flex items-center justify-start px-7 sm:px-9 pb-5 -mt-20">
             <button
               type="button"
@@ -994,7 +990,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               aria-label={`Pass on ${currentProfile.name}`}
               title={`Pass on ${currentProfile.name} (←)`}
               onClick={handlePass}
-              className="pointer-events-auto flex h-14 w-14 items-center justify-center rounded-full border border-stone-200/90 bg-white text-[#18101E] shadow-[0_10px_28px_rgba(24,16,30,0.22)] hover:scale-108 hover:bg-stone-900 hover:text-white active:scale-95 transition cursor-pointer"
+              className="pointer-events-auto flex h-14 w-14 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-950 shadow-lg hover:scale-105 hover:bg-zinc-900 hover:text-white active:scale-95 transition cursor-pointer"
             >
               <X className="h-6 w-6 stroke-[2.5]" />
             </button>
@@ -1002,7 +998,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         </article>
       )}
 
-      {/* Hinge Opener & Standout Rose Modal Sheet (Portaled to document.body, Crisp Dim Scrim, Zero Blur Glitch) */}
+      {/* Hinge Opener & Standout Rose Modal Sheet */}
       {replyTarget &&
         currentProfile &&
         createPortal(
@@ -1018,19 +1014,14 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               onClick={(e) => e.stopPropagation()}
             >
               <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-5 py-4 sm:px-6">
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                    Replying to {currentProfile.name}
-                  </div>
-                  <p className="mt-1 font-editorial text-lg text-zinc-950">
-                    &ldquo;{replyTarget.previewText}&rdquo;
-                  </p>
-                </div>
+                <p className="text-base font-semibold text-zinc-950 leading-snug">
+                  &ldquo;{replyTarget.previewText}&rdquo;
+                </p>
                 <button
                   type="button"
                   aria-label="Close reply sheet"
                   onClick={() => setReplyTarget(null)}
-                  className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -1040,9 +1031,6 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
 
               {replyTarget.prompt && (
                 <div className="space-y-2">
-                  <div className="text-xs font-semibold text-stone-500">
-                    Tap an opener to send right away, or just hit Send Like below:
-                  </div>
                   {replyTarget.prompt.openers.map((opt) => {
                     const isVip = 'isVipSmooth' in opt && Boolean(opt.isVipSmooth);
                     const cost = isVip ? 1 : 0;
@@ -1052,36 +1040,31 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                         type="button"
                         data-testid="hinge-opener-option"
                         onClick={() => submitLike(opt.text, cost, opt.delta)}
-                        className={`group w-full rounded-2xl p-4 text-left text-sm whitespace-normal transition cursor-pointer ${
+                        className={`group w-full rounded-xl p-3.5 text-left text-sm whitespace-normal transition cursor-pointer ${
                           isVip
-                            ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E] hover:border-rose-400 hover:shadow-sm'
-                            : 'border border-stone-200 bg-stone-50/80 font-medium text-stone-800 hover:border-[#18101E] hover:bg-white hover:shadow-xs'
+                            ? 'border border-rose-200 bg-rose-50/60 font-semibold text-zinc-950 hover:border-rose-400'
+                            : 'border border-zinc-200 bg-white font-medium text-zinc-800 hover:border-zinc-400 hover:bg-zinc-50'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="leading-relaxed">{opt.text}</div>
                           <span
-                            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold transition ${
+                            className={`shrink-0 rounded-md px-2.5 py-1 text-xs font-semibold transition ${
                               isVip
                                 ? 'bg-rose-600 text-white group-hover:bg-rose-700'
-                                : 'bg-stone-200/80 text-[#18101E] group-hover:bg-[#18101E] group-hover:text-white'
+                                : 'bg-zinc-100 text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white'
                             }`}
                           >
-                            {isVip ? '🌹 Rose →' : 'Send →'}
+                            {isVip ? '🌹 Send a Standout Rose' : 'Send'}
                           </span>
                         </div>
-                        {isVip && (
-                          <div className="mt-1.5 text-xs font-bold text-rose-800">
-                            🌹 Send a Standout Rose: Instant Top-of-Queue Match
-                          </div>
-                        )}
                       </button>
                     );
                   })}
                 </div>
               )}
 
-              {/* Free Custom Opener OR 1-Tap Plain Hinge Like (Works Even When Input Is Empty!) */}
+              {/* Free Custom Opener OR 1-Tap Plain Hinge Like */}
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -1108,12 +1091,12 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   aria-label={`Optional comment for ${currentProfile.name}`}
                   value={customNote}
                   onChange={(e) => setCustomNote(e.target.value)}
-                  placeholder={`Optional: write your own note to ${currentProfile.name}...`}
-                  className="min-w-0 flex-1 rounded-full border border-zinc-300 px-4 py-2.5 text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
+                  placeholder={`Write your own note to ${currentProfile.name} (optional)...`}
+                  className="min-w-0 flex-1 h-10 rounded-lg border border-zinc-300 px-3.5 text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 rounded-full bg-rose-600 hover:bg-rose-700 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition cursor-pointer"
+                  className="shrink-0 h-10 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-sm font-semibold text-white transition cursor-pointer"
                 >
                   {customNote.trim() ? 'Send Like + Note' : 'Send Like'}
                 </button>
@@ -1136,25 +1119,25 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
             onClick={() => setMatchCelebration(null)}
           >
             <div
-              className="editorial-hinge-card flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
+              className="flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-100 bg-white px-6 py-4">
-                <div className="text-xs font-extrabold uppercase tracking-widest text-rose-600">
+              <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-4">
+                <span className="text-sm font-semibold text-rose-600">
                   {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : 'It’s a Match!'}
-                </div>
+                </span>
                 <button
                   type="button"
                   onClick={() => setMatchCelebration(null)}
                   aria-label="Close match splash"
-                  className="shrink-0 rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
 
               <div className="flex-1 min-h-0 overflow-y-auto p-6 text-center space-y-4">
-                <div className="mx-auto h-28 w-28 overflow-hidden rounded-full ring-4 ring-amber-300 shadow-lg">
+                <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-2 ring-rose-500 shadow-md">
                   <img
                     src={matchCelebration.portrait}
                     alt={matchCelebration.name}
@@ -1163,24 +1146,19 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 </div>
 
                 <div>
-                  <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-zinc-950">
+                  <h2 className="text-2xl font-bold tracking-tight text-zinc-950">
                     {matchCelebration.name}, {matchCelebration.age}
                   </h2>
-                  <p className="mt-0.5 text-xs font-semibold text-zinc-500">
+                  <p className="mt-0.5 text-xs font-medium text-zinc-500">
                     {matchCelebration.job}
-                  </p>
-                  <p className="mt-2.5 text-sm text-zinc-700 leading-relaxed">
-                    Trade a few messages on Prowl to see if {matchCelebration.name} earns your
-                    personal number and a Friday reservation (or hit 🚩 Block / Cut Loose if red
-                    flags drop).
                   </p>
                   {matchCelebration.customPlayerNote && (
                     <div
                       data-testid="hinge-custom-live-reply"
-                      className="mt-3 rounded-2xl border border-zinc-200 bg-zinc-50 p-3.5 text-left space-y-1.5"
+                      className="mt-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-left space-y-1.5"
                     >
-                      <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
-                        Your Open-Ended Note: “{matchCelebration.customPlayerNote}”
+                      <div className="text-xs font-medium text-zinc-500">
+                        Your note: “{matchCelebration.customPlayerNote}”
                       </div>
                       <div className="text-sm font-medium text-zinc-900 leading-snug">
                         {matchCelebration.loadingCustomReply ? (
@@ -1189,7 +1167,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                           </span>
                         ) : (
                           <>
-                            <span className="font-bold text-rose-600">
+                            <span className="font-semibold text-rose-600">
                               {matchCelebration.name}:{' '}
                             </span>
                             {matchCelebration.liveCustomReply}
@@ -1209,9 +1187,9 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                         setMatchCelebration(null);
                         onOpenChats(targetId);
                       }}
-                      className="w-full sm:w-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-zinc-950 hover:bg-zinc-800 px-6 py-2.5 text-sm font-bold text-white cursor-pointer"
+                      className="w-full sm:w-auto inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-5 text-sm font-semibold text-white cursor-pointer"
                     >
-                      <MessageCircle className="h-4 w-4 text-amber-300" />
+                      <MessageCircle className="h-4 w-4 text-rose-400" />
                       <span>Text {matchCelebration.name} Now →</span>
                     </button>
                   )}
@@ -1219,7 +1197,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                   <button
                     type="button"
                     onClick={() => setMatchCelebration(null)}
-                    className="w-full sm:w-auto min-h-11 rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer"
+                    className="w-full sm:w-auto h-10 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-50 cursor-pointer"
                   >
                     Keep Browsing Prowl
                   </button>

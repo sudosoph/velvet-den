@@ -430,7 +430,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                   </div>
                   <h3 className="text-base font-bold text-zinc-950">Pop-Culture Trivia</h3>
                   <p className="text-xs text-zinc-600 leading-snug">
-                    Quick 8-question rounds across Movies, TV Shows, Books, Music &amp; Celebrity Couples.
+                    8-question rounds across Movies, TV, Books, Celebs, Sports, Royals &amp; 90s vs. Gen-Z.
                   </p>
                 </div>
                 <span className="mt-3 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-zinc-950 group-hover:bg-rose-600 px-3 text-xs font-bold text-white transition-colors">

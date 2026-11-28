@@ -70,7 +70,16 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
     expect(ids.has('nicole-scherzinger-athlete-streak')).toBe(true);
     expect(ids.has('nicole-scherzinger-sunset-blvd-tony')).toBe(true);
 
-    for (const cat of ['all', 'movies', 'tv', 'books', 'music_celebs'] as const) {
+    for (const cat of [
+      'all',
+      'movies',
+      'tv',
+      'books',
+      'music_celebs',
+      'sports',
+      'royals_history',
+      'era_culture',
+    ] as const) {
       const sprint = buildTriviaSprintDeck(cat, 'all', false);
       expect(sprint.length).toBe(TRIVIA_SPRINT_SIZE);
     }

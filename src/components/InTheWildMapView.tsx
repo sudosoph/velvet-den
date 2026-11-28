@@ -238,20 +238,20 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
           <button
             type="button"
             onClick={resetSpot}
-            className="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-2 text-xs font-bold text-stone-800 hover:bg-stone-50 cursor-pointer"
+            className="inline-flex h-9 items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs sm:text-sm font-medium text-zinc-800 hover:bg-zinc-50 cursor-pointer"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to All 10 City Hotspots</span>
           </button>
 
-          <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
-            {clearedCount} / {V35_WILD_VENUES.length} Hotspots Cleared
+          <span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700">
+            {clearedCount} / {V35_WILD_VENUES.length} Cleared
           </span>
         </div>
 
         {/* Visual-Novel Offline Encounter Stage: Always Playable & Replayable */}
-        <section className="relative overflow-hidden rounded-3xl bg-zinc-950 text-white shadow-2xl border border-white/10">
-          <div className="relative h-60 sm:h-76 w-full overflow-hidden">
+        <section className="relative overflow-hidden rounded-2xl bg-zinc-950 text-white shadow-xl border border-zinc-800">
+          <div className="relative h-56 sm:h-72 w-full overflow-hidden">
             <img
               src={activeSpot.backdropUrl}
               alt={activeSpot.name}
@@ -261,23 +261,20 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
 
             <div className="absolute left-5 bottom-4 right-5 sm:left-6 sm:right-6 flex items-end justify-between gap-3">
               <div className="min-w-0">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/95 px-3 py-1 text-xs font-extrabold text-zinc-950">
+                <span className="inline-flex items-center gap-1.5 rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-zinc-950">
                   <span>{activeSpot.emoji}</span>
                   <span>Hotspot #{activeSpot.number}</span>
                 </span>
-                <h1 className="mt-2 font-editorial text-xl sm:text-3xl font-bold text-white leading-tight">
+                <h1 className="mt-2 text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight">
                   {activeSpot.name}
                 </h1>
-                <p className="text-xs sm:text-sm text-amber-100/90 leading-snug">
-                  {activeSpot.subtitle}
-                </p>
               </div>
 
               {primaryPortrait && (
                 <img
                   src={primaryPortrait}
                   alt={primaryProfile?.name ?? 'Scene lead'}
-                  className="shrink-0 h-22 w-18 sm:h-28 sm:w-22 rounded-2xl object-cover ring-2 ring-amber-200/80 shadow-2xl v35-portrait-breathe"
+                  className="shrink-0 h-22 w-18 sm:h-28 sm:w-22 rounded-xl object-cover ring-2 ring-white/80 shadow-xl v35-portrait-breathe"
                 />
               )}
             </div>
@@ -285,23 +282,23 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
 
           {/* Scene Dialogue & Structured 3-Step Choices Dock */}
           <div className="p-5 sm:p-7 space-y-4">
-            {/* Optional Non-Blocking Chemistry Cameo Strip (Never Hides the 3-Step Encounter or Redirects!) */}
+            {/* Optional Non-Blocking Chemistry Cameo Strip */}
             {matchedTargetLeadId && (
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3">
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3">
                 <div className="min-w-0 flex-1 space-y-0.5">
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-200">
                     <Sparkles className="h-3.5 w-3.5 shrink-0" />
                     <span>
                       Bonus Cameo ({cameoSpeaker?.name ?? 'Club Regular'}) for{' '}
                       {getCastProfileById(matchedTargetLeadId)?.name ?? 'Your Match'}
                     </span>
                   </div>
-                  <p className="text-xs sm:text-sm text-amber-50/90 leading-snug">
+                  <p className="text-xs sm:text-sm text-zinc-100 leading-snug">
                     {activeSpot.cameoBeat.line}
                   </p>
                 </div>
                 {cameoDone ? (
-                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-400/20 px-3 py-1.5 text-xs font-bold text-emerald-200">
+                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-emerald-400/20 px-2.5 py-1 text-xs font-semibold text-emerald-200">
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>+15% Cameo Claimed</span>
                   </span>
@@ -312,7 +309,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                       sfx.greenFlag();
                       onCompleteCameo(activeSpot.id, matchedTargetLeadId, 15);
                     }}
-                    className="shrink-0 rounded-full bg-amber-300 px-4 py-2 text-xs font-extrabold text-[#18101E] hover:bg-amber-200 transition cursor-pointer"
+                    className="shrink-0 inline-flex h-9 items-center rounded-lg bg-white px-3.5 text-xs font-semibold text-zinc-950 hover:bg-zinc-100 transition cursor-pointer"
                   >
                     Claim +15% Chemistry Cameo
                   </button>
@@ -322,18 +319,18 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
 
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex flex-wrap items-center gap-2">
-                <div className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                <div className="text-xs font-semibold text-zinc-300">
                   {primaryProfile
-                    ? `${primaryProfile.name}, ${primaryProfile.age} (${primaryProfile.vitals.job})`
+                    ? `${primaryProfile.name}, ${primaryProfile.age} · ${primaryProfile.vitals.job}`
                     : 'In-Person Meet-Cute'}
                 </div>
                 {isPrimaryAlreadyMatched && !outcomeCard && (
-                  <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-zinc-200">
-                    In Your Roster • Playable Scene
+                  <span className="rounded-md border border-white/20 bg-white/10 px-2 py-0.5 text-xs font-medium text-zinc-200">
+                    In Roster · Replayable
                   </span>
                 )}
               </div>
-              <span className="text-[11px] font-semibold text-amber-200/90">
+              <span className="text-xs font-medium text-zinc-400">
                 {outcomeCard?.unlockedLeadId
                   ? 'Number Pulled!'
                   : activeFollowStep
@@ -345,14 +342,14 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
             {/* Clean 3-Step Chemistry Meter */}
             <div
               data-testid="wild-signal-meter"
-              className="rounded-2xl border border-white/12 bg-white/[0.04] px-4 py-3 space-y-2"
+              className="rounded-xl border border-white/12 bg-white/[0.04] px-4 py-3 space-y-2"
             >
-              <div className="flex items-center justify-between text-xs font-bold">
+              <div className="flex items-center justify-between text-xs font-semibold">
                 <span className="inline-flex items-center gap-1.5 text-zinc-200">
-                  <Radio className="h-3.5 w-3.5 text-amber-300" />
+                  <Radio className="h-3.5 w-3.5 text-rose-400" />
                   <span>Read the Room</span>
                 </span>
-                <span className="text-amber-300">{signalPct}% Spark</span>
+                <span className="text-zinc-100">{signalPct}% Spark</span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
                 <div
@@ -362,28 +359,28 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                       ? 'bg-rose-500'
                       : signalPct >= 100
                         ? 'bg-emerald-400'
-                        : 'bg-gradient-to-r from-amber-300 via-rose-400 to-emerald-400'
+                        : 'bg-rose-500'
                   }`}
                 />
               </div>
-              <div className="grid grid-cols-3 gap-1.5 text-[11px] font-semibold">
+              <div className="grid grid-cols-3 gap-1.5 text-xs font-medium">
                 <span
                   className={
                     beatStage >= 1 || outcomeCard?.unlockedLeadId
-                      ? 'text-amber-200'
+                      ? 'text-zinc-200'
                       : 'text-zinc-500'
                   }
                 >
-                  1. Read Availability
+                  1. Availability
                 </span>
                 <span
                   className={
                     beatStage >= 2 || outcomeCard?.unlockedLeadId
-                      ? 'text-amber-200 text-center'
+                      ? 'text-zinc-200 text-center'
                       : 'text-zinc-500 text-center'
                   }
                 >
-                  2. Test Flirt Intent
+                  2. Flirt Intent
                 </span>
                 <span
                   className={
@@ -398,9 +395,9 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
             </div>
 
             {/* Split Stage Direction vs Spoken/Visual Cue */}
-            <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
+            <div className="space-y-3 rounded-xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
               {pendingApproach?.lastReplyCue && !outcomeCard && (
-                <div className="rounded-xl border border-emerald-400/30 bg-emerald-500/15 px-3 py-2 text-xs font-semibold text-emerald-200">
+                <div className="rounded-lg border border-emerald-400/30 bg-emerald-500/15 px-3 py-2 text-xs font-medium text-emerald-200">
                   ✓ {pendingApproach.lastReplyCue}
                 </div>
               )}
@@ -408,8 +405,8 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                 {activeFollowStep ? activeFollowStep.prompt : setupText}
               </p>
               {(activeFollowStep ? activeFollowStep.spokenCue : spokenCue) && (
-                <div className="border-l-2 border-amber-300 pl-3.5 pt-0.5">
-                  <p className="font-editorial text-base sm:text-lg italic leading-snug text-amber-100">
+                <div className="border-l-2 border-rose-400 pl-3.5 pt-0.5">
+                  <p className="text-base italic leading-snug text-white">
                     {activeFollowStep ? activeFollowStep.spokenCue : spokenCue}
                   </p>
                 </div>
@@ -419,7 +416,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
             {outcomeCard ? (
               <div
                 data-testid="wild-outcome-card"
-                className={`rounded-2xl p-5 space-y-3.5 ${
+                className={`rounded-xl p-5 space-y-3.5 ${
                   outcomeCard.isMemeFail
                     ? 'bg-rose-950/75 border border-rose-400/45'
                     : 'bg-emerald-950/75 border border-emerald-400/45'
@@ -427,7 +424,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold ${
+                    className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold ${
                       outcomeCard.isMemeFail
                         ? 'bg-rose-500/25 text-rose-200'
                         : 'bg-emerald-400/20 text-emerald-200'
@@ -437,15 +434,15 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                     <span>
                       {outcomeCard.delta >= 0
                         ? `+${outcomeCard.delta}% Spark`
-                        : `${outcomeCard.delta}% Spark • IRL Brush-Off`}
+                        : `${outcomeCard.delta}% Spark · Brush-Off`}
                     </span>
                   </span>
                   {outcomeCard.unlockedLeadId && (
                     <span
                       data-testid="wild-number-pulled-stamp"
-                      className="animate-stamp-slam inline-flex items-center gap-1.5 rounded-xl border-2 border-amber-300 bg-amber-300/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-amber-200 shadow-lg"
+                      className="animate-stamp-slam inline-flex items-center gap-1.5 rounded-md border border-amber-300 bg-amber-300/20 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-amber-200"
                     >
-                      {outcomeCard.wasReplay ? '✓ Scene Cleared!' : '📱 Number Pulled! • +35 XP'}
+                      {outcomeCard.wasReplay ? '✓ Scene Cleared!' : '📱 Number Pulled! · +35 XP'}
                     </span>
                   )}
                 </div>
@@ -454,12 +451,12 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                   {outcomeCard.text}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-3 pt-1">
+                <div className="flex flex-wrap items-center gap-2.5 pt-1">
                   {outcomeCard.isMemeFail ? (
                     <button
                       type="button"
                       onClick={() => setOutcomeCard(null)}
-                      className="rounded-full bg-amber-300 hover:bg-amber-200 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-[#18101E] cursor-pointer"
+                      className="inline-flex h-9 items-center rounded-lg bg-white hover:bg-zinc-100 px-4 text-xs sm:text-sm font-semibold text-zinc-950 cursor-pointer"
                     >
                       Rewind &amp; Try a Smoother Move
                     </button>
@@ -468,7 +465,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                       <button
                         type="button"
                         onClick={() => openSpot(nextSpot.id)}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 hover:bg-amber-200 px-5 py-2.5 text-xs sm:text-sm font-extrabold text-[#18101E] shadow-md cursor-pointer"
+                        className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
                       >
                         <span>Next Hotspot: {nextSpot.name}</span>
                         <ArrowRight className="h-4 w-4" />
@@ -479,7 +476,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                   <button
                     type="button"
                     onClick={resetSpot}
-                    className="rounded-full border border-white/30 bg-white/10 hover:bg-white/20 px-4 py-2 text-xs font-bold text-white cursor-pointer"
+                    className="inline-flex h-9 items-center rounded-lg border border-white/25 bg-white/10 hover:bg-white/20 px-3.5 text-xs font-medium text-white cursor-pointer"
                   >
                     Back to City Map
                   </button>
@@ -488,7 +485,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                     <button
                       type="button"
                       onClick={() => openSpot(activeSpot.id)}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-white/25 px-4 py-2 text-xs font-bold text-zinc-200 hover:bg-white/10 cursor-pointer"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/25 px-3.5 text-xs font-medium text-zinc-200 hover:bg-white/10 cursor-pointer"
                     >
                       <RotateCcw className="h-3.5 w-3.5" />
                       <span>Replay Scene</span>
@@ -499,7 +496,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                     <button
                       type="button"
                       onClick={() => onOpenChatWithLead(outcomeCard.unlockedLeadId!)}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/50 bg-amber-300/10 hover:bg-amber-300/20 px-4 py-2 text-xs font-bold text-amber-200 cursor-pointer"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/30 bg-white/10 hover:bg-white/20 px-3.5 text-xs font-semibold text-white cursor-pointer"
                     >
                       <MessageCircle className="h-3.5 w-3.5" />
                       <span>
@@ -518,9 +515,9 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                     type="button"
                     data-testid={idx === 0 ? 'wild-followup-pass-option' : undefined}
                     onClick={() => handleFollowStepPick(idx)}
-                    className="group flex items-start gap-3.5 w-full rounded-2xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-amber-300/70 transition cursor-pointer"
+                    className="group flex items-start gap-3.5 w-full rounded-xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-white/40 transition cursor-pointer"
                   >
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-amber-300/20 border border-amber-300/40 text-xs font-extrabold text-amber-200 group-hover:bg-amber-300 group-hover:text-[#18101E] transition">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/15 text-xs font-semibold text-white group-hover:bg-white group-hover:text-zinc-950 transition">
                       {CHOICE_KEYS[idx] ?? idx + 1}
                     </span>
                     <span className="flex-1 leading-snug">{choice.label}</span>
@@ -534,9 +531,9 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                     key={choice.label}
                     type="button"
                     onClick={() => handleBeat1Pick(choice)}
-                    className="group flex items-start gap-3.5 w-full rounded-2xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-amber-300/70 transition cursor-pointer"
+                    className="group flex items-start gap-3.5 w-full rounded-xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-white/40 transition cursor-pointer"
                   >
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-amber-300/20 border border-amber-300/40 text-xs font-extrabold text-amber-200 group-hover:bg-amber-300 group-hover:text-[#18101E] transition">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/15 text-xs font-semibold text-white group-hover:bg-white group-hover:text-zinc-950 transition">
                       {CHOICE_KEYS[idx] ?? idx + 1}
                     </span>
                     <span className="flex-1 leading-snug">{choice.label}</span>
@@ -552,22 +549,14 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-5 animate-stage-in">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-zinc-200 pb-4">
-        <div className="space-y-1">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="text-2xl font-semibold tracking-tight text-zinc-950 flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-rose-600" />
-              <span>Out In The Wild</span>
-            </h1>
-            <span className="rounded-full border border-zinc-200 bg-white px-3 py-0.5 text-xs font-semibold text-zinc-700">
-              {clearedCount} / {V35_WILD_VENUES.length} Hotspots Cleared
-            </span>
-          </div>
-          <p className="text-sm text-zinc-600">
-            Skip the apps, read body language across 3 beats, and pull numbers in person around Sunset Hills.
-          </p>
-        </div>
-        <CrowdsourceSubmissionBar surface="wild" compact />
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 pb-3.5">
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950 flex items-center gap-2">
+          <MapPin className="h-5 w-5 text-rose-600" />
+          <span>In The Wild</span>
+        </h1>
+        <span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-semibold text-zinc-700">
+          {clearedCount} / {V35_WILD_VENUES.length} Hotspots Cleared
+        </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -591,7 +580,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                 sfx.cardHoverTick();
                 openSpot(spot.id);
               }}
-              className="editorial-hinge-card group flex flex-col overflow-hidden rounded-2xl text-left transition hover:border-zinc-300 hover:shadow-sm cursor-pointer"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white text-left shadow-2xs transition hover:border-zinc-300 hover:shadow-sm cursor-pointer"
             >
               <div className="relative h-44 w-full overflow-hidden bg-zinc-200">
                 <img
@@ -625,7 +614,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                   <div className="flex items-center justify-between border-t border-zinc-100 pt-2.5 text-xs font-medium text-zinc-900">
                     <span>
                       {isVenueCleared
-                        ? `${lead.name}, ${lead.age} • Replayable`
+                        ? `${lead.name}, ${lead.age} · Replayable`
                         : `Meet ${lead.name}, ${lead.age}`}
                     </span>
                     <span className="font-semibold text-rose-600 group-hover:text-zinc-950 transition-colors">
@@ -638,6 +627,8 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
           );
         })}
       </div>
+
+      <CrowdsourceSubmissionBar surface="wild" compact />
     </div>
   );
 };

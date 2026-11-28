@@ -121,32 +121,28 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   if (graduated) {
     return (
       <div className="mx-auto w-full max-w-2xl animate-stage-in">
-        <section className="editorial-hinge-card rounded-3xl p-8 sm:p-10 text-center bg-gradient-to-b from-[#FFFDF9] to-amber-50/50 border-2 border-amber-300/70 space-y-5">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-amber-900">
-            <Award className="h-8 w-8" />
+        <section className="rounded-2xl border border-zinc-200 bg-white p-7 sm:p-9 text-center space-y-5 shadow-2xs">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 border border-amber-200 text-amber-800">
+            <Award className="h-7 w-7" />
           </div>
-          <div className="text-xs font-extrabold uppercase tracking-widest text-amber-900">
-            Cougars &amp; Cubs Academy • {mode === 'headmistress' ? 'Headmistress Seal' : 'Honors Conferral'}
+          <div className="space-y-1.5">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
+              Certified Housebroken Cub Diploma
+            </h1>
+            <p className="text-sm sm:text-base text-zinc-600 max-w-lg mx-auto leading-relaxed">
+              {mode === 'headmistress' ? (
+                <>
+                  Conferred with <strong className="text-zinc-950">{goldStars}/12 Headmistress Gold Stars</strong>.
+                </>
+              ) : (
+                <>
+                  Passed with <strong className="text-zinc-950">{goldStars}/12 Gold Stars</strong>.
+                </>
+              )}
+            </p>
           </div>
-          <h1 className="font-editorial text-3xl sm:text-4xl font-bold text-[#18101E]">
-            📜 Certified Housebroken Cub Diploma
-          </h1>
-          <p className="text-sm sm:text-base text-stone-700 max-w-lg mx-auto leading-relaxed">
-            {mode === 'headmistress' ? (
-              <>
-                Conferred with <strong>{goldStars}/12 Headmistress Gold Stars</strong>. Moochers
-                vetted, midnight crumbs declined, sanctuary keys protected, and Golden Cub devotion
-                welcomed with effortless poise.
-              </>
-            ) : (
-              <>
-                Passed with <strong>{goldStars}/12 Gold Stars</strong>. Bathroom Lid Certified,
-                Four-Pillow Approved, Zero Mental-Load Dumping, and Sidewalk Hand-Hold Verified.
-              </>
-            )}
-          </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1">
             <button
               type="button"
               onClick={async () => {
@@ -157,7 +153,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                 });
                 setCopiedDiploma(true);
               }}
-              className="inline-flex items-center gap-2 rounded-full bg-[#18101E] px-6 py-3 text-xs sm:text-sm font-bold text-white cursor-pointer"
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-5 text-xs sm:text-sm font-semibold text-white cursor-pointer"
             >
               <Share2 className="h-4 w-4" />
               <span>{copiedDiploma ? 'Diploma Link Copied!' : 'Share Official Diploma'}</span>
@@ -172,7 +168,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                 setResults({});
                 setGraduated(false);
               }}
-              className="rounded-full border border-stone-300 bg-white px-5 py-3 text-xs font-bold text-stone-800 cursor-pointer"
+              className="inline-flex h-10 items-center rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
             >
               Play Again
             </button>
@@ -181,7 +177,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
               <button
                 type="button"
                 onClick={onReturnToActiveMatch}
-                className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-5 py-3 text-xs font-extrabold text-white cursor-pointer"
+                className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
               >
                 <MessageCircle className="h-4 w-4" />
                 <span>Return to Active Match ({activeMatchName}) →</span>
@@ -190,7 +186,7 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
               <button
                 type="button"
                 onClick={onGoToHinge}
-                className="inline-flex items-center gap-1.5 rounded-full bg-rose-600 px-5 py-3 text-xs font-extrabold text-white cursor-pointer"
+                className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
               >
                 <Sparkles className="h-4 w-4" />
                 <span>Use +8% Spark on Prowl →</span>
@@ -201,9 +197,9 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
               href={MONETIZATION_CONFIG.tipJarUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 border border-amber-300 px-5 py-3 text-xs font-extrabold text-amber-950"
+              className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-4 text-xs sm:text-sm font-semibold text-zinc-900"
             >
-              <Heart className="h-3.5 w-3.5 fill-amber-600 text-amber-600" />
+              <Heart className="h-3.5 w-3.5 fill-rose-600 text-rose-600" />
               <span>Support This Project</span>
             </a>
           </div>
@@ -451,9 +447,6 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                   <p className="text-sm font-medium leading-snug">
                     {pickedOption.headmistressVerdict}
                   </p>
-                  <p className="text-xs text-zinc-600 italic">
-                    Real club receipt: {drill.redditComplaintQuote}
-                  </p>
                 </div>
 
                 <button
@@ -512,12 +505,12 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                     {fixProduct.name}
                   </div>
                   <div className="text-xs text-zinc-500">
-                    {fixProduct.priceDisplay} • 💛 $0 extra to you: As an Amazon Associate, qualifying picks help keep this ad-free indie club running
+                    {fixProduct.priceDisplay} · Amazon Associate pick
                   </div>
                 </div>
               </div>
 
-              <span className="shrink-0 inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-3.5 text-sm font-medium text-white group-hover:bg-zinc-800 transition-colors">
+              <span className="shrink-0 inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-3.5 text-xs sm:text-sm font-medium text-white group-hover:bg-zinc-800 transition-colors">
                 <span>Shop the Fix on Amazon</span>
                 <ExternalLink className="h-3.5 w-3.5" />
               </span>

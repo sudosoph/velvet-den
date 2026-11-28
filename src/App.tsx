@@ -1332,22 +1332,17 @@ export default function App() {
               updateWallet(updatePlayerPersona(wallet, draftName, draftVibe));
               setPersonaModalOpen(false);
             }}
-            className="editorial-hinge-card flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
+            className="flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
           >
-            <div className="shrink-0 flex items-start justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-4">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                  Persona Setup
-                </div>
-                <h2 className="mt-0.5 text-xl font-semibold tracking-tight text-zinc-950">
-                  How Should Matches Address You?
-                </h2>
-              </div>
+            <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-4">
+              <h2 className="text-lg font-semibold tracking-tight text-zinc-950">
+                Your Name &amp; Friday Vibe
+              </h2>
               <button
                 type="button"
                 onClick={() => setPersonaModalOpen(false)}
                 aria-label="Close Persona Setup"
-                className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>

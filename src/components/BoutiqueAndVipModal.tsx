@@ -280,93 +280,88 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         </div>
 
         {/* Independently Scrollable Modal Body */}
-        <div className="flex-1 min-h-0 overflow-y-auto bg-[#FAFAFA] p-5 sm:p-8 space-y-6">
+        <div className="flex-1 min-h-0 overflow-y-auto bg-zinc-50/80 p-5 sm:p-7 space-y-5">
 
         {activeTab === 'vip' && (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {/* Verified-Only Producer Brief Composer (Unlocks ONLY when a real $29 Stripe cs_... session verified) */}
             {verifiedCameoSessionId && (
               <form
                 data-testid="verified-cameo-composer"
                 onSubmit={handleVerifiedCameoSubmit}
-                className="rounded-3xl border-2 border-emerald-400 bg-emerald-50/60 p-5 sm:p-6 space-y-3 shadow-sm"
+                className="rounded-2xl border border-emerald-300 bg-emerald-50/70 p-5 space-y-3 shadow-2xs"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-white">
+                  <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white">
                     ✓ Verified $29 Producer Pass
                   </span>
-                  <span className="text-xs font-semibold text-emerald-900">
+                  <span className="text-xs font-medium text-emerald-900">
                     +50 Credits &amp; Lifetime VIP Applied
                   </span>
                 </div>
-                <h3 className="font-editorial text-xl sm:text-2xl font-bold text-[#18101E]">
-                  🎬 Describe Your Custom Cougar or Cub Character
+                <h3 className="text-lg font-semibold text-zinc-950">
+                  Describe Your Custom Cougar or Cub Character
                 </h3>
-                <p className="text-sm text-stone-700 leading-relaxed">
-                  Share the first-name persona, age, job, signature green flag (or hilarious red-flag trap!), and favorite Sunset Hills hangout, we’ll illustrate 6 slides and add them to the Club deck.
-                </p>
                 <textarea
                   required
                   minLength={10}
                   maxLength={500}
                   rows={3}
-                  placeholder="Example: '44F Santa Barbara vineyard architect who roasts crypto bros over Pinot Noir and melts for a man who cooks Sunday breakfast...'"
+                  placeholder="First-name persona, age, job, green flag (or funny red flag), and favorite hangout..."
                   value={cameoBrief}
                   onChange={(e) => setCameoBrief(e.target.value)}
-                  className="w-full rounded-2xl border border-stone-300 bg-white p-3.5 text-sm font-medium text-[#18101E]"
+                  className="w-full rounded-xl border border-zinc-300 bg-white p-3.5 text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-[#18101E] px-6 py-3 text-sm font-extrabold text-white hover:bg-stone-800 cursor-pointer"
+                  className="inline-flex h-10 items-center rounded-lg bg-zinc-900 px-5 text-sm font-medium text-white hover:bg-zinc-800 cursor-pointer"
                 >
                   Submit Verified Character Brief →
                 </button>
               </form>
             )}
             {cameoMsg && (
-              <div className="rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-950">
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-950">
                 {cameoMsg}
               </div>
             )}
 
-            {/* 3-Tier Romance-Sim Pricing Architecture (Readable 14-16px Typography, Clear Value Anchoring) */}
-            <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 items-stretch">
+            {/* 3-Tier Pricing Cards (Clean shadcn Layout, Zero Subtitle Bloat) */}
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 items-stretch">
               {/* TIER 1: Starter Pack ($2.99) */}
-              <div className="rounded-3xl border border-stone-200 bg-white p-6 flex flex-col justify-between gap-6 shadow-xs">
+              <div className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 flex flex-col justify-between gap-5 shadow-2xs">
                 <div className="space-y-4">
-                  <div>
-                    <div className="text-xs font-extrabold uppercase tracking-wider text-stone-500">
-                      One-Time Bonus Pack
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-lg font-semibold text-zinc-950">
+                        Weekend Bonus Pack
+                      </h3>
+                      <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700">
+                        One-Time
+                      </span>
                     </div>
-                    <h3 className="font-editorial text-2xl font-bold text-[#18101E] mt-1">
-                      Weekend Bonus Pack
-                    </h3>
-                    <div className="mt-2 flex items-baseline gap-1.5">
-                      <span className="font-editorial text-4xl font-bold text-[#18101E]">$2.99</span>
-                      <span className="text-sm font-semibold text-stone-500">one-time pass</span>
+                    <div className="flex items-baseline gap-1.5 pt-1">
+                      <span className="text-3xl font-bold tracking-tight text-zinc-950">$2.99</span>
+                      <span className="text-xs font-medium text-zinc-500">no subscription</span>
                     </div>
                   </div>
 
-                  <p className="text-sm text-stone-600 leading-relaxed">
-                    Every regular profile, chat photo, quiz, and 3-date story is free to play. Grab a one-time bonus pack for extra Standout Roses and epilogues.
-                  </p>
-
-                  <ul className="space-y-2.5 text-sm font-medium text-[#18101E]">
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Send extra <strong>Standout Roses</strong> &amp; bold flirt openers</span>
+                  <ul className="space-y-2 text-sm text-zinc-700">
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span>Extra <strong className="text-zinc-950">Standout Roses</strong> &amp; bold openers</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Read <strong>Post-Date Bestie Group-Chat Leaks</strong></span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span><strong className="text-zinc-950">Post-Date Group-Chat Leaks</strong></span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Play <strong>6-Month Weekend Escape Epilogues</strong></span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span><strong className="text-zinc-950">6-Month Weekend Escape Epilogues</strong></span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Supports ad-free indie hosting (zero recurring charges)</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span>Supports ad-free indie hosting</span>
                     </li>
                   </ul>
                 </div>
@@ -377,7 +372,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     onClick={() => handleStripeCheckoutClick('credits_299', 'credits')}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full rounded-2xl border-2 border-[#18101E] bg-white py-3.5 text-center text-sm sm:text-base font-extrabold text-[#18101E] hover:bg-stone-50 transition"
+                    className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-zinc-300 bg-white text-sm font-semibold text-zinc-950 hover:bg-zinc-50 transition-colors"
                   >
                     Get Weekend Bonus Pack
                   </a>
@@ -385,57 +380,54 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <button
                     type="button"
                     onClick={onSandboxGrantCredits}
-                    className="w-full rounded-2xl bg-rose-600 py-3.5 text-sm font-extrabold text-white cursor-pointer"
+                    className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-rose-600 text-sm font-semibold text-white cursor-pointer"
                   >
-                    <Sparkles className="inline h-4 w-4 mr-1" />
-                    Preview +15 Credits (Free Demo)
+                    <Sparkles className="h-4 w-4" />
+                    <span>Preview +15 Credits (Free Demo)</span>
                   </button>
                 ) : null}
               </div>
 
               {/* TIER 2: HERO BEST-VALUE CARD ($6.99 Lifetime VIP Black Card) */}
-              <div className="relative rounded-3xl border-2 border-amber-400 bg-[#18101E] p-6 text-white flex flex-col justify-between gap-6 shadow-xl">
+              <div className="relative rounded-2xl border-2 border-zinc-950 bg-zinc-950 p-5 sm:p-6 text-white flex flex-col justify-between gap-5 shadow-md">
                 <div className="space-y-4">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
-                    ★ Most Popular • Best Value
-                  </div>
-
-                  <div>
-                    <h3 className="font-editorial text-2xl font-bold text-white">
-                      Lifetime VIP Black Card
-                    </h3>
-                    <div className="mt-2 flex items-baseline gap-2">
-                      <span className="font-editorial text-4xl font-bold text-amber-300">$6.99</span>
-                      <span className="text-sm font-semibold text-stone-300">once • yours forever</span>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-lg font-semibold text-white">
+                        Lifetime VIP Black Card
+                      </h3>
+                      <span className="rounded-md bg-rose-600 px-2 py-0.5 text-xs font-semibold text-white">
+                        Best Value
+                      </span>
+                    </div>
+                    <div className="flex items-baseline gap-1.5 pt-1">
+                      <span className="text-3xl font-bold tracking-tight text-white">$6.99</span>
+                      <span className="text-xs font-medium text-zinc-400">once · yours forever</span>
                     </div>
                   </div>
 
-                  <p className="text-sm text-stone-200 leading-relaxed">
-                    Less than one happy-hour martini, unlocks every candid photo drop, secret bestie group-chat leak, bold flirt move, and weekend escape across all 22 regulars forever.
-                  </p>
-
-                  <ul className="space-y-2.5 text-sm font-medium text-white">
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-amber-300 mt-1" />
-                      <span><strong>Unlimited</strong> Standout Roses &amp; VIP Flirt Choices</span>
+                  <ul className="space-y-2 text-sm text-zinc-200">
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                      <span><strong className="text-white">Unlimited</strong> Standout Roses &amp; VIP Flirt Choices</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-amber-300 mt-1" />
-                      <span><strong>Every</strong> Candid Photo &amp; Secret Group-Chat Leak Free</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                      <span><strong className="text-white">Every</strong> Group-Chat Leak &amp; Polaroid Free</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-amber-300 mt-1" />
-                      <span><strong>All 10</strong> 6-Month Weekend Escape Epilogues Unlocked</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                      <span><strong className="text-white">All 10</strong> Weekend Escape Epilogues Unlocked</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-amber-300 mt-1" />
-                      <span><strong>+15 Bonus Credits</strong> &amp; cross-device email restore</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                      <span><strong className="text-white">+15 Bonus Credits</strong> &amp; email device restore</span>
                     </li>
                   </ul>
                 </div>
 
                 {wallet.isVip ? (
-                  <div className="rounded-2xl bg-emerald-500/20 border border-emerald-400/50 py-3.5 text-center text-sm font-extrabold text-emerald-200">
+                  <div className="inline-flex h-10 w-full items-center justify-center rounded-lg border border-emerald-400/50 bg-emerald-500/20 text-sm font-semibold text-emerald-200">
                     ✓ Lifetime VIP Black Card Active
                   </div>
                 ) : MONETIZATION_CONFIG.stripeVipPassUrl ? (
@@ -444,7 +436,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     onClick={() => handleStripeCheckoutClick('vip_699', 'vip')}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-2xl bg-amber-300 py-3.5 text-center text-sm sm:text-base font-extrabold text-[#18101E] hover:bg-amber-200 transition shadow-md"
+                    className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-rose-600 text-sm font-semibold text-white hover:bg-rose-500 transition-colors"
                   >
                     <Crown className="h-4 w-4" />
                     <span>Unlock Lifetime VIP</span>
@@ -453,50 +445,48 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <button
                     type="button"
                     onClick={onSandboxUnlockVip}
-                    className="w-full rounded-2xl bg-amber-300 py-3.5 text-sm font-extrabold text-[#18101E] cursor-pointer"
+                    className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-rose-600 text-sm font-semibold text-white cursor-pointer"
                   >
-                    <Crown className="inline h-4 w-4 mr-1" />
-                    Preview VIP Black Card (Free Demo)
+                    <Crown className="h-4 w-4" />
+                    <span>Preview VIP Black Card (Free Demo)</span>
                   </button>
                 ) : null}
               </div>
 
               {/* TIER 3: PRODUCER CAMEO TIER ($29 Cast a Cougar or Cub) */}
-              <div className="rounded-3xl border border-rose-200 bg-gradient-to-b from-rose-50/60 to-white p-6 flex flex-col justify-between gap-6 shadow-xs">
+              <div className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 flex flex-col justify-between gap-5 shadow-2xs">
                 <div className="space-y-4">
-                  <div>
-                    <div className="text-xs font-extrabold uppercase tracking-wider text-rose-700">
-                      🎬 Producer Edition
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-lg font-semibold text-zinc-950">
+                        Cast a Cougar or Cub
+                      </h3>
+                      <span className="rounded-md bg-rose-50 border border-rose-200 px-2 py-0.5 text-xs font-medium text-rose-700">
+                        Producer
+                      </span>
                     </div>
-                    <h3 className="font-editorial text-2xl font-bold text-[#18101E] mt-1">
-                      Cast a Cougar or Cub
-                    </h3>
-                    <div className="mt-2 flex items-baseline gap-1.5">
-                      <span className="font-editorial text-4xl font-bold text-[#18101E]">$29</span>
-                      <span className="text-sm font-semibold text-stone-500">sponsor a character</span>
+                    <div className="flex items-baseline gap-1.5 pt-1">
+                      <span className="text-3xl font-bold tracking-tight text-zinc-950">$29</span>
+                      <span className="text-xs font-medium text-zinc-500">sponsor a character</span>
                     </div>
                   </div>
 
-                  <p className="text-sm text-stone-600 leading-relaxed">
-                    Put a fictionalized Cougar, Cub, or legendary group-chat red flag into the Club, immortalized right inside the Sunset Hills roster!
-                  </p>
-
-                  <ul className="space-y-2.5 text-sm font-medium text-[#18101E]">
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span><strong>Custom 6-photo Prowl profile</strong> &amp; banter added to the Club</span>
+                  <ul className="space-y-2 text-sm text-zinc-700">
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span><strong className="text-zinc-950">Custom 6-photo Prowl profile</strong> &amp; banter</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Includes <strong>Lifetime VIP Black Card</strong> ($6.99 value)</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span>Includes <strong className="text-zinc-950">Lifetime VIP Black Card</strong></span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Unlocks every group-chat leak, Polaroid &amp; epilogue</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span>Unlocks every leak, Polaroid &amp; epilogue</span>
                     </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-1" />
-                      <span>Private character brief unlocks right after Stripe checkout</span>
+                    <li className="flex items-start gap-2">
+                      <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+                      <span>Private character brief unlocks after checkout</span>
                     </li>
                   </ul>
                 </div>
@@ -507,7 +497,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     onClick={() => handleStripeCheckoutClick('cameo_29', 'cameo')}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-2xl bg-rose-600 py-3.5 text-center text-sm sm:text-base font-extrabold text-white hover:bg-rose-700 transition shadow-xs"
+                    className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-zinc-900 text-sm font-semibold text-white hover:bg-zinc-800 transition-colors"
                   >
                     <Gift className="h-4 w-4" />
                     <span>Sponsor a Character</span>
@@ -516,15 +506,11 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               </div>
             </div>
 
-            {/* Clean Indie Tip Strip + Stripe Security Reassurance */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-amber-200/90 bg-amber-50/60 px-5 py-4">
-              <div className="space-y-0.5">
-                <div className="text-sm font-bold text-[#18101E]">
-                  ☕ Loving Cougars &amp; Cubs Club ad-free?
-                </div>
-                <p className="text-xs sm:text-sm text-stone-600">
-                  Buy the indie creator an Espresso Martini ($5) and unlock the <strong>💛 Club Patron</strong> badge on your profile.
-                </p>
+            {/* Clean Indie Tip Strip */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-2xs">
+              <div className="text-sm text-zinc-700">
+                <strong className="font-semibold text-zinc-950">Enjoying Cougars &amp; Cubs Club ad-free?</strong>{' '}
+                Tip an Espresso Martini ($5) and unlock the <strong>💛 Club Patron</strong> badge.
               </div>
               {liveTipUrl && (
                 <a
@@ -532,38 +518,38 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   onClick={() => handleStripeCheckoutClick('tip_5', 'tip')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-full border border-amber-300 bg-white px-5 py-2.5 text-sm font-extrabold text-[#18101E] hover:bg-amber-100 transition"
+                  className="shrink-0 inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-900 hover:bg-zinc-100 transition-colors"
                 >
-                  <Heart className="h-4 w-4 fill-rose-600 text-rose-600" />
+                  <Heart className="h-3.5 w-3.5 fill-rose-600 text-rose-600" />
                   <span>Send an Espresso Martini</span>
                 </a>
               )}
             </div>
 
-            {/* Clean Collapsible Restore & Gift Code Accordion (Zero Visual Clutter) */}
-            <div className="rounded-2xl border border-stone-200 bg-stone-50/70">
+            {/* Clean Collapsible Restore & Gift Code Accordion */}
+            <div className="rounded-2xl border border-zinc-200 bg-white shadow-2xs">
               <button
                 type="button"
                 onClick={() => setUtilitiesOpen((v) => !v)}
-                className="w-full flex items-center justify-between gap-3 px-5 py-3.5 text-left text-sm font-bold text-stone-700 hover:text-[#18101E] cursor-pointer"
+                className="w-full flex items-center justify-between gap-3 px-5 py-3.5 text-left text-sm font-medium text-zinc-700 hover:text-zinc-950 cursor-pointer"
               >
                 <span className="inline-flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-stone-400" />
+                  <Lock className="h-4 w-4 text-zinc-400" />
                   <span>Already purchased VIP or have a gift code?</span>
                 </span>
                 <ChevronDown
-                  className={`h-4 w-4 text-stone-500 transition-transform ${
+                  className={`h-4 w-4 text-zinc-500 transition-transform ${
                     utilitiesOpen ? 'rotate-180' : ''
                   }`}
                 />
               </button>
 
               {utilitiesOpen && (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 border-t border-stone-200 p-5 bg-white rounded-b-2xl">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 border-t border-zinc-200 p-5 bg-zinc-50/50 rounded-b-2xl">
                   <form onSubmit={handleRestoreVip} className="space-y-2">
-                    <label className="block text-sm font-bold text-[#18101E]">
-                      <ShieldCheck className="inline h-4 w-4 mr-1 text-emerald-700" />
-                      Restore VIP Black Card on This Device
+                    <label className="block text-xs font-semibold text-zinc-800">
+                      <ShieldCheck className="inline h-3.5 w-3.5 mr-1 text-emerald-700" />
+                      Restore VIP on This Device
                     </label>
                     <div className="flex gap-2">
                       <input
@@ -572,21 +558,21 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                         placeholder="Email used on Stripe"
                         value={restoreEmail}
                         onChange={(e) => setRestoreEmail(e.target.value)}
-                        className="min-w-0 flex-1 rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2.5 text-sm font-medium text-[#18101E]"
+                        className="min-w-0 flex-1 h-9 rounded-lg border border-zinc-300 bg-white px-3 text-sm text-zinc-950"
                       />
                       <button
                         type="submit"
-                        className="shrink-0 rounded-xl bg-zinc-950 hover:bg-zinc-800 px-4 py-2.5 text-sm font-bold text-white cursor-pointer"
+                        className="shrink-0 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-xs font-semibold text-white cursor-pointer"
                       >
                         Restore
                       </button>
                     </div>
-                    {restoreMsg && <p className="text-xs font-bold text-rose-700">{restoreMsg}</p>}
+                    {restoreMsg && <p className="text-xs font-semibold text-rose-700">{restoreMsg}</p>}
                   </form>
 
                   <form onSubmit={handlePromoSubmit} className="space-y-2">
-                    <label className="block text-sm font-bold text-zinc-950">
-                      Redeem a Gift or Creator Code
+                    <label className="block text-xs font-semibold text-zinc-800">
+                      Redeem a Gift Code
                     </label>
                     <div className="flex gap-2">
                       <input
@@ -594,16 +580,16 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                         placeholder={isSandbox ? 'Enter code (e.g. BLACKCARD)' : 'Enter gift code'}
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value)}
-                        className="min-w-0 flex-1 rounded-xl border border-zinc-300 bg-zinc-50 px-3.5 py-2.5 text-sm font-medium text-zinc-950"
+                        className="min-w-0 flex-1 h-9 rounded-lg border border-zinc-300 bg-white px-3 text-sm text-zinc-950"
                       />
                       <button
                         type="submit"
-                        className="shrink-0 rounded-xl border border-zinc-300 bg-white px-4 py-2.5 text-sm font-bold text-zinc-950 hover:bg-zinc-50 cursor-pointer"
+                        className="shrink-0 h-9 rounded-lg border border-zinc-300 bg-white px-4 text-xs font-semibold text-zinc-900 hover:bg-zinc-50 cursor-pointer"
                       >
                         Redeem
                       </button>
                     </div>
-                    {codeMessage && <p className="text-xs font-bold text-rose-700">{codeMessage}</p>}
+                    {codeMessage && <p className="text-xs font-semibold text-rose-700">{codeMessage}</p>}
                   </form>
                 </div>
               )}
@@ -612,23 +598,15 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
         )}
 
         {activeTab === 'rewards' && (
-          <div className="space-y-5">
+          <div className="space-y-4">
             {/* Group Chat Invite Card */}
-            <div className="rounded-3xl border border-zinc-200 bg-white p-6 sm:p-7 space-y-3 shadow-2xs">
-              <div className="space-y-1">
-                <div className="text-xs font-bold uppercase tracking-wider text-rose-600">
-                  Challenge Your Friends or Match
-                </div>
-                <h3 className="font-editorial text-2xl font-bold text-zinc-950">
-                  Share Your Personal Club Invite Link
-                </h3>
-                <p className="text-sm text-stone-600">
-                  Drop your link in the group chat or send it to a real-life match to see if they survive Sunset Hills vetting.
-                </p>
-              </div>
+            <div className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 space-y-3 shadow-2xs">
+              <h3 className="text-lg font-semibold text-zinc-950">
+                Share Your Club Invite Link
+              </h3>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 rounded-2xl border border-stone-200 bg-stone-50 p-3.5 text-sm">
-                <code className="min-w-0 break-all font-bold text-rose-700">{refUrl}</code>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-sm">
+                <code className="min-w-0 break-all text-xs sm:text-sm font-semibold text-rose-700">{refUrl}</code>
                 <button
                   type="button"
                   onClick={async () => {
@@ -644,15 +622,15 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                     });
                     setQuestMsg('🔗 Invite link copied! Drop it in your group chat.');
                   }}
-                  className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-full bg-[#18101E] px-5 py-2.5 text-sm font-extrabold text-white cursor-pointer"
+                  className="shrink-0 inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-xs font-semibold text-white cursor-pointer"
                 >
-                  <Copy className="h-4 w-4" /> Copy Invite Link
+                  <Copy className="h-3.5 w-3.5" /> Copy Invite Link
                 </button>
               </div>
-              {questMsg && <p className="text-sm font-bold text-emerald-800">{questMsg}</p>}
+              {questMsg && <p className="text-xs font-semibold text-emerald-800">{questMsg}</p>}
             </div>
 
-            {/* Private Club Salon & Live Events Waitlist (Clean Editorial Card, Spacious Role Buttons & Inputs) */}
+            {/* Private Club Salon & Live Events Waitlist */}
             <form
               data-testid="private-club-waitlist-form"
               onSubmit={async (e) => {
@@ -695,63 +673,54 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   setWaitlistMsg('🥂 Private Club Waitlist spot reserved!');
                 }
               }}
-              className="rounded-3xl border border-zinc-200 bg-white p-6 sm:p-7 space-y-5 shadow-2xs"
+              className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 space-y-4 shadow-2xs"
             >
               <div className="space-y-1">
-                <div className="text-xs font-bold uppercase tracking-wider text-rose-600">
-                  Real-World Matchmaking &amp; Community Discord
-                </div>
-                <h3 className="font-editorial text-2xl font-bold text-zinc-950">
-                  🥂 Real-Life Cougars &amp; Cubs Matchmaking &amp; Discord Waitlist
+                <h3 className="text-lg sm:text-xl font-semibold text-zinc-950">
+                  Real-Life Matchmaking &amp; Discord Waitlist
                 </h3>
-                <p className="text-sm text-zinc-600 leading-relaxed max-w-2xl">
-                  Want to meet vetted real-life Cougars (35 to 65+) and Cubs (21 to 35)? Reserve your spot for our private Discord server, vetted city mixers, and curated matchmaking cohort.
+                <p className="text-sm text-zinc-600">
+                  Reserve your spot for verified 21+ Discord waves and curated city mixers.
                 </p>
               </div>
 
-              {/* Spacious 2-Button Role Picker (Zero Truncation or Dropdown Clipping) */}
-              <div className="space-y-2">
-                <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
-                  I’m Joining As
-                </div>
-                <div
-                  role="group"
-                  aria-label="Waitlist Role"
-                  className="grid grid-cols-1 gap-2.5 sm:grid-cols-2"
+              <div
+                role="group"
+                aria-label="Waitlist Role"
+                className="grid grid-cols-1 gap-2 sm:grid-cols-2"
+              >
+                <button
+                  type="button"
+                  onClick={() => setWaitlistRole('cougar')}
+                  className={`min-h-[44px] rounded-xl border px-4 py-2.5 text-left text-sm font-semibold whitespace-normal leading-snug transition cursor-pointer ${
+                    waitlistRole === 'cougar'
+                      ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
+                      : 'border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100'
+                  }`}
                 >
-                  <button
-                    type="button"
-                    onClick={() => setWaitlistRole('cougar')}
-                    className={`min-h-[48px] rounded-xl border px-4 py-3 text-left text-sm font-bold whitespace-normal leading-snug transition cursor-pointer ${
-                      waitlistRole === 'cougar'
-                        ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
-                        : 'border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100'
-                    }`}
-                  >
-                    🐆 Cougar / Puma / Jaguar (Her)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setWaitlistRole('cub')}
-                    className={`min-h-[48px] rounded-xl border px-4 py-3 text-left text-sm font-bold whitespace-normal leading-snug transition cursor-pointer ${
-                      waitlistRole === 'cub'
-                        ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
-                        : 'border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100'
-                    }`}
-                  >
-                    🥂 Vetted Cub, Ages 21 to 35 (Him)
-                  </button>
-                </div>
+                  🐆 Cougar / Puma / Jaguar (Her)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setWaitlistRole('cub')}
+                  className={`min-h-[44px] rounded-xl border px-4 py-2.5 text-left text-sm font-semibold whitespace-normal leading-snug transition cursor-pointer ${
+                    waitlistRole === 'cub'
+                      ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
+                      : 'border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100'
+                  }`}
+                >
+                  🥂 Vetted Cub, Ages 21 to 35 (Him)
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                 <input
                   type="text"
                   maxLength={48}
                   placeholder="City (e.g. LA, NYC, London)"
                   value={waitlistCity}
                   onChange={(e) => setWaitlistCity(e.target.value)}
-                  className="min-w-0 w-full h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:bg-white focus:outline-none"
+                  className="min-w-0 w-full h-10 rounded-lg border border-zinc-300 bg-white px-3.5 text-sm text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none"
                 />
                 <input
                   type="text"
@@ -760,7 +729,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   placeholder="Email or @handle for invite"
                   value={waitlistContact}
                   onChange={(e) => setWaitlistContact(e.target.value)}
-                  className="min-w-0 w-full h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:bg-white focus:outline-none"
+                  className="min-w-0 w-full h-10 rounded-lg border border-zinc-300 bg-white px-3.5 text-sm text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none"
                 />
                 <input
                   type="text"
@@ -768,38 +737,32 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   placeholder="Your Friday date vibe in one line (optional)"
                   value={waitlistVibe}
                   onChange={(e) => setWaitlistVibe(e.target.value)}
-                  className="sm:col-span-2 min-w-0 w-full h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:bg-white focus:outline-none"
+                  className="sm:col-span-2 min-w-0 w-full h-10 rounded-lg border border-zinc-300 bg-white px-3.5 text-sm text-zinc-950 placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none"
                 />
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 pt-1">
+              <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="submit"
-                  className="inline-flex h-11 items-center justify-center rounded-xl bg-rose-600 px-6 text-sm sm:text-base font-bold text-white hover:bg-rose-700 transition cursor-pointer"
+                  className="inline-flex h-10 items-center justify-center rounded-lg bg-rose-600 px-5 text-sm font-semibold text-white hover:bg-rose-700 transition-colors cursor-pointer"
                 >
                   Join Private Club Waitlist →
                 </button>
-                {waitlistMsg && <p className="text-sm font-bold text-emerald-700">{waitlistMsg}</p>}
+                {waitlistMsg && <p className="text-sm font-semibold text-emerald-700">{waitlistMsg}</p>}
               </div>
             </form>
 
-            {/* Real Community Reddit & Discord Strategy Card */}
-            <div className="rounded-3xl border border-indigo-200 bg-indigo-50/40 p-6 sm:p-7 space-y-3 shadow-2xs">
-              <div className="text-xs font-bold uppercase tracking-wider text-indigo-700">
-                Community Conversations &amp; Subreddit Culture
-              </div>
-              <h3 className="font-editorial text-xl font-bold text-zinc-950">
-                💬 Where Real Cougars &amp; Cubs Swap Advice
+            {/* Real Community Subreddit Links */}
+            <div className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 space-y-3 shadow-2xs">
+              <h3 className="text-base sm:text-lg font-semibold text-zinc-950">
+                Real Age-Gap Communities on Reddit
               </h3>
-              <p className="text-sm text-zinc-700 leading-relaxed">
-                Joining the waitlist above puts you first in line for our private <strong>Cougars &amp; Cubs Club Discord</strong> invite waves (with verified 21+ roles and zero creeps). Meanwhile, explore real age-gap threads on Reddit communities that inspired our game:
-              </p>
-              <div className="flex flex-wrap gap-2.5 pt-1">
+              <div className="flex flex-wrap gap-2.5">
                 <a
                   href="https://www.reddit.com/r/CougarsAndCubs/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-4 text-xs sm:text-sm font-bold text-zinc-900 hover:border-rose-400 transition"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3.5 text-xs sm:text-sm font-medium text-zinc-900 hover:bg-zinc-100 transition-colors"
                 >
                   <span>Visit r/CougarsAndCubs</span>
                   <ExternalLink className="h-3.5 w-3.5 text-rose-600" />
@@ -808,7 +771,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   href="https://www.reddit.com/r/AgeGap/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-4 text-xs sm:text-sm font-bold text-zinc-900 hover:border-rose-400 transition"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3.5 text-xs sm:text-sm font-medium text-zinc-900 hover:bg-zinc-100 transition-colors"
                 >
                   <span>Visit r/AgeGap</span>
                   <ExternalLink className="h-3.5 w-3.5 text-rose-600" />
@@ -819,35 +782,30 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
             {/* Clean Newsletter Dispatch Card */}
             <form
               onSubmit={handleNewsletterSubmit}
-              className="rounded-3xl border border-zinc-200 bg-white p-6 sm:p-7 space-y-3 shadow-2xs"
+              className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 space-y-3 shadow-2xs"
             >
-              <div className="space-y-1">
-                <h3 className="font-editorial text-xl font-bold text-zinc-950">
-                  <Mail className="inline h-5 w-5 mr-1.5 text-rose-600" />
-                  Cougars &amp; Cubs Club Dispatch (Monthly Character Drops)
-                </h3>
-                <p className="text-sm text-zinc-600">
-                  Get notified once a month when new romance routes, Courtroom cases, and community cameos go live.
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-2.5">
+              <h3 className="text-base sm:text-lg font-semibold text-zinc-950">
+                <Mail className="inline h-4 w-4 mr-1.5 text-rose-600" />
+                Monthly Character &amp; Case Drops
+              </h3>
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="email"
                   required
                   placeholder="you@domain.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="min-w-0 flex-1 h-11 rounded-xl border border-zinc-300 bg-zinc-50 px-4 text-sm font-medium text-zinc-950 focus:border-zinc-950 focus:bg-white focus:outline-none"
+                  className="min-w-0 flex-1 h-10 rounded-lg border border-zinc-300 bg-white px-3.5 text-sm text-zinc-950 focus:border-zinc-950 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 h-11 rounded-xl bg-zinc-950 px-6 text-sm font-bold text-white hover:bg-zinc-800 cursor-pointer"
+                  className="shrink-0 h-10 rounded-lg bg-zinc-900 px-5 text-sm font-semibold text-white hover:bg-zinc-800 cursor-pointer"
                 >
                   Subscribe
                 </button>
               </div>
               {newsletterMsg && (
-                <p className="text-sm font-bold text-emerald-700">{newsletterMsg}</p>
+                <p className="text-xs font-semibold text-emerald-700">{newsletterMsg}</p>
               )}
             </form>
           </div>
@@ -855,26 +813,24 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
 
         {activeTab === 'shop' && (
           <div className="space-y-4">
-            <div className="space-y-2.5">
-              <h3 className="font-editorial text-2xl font-bold text-[#18101E]">
-                <ShoppingBag className="inline h-5 w-5 mr-1.5 text-rose-600" />
-                Curated Date-Night &amp; Hosting Shop ({AFFILIATE_CATALOG.length} Picks)
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="text-lg font-semibold text-zinc-950 flex items-center gap-2">
+                <ShoppingBag className="h-4 w-4 text-rose-600" />
+                <span>Date-Night &amp; Hosting Shop ({AFFILIATE_CATALOG.length})</span>
               </h3>
-              <p className="rounded-xl border border-amber-200 bg-amber-50/70 px-3.5 py-2.5 text-xs font-medium text-stone-700 leading-relaxed">
-                {AFFILIATE_SUPPORT_COPY.fullBanner}
-              </p>
+              <span className="text-xs text-zinc-500">{AFFILIATE_SUPPORT_COPY.compactInline}</span>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {(
                 [
-                  ['all', `✨ All (${AFFILIATE_CATALOG.length})`],
+                  ['all', `All (${AFFILIATE_CATALOG.length})`],
                   ['cougar_cub_merch', '🐆 Club Merch'],
                   ['cinema_pop_culture', '🎬 Prime Video & Books'],
-                  ['houseboy', '🥂 Kitchen & Aprons'],
+                  ['houseboy', '🥂 Kitchen'],
                   ['princess_luxury', '👑 Silk & Soft Life'],
-                  ['hosting_upgrade', '🛏️ Hosting & Bedding'],
-                  ['date_night', '🍸 Date Night & Grooming'],
+                  ['hosting_upgrade', '🛏️ Hosting'],
+                  ['date_night', '🍸 Date Night'],
                   ['trail_wellness', '🏔️ Trail & Gym'],
                 ] as const
               ).map(([cat, label]) => (
@@ -882,10 +838,10 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   key={cat}
                   type="button"
                   onClick={() => setShopFilter(cat)}
-                  className={`rounded-full px-3.5 py-2 text-xs sm:text-sm font-bold transition cursor-pointer ${
+                  className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
                     shopFilter === cat
-                      ? 'bg-[#18101E] text-white'
-                      : 'border border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+                      ? 'bg-zinc-900 font-semibold text-white'
+                      : 'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50'
                   }`}
                 >
                   {label}
@@ -897,20 +853,20 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
               {filteredProducts.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-2xl border border-stone-200 bg-white p-4 flex flex-col justify-between gap-3 shadow-2xs"
+                  className="rounded-2xl border border-zinc-200 bg-white p-4 flex flex-col justify-between gap-3 shadow-2xs"
                 >
                   <div className="space-y-2">
                     <ProductVisualThumbnail item={item} />
                     <div className="flex items-center justify-between gap-2 text-xs">
-                      <span className="font-semibold text-zinc-500">
+                      <span className="font-medium text-zinc-500">
                         {item.badge}
                       </span>
-                      <span className="font-bold text-rose-600 whitespace-nowrap">
+                      <span className="font-semibold text-rose-600 whitespace-nowrap">
                         {item.priceDisplay}
                       </span>
                     </div>
-                    <h4 className="text-base font-bold text-[#18101E] leading-snug">{item.name}</h4>
-                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                    <h4 className="text-sm sm:text-base font-semibold text-zinc-950 leading-snug">{item.name}</h4>
+                    <p className="text-xs text-zinc-600 leading-relaxed">
                       {item.cheekyPitch}
                     </p>
                   </div>
@@ -924,7 +880,7 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                         surface: 'boutique_shop',
                       })
                     }
-                    className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#18101E] py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-stone-800 transition"
+                    className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-zinc-900 text-xs sm:text-sm font-medium text-white hover:bg-zinc-800 transition-colors"
                   >
                     <span>
                       {isPrimeVideoDigitalPick(item)

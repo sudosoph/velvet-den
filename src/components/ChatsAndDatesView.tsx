@@ -918,19 +918,19 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     <div className="mx-auto w-full max-w-6xl space-y-5 animate-stage-in">
       {/* Secret Table 9 Conspiracy Banner when Clues Collected */}
       {canPlayConspiracy && (
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-gradient-to-r from-[#18101E] via-[#2B1938] to-[#18101E] px-6 py-4 text-white shadow-lg">
-          <div>
-            <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
-              🕵️ 3 Conspiracy Clues Assembled!
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-zinc-950 px-5 py-4 text-white shadow-md">
+          <div className="space-y-0.5">
+            <div className="text-xs font-semibold text-amber-300">
+              🕵️ 3 Conspiracy Clues Assembled
             </div>
-            <div className="font-editorial text-lg font-bold">
-              Unlock the Secret Multi-Route Finale: Table 9 / 6:45 Alibi Club Takedown
+            <div className="text-base sm:text-lg font-semibold">
+              Secret Finale Ready: Table 9 / 6:45 Alibi Club Takedown
             </div>
           </div>
           <button
             type="button"
             onClick={() => setSurface('conspiracy')}
-            className="rounded-full bg-amber-300 px-5 py-2.5 text-xs font-extrabold text-[#18101E] cursor-pointer"
+            className="inline-flex h-9 items-center rounded-lg bg-rose-600 hover:bg-rose-500 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
           >
             🕵️ Launch Table 9 / 6:45 Alibi Club Takedown
           </button>
@@ -1056,7 +1056,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         )}
 
       {surface === 'conspiracy' ? (
-        <section className="overflow-hidden rounded-3xl bg-[#18101E] text-white shadow-2xl">
+        <section className="overflow-hidden rounded-2xl bg-zinc-950 text-white shadow-xl border border-zinc-800">
           <div className="relative h-64 w-full">
             <img
               src={V35_TABLE_9_CONSPIRACY.backdropUrl}
@@ -1065,13 +1065,13 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent" />
             <div className="absolute left-6 bottom-4">
-              <h2 className="font-editorial text-2xl sm:text-3xl font-bold">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
                 {V35_TABLE_9_CONSPIRACY.title}
               </h2>
             </div>
           </div>
           <div className="p-6 sm:p-8 space-y-4">
-            <p className="font-editorial text-lg leading-relaxed text-amber-50">
+            <p className="text-base sm:text-lg leading-relaxed text-zinc-100">
               {V35_TABLE_9_CONSPIRACY.beats[0].dialogue}
             </p>
             {conspiracyOutcome ? (
@@ -1377,18 +1377,17 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
           </section>
         </div>
       ) : visibleThreads.length === 0 ? (
-        <section className="editorial-hinge-card rounded-3xl p-8 text-center space-y-4">
-          <h2 className="font-editorial text-2xl font-bold text-zinc-950">
-            Your Inbox Is Wide Open
+        <section className="rounded-2xl border border-zinc-200 bg-white p-8 text-center space-y-4 shadow-2xs">
+          <h2 className="text-xl sm:text-2xl font-semibold text-zinc-950">
+            Your Inbox Is Open
           </h2>
           <p className="text-sm text-zinc-600 max-w-md mx-auto">
-            Send a thoughtful prompt reply on Prowl or meet someone out at Terminal B, The Marlow
-            Lounge, or Hawthorne University to start your first conversation.
+            Match on Prowl or pull a number out In The Wild to start chatting.
           </p>
           <button
             type="button"
             onClick={onOpenHinge}
-            className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-6 py-2.5 text-sm font-semibold text-white cursor-pointer"
+            className="inline-flex h-10 items-center rounded-lg bg-zinc-900 hover:bg-zinc-800 px-5 text-sm font-semibold text-white cursor-pointer"
           >
             Browse Prowl Profiles →
           </button>
@@ -1396,9 +1395,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[265px_1fr] gap-5 items-start">
           {/* Responsive Match Roster: Compact Horizontal Strip on Mobile, Sidebar on Desktop */}
-          <aside className="editorial-hinge-card rounded-2xl lg:rounded-3xl p-3 lg:p-4 space-y-2">
-            <div className="px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-zinc-400">
-              Active Connections ({visibleThreads.length})
+          <aside className="rounded-2xl border border-zinc-200 bg-white p-3 lg:p-4 space-y-2 shadow-2xs">
+            <div className="px-2 py-0.5 text-xs font-semibold text-zinc-500">
+              Connections ({visibleThreads.length})
             </div>
             <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-1 lg:pb-0">
               {visibleThreads.map((thread) => {
@@ -1687,7 +1686,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <button
                     type="button"
                     onClick={() => launchDateWithGate(currentProfile.id, nextDateScript)}
-                    className="rounded-full bg-[#18101E] px-4 py-2 text-xs font-bold text-white cursor-pointer"
+                    className="inline-flex h-9 items-center rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-xs font-semibold text-white cursor-pointer"
                   >
                     {nextDateScript.dateNumber === 4
                       ? '🌙 Launch Weekend Escape Epilogue →'
@@ -1832,7 +1831,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                               isPlayer
                                 ? currentThread.stage === 'imessage'
                                   ? 'rounded-3xl rounded-br-sm bg-[#007AFF] text-white shadow-2xs'
-                                  : 'rounded-3xl rounded-br-sm bg-[#18101E] text-white shadow-2xs'
+                                  : 'rounded-3xl rounded-br-sm bg-zinc-900 text-white shadow-2xs'
                                 : currentThread.stage === 'imessage'
                                   ? 'rounded-3xl rounded-bl-sm bg-[#F1F3F5] text-slate-950'
                                   : 'rounded-3xl rounded-bl-sm bg-zinc-100/90 text-zinc-900 border border-zinc-200/70'
@@ -2007,21 +2006,21 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 </div>
               </div>
 
-              {/* Spontaneous Adaptive Replies + Optional Non-Blocking iMessage Swap (Breathable Reading Measure) */}
-              <div className="border-t border-stone-200/80 bg-stone-50/70 px-5 py-6 sm:px-10 sm:py-7">
+              {/* Spontaneous Adaptive Replies + Optional Non-Blocking iMessage Swap */}
+              <div className="border-t border-zinc-200 bg-zinc-50/80 px-5 py-6 sm:px-10 sm:py-7">
                 <div className="mx-auto w-full max-w-2xl space-y-4">
                 {isReadyToGraduate && !snoozedImessageIds.includes(currentThread.leadId) && (
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-blue-50/80 px-4 py-3.5">
-                    <div className="text-xs sm:text-sm font-bold text-blue-950">
+                    <div className="text-xs sm:text-sm font-semibold text-blue-950">
                       {role === 'her'
-                        ? `📱 Chemistry is buzzing, share your number to move to iMessage, or stay on Prowl as long as you like!`
-                        : `📱 Chemistry is buzzing, move to personal iMessage now, or keep bantering right here on Prowl!`}
+                        ? `📱 Chemistry is high: share your number for iMessage, or stay on Prowl.`
+                        : `📱 Chemistry is high: move to personal iMessage, or keep chatting here.`}
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         type="button"
                         onClick={handleGraduateToImessage}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-[#007AFF] hover:bg-blue-600 px-4 py-2 text-xs sm:text-sm font-bold text-white cursor-pointer"
+                        className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#007AFF] hover:bg-blue-600 px-3.5 text-xs sm:text-sm font-semibold text-white cursor-pointer"
                       >
                         <Unlock className="h-3.5 w-3.5" />
                         <span>
@@ -2035,9 +2034,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         onClick={() =>
                           setSnoozedImessageIds((prev) => [...prev, currentThread.leadId])
                         }
-                        className="rounded-full border border-blue-200 bg-white hover:bg-blue-100/40 px-3.5 py-2 text-xs sm:text-sm font-semibold text-blue-950 cursor-pointer"
+                        className="inline-flex h-9 items-center rounded-lg border border-blue-200 bg-white hover:bg-blue-100/40 px-3 text-xs sm:text-sm font-medium text-blue-950 cursor-pointer"
                       >
-                        Not Yet, Keep Bantering on Prowl ✨
+                        Not Yet, Keep Bantering on Prowl
                       </button>
                     </div>
                   </div>
@@ -2045,8 +2044,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
                 {spicyMode && currentThread.stage === 'imessage' ? (
                   <div className="space-y-2.5">
-                    <div className="text-xs sm:text-sm font-bold text-rose-800">
-                      🔥 After-Dark Spicy Suggestions (Tap to send)
+                    <div className="text-xs sm:text-sm font-semibold text-rose-800">
+                      🔥 After-Dark Suggestions
                     </div>
                     <div className="grid gap-2.5">
                       {currentChapter.spicySuggestions.map((sp) => (
@@ -2056,7 +2055,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                           disabled={Boolean(dmTypingLabel) || sendingAi}
                           data-testid="chat-suggestion-btn"
                           onClick={() => void sendSpontaneousTurn(sp, 0)}
-                          className="w-full rounded-2xl border border-rose-200 bg-rose-50/70 px-4 py-3.5 sm:px-5 sm:py-4 text-left text-sm sm:text-[15px] leading-relaxed font-semibold text-rose-950 whitespace-normal hover:bg-rose-100 transition cursor-pointer disabled:opacity-55"
+                          className="w-full rounded-xl border border-rose-200 bg-rose-50/70 px-4 py-3.5 text-left text-sm sm:text-[15px] leading-relaxed font-medium text-rose-950 whitespace-normal hover:bg-rose-100 transition cursor-pointer disabled:opacity-55"
                         >
                           {sp}
                         </button>
@@ -2065,10 +2064,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 ) : currentThread.adaptiveSuggestions ? (
                   <div className="space-y-2.5" data-testid="adaptive-suggestions-panel">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-semibold text-zinc-600">
-                      <span className="inline-flex items-center gap-1.5 text-rose-700 font-bold">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-medium text-zinc-600">
+                      <span className="inline-flex items-center gap-1.5 text-rose-700 font-semibold">
                         <Sparkles className="h-3.5 w-3.5" />
-                        <span>Live Replies Adapted to {currentProfile.name}’s Message</span>
+                        <span>Replies for {currentProfile.name}</span>
                       </span>
                       {activeBeat && (
                         <button
@@ -2079,9 +2078,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                               adaptiveSuggestions: undefined,
                             })
                           }
-                          className="text-xs font-semibold text-zinc-500 hover:text-zinc-900 underline cursor-pointer"
+                          className="text-xs font-medium text-zinc-500 hover:text-zinc-900 underline cursor-pointer"
                         >
-                          Show Chapter Beat {currentThread.currentBeat}/6 Options
+                          Show Beat {currentThread.currentBeat}/6 Options
                         </button>
                       )}
                     </div>
@@ -2101,15 +2100,15 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             disabled={Boolean(dmTypingLabel) || sendingAi}
                             data-testid="chat-suggestion-btn"
                             onClick={() => void sendSpontaneousTurn(displayClean, cost)}
-                            className={`w-full rounded-2xl px-4 py-3.5 sm:px-5 sm:py-4 text-left text-sm sm:text-[15px] leading-relaxed whitespace-normal transition cursor-pointer disabled:opacity-55 ${
+                            className={`w-full rounded-xl px-4 py-3.5 text-left text-sm sm:text-[15px] leading-relaxed whitespace-normal transition cursor-pointer disabled:opacity-55 ${
                               isVipMove
-                                ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E]'
-                                : 'border border-stone-200 bg-white font-medium text-stone-800 hover:border-stone-400 shadow-2xs'
+                                ? 'border border-rose-200 bg-rose-50/60 font-semibold text-zinc-950 hover:border-rose-400'
+                                : 'border border-zinc-200 bg-white font-medium text-zinc-800 hover:border-zinc-400 shadow-2xs'
                             }`}
                           >
                             <span>{displayClean}</span>
                             {isVipMove && (
-                              <span className="ml-2 inline-block rounded-full bg-amber-200/80 px-2.5 py-0.5 text-[11px] font-extrabold text-amber-950">
+                              <span className="ml-2 inline-block rounded-md bg-rose-600 px-2 py-0.5 text-xs font-semibold text-white">
                                 Bold Spark
                               </span>
                             )}
@@ -2122,7 +2121,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   <div className="space-y-2.5">
                     <div
                       data-testid="chat-beat-progress"
-                      className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-semibold text-stone-600"
+                      className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-semibold text-zinc-600"
                     >
                       <div className="flex items-center gap-2">
                         <span className="inline-flex items-center gap-1.5">
@@ -2130,7 +2129,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             <span
                               key={dot}
                               className={`h-2 w-2 rounded-full ${
-                                dot <= currentThread.currentBeat ? 'bg-rose-600' : 'bg-stone-300'
+                                dot <= currentThread.currentBeat ? 'bg-rose-600' : 'bg-zinc-300'
                               }`}
                             />
                           ))}
@@ -2140,7 +2139,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         </span>
                       </div>
                       {activeBeat.trapClueHint && (
-                        <span className="text-rose-700 font-bold">🕵️ Intuition Alert</span>
+                        <span className="text-rose-700 font-semibold">🕵️ Intuition Alert</span>
                       )}
                     </div>
                     <div className="grid gap-2.5">
@@ -2153,15 +2152,15 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                             disabled={Boolean(dmTypingLabel) || sendingAi}
                             data-testid="chat-suggestion-btn"
                             onClick={() => handlePickChoice(c.text, c.reply, c.delta, cost)}
-                            className={`w-full rounded-2xl px-4 py-3.5 sm:px-5 sm:py-4 text-left text-sm sm:text-[15px] leading-relaxed whitespace-normal transition cursor-pointer disabled:opacity-55 ${
+                            className={`w-full rounded-xl px-4 py-3.5 text-left text-sm sm:text-[15px] leading-relaxed whitespace-normal transition cursor-pointer disabled:opacity-55 ${
                               cost > 0
-                                ? 'border border-amber-300 bg-gradient-to-r from-amber-50 to-rose-50 font-bold text-[#18101E]'
-                                : 'border border-stone-200 bg-white font-medium text-stone-800 hover:border-stone-400 shadow-2xs'
+                                ? 'border border-rose-200 bg-rose-50/60 font-semibold text-zinc-950 hover:border-rose-400'
+                                : 'border border-zinc-200 bg-white font-medium text-zinc-800 hover:border-zinc-400 shadow-2xs'
                             }`}
                           >
                             <span>{c.text}</span>
                             {'badge' in c && (
-                              <span className="ml-2 inline-block rounded-full bg-amber-200/80 px-2.5 py-0.5 text-[11px] font-extrabold text-amber-950">
+                              <span className="ml-2 inline-block rounded-md bg-rose-600 px-2 py-0.5 text-xs font-semibold text-white">
                                 {c.badge}
                               </span>
                             )}
@@ -2172,15 +2171,15 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 ) : (
                   <div className="space-y-2.5">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-semibold text-zinc-600">
-                      <span className="font-bold text-rose-700">
-                        ✨ Spontaneous Banter Mode. Keep riffing freely or pick a playful prompt:
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-medium text-zinc-600">
+                      <span className="font-semibold text-rose-700">
+                        ✨ Spontaneous Banter
                       </span>
                       {nextDateScript && currentThread.stage === 'imessage' && (
                         <button
                           type="button"
                           onClick={() => launchDateWithGate(currentProfile.id, nextDateScript)}
-                          className="inline-flex items-center gap-1.5 rounded-full bg-[#B83253] px-4 py-1.5 text-xs font-bold text-white cursor-pointer"
+                          className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-3.5 text-xs font-semibold text-white cursor-pointer"
                         >
                           <Sparkles className="h-3.5 w-3.5" />
                           <span>

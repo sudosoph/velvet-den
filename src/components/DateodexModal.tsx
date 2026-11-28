@@ -41,34 +41,29 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
         onClick={onClose}
       >
         <div
-          className="editorial-hinge-card relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
+          className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-7 space-y-3.5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-1">
-                <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
+          <div className="shrink-0 border-b border-zinc-200 bg-white px-5 py-4 sm:px-7 space-y-3">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-950">
                   Dateodex &amp; Polaroid Album
                 </h2>
-                <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-600">
-                  <span className="rounded-md bg-zinc-100 px-2.5 py-0.5 font-semibold text-zinc-800">
-                    {stampedCount}/{V35_CAST_PROFILES.length} Cast Logged
-                  </span>
-                  <span className="rounded-md bg-zinc-100 px-2.5 py-0.5">
-                    Table 9 Clues: <strong>{wallet.conspiracyClues.length}/3</strong>
-                  </span>
-                  <span className="rounded-md bg-zinc-100 px-2.5 py-0.5">
-                    Discernment XP: <strong>{wallet.discernmentXp} XP</strong>
-                  </span>
-                </div>
+                <span className="rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-semibold text-zinc-800">
+                  {stampedCount}/{V35_CAST_PROFILES.length} Logged
+                </span>
+                <span className="rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600">
+                  Table 9: <strong>{wallet.conspiracyClues.length}/3</strong>
+                </span>
               </div>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close Dateodex"
-                className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
 
@@ -77,20 +72,20 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setSubTab('cast')}
-                  className={`rounded-lg px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
-                    subTab === 'cast' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
+                  className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                    subTab === 'cast' ? 'bg-white font-semibold text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
                   }`}
                 >
-                  Cast Roster ({V35_CAST_PROFILES.length})
+                  Cast ({V35_CAST_PROFILES.length})
                 </button>
                 <button
                   type="button"
                   onClick={() => setSubTab('polaroids')}
-                  className={`rounded-lg px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
-                    subTab === 'polaroids' ? 'bg-white text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
+                  className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                    subTab === 'polaroids' ? 'bg-white font-semibold text-zinc-950 shadow-2xs' : 'text-zinc-600 hover:text-zinc-950'
                   }`}
                 >
-                  Polaroid Memories ({dateodex.unlockedPolaroidIds.length}/{CLUB_POLAROIDS.length})
+                  Polaroids ({dateodex.unlockedPolaroidIds.length}/{CLUB_POLAROIDS.length})
                 </button>
               </div>
 
@@ -104,7 +99,7 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                     shareSurface: 'verdict_receipt',
                   })
                 }
-                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs sm:text-sm font-semibold text-zinc-900 hover:bg-zinc-50 transition-colors cursor-pointer"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs sm:text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors cursor-pointer"
               >
                 <Share2 className="h-3.5 w-3.5 text-rose-600" />
                 <span>Share Dateodex</span>
@@ -131,11 +126,11 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                       />
                       <div className="min-w-0 flex-1 space-y-1">
                         <div className="flex flex-wrap items-center justify-between gap-1.5">
-                          <div className="font-editorial text-base font-bold text-zinc-950">
+                          <div className="text-sm font-semibold text-zinc-950">
                             {person.name}, {person.age}
                           </div>
                           {stamp ? (
-                            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-extrabold text-amber-950">
+                            <span className="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-900">
                               {stamp.rank === 'S'
                                 ? '★★★★★'
                                 : stamp.rank === 'A'
@@ -143,18 +138,18 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                                   : '★★★☆☆'}
                             </span>
                           ) : wasCutLoose ? (
-                            <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-extrabold text-emerald-900">
+                            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-xs font-semibold text-emerald-800">
                               <Flag className="h-2.5 w-2.5" /> Dodged
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-0.5 rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-500">
+                            <span className="inline-flex items-center gap-0.5 rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-500">
                               <Search className="h-2.5 w-2.5" /> Unmet
                             </span>
                           )}
                         </div>
                         <div className="text-xs text-zinc-600 leading-snug">{person.vitals.job}</div>
                         {stamp?.note && (
-                          <div className="text-xs font-semibold text-rose-700">{stamp.note}</div>
+                          <div className="text-xs font-medium text-rose-700">{stamp.note}</div>
                         )}
                       </div>
                     </div>
@@ -171,7 +166,7 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                   return (
                     <div
                       key={pol.id}
-                      className={`rounded-2xl border border-zinc-200 bg-white p-3.5 space-y-2.5 shadow-sm ${pol.rotationClass}`}
+                      className="rounded-2xl border border-zinc-200 bg-white p-3.5 space-y-2.5 shadow-2xs"
                     >
                       <div className="overflow-hidden rounded-xl bg-zinc-100 aspect-[4/3]">
                         <img
@@ -181,12 +176,12 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                         />
                       </div>
                       <div className="flex items-center justify-between gap-2">
-                        <div className="font-editorial text-sm font-bold text-zinc-950">
+                        <div className="text-sm font-semibold text-zinc-950">
                           {pol.title}
                         </div>
                         {unlocked && <Award className="h-4 w-4 text-amber-600 shrink-0" />}
                       </div>
-                      <p className="text-sm text-zinc-600 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
                         {unlocked ? pol.caption : `🔒 ${pol.unlockHint}`}
                       </p>
                     </div>

@@ -1,4 +1,11 @@
-export type TriviaCategory = 'movies' | 'tv' | 'books' | 'music_celebs';
+export type TriviaCategory =
+  | 'movies'
+  | 'tv'
+  | 'books'
+  | 'music_celebs'
+  | 'sports'
+  | 'royals_history'
+  | 'era_culture';
 export type TriviaDifficulty = 'easy' | 'medium' | 'hard';
 export type TriviaLevel = 1 | 2 | 3;
 
@@ -1422,6 +1429,657 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": "",
     "category": "books",
+    "difficulty": "hard",
+    "level": 3
+  },
+  // === CATEGORY 5: SPORTS & PRO ATHLETES (Lv.1, Lv.2, Lv.3) ===
+  {
+    "id": "gabrielle-union-dwyane-wade-met",
+    "badge": "🏀 NBA & Met Gala Royalty",
+    "question": "NBA Hall-of-Famer Dwyane Wade married actress Gabrielle Union (9 years his senior) at a Miami castle in 2014; which franchise retired Wade’s iconic #3 jersey?",
+    "options": [
+      "Miami Heat",
+      "Chicago Bulls",
+      "Los Angeles Lakers",
+      "Boston Celtics"
+    ],
+    "correctIndex": 0,
+    "funFact": "Gabrielle Union and Dwyane Wade have been red-carpet goals for over a decade, cheering court-side from Miami to Paris.",
+    "imageUrl": "./images/icons/pop_gabrielle_dwyane.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "shakira-pique-world-cup-anthem",
+    "badge": "⚽ 2010 World Cup Spark",
+    "question": "Colombian superstar Shakira first met Spanish defender Gerard Piqué (born on the exact same February 2 birthday, 10 years apart) while filming the video for which 2010 World Cup anthem?",
+    "options": [
+      "\"Hips Don't Lie\"",
+      "\"Waka Waka\"",
+      "\"La Tortura\"",
+      "\"She Wolf\""
+    ],
+    "correctIndex": 1,
+    "funFact": "Piqué appeared in the \"Waka Waka (This Time for Africa)\" music video in spring 2010 and promised Shakira he would win the World Cup final just to see her again at the closing ceremony.",
+    "imageUrl": "./images/icons/pop_olivia_harry.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "victoria-david-beckham-lounge",
+    "badge": "⚽ Posh & Becks Origin",
+    "question": "Fashion mogul Victoria Adams (one year older than husband David Beckham) famously wrote her phone number on what item for a 21-year-old Beckham inside the Manchester United players’ lounge in 1997?",
+    "options": [
+      "A silk cocktail napkin",
+      "Her London plane ticket",
+      "A backstage Spice Girls pass",
+      "A matchday program cover"
+    ],
+    "correctIndex": 1,
+    "funFact": "David Beckham kept Victoria’s London-to-Manchester plane ticket stub in his wallet for years after that 1997 charity match.",
+    "imageUrl": "./images/scenes/velvet-room-bar.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "larsa-pippen-marcus-jordan-reality",
+    "badge": "🏰 Reality Castle Duo",
+    "question": "\"Real Housewives of Miami\" star Larsa Pippen and former college basketball guard Marcus Jordan (16 years her junior) competed side-by-side inside a Scottish castle on Season 2 of which hit show?",
+    "options": [
+      "The Traitors",
+      "House of Villains",
+      "Special Forces",
+      "Deal or No Deal Island"
+    ],
+    "correctIndex": 0,
+    "funFact": "Hosted by Alan Cumming in the Scottish Highlands, Season 2 of \"The Traitors\" turned their 16-year gap alliance into round-table appointment television.",
+    "imageUrl": "./images/scenes/candlelit-cocktails.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "maria-sharapova-grigor-dimitrov-slam",
+    "badge": "🎾 Grand Slam Power Pair",
+    "question": "Before dating Nicole Scherzinger, Bulgarian tennis star Grigor Dimitrov spent two years on tour dating which five-time Grand Slam champion four years his senior?",
+    "options": [
+      "Venus Williams",
+      "Victoria Azarenka",
+      "Maria Sharapova",
+      "Caroline Wozniacki"
+    ],
+    "correctIndex": 2,
+    "funFact": "Sharapova confirmed their romance after the 2013 Madrid Open, making the pair tennis’s most photographed duo from Wimbledon to Melbourne.",
+    "imageUrl": "./images/scenes/palm-springs-resort.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "shakira-bzrp-rolex-casio",
+    "badge": "⌚ Record-Breaking Diss",
+    "question": "In Shakira’s chart-topping 2023 track \"BZRP Music Sessions, Vol. 53\" aimed at 10-years-younger ex-footballer Gerard Piqué, she sang that he traded a Ferrari for a Twingo and what luxury watch for a Casio?",
+    "options": [
+      "A Cartier",
+      "A Patek",
+      "A Rolex",
+      "An Omega"
+    ],
+    "correctIndex": 2,
+    "funFact": "The track shattered 14 Guinness World Records and turned \"You traded a Rolex for a Casio\" into an instant global breakup proverb.",
+    "imageUrl": "./images/icons/pop_madonna_mariahc_sarandon.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "ciara-russell-wilson-wisconsin",
+    "badge": "🏈 Courtside First Spark",
+    "question": "Grammy winner Ciara (three years older than Super Bowl-winning quarterback Russell Wilson) first hit it off with Wilson in March 2015 after sitting together at what sporting event?",
+    "options": [
+      "A Seattle Mariners opening night",
+      "A Wisconsin Badgers basketball game",
+      "The Kentucky Derby millionaire row",
+      "A Wimbledon quarterfinal match"
+    ],
+    "correctIndex": 1,
+    "funFact": "Months after meeting at a University of Wisconsin basketball game and attending a White House State Dinner together, Wilson proposed on a secluded Seychelles beach.",
+    "imageUrl": "./images/scenes/wedding-gala-cheers.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "danica-patrick-stenhouse-cup",
+    "badge": "🏁 200-MPH Romance",
+    "question": "Trailblazing racer Danica Patrick dated fellow driver Ricky Stenhouse Jr. (six years her junior) for five seasons while both competed full-time in which motorsport series?",
+    "options": [
+      "Formula One World Championship",
+      "IndyCar Oval Championship",
+      "NASCAR Cup Series",
+      "World Endurance Series"
+    ],
+    "correctIndex": 2,
+    "funFact": "Patrick won the 2013 Daytona 500 pole position the very same rookie Cup season she and two-time Xfinity champion Stenhouse went public.",
+    "imageUrl": "./images/scenes/coastal-convertible.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "wanda-nara-mauro-icardi-agent",
+    "badge": "⚽ Serie A Power Broker",
+    "question": "Argentine TV star Wanda Nara famously served as the hard-nosed contract agent for her 7-years-younger striker husband Mauro Icardi while he captained which Italian Serie A club?",
+    "options": [
+      "Juventus FC",
+      "AC Milan",
+      "AS Roma",
+      "Inter Milan"
+    ],
+    "correctIndex": 3,
+    "funFact": "Italian sports papers dubbed Wanda Nara the toughest negotiator in Milan when she hammered out Icardi’s San Siro contract extensions herself.",
+    "imageUrl": "./images/icons/pop_caroline_sergio.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "pamela-anderson-adil-rami-france",
+    "badge": "🏆 2018 World Cup Romance",
+    "question": "\"Baywatch\" icon Pamela Anderson relocated to the French Riviera in 2017 while dating which 18-years-younger defender on France’s 2018 FIFA World Cup championship squad?",
+    "options": [
+      "Olivier Giroud",
+      "Adil Rami",
+      "Benjamin Pavard",
+      "Raphaël Varane"
+    ],
+    "correctIndex": 1,
+    "funFact": "Anderson cheered from the VIP box in Russia as Olympique de Marseille center-back Adil Rami and France lifted the 2018 World Cup trophy.",
+    "imageUrl": "./images/scenes/hotel-pool-sauna.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "vanessa-hudgens-cole-tucker-zoom",
+    "badge": "⚾ Slide-Into-DMs Win",
+    "question": "Actress Vanessa Hudgens married MLB shortstop Cole Tucker (eight years her junior) in Tulum in 2023 after sliding into his DMs following what 2020 group call?",
+    "options": [
+      "A charity poker livestream",
+      "A Zoom meditation group",
+      "A cast table-read webinar",
+      "A Peloton team ride"
+    ],
+    "correctIndex": 1,
+    "funFact": "Hudgens unapologetically DMed Tucker right after Joe Jonas’s group Zoom meditation session: \"If I want something or someone, I’m going after them.\"",
+    "imageUrl": "./images/scenes/canyon-sunrise-trail.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "sue-bird-megan-rapinoe-olympics",
+    "badge": "🏅 Olympic Gold Couple",
+    "question": "WNBA legend Sue Bird (five years older than USWNT soccer icon Megan Rapinoe) first connected with Rapinoe at a sponsor shoot ahead of which Summer Olympics?",
+    "options": [
+      "2012 London Olympics",
+      "2016 Rio Olympics",
+      "2020 Tokyo Olympics",
+      "2008 Beijing Olympics"
+    ],
+    "correctIndex": 1,
+    "funFact": "Between them, Sue Bird and Megan Rapinoe hold six Olympic gold medals, four WNBA titles, and two FIFA Women’s World Cups.",
+    "imageUrl": "./images/scenes/terminal-b-arrivals.jpg",
+    "imageCredit": "",
+    "category": "sports",
+    "difficulty": "hard",
+    "level": 3
+  },
+  // === CATEGORY 6: ROYALS, WORLD LEADERS & HISTORY (Lv.1, Lv.2, Lv.3) ===
+  {
+    "id": "shakespeare-anne-hathaway-bed",
+    "badge": "📜 1582 Literary Marriage",
+    "question": "At age 18 in 1582 Stratford-upon-Avon, William Shakespeare married 26-year-old Anne Hathaway (eight years his senior); what famously specific item did he leave her in his will?",
+    "options": [
+      "His gilded feather quill",
+      "His Globe Theatre shares",
+      "His second-best bed",
+      "His signet gold ring"
+    ],
+    "correctIndex": 2,
+    "funFact": "In Tudor households the \"best bed\" was reserved for prestigious houseguests, meaning the \"second-best bed\" was actually William and Anne’s own marital bed.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "napoleon-josephine-paris-certificate",
+    "badge": "👑 1796 Parisian Romance",
+    "question": "Parisian socialite Joséphine de Beauharnais was six years older than 26-year-old General Napoleon Bonaparte when they wed in 1796; how did both fudge their civil marriage certificate?",
+    "options": [
+      "They left both birthdates blank",
+      "Napoleon added 18 months and she cut 4 years",
+      "They signed under royal pseudonyms",
+      "They backdated the wedding by two years"
+    ],
+    "correctIndex": 1,
+    "funFact": "To narrow their six-year gap on paper, a smitten young Napoleon gallantly made himself older while 32-year-old Joséphine shaved four years off her birth year.",
+    "imageUrl": "./images/icons/pop_macrons.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "meghan-markle-prince-harry-camping",
+    "badge": "🇬🇧 Royal Date #3 Escape",
+    "question": "Meghan Markle is three years older than Prince Harry; after just two back-to-back London dates in July 2016, where did Harry invite her to camp for five days under the stars?",
+    "options": [
+      "Scottish Highlands",
+      "Botswana",
+      "New Zealand",
+      "Costa Rica"
+    ],
+    "correctIndex": 1,
+    "funFact": "Harry later included a center diamond sourced from Botswana in Meghan’s custom engagement ring as a tribute to their third-date camping trip.",
+    "imageUrl": "./images/icons/pop_meghan_harry.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "brigitte-emmanuel-macron-workshop",
+    "badge": "🇫🇷 Élysée Palace Duo",
+    "question": "French First Lady Brigitte Macron (24 years older than President Emmanuel Macron) first collaborated with him in Amiens while directing which school extracurricular?",
+    "options": [
+      "The varsity fencing team",
+      "The theater and drama club",
+      "The national debate squad",
+      "The classical orchestra"
+    ],
+    "correctIndex": 1,
+    "funFact": "Years later they married in Le Touquet in 2007, ten years before Emmanuel won the French presidency.",
+    "imageUrl": "./images/icons/pop_macrons.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "eleanor-of-aquitaine-henry-ii",
+    "badge": "🏰 Medieval Power Queen",
+    "question": "In 1152, 30-year-old Duchess Eleanor of Aquitaine had her marriage to the King of France annulled and eight weeks later wed which 19-year-old future monarch, 11 years her junior?",
+    "options": [
+      "Richard the Lionheart",
+      "Henry II of England",
+      "Philip II of France",
+      "Frederick Barbarossa"
+    ],
+    "correctIndex": 1,
+    "funFact": "Together Eleanor of Aquitaine and young Henry Plantagenet ruled an empire stretching from the Scottish border to the Pyrenees.",
+    "imageUrl": "./images/scenes/wine-bar-booth.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "catherine-the-great-potemkin-facade",
+    "badge": "💎 Imperial Court Legend",
+    "question": "Russian Empress Catherine the Great ruled and romanced alongside 10-years-younger statesman Grigory Potemkin, whose Crimean river tour inspired what phrase for a showy fake facade?",
+    "options": [
+      "A Potemkin village",
+      "A Romanov curtain",
+      "A Winter Palace mirage",
+      "A Cossack decoy"
+    ],
+    "correctIndex": 0,
+    "funFact": "Catherine’s surviving love letters call younger partner Potemkin \"my golden pheasant\" and her indispensable co-architect of imperial policy.",
+    "imageUrl": "./images/scenes/luxury-bedroom-sanctuary.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "duchess-of-alba-seville-flamenco",
+    "badge": "💃 Spanish Aristocrat Icon",
+    "question": "In 2011, 85-year-old Cayetana, 18th Duchess of Alba (the world’s most titled aristocrat), married 24-years-younger Alfonso Díez and celebrated outside her Seville palace by doing what?",
+    "options": [
+      "Driving off on a red Vespa",
+      "Dancing flamenco barefoot",
+      "Releasing a hundred white doves",
+      "Pouring champagne from the balcony"
+    ],
+    "correctIndex": 1,
+    "funFact": "To quiet skeptical heirs, the Duchess distributed her palaces and Goya masterpieces ahead of time, kicked off her heels on the red carpet, and danced flamenco in the sun.",
+    "imageUrl": "./images/scenes/havana-salsa-studio.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "martha-george-washington-first-lady",
+    "badge": "🏛️ Founding Era Couple",
+    "question": "Wealthy Virginia estate widow Martha Dandridge Custis was eight months older than 26-year-old Colonel George Washington when they wed in 1759, becoming the original holder of what role?",
+    "options": [
+      "Governor of Mount Vernon",
+      "Keeper of the Great Seal",
+      "American First Lady",
+      "Speaker of the Salon"
+    ],
+    "correctIndex": 2,
+    "funFact": "At 27, self-assured widow Martha managed one of Virginia’s largest plantations and chose young Colonel Washington over far older colonial suitors.",
+    "imageUrl": "./images/scenes/sunday-kitchen-sanctuary.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "edith-piaf-theo-sarapo-stage-name",
+    "badge": "🎶 1962 Paris Chanson",
+    "question": "In 1962 Paris, 46-year-old French icon Édith Piaf married 26-year-old singer Théo Lamboukas and gave him the stage surname \"Sarapo,\" pronounced like the Greek phrase meaning what?",
+    "options": [
+      "My golden sun",
+      "I love you",
+      "Sing forever",
+      "Nightingale"
+    ],
+    "correctIndex": 1,
+    "funFact": "Piaf and 20-years-younger Théo Sarapo sang their duet \"À quoi ça sert l’amour?\" from the Olympia stage in Paris to unforgettable ovations.",
+    "imageUrl": "./images/scenes/candlelit-cocktails.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "queen-elizabeth-i-earl-of-essex",
+    "badge": "👑 Tudor Court Sparks",
+    "question": "At age 53, Queen Elizabeth I electrified Tudor court gossip through her tempestuous favoritism toward which dashing 21-year-old courtier, 32 years her junior?",
+    "options": [
+      "Sir Walter Raleigh of Devon",
+      "Sir Francis Drake of Plymouth",
+      "Robert Devereux, Earl of Essex",
+      "Thomas Howard, Duke of Norfolk"
+    ],
+    "correctIndex": 2,
+    "funFact": "Young Essex and Elizabeth famously stayed up until dawn playing cards, trading wit, and sparring at Whitehall Palace.",
+    "imageUrl": "./images/icons/pop_cher_icons.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "george-eliot-john-cross-honeymoon",
+    "badge": "📚 Victorian Literary Scandal",
+    "question": "At age 60 in 1880, acclaimed \"Middlemarch\" novelist George Eliot (Mary Ann Evans) stunned Victorian London by marrying 40-year-old banker John Walter Cross and honeymooning where?",
+    "options": [
+      "Lake Como",
+      "Venice",
+      "Monte Carlo",
+      "Vienna"
+    ],
+    "correctIndex": 1,
+    "funFact": "Cross had admired Eliot’s intellect for years before they wed at St George’s Hanover Square and set off for the Grand Canal in Venice.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "georgia-okeeffe-juan-hamilton-gap",
+    "badge": "🎨 Ghost Ranch Muse",
+    "question": "Modernist painter Georgia O’Keeffe spent her vibrant 80s and 90s in Abiquiu, New Mexico working and traveling closely with potter and sculptor Juan Hamilton, how many years her junior?",
+    "options": [
+      "28 years younger",
+      "39 years younger",
+      "46 years younger",
+      "58 years younger"
+    ],
+    "correctIndex": 3,
+    "funFact": "Hamilton arrived at Ghost Ranch at age 27 looking for ranch work and became O’Keeffe’s closest creative confidant for the final 13 years of her life.",
+    "imageUrl": "./images/scenes/canyon-sunrise-trail.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "hard",
+    "level": 3
+  },
+  // === CATEGORY 7: 90s/00s NOSTALGIA VS. GEN-Z DECODER (Lv.1, Lv.2, Lv.3) ===
+  {
+    "id": "genx-texting-period-tone",
+    "badge": "📱 Texting Translation Gap",
+    "question": "In cross-generational texting linguistics, what routine punctuation mark at the end of a one-word reply like \"Sure.\" or \"Okay.\" makes Gen-Z daters assume an older partner is furious?",
+    "options": [
+      "An exclamation point",
+      "A standard period",
+      "A semicolon",
+      "Three ellipsis dots"
+    ],
+    "correctIndex": 1,
+    "funFact": "Linguists like Gretchen McCulloch documented that while Gen-X treats a period as polite grammar, younger texters read a trailing period on a short text as icy anger.",
+    "imageUrl": "./images/scenes/wine-bar-booth.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "blockbuster-vhs-rewind-rule",
+    "badge": "📼 Friday Video Night",
+    "question": "Before streaming queues existed, what four-word golden rule was stamped onto VHS rental cases at Blockbuster Video so customers wouldn’t get dinged with an extra fee?",
+    "options": [
+      "Play Twice, Return Nice",
+      "Be Kind, Please Rewind",
+      "Drop Before Midnight Sharp",
+      "Keep Tape Inside Sleeve"
+    ],
+    "correctIndex": 1,
+    "funFact": "Explaining dedicated car-shaped VHS rewinders to a 24-year-old date remains a rite of passage on cozy movie nights.",
+    "imageUrl": "./images/scenes/cozy-rain-suite.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "feline-chart-puma-cougar-jaguar",
+    "badge": "🐆 Club Feline Scale",
+    "question": "On the classic tongue-in-cheek feline age scale, a woman in her 30s dating younger is a \"Puma\" and her 40s is a \"Cougar\"; which sleek apex cat crowns her 50s?",
+    "options": [
+      "Snow Leopard",
+      "Cheetah",
+      "Jaguar",
+      "Ocelot"
+    ],
+    "correctIndex": 2,
+    "funFact": "In club slang the ladder runs 30s Puma, 40s Cougar, 50s Jaguar, and 60s+ Silver Panther.",
+    "imageUrl": "./images/icons/pop_cougar_town.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "motorola-razr-t9-keypad",
+    "badge": "📟 2005 Flip-Phone Skill",
+    "question": "Before touchscreen smartphones arrived in 2007, 2000s daters typed fast no-look texts under the dinner table on Motorola RAZR flip phones using what predictive number-pad tech?",
+    "options": [
+      "T9 predictive keypad",
+      "Palm Graffiti script",
+      "Morse key shortcuts",
+      "BlackBerry trackball"
+    ],
+    "correctIndex": 0,
+    "funFact": "Peak 2005 romance meant snapping shut a hot-pink Motorola RAZR V3 with one hand after firing off a flawless T9 reply.",
+    "imageUrl": "./images/scenes/neon-bowling-lounge.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "fleetwood-mac-dreams-cranberry-2020",
+    "badge": "🛹 Generational Song Bridge",
+    "question": "Millions of Gen-Z listeners discovered Fleetwood Mac’s 1977 classic \"Dreams\" in 2020 when TikToker Nathan Apodaca filmed himself skateboarding to work drinking straight from a bottle of what?",
+    "options": [
+      "Martinelli's Sparkling Cider",
+      "Ocean Spray Cran-Raspberry",
+      "Arizona Iced Green Tea",
+      "Snapple Peach Iced Tea"
+    ],
+    "correctIndex": 1,
+    "funFact": "The viral clip propelled \"Dreams\" back into the Billboard Top 10 after 43 years, with Mick Fleetwood recreating the skateboard toast himself.",
+    "imageUrl": "./images/scenes/coastal-convertible.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "mapquest-printed-roadtrip-sheets",
+    "badge": "🗺️ Pre-GPS Road Trips",
+    "question": "Before turn-by-turn phone GPS existed, how did late-1990s and early-2000s couples navigate highway exits on a weekend getaway?",
+    "options": [
+      "Calling AAA from highway payphones",
+      "Printing step-by-step MapQuest pages",
+      "Tuning into AM traffic beacons",
+      "Renting dashboard CD-ROM atlases"
+    ],
+    "correctIndex": 1,
+    "funFact": "True relationship compatibility in 2002 was surviving a missed exit when the passenger only printed the outbound MapQuest directions and forgot the return trip.",
+    "imageUrl": "./images/scenes/terminal-b-arrivals.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "half-your-age-plus-seven-1901",
+    "badge": "📖 Dating Rule Mythbuster",
+    "question": "Where did the oft-quoted \"half-your-age-plus-seven\" dating formula actually originate in Max O’Rell’s 1901 book \"Her Royal Highness Woman\"?",
+    "options": [
+      "As a minimum bride age for older grooms",
+      "As a Parisian salon rule for older widows",
+      "As a Viennese waltz partner pairing code",
+      "As a British royal marriage statute"
+    ],
+    "correctIndex": 0,
+    "funFact": "In 1901 it was prescribed strictly for Victorian men choosing younger brides, never intended to police grown women dating consenting younger men.",
+    "imageUrl": "./images/scenes/cougarmarket-wine.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "limewire-mix-cd-roulette",
+    "badge": "💿 2004 Mix-CD Romance",
+    "question": "Millennials burning a romantic 2004 mix CD on a blank CD-R routinely risked giving the family desktop twenty pop-up viruses by downloading MP3s on which lime-logo app?",
+    "options": [
+      "Winamp Pro",
+      "SoundCloud",
+      "LimeWire",
+      "RealPlayer"
+    ],
+    "correctIndex": 2,
+    "funFact": "Hand-lettering a Sharpie tracklist onto a Verbatim CD-R survived through pure LimeWire bravery was the 2004 equivalent of a custom Spotify playlist.",
+    "imageUrl": "./images/scenes/campus-autumn-sushi.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "nirvana-in-utero-tour-shirt",
+    "badge": "🎸 Vintage Tour-Tee Test",
+    "question": "When a 23-year-old shows up to brunch in a thrifted winged-anatomy tour shirt thinking it’s a skate brand, which band’s 1993 final studio album \"In Utero\" is actually on his chest?",
+    "options": [
+      "Soundgarden",
+      "Alice in Chains",
+      "Pearl Jam",
+      "Nirvana"
+    ],
+    "correctIndex": 3,
+    "funFact": "Nothing sparks faster brunch banter than a woman who saw the 90s live quizzing her date to name three songs on his vintage tour tee.",
+    "imageUrl": "./images/icons/pop_cub_grooming_joke.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "aim-away-message-lyrics",
+    "badge": "💬 2003 Subtweet Art",
+    "question": "Years before Instagram Close Friends stories existed, early-2000s crushes broadcast cryptic song lyrics whenever they stepped away from the desktop using what status feature?",
+    "options": [
+      "A MySpace Top-8 Bulletin",
+      "An AIM Away Message",
+      "A LiveJournal Mood Pin",
+      "A Yahoo Pager Beep"
+    ],
+    "correctIndex": 1,
+    "funFact": "Crafting a poetic yellow-on-black AOL Instant Messenger Away Message just so one specific crush would notice the creaking-door sign-on sound was high art.",
+    "imageUrl": "./images/scenes/velvet-room-bar.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "nhl-hockey-2001-cougar-slang",
+    "badge": "🏒 Origin of the Word",
+    "question": "Pop-culture lexicographers trace the modern dating term \"cougar\" to a 2001 Toronto Sun column and Canadian book about confident older women socializing with young rookies in which pro sport?",
+    "options": [
+      "ATP pro tennis",
+      "NHL ice hockey",
+      "Formula One racing",
+      "PGA championship golf"
+    ],
+    "correctIndex": 1,
+    "funFact": "Coined in Western Canadian hockey lounges before Valerie Gibson’s 2001 book popularized it, the word flipped overnight from locker-room slang into a badge of confidence.",
+    "imageUrl": "./images/icons/pop_cougar_town.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "dial-up-56k-landline-cutoff",
+    "badge": "☎️ 56k Modem Era",
+    "question": "In a late-1990s home before broadband Wi-Fi, what everyday household event instantly knocked you offline right in the middle of a late-night 56k dial-up chat?",
+    "options": [
+      "Turning on the kitchen microwave",
+      "Someone picking up the landline phone",
+      "Switching the TV to channel 3",
+      "Unplugging the VCR clock"
+    ],
+    "correctIndex": 1,
+    "funFact": "Every Gen-X and elder Millennial still remembers the screeching dial-up handshake tone and yelling \"Hang up the phone, I’m online!\" down the hallway.",
+    "imageUrl": "./images/scenes/sunday-kitchen-sanctuary.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
     "difficulty": "hard",
     "level": 3
   }

@@ -238,41 +238,36 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
         className="editorial-hinge-card relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="shrink-0 border-b border-zinc-200 bg-white px-5 pt-5 pb-4 sm:px-8 space-y-3.5">
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-0.5">
-              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950">
-                The Age-Gap Field Guide
-              </h2>
-              <p className="text-xs text-zinc-500">
-                Browse archetypes, dating etiquette, and real-life celebrity couples.
-              </p>
-            </div>
+        <div className="shrink-0 border-b border-zinc-200 bg-white px-5 py-4 sm:px-7 space-y-3">
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-950">
+              Age-Gap Field Guide
+            </h2>
             <button
               type="button"
               onClick={onClose}
-              className="shrink-0 rounded-lg border border-zinc-200 bg-white p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
               aria-label="Close Field Guide"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="inline-flex flex-wrap items-center gap-1 rounded-lg bg-zinc-100 p-1">
+          <div className="inline-flex flex-wrap items-center gap-1 rounded-xl bg-zinc-100 p-1">
             {[
-              { id: 'all', label: `All ${FIELD_GUIDE_ENTRIES.length} Cards` },
-              { id: 'feline_scale', label: 'Feline Age Scale' },
+              { id: 'all', label: `All (${FIELD_GUIDE_ENTRIES.length})` },
+              { id: 'feline_scale', label: 'Feline Scale' },
               { id: 'cub_taxonomy', label: 'Cubs vs. Goblins' },
-              { id: 'crossover_lore', label: 'Romance Polarity' },
+              { id: 'crossover_lore', label: 'Polarity' },
               { id: 'pop_culture', label: 'Celebrity Icons' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
+                className={`rounded-lg px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
                   activeFilter === tab.id
-                    ? 'bg-white text-zinc-950 shadow-2xs'
+                    ? 'bg-white font-semibold text-zinc-950 shadow-2xs'
                     : 'text-zinc-600 hover:text-zinc-950'
                 }`}
               >
@@ -282,11 +277,11 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
           </div>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-8 space-y-5">
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 space-y-5">
           {activeFilter === 'pop_culture' && (
-            <div className="rounded-xl border border-rose-200 bg-rose-50/60 p-4 space-y-2.5">
-              <div className="text-xs font-bold uppercase tracking-wider text-rose-800">
-                🎬 Watch Specific Titles Directly on Prime Video
+            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 space-y-2.5">
+              <div className="text-xs font-semibold text-zinc-900">
+                🎬 Stream on Prime Video
               </div>
               <div className="grid gap-2 sm:grid-cols-2">
                 {(
@@ -311,7 +306,7 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                           surface: 'field_guide',
                         })
                       }
-                      className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs font-semibold text-zinc-900 hover:border-rose-400 transition"
+                      className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-zinc-900 hover:bg-zinc-50 transition"
                     >
                       <span>{item.name.split(' (')[0]}</span>
                       <ExternalLink className="h-3.5 w-3.5 shrink-0 text-rose-600" />
@@ -319,11 +314,11 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                   );
                 })}
               </div>
-              <div className="text-[11px] text-zinc-600">{AFFILIATE_SUPPORT_COPY.compactInline}</div>
+              <div className="text-xs text-zinc-500">{AFFILIATE_SUPPORT_COPY.compactInline}</div>
             </div>
           )}
           <div className="grid gap-4 sm:grid-cols-2 items-stretch">
-          {visibleEntries.map((entry, idx) => {
+          {visibleEntries.map((entry) => {
             const stamped = unlockedStamps.includes(entry.id);
             const portrait = ENTRY_PORTRAITS[entry.id] ?? {
               url: './images/cast/hero-couple.jpg',
@@ -332,25 +327,20 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
             return (
               <div
                 key={entry.id}
-                className="rounded-xl border border-zinc-200 bg-white p-4 sm:p-5 space-y-3 h-full flex flex-col justify-between shadow-2xs"
+                className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5 space-y-3 h-full flex flex-col justify-between shadow-2xs"
               >
                 <div className="space-y-3">
                   <div className="flex items-start gap-3.5">
-                    <div className="relative shrink-0">
-                      <img
-                        src={portrait.url}
-                        alt={entry.label}
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = './images/cast/hero-couple.jpg';
-                        }}
-                        className="h-24 w-20 sm:h-28 sm:w-22 rounded-xl border border-zinc-200 bg-zinc-100 object-cover object-top"
-                      />
-                      <span className="absolute -top-2 -left-2 rounded-md bg-zinc-900 px-1.5 py-0.5 text-xs font-semibold text-white">
-                        #{idx + 1}
-                      </span>
-                    </div>
-                    <div className="min-w-0 flex-1 space-y-1">
+                    <img
+                      src={portrait.url}
+                      alt={entry.label}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = './images/cast/hero-couple.jpg';
+                      }}
+                      className="h-22 w-18 shrink-0 rounded-xl border border-zinc-200 bg-zinc-100 object-cover object-top"
+                    />
+                    <div className="min-w-0 flex-1 space-y-1.5">
                       <div className="flex flex-wrap items-center gap-1.5">
                         <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700">
                           {portrait.emojiBadge}
@@ -358,13 +348,15 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                         <span className="rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-xs font-medium text-zinc-600">
                           {entry.ageRange}
                         </span>
+                        {stamped && (
+                          <span className="rounded-md bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-xs font-medium text-emerald-800">
+                            ✓ Stamped
+                          </span>
+                        )}
                       </div>
-                      <h3 className="text-base sm:text-lg font-semibold text-zinc-950 leading-snug">
+                      <h3 className="text-base font-semibold text-zinc-950 leading-snug">
                         {entry.label}
                       </h3>
-                      <div className="text-xs font-medium text-zinc-500 leading-snug">
-                        {entry.headline} {stamped ? '• ✓ Unlocked' : ''}
-                      </div>
                     </div>
                   </div>
 
@@ -374,8 +366,8 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                 </div>
 
                 <div className="space-y-1.5 pt-1">
-                  <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs font-medium text-zinc-800">
-                    <span className="font-semibold text-zinc-950">Instant Tell:</span> {entry.signatureTell}
+                  <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700">
+                    <strong className="font-semibold text-zinc-950">Tell:</strong> {entry.signatureTell}
                   </p>
                   {portrait.credit && (
                     <p className="text-xs text-zinc-400">{portrait.credit}</p>

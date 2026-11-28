@@ -51,13 +51,13 @@ const SURFACE_SPECS: Record<CrowdsourceSurface, CrowdsourceCopySpec> = {
     inputPlaceholder: 'Write your hyper-specific "Have You Ever?" moment in one punchy sentence...',
   },
   trivia: {
-    pillPrompt: 'Did we miss an iconic age-gap movie, book, show, or celebrity couple? Suggest it (+15 XP)',
+    pillPrompt: 'Did we miss an iconic movie, book, athlete, royal, or 90s moment? Suggest it (+15 XP)',
     heading: 'Nominate a Pop-Culture Trivia Question',
-    tagLabel: 'Category (Movie / TV / Book / Celeb)',
-    tagPlaceholder: 'e.g. BookTok / Celeb Couple',
+    tagLabel: 'Category (Movies / TV / Books / Sports / Royals / 90s)',
+    tagPlaceholder: 'e.g. Sports / Royals & History',
     exampleHint:
-      'Example: "Miriam Toews or Miranda July\'s All Fours motel makeover!" or a favorite celebrity couple.',
-    inputPlaceholder: 'Name the movie, TV couple, book, or celebrity moment we should add next...',
+      'Example: "Miranda July\'s All Fours motel makeover!" or a favorite celebrity or athlete couple.',
+    inputPlaceholder: 'Name the movie, show, book, athlete, royal, or 90s moment we should add next...',
   },
   wild: {
     pillPrompt: 'Met (or hilariously fumbled) out in the wild IRL? Share the story (+15 XP)',

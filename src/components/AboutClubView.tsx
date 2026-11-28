@@ -31,16 +31,12 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
 
   return (
     <div className="w-full space-y-6 animate-stage-in">
-      <section className="editorial-hinge-card rounded-2xl p-6 sm:p-8 space-y-3">
-        <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-          Sunset Hills House Rules
-        </div>
+      <section className="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 space-y-3 shadow-2xs">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950 leading-tight">
-          What Is Cougars &amp; Cubs Club?
+          About Cougars &amp; Cubs Club
         </h1>
         <p className="text-sm sm:text-base text-zinc-600 max-w-3xl leading-relaxed">
-          Built from real stories and unwritten rules across modern age-gap dating communities,{' '}
-          <strong className="font-semibold text-zinc-900">Cougars &amp; Cubs Club</strong> is an interactive older-woman × younger-man rom-com, red-flag courtroom, and insider courtship handbook celebrating confident women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers &amp; Glam-mas) and high-EQ younger men (21 to 35 Cubs).
+          <strong className="font-semibold text-zinc-900">Cougars &amp; Cubs Club</strong> is an interactive older-woman × younger-man rom-com, red-flag courtroom, and courtship handbook celebrating confident women (30s Pumas, 40s Cougars, 50s Jaguars, 60s+ Panthers) and high-EQ younger men (21 to 35 Cubs).
         </p>
 
         <div className="flex flex-wrap gap-2.5 pt-1">
@@ -58,7 +54,7 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-medium text-zinc-900 cursor-pointer"
           >
             <Compass className="h-4 w-4 text-zinc-500" />
-            <span>Meet Offline In The Wild ({V35_WILD_VENUES.length} Venues)</span>
+            <span>In The Wild ({V35_WILD_VENUES.length} Venues)</span>
           </button>
           <button
             type="button"
@@ -66,93 +62,75 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-medium text-zinc-900 cursor-pointer"
           >
             <MessageCircle className="h-4 w-4 text-zinc-500" />
-            <span>Open Chats, Discord &amp; Dates</span>
+            <span>Chats, Discord &amp; Dates</span>
           </button>
           <button
             type="button"
             onClick={onOpenGuides}
             className="inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-sm font-medium text-zinc-900 cursor-pointer"
           >
-            <span>Read Club Guides</span>
+            <span>Club Guides</span>
           </button>
         </div>
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 items-stretch">
-        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
-          <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            Prowl Dating App
-          </div>
+        <div className="rounded-2xl border border-zinc-200 bg-white p-5 space-y-1.5 shadow-2xs">
           <h2 className="text-base font-semibold text-zinc-950">
-            6 Candid Photos &amp; Real Prompts
+            Prowl Profiles
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Every profile features 6 unique activity photos and casual first-person prompts. Low-effort openers sit in Pending Likes; thoughtful notes or a Standout Rose spark the match.
+            6 candid photos, voice notes, and first-person prompts. Thoughtful openers or a Standout Rose spark the match.
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
-          <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            In The Wild
-          </div>
+        <div className="rounded-2xl border border-zinc-200 bg-white p-5 space-y-1.5 shadow-2xs">
           <h2 className="text-base font-semibold text-zinc-950">
-            {V35_WILD_VENUES.length} Sunset Hills Venues
+            {V35_WILD_VENUES.length} Offline Venues
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Meet offline at Terminal B Arrivals, Hawthorne University, The Marlow Lounge Hotel Bar, Havana Social Salsa, and Palisades Racquet, going straight to real phone numbers.
+            Read body language across 3 beats at Terminal B, Hawthorne Campus, The Marlow Lounge, and Palisades Racquet.
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
-          <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-            The Vetting Filter
-          </div>
+        <div className="rounded-2xl border border-zinc-200 bg-white p-5 space-y-1.5 shadow-2xs">
           <h2 className="text-base font-semibold text-zinc-950">
-            Prowl DM to Personal iMessage
+            App DM to iMessage
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Banter freely off-the-cuff or tap sharp comebacks, consult 5 Sunset Hills Discord channels, block disguised Traps before Friday with Cut Loose, and graduate real catches to iMessage.
+            Banter freely, check clues in 5 Discord channels, block disguised Traps, and graduate real catches to iMessage.
           </p>
         </div>
 
-        <div className="editorial-hinge-card rounded-2xl p-5 bg-white space-y-1.5">
-          <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-            Three-Date Chemistry
-          </div>
+        <div className="rounded-2xl border border-zinc-200 bg-white p-5 space-y-1.5 shadow-2xs">
           <h2 className="text-base font-semibold text-zinc-950">
-            Multi-Date Romance Stage
+            3-Date Romance Stage
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Experience full-bleed sunset dates with expressive character reactions, free replays, Secret Group-Chat Leaks, Weekend Escape Epilogues, and the hidden Table 9 Takedown.
+            Play 3 dates per regular with free replays, Group-Chat Leaks, Weekend Epilogues, and the Table 9 Takedown.
           </p>
         </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-2 items-stretch">
-        <div className="editorial-hinge-card rounded-2xl p-6 bg-white space-y-2.5">
-          <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-            House Rules of The Club
-          </div>
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-950">
-            Consenting Grown Adults (21+), Zero Mooching &amp; Zero Tourists
+      <section className="grid gap-5 lg:grid-cols-2 items-stretch">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 space-y-2.5 shadow-2xs">
+          <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-950">
+            Club House Rules (21+)
           </h2>
-          <ul className="space-y-2 text-sm font-medium text-zinc-600 leading-relaxed">
-            <li>• <strong>Adults Only (21+):</strong> Every character is a consenting adult (including strict Post-Grades university boundaries).</li>
-            <li>• <strong>Never an ATM:</strong> Accomplished women date younger for chemistry, presence, and joy, never to bankroll a dependent.</li>
-            <li>• <strong>Every Polarity Celebrated:</strong> Play Princess Romance, Soft Mommy-Domme poise, or decisive Cub-Daddy dinner takeovers.</li>
+          <ul className="space-y-2 text-sm text-zinc-600 leading-relaxed">
+            <li>• <strong className="text-zinc-900">Adults Only (21+):</strong> Every character is a consenting adult (including strict post-grades university rules).</li>
+            <li>• <strong className="text-zinc-900">Never an ATM:</strong> Accomplished women date younger for chemistry, presence, and joy, never to fund a dependent.</li>
+            <li>• <strong className="text-zinc-900">Every Polarity Celebrated:</strong> Play Princess Romance, Soft Mommy-Domme poise, or decisive Cub-Daddy dinner takeovers.</li>
           </ul>
         </div>
 
-        <div className="editorial-hinge-card rounded-2xl p-6 bg-white flex flex-col justify-between gap-4">
-          <div className="space-y-2.5">
-            <div className="text-xs font-semibold uppercase tracking-wider text-rose-600">
-              {herCount} Women &amp; {himCount} Men in the Roster
-            </div>
-            <h2 className="text-xl font-semibold tracking-tight text-zinc-950">
-              Explore Every Corner of Sunset Hills
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 flex flex-col justify-between gap-4 shadow-2xs">
+          <div className="space-y-2">
+            <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-950">
+              {herCount} Women &amp; {himCount} Men in Sunset Hills
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              Grade 12 real-world courtship scenarios in Cub Obedience School or browse all {AFFILIATE_CATALOG.length} studio-photographed date-night &amp; hosting picks.
+              Grade 12 courtship scenarios in Cub School or browse {AFFILIATE_CATALOG.length} curated date-night &amp; hosting picks.
             </p>
           </div>
 
@@ -160,16 +138,16 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
             <button
               type="button"
               onClick={onOpenCubSchool}
-              className="rounded-full bg-zinc-100 hover:bg-zinc-200 px-4 py-3 text-sm font-bold text-zinc-950 cursor-pointer"
+              className="inline-flex h-10 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-4 text-sm font-semibold text-zinc-950 cursor-pointer"
             >
-              🎓 Enter Cub Obedience School
+              🎓 Cub Obedience School
             </button>
             <button
               type="button"
               onClick={onOpenBoutique}
-              className="rounded-full bg-zinc-950 hover:bg-zinc-800 px-4 py-3 text-sm font-bold text-white inline-flex items-center justify-center gap-1.5 cursor-pointer"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-semibold text-white cursor-pointer"
             >
-              <ShoppingBag className="h-4 w-4 text-amber-300" />
+              <ShoppingBag className="h-4 w-4 text-rose-400" />
               <span>Date-Night Shop ({AFFILIATE_CATALOG.length})</span>
             </button>
           </div>
