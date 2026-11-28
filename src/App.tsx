@@ -19,11 +19,13 @@ import {
 import { ClubCourtroomView } from './components/ClubCourtroomView';
 import { ClubPassportOverlay } from './components/ClubPassportOverlay';
 import { CougarCubChecklistModal } from './components/CougarCubChecklistModal';
+import { CouplesBlindSyncModal } from './components/CouplesBlindSyncModal';
 import { CubSchoolView } from './components/CubSchoolView';
 import { DateodexModal } from './components/DateodexModal';
 import { FieldGuideModal } from './components/FieldGuideModal';
 import { HingeFeedView } from './components/HingeFeedView';
 import { InTheWildMapView } from './components/InTheWildMapView';
+import { LiveIncomingTextBanner } from './components/LiveIncomingTextBanner';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
 import { PopCultureTriviaModal } from './components/PopCultureTriviaModal';
 import { TopHudBar, type ClubTopTab } from './components/TopHudBar';
@@ -393,6 +395,7 @@ export default function App() {
   });
   const [popTriviaOpen, setPopTriviaOpen] = useState(initialUrl.openQuiz);
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
+  const [blindSyncOpen, setBlindSyncOpen] = useState(false);
   const [passportModalOpen, setPassportModalOpen] = useState(false);
   const [passportMeta, setPassportMeta] = useState(() => loadPassportMeta());
 
@@ -465,6 +468,7 @@ export default function App() {
       boutiqueOpen ||
       popTriviaOpen ||
       checklistOpen ||
+      blindSyncOpen ||
       fieldGuideOpen ||
       dateodexOpen ||
       personaModalOpen ||
@@ -475,6 +479,7 @@ export default function App() {
       setBoutiqueOpen(false);
       setPopTriviaOpen(false);
       setChecklistOpen(false);
+      setBlindSyncOpen(false);
       setFieldGuideOpen(false);
       setDateodexOpen(false);
       setPersonaModalOpen(false);
@@ -486,6 +491,7 @@ export default function App() {
     boutiqueOpen,
     popTriviaOpen,
     checklistOpen,
+    blindSyncOpen,
     fieldGuideOpen,
     dateodexOpen,
     personaModalOpen,
@@ -774,6 +780,36 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F7F8] text-zinc-900">
+      <LiveIncomingTextBanner
+        activeThreads={activeVisibleThreads}
+        activeTab={activeTab}
+        anyModalOpen={
+          boutiqueOpen ||
+          popTriviaOpen ||
+          checklistOpen ||
+          blindSyncOpen ||
+          fieldGuideOpen ||
+          dateodexOpen ||
+          personaModalOpen ||
+          passportModalOpen
+        }
+        onOpenBannerLead={(leadId, pingText) => {
+          setThreads((prev) =>
+            prev.map((t) => {
+              if (t.leadId !== leadId) return t;
+              if (t.messages.some((m) => m.text === pingText)) return t;
+              return {
+                ...t,
+                messages: [...t.messages, { sender: 'match', text: pingText }],
+              };
+            }),
+          );
+          setSelectedChatLeadId(leadId);
+          setOpenConspiracyDirectly(false);
+          setActiveTab('chats');
+        }}
+      />
+
       <TopHudBar
         wallet={wallet}
         activeTab={activeTab}
@@ -904,6 +940,7 @@ export default function App() {
             onOpenWildMap={openWildMapOverview}
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
+            onOpenBlindSync={() => setBlindSyncOpen(true)}
             onOpenGuides={() => setActiveTab('journal')}
             onOpenCourtroom={() => setActiveTab('courtroom')}
             onSendPartnerAudition={handleSendPartnerAudition}
@@ -1544,6 +1581,11 @@ export default function App() {
           setChecklistOpen(false);
           handleLaunchScenarioSlug(episodeId);
         }}
+      />
+
+      <CouplesBlindSyncModal
+        open={blindSyncOpen}
+        onClose={() => setBlindSyncOpen(false)}
       />
 
       <BoutiqueAndVipModal

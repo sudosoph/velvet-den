@@ -86,6 +86,11 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
   const [finished, setFinished] = useState(false);
   const [povUnlocked, setPovUnlocked] = useState(false);
   const [copiedPolaroid, setCopiedPolaroid] = useState(false);
+  const [ritualPicked, setRitualPicked] = useState<{
+    id: string;
+    note: string;
+    delta: number;
+  } | null>(null);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   useEffect(() => {
@@ -101,6 +106,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
     setFinished(false);
     setPovUnlocked(wallet.unlockedPovIds.includes(`${leadId}-date-${dateNumber}`));
     setCopiedPolaroid(false);
+    setRitualPicked(null);
     // Intentionally keyed strictly on [leadId, dateNumber] so mid-session wallet/lockout updates never reset finished state
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leadId, dateNumber]);
@@ -185,6 +191,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
     setLastFeedback(null);
     setLastDelta(null);
     setFinished(false);
+    setRitualPicked(null);
   };
 
   const splitDialogueParts = (raw: string): { stageLine: string | null; spokenLine: string } => {
@@ -434,6 +441,117 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                   </p>
                 </div>
               </div>
+
+              {/* Tactile Table / Hosting / Thermostat Micro-Moment (Florence & Coffee Talk Inspired) */}
+              {beatIdx === 0 && (
+                <div
+                  data-testid="date-table-ritual"
+                  className="rounded-2xl border border-white/15 bg-white/[0.04] p-3.5 sm:p-4 space-y-2.5"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <span className="font-bold uppercase tracking-wider text-amber-300">
+                      {script.dateNumber === 3
+                        ? '❄️ Sleepover Sanctuary Dial (Optional Bonus)'
+                        : script.dateNumber === 2
+                          ? '🥂 Pour Tonight’s Signature Glass (Optional Bonus)'
+                          : '🍸 First-Minute Table Move (Optional Bonus)'}
+                    </span>
+                    {ritualPicked && (
+                      <span className="font-bold text-emerald-300">
+                        {ritualPicked.delta >= 0
+                          ? `+${ritualPicked.delta} ♥ Applied`
+                          : `${ritualPicked.delta} Vibe`}
+                      </span>
+                    )}
+                  </div>
+
+                  {!ritualPicked ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {(script.dateNumber === 3
+                        ? [
+                            {
+                              id: '63f-percale',
+                              label: '❄️ Set 63°F + Ice Water',
+                              delta: 8,
+                              note: `${profile.name} exhales happily: crisp 63°F airflow and ice water on the nightstand is elite sleep care.`,
+                            },
+                            {
+                              id: '67f-duvet',
+                              label: '🛏️ 67°F Two-Duvet Truce',
+                              delta: 6,
+                              note: `Scandinavian two-blanket diplomacy unlocked, zero 3 AM tug-of-war.`,
+                            },
+                            {
+                              id: '75f-sauna',
+                              label: '🔥 Leave Heater at 75°F',
+                              delta: -4,
+                              note: `${profile.name} laughs and cracks a window immediately: "75 degrees?! Are we raising iguanas?"`,
+                            },
+                          ]
+                        : script.dateNumber === 2
+                          ? [
+                              {
+                                id: 'sancerre',
+                                label: '🍷 Chilled Sancerre',
+                                delta: 6,
+                                note: `Two proper stems of crisp Sancerre land smoothly before the first course.`,
+                              },
+                              {
+                                id: 'espresso-martini',
+                                label: '🍸 Frothy Espresso Martini',
+                                delta: 8,
+                                note: `Seven-second hard shake with three coffee beans on top, ${profile.name} grins in approval.`,
+                              },
+                              {
+                                id: 'yuzu-spritz',
+                                label: '🌿 Zero-Proof Yuzu Spritz',
+                                delta: 6,
+                                note: `Bright botanical yuzu over crystal ice, zero 7 AM hangover.`,
+                              },
+                            ]
+                          : [
+                              {
+                                id: 'phone-pocket',
+                                label: '📵 Silence Phone in Jacket',
+                                delta: 6,
+                                note: `${profile.name} clocks your phone vanishing on silent before water even arrives.`,
+                              },
+                              {
+                                id: 'corner-banquette',
+                                label: '🛋️ Take Corner Side-by-Side',
+                                delta: 8,
+                                note: `Skipping opposite-side interview seating turns the booth electric right away.`,
+                              },
+                              {
+                                id: 'order-decisive',
+                                label: '🕯️ Order Without Menu Flashlight',
+                                delta: 6,
+                                note: `Calm, decisive ordering in dim candlelight sets an effortless pace.`,
+                              },
+                            ]
+                      ).map((ritual) => (
+                        <button
+                          key={ritual.id}
+                          type="button"
+                          onClick={() => {
+                            if (ritual.delta >= 0) sfx.greenFlag();
+                            else sfx.redFlag();
+                            setRitualPicked(ritual);
+                            setScore((prev) => prev + ritual.delta);
+                            setLastDelta(ritual.delta);
+                            setExpression(ritual.delta >= 0 ? 'blush' : 'laugh');
+                          }}
+                          className="rounded-xl border border-white/15 bg-white/[0.05] hover:border-amber-300/60 hover:bg-white/[0.12] px-3 py-2 text-left text-xs font-semibold text-zinc-100 transition cursor-pointer"
+                        >
+                          {ritual.label}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-emerald-100 leading-snug">{ritualPicked.note}</p>
+                  )}
+                </div>
+              )}
 
               {/* Spacious Keycap Choice Cards */}
               <div className="grid gap-3 pt-1">

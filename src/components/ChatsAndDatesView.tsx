@@ -103,6 +103,31 @@ export function createInitialThread(
   };
 }
 
+export function getEmilyDraftHesitation(
+  beatNumber: number,
+  role: 'her' | 'him',
+  isTrap: boolean,
+  isBold: boolean,
+): string | null {
+  if (isTrap && beatNumber >= 3) {
+    return 'Wait, why does your schedule sound like someone is waiting at home...';
+  }
+  if (isBold) {
+    return role === 'her'
+      ? 'Okay don’t play it safe, just say what I actually want...'
+      : 'Don’t sound like an eager kid, keep it cool...';
+  }
+  if (beatNumber === 3) {
+    return role === 'her'
+      ? 'Is the age gap going to make Friday weird if we bump into people...'
+      : 'Hope that didn’t come across too intense just now...';
+  }
+  if (beatNumber === 5) {
+    return 'Wait let me rephrase that before hitting send...';
+  }
+  return null;
+}
+
 export interface ChatsAndDatesViewProps {
   role: 'her' | 'him';
   wallet: WalletState;
@@ -185,6 +210,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [dmTypingLabel, setDmTypingLabel] = useState<string | null>(null);
   const [dmTypingPhase, setDmTypingPhase] = useState<'typing' | 'erasing' | 'retyping' | null>(null);
   const [dmReadStatus, setDmReadStatus] = useState<'delivered' | 'read'>('read');
+  const [playerDraftHesitation, setPlayerDraftHesitation] = useState<{
+    draft: string;
+    erasing: boolean;
+  } | null>(null);
   const [playingVoiceLeadId, setPlayingVoiceLeadId] = useState<string | null>(null);
   const voiceStopRef = useRef<(() => void) | null>(null);
   const [dmReactions, setDmReactions] = useState<Record<string, string>>({});
@@ -299,6 +328,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     setDmTypingLabel(null);
     setDmTypingPhase(null);
     setDmReadStatus('read');
+    setPlayerDraftHesitation(null);
     if (voiceStopRef.current) {
       voiceStopRef.current();
       voiceStopRef.current = null;
@@ -399,11 +429,28 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     }
 
     // Live Emily-is-Away / Mystic-Messenger Suspense Cadence:
+    // 0. Optional player-side unfiltered draft + backspace beat on pivotal turns
     // 1. Player bubble lands as "Delivered"
     // 2. Shifts to "Read" -> 3 bouncing dots appear
     // 3. On Trap / Bold / Pivotal beats: 3 dots pause & erase first draft ("stopped typing · rewriting...") -> 3 dots resume!
     const targetLeadId = currentThread.leadId;
     const matchName = currentProfile.name;
+    const playerDraft = getEmilyDraftHesitation(
+      currentThread.currentBeat,
+      role,
+      currentProfile.tier === 'trap',
+      cost > 0,
+    );
+    const preSendDelay = playerDraft ? 720 : 0;
+
+    if (playerDraft) {
+      setPlayerDraftHesitation({ draft: playerDraft, erasing: false });
+      const tBack = window.setTimeout(() => {
+        setPlayerDraftHesitation({ draft: playerDraft, erasing: true });
+      }, 420);
+      pendingTimersRef.current.push(tBack);
+    }
+
     const shouldHesitateErase =
       currentProfile.tier === 'trap' ||
       cost > 0 ||
@@ -416,75 +463,86 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       chemistry: newChemistry,
       messages: [...currentThread.messages, { sender: 'player', text: choiceText }],
     };
-    setDmReadStatus('delivered');
-    setDmTypingPhase('typing');
-    setDmTypingLabel(`${matchName} is reading`);
-    onUpdateThread(afterPlayer);
 
-    const tRead = window.setTimeout(() => {
-      setDmReadStatus('read');
+    const launchIncomingCadence = () => {
+      setPlayerDraftHesitation(null);
+      setDmReadStatus('delivered');
       setDmTypingPhase('typing');
-      setDmTypingLabel(`${matchName} is typing`);
-    }, 380);
-    pendingTimersRef.current.push(tRead);
+      setDmTypingLabel(`${matchName} is reading`);
+      onUpdateThread(afterPlayer);
 
-    if (shouldHesitateErase) {
-      const tErase = window.setTimeout(() => {
-        setDmTypingPhase('erasing');
-        setDmTypingLabel(`${matchName} stopped typing · rewriting`);
-      }, 1350);
-      const tRetype = window.setTimeout(() => {
-        setDmTypingPhase('retyping');
-        setDmTypingLabel(`${matchName} is typing`);
-      }, 2050);
-      pendingTimersRef.current.push(tErase, tRetype);
-    }
-
-    const firstReplyDelay = shouldHesitateErase ? 2950 : 1480;
-
-    const t1 = window.setTimeout(() => {
-      const latest =
-        latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : afterPlayer;
-      sfx.messagePop();
-      const withReply: ActiveMatchThread = {
-        ...latest,
-        currentBeat: nextBeatObj ? latest.currentBeat : nextBeatNum,
-        messages: [...latest.messages, { sender: 'match', text: replyText }],
-      };
-      onUpdateThread(withReply);
-
-      if (!nextBeatObj || nextBeatObj.incomingMessages.length === 0) {
-        setDmTypingPhase(null);
-        setDmTypingLabel(null);
-        return;
-      }
-
-      // Brief natural reading pause before the follow-up bubble starts typing
-      setDmTypingPhase('erasing');
-      setDmTypingLabel(`${matchName} is typing`);
-      const tPause = window.setTimeout(() => {
+      const tRead = window.setTimeout(() => {
+        setDmReadStatus('read');
         setDmTypingPhase('typing');
         setDmTypingLabel(`${matchName} is typing`);
-      }, 420);
+      }, 380);
+      pendingTimersRef.current.push(tRead);
 
-      const t2 = window.setTimeout(() => {
-        const latestStep2 =
-          latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : withReply;
+      if (shouldHesitateErase) {
+        const tErase = window.setTimeout(() => {
+          setDmTypingPhase('erasing');
+          setDmTypingLabel(`${matchName} stopped typing · rewriting`);
+        }, 1350);
+        const tRetype = window.setTimeout(() => {
+          setDmTypingPhase('retyping');
+          setDmTypingLabel(`${matchName} is typing`);
+        }, 2050);
+        pendingTimersRef.current.push(tErase, tRetype);
+      }
+
+      const firstReplyDelay = shouldHesitateErase ? 2950 : 1480;
+
+      const t1 = window.setTimeout(() => {
+        const latest =
+          latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : afterPlayer;
         sfx.messagePop();
-        onUpdateThread({
-          ...latestStep2,
-          currentBeat: nextBeatNum,
-          messages: [
-            ...latestStep2.messages,
-            ...nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })),
-          ],
-        });
-        setDmTypingPhase(null);
-        setDmTypingLabel(null);
-      }, 1480);
-      pendingTimersRef.current.push(tPause, t2);
-    }, firstReplyDelay);
-    pendingTimersRef.current.push(t1);
+        const withReply: ActiveMatchThread = {
+          ...latest,
+          currentBeat: nextBeatObj ? latest.currentBeat : nextBeatNum,
+          messages: [...latest.messages, { sender: 'match', text: replyText }],
+        };
+        onUpdateThread(withReply);
+
+        if (!nextBeatObj || nextBeatObj.incomingMessages.length === 0) {
+          setDmTypingPhase(null);
+          setDmTypingLabel(null);
+          return;
+        }
+
+        // Brief natural reading pause before the follow-up bubble starts typing
+        setDmTypingPhase('erasing');
+        setDmTypingLabel(`${matchName} is typing`);
+        const tPause = window.setTimeout(() => {
+          setDmTypingPhase('typing');
+          setDmTypingLabel(`${matchName} is typing`);
+        }, 420);
+
+        const t2 = window.setTimeout(() => {
+          const latestStep2 =
+            latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : withReply;
+          sfx.messagePop();
+          onUpdateThread({
+            ...latestStep2,
+            currentBeat: nextBeatNum,
+            messages: [
+              ...latestStep2.messages,
+              ...nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })),
+            ],
+          });
+          setDmTypingPhase(null);
+          setDmTypingLabel(null);
+        }, 1480);
+        pendingTimersRef.current.push(tPause, t2);
+      }, firstReplyDelay);
+      pendingTimersRef.current.push(t1);
+    };
+
+    if (preSendDelay > 0) {
+      const tPre = window.setTimeout(launchIncomingCadence, preSendDelay);
+      pendingTimersRef.current.push(tPre);
+    } else {
+      launchIncomingCadence();
+    }
   };
 
   const handleGraduateToImessage = () => {
@@ -1940,6 +1998,27 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
+                {/* Small-Town Sunset Hills Cross-Character Sighting Whisper (When Juggling 2+ Active Threads) */}
+                {visibleThreads.length >= 2 && (
+                  <div
+                    data-testid="sunset-hills-crossover-banner"
+                    className="mx-auto flex items-center justify-center gap-2 rounded-xl border border-amber-200/80 bg-amber-50/75 px-3.5 py-2 text-xs font-medium text-amber-950"
+                  >
+                    <span>👀</span>
+                    <span>
+                      Small-Town Sunset Hills: You’re juggling{' '}
+                      <strong>{currentProfile.name}</strong> and{' '}
+                      <strong>
+                        {getCastProfileById(
+                          visibleThreads.find((t) => t.leadId !== currentThread.leadId)?.leadId ??
+                            '',
+                        )?.name ?? 'another match'}
+                      </strong>
+                      . Careful booking Friday drinks on the same block!
+                    </span>
+                  </div>
+                )}
+
                 {currentThread.messages.map((m, idx) => {
                   if (m.sender === 'system') {
                     return (
@@ -2390,23 +2469,49 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 )}
 
+                {/* Emily-is-Away Unfiltered First-Draft + Backspacing Preview */}
+                {playerDraftHesitation && (
+                  <div
+                    data-testid="emily-draft-hesitation"
+                    className="flex items-center justify-between gap-2 rounded-2xl border border-dashed border-zinc-300 bg-white px-4 py-2 text-xs text-zinc-500 animate-stage-in"
+                  >
+                    <span className={playerDraftHesitation.erasing ? 'line-through opacity-55' : 'italic'}>
+                      “{playerDraftHesitation.draft}”
+                    </span>
+                    <span className="shrink-0 font-semibold text-rose-600">
+                      {playerDraftHesitation.erasing ? '⌫ Backspacing draft…' : 'Typing draft…'}
+                    </span>
+                  </div>
+                )}
+
                 {/* Free-Typing Live AI Bar (Always Free, Comfortable 48px Height & Readable Font) */}
                 <form onSubmit={handleFreeTextSubmit} className="flex gap-2.5 pt-1">
                   <input
                     type="text"
                     value={freeInput}
                     onChange={(e) => setFreeInput(e.target.value)}
-                    disabled={sendingAi || Boolean(dmTypingLabel)}
+                    disabled={sendingAi || Boolean(dmTypingLabel) || Boolean(playerDraftHesitation)}
                     placeholder={`Type anything freely to ${currentProfile.name} (always free)...`}
                     className="min-w-0 h-12 flex-1 rounded-full border border-zinc-300 bg-white px-5 text-base text-zinc-950 shadow-2xs focus:border-zinc-950 focus:outline-none"
                   />
                   <button
                     type="submit"
-                    disabled={!freeInput.trim() || sendingAi || Boolean(dmTypingLabel)}
+                    disabled={
+                      !freeInput.trim() ||
+                      sendingAi ||
+                      Boolean(dmTypingLabel) ||
+                      Boolean(playerDraftHesitation)
+                    }
                     className="shrink-0 inline-flex h-12 items-center gap-1.5 rounded-full bg-zinc-950 hover:bg-zinc-800 disabled:opacity-50 px-6 text-sm font-bold text-white transition cursor-pointer"
                   >
                     <Send className="h-4 w-4" />
-                    <span>{sendingAi || dmTypingLabel ? 'Typing…' : 'Send'}</span>
+                    <span>
+                      {playerDraftHesitation
+                        ? 'Rewriting…'
+                        : sendingAi || dmTypingLabel
+                          ? 'Typing…'
+                          : 'Send'}
+                    </span>
                   </button>
                 </form>
                 </div>

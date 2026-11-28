@@ -10,6 +10,7 @@ import {
   Scale,
   Send,
   Sparkles,
+  Users,
 } from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
@@ -203,6 +204,7 @@ interface CampaignCompassBarProps {
   onSendPartnerAudition?: () => void;
   onOpenPassportModal?: () => void;
   onOpenMatchmaking?: () => void;
+  onOpenBlindSync?: () => void;
   onResetHearts?: () => void;
 }
 
@@ -228,6 +230,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onSendPartnerAudition,
   onOpenPassportModal,
   onOpenMatchmaking,
+  onOpenBlindSync,
   onResetHearts,
 }) => {
   const [showModeGrid, setShowModeGrid] = useState(false);
@@ -394,6 +397,20 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 >
                   <Film className="h-3.5 w-3.5 text-sky-600" />
                   <span>Pop-Culture Trivia</span>
+                </button>
+              )}
+
+              {onOpenBlindSync && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModeGrid(false);
+                    onOpenBlindSync();
+                  }}
+                  className="inline-flex h-7 items-center gap-1.5 rounded-lg border border-rose-200 bg-white hover:border-rose-500 px-2.5 text-xs font-semibold text-rose-700 transition-colors cursor-pointer"
+                >
+                  <Users className="h-3.5 w-3.5 text-rose-600" />
+                  <span>2P Blind Sync</span>
                 </button>
               )}
 

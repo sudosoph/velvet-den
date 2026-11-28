@@ -275,4 +275,101 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
     fireEvent.click(funnyFilter);
     expect(shopDialog.textContent).toMatch(/Full-Bottle Patio Goblet/i);
   });
+
+  it('delivers Hit Dating-Sim Upgrades: Live iOS Push Banner, 2-Player & Solo Blind Sync, Date Table/Thermostat Rituals, Emily Draft Hesitation & Sunset Hills Sightings', async () => {
+    const { LiveIncomingTextBanner, getSpontaneousPingForLead } = await import(
+      '../src/components/LiveIncomingTextBanner'
+    );
+    const { CouplesBlindSyncModal, computeBlindSyncResult } = await import(
+      '../src/components/CouplesBlindSyncModal'
+    );
+    const { RomanticDateStage } = await import('../src/components/RomanticDateStage');
+    const { getEmilyDraftHesitation } = await import('../src/components/ChatsAndDatesView');
+
+    // 1. Emily-is-Away draft hesitation covers Trap tells, Bold moves, and pivotal beats
+    expect(getEmilyDraftHesitation(4, 'her', true, false)).toMatch(/waiting at home/i);
+    expect(getEmilyDraftHesitation(2, 'him', false, true)).toMatch(/eager kid/i);
+    expect(getEmilyDraftHesitation(3, 'her', false, false)).toMatch(/age gap/i);
+
+    // 2. Live Incoming iOS Push Banner renders spontaneous persona ping & routes on click
+    const julianThread = createInitialThread('julian', 'wild', undefined, false, 'left-bank-books');
+    const milesThread = createInitialThread('miles', 'hinge');
+    let openedLead = '';
+    render(
+      <LiveIncomingTextBanner
+        activeThreads={[julianThread]}
+        activeTab="hinge"
+        anyModalOpen={false}
+        forcePreviewLeadId="julian"
+        onOpenBannerLead={(id) => {
+          openedLead = id;
+        }}
+      />,
+    );
+    const banner = screen.getByTestId('live-incoming-text-banner');
+    expect(banner.textContent).toContain(getSpontaneousPingForLead('julian'));
+    fireEvent.click(within(banner).getByRole('button', { name: /Julian/i }));
+    expect(openedLead).toBe('julian');
+
+    // 3. Small-Town Sunset Hills Cross-Character Sighting appears when juggling 2+ active matches
+    const wallet = createDefaultWallet(new Date('2026-11-27T12:00:00Z'));
+    render(
+      <ChatsAndDatesView
+        role="her"
+        wallet={wallet}
+        threads={[julianThread, milesThread]}
+        selectedLeadId="julian"
+        cutLooseIds={[]}
+        onUpdateThread={() => {}}
+        onSpendCredits={() => true}
+        onUnlockBucketItem={() => true}
+        onCutLooseTrap={() => {}}
+        onConfirmCutGenuine={() => {}}
+        onLoseHeart={() => {}}
+        onOpenHinge={() => {}}
+        onOpenBoutique={() => {}}
+      />,
+    );
+    const crossover = screen.getByTestId('sunset-hills-crossover-banner');
+    expect(crossover.textContent).toContain('Julian');
+    expect(crossover.textContent).toContain('Miles');
+
+    // 4. Tactile Date-Night Thermostat Ritual on Date #3 applies +8 chemistry bonus
+    render(
+      <RomanticDateStage
+        leadId="julian"
+        dateNumber={3}
+        role="her"
+        wallet={wallet}
+        onCompleteDate={() => {}}
+        onLoseHeart={() => {}}
+        onSpendCredits={() => true}
+        onUnlockPov={() => true}
+        onUnlockEpilogue={() => true}
+        onBackToChats={() => {}}
+      />,
+    );
+    const ritual = screen.getByTestId('date-table-ritual');
+    expect(ritual.textContent).toMatch(/Sleepover Sanctuary Dial/i);
+    fireEvent.click(within(ritual).getByRole('button', { name: /Set 63°F/i }));
+    expect(ritual.textContent).toMatch(/\+8 ♥ Applied/i);
+
+    // 5. 2-Player Pass-the-Phone Blind Sync & Sync Math
+    expect(computeBlindSyncResult([0, 1, 0, 2, 1], [0, 1, 0, 2, 1]).syncPercent).toBe(100);
+    render(<CouplesBlindSyncModal open={true} onClose={() => {}} />);
+    const syncModal = screen.getByTestId('couples-blind-sync-modal');
+    for (let i = 0; i < 5; i += 1) {
+      fireEvent.click(within(syncModal).getByTestId('blind-sync-opt-0'));
+    }
+    expect(screen.getByTestId('blind-sync-handoff').textContent).toMatch(
+      /Hand the Phone to Partner B/i,
+    );
+    fireEvent.click(
+      within(syncModal).getByRole('button', { name: /Start Partner B’s Turn/i }),
+    );
+    for (let i = 0; i < 5; i += 1) {
+      fireEvent.click(within(syncModal).getByTestId('blind-sync-opt-0'));
+    }
+    expect(screen.getByTestId('blind-sync-result-card').textContent).toMatch(/100%/);
+  });
 });
