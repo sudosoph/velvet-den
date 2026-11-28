@@ -1,10 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import App from '../src/App';
+import { computeAgeGapEraNovelty } from '../src/components/ArchetypeAndPromModal';
 import {
   ChatsAndDatesView,
   createInitialThread,
 } from '../src/components/ChatsAndDatesView';
+import { ClubCourtroomView } from '../src/components/ClubCourtroomView';
 import { RoastAndWingwomanModal } from '../src/components/RoastAndWingwomanModal';
 import { V35_CAST_PROFILES } from '../src/data/v35Cast';
 import {
@@ -202,5 +204,47 @@ describe('v39 Hit Dating-Sim Engine: Clear 5-Rank Ladder, 5-Stage Relationship T
     );
     fireEvent.click(screen.getByRole('button', { name: /Run Free Club Panel/i }));
     expect(screen.getByTestId('copy-reddit-roast-btn')).toBeInTheDocument();
+  });
+
+  it('computes Courtroom vote-switching cleanly with Jury Match / Split badges and runs the 10s Age-Gap Era & Title Novelty Toy', () => {
+    const era = computeAgeGapEraNovelty(44, 26);
+    expect(era.gapYears).toBe(18);
+    expect(era.herTitle).toContain('Benchmark Cougar');
+    expect(era.hisTitle).toContain('Golden-Era Sous-Chef Cub');
+    expect(era.timeWarpJoke).toContain('2003');
+
+    const { unmount } = render(<App />);
+    fireEvent.click(screen.getByTestId('open-archetype-prom-pill'));
+    fireEvent.click(screen.getByTestId('lounge-age-toy-tab'));
+    expect(screen.getByTestId('age-gap-novelty-toy')).toBeInTheDocument();
+    expect(screen.getByTestId('age-gap-toy-banner').textContent).toContain('44F × 26M');
+    unmount();
+
+    const onCastVote = vi.fn();
+    render(
+      <ClubCourtroomView
+        role="her"
+        initialCaseId="court-fleetwood-mac-flat-tire"
+        onBackToRoster={() => {}}
+        onOpenCubAcademy={() => {}}
+        onCastCourtVote={onCastVote}
+        onGrantBonusCredits={() => false}
+      />,
+    );
+
+    const crownBtn = screen.getByRole('button', { name: /Crown Him \(Keeper Material\)/i });
+    const dumpBtn = screen.getByRole('button', { name: /Dump Him \(Straight to Jail\)/i });
+
+    fireEvent.click(crownBtn);
+    expect(onCastVote).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByTestId('jury-consensus-banner-court-fleetwood-mac-flat-tire').textContent,
+    ).toMatch(/Jury Match|Spicy Contrarian/i);
+
+    // Clicking Crown a second time does not double-count; switching to Dump adjusts without firing extra onCastCourtVote
+    fireEvent.click(crownBtn);
+    fireEvent.click(dumpBtn);
+    expect(onCastVote).toHaveBeenCalledTimes(1);
+    expect(window.localStorage.getItem('cc_courtroom_votes_v1')).toContain('dump');
   });
 });

@@ -809,7 +809,15 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
   const [stories, setStories] = useState<CourtroomStory[]>(SEED_COURTROOM_STORIES);
   const [filterTab, setFilterTab] = useState<CourtFilterTab>('all');
   const [mobilePitchOpen, setMobilePitchOpen] = useState(false);
-  const [votes, setVotes] = useState<Record<string, 'crown' | 'dump'>>({});
+  const [votes, setVotes] = useState<Record<string, 'crown' | 'dump'>>(() => {
+    try {
+      if (typeof window === 'undefined' || !window.localStorage) return {};
+      const raw = window.localStorage.getItem('cc_courtroom_votes_v1');
+      return raw ? (JSON.parse(raw) as Record<string, 'crown' | 'dump'>) : {};
+    } catch {
+      return {};
+    }
+  });
   const [copiedDaily, setCopiedDaily] = useState(false);
   const [creditToast, setCreditToast] = useState<string | null>(null);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
@@ -883,33 +891,52 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
   }, [stories, dailyStory?.id, filterTab]);
 
   const handleVote = async (storyId: string, verdict: 'crown' | 'dump') => {
-    if (votes[storyId]) return;
+    const previousVote = votes[storyId];
+    if (previousVote === verdict) return;
     if (verdict === 'crown') sfx.greenFlag();
     else sfx.redFlag();
 
-    setVotes((prev) => ({ ...prev, [storyId]: verdict }));
-    onCastCourtVote();
+    const nextVotes = { ...votes, [storyId]: verdict };
+    setVotes(nextVotes);
+    try {
+      window.localStorage?.setItem('cc_courtroom_votes_v1', JSON.stringify(nextVotes));
+    } catch {
+      // Ignore storage block
+    }
+    if (!previousVote) {
+      onCastCourtVote();
+    }
 
     setStories((prev) =>
       prev.map((s) => {
         if (s.id !== storyId) return s;
+        let { crownHer, dumpHer, crownHim, dumpHim } = s;
+        if (previousVote) {
+          if (role === 'her') {
+            if (previousVote === 'crown') crownHer = Math.max(0, crownHer - 1);
+            else dumpHer = Math.max(0, dumpHer - 1);
+          } else {
+            if (previousVote === 'crown') crownHim = Math.max(0, crownHim - 1);
+            else dumpHim = Math.max(0, dumpHim - 1);
+          }
+        }
         return {
           ...s,
-          crownHer: s.crownHer + (role === 'her' && verdict === 'crown' ? 1 : 0),
-          dumpHer: s.dumpHer + (role === 'her' && verdict === 'dump' ? 1 : 0),
-          crownHim: s.crownHim + (role === 'him' && verdict === 'crown' ? 1 : 0),
-          dumpHim: s.dumpHim + (role === 'him' && verdict === 'dump' ? 1 : 0),
+          crownHer: crownHer + (role === 'her' && verdict === 'crown' ? 1 : 0),
+          dumpHer: dumpHer + (role === 'her' && verdict === 'dump' ? 1 : 0),
+          crownHim: crownHim + (role === 'him' && verdict === 'crown' ? 1 : 0),
+          dumpHim: dumpHim + (role === 'him' && verdict === 'dump' ? 1 : 0),
         };
       }),
     );
 
-    if (storyId === dailyStory?.id) {
+    if (!previousVote && storyId === dailyStory?.id) {
       onGrantBonusCredits(`daily_drop_${dropNum}`, 0);
       awardPassportBonusXp(`court_daily_${dropNum}`, 15, 'Daily Court Verdict!', '⚖️ +15 XP');
       setCreditToast('🎉 +15 Club XP & Dateodex stamp recorded for Today’s Daily Court Drop!');
     }
 
-    if (isLiveHttpRuntime()) {
+    if (!previousVote && isLiveHttpRuntime()) {
       try {
         await fetch('/api/courtroom/vote', {
           method: 'POST',
@@ -990,8 +1017,8 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
     const himCrownPct = Math.round((item.crownHim / himTotal) * 100);
     const url =
       typeof window !== 'undefined' && window.location.origin.startsWith('http')
-        ? `${window.location.origin}/?court=1`
-        : `${BRAND_CONFIG.publicBaseUrl}/?court=1`;
+        ? `${window.location.origin}/?court=1&case=${encodeURIComponent(item.id)}`
+        : `${BRAND_CONFIG.publicBaseUrl}/?court=1&case=${encodeURIComponent(item.id)}`;
     const receipt = `⚖️ Club Courtroom (${item.aslTag}): "${item.headline}"\nMy Verdict: ${
       picked === 'crown' ? labels.receiptCrown : labels.receiptDump
     } • Cougars: ${herDumpPct}% Dump vs. Cubs: ${himCrownPct}% Crown!`;
@@ -1005,6 +1032,21 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
       message: receipt,
       url,
       shareSurface: 'verdict_receipt',
+      onDownloadStoryPng: () => {
+        downloadReceiptPng({
+          style: 'thermal',
+          badge: `COURTROOM CASE · ${item.aslTag}`,
+          bigStat: picked === 'crown' ? 'CROWNED' : 'DUMPED',
+          verdictLabel: item.vibeBadge,
+          title: item.headline,
+          bullets: [
+            `COUGARS VOTED: ${herDumpPct}% DUMP`,
+            `CUBS VOTED: ${himCrownPct}% CROWN`,
+            item.topComment || item.story,
+          ],
+          filename: `courtroom-${item.id}.png`,
+        });
+      },
     });
   };
 
@@ -1171,9 +1213,41 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
     const himTotal = Math.max(1, item.crownHim + item.dumpHim);
     const himCrownPct = Math.round((item.crownHim / himTotal) * 100);
     const himDumpPct = 100 - himCrownPct;
+    const totalBallots = herTotal + himTotal;
+    const userPicked = votes[item.id] ?? 'dump';
+    const userCohortAgreePct =
+      role === 'her'
+        ? userPicked === 'crown'
+          ? herCrownPct
+          : herDumpPct
+        : userPicked === 'crown'
+          ? himCrownPct
+          : himDumpPct;
+    const genderGapPts = Math.abs(herCrownPct - himCrownPct);
 
     return (
       <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-2.5">
+        <div
+          data-testid={`jury-consensus-banner-${item.id}`}
+          className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-semibold border-b border-zinc-200/80 pb-2"
+        >
+          <span
+            className={
+              userCohortAgreePct < 35
+                ? 'rounded-md bg-amber-100 px-2 py-0.5 text-amber-950 font-bold'
+                : 'rounded-md bg-emerald-100 px-2 py-0.5 text-emerald-950 font-bold'
+            }
+          >
+            {userCohortAgreePct < 35
+              ? `🌶️ Spicy Contrarian! Only ${userCohortAgreePct}% of ${role === 'her' ? 'Cougars' : 'Cubs'} agreed`
+              : `✓ Jury Match: ${userCohortAgreePct}% of ${role === 'her' ? 'Cougars' : 'Cubs'} voted with you`}
+          </span>
+          <span className="text-zinc-500">
+            {genderGapPts >= 15
+              ? `⚡ ${genderGapPts}-pt Cougar/Cub Split · ${totalBallots} votes`
+              : `${totalBallots} Juror Votes (Seeded + Live)`}
+          </span>
+        </div>
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs font-semibold text-zinc-900">
             <span>🐆 Cougars (35-65F)</span>

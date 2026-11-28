@@ -281,10 +281,99 @@ export function computeArchetypeVerdict(
   };
 }
 
+export interface AgeGapEraReadout {
+  gapYears: number;
+  herTitle: string;
+  hisTitle: string;
+  pairingBanner: string;
+  her21Year: number;
+  anthemAtHer21: string;
+  timeWarpJoke: string;
+  halfPlusSevenMin: number;
+  internetMathRoast: string;
+}
+
+function getBillboardAnthemForYear(year: number): string {
+  if (year <= 1982) return '"Physical" by Olivia Newton-John & Studio 54 disco';
+  if (year <= 1987) return '"Like a Virgin" by Madonna & Prince’s Purple Rain';
+  if (year <= 1992) return '"Vogue" by Madonna & Nirvana’s Nevermind';
+  if (year <= 1997) return '"Waterfalls" by TLC & Alanis Morissette’s Jagged Little Pill';
+  if (year <= 2002) return '"No Scrubs" by TLC & Destiny’s Child';
+  if (year <= 2007) return '"Crazy in Love" by Beyoncé & Usher’s "Yeah!"';
+  if (year <= 2013) return '"Rolling in the Deep" by Adele & Rihanna';
+  return '"Espresso" & modern indie vinyl';
+}
+
+export function computeAgeGapEraNovelty(herAge: number, hisAge: number): AgeGapEraReadout {
+  const safeHer = Math.max(21, Math.min(75, Math.round(herAge)));
+  const safeHim = Math.max(21, Math.min(60, Math.round(hisAge)));
+  const gapYears = safeHer - safeHim;
+
+  const herDecadeTitle =
+    safeHer >= 60
+      ? 'Velvet Silver Panther'
+      : safeHer >= 50
+        ? 'Iconic Jaguar'
+        : safeHer >= 40
+          ? 'Benchmark Cougar'
+          : 'Prime Millennial Puma';
+
+  const herTitle =
+    gapYears >= 5 && gapYears <= 9 ? `Junior Cougar (${herDecadeTitle})` : herDecadeTitle;
+
+  const hisTitle =
+    safeHim <= 24
+      ? 'Eager Trail & Campus Cub'
+      : safeHim <= 29
+        ? 'Golden-Era Sous-Chef Cub'
+        : safeHim <= 35
+          ? 'Composed Cub-Daddy'
+          : 'Plot-Twist Peer';
+
+  const currentYear = 2026;
+  const herBirth = currentYear - safeHer;
+  const hisBirth = currentYear - safeHim;
+  const her21Year = herBirth + 21;
+  const hisAgeAtHer21 = her21Year - hisBirth;
+  const anthemAtHer21 = getBillboardAnthemForYear(her21Year);
+
+  const timeWarpJoke =
+    hisAgeAtHer21 < 0
+      ? `When she ordered her first legal martini in ${her21Year} to ${anthemAtHer21}, he was still ${Math.abs(hisAgeAtHer21)} years away from being born.`
+      : hisAgeAtHer21 === 0
+        ? `The exact year she turned 21 (${her21Year}, ${anthemAtHer21}), he entered the world as a newborn.`
+        : hisAgeAtHer21 <= 12
+          ? `When she turned 21 in ${her21Year} (${anthemAtHer21}), he was ${hisAgeAtHer21} years old trading lunchbox snacks.`
+          : `In ${her21Year} (${anthemAtHer21}), you were only ${Math.abs(gapYears)} years apart on the timeline, practically neighbors in Cougar math!`;
+
+  const halfPlusSevenMin = Math.round(safeHer / 2 + 7);
+  const breaksRule = safeHim < halfPlusSevenMin;
+  const internetMathRoast = breaksRule
+    ? `Breaks "Half-Your-Age-Plus-7" (${halfPlusSevenMin}+) by ${halfPlusSevenMin - safeHim} yrs -> Internet Math Police: 🚨 Scandalized | Sunset Hills Verdict: 🥂 Two 21+ Adults Having Better Fridays Than Everyone Else.`
+    : `Passes "Half-Your-Age-Plus-7" (${halfPlusSevenMin}+) -> Even uptight Victorian math nerds cannot complain!`;
+
+  return {
+    gapYears,
+    herTitle,
+    hisTitle,
+    pairingBanner:
+      gapYears >= 10
+        ? `${safeHer}F × ${safeHim}M · ${gapYears}-Year Certified ${herDecadeTitle} × ${hisTitle}`
+        : gapYears >= 5
+          ? `${safeHer}F × ${safeHim}M · ${gapYears}-Year Junior-Cougar Spark`
+          : `${safeHer}F × ${safeHim}M · Reverse / Peer Plot-Twist Pairing`,
+    her21Year,
+    anthemAtHer21,
+    timeWarpJoke,
+    halfPlusSevenMin,
+    internetMathRoast,
+  };
+}
+
 export interface ArchetypeAndPromModalProps {
   open: boolean;
   role: PlayerRole;
-  initialMode?: 'quiz' | 'hub';
+  initialMode?: 'quiz' | 'hub' | 'toy';
   onClose: () => void;
   onOpenChecklist: () => void;
   onOpenTrivia: () => void;
@@ -310,8 +399,11 @@ export const ArchetypeAndPromModal: React.FC<ArchetypeAndPromModalProps> = ({
   onOpenCubSchool,
   onTriggerLiveBannerPing,
 }) => {
-  const [tab, setTab] = useState<'hub' | 'quiz'>(initialMode);
+  const [tab, setTab] = useState<'hub' | 'quiz' | 'toy'>(initialMode);
   const [stepIdx, setStepIdx] = useState(0);
+  const [toyHerAge, setToyHerAge] = useState(44);
+  const [toyHisAge, setToyHisAge] = useState(26);
+  const [copiedToyReddit, setCopiedToyReddit] = useState(false);
   const [stats, setStats] = useState<MonsterPromStats>({
     boldness: 10,
     poise: 10,
@@ -432,29 +524,41 @@ export const ArchetypeAndPromModal: React.FC<ArchetypeAndPromModalProps> = ({
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-1 rounded-xl bg-zinc-100 p-1">
+            <div className="grid grid-cols-3 gap-1 rounded-xl bg-zinc-100 p-1">
               <button
                 type="button"
                 onClick={() => setTab('hub')}
-                className={`rounded-lg py-2 px-3 text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                className={`rounded-lg py-2 px-2 sm:px-3 text-xs sm:text-sm font-semibold transition cursor-pointer ${
                   tab === 'hub'
                     ? 'bg-white text-zinc-950 shadow-2xs'
                     : 'text-zinc-600 hover:text-zinc-950'
                 }`}
               >
-                🥂 All Party Modes (Bento Hub)
+                🥂 All Party Modes
               </button>
               <button
                 type="button"
                 data-testid="lounge-archetype-tab"
                 onClick={() => setTab('quiz')}
-                className={`rounded-lg py-2 px-3 text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                className={`rounded-lg py-2 px-2 sm:px-3 text-xs sm:text-sm font-semibold transition cursor-pointer ${
                   tab === 'quiz'
                     ? 'bg-rose-600 text-white shadow-2xs'
                     : 'text-zinc-700 hover:text-zinc-950'
                 }`}
               >
-                🎭 60s Archetype + Receipt Run
+                🎭 60s Archetype
+              </button>
+              <button
+                type="button"
+                data-testid="lounge-age-toy-tab"
+                onClick={() => setTab('toy')}
+                className={`rounded-lg py-2 px-2 sm:px-3 text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                  tab === 'toy'
+                    ? 'bg-zinc-950 text-white shadow-2xs'
+                    : 'text-zinc-700 hover:text-zinc-950'
+                }`}
+              >
+                🧮 Age-Gap Toy
               </button>
             </div>
           </div>
@@ -488,6 +592,13 @@ export const ArchetypeAndPromModal: React.FC<ArchetypeAndPromModalProps> = ({
                 {/* Clean 2x3 shadcn Bento Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
+                    {
+                      icon: Zap,
+                      badge: '10-Second Viral Calculator',
+                      title: 'Age-Gap Era & Club Title Toy',
+                      desc: 'Dial Her Age × His Age for your official Puma/Cougar/Jaguar rank, Billboard time-warp roast & receipt.',
+                      action: () => setTab('toy'),
+                    },
                     {
                       icon: Flame,
                       badge: 'AI Utility + ENM Radar',
@@ -605,6 +716,121 @@ export const ArchetypeAndPromModal: React.FC<ArchetypeAndPromModalProps> = ({
                   )}
                 </div>
               </div>
+            ) : tab === 'toy' ? (
+              (() => {
+                const era = computeAgeGapEraNovelty(toyHerAge, toyHisAge);
+                return (
+                  <div className="space-y-4" data-testid="age-gap-novelty-toy">
+                    <div className="rounded-2xl border border-zinc-200 bg-white p-5 space-y-4 shadow-2xs">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <Badge variant="accent">🧮 10-Second Age-Gap Era &amp; Title Toy</Badge>
+                        <span className="text-xs font-semibold text-zinc-500">
+                          Consenting Adults 21+ Only
+                        </span>
+                      </div>
+
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <label className="rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-2 block">
+                          <div className="flex items-center justify-between text-sm font-bold text-zinc-950">
+                            <span>🐆 Her Age</span>
+                            <span className="text-lg text-rose-600 tabular-nums">{toyHerAge}F</span>
+                          </div>
+                          <input
+                            type="range"
+                            min={28}
+                            max={68}
+                            aria-label="Her Age Slider"
+                            value={toyHerAge}
+                            onChange={(e) => setToyHerAge(Number(e.target.value))}
+                            className="w-full accent-rose-600 cursor-pointer"
+                          />
+                          <div className="text-[11px] font-semibold text-zinc-600">
+                            Club Rank: {era.herTitle}
+                          </div>
+                        </label>
+
+                        <label className="rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-2 block">
+                          <div className="flex items-center justify-between text-sm font-bold text-zinc-950">
+                            <span>🐕 His Age</span>
+                            <span className="text-lg text-zinc-900 tabular-nums">{toyHisAge}M</span>
+                          </div>
+                          <input
+                            type="range"
+                            min={21}
+                            max={45}
+                            aria-label="His Age Slider"
+                            value={toyHisAge}
+                            onChange={(e) => setToyHisAge(Number(e.target.value))}
+                            className="w-full accent-zinc-900 cursor-pointer"
+                          />
+                          <div className="text-[11px] font-semibold text-zinc-600">
+                            Cub Tier: {era.hisTitle}
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border-2 border-zinc-950 bg-zinc-950 p-5 sm:p-6 text-white space-y-3">
+                      <div className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                        OFFICIAL SUNSET HILLS CLASSIFICATION
+                      </div>
+                      <h3
+                        data-testid="age-gap-toy-banner"
+                        className="text-xl sm:text-2xl font-extrabold tracking-tight"
+                      >
+                        {era.pairingBanner}
+                      </h3>
+                      <p className="rounded-xl border border-white/15 bg-white/10 p-3.5 text-sm text-zinc-100 leading-relaxed">
+                        🎶 <strong>Pop-Culture Time Warp:</strong> {era.timeWarpJoke}
+                      </p>
+                      <p className="rounded-xl border border-rose-400/35 bg-rose-500/15 p-3.5 text-xs sm:text-sm text-rose-100 leading-relaxed">
+                        📏 <strong>Internet Math Check:</strong> {era.internetMathRoast}
+                      </p>
+
+                      <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                        <Button
+                          variant="accent"
+                          onClick={() => {
+                            downloadReceiptPng({
+                              style: 'thermal',
+                              badge: 'MARLOW LOUNGE AGE-GAP RECEIPT',
+                              bigStat: `${Math.abs(era.gapYears)}-YR GAP`,
+                              verdictLabel: `${toyHerAge}F × ${toyHisAge}M`,
+                              title: `${era.herTitle} × ${era.hisTitle}`,
+                              bullets: [era.timeWarpJoke, era.internetMathRoast],
+                              filename: `age-gap-${toyHerAge}f-${toyHisAge}m.png`,
+                            });
+                          }}
+                          className="min-h-10 text-xs sm:text-sm font-bold"
+                        >
+                          <Download className="h-4 w-4" />
+                          <span>Download Thermal Receipt PNG</span>
+                        </Button>
+
+                        <Button
+                          variant="outline"
+                          data-testid="copy-age-toy-reddit-btn"
+                          onClick={async () => {
+                            const txt = `**Our Cougars & Cubs Club Classification (${toyHerAge}F × ${toyHisAge}M):** ${era.herTitle} × ${era.hisTitle} (${era.gapYears}-Year Gap)\n- Time Warp: ${era.timeWarpJoke}\n- Math Check: ${era.internetMathRoast}`;
+                            try {
+                              await navigator.clipboard?.writeText(txt);
+                            } catch {
+                              // Ignore clipboard restriction
+                            }
+                            setCopiedToyReddit(true);
+                            window.setTimeout(() => setCopiedToyReddit(false), 2400);
+                          }}
+                          className="min-h-10 bg-white text-zinc-950 hover:bg-zinc-100 text-xs sm:text-sm font-semibold"
+                        >
+                          <span>
+                            {copiedToyReddit ? '✓ Copied for Reddit!' : '📋 Copy Reddit Receipt'}
+                          </span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()
             ) : !isDone && currentQ ? (
               <div className="space-y-4" data-testid="archetype-prom-stage">
                 {/* Monster Prom Live 4-Stat Bar */}
