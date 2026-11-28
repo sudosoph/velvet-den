@@ -320,6 +320,7 @@ export const ArchetypeAndPromModal: React.FC<ArchetypeAndPromModalProps> = ({
   });
   const [receiptLines, setReceiptLines] = useState<string[]>([]);
   const [lastQuip, setLastQuip] = useState<string | null>(null);
+  const [copiedReddit, setCopiedReddit] = useState(false);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   React.useEffect(() => {
@@ -746,6 +747,23 @@ export const ArchetypeAndPromModal: React.FC<ArchetypeAndPromModalProps> = ({
                   >
                     <Share2 className="h-4 w-4" />
                     <span>Share Dynamic Score Card</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    data-testid="copy-reddit-archetype-btn"
+                    onClick={async () => {
+                      const redditSnippet = `**My Cougars & Cubs Club Archetype:** ${verdict.emoji} ${verdict.title} (${verdict.percentile})\n- Stats: 🔥 Bold ${stats.boldness} | 🍸 Poise ${stats.poise} | 🧠 Wit ${stats.wit} | 🛋️ Sanctuary ${stats.sanctuary}\n- Ideal Match: ${verdict.idealMatch}`;
+                      try {
+                        await navigator.clipboard?.writeText(redditSnippet);
+                      } catch {
+                        // Ignore clipboard block in jsdom
+                      }
+                      setCopiedReddit(true);
+                      window.setTimeout(() => setCopiedReddit(false), 2400);
+                    }}
+                    className="min-h-11 text-sm font-semibold"
+                  >
+                    <span>{copiedReddit ? '✓ Copied for Reddit!' : '📋 Copy Reddit Flair'}</span>
                   </Button>
                   <Button variant="outline" onClick={resetQuiz} className="min-h-11 text-sm">
                     <RotateCcw className="h-4 w-4" />

@@ -23,6 +23,7 @@ import {
   type HingePromptItem,
   type V35CastProfile,
 } from '../data/v35Cast';
+import { SUBREDDIT_FIELD_NOTES } from '../data/v39DatingSimEngine';
 import type { WalletState } from '../domain/economy';
 import { awardPassportBonusXp } from '../lib/gamification';
 import {
@@ -313,6 +314,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   const [heardVoiceIds, setHeardVoiceIds] = useState<string[]>([]);
   const [profilePollPicks, setProfilePollPicks] = useState<Record<string, number>>({});
   const [zoomedClueLeadIds, setZoomedClueLeadIds] = useState<string[]>([]);
+  const [fieldNoteIdx, setFieldNoteIdx] = useState(0);
   const [intermissionVotes, setIntermissionVotes] = useState<Record<string, number>>({});
   const [dismissedIntermissionIds, setDismissedIntermissionIds] = useState<string[]>([]);
   const voiceCleanupRef = useRef<(() => void) | null>(null);
@@ -775,6 +777,32 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           </div>
         </section>
       )}
+
+      {/* Recognizable Subreddit Insider Field-Note Ticker (Outside Photo Frames) */}
+      {(() => {
+        const activeNote = SUBREDDIT_FIELD_NOTES[fieldNoteIdx % SUBREDDIT_FIELD_NOTES.length];
+        return (
+          <div
+            data-testid="subreddit-field-note-bar"
+            className="flex flex-wrap items-center justify-between gap-2.5 rounded-2xl border border-zinc-200 bg-white px-4 py-2.5 text-xs shadow-2xs"
+          >
+            <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
+              <span className="shrink-0 rounded-md bg-rose-50 border border-rose-200 px-2 py-0.5 font-bold text-rose-700">
+                {activeNote.badge}
+              </span>
+              <span className="text-zinc-700 font-medium leading-snug">{activeNote.tip}</span>
+            </div>
+            <button
+              type="button"
+              data-testid="next-subreddit-note-btn"
+              onClick={() => setFieldNoteIdx((i) => (i + 1) % SUBREDDIT_FIELD_NOTES.length)}
+              className="shrink-0 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 py-1 font-semibold text-zinc-800 cursor-pointer"
+            >
+              Next Tip →
+            </button>
+          </div>
+        );
+      })()}
 
       {/* Organic Every-2nd-Swipe In-Feed Lounge Intermission Card (Courtroom / ENM / Trivia Bluff) */}
       {(() => {

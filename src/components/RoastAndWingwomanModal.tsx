@@ -314,6 +314,7 @@ export const RoastAndWingwomanModal: React.FC<RoastAndWingwomanModalProps> = ({
   const [freeUsed, setFreeUsed] = useState(() => getFreeRoastRunsUsed());
   const [result, setResult] = useState<RoastUtilityResult | null>(null);
   const [copiedRewrite, setCopiedRewrite] = useState(false);
+  const [copiedRedditComment, setCopiedRedditComment] = useState(false);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   React.useEffect(() => {
@@ -642,14 +643,35 @@ export const RoastAndWingwomanModal: React.FC<RoastAndWingwomanModalProps> = ({
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                  <button
-                    type="button"
-                    onClick={handleDownloadPng}
-                    className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 text-xs font-semibold text-zinc-800 cursor-pointer"
-                  >
-                    <Download className="h-3.5 w-3.5 text-rose-600" />
-                    <span>Download PNG Scorecard</span>
-                  </button>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleDownloadPng}
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 text-xs font-semibold text-zinc-800 cursor-pointer"
+                    >
+                      <Download className="h-3.5 w-3.5 text-rose-600" />
+                      <span>Download Thermal Receipt</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      data-testid="copy-reddit-roast-btn"
+                      onClick={async () => {
+                        const snippet = `**Roast My Opener Score:** ${result.score}/100 (${result.verdictBadge})\n- Panel Read: ${result.roastRead}\n- 10/10 Upgrade: "${result.upgradedRewrite}"`;
+                        try {
+                          await navigator.clipboard?.writeText(snippet);
+                        } catch {
+                          // Ignore clipboard restriction
+                        }
+                        setCopiedRedditComment(true);
+                        window.setTimeout(() => setCopiedRedditComment(false), 2400);
+                      }}
+                      className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3 text-xs font-semibold text-zinc-800 cursor-pointer"
+                    >
+                      <Copy className="h-3.5 w-3.5 text-zinc-500" />
+                      <span>{copiedRedditComment ? '✓ Copied for Reddit!' : 'Copy for Reddit'}</span>
+                    </button>
+                  </div>
 
                   <button
                     type="button"

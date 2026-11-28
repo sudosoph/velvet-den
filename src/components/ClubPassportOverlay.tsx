@@ -94,7 +94,8 @@ export const ClubPassportOverlay: React.FC<ClubPassportOverlayProps> = ({
                   {levelInfo.spec.badgeEmoji}
                 </span>
                 <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-zinc-950">
-                  Club Passport · Lv.{levelInfo.spec.level} {levelInfo.spec.title}
+                  Club Passport · Rank {levelInfo.spec.level}/5 (Lv.{levelInfo.spec.level}){' '}
+                  {levelInfo.spec.title}
                 </h2>
               </div>
               <button
@@ -130,8 +131,12 @@ export const ClubPassportOverlay: React.FC<ClubPassportOverlayProps> = ({
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-medium text-zinc-600">
                   <span>
                     {levelInfo.xpNeededForNext > 0
-                      ? `${levelInfo.xpNeededForNext} XP to Lv.${levelInfo.spec.level + 1}`
-                      : 'Max Crown Icon Tier Reached'}
+                      ? `${levelInfo.xpNeededForNext} XP to Rank ${levelInfo.spec.level + 1}/5${
+                          levelInfo.spec.level + 1 === 2 || levelInfo.spec.level + 1 === 4
+                            ? ' (🎁 Unlocks +1 Free Credit!)'
+                            : ''
+                        }`
+                      : 'Max 5/5 Crown Icon Rank Reached'}
                   </span>
                   <span>
                     {etiquetteBonusActive ? '✓ +8% School Spark Active' : '4 School Stars unlocks +8% Spark'}
@@ -140,18 +145,45 @@ export const ClubPassportOverlay: React.FC<ClubPassportOverlayProps> = ({
 
                 <div className="grid grid-cols-3 gap-2 pt-1 text-center">
                   <div className="rounded-xl border border-zinc-200 bg-white p-2.5">
-                    <div className="text-lg font-bold text-zinc-950">{trapsDodged}</div>
-                    <div className="text-xs text-zinc-500">Traps Blocked</div>
+                    <div className="text-lg font-bold text-zinc-950">{trapsDodged}/3</div>
+                    <div className="text-xs text-zinc-500">Traps Exposed</div>
                   </div>
                   <div className="rounded-xl border border-zinc-200 bg-white p-2.5">
-                    <div className="text-lg font-bold text-zinc-950">{datesCompleted}</div>
+                    <div className="text-lg font-bold text-zinc-950">{datesCompleted}/3</div>
                     <div className="text-xs text-zinc-500">Dates Won</div>
                   </div>
                   <div className="rounded-xl border border-zinc-200 bg-white p-2.5">
-                    <div className="text-lg font-bold text-zinc-950">Lv.{levelInfo.spec.level}</div>
-                    <div className="text-xs text-zinc-500">Club Rank</div>
+                    <div className="text-lg font-bold text-zinc-950">
+                      Rank {levelInfo.spec.level}/5
+                    </div>
+                    <div className="text-xs text-zinc-500">5-Rank Ladder</div>
                   </div>
                 </div>
+              </div>
+
+              {/* Season Victory Loop: Sunset Hills Goals */}
+              <div className="rounded-2xl border border-rose-200 bg-rose-50/50 p-4 space-y-2">
+                <div className="text-xs font-bold uppercase tracking-wider text-rose-700">
+                  🏆 Season Goals · How to Beat the Game
+                </div>
+                <ul className="space-y-1.5 text-xs sm:text-sm text-zinc-800">
+                  <li className="flex items-center justify-between gap-2">
+                    <span>1. Vet a true catch across 6 chats (or In The Wild) to earn iMessage</span>
+                    <span className="font-bold text-rose-700">+20 XP</span>
+                  </li>
+                  <li className="flex items-center justify-between gap-2">
+                    <span>2. Win 3/3 Dates (S-Rank) to Crown a Sunset Hills Soulmate</span>
+                    <span className="font-bold text-emerald-700">
+                      {datesCompleted >= 3 ? '✓ Won!' : `${Math.min(3, datesCompleted)}/3`}
+                    </span>
+                  </li>
+                  <li className="flex items-center justify-between gap-2">
+                    <span>3. Expose &amp; Block 3 Disguised Traps to unlock Table 9 Takedown</span>
+                    <span className="font-bold text-amber-800">
+                      {trapsDodged >= 3 ? '✓ Ready!' : `${Math.min(3, trapsDodged)}/3`}
+                    </span>
+                  </li>
+                </ul>
               </div>
 
               {/* Quick Ways to Earn XP */}
@@ -200,7 +232,9 @@ export const ClubPassportOverlay: React.FC<ClubPassportOverlayProps> = ({
 
               {/* 5-Level Ladder */}
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-zinc-950">Club Levels</h3>
+                <h3 className="text-sm font-semibold text-zinc-950">
+                  5-Rank Club Ladder (Free Credit Unlocks at Ranks 2 &amp; 4)
+                </h3>
                 <div className="space-y-1.5">
                   {CLUB_PASSPORT_LEVELS.map((tier) => {
                     const unlocked = totalXp >= tier.minXp;
@@ -215,7 +249,7 @@ export const ClubPassportOverlay: React.FC<ClubPassportOverlayProps> = ({
                       >
                         <div className="space-y-0.5">
                           <div className="font-semibold">
-                            {tier.badgeEmoji} Lv.{tier.level} · {tier.title} ({tier.minXp}+ XP)
+                            {tier.badgeEmoji} Rank {tier.level}/5 (Lv.{tier.level}) · {tier.title} ({tier.minXp}+ XP)
                           </div>
                           <div className="text-zinc-600">{tier.perkSummary}</div>
                         </div>

@@ -296,11 +296,11 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
               type="button"
               data-testid="hud-passport-pill"
               onClick={onOpenPassportModal}
-              title="Open Club Passport, Levels & Unlocked Perks"
+              title="Club Rank 1 to 5 Ladder (Unlocks +1 Free Credit at Rank 2 & Rank 4)"
               className="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50/80 hover:bg-rose-100 px-2.5 sm:px-3 text-xs font-bold whitespace-nowrap text-zinc-950 transition-colors cursor-pointer"
             >
               <Award className="h-4 w-4 text-rose-600 shrink-0" />
-              <span>Lv.{passportLevel}</span>
+              <span>Rank {passportLevel}/5</span>
               <span className="hidden sm:inline rounded bg-white/90 px-1.5 py-0.5 text-[11px] font-semibold text-rose-700 tabular-nums">
                 {passportXp} XP
               </span>

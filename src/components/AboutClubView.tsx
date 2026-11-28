@@ -95,10 +95,10 @@ export const AboutClubView: React.FC<AboutClubViewProps> = ({
 
         <div className="rounded-2xl border border-zinc-200 bg-white p-5 space-y-1.5 shadow-2xs">
           <h2 className="text-base font-semibold text-zinc-950">
-            App DM to iMessage
+            5-Step Engine &amp; Discord Lifeline
           </h2>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Banter freely, check clues in 5 Discord channels, block disguised Traps, and graduate real catches to iMessage.
+            Build Chemistry Spark across 6 beats, hit Phone-a-Friend in 6 Discord channels to spot disguised Traps, and earn real iMessage digits.
           </p>
         </div>
 

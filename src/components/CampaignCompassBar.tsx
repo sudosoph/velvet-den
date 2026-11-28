@@ -337,6 +337,17 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
 
             <div className="flex flex-wrap items-center gap-2">
               <span
+                data-testid="hud-season-goal-pill"
+                onClick={onOpenPassportModal}
+                title="Season Goals: Crown a 3-Date Match & Expose 3 Disguised Traps"
+                className="hidden md:inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-800 cursor-pointer"
+              >
+                <span>
+                  🏆 Dates {Math.min(3, summary.totalDatesCompleted)}/3 · Traps{' '}
+                  {Math.min(3, cutLooseIds.length)}/3
+                </span>
+              </span>
+              <span
                 data-testid="hud-friday-hearts"
                 className="inline-flex h-8 items-center rounded-lg bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700"
                 title="Friday Date Energy (3 Hearts)"
@@ -350,7 +361,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
               >
                 <Award className="h-3.5 w-3.5 text-rose-600" />
                 <span>
-                  Lv.{summary.level} {summary.levelTitle}
+                  Rank {summary.level}/5 · {summary.levelTitle}
                 </span>
               </button>
               <button
@@ -548,7 +559,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
           >
             <Award className="h-3.5 w-3.5 text-rose-600 shrink-0" />
             <span>
-              Lv.{summary.level} {summary.levelTitle}
+              Rank {summary.level}/5 · {summary.levelTitle}
             </span>
             <span className="hidden sm:inline-block h-2 w-14 overflow-hidden rounded-full bg-zinc-200">
               <span

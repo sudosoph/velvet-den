@@ -36,6 +36,11 @@ import {
   V35_DISCORD_CHANNELS,
   V35_TABLE_9_CONSPIRACY,
 } from '../data/v35ChatsAndDates';
+import {
+  computeRelationshipStepper,
+  computeVettingRadarStatus,
+  PHONE_A_FRIEND_INTEL_BY_LEAD,
+} from '../data/v39DatingSimEngine';
 import { getWildMeetCuteSeed } from '../data/v35WildVenues';
 import {
   getPersonaVibeSpec,
@@ -264,6 +269,15 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [sparkToast, setSparkToast] = useState<{ delta: number; nonce: number } | null>(null);
   const [inspectedExifIds, setInspectedExifIds] = useState<string[]>([]);
   const [recoveredUnsentIds, setRecoveredUnsentIds] = useState<string[]>([]);
+  const [phoneFriendCheckedIds, setPhoneFriendCheckedIds] = useState<string[]>([]);
+  const [phoneFriendReturnLeadId, setPhoneFriendReturnLeadId] = useState<string | null>(null);
+  const [turnPopBanner, setTurnPopBanner] = useState<{
+    delta: number;
+    headline: string;
+    detail: string;
+    isSuspectTell: boolean;
+    nonce: number;
+  } | null>(null);
   const [calloutPromptLeadId, setCalloutPromptLeadId] = useState<string | null>(null);
   const [snoozedImessageIds, setSnoozedImessageIds] = useState<string[]>([]);
   const [showArchivedHinge, setShowArchivedHinge] = useState(false);
@@ -374,6 +388,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     setDmTypingPhase(null);
     setDmReadStatus('read');
     setPlayerDraftHesitation(null);
+    setTurnPopBanner(null);
     if (voiceStopRef.current) {
       voiceStopRef.current();
       voiceStopRef.current = null;
@@ -450,8 +465,29 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         ? delta + (etiquetteBonusActive ? 4 : 0) + vibeChatBonus
         : delta;
     const newChemistry = Math.max(0, Math.min(100, currentThread.chemistry + boostedDelta));
+    const hasShadyTellOnNextBeat = Boolean(
+      currentProfile.tier === 'trap' && (nextBeatNum >= 3 || nextBeatObj?.trapClueHint),
+    );
 
     setSparkToast({ delta: boostedDelta, nonce: Date.now() });
+    setTurnPopBanner({
+      delta: boostedDelta,
+      headline:
+        boostedDelta >= 12
+          ? `😍 Crushed That Line! (+${boostedDelta}% Spark)`
+          : boostedDelta > 0
+            ? `✨ Smooth Volley (+${boostedDelta}% Spark)`
+            : `😬 Awkward Misread (${boostedDelta}% Spark)`,
+      detail: hasShadyTellOnNextBeat
+        ? `Hold up: ${currentProfile.name}’s schedule excuse sounds rehearsed. Check your Gut-Check Radar or tap Phone-a-Friend!`
+        : boostedDelta >= 12
+          ? `${currentProfile.name} loved your specificity and confidence.`
+          : boostedDelta > 0
+            ? `Chemistry is climbing toward ${currentThread.stage === 'imessage' ? 'your next Date' : 'personal iMessage'}.`
+            : `Watch generational punctuation & avoid coming on too strong.`,
+      isSuspectTell: hasShadyTellOnNextBeat,
+      nonce: Date.now(),
+    });
 
     if (isTestEnv) {
       const appended: ActiveMatchThread['messages'] = [
@@ -740,7 +776,25 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         res.chemistryDelta > 0
           ? res.chemistryDelta + (etiquetteBonusActive ? 4 : 0) + vibeChatBonus
           : res.chemistryDelta;
-      setSparkToast({ delta: boostedDelta + (cost > 0 ? 6 : 0), nonce: Date.now() });
+      const totalDelta = boostedDelta + (cost > 0 ? 6 : 0);
+      const trapFlagNow = Boolean(
+        currentProfile.tier === 'trap' && (nextBeatNum >= 3 || !res.passedVibeCheck),
+      );
+      setSparkToast({ delta: totalDelta, nonce: Date.now() });
+      setTurnPopBanner({
+        delta: totalDelta,
+        headline:
+          totalDelta >= 12
+            ? `😍 Electric Chemistry! (+${totalDelta}% Spark)`
+            : totalDelta >= 0
+              ? `✨ Good Banter (+${totalDelta}% Spark)`
+              : `😬 Vibe Dip (${totalDelta}% Spark)`,
+        detail: trapFlagNow
+          ? `Gut-Check Alert: ${currentProfile.name} is dodging evening transparency. Tap Phone-a-Friend in Discord to verify!`
+          : res.coachNote || `${currentProfile.name} stayed locked into your message.`,
+        isSuspectTell: trapFlagNow,
+        nonce: Date.now(),
+      });
 
       if (isCalloutOrBreakupIntent || !res.passedVibeCheck) {
         setCalloutPromptLeadId(targetLeadId);
@@ -931,6 +985,64 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       secondName: 'Anon_Marlow_9',
       secondBadge: '🕵️ Insider',
     },
+    'enm-and-plot-twists': {
+      id: 'astrid',
+      name: 'Astrid_41F',
+      badge: '🍍 Solo-Poly Founder',
+      age: 41,
+      title: 'Solo-Poly Malibu Architect & Calendar Realist',
+      role: 'her',
+      secondName: 'Claire_M&A',
+      secondBadge: '🍸 Deal Partner',
+    },
+  };
+
+  const handlePhoneAFriendCurrentMatch = () => {
+    if (!currentThread || !currentProfile) return;
+    const intel = PHONE_A_FRIEND_INTEL_BY_LEAD[currentThread.leadId];
+    if (!intel) return;
+
+    const lastMatchMsg =
+      [...currentThread.messages].reverse().find((m) => m.sender === 'match')?.text ??
+      currentProfile.tagline;
+    const senderLabel = wallet.playerName || (role === 'her' ? 'You (Queen)' : 'You');
+    const promptLine = `📱 Phone-a-Friend check on ${currentProfile.name} (${currentProfile.age}): they just said "${lastMatchMsg.slice(0, 110)}", green-flag keeper or disguised trap?`;
+
+    sfx.messagePop();
+    setPhoneFriendCheckedIds((prev) =>
+      prev.includes(currentThread.leadId) ? prev : [...prev, currentThread.leadId],
+    );
+    setPhoneFriendReturnLeadId(currentThread.leadId);
+    setActiveDiscordId(intel.channelId);
+    setSurface('discord');
+
+    awardPassportBonusXp(
+      `phone_friend_${currentThread.leadId}`,
+      10,
+      'Phone-a-Friend Gut Check!',
+      '💬 +10 XP',
+    );
+    if (intel.conspiracyClueId) {
+      onRecordConspiracyClue?.(intel.conspiracyClueId);
+    }
+
+    setDiscordExtraMsgs((prev) => ({
+      ...prev,
+      [intel.channelId]: [
+        ...(prev[intel.channelId] || []),
+        { sender: senderLabel, badge: '📱 Phone-a-Friend', text: promptLine, isPlayer: true },
+        {
+          sender: intel.speaker1.name,
+          badge: intel.speaker1.badge,
+          text: intel.speaker1.text,
+        },
+        {
+          sender: intel.speaker2.name,
+          badge: intel.speaker2.badge,
+          text: intel.speaker2.text,
+        },
+      ],
+    }));
   };
 
   const handleDiscordPresetClick = (sug: string, sIdx: number) => {
@@ -1154,7 +1266,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             }`}
           >
             <Hash className="h-4 w-4 text-zinc-500" />
-            <span>Club Discord Lounge (5 Channels)</span>
+            <span>Club Discord Lounge · Phone-a-Friend ({V35_DISCORD_CHANNELS.length})</span>
           </button>
         </div>
 
@@ -1405,6 +1517,69 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
           {/* Authentic Dark Discord Main Channel View */}
           <section className="flex flex-col bg-[#313338]">
+            {(() => {
+              const targetId = phoneFriendReturnLeadId || currentThread?.leadId || null;
+              const targetProf = targetId ? getCastProfileById(targetId) : undefined;
+              const targetIntel = targetId ? PHONE_A_FRIEND_INTEL_BY_LEAD[targetId] : undefined;
+              const targetChapter = targetId ? V35_CHAT_CHAPTERS[targetId] : undefined;
+              if (!targetId || !targetProf) return null;
+              const wasChecked = phoneFriendCheckedIds.includes(targetId);
+
+              return (
+                <div
+                  data-testid="discord-return-to-match-bar"
+                  className="flex flex-wrap items-center justify-between gap-2.5 border-b border-[#1F2023] bg-[#232428] px-4 sm:px-5 py-2.5 text-xs"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-bold text-white">
+                      {wasChecked && targetIntel
+                        ? targetIntel.verdictPill
+                        : `💬 Active Match Lifeline: Ask Regulars About ${targetProf.name}, ${targetProf.age}`}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {!wasChecked && (
+                      <button
+                        type="button"
+                        onClick={handlePhoneAFriendCurrentMatch}
+                        className="rounded-lg bg-[#5865F2] hover:bg-[#4752C4] px-3 py-1.5 font-bold text-white cursor-pointer"
+                      >
+                        📱 Drop {targetProf.name} Receipt Here
+                      </button>
+                    )}
+                    {wasChecked && targetChapter?.cutLooseVerdict.isActualTrap && (
+                      <button
+                        type="button"
+                        data-testid="discord-instant-block-trap-btn"
+                        onClick={() => {
+                          setActiveLeadId(targetId);
+                          setSurface('dm');
+                          sfx.victoryFanfare();
+                          onCutLooseTrap(targetId, targetChapter.cutLooseVerdict.conspiracyClueId);
+                          setCutLooseModal({
+                            leadId: targetId,
+                            verdict: targetChapter.cutLooseVerdict,
+                          });
+                        }}
+                        className="rounded-lg bg-rose-600 hover:bg-rose-500 px-3 py-1.5 font-bold text-white cursor-pointer"
+                      >
+                        🚫 Block {targetProf.name} &amp; Claim +25 XP
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveLeadId(targetId);
+                        setSurface('dm');
+                      }}
+                      className="rounded-lg border border-white/15 bg-[#313338] hover:bg-[#404249] px-3 py-1.5 font-semibold text-white cursor-pointer"
+                    >
+                      ← Back to {targetProf.name}’s Chat
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
             <header className="flex flex-wrap items-center gap-2.5 border-b border-[#26272D] bg-[#313338] px-5 py-3 shadow-2xs">
               <div className="flex items-center gap-1.5 font-bold text-base text-white">
                 <Hash className="h-5 w-5 text-[#80848E]" />
@@ -1900,6 +2075,120 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 </header>
               )}
+
+              {/* 5-Step Dating-Sim Engine Track + Dual Chemistry & Red/Green Flag Radar */}
+              {(() => {
+                const steps = computeRelationshipStepper({
+                  stage: currentThread.stage,
+                  currentBeat: currentThread.currentBeat,
+                  chemistry: currentThread.chemistry,
+                  datesCompleted: currentThread.datesCompleted,
+                  lastDateRank: currentThread.lastDateRank,
+                });
+                const hasInspectedPhoto = Boolean(
+                  activeBeat?.photoDrop && inspectedExifIds.includes(activeBeat.photoDrop.id),
+                );
+                const radar = computeVettingRadarStatus({
+                  isActualTrap: currentChapter.cutLooseVerdict.isActualTrap,
+                  currentBeat: currentThread.currentBeat,
+                  stage: currentThread.stage,
+                  datesCompleted: currentThread.datesCompleted,
+                  hasTrapBeatHint: Boolean(activeBeat?.trapClueHint),
+                  inspectedPhotoClue: hasInspectedPhoto,
+                  recoveredUnsentSlip: recoveredUnsentIds.includes(currentThread.leadId),
+                  phoneAFriendChecked: phoneFriendCheckedIds.includes(currentThread.leadId),
+                });
+
+                const radarStyle =
+                  radar.state === 'confirmed_trap'
+                    ? 'border-rose-300 bg-rose-50 text-rose-950'
+                    : radar.state === 'suspect'
+                      ? 'border-amber-300 bg-amber-50 text-amber-950'
+                      : radar.state === 'verified_keeper'
+                        ? 'border-emerald-300 bg-emerald-50 text-emerald-950'
+                        : radar.state === 'green_leaning'
+                          ? 'border-emerald-200 bg-emerald-50/60 text-emerald-900'
+                          : 'border-zinc-200 bg-zinc-50 text-zinc-800';
+
+                return (
+                  <div className="border-b border-zinc-200 bg-zinc-50/75 px-4 sm:px-6 py-3 space-y-2.5 text-zinc-900">
+                    {/* 5-Stage Progression Track */}
+                    <div
+                      data-testid="relationship-stage-stepper"
+                      className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"
+                    >
+                      {steps.map((st) => (
+                        <span
+                          key={st.step}
+                          className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold transition ${
+                            st.status === 'done'
+                              ? 'bg-emerald-600 text-white'
+                              : st.status === 'active'
+                                ? 'bg-zinc-950 text-white ring-2 ring-rose-400/50'
+                                : 'bg-white border border-zinc-200 text-zinc-400'
+                          }`}
+                        >
+                          {st.shortLabel}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Dual Meters: Attraction Spark % vs. Gut-Check Red/Green Flag Radar + Phone-a-Friend */}
+                    <div
+                      data-testid="dual-dating-sim-meters"
+                      className="grid grid-cols-1 md:grid-cols-2 gap-2.5"
+                    >
+                      <div className="rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 space-y-1.5">
+                        <div className="flex items-center justify-between gap-2 text-xs">
+                          <span className="font-bold text-zinc-900">
+                            💗 Chemistry Spark: {currentThread.chemistry}%
+                          </span>
+                          <span className="text-[11px] font-medium text-zinc-500">
+                            {currentThread.stage === 'app_dm'
+                              ? currentThread.chemistry >= 75 || currentThread.currentBeat > 6
+                                ? '✓ iMessage Ready!'
+                                : '75% or Beat 6 -> iMessage'
+                              : currentThread.datesCompleted >= 3
+                                ? '✓ 3/3 Dates Complete'
+                                : `Next: Date #${currentThread.datesCompleted + 1}`}
+                          </span>
+                        </div>
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100">
+                          <div
+                            className={`h-full rounded-full transition-all duration-300 ${
+                              currentThread.chemistry >= 75 ? 'bg-emerald-500' : 'bg-rose-500'
+                            }`}
+                            style={{ width: `${Math.max(8, currentThread.chemistry)}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        data-testid="vetting-flag-radar"
+                        className={`rounded-xl border px-3.5 py-2.5 flex flex-col justify-between gap-1.5 ${radarStyle}`}
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="text-xs font-extrabold">{radar.badgeText}</span>
+                          <button
+                            type="button"
+                            data-testid="phone-a-friend-discord-btn"
+                            onClick={handlePhoneAFriendCurrentMatch}
+                            className="inline-flex items-center gap-1 rounded-lg bg-[#5865F2] hover:bg-[#4752C4] px-2.5 py-1 text-[11px] font-bold text-white shadow-2xs transition cursor-pointer"
+                          >
+                            <Hash className="h-3 w-3" />
+                            <span>
+                              {phoneFriendCheckedIds.includes(currentThread.leadId)
+                                ? 'View Group-Chat Tea'
+                                : 'Phone-a-Friend (Discord)'}
+                            </span>
+                          </button>
+                        </div>
+                        <p className="text-[11px] leading-snug opacity-90">{radar.detailText}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Non-Blocking Go On Date Banner */}
               {isDateReady && nextDateScript && (
@@ -2408,6 +2697,34 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               {/* Spontaneous Adaptive Replies + Optional Non-Blocking iMessage Swap */}
               <div className="border-t border-zinc-200 bg-zinc-50/80 px-5 py-6 sm:px-10 sm:py-7">
                 <div className="mx-auto w-full max-w-2xl space-y-4">
+                {turnPopBanner && (
+                  <div
+                    key={turnPopBanner.nonce}
+                    data-testid="chat-turn-feedback-banner"
+                    className={`flex flex-wrap items-center justify-between gap-2 rounded-2xl border px-4 py-2.5 text-xs sm:text-sm animate-stage-in ${
+                      turnPopBanner.isSuspectTell
+                        ? 'border-amber-300 bg-amber-50 text-amber-950'
+                        : turnPopBanner.delta >= 0
+                          ? 'border-emerald-200 bg-emerald-50/90 text-emerald-950'
+                          : 'border-rose-200 bg-rose-50 text-rose-950'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <div className="font-extrabold">{turnPopBanner.headline}</div>
+                      <div className="text-xs opacity-90">{turnPopBanner.detail}</div>
+                    </div>
+                    {turnPopBanner.isSuspectTell && (
+                      <button
+                        type="button"
+                        onClick={handlePhoneAFriendCurrentMatch}
+                        className="shrink-0 rounded-lg bg-zinc-900 hover:bg-rose-600 px-3 py-1.5 text-xs font-bold text-white cursor-pointer"
+                      >
+                        💬 Ask Group Chat →
+                      </button>
+                    )}
+                  </div>
+                )}
+
                 {isReadyToGraduate && !snoozedImessageIds.includes(currentThread.leadId) && (
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-blue-50/80 px-4 py-3.5">
                     <div className="text-xs sm:text-sm font-semibold text-blue-950">
