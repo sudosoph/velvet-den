@@ -9,7 +9,9 @@ import {
   GraduationCap,
   Hash,
   Heart,
+  Lock,
   MessageCircle,
+  Moon,
   Pause,
   Phone,
   Play,
@@ -41,8 +43,10 @@ import {
   type WalletState,
 } from '../domain/economy';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { shareOrCopy } from '../lib/viral';
 import { liveAiInboxService } from '../services/adapters';
+import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { RomanticDateStage } from './RomanticDateStage';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
@@ -101,6 +105,31 @@ export function createInitialThread(
     sRankLockedOut: false,
     messages: seeded,
   };
+}
+
+const AFTER_DARK_FREE_STORAGE_KEY = 'cc_after_dark_free_v1';
+export const MAX_FREE_AFTER_DARK_TURNS = 2;
+
+export function getFreeAfterDarkTurnsUsed(): number {
+  try {
+    if (typeof window === 'undefined' || !window.localStorage) return 0;
+    const n = Number(window.localStorage.getItem(AFTER_DARK_FREE_STORAGE_KEY) || '0');
+    return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function incrementFreeAfterDarkTurnsUsed(): number {
+  const next = getFreeAfterDarkTurnsUsed() + 1;
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem(AFTER_DARK_FREE_STORAGE_KEY, String(next));
+    }
+  } catch {
+    // Ignore storage block
+  }
+  return next;
 }
 
 export function getEmilyDraftHesitation(
@@ -205,6 +234,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [discordFreeInput, setDiscordFreeInput] = useState('');
   const [sendingDiscordAi, setSendingDiscordAi] = useState(false);
   const [spicyMode, setSpicyMode] = useState(false);
+  const [afterDarkFreeUsed, setAfterDarkFreeUsed] = useState(() => getFreeAfterDarkTurnsUsed());
   const [freeInput, setFreeInput] = useState('');
   const [sendingAi, setSendingAi] = useState(false);
   const [dmTypingLabel, setDmTypingLabel] = useState<string | null>(null);
@@ -585,10 +615,21 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     }
   };
 
-  const sendSpontaneousTurn = async (rawText: string, cost = 0) => {
+  const sendSpontaneousTurn = async (rawText: string, cost = 0, isAfterDarkTurn = false) => {
     const trimmed = rawText.replace(/^💎\s*/, '').trim();
     if (!trimmed || !currentThread || !currentProfile || sendingAi || dmTypingLabel) return;
     if (cost > 0 && !onSpendCredits(cost)) return;
+    if (
+      isAfterDarkTurn &&
+      !wallet.isVip &&
+      !wallet.isFounderUnlimited &&
+      !wallet.unlockedEpilogueIds.includes(`afterdark-${currentThread.leadId}`)
+    ) {
+      if (afterDarkFreeUsed >= MAX_FREE_AFTER_DARK_TURNS) {
+        return;
+      }
+      setAfterDarkFreeUsed(incrementFreeAfterDarkTurnsUsed());
+    }
 
     const targetLeadId = currentThread.leadId;
     const shouldAdvanceBeat = currentThread.currentBeat <= 6;
@@ -671,6 +712,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             .join(' ')
             .trim(),
           platform: currentThread.stage === 'imessage' ? 'imessage' : 'tinder',
+          afterDark: Boolean(spicyMode && currentThread.stage === 'imessage'),
           playerMessage: trimmed,
           history: historySnapshot,
         }),
@@ -1049,6 +1091,12 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-5 animate-stage-in">
+      <CelebrationBurstCanvas
+        active={Boolean(
+          imessageGradSplash || (cutLooseModal && cutLooseModal.verdict.isActualTrap),
+        )}
+        palette="stamp"
+      />
       {/* Secret Table 9 Conspiracy Banner when Clues Collected */}
       {canPlayConspiracy && (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-zinc-950 px-5 py-4 text-white shadow-md">
@@ -1234,6 +1282,19 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                         message: text,
                         url,
                         shareSurface: 'verdict_receipt',
+                        onDownloadStoryPng: () => {
+                          downloadReceiptPng({
+                            badge: 'Table 9 Alibi Club Takedown',
+                            bigStat: '3/3 CLUES',
+                            verdictLabel: 'Golden Detective Stamp Unlocked',
+                            title: text,
+                            bullets: [
+                              'Graham, Lawrence & Richard Clocked at Table 9',
+                              'Corner Booth Permanently Liberated',
+                            ],
+                            filename: 'table-9-takedown.png',
+                          });
+                        },
                       });
                     }}
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 hover:bg-white/20 px-4 py-2.5 text-sm font-semibold text-white cursor-pointer"
@@ -1613,15 +1674,23 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             <section
               key={`${currentThread.leadId}-${currentThread.stage}`}
               data-testid={`chat-stage-${currentThread.stage}`}
-              className={`rounded-3xl overflow-hidden border shadow-xs ${
-                currentThread.stage === 'imessage'
-                  ? 'border-sky-200 bg-[#F8FAFC]'
-                  : 'editorial-hinge-card border-zinc-200 bg-white'
+              className={`rounded-3xl overflow-hidden border shadow-xs transition-colors duration-300 ${
+                currentThread.stage === 'imessage' && spicyMode
+                  ? 'border-rose-500/45 bg-zinc-950 text-zinc-100 shadow-2xl'
+                  : currentThread.stage === 'imessage'
+                    ? 'border-sky-200 bg-[#F8FAFC]'
+                    : 'editorial-hinge-card border-zinc-200 bg-white'
               }`}
             >
               {/* Distinct Header: Apple iOS Contact Bar in iMessage vs Prowl App DM Header */}
               {currentThread.stage === 'imessage' ? (
-                <header className="border-b border-slate-200/90 bg-gradient-to-b from-[#F1F5F9] to-[#F8FAFC] px-5 sm:px-6 py-4">
+                <header
+                  className={`border-b px-5 sm:px-6 py-4 transition-colors ${
+                    spicyMode
+                      ? 'border-rose-500/25 bg-gradient-to-r from-zinc-950 via-rose-950/30 to-zinc-950 text-white'
+                      : 'border-slate-200/90 bg-gradient-to-b from-[#F1F5F9] to-[#F8FAFC]'
+                  }`}
+                >
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3.5">
                       <div className="relative">
@@ -1636,13 +1705,24 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       </div>
                       <div className="space-y-0.5">
                         <div className="flex flex-wrap items-center gap-2">
-                          <h2 className="text-lg font-bold tracking-tight text-slate-950">
+                          <h2
+                            className={`text-lg font-bold tracking-tight ${
+                              spicyMode ? 'text-white' : 'text-slate-950'
+                            }`}
+                          >
                             {currentProfile.name}, {currentProfile.age}
                           </h2>
-                          <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-[#007AFF]">
-                            <Smartphone className="h-3.5 w-3.5" />
-                            <span>Earned iMessage</span>
-                          </span>
+                          {spicyMode ? (
+                            <span className="inline-flex items-center gap-1 rounded-md bg-rose-600 px-2 py-0.5 text-xs font-semibold text-white">
+                              <Moon className="h-3 w-3" />
+                              <span>11:48 PM · After-Dark</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-[#007AFF]">
+                              <Smartphone className="h-3.5 w-3.5" />
+                              <span>Earned iMessage</span>
+                            </span>
+                          )}
                           <span className="rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">
                             {currentThread.chemistry}% Spark
                           </span>
@@ -1832,7 +1912,9 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
               <div
                 ref={dmFeedRef}
                 data-testid="dm-message-feed"
-                className="min-h-[380px] sm:min-h-[460px] max-h-[600px] overflow-y-auto scroll-smooth bg-white px-5 py-7 sm:px-10 sm:py-9"
+                className={`min-h-[380px] sm:min-h-[460px] max-h-[600px] overflow-y-auto scroll-smooth px-5 py-7 sm:px-10 sm:py-9 transition-colors ${
+                  currentThread.stage === 'imessage' && spicyMode ? 'bg-zinc-950' : 'bg-white'
+                }`}
               >
                 <div className="mx-auto w-full max-w-2xl space-y-6">
                 {currentThread.stage === 'imessage' &&
@@ -2289,25 +2371,96 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 )}
 
                 {spicyMode && currentThread.stage === 'imessage' ? (
-                  <div className="space-y-2.5">
-                    <div className="text-xs sm:text-sm font-semibold text-rose-800">
-                      🔥 After-Dark Suggestions
-                    </div>
-                    <div className="grid gap-2.5">
-                      {currentChapter.spicySuggestions.map((sp) => (
-                        <button
-                          key={sp}
-                          type="button"
-                          disabled={Boolean(dmTypingLabel) || sendingAi}
-                          data-testid="chat-suggestion-btn"
-                          onClick={() => void sendSpontaneousTurn(sp, 0)}
-                          className="w-full rounded-xl border border-rose-200 bg-rose-50/70 px-4 py-3.5 text-left text-sm sm:text-[15px] leading-relaxed font-medium text-rose-950 whitespace-normal hover:bg-rose-100 transition cursor-pointer disabled:opacity-55"
-                        >
-                          {sp}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                  (() => {
+                    const afterDarkUnlockId = `afterdark-${currentThread.leadId}`;
+                    const isLeadAfterDarkUnlocked = Boolean(
+                      wallet.isVip ||
+                        wallet.isFounderUnlimited ||
+                        wallet.unlockedEpilogueIds.includes(afterDarkUnlockId),
+                    );
+                    const freeTeasesLeft = Math.max(
+                      0,
+                      MAX_FREE_AFTER_DARK_TURNS - afterDarkFreeUsed,
+                    );
+
+                    return (
+                      <div className="space-y-3" data-testid="after-dark-panel">
+                        <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+                          <span className="inline-flex items-center gap-1.5 font-semibold text-rose-600">
+                            <Moon className="h-3.5 w-3.5" />
+                            <span>🌙 After-Dark Midnight Mode</span>
+                          </span>
+                          <span className="rounded-md bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-xs font-semibold text-rose-800">
+                            {isLeadAfterDarkUnlocked
+                              ? '✓ Unlimited After-Dark Unlocked'
+                              : `${freeTeasesLeft}/${MAX_FREE_AFTER_DARK_TURNS} Free Midnight Teases Left`}
+                          </span>
+                        </div>
+
+                        {!isLeadAfterDarkUnlocked && freeTeasesLeft === 0 ? (
+                          <div
+                            data-testid="after-dark-unlock-gate"
+                            className="rounded-2xl border border-rose-300 bg-zinc-950 p-4 sm:p-5 text-white space-y-3"
+                          >
+                            <div className="space-y-1">
+                              <div className="text-xs font-bold uppercase tracking-wider text-rose-400">
+                                🔥 Free Midnight Teases Used (2/2)
+                              </div>
+                              <p className="text-sm text-zinc-200 leading-relaxed">
+                                Unlock unlimited late-night After-Dark chemistry with{' '}
+                                <strong>{currentProfile.name}</strong>, or unlock all 22 leads
+                                forever with Club VIP.
+                              </p>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (
+                                    onUnlockBucketItem(
+                                      'unlockedEpilogueIds',
+                                      afterDarkUnlockId,
+                                      1,
+                                    )
+                                  ) {
+                                    sfx.victoryFanfare();
+                                  }
+                                }}
+                                className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
+                              >
+                                <Lock className="h-3.5 w-3.5" />
+                                <span>
+                                  Unlock {currentProfile.name} After-Dark (1 Cr)
+                                </span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => onOpenBoutique('vip')}
+                                className="inline-flex h-9 items-center rounded-lg border border-white/20 bg-white/10 hover:bg-white/15 px-3.5 text-xs font-semibold text-zinc-100 cursor-pointer"
+                              >
+                                Club VIP (All 22 Unlocked) →
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="grid gap-2.5">
+                            {currentChapter.spicySuggestions.map((sp) => (
+                              <button
+                                key={sp}
+                                type="button"
+                                disabled={Boolean(dmTypingLabel) || sendingAi}
+                                data-testid="chat-suggestion-btn"
+                                onClick={() => void sendSpontaneousTurn(sp, 0, true)}
+                                className="w-full rounded-xl border border-rose-300 bg-zinc-950 px-4 py-3.5 text-left text-sm sm:text-[15px] leading-relaxed font-medium text-rose-100 whitespace-normal hover:border-rose-400 hover:bg-zinc-900 transition cursor-pointer disabled:opacity-55"
+                              >
+                                🔥 {sp}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()
                 ) : currentThread.adaptiveSuggestions ? (
                   <div className="space-y-2.5" data-testid="adaptive-suggestions-panel">
                     <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-medium text-zinc-600">

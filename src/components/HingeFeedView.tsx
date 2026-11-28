@@ -23,8 +23,10 @@ import {
   type V35CastProfile,
 } from '../data/v35Cast';
 import type { WalletState } from '../domain/economy';
+import { awardPassportBonusXp } from '../lib/gamification';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { liveAiInboxService } from '../services/adapters';
+import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 
 export interface HingeFeedViewProps {
   role: 'her' | 'him';
@@ -61,6 +63,114 @@ interface ActiveReplyTarget {
 
 const VOICE_WAVEFORM_BARS = [38, 68, 52, 88, 64, 95, 46, 78, 92, 58, 82, 44, 74, 60, 85, 48];
 
+const PROFILE_MICRO_DETAILS: Record<
+  string,
+  {
+    pills: [string, string, string];
+    pollQuestion: string;
+    pollOptions: [string, string, string];
+    pollReaction: string;
+  }
+> = {
+  julian: {
+    pills: ['♎ Libra', '🍷 Burgundy & Tea', '⏱️ Replies <5m'],
+    pollQuestion: 'Pick our ideal Thursday first round:',
+    pollOptions: [
+      'Corner wine bar + architectural gossip',
+      'Secondhand bookshop + espresso',
+      'Rainy walk + pub booth',
+    ],
+    pollReaction: 'Julian: "Proper answer. Consider half seven officially penciled in x"',
+  },
+  soren: {
+    pills: ['♍ Virgo', '🎾 Clay-Court Leftie', '❄️ Cold Plunge'],
+    pollQuestion: 'Mixed-doubles wager: if we win Set 1, loser buys…',
+    pollOptions: ['Oysters & crisp Chablis', 'Post-match sauna smoothies', 'Friday dinner'],
+    pollReaction: 'Søren: "Deal. Hope your backhand handles pressure."',
+  },
+  miles: {
+    pills: ['♑ Capricorn', '☕ Roastery Early Bird', '🛠️ Fixes Everything'],
+    pollQuestion: 'Sunday morning non-negotiable:',
+    pollOptions: ['Fresh pour-over in bed', '8 AM farmers-market run', 'Zero alarms until ten'],
+    pollReaction: 'Miles: "Beans are already ground. You don’t lift a finger."',
+  },
+  graham: {
+    pills: ['♊ Gemini', '🥃 5:15 PM Martinis', '🔕 DND After 6:30 PM'],
+    pollQuestion: 'Spontaneous weekday drink window:',
+    pollOptions: [
+      '5:15 PM quick Gibson',
+      '8:30 PM unhurried dinner',
+      'All-weekend coastal drive',
+    ],
+    pollReaction: 'Graham: "Haha 5:15 sharp works best before my Tokyo market call!"',
+  },
+  connor: {
+    pills: ['♈ Aries', '🍕 Shares Costco Card', '🎉 VIP Promoter'],
+    pollQuestion: 'Ideal Friday warm-up:',
+    pollOptions: ['Rooftop bottle table', 'Quiet neighborhood bistro', 'Cook pasta at home'],
+    pollReaction: 'Connor: "Wait quiet bistro? As long as they don’t card too hard lol."',
+  },
+  devon: {
+    pills: ['♓ Pisces', '🎸 2 AM Acoustic', '🛋️ Loves Cozy Sofas'],
+    pollQuestion: 'Best second-date energy:',
+    pollOptions: [
+      'You cook while I play guitar',
+      'Reservation at The Marlow',
+      'Gallery walk downtown',
+    ],
+    pollReaction: 'Devon: "Your sofa + your groceries sounds way more authentic than restaurants."',
+  },
+  claire: {
+    pills: ['♏ Scorpio', '🍸 Dirty Gibson', '🏡 Two Sets of Keys'],
+    pollQuestion: 'Fastest way to earn a second drink with me:',
+    pollOptions: [
+      'Lock 7:45 dinner with zero 20-questions',
+      'Keep your phone face-down all night',
+      'Make me laugh inside 60 seconds',
+    ],
+    pollReaction: 'Claire: "Smart choice. Decisive men skip straight to the front of the line."',
+  },
+  sienna: {
+    pills: ['♉ Taurus', '🎶 Al Green on Vinyl', '🌿 Courtyard Hostess'],
+    pollQuestion: 'Pick the Sunday afternoon soundtrack:',
+    pollOptions: ['Al Green & Fleetwood Mac', '90s R&B classics', 'Spanish guitar on the patio'],
+    pollReaction: 'Sienna: "Pouring two glasses of Sancerre already."',
+  },
+  vanessa: {
+    pills: ['♌ Leo', '🍷 Bel Air Cellar', '📵 Weekday Daytime Only'],
+    pollQuestion: 'Favorite spontaneous escape:',
+    pollOptions: ['4 PM hotel wine bar', 'Saturday night dinner party', 'Sunday brunch at yours'],
+    pollReaction: 'Vanessa: "4 PM hotel bar is perfection, weekends are chaotic with contractors!"',
+  },
+};
+
+function resolveProfileMicroDetails(profile: V35CastProfile) {
+  if (PROFILE_MICRO_DETAILS[profile.id]) return PROFILE_MICRO_DETAILS[profile.id];
+  const isHer = profile.role === 'her';
+  return {
+    pills: isHer
+      ? (['✨ Zero App Games', '🍷 Proper Glassware', '✈️ Passport Ready'] as [
+          string,
+          string,
+          string,
+        ])
+      : (['🥂 Books the Table', '📵 Phone Off Table', '🍳 Cooks From Scratch'] as [
+          string,
+          string,
+          string,
+        ]),
+    pollQuestion: isHer
+      ? 'What wins your vote for Date #1?'
+      : 'Pick our Friday night pace:',
+    pollOptions: [
+      'Candlelit wine booth at 7:30',
+      'Vinyl bar + late-night bites',
+      'Golden-hour walk + espresso',
+    ] as [string, string, string],
+    pollReaction: `${profile.name}: "Good taste. Now send a note so we actually lock it in."`,
+  };
+}
+
 export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   role,
   wallet,
@@ -79,6 +189,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   const [focusedLeadId, setFocusedLeadId] = useState<string | null>(null);
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
   const [heardVoiceIds, setHeardVoiceIds] = useState<string[]>([]);
+  const [profilePollPicks, setProfilePollPicks] = useState<Record<string, number>>({});
   const voiceCleanupRef = useRef<(() => void) | null>(null);
 
   const stopVoicePlayback = () => {
@@ -779,8 +890,75 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 <span className="rounded-md bg-zinc-100 px-2.5 py-1">
                   {currentProfile.vitals.kidsStance}
                 </span>
+                {resolveProfileMicroDetails(currentProfile).pills.map((pill) => (
+                  <span
+                    key={pill}
+                    className="rounded-md bg-rose-50/70 border border-rose-200/70 px-2.5 py-1 text-zinc-800"
+                  >
+                    {pill}
+                  </span>
+                ))}
               </div>
             </div>
+
+            {/* Interactive 1-Tap Profile Vibe Poll (Cute Micro-Detail + +3 XP) */}
+            {(() => {
+              const micro = resolveProfileMicroDetails(currentProfile);
+              const pickedIdx = profilePollPicks[currentProfile.id];
+              return (
+                <div
+                  data-testid="hinge-profile-micro-poll"
+                  className="rounded-2xl border border-zinc-200/90 bg-zinc-50/70 p-5 space-y-2.5"
+                >
+                  <div className="flex items-center justify-between gap-2 text-xs">
+                    <span className="font-semibold text-rose-600">📊 Interactive Prompt Poll</span>
+                    {pickedIdx !== undefined && (
+                      <span className="font-semibold text-emerald-700">+3 XP</span>
+                    )}
+                  </div>
+                  <p className="text-sm font-semibold text-zinc-950">{micro.pollQuestion}</p>
+                  <div className="grid gap-1.5">
+                    {micro.pollOptions.map((opt, idx) => {
+                      const active = pickedIdx === idx;
+                      return (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            sfx.messagePop();
+                            if (pickedIdx === undefined) {
+                              awardPassportBonusXp(
+                                `profile_poll_${currentProfile.id}`,
+                                3,
+                                'Profile Poll Spark!',
+                                '📊 +3 XP',
+                              );
+                            }
+                            setProfilePollPicks((prev) => ({
+                              ...prev,
+                              [currentProfile.id]: idx,
+                            }));
+                          }}
+                          className={`flex items-center justify-between rounded-xl border px-3.5 py-2 text-left text-xs sm:text-sm font-medium transition cursor-pointer ${
+                            active
+                              ? 'border-zinc-950 bg-zinc-950 text-white'
+                              : 'border-zinc-200 bg-white text-zinc-800 hover:border-zinc-400'
+                          }`}
+                        >
+                          <span>{opt}</span>
+                          {active && <Check className="h-3.5 w-3.5 shrink-0 text-rose-400" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {pickedIdx !== undefined && (
+                    <p className="pt-0.5 text-xs font-medium text-rose-700 animate-stage-in">
+                      {micro.pollReaction}
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Photo 2. Unobstructed Photo + Authentic Below-Photo 1st-Person Caption */}
             <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white">
@@ -1055,7 +1233,11 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                                 : 'bg-zinc-100 text-zinc-900 group-hover:bg-zinc-900 group-hover:text-white'
                             }`}
                           >
-                            {isVip ? '🌹 Send a Standout Rose' : 'Send'}
+                            {isVip
+                              ? wallet.isVip || wallet.isFounderUnlimited
+                                ? '🌹 Send a Standout Rose'
+                                : '🌹 Send a Standout Rose (1 Cr)'
+                              : 'Send'}
                           </span>
                         </div>
                       </button>
@@ -1107,42 +1289,54 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
           document.body,
         )}
 
-      {/* Celebratory Match Splash Overlay */}
+      {/* Celebratory Match Splash Overlay with Confetti & Overlapping Polaroid Slam */}
       {matchCelebration &&
         createPortal(
           <div
             data-testid="hinge-match-celebration"
-            className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/65 p-4"
             role="dialog"
             aria-modal="true"
             aria-label={`Matched with ${matchCelebration.name}`}
             onClick={() => setMatchCelebration(null)}
           >
+            <CelebrationBurstCanvas active={true} palette="match" />
             <div
-              className="flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl"
+              className="flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl animate-stage-in"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-200 bg-white px-6 py-4">
-                <span className="text-sm font-semibold text-rose-600">
-                  {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : 'It’s a Match!'}
+              <div className="shrink-0 flex items-center justify-between gap-3 border-b border-zinc-200 bg-zinc-950 px-6 py-4 text-white">
+                <span className="inline-flex items-center gap-1.5 text-sm font-bold text-amber-300">
+                  <Sparkles className="h-4 w-4 text-rose-400" />
+                  <span>
+                    {matchCelebration.isDelayed ? 'Earlier Like Matched Back!' : '🥂 It’s a Match!'}
+                  </span>
                 </span>
                 <button
                   type="button"
                   onClick={() => setMatchCelebration(null)}
                   aria-label="Close match splash"
-                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
+                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-zinc-200 hover:bg-white/20 hover:text-white cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
 
               <div className="flex-1 min-h-0 overflow-y-auto p-6 text-center space-y-4">
-                <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-2 ring-rose-500 shadow-md">
-                  <img
-                    src={matchCelebration.portrait}
-                    alt={matchCelebration.name}
-                    className="h-full w-full object-cover"
-                  />
+                <div className="flex items-center justify-center -space-x-4 pt-1">
+                  <div className="flex h-22 w-20 -rotate-6 flex-col items-center justify-center rounded-xl border-2 border-zinc-200 bg-zinc-950 text-white shadow-lg">
+                    <span className="text-xl">{role === 'her' ? '🐆' : '🥂'}</span>
+                    <span className="mt-1 text-[10px] font-bold uppercase tracking-wider text-rose-300">
+                      {wallet.playerName || 'You'}
+                    </span>
+                  </div>
+                  <div className="z-10 h-26 w-22 rotate-3 overflow-hidden rounded-xl border-2 border-white bg-white p-1 shadow-xl ring-2 ring-rose-500">
+                    <img
+                      src={matchCelebration.portrait}
+                      alt={matchCelebration.name}
+                      className="h-full w-full rounded-lg object-cover"
+                    />
+                  </div>
                 </div>
 
                 <div>

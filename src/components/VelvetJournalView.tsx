@@ -300,11 +300,11 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: 'Subculture Slang',
     heroPhoto: './images/scenes/velvet-room-bar.jpg',
     sectionPhotos: [
-      './images/scenes/cougarmarket-wine.jpg',
-      './images/scenes/candlelit-cocktails.jpg',
-      './images/scenes/wine-bar-booth.jpg',
-      './images/scenes/coastal-convertible.jpg',
-      './images/scenes/palm-springs-resort.jpg',
+      './images/cast/summer-blonde-33f.jpg',
+      './images/cast/sienna-38f.jpg',
+      './images/cast/claire-45f.jpg',
+      './images/cast/celeste-2.jpg',
+      './images/cast/vivienne-61f.jpg',
     ],
     dontText: 'ngl never been with a cougar before, bucket list check tonight??',
     doText: 'Booked us a quiet patio table at 7:30 Friday. See you there.',
@@ -781,6 +781,7 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   const [serverPercentagesBySlug, setServerPercentagesBySlug] = useState<
     Record<string, number[]>
   >({});
+  const [showAllGuidesGrid, setShowAllGuidesGrid] = useState(false);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   const active =
@@ -995,43 +996,71 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             })}
           </div>
 
-          {/* Clean Horizontal All-16 Listicle Picker (Replaces Narrow Cramped Sidebar) */}
-          <div className="flex items-center gap-2.5 overflow-x-auto pb-1 no-scrollbar">
-            {JOURNAL_ARTICLES.map((art, idx) => {
-              const isSelected = art.slug === active.slug;
-              const artMeta = getGuideVisualMeta(art.slug);
-              return (
-                <button
-                  key={art.slug}
-                  type="button"
-                  onClick={() => handleSelectArticle(art.slug)}
-                  className={`group flex shrink-0 items-center gap-2.5 rounded-xl border px-3 py-2 text-left transition cursor-pointer max-w-[240px] ${
-                    isSelected
-                      ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
-                      : 'border-zinc-200 bg-white text-zinc-800 hover:border-zinc-300 hover:bg-zinc-50'
-                  }`}
-                >
-                  <img
-                    src={artMeta.heroPhoto}
-                    alt=""
-                    loading="lazy"
-                    className="h-9 w-9 shrink-0 rounded-lg object-cover object-top"
-                  />
-                  <div className="min-w-0">
-                    <div
-                      className={`text-xs font-semibold ${
-                        isSelected ? 'text-rose-400' : 'text-zinc-400'
-                      }`}
-                    >
-                      #{String(idx + 1).padStart(2, '0')} • {artMeta.categoryPill}
+          {/* Clean All-16 Listicle Picker + Toggleable Full Grid So Guides #06-#16 Are Never Hidden */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2 text-xs">
+              <span className="font-semibold text-zinc-500">
+                Showing {JOURNAL_ARTICLES.findIndex((a) => a.slug === active.slug) + 1} of{' '}
+                {JOURNAL_ARTICLES.length} Photo Listicles
+              </span>
+              <button
+                type="button"
+                data-testid="toggle-all-guides-grid"
+                onClick={() => setShowAllGuidesGrid((v) => !v)}
+                className="font-semibold text-rose-600 hover:text-zinc-950 transition-colors cursor-pointer"
+              >
+                {showAllGuidesGrid ? 'Compact Strip ↑' : `View All ${JOURNAL_ARTICLES.length} Guides ↓`}
+              </button>
+            </div>
+
+            <div
+              className={
+                showAllGuidesGrid
+                  ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5'
+                  : 'flex items-center gap-2.5 overflow-x-auto pb-1'
+              }
+            >
+              {JOURNAL_ARTICLES.map((art, idx) => {
+                const isSelected = art.slug === active.slug;
+                const artMeta = getGuideVisualMeta(art.slug);
+                return (
+                  <button
+                    key={art.slug}
+                    type="button"
+                    onClick={() => {
+                      handleSelectArticle(art.slug);
+                      setShowAllGuidesGrid(false);
+                    }}
+                    className={`group flex items-center gap-2.5 rounded-xl border px-3 py-2 text-left transition cursor-pointer ${
+                      showAllGuidesGrid ? 'w-full' : 'shrink-0 max-w-[240px]'
+                    } ${
+                      isSelected
+                        ? 'border-zinc-950 bg-zinc-950 text-white shadow-2xs'
+                        : 'border-zinc-200 bg-white text-zinc-800 hover:border-zinc-300 hover:bg-zinc-50'
+                    }`}
+                  >
+                    <img
+                      src={artMeta.heroPhoto}
+                      alt=""
+                      loading="lazy"
+                      className="h-9 w-9 shrink-0 rounded-lg object-cover object-top"
+                    />
+                    <div className="min-w-0">
+                      <div
+                        className={`text-xs font-semibold ${
+                          isSelected ? 'text-rose-400' : 'text-zinc-400'
+                        }`}
+                      >
+                        #{String(idx + 1).padStart(2, '0')} • {artMeta.categoryPill}
+                      </div>
+                      <div className="text-xs font-semibold leading-snug line-clamp-1">
+                        {art.seoTitle}
+                      </div>
                     </div>
-                    <div className="text-xs font-semibold leading-snug line-clamp-1">
-                      {art.seoTitle}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </header>
 

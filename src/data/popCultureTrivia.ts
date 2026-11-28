@@ -2082,6 +2082,96 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "category": "era_culture",
     "difficulty": "hard",
     "level": 3
+  },
+  {
+    "id": "jessica-alba-danny-ramirez-cabo",
+    "badge": "🌴 11-Year Gap • Post-Divorce Glow-Up",
+    "question": "Following her 2025 chapter-two reset, actress and Honest Company founder Jessica Alba sparked viral Cabo and LA date-night headlines alongside which 11-years-younger \"Top Gun: Maverick\" and Marvel star?",
+    "options": [
+      "Danny Ramirez",
+      "Glen Powell",
+      "Manny Jacinto",
+      "Lewis Pullman"
+    ],
+    "correctIndex": 0,
+    "funFact": "Jessica Alba (44) and \"Top Gun: Maverick\" / \"Captain America\" actor Danny Ramirez (33) became one of 2025’s most cheered chapter-two romances.",
+    "imageUrl": "./images/scenes/palm-springs-resort.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "sam-aaron-taylor-johnson-nowhere-boy",
+    "badge": "🎬 23-Year Gap • British Cinema Pair",
+    "question": "Filmmaker Sam Taylor-Johnson and actor Aaron Taylor-Johnson (married since 2012 with a 23-year age gap) first met on the 2009 set of \"Nowhere Boy,\" a biopic about the teenage years of which music icon?",
+    "options": [
+      "David Bowie",
+      "Mick Jagger",
+      "John Lennon",
+      "Freddie Mercury"
+    ],
+    "correctIndex": 2,
+    "funFact": "Sam directed Aaron as young John Lennon in \"Nowhere Boy\" (2009), and over a decade of marriage later they remain Hollywood’s most debated 23-year gap.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "kris-jenner-corey-gamble-decade",
+    "badge": "🥂 25-Year Gap • 10+ Years Unbothered",
+    "question": "Momager powerhouse Kris Jenner and talent executive Corey Gamble (25 years her junior) first met in August 2014 at fashion designer Riccardo Tisci’s 40th birthday party on which Mediterranean island?",
+    "options": [
+      "Capri",
+      "Mykonos",
+      "Ibiza",
+      "Mallorca"
+    ],
+    "correctIndex": 2,
+    "funFact": "Over a decade after meeting in Ibiza, Kris Jenner and Corey Gamble have outlasted almost every tabloid skeptic with silk pajamas and front-row Paris poise.",
+    "imageUrl": "./images/icons/pop_kris_corey.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "natalie-portman-good-sex-romcom",
+    "badge": "🗽 Lena Dunham NYC Rom-Com",
+    "question": "In Lena Dunham’s Manhattan romantic comedy \"Good Sex,\" which Oscar-winning actress stars as 40-year-old couples therapist Ally caught between a magnetic 20-something Brooklyn hipster and a 50-something tech mogul?",
+    "options": [
+      "Natalie Portman",
+      "Anne Hathaway",
+      "Rachel Weisz",
+      "Emma Stone"
+    ],
+    "correctIndex": 0,
+    "funFact": "Starring Natalie Portman alongside Tucker Pillsbury (Role Model) and Mark Ruffalo, \"Good Sex\" puts the 20s-excitement vs. 50s-comfort dilemma front and center.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "miley-cyrus-maxx-morando-grammy",
+    "badge": "🎸 6-Year Junior Cougar Spark",
+    "question": "Winning Record of the Year for \"Flowers,\" Miley Cyrus thanked her 6-years-younger boyfriend Maxx Morando (\"my love\"), who plays drums for the rock band Liily after starting out with which LA punk band?",
+    "options": [
+      "The Regrettes",
+      "Wallows",
+      "Turnstile",
+      "Bleachers"
+    ],
+    "correctIndex": 0,
+    "funFact": "Set up on a blind date in 2021, Miley Cyrus and producer-drummer Maxx Morando even collaborated on tracks for \"Endless Summer Vacation\" and \"Something Beautiful.\"",
+    "imageUrl": "./images/icons/pop_olivia_harry.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "hard",
+    "level": 3
   }
 ];
 

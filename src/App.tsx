@@ -28,6 +28,7 @@ import { InTheWildMapView } from './components/InTheWildMapView';
 import { LiveIncomingTextBanner } from './components/LiveIncomingTextBanner';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
 import { PopCultureTriviaModal } from './components/PopCultureTriviaModal';
+import { RoastAndWingwomanModal } from './components/RoastAndWingwomanModal';
 import { TopHudBar, type ClubTopTab } from './components/TopHudBar';
 import { VelvetJournalView } from './components/VelvetJournalView';
 import { getCastProfileById, V35_CAST_PROFILES } from './data/v35Cast';
@@ -242,6 +243,8 @@ function readInitialUrlState() {
       openWorld: false,
       openAcademy: false,
       openCourt: false,
+      courtCaseId: null as string | null,
+      syncChallenge: null as string | null,
       openAbout: false,
     };
   }
@@ -258,7 +261,9 @@ function readInitialUrlState() {
   const openQuiz = params.get('quiz') === '1';
   const openWorld = params.get('world') === '1';
   const openAcademy = params.get('academy') === '1';
-  const openCourt = params.get('court') === '1';
+  const courtCaseId = params.get('case');
+  const syncChallenge = params.get('sync');
+  const openCourt = params.get('court') === '1' || Boolean(courtCaseId);
   const openAbout = params.get('about') === '1';
 
   return {
@@ -274,6 +279,8 @@ function readInitialUrlState() {
     openWorld,
     openAcademy,
     openCourt,
+    courtCaseId,
+    syncChallenge,
     openAbout,
   };
 }
@@ -395,7 +402,8 @@ export default function App() {
   });
   const [popTriviaOpen, setPopTriviaOpen] = useState(initialUrl.openQuiz);
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
-  const [blindSyncOpen, setBlindSyncOpen] = useState(false);
+  const [blindSyncOpen, setBlindSyncOpen] = useState(Boolean(initialUrl.syncChallenge));
+  const [roastLabOpen, setRoastLabOpen] = useState(false);
   const [passportModalOpen, setPassportModalOpen] = useState(false);
   const [passportMeta, setPassportMeta] = useState(() => loadPassportMeta());
 
@@ -431,6 +439,60 @@ export default function App() {
     () => resolvePassportLevel(campaignSummary.totalPoints),
     [campaignSummary.totalPoints],
   );
+
+  // Reward skill progression: automatically grant +1 Bonus Credit at Passport Lv.2 & Lv.4!
+  useEffect(() => {
+    const lvl = passportResolved.spec.level;
+    if (lvl >= 2 && !wallet.claimedRewards.includes('passport_lvl_2_credit')) {
+      const granted = grantRewardCredits(wallet, 'passport_lvl_2_credit', 1);
+      if (granted.granted) {
+        setWallet(granted.wallet);
+        saveWallet(granted.wallet);
+        emitXpBurst(0, '+1 Free Club Credit Unlocked!', '💎 LV.2 REWARD');
+      }
+    } else if (lvl >= 4 && !wallet.claimedRewards.includes('passport_lvl_4_credit')) {
+      const granted = grantRewardCredits(wallet, 'passport_lvl_4_credit', 1);
+      if (granted.granted) {
+        setWallet(granted.wallet);
+        saveWallet(granted.wallet);
+        emitXpBurst(0, '+1 Free Club Credit Unlocked!', '💎 LV.4 REWARD');
+      }
+    }
+  }, [passportResolved.spec.level, wallet]);
+
+  // Edge Cookie-Farm Guard: verify fresh unverified starter wallets once against /api/starter-check
+  useEffect(() => {
+    if (import.meta.env.VITEST || typeof window === 'undefined' || typeof fetch !== 'function') {
+      return;
+    }
+    try {
+      const checked = window.localStorage.getItem('cc_starter_edge_checked_v1');
+      if (checked) return;
+      window.localStorage.setItem('cc_starter_edge_checked_v1', '1');
+      const isFreshUnverified =
+        !wallet.isVip &&
+        wallet.claimedRewards.length === 0 &&
+        wallet.discernmentXp === 0 &&
+        threads.length === 0;
+      if (!isFreshUnverified) return;
+      fetch('/api/starter-check', { method: 'POST' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data: { starterAllowed?: boolean } | null) => {
+          if (data && data.starterAllowed === false) {
+            setWallet((prev) => {
+              if (prev.isVip || prev.claimedRewards.length > 0) return prev;
+              const clamped = { ...prev, credits: 0 };
+              saveWallet(clamped);
+              return clamped;
+            });
+          }
+        })
+        .catch(() => {});
+    } catch {
+      // Ignore storage restriction
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [founderModalOpen, setFounderModalOpen] = useState(false);
   const [founderPassInput, setFounderPassInput] = useState('');
@@ -469,6 +531,7 @@ export default function App() {
       popTriviaOpen ||
       checklistOpen ||
       blindSyncOpen ||
+      roastLabOpen ||
       fieldGuideOpen ||
       dateodexOpen ||
       personaModalOpen ||
@@ -480,6 +543,7 @@ export default function App() {
       setPopTriviaOpen(false);
       setChecklistOpen(false);
       setBlindSyncOpen(false);
+      setRoastLabOpen(false);
       setFieldGuideOpen(false);
       setDateodexOpen(false);
       setPersonaModalOpen(false);
@@ -492,6 +556,7 @@ export default function App() {
     popTriviaOpen,
     checklistOpen,
     blindSyncOpen,
+    roastLabOpen,
     fieldGuideOpen,
     dateodexOpen,
     personaModalOpen,
@@ -941,6 +1006,7 @@ export default function App() {
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
             onOpenBlindSync={() => setBlindSyncOpen(true)}
+            onOpenRoastLab={() => setRoastLabOpen(true)}
             onOpenGuides={() => setActiveTab('journal')}
             onOpenCourtroom={() => setActiveTab('courtroom')}
             onSendPartnerAudition={handleSendPartnerAudition}
@@ -984,6 +1050,7 @@ export default function App() {
         ) : activeTab === 'courtroom' ? (
           <ClubCourtroomView
             role={role}
+            initialCaseId={initialUrl.courtCaseId}
             onBackToRoster={() => setActiveTab('hinge')}
             onOpenCubAcademy={() => setActiveTab('school')}
             onCastCourtVote={() => {
@@ -1585,7 +1652,29 @@ export default function App() {
 
       <CouplesBlindSyncModal
         open={blindSyncOpen}
+        initialSyncChallenge={initialUrl.syncChallenge}
+        playerName={wallet.playerName}
         onClose={() => setBlindSyncOpen(false)}
+      />
+
+      <RoastAndWingwomanModal
+        open={roastLabOpen}
+        role={role}
+        wallet={wallet}
+        onClose={() => setRoastLabOpen(false)}
+        onSpendCredit={(cost) => {
+          const res = spendCredits(wallet, cost);
+          if (!res.ok) {
+            openBoutiqueWithTab('vip');
+            return false;
+          }
+          updateWallet(res.wallet);
+          return true;
+        }}
+        onOpenVip={() => {
+          setRoastLabOpen(false);
+          openBoutiqueWithTab('vip');
+        }}
       />
 
       <BoutiqueAndVipModal

@@ -14,6 +14,7 @@ import {
 import { BRAND_CONFIG } from '../config/brand';
 import type { PlayerRole } from '../domain/taxonomy';
 import { awardPassportBonusXp } from '../lib/gamification';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
@@ -37,6 +38,7 @@ type CourtFilterTab = 'all' | 'cub_cases' | 'cougar_cases' | 'split_jury' | 'com
 
 interface ClubCourtroomViewProps {
   role: PlayerRole;
+  initialCaseId?: string | null;
   onBackToRoster: () => void;
   onOpenCubAcademy: () => void;
   onCastCourtVote: () => void;
@@ -481,6 +483,102 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     crownHim: 61,
     dumpHim: 39,
   },
+  {
+    id: 'court-accidental-cougar-npr-panic',
+    aslTag: '26M × 42F • Seattle',
+    subject: 'her',
+    headline:
+      'Assumed My Bearded Bar-Trivia Teammate Was 35 Until I Mentioned Buying My First Civic in 1999 & He Said "I Was Born in 2000"',
+    story:
+      'Flirted for forty minutes over craft cocktails thinking we were peers, froze mid-sip when birth years dropped, then laughed so hard we booked Friday dinner anyway.',
+    vibeBadge: '😳 Accidental Cougar Panic',
+    topComment:
+      'Every Accidental Cougar has survived that exact five-second math freeze before realizing he is calmer than every 44-year-old ex.',
+    crownHer: 93,
+    dumpHer: 7,
+    crownHim: 95,
+    dumpHim: 5,
+  },
+  {
+    id: 'court-bestie-brunch-tribunal-ambush',
+    aslTag: '27M × 44F • Scottsdale',
+    subject: 'her',
+    headline:
+      'Invited Me to "Low-Key Sunday Coffee" on Date #3 That Turned Out to Be a Four-Woman Patio Mimosa Interrogation',
+    story:
+      'Walked onto the bistro terrace expecting two lattes and walked straight into four protective best friends firing rapid-fire career and intention questions before pastries arrived.',
+    vibeBadge: '🥂 Mimosa Tribunal',
+    topComment:
+      'Give a man at least twenty-four hours of mental prep before summoning the four-woman mimosa Senate.',
+    crownHer: 41,
+    dumpHer: 59,
+    crownHim: 19,
+    dumpHim: 81,
+  },
+  {
+    id: 'court-all-clad-kitchen-ban',
+    aslTag: '28M × 47F • Chicago',
+    subject: 'her',
+    headline:
+      'Banned Me From Touching Her Copper Cookware Forever After Catching Me Hovering Near a Pan With a Metal Fork Once',
+    story:
+      'Offered to scramble eggs Sunday morning, reached toward the drawer for a fork, and got gently escorted to a barstool with espresso while she took over.',
+    vibeBadge: '🍳 Copper-Pan Law',
+    topComment:
+      'Metal utensils near seasoned French copper is a felony in forty-eight states, sit on the barstool and look handsome.',
+    crownHer: 89,
+    dumpHer: 11,
+    crownHim: 52,
+    dumpHim: 48,
+  },
+  {
+    id: 'court-waiter-son-burgundy-comeback',
+    aslTag: '25M × 49F • Boston',
+    subject: 'her',
+    headline:
+      'Rookie Server Asked "Sparkling Water for Your Son?" and She Replied "He’s My Date, Bring Us Your Best Pinot" Without Blinking',
+    story:
+      'Poor kid turned bright crimson at our booth. She didn’t flinch, squeezed my hand across the tablecloth, and tipped twenty-five percent anyway.',
+    vibeBadge: '🍷 Unbothered Icon',
+    topComment:
+      'Zero embarrassment, total grace, and tipping the mortified waiter generously is peak queen behavior.',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 97,
+    dumpHim: 3,
+  },
+  {
+    id: 'court-kiddo-sancerre-knee-pat',
+    aslTag: '26M × 43F • Austin',
+    subject: 'her',
+    headline:
+      'Accidentally Patted My Knee & Said "Good Point, Kiddo" After Two Glasses of Sancerre in Front of My Friends',
+    story:
+      'Everything was rolling smoothly at pub trivia until muscle memory betrayed her mid-debate and the entire table went dead silent for three full seconds.',
+    vibeBadge: '💀 Sancerre Slip-Up',
+    topComment:
+      'Dropping "kiddo" with a knee pat in front of his boys requires immediate apology tacos.',
+    crownHer: 34,
+    dumpHer: 66,
+    crownHim: 22,
+    dumpHim: 78,
+  },
+  {
+    id: 'court-executive-assistant-calendar-invite',
+    aslTag: '28M × 46F • New York',
+    subject: 'her',
+    headline:
+      'Had Her Executive Assistant Email Me a Formal 7:30 PM Calendar Invite With Restaurant Parking Notes for Date #2',
+    story:
+      'Opened my inbox Wednesday morning to a crisp calendar block titled "Dinner w/ Lauren (Confirmed Booth)" complete with coat-check details.',
+    vibeBadge: '📅 C-Suite Efficiency',
+    topComment:
+      'Half of us find C-suite calendar invites intimidating and the other half would propose on the spot.',
+    crownHer: 72,
+    dumpHer: 28,
+    crownHim: 64,
+    dumpHim: 36,
+  },
 ];
 
 function isLiveHttpRuntime(): boolean {
@@ -510,6 +608,7 @@ function isSplitJuryCase(item: CourtroomStory): boolean {
 
 export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
   role,
+  initialCaseId = null,
   onBackToRoster,
   onOpenCubAcademy,
   onCastCourtVote,
@@ -562,8 +661,11 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
 
   const { dropNum, seedId } = useMemo(() => getDailyDropNumberAndSeedId(), []);
   const dailyStory = useMemo(
-    () => stories.find((s) => s.id === seedId) ?? stories[0],
-    [stories, seedId],
+    () =>
+      (initialCaseId ? stories.find((s) => s.id === initialCaseId) : undefined) ??
+      stories.find((s) => s.id === seedId) ??
+      stories[0],
+    [stories, seedId, initialCaseId],
   );
 
   const communityCount = useMemo(
@@ -651,8 +753,8 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
 
     const url =
       typeof window !== 'undefined' && window.location.origin.startsWith('http')
-        ? `${window.location.origin}/?court=1`
-        : `${BRAND_CONFIG.publicBaseUrl}/?court=1`;
+        ? `${window.location.origin}/?court=1&case=${encodeURIComponent(dailyStory.id)}`
+        : `${BRAND_CONFIG.publicBaseUrl}/?court=1&case=${encodeURIComponent(dailyStory.id)}`;
 
     const receipt = `🐆 Cougars & Cubs Daily #${dropNum} (${dailyStory.aslTag})\nMy Verdict: ${
       picked === 'crown' ? labels.receiptCrown : labels.receiptDump
@@ -669,6 +771,20 @@ export const ClubCourtroomView: React.FC<ClubCourtroomViewProps> = ({
       message: receipt,
       url,
       shareSurface: 'verdict_receipt',
+      onDownloadStoryPng: () => {
+        downloadReceiptPng({
+          badge: `Club Courtroom #${dropNum}`,
+          bigStat: picked === 'crown' ? 'CROWNED' : 'DUMPED',
+          verdictLabel: `${dailyStory.aslTag} · ${dailyStory.vibeBadge}`,
+          title: dailyStory.headline,
+          bullets: [
+            `Cougars Voted: ${herDumpPct}% Dump`,
+            `Cubs Voted: ${himCrownPct}% Crown`,
+            dailyStory.topComment || dailyStory.story,
+          ],
+          filename: `courtroom-${dailyStory.id}.png`,
+        });
+      },
     });
     window.setTimeout(() => setCopiedDaily(false), 2600);
   };

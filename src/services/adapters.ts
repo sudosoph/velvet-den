@@ -49,6 +49,7 @@ export interface AiDmVettingService {
     personaLore?: string;
     personaOrigin?: string;
     platform?: string;
+    afterDark?: boolean;
     playerMessage: string;
     history?: LiveInboxTurn[];
   }): Promise<AiDmVettingResponse>;

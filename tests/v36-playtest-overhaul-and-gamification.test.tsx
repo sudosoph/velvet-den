@@ -372,4 +372,145 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
     }
     expect(screen.getByTestId('blind-sync-result-card').textContent).toMatch(/100%/);
   });
+
+  it('ships Roast My Opener Lab (2 free -> 1 Cr), Midnight After-Dark gate (2 free -> 1 Cr), Async Sync links, Profile Micro-Polls, 10 Cougar Cases, 16-Guide Grid & Edge Cookie Guard', async () => {
+    const { RoastAndWingwomanModal, evaluateRoastLocally } = await import(
+      '../src/components/RoastAndWingwomanModal'
+    );
+    const { encodeBlindSyncChallenge, decodeBlindSyncChallenge } = await import(
+      '../src/components/CouplesBlindSyncModal'
+    );
+    const { SEED_COURTROOM_STORIES } = await import('../src/components/ClubCourtroomView');
+    const { VelvetJournalView } = await import('../src/components/VelvetJournalView');
+
+    // 1. Roast My Opener Lab scores "for ur age / snap" cringe low and gates cleanly after 2 free runs
+    const cringe = evaluateRoastLocally(
+      'roast_opener',
+      'u look crazy good for ur age whats ur snap??',
+      'him',
+    );
+    expect(cringe.score).toBeLessThan(20);
+    expect(cringe.upgradedRewrite.length).toBeGreaterThan(20);
+
+    let spentCount = 0;
+    const wallet = createDefaultWallet(new Date('2026-11-27T12:00:00Z'));
+    render(
+      <RoastAndWingwomanModal
+        open={true}
+        role="him"
+        wallet={wallet}
+        onClose={() => {}}
+        onSpendCredit={() => {
+          spentCount += 1;
+          return true;
+        }}
+        onOpenVip={() => {}}
+      />,
+    );
+    const roastModal = screen.getByTestId('roast-wingwoman-modal');
+    expect(roastModal.textContent).toMatch(/2\/2 Free Runs Left/i);
+
+    const textarea = within(roastModal).getByPlaceholderText(/Paste your real opener/i);
+    fireEvent.change(textarea, { target: { value: 'hey beautiful whats ur snap' } });
+    fireEvent.click(within(roastModal).getByRole('button', { name: /Run Free Club Panel/i }));
+    expect(screen.getByTestId('roast-utility-result').textContent).toMatch(/10\/10 Ready-to-Send/i);
+    expect(spentCount).toBe(0);
+
+    fireEvent.click(within(roastModal).getByRole('button', { name: /Run Free Club Panel/i }));
+    expect(spentCount).toBe(0);
+
+    // 3rd run requires 1 Cr
+    fireEvent.click(within(roastModal).getByRole('button', { name: /Run Club Panel \(1 Cr\)/i }));
+    expect(spentCount).toBe(1);
+
+    // 2. Worker POST /api/roast-utility & POST /api/starter-check (Cookie-Farm Guard)
+    const kv = new Map<string, string>();
+    const kvEnv = {
+      VELVET_KV: {
+        get: async (k: string) => kv.get(k) ?? null,
+        put: async (k: string, v: string) => {
+          kv.set(k, v);
+        },
+      },
+    };
+    const starter1 = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/starter-check', {
+        method: 'POST',
+        headers: { 'CF-Connecting-IP': '203.0.113.42', 'User-Agent': 'Mozilla/5.0 Test' },
+      }),
+      kvEnv,
+    );
+    expect(((await starter1.json()) as { starterAllowed: boolean }).starterAllowed).toBe(true);
+
+    const starter2 = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/starter-check', {
+        method: 'POST',
+        headers: { 'CF-Connecting-IP': '203.0.113.42', 'User-Agent': 'Mozilla/5.0 Test' },
+      }),
+      kvEnv,
+    );
+    expect(((await starter2.json()) as { starterAllowed: boolean }).starterAllowed).toBe(false);
+
+    const roastApi = await workerApp.fetch(
+      new Request('https://cougarsandcubs.club/api/roast-utility', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tool: 'roast_opener',
+          role: 'him',
+          input: 'u look amazing for ur age whats ur snap',
+        }),
+      }),
+      kvEnv,
+    );
+    expect(roastApi.status).toBe(200);
+    const roastJson = (await roastApi.json()) as { score: number };
+    expect(roastJson.score).toBeLessThan(30);
+
+    // 3. Midnight After-Dark Mode turns iMessage dark & gates cleanly after 2 free teases
+    window.localStorage.setItem('cc_after_dark_free_v1', '2');
+    const julianImessage = createInitialThread('julian', 'wild', undefined, false, 'left-bank-books');
+    render(
+      <ChatsAndDatesView
+        role="her"
+        wallet={wallet}
+        threads={[julianImessage]}
+        selectedLeadId="julian"
+        cutLooseIds={[]}
+        onUpdateThread={() => {}}
+        onSpendCredits={() => true}
+        onUnlockBucketItem={() => true}
+        onCutLooseTrap={() => {}}
+        onConfirmCutGenuine={() => {}}
+        onLoseHeart={() => {}}
+        onOpenHinge={() => {}}
+        onOpenBoutique={() => {}}
+      />,
+    );
+    const stageShell = screen.getByTestId('chat-stage-imessage');
+    fireEvent.click(within(stageShell).getByRole('button', { name: /After-Dark Mode/i }));
+    expect(stageShell.className).toContain('bg-zinc-950');
+    expect(screen.getByTestId('after-dark-unlock-gate').textContent).toMatch(
+      /Unlock Julian After-Dark \(1 Cr\)/i,
+    );
+
+    // 4. Async Blind Sync URL encoding + 10 Cougar Cases + 2026 Trivia + All-16 Guide Grid Toggle
+    const encoded = encodeBlindSyncChallenge([2, 1, 0, 2, 1], 'Claire');
+    const decoded = decodeBlindSyncChallenge(encoded);
+    expect(decoded?.answers).toEqual([2, 1, 0, 2, 1]);
+    expect(decoded?.senderName).toBe('Claire');
+
+    const cougarCases = SEED_COURTROOM_STORIES.filter((s) => s.subject === 'her');
+    expect(cougarCases.length).toBeGreaterThanOrEqual(10);
+
+    const triviaIds = new Set(POP_CULTURE_TRIVIA.map((q) => q.id));
+    expect(triviaIds.has('jessica-alba-danny-ramirez-cabo')).toBe(true);
+    expect(triviaIds.has('natalie-portman-good-sex-romcom')).toBe(true);
+
+    render(<VelvetJournalView onPlayScenario={() => {}} />);
+    const gridBtn = screen.getByTestId('toggle-all-guides-grid');
+    expect(gridBtn.textContent).toMatch(/View All 16 Guides/i);
+    fireEvent.click(gridBtn);
+    expect(gridBtn.textContent).toMatch(/Compact Strip/i);
+  });
 });

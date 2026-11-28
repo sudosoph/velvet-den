@@ -32,7 +32,8 @@ export type VelvetAnalyticsEvent =
   | 'waitlist_submitted'
   | 'newsletter_subscribed'
   | 'audition_completed'
-  | 'courtroom_voted';
+  | 'courtroom_voted'
+  | 'roast_lab_executed';
 
 const PLAYER_UUID_STORAGE_KEY = 'cc_player_uuid_v1';
 const APP_NAMESPACE = 'cougars_and_cubs_club';

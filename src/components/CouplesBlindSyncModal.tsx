@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   ArrowRight,
+  Copy,
+  Download,
   Heart,
+  Link2,
   RotateCcw,
   Share2,
   Sparkles,
@@ -11,6 +14,7 @@ import {
 } from 'lucide-react';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { awardPassportBonusXp } from '../lib/gamification';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
@@ -188,21 +192,64 @@ export function computeBlindSyncResult(
   };
 }
 
+export function encodeBlindSyncChallenge(answers: number[], senderName = 'Your Match'): string {
+  const digits = answers
+    .slice(0, 5)
+    .map((n) => (n === 0 || n === 1 || n === 2 ? String(n) : '0'))
+    .join('');
+  const cleanName = senderName.replace(/[^a-zA-Z0-9 ]/g, '').trim().slice(0, 20) || 'Match';
+  return `${digits}-${encodeURIComponent(cleanName)}`;
+}
+
+export function decodeBlindSyncChallenge(
+  raw: string | null | undefined,
+): { answers: [number, number, number, number, number]; senderName: string } | null {
+  if (!raw) return null;
+  const match = raw.trim().match(/^([012]{5})(?:-(.+))?$/);
+  if (!match) return null;
+  const digits = match[1].split('').map((d) => Number(d)) as [
+    number,
+    number,
+    number,
+    number,
+    number,
+  ];
+  let senderName = 'Your Match';
+  if (match[2]) {
+    try {
+      senderName = decodeURIComponent(match[2]).slice(0, 24) || 'Your Match';
+    } catch {
+      senderName = 'Your Match';
+    }
+  }
+  return { answers: digits, senderName };
+}
+
 export interface CouplesBlindSyncModalProps {
   open: boolean;
+  initialSyncChallenge?: string | null;
+  playerName?: string;
   onClose: () => void;
 }
 
 export const CouplesBlindSyncModal: React.FC<CouplesBlindSyncModalProps> = ({
   open,
+  initialSyncChallenge = null,
+  playerName = '',
   onClose,
 }) => {
+  const decodedIncoming = decodeBlindSyncChallenge(initialSyncChallenge);
   const [mode, setMode] = useState<'pass_phone' | 'solo_cast'>('pass_phone');
   const [selectedCastId, setSelectedCastId] = useState<string>('julian');
-  const [phase, setPhase] = useState<'p1' | 'handoff' | 'p2' | 'result'>('p1');
+  const [phase, setPhase] = useState<'p1' | 'handoff' | 'p2' | 'result'>(() =>
+    decodedIncoming ? 'p2' : 'p1',
+  );
   const [qIdx, setQIdx] = useState(0);
-  const [p1Answers, setP1Answers] = useState<number[]>([]);
+  const [p1Answers, setP1Answers] = useState<number[]>(() =>
+    decodedIncoming ? [...decodedIncoming.answers] : [],
+  );
   const [p2Answers, setP2Answers] = useState<number[]>([]);
+  const [copiedAsyncLink, setCopiedAsyncLink] = useState(false);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   if (!open) return null;
@@ -254,7 +301,11 @@ export const CouplesBlindSyncModal: React.FC<CouplesBlindSyncModalProps> = ({
     phase === 'result' ? computeBlindSyncResult(p1Answers, p2Answers) : null;
 
   const partnerLabel =
-    mode === 'solo_cast' ? `${activeCast.name}, ${activeCast.age}` : 'Partner B';
+    mode === 'solo_cast'
+      ? `${activeCast.name}, ${activeCast.age}`
+      : decodedIncoming
+        ? decodedIncoming.senderName
+        : 'Partner B';
 
   const modalNode = (
     <>
@@ -374,18 +425,55 @@ export const CouplesBlindSyncModal: React.FC<CouplesBlindSyncModalProps> = ({
                     Partner A’s choices are sealed. Partner B answers the same 5 dilemmas next to reveal your real compatibility receipt.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    sfx.messagePop();
-                    setQIdx(0);
-                    setPhase('p2');
-                  }}
-                  className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-6 text-sm font-semibold text-white transition cursor-pointer"
-                >
-                  <span>Start Partner B’s Turn</span>
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sfx.messagePop();
+                      setQIdx(0);
+                      setPhase('p2');
+                    }}
+                    className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-5 text-xs sm:text-sm font-semibold text-white transition cursor-pointer"
+                  >
+                    <span>Start Partner B’s Turn Here</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    data-testid="copy-async-sync-link-btn"
+                    onClick={async () => {
+                      const code = encodeBlindSyncChallenge(
+                        p1Answers,
+                        playerName || 'Your Crush',
+                      );
+                      const origin =
+                        typeof window !== 'undefined' && window.location.origin.startsWith('http')
+                          ? window.location.origin
+                          : 'https://cougarsandcubs.club';
+                      const asyncUrl = `${origin}/?sync=${code}`;
+                      await shareOrCopy({
+                        title: '5-Round Cougars & Cubs Blind Sync Challenge',
+                        text: 'I locked my 5 relationship answers. Tap yours to see our Compatibility % 👀',
+                        url: asyncUrl,
+                      });
+                      setCopiedAsyncLink(true);
+                    }}
+                    className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-900 transition cursor-pointer"
+                  >
+                    {copiedAsyncLink ? (
+                      <>
+                        <Copy className="h-3.5 w-3.5 text-emerald-600" />
+                        <span>Challenge Link Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Link2 className="h-3.5 w-3.5 text-rose-600" />
+                        <span>Text Link to Their Phone</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             ) : phase === 'result' && result ? (
               <div
@@ -453,14 +541,41 @@ export const CouplesBlindSyncModal: React.FC<CouplesBlindSyncModalProps> = ({
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => resetAll(mode)}
-                    className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
-                  >
-                    <RotateCcw className="h-4 w-4" />
-                    <span>Play Again</span>
-                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => resetAll(mode)}
+                      className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
+                    >
+                      <RotateCcw className="h-4 w-4" />
+                      <span>Play Again</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        downloadReceiptPng({
+                          badge: '5-Round Blind Sync Receipt',
+                          bigStat: `${result.syncPercent}%`,
+                          verdictLabel: `You × ${partnerLabel} · ${result.verdictTitle}`,
+                          title: result.verdictSummary,
+                          bullets: [
+                            result.matchedTopics.length > 0
+                              ? `Aligned On: ${result.matchedTopics.join(', ')}`
+                              : 'Zero Identical Picks: Pure Opposites Voltage',
+                            result.frictionTopics.length > 0
+                              ? `Negotiate Over Drinks: ${result.frictionTopics.join(', ')}`
+                              : '100% Clean Sweep Across All 5 Dilemmas',
+                          ],
+                          filename: `blind-sync-${result.syncPercent}.png`,
+                        })
+                      }
+                      className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
+                    >
+                      <Download className="h-4 w-4 text-rose-600" />
+                      <span>PNG Card</span>
+                    </button>
+                  </div>
 
                   <button
                     type="button"

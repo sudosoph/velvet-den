@@ -26,7 +26,9 @@ import {
   getAffiliateById,
 } from '../lib/affiliates';
 import { sfx } from '../lib/sound';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { shareOrCopy } from '../lib/viral';
+import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 export interface RomanticDateStageProps {
@@ -222,6 +224,7 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-5 animate-stage-in">
+      <CelebrationBurstCanvas active={finished && rank === 'S'} palette="gold" />
       <div className="sticky top-24 lg:top-16 z-20 -mx-2 px-2 py-2 bg-[#F7F7F8]/95 border-b border-zinc-200/70 flex flex-wrap items-center justify-between gap-3">
         <button
           type="button"
@@ -351,8 +354,16 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
           {/* Expressive Animated Character Cutout & Scene Header */}
           <div className="absolute inset-x-5 sm:inset-x-7 bottom-4 flex items-end justify-between gap-4">
             <div className="max-w-md space-y-2 pb-1">
-              <div className="text-xs font-bold uppercase tracking-widest text-amber-300/90">
-                Date #{script.dateNumber} {!finished ? `Scene ${beatIdx + 1} of ${script.beats.length}` : 'Finale'}
+              <div className="inline-flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-300/90">
+                <span>
+                  Date #{script.dateNumber}{' '}
+                  {!finished ? `Scene ${beatIdx + 1} of ${script.beats.length}` : 'Finale'}
+                </span>
+                {!finished && beatIdx === 0 && (
+                  <span className="rounded-md bg-zinc-950/75 border border-white/15 px-2 py-0.5 text-[11px] font-semibold normal-case tracking-normal text-zinc-200">
+                    📍 Friday · 8:15 PM · Sunset Hills
+                  </span>
+                )}
               </div>
               <h1 className="text-xl sm:text-3xl font-bold tracking-tight text-white leading-tight drop-shadow-md">
                 {script.title}
@@ -766,6 +777,20 @@ export const RomanticDateStage: React.FC<RomanticDateStageProps> = ({
                         title: shareTitle,
                         message: shareText,
                         url,
+                        onDownloadStoryPng: () => {
+                          downloadReceiptPng({
+                            badge: `Date #${script.dateNumber} Polaroid`,
+                            bigStat: `${rank}-RANK`,
+                            verdictLabel: `${profile.name}, ${profile.age} · ${script.title}`,
+                            title: shareText,
+                            bullets: [
+                              rank === 'S'
+                                ? '5-Star Slow-Burn Chemistry Unlocked'
+                                : 'Sunset Hills Dateodex Memory Logged',
+                            ],
+                            filename: `date-${profile.id}-${rank}.png`,
+                          });
+                        },
                         shareSurface: 'verdict_receipt',
                       });
                     }}

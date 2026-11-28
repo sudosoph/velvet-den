@@ -5,6 +5,7 @@ import {
   CheckSquare,
   Compass,
   Film,
+  Flame,
   GraduationCap,
   Heart,
   Scale,
@@ -205,6 +206,7 @@ interface CampaignCompassBarProps {
   onOpenPassportModal?: () => void;
   onOpenMatchmaking?: () => void;
   onOpenBlindSync?: () => void;
+  onOpenRoastLab?: () => void;
   onResetHearts?: () => void;
 }
 
@@ -231,6 +233,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onOpenPassportModal,
   onOpenMatchmaking,
   onOpenBlindSync,
+  onOpenRoastLab,
   onResetHearts,
 }) => {
   const [showModeGrid, setShowModeGrid] = useState(false);
@@ -411,6 +414,21 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 >
                   <Users className="h-3.5 w-3.5 text-rose-600" />
                   <span>2P Blind Sync</span>
+                </button>
+              )}
+
+              {onOpenRoastLab && (
+                <button
+                  type="button"
+                  data-testid="open-roast-lab-pill"
+                  onClick={() => {
+                    setShowModeGrid(false);
+                    onOpenRoastLab();
+                  }}
+                  className="inline-flex h-7 items-center gap-1.5 rounded-lg bg-zinc-950 hover:bg-rose-600 px-2.5 text-xs font-semibold text-white transition-colors cursor-pointer"
+                >
+                  <Flame className="h-3.5 w-3.5 text-amber-300" />
+                  <span>Roast My Opener</span>
                 </button>
               )}
 

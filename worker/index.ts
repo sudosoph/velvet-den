@@ -1312,6 +1312,90 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     crownHim: 61,
     dumpHim: 39,
   },
+  {
+    id: 'court-accidental-cougar-npr-panic',
+    aslTag: '26M × 42F • Seattle',
+    subject: 'her',
+    headline:
+      'Assumed My Bearded Bar-Trivia Teammate Was 35 Until I Mentioned Buying My First Civic in 1999 & He Said "I Was Born in 2000"',
+    story:
+      'Flirted for forty minutes over craft cocktails thinking we were peers, froze mid-sip when birth years dropped, then laughed so hard we booked Friday dinner anyway.',
+    vibeBadge: '😳 Accidental Cougar Panic',
+    crownHer: 93,
+    dumpHer: 7,
+    crownHim: 95,
+    dumpHim: 5,
+  },
+  {
+    id: 'court-bestie-brunch-tribunal-ambush',
+    aslTag: '27M × 44F • Scottsdale',
+    subject: 'her',
+    headline:
+      'Invited Me to "Low-Key Sunday Coffee" on Date #3 That Turned Out to Be a Four-Woman Patio Mimosa Interrogation',
+    story:
+      'Walked onto the bistro terrace expecting two lattes and walked straight into four protective best friends firing rapid-fire career and intention questions before pastries arrived.',
+    vibeBadge: '🥂 Mimosa Tribunal',
+    crownHer: 41,
+    dumpHer: 59,
+    crownHim: 19,
+    dumpHim: 81,
+  },
+  {
+    id: 'court-all-clad-kitchen-ban',
+    aslTag: '28M × 47F • Chicago',
+    subject: 'her',
+    headline:
+      'Banned Me From Touching Her Copper Cookware Forever After Catching Me Hovering Near a Pan With a Metal Fork Once',
+    story:
+      'Offered to scramble eggs Sunday morning, reached toward the drawer for a fork, and got gently escorted to a barstool with espresso while she took over.',
+    vibeBadge: '🍳 Copper-Pan Law',
+    crownHer: 89,
+    dumpHer: 11,
+    crownHim: 52,
+    dumpHim: 48,
+  },
+  {
+    id: 'court-waiter-son-burgundy-comeback',
+    aslTag: '25M × 49F • Boston',
+    subject: 'her',
+    headline:
+      'Rookie Server Asked "Sparkling Water for Your Son?" and She Replied "He’s My Date, Bring Us Your Best Pinot" Without Blinking',
+    story:
+      'Poor kid turned bright crimson at our booth. She didn’t flinch, squeezed my hand across the tablecloth, and tipped twenty-five percent anyway.',
+    vibeBadge: '🍷 Unbothered Icon',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 97,
+    dumpHim: 3,
+  },
+  {
+    id: 'court-kiddo-sancerre-knee-pat',
+    aslTag: '26M × 43F • Austin',
+    subject: 'her',
+    headline:
+      'Accidentally Patted My Knee & Said "Good Point, Kiddo" After Two Glasses of Sancerre in Front of My Friends',
+    story:
+      'Everything was rolling smoothly at pub trivia until muscle memory betrayed her mid-debate and the entire table went dead silent for three full seconds.',
+    vibeBadge: '💀 Sancerre Slip-Up',
+    crownHer: 34,
+    dumpHer: 66,
+    crownHim: 22,
+    dumpHim: 78,
+  },
+  {
+    id: 'court-executive-assistant-calendar-invite',
+    aslTag: '28M × 46F • New York',
+    subject: 'her',
+    headline:
+      'Had Her Executive Assistant Email Me a Formal 7:30 PM Calendar Invite With Restaurant Parking Notes for Date #2',
+    story:
+      'Opened my inbox Wednesday morning to a crisp calendar block titled "Dinner w/ Lauren (Confirmed Booth)" complete with coat-check details.',
+    vibeBadge: '📅 C-Suite Efficiency',
+    crownHer: 72,
+    dumpHer: 28,
+    crownHim: 64,
+    dumpHim: 36,
+  },
 ];
 
 async function handleCourtroomGet(env: WorkerEnv): Promise<Response> {
@@ -1597,6 +1681,140 @@ const CAST_AI_LORE_BY_ID: Record<string, string> = {
     '61yo French independent film producer between Cannes & Beverly Hills; Left Bank sophistication, Burgundy & 35mm revivals, instant walkout if anyone utters "for your age."',
 };
 
+async function checkHourlyIpQuota(
+  request: Request,
+  env: WorkerEnv,
+  bucket: string,
+  maxPerHour: number,
+): Promise<boolean> {
+  if (!env.VELVET_KV) return true;
+  const ip = request.headers.get('CF-Connecting-IP') || '';
+  if (!ip) return true;
+  try {
+    const hourKey = new Date().toISOString().slice(0, 13);
+    const kvKey = `ratelimit:${bucket}:${hourKey}:${hashSeed(`rl:${ip}`)}`;
+    const cur = Number((await env.VELVET_KV.get(kvKey)) || '0');
+    if (cur >= maxPerHour) return false;
+    await env.VELVET_KV.put(kvKey, String(cur + 1), { expirationTtl: 3700 });
+    return true;
+  } catch {
+    return true;
+  }
+}
+
+async function handleStarterCheck(request: Request, env: WorkerEnv): Promise<Response> {
+  if (!env.VELVET_KV) {
+    return jsonResponse({ ok: true, starterAllowed: true });
+  }
+  const ip = request.headers.get('CF-Connecting-IP') || 'anon';
+  const ua = (request.headers.get('User-Agent') || '').slice(0, 96);
+  const fp = await sha256Hex(`cc_starter_guard_v1:${ip}:${ua}`);
+  const kvKey = `starter_claimed_v1:${fp.slice(0, 32)}`;
+  try {
+    const existing = await env.VELVET_KV.get(kvKey);
+    if (existing) {
+      return jsonResponse({ ok: true, starterAllowed: false });
+    }
+    await env.VELVET_KV.put(kvKey, new Date().toISOString(), {
+      expirationTtl: 60 * 60 * 24 * 30,
+    });
+    return jsonResponse({ ok: true, starterAllowed: true });
+  } catch {
+    return jsonResponse({ ok: true, starterAllowed: true });
+  }
+}
+
+async function handleRoastUtility(request: Request, env: WorkerEnv): Promise<Response> {
+  let body: { tool?: string; role?: string; input?: string } = {};
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+  const tool = sanitizeId(body.tool ?? 'roast_opener', 32) || 'roast_opener';
+  const role: 'her' | 'him' = body.role === 'him' ? 'him' : 'her';
+  const input = String(body.input || '').trim().slice(0, 320);
+  if (!input) {
+    return jsonResponse({ error: 'Missing input' }, 400);
+  }
+
+  const withinQuota = await checkHourlyIpQuota(request, env, 'roast_lab', 25);
+  if (env.AI && withinQuota) {
+    try {
+      const prompt = [
+        `You are the razor-sharp, hilarious Cougars & Cubs Club Dating Lab Panel (Claire 46F M&A Partner, Prof. Elena 44F, and Julian 27M).`,
+        `Tool mode: ${tool}. User role: ${role === 'her' ? 'Cougar (confident older woman)' : 'Cub (younger man)'}.`,
+        `Evaluate this real-world dating submission: "${input.replace(/"/g, "'")}".`,
+        `Spot clichés ("for your age", Snapchat asks, "wyd", passive "play it by ear", Gen-X punctuation misreads, or married 6:30 PM curfews) with affectionate comedy, then write a 10/10 ready-to-send upgrade!`,
+        `STRICT RULE: No em-dashes, no semicolons. Output valid single-line JSON only:`,
+        `{"score":number(5..98),"verdictBadge":"short uppercase badge with 1 emoji","panelSpeaker":"Claire, 46 & Julian, 27","roastRead":"2 witty, specific sentences","upgradedRewrite":"1 to 2 crisp ready-to-send sentences","whyItWorks":"1 short sentence explaining why it wins"}`,
+      ].join(' ');
+      const aiRes = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+        messages: [
+          { role: 'system', content: prompt },
+          { role: 'user', content: input },
+        ],
+        max_tokens: 320,
+        temperature: 0.7,
+        response_format: { type: 'json_object' },
+      });
+      const parsed =
+        aiRes?.response && typeof aiRes.response === 'object'
+          ? aiRes.response
+          : typeof aiRes?.response === 'string'
+            ? (JSON.parse(aiRes.response.match(/\{[\s\S]*\}/)?.[0] || '{}') as Record<
+                string,
+                unknown
+              >)
+            : null;
+      if (
+        parsed &&
+        typeof parsed.roastRead === 'string' &&
+        typeof parsed.upgradedRewrite === 'string'
+      ) {
+        return jsonResponse({
+          score: Math.max(5, Math.min(99, Number(parsed.score ?? 78))),
+          verdictBadge: humanizeChatText(String(parsed.verdictBadge || '🔥 CLUB VERDICT')).slice(
+            0,
+            42,
+          ),
+          panelSpeaker: humanizeChatText(
+            String(parsed.panelSpeaker || 'Claire, 46 & Julian, 27'),
+          ).slice(0, 48),
+          roastRead: humanizeChatText(parsed.roastRead, { singleLine: false }).slice(0, 280),
+          upgradedRewrite: humanizeChatText(parsed.upgradedRewrite, { singleLine: false }).slice(
+            0,
+            240,
+          ),
+          whyItWorks: humanizeChatText(
+            String(parsed.whyItWorks || 'Specificity and calm confidence win every time.'),
+            { singleLine: false },
+          ).slice(0, 180),
+          source: 'workers-ai',
+        });
+      }
+    } catch {
+      // Fall back to deterministic heuristic response below
+    }
+  }
+
+  const hasFatalCliche = /for your age|for ur age|snap|snapchat|wyd|bucket list|milf/i.test(input);
+  return jsonResponse({
+    score: hasFatalCliche ? 14 : 84,
+    verdictBadge: hasFatalCliche ? '🚫 INSTANT UNMATCH' : '🥂 SMOOTH UPGRADE READY',
+    panelSpeaker: 'Claire, 46 & Julian, 27',
+    roastRead: hasFatalCliche
+      ? 'Asking for Snapchat or mentioning age clichés gets your message archived before she finishes her coffee.'
+      : 'Solid instincts! Adding a specific detail and decisive Thursday plan takes this straight to the top of their inbox.',
+    upgradedRewrite:
+      role === 'him'
+        ? 'Your travel prompt made me laugh out loud. Free for a proper 7:30 Thursday glass at a quiet neighborhood wine bar?'
+        : 'Bold claim on your profile, prove you can back that banter up over a Thursday drink.',
+    whyItWorks: 'Drops generic small talk for calm, specific adult momentum.',
+    source: 'local-heuristic',
+  });
+}
+
 async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Response> {
   let body: {
     personaId?: string;
@@ -1612,6 +1830,7 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
     personaLore?: string;
     personaOrigin?: string;
     platform?: string;
+    afterDark?: boolean;
     playerMessage?: string;
     history?: { sender: 'player' | 'match'; text: string }[];
   } = {};
@@ -1648,7 +1867,10 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
   const castLore =
     String(body.personaLore || '').slice(0, 260) || CAST_AI_LORE_BY_ID[personaId] || '';
 
-  if (env.AI) {
+  const afterDark = Boolean(body.afterDark);
+  const withinAiQuota = await checkHourlyIpQuota(request, env, 'inbox_ai', 60);
+
+  if (env.AI && withinAiQuota) {
     try {
       let systemPrompt: string;
 
@@ -1709,10 +1931,15 @@ async function handleInboxVet(request: Request, env: WorkerEnv): Promise<Respons
             ? `PLAYER IDENTITY: Player name is ${playerName || 'your match'}${playerPersonaVibe ? `, dating vibe '${playerPersonaVibe}'` : ''}. Use their first name sparingly (at most once every few turns, never tacked onto the end of a sentence like customer support!).`
             : '';
 
+        const afterDarkDirective = afterDark
+          ? `AFTER-DARK MIDNIGHT MODE ACTIVE (11:48 PM PERSONAL iMESSAGE): Turn up the sultry, magnetic late-night rom-com heat (think Babygirl hotel-bar tension, Good Luck to You Leo Grande candor, and The Idea of You chemistry)! Flirt with confident adult desire, lingering eye contact, silk/collarbone/midnight imagery, and slow-burn anticipation while staying tasteful R-rated cinema (never crude or explicit).`
+          : '';
+
         systemPrompt = [
           `You are texting 1-on-1 in first person as ${personaName} (${personaAge}, ${personaTitle}) on ${platform} in "Cougars & Cubs Club", a sharp, funny, self-aware age-gap romantic-comedy game.`,
           castLore ? `YOUR SECRET CHARACTER BIBLE: ${castLore}` : '',
           playerIdentityHint,
+          afterDarkDirective,
           `REAL HUMAN TEXTING & AGE-GAP COMEDY RULE (CRITICAL!): Write how an actual witty, attractive ${personaAge}-year-old texts in real life, NOT how an AI chatbot writes! Use natural contractions ("I'm", "don't", "you're"), dry observational humor, and playful age-gap banter grounded in your character's real job and life.`,
           `BANNED AI CRINGE PHRASING: NEVER write stiff sommelier/romance-novel filler like "of course, to pair with...", "Ah, a fellow...", "Indeed", "I must confess", "Quite the...", or "What is your go-to accompaniment?". Keep it conversational, cheeky, and effortless, like a real text worth screenshotting to the group chat!`,
           `CRITICAL COHERENCE RULE: Reply directly to the exact joke, answer, tease, or detail the player just sent!`,
@@ -2332,6 +2559,16 @@ export default {
 
     if (url.pathname === '/api/inbox-vet') {
       if (request.method === 'POST') return handleInboxVet(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/roast-utility') {
+      if (request.method === 'POST') return handleRoastUtility(request, env);
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
+
+    if (url.pathname === '/api/starter-check') {
+      if (request.method === 'POST') return handleStarterCheck(request, env);
       return jsonResponse({ error: 'Method Not Allowed' }, 405);
     }
 
