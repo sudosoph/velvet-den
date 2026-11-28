@@ -216,4 +216,63 @@ describe('v36 Playtest Overhaul: Gamification, Human Texts, 3-Tab Checklist, Spr
     expect(saved).toHaveLength(1);
     expect(saved[0].surface).toBe('cub_school_her');
   });
+
+  it('delivers 3-Signal Room Scanner & 20/20 bespoke intention-reading scenes in In The Wild, plus clean Funny & Cute Shop filtering', async () => {
+    const { getWildFollowUpSequence, getWildRoomClues, V35_WILD_VENUES } = await import(
+      '../src/data/v35WildVenues'
+    );
+    const { InTheWildMapView } = await import('../src/components/InTheWildMapView');
+    const { BoutiqueAndVipModal } = await import('../src/components/BoutiqueAndVipModal');
+
+    // Every single venue × role has 3 bespoke Room Scanner clues & bespoke Beat 2/3 intention-reading scenes
+    const promptsSeen = new Set<string>();
+    for (const venue of V35_WILD_VENUES) {
+      for (const role of ['her', 'him'] as const) {
+        const clues = getWildRoomClues(venue.id, role);
+        expect(clues).toHaveLength(3);
+        const seq = getWildFollowUpSequence(venue.id, role, 'Lead');
+        promptsSeen.add(`${role}:${seq.beat2.prompt}`);
+      }
+    }
+    expect(promptsSeen.size).toBe(20);
+
+    render(
+      <InTheWildMapView
+        role="her"
+        activeLeadThreads={[]}
+        completedCameoVenues={[]}
+        initialVenueId="velvet-room"
+        onUnlockWildLead={() => {}}
+        onCompleteCameo={() => {}}
+      />,
+    );
+
+    const scanner = screen.getByTestId('wild-room-scanner');
+    expect(scanner.textContent).toMatch(/Decipher Intentions/i);
+    fireEvent.click(within(scanner).getByRole('button', { name: /Eye Contact/i }));
+    expect(scanner.textContent).toMatch(/1\/3 Signals Read/i);
+
+    // Shop includes Funny & Cute filter and zero "Big Carl" / "Jules Cobb" reference
+    const wallet = createDefaultWallet(new Date('2026-11-27T12:00:00Z'));
+    render(
+      <BoutiqueAndVipModal
+        open={true}
+        initialSection="shop"
+        wallet={wallet}
+        onClose={() => {}}
+        onRedeemCode={() => false}
+        onSandboxGrantCredits={() => {}}
+        onSandboxUnlockVip={() => {}}
+        onClaimNewsletterBonus={() => false}
+      />,
+    );
+
+    const shopDialog = screen.getByRole('dialog', {
+      name: /Cougars & Cubs Club VIP & Creator Lounge/i,
+    });
+    expect(shopDialog.textContent).not.toMatch(/Big Carl|Jules Cobb/i);
+    const funnyFilter = within(shopDialog).getByRole('button', { name: /Funny & Cute/i });
+    fireEvent.click(funnyFilter);
+    expect(shopDialog.textContent).toMatch(/Full-Bottle Patio Goblet/i);
+  });
 });

@@ -548,7 +548,10 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                         }
                         className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors"
                       >
-                        <span>🎬 Watch on Prime Video: {extraPrimeStream.label}</span>
+                        <span>
+                          {extraPrimeStream.ctaPrefix ?? '🎬 Watch on Prime Video'}:{' '}
+                          {extraPrimeStream.label}
+                        </span>
                         <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-500" />
                       </a>
                     )}

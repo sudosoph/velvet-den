@@ -240,8 +240,10 @@ export function playVoiceNotePreview(
           try {
             audioEl.onended = null;
             audioEl.onerror = null;
-            audioEl.pause();
-            audioEl.currentTime = 0;
+            if (!import.meta.env.VITEST) {
+              audioEl.pause();
+              audioEl.currentTime = 0;
+            }
           } catch {
             // Ignore media cleanup errors
           }

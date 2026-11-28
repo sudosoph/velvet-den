@@ -10,7 +10,9 @@ import {
   Hash,
   Heart,
   MessageCircle,
+  Pause,
   Phone,
+  Play,
   Search,
   Send,
   Share2,
@@ -18,6 +20,7 @@ import {
   Sparkles,
   Unlock,
   Video,
+  Volume2,
   X,
 } from 'lucide-react';
 import { MONETIZATION_CONFIG } from '../config/monetization';
@@ -37,7 +40,7 @@ import {
   PERSONA_VIBE_SPECS,
   type WalletState,
 } from '../domain/economy';
-import { sfx } from '../lib/sound';
+import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
 import { liveAiInboxService } from '../services/adapters';
 import { RomanticDateStage } from './RomanticDateStage';
@@ -180,6 +183,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [freeInput, setFreeInput] = useState('');
   const [sendingAi, setSendingAi] = useState(false);
   const [dmTypingLabel, setDmTypingLabel] = useState<string | null>(null);
+  const [dmTypingPhase, setDmTypingPhase] = useState<'typing' | 'erasing' | 'retyping' | null>(null);
+  const [dmReadStatus, setDmReadStatus] = useState<'delivered' | 'read'>('read');
+  const [playingVoiceLeadId, setPlayingVoiceLeadId] = useState<string | null>(null);
+  const voiceStopRef = useRef<(() => void) | null>(null);
   const [dmReactions, setDmReactions] = useState<Record<string, string>>({});
   const [sparkToast, setSparkToast] = useState<{ delta: number; nonce: number } | null>(null);
   const [inspectedExifIds, setInspectedExifIds] = useState<string[]>([]);
@@ -215,6 +222,10 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         window.clearTimeout(id);
       }
       pendingTimersRef.current = [];
+      if (voiceStopRef.current) {
+        voiceStopRef.current();
+        voiceStopRef.current = null;
+      }
     };
   }, []);
   const [cutLooseModal, setCutLooseModal] = useState<{
@@ -286,6 +297,13 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   useEffect(() => {
     setShowArchivedHinge(false);
     setDmTypingLabel(null);
+    setDmTypingPhase(null);
+    setDmReadStatus('read');
+    if (voiceStopRef.current) {
+      voiceStopRef.current();
+      voiceStopRef.current = null;
+    }
+    setPlayingVoiceLeadId(null);
   }, [activeLeadId, currentThread?.stage]);
   useEffect(() => {
     const el = dmFeedRef.current;
@@ -380,19 +398,50 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       return;
     }
 
-    // Live human-paced 3-step texting flow:
-    // 1. Player message lands right away + typing indicator starts
+    // Live Emily-is-Away / Mystic-Messenger Suspense Cadence:
+    // 1. Player bubble lands as "Delivered"
+    // 2. Shifts to "Read" -> 3 bouncing dots appear
+    // 3. On Trap / Bold / Pivotal beats: 3 dots pause & erase first draft ("stopped typing · rewriting...") -> 3 dots resume!
     const targetLeadId = currentThread.leadId;
     const matchName = currentProfile.name;
+    const shouldHesitateErase =
+      currentProfile.tier === 'trap' ||
+      cost > 0 ||
+      currentThread.currentBeat === 2 ||
+      currentThread.currentBeat === 4 ||
+      currentThread.currentBeat === 6;
+
     const afterPlayer: ActiveMatchThread = {
       ...currentThread,
       chemistry: newChemistry,
       messages: [...currentThread.messages, { sender: 'player', text: choiceText }],
     };
+    setDmReadStatus('delivered');
+    setDmTypingPhase('typing');
+    setDmTypingLabel(`${matchName} is reading`);
     onUpdateThread(afterPlayer);
-    setDmTypingLabel(`${matchName} is typing`);
 
-    // 2. Match's direct reaction arrives after 620ms
+    const tRead = window.setTimeout(() => {
+      setDmReadStatus('read');
+      setDmTypingPhase('typing');
+      setDmTypingLabel(`${matchName} is typing`);
+    }, 380);
+    pendingTimersRef.current.push(tRead);
+
+    if (shouldHesitateErase) {
+      const tErase = window.setTimeout(() => {
+        setDmTypingPhase('erasing');
+        setDmTypingLabel(`${matchName} stopped typing · rewriting`);
+      }, 1350);
+      const tRetype = window.setTimeout(() => {
+        setDmTypingPhase('retyping');
+        setDmTypingLabel(`${matchName} is typing`);
+      }, 2050);
+      pendingTimersRef.current.push(tErase, tRetype);
+    }
+
+    const firstReplyDelay = shouldHesitateErase ? 2950 : 1480;
+
     const t1 = window.setTimeout(() => {
       const latest =
         latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : afterPlayer;
@@ -405,11 +454,19 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
       onUpdateThread(withReply);
 
       if (!nextBeatObj || nextBeatObj.incomingMessages.length === 0) {
+        setDmTypingPhase(null);
         setDmTypingLabel(null);
         return;
       }
 
-      // 3. Brief pause to read their reaction, then next beat's incoming prompt arrives!
+      // Brief natural reading pause before the follow-up bubble starts typing
+      setDmTypingPhase('erasing');
+      setDmTypingLabel(`${matchName} is typing`);
+      const tPause = window.setTimeout(() => {
+        setDmTypingPhase('typing');
+        setDmTypingLabel(`${matchName} is typing`);
+      }, 420);
+
       const t2 = window.setTimeout(() => {
         const latestStep2 =
           latestThreadRef.current?.leadId === targetLeadId ? latestThreadRef.current : withReply;
@@ -422,10 +479,11 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
             ...nextBeatObj.incomingMessages.map((m) => ({ sender: 'match' as const, text: m })),
           ],
         });
+        setDmTypingPhase(null);
         setDmTypingLabel(null);
-      }, 780);
-      pendingTimersRef.current.push(t2);
-    }, 620);
+      }, 1480);
+      pendingTimersRef.current.push(tPause, t2);
+    }, firstReplyDelay);
     pendingTimersRef.current.push(t1);
   };
 
@@ -496,20 +554,36 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
     setSendingAi(true);
     setFreeInput('');
 
-    // Show the player's message right away + typing indicator!
+    // Show the player's message right away + realistic Read -> Typing -> Erasing suspense!
     const withPlayerMsg: ActiveMatchThread = {
       ...currentThread,
       messages: [...currentThread.messages, { sender: 'player', text: trimmed }],
     };
     onUpdateThread(withPlayerMsg);
     if (!isTestEnv) {
-      setDmTypingLabel(`${currentProfile.name} is typing`);
+      setDmReadStatus('delivered');
+      setDmTypingPhase('typing');
+      setDmTypingLabel(`${currentProfile.name} is reading`);
+      const tAiRead = window.setTimeout(() => {
+        setDmReadStatus('read');
+        setDmTypingPhase('typing');
+        setDmTypingLabel(`${currentProfile.name} is typing`);
+      }, 360);
+      const tAiErase = window.setTimeout(() => {
+        setDmTypingPhase('erasing');
+        setDmTypingLabel(`${currentProfile.name} stopped typing · rewriting`);
+      }, 1220);
+      const tAiRetype = window.setTimeout(() => {
+        setDmTypingPhase('retyping');
+        setDmTypingLabel(`${currentProfile.name} is typing`);
+      }, 1760);
+      pendingTimersRef.current.push(tAiRead, tAiErase, tAiRetype);
     }
 
     try {
       const minHumanBeat = isTestEnv
         ? Promise.resolve()
-        : new Promise((resolve) => window.setTimeout(resolve, 560));
+        : new Promise((resolve) => window.setTimeout(resolve, 2350));
 
       const wildMeetContext =
         currentThread.originDoor === 'wild'
@@ -582,6 +656,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
         messages: [...latest.messages, { sender: 'match', text: res.herReply }],
       });
     } finally {
+      setDmTypingPhase(null);
       setDmTypingLabel(null);
       setSendingAi(false);
     }
@@ -1785,6 +1860,86 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   </div>
                 ) : (
                   <>
+                {/* Playable Personal iOS Audio Voice Note Unlocked on Personal iMessage */}
+                {currentThread.stage === 'imessage' && currentProfile.voicePrompt?.audioUrl && (
+                  <div className="flex items-end gap-3 max-w-[90%] sm:max-w-[74%]">
+                    <img
+                      src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
+                      alt={currentProfile.name}
+                      className="h-8 w-8 rounded-full object-cover shrink-0 shadow-2xs border border-zinc-200/80 mb-0.5"
+                    />
+                    <div className="flex items-center gap-3 rounded-2xl rounded-bl-sm bg-[#F1F3F5] border border-slate-200/80 px-4 py-2.5 text-slate-900">
+                      <button
+                        type="button"
+                        aria-label={
+                          playingVoiceLeadId === currentProfile.id
+                            ? `Pause ${currentProfile.name}'s voice note`
+                            : `Play ${currentProfile.name}'s voice note`
+                        }
+                        onClick={() => {
+                          if (playingVoiceLeadId === currentProfile.id) {
+                            if (voiceStopRef.current) {
+                              voiceStopRef.current();
+                              voiceStopRef.current = null;
+                            }
+                            setPlayingVoiceLeadId(null);
+                            return;
+                          }
+                          if (voiceStopRef.current) {
+                            voiceStopRef.current();
+                            voiceStopRef.current = null;
+                          }
+                          const leadKey = currentProfile.id;
+                          const voiceStyle =
+                            currentProfile.role === 'her'
+                              ? 'her'
+                              : currentProfile.tier === 'trap'
+                                ? 'trap_cub'
+                                : 'green_cub';
+                          setPlayingVoiceLeadId(leadKey);
+                          voiceStopRef.current = playVoiceNotePreview(
+                            currentProfile.voicePrompt!.audioUrl,
+                            voiceStyle,
+                            () => {
+                              voiceStopRef.current = null;
+                              setPlayingVoiceLeadId((cur) => (cur === leadKey ? null : cur));
+                            },
+                          );
+                        }}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#007AFF] text-white hover:bg-blue-600 transition cursor-pointer"
+                      >
+                        {playingVoiceLeadId === currentProfile.id ? (
+                          <Pause className="h-3.5 w-3.5 fill-white" />
+                        ) : (
+                          <Play className="h-3.5 w-3.5 fill-white ml-0.5" />
+                        )}
+                      </button>
+                      <div className="min-w-0 space-y-1">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
+                          <Volume2 className="h-3.5 w-3.5 text-[#007AFF]" />
+                          <span>{currentProfile.name}’s Voice Note</span>
+                          <span className="text-slate-400 tabular-nums">
+                            · {currentProfile.voicePrompt.duration}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-0.5 h-3" aria-hidden="true">
+                          {[45, 80, 55, 95, 65, 90, 50, 75, 85, 60, 70, 50].map((barH, bIdx) => (
+                            <span
+                              key={bIdx}
+                              style={{ height: `${barH}%` }}
+                              className={`w-1 rounded-full transition-colors ${
+                                playingVoiceLeadId === currentProfile.id
+                                  ? 'bg-[#007AFF] animate-pulse'
+                                  : 'bg-slate-400/70'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {currentThread.messages.map((m, idx) => {
                   if (m.sender === 'system') {
                     return (
@@ -1801,7 +1956,6 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                   const activeTapback = dmReactions[msgKey];
                   const isLastPlayerBubble =
                     isPlayer &&
-                    currentThread.stage === 'imessage' &&
                     idx ===
                       currentThread.messages.reduce(
                         (last, item, i) => (item.sender === 'player' ? i : last),
@@ -1848,8 +2002,8 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       </div>
 
                       {isLastPlayerBubble && (
-                        <span className="mt-1 pr-2 text-[11px] font-medium text-slate-400">
-                          Delivered
+                        <span className="mt-1 pr-2 text-xs font-medium text-slate-400">
+                          {dmReadStatus === 'delivered' ? 'Delivered' : 'Read'}
                         </span>
                       )}
 
@@ -1888,27 +2042,40 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                 {dmTypingLabel && (
                   <div
                     data-testid="dm-typing-indicator"
-                    className="flex items-end gap-3 justify-start"
+                    className="flex items-end gap-3 justify-start animate-stage-in"
                   >
                     <img
                       src={V35_CAST_VISUALS[currentProfile.id].primaryPortrait}
                       alt={currentProfile.name}
                       className="h-8 w-8 rounded-full object-cover shrink-0 shadow-2xs border border-zinc-200/80"
                     />
-                    <div
-                      className={`inline-flex items-center gap-2 rounded-3xl px-5 py-3 text-sm font-medium ${
-                        currentThread.stage === 'imessage'
-                          ? 'bg-[#F1F3F5] text-slate-600'
-                          : 'bg-zinc-100 border border-zinc-200 text-zinc-600'
-                      }`}
-                    >
-                      <span className="inline-flex items-center gap-1">
-                        <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce [animation-delay:120ms]" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-zinc-500 animate-bounce [animation-delay:240ms]" />
-                      </span>
-                      <span>{dmTypingLabel}…</span>
-                    </div>
+                    {dmTypingPhase === 'erasing' ? (
+                      <div
+                        className={`inline-flex items-center gap-2 rounded-3xl rounded-bl-sm px-4 py-2.5 text-xs font-medium transition-all ${
+                          currentThread.stage === 'imessage'
+                            ? 'bg-slate-100/75 text-slate-400 border border-dashed border-slate-300'
+                            : 'bg-zinc-50 text-zinc-400 border border-dashed border-zinc-300'
+                        }`}
+                      >
+                        <span className="line-through opacity-60 tracking-widest">•••</span>
+                        <span className="italic">{currentProfile.name} erased a draft…</span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-start gap-1">
+                        <div
+                          className={`inline-flex items-center gap-1.5 rounded-3xl rounded-bl-sm px-4 py-3.5 ${
+                            currentThread.stage === 'imessage'
+                              ? 'bg-[#E9E9EB] text-slate-600'
+                              : 'bg-zinc-100 border border-zinc-200 text-zinc-600'
+                          }`}
+                        >
+                          <span className="h-2 w-2 rounded-full bg-zinc-500 animate-bounce" />
+                          <span className="h-2 w-2 rounded-full bg-zinc-500 animate-bounce [animation-delay:150ms]" />
+                          <span className="h-2 w-2 rounded-full bg-zinc-500 animate-bounce [animation-delay:300ms]" />
+                        </div>
+                        <span className="pl-1 text-xs text-zinc-400">{dmTypingLabel}…</span>
+                      </div>
+                    )}
                   </div>
                 )}
 

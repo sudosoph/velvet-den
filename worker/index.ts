@@ -114,6 +114,10 @@ const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
   'fleabag-prime': 'https://www.amazon.com/dp/B0875L39FQ',
   'linen-picnic-insulated-tote': 'https://www.amazon.com/dp/B0GS1TFTY6',
   'velvet-travel-weekender-duffel': 'https://www.amazon.com/dp/B0GTQF7ZK9',
+  'all-fours-book': 'https://www.amazon.com/dp/B0CLKZ582G',
+  'romantic-comedy-book': 'https://www.amazon.com/dp/B0B6G6R2PH',
+  'vladimir-book': 'https://www.amazon.com/dp/B096TTBFYR',
+  'rumours-vinyl': 'https://www.amazon.com/dp/B004OKFISQ',
 };
 
 const JSON_HEADERS = {
@@ -1251,6 +1255,62 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     dumpHer: 98,
     crownHim: 14,
     dumpHim: 86,
+  },
+  {
+    id: 'court-grocery-mistaken-hip-tap',
+    aslTag: '42F × 26M • Portland',
+    subject: 'him',
+    headline:
+      'Accidentally Snuck Up & Hugged a Stranger in Matching Camel Cashmere at the Olive Bar While I Watched Five Feet Away',
+    story:
+      'Went to grab marinated artichokes, spotted a blonde bun in an identical camel coat, whispered "Missed you today" into a startled realtor’s scarf, then bought both of us apology bouquets.',
+    vibeBadge: '🫒 Aisle Mistaken Identity',
+    crownHer: 82,
+    dumpHer: 18,
+    crownHim: 89,
+    dumpHim: 11,
+  },
+  {
+    id: 'court-seedy-motel-autocorrect-roleplay',
+    aslTag: '51F × 29M • Philadelphia',
+    subject: 'him',
+    headline:
+      'Tried to Send a Moody Noir Roleplay Text About Meeting as Strangers, Autocorrected "Sultry Boutique Hotel" to "Seedy Motel"',
+    story:
+      'Wanted to surprise me with a cinematic cocktail-bar meetup after my conference, hit send while walking his dog, and frantically followed up with four voice notes swearing he booked the Four Seasons.',
+    vibeBadge: '📱 Autocorrect Disaster',
+    crownHer: 76,
+    dumpHer: 24,
+    crownHim: 88,
+    dumpHim: 12,
+  },
+  {
+    id: 'court-whey-tub-vs-herbal-apothecary',
+    aslTag: '44F × 25M • Charlotte',
+    subject: 'him',
+    headline:
+      'Alphabetized My Fourteen Loose-Leaf Herbal Teas by Caffeine Level to Make Room for His Five-Pound Vanilla Whey Tub',
+    story:
+      'Gave him one weekend pantry shelf. Came downstairs Monday to find chamomile through tulsi labeled in neat calligraphy beside a giant plastic protein drum and his marathon finisher mug.',
+    vibeBadge: '🍵 Pantry Diplomacy',
+    crownHer: 91,
+    dumpHer: 9,
+    crownHim: 94,
+    dumpHim: 6,
+  },
+  {
+    id: 'court-lat-diagonal-king-bed-rule',
+    aslTag: '29M × 48F • San Francisco',
+    subject: 'her',
+    headline:
+      'Turned Down Moving In Together After Two Amazing Years Because "Separate Leases Keep Us Obsessed & I Sleep Diagonally"',
+    story:
+      'We spend four nights a week cooking, traveling, and laughing, yet she renewed her sunny townhouse lease solo so Tuesday and Wednesday remain sacred quiet starfish-sleep nights.',
+    vibeBadge: '🛏️ Living Apart Together',
+    crownHer: 95,
+    dumpHer: 5,
+    crownHim: 61,
+    dumpHim: 39,
   },
 ];
 

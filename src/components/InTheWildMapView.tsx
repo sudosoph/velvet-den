@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
+  Eye,
   Heart,
   MapPin,
   MessageCircle,
@@ -14,6 +15,7 @@ import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { getCastProfileById } from '../data/v35Cast';
 import {
   getWildFollowUpSequence,
+  getWildRoomClues,
   V35_WILD_VENUES,
   type WildChoiceOption,
   type WildVenueSpot,
@@ -21,6 +23,23 @@ import {
 import { awardPassportBonusXp, emitXpBurst } from '../lib/gamification';
 import { sfx } from '../lib/sound';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
+
+function getDeterministicWildOrder(seed: string): [number, number, number] {
+  const perms: [number, number, number][] = [
+    [2, 0, 1],
+    [0, 2, 1],
+    [1, 2, 0],
+    [2, 1, 0],
+    [1, 0, 2],
+    [0, 1, 2],
+  ];
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i += 1) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return perms[(h >>> 0) % perms.length];
+}
 
 export interface InTheWildMapViewProps {
   role: 'her' | 'him';
@@ -55,6 +74,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   const [selectedSpotId, setSelectedSpotId] = useState<string | null>(initialVenueId ?? null);
   const [localClearedSpotIds, setLocalClearedSpotIds] = useState<string[]>([]);
   const [beatStage, setBeatStage] = useState<1 | 2 | 3>(1);
+  const [revealedClueIndices, setRevealedClueIndices] = useState<number[]>([]);
   const [pendingApproach, setPendingApproach] = useState<{
     leadId: string;
     accumulatedBonus: number;
@@ -72,6 +92,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   useEffect(() => {
     setSelectedSpotId(initialVenueId ?? null);
     setBeatStage(1);
+    setRevealedClueIndices([]);
     setPendingApproach(null);
     setOutcomeCard(null);
   }, [initialVenueId]);
@@ -82,6 +103,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   const openSpot = (spotId: string) => {
     setSelectedSpotId(spotId);
     setBeatStage(1);
+    setRevealedClueIndices([]);
     setPendingApproach(null);
     setOutcomeCard(null);
   };
@@ -89,6 +111,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   const resetSpot = () => {
     setSelectedSpotId(null);
     setBeatStage(1);
+    setRevealedClueIndices([]);
     setPendingApproach(null);
     setOutcomeCard(null);
     onClearInitialVenue?.();
@@ -120,6 +143,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
     const primaryProfile = getCastProfileById(primaryLeadId);
     const primaryPortrait = V35_CAST_VISUALS[primaryLeadId]?.primaryPortrait;
     const choices = role === 'her' ? activeSpot.choicesHer : activeSpot.choicesHim;
+    const roomClues = getWildRoomClues(activeSpot.id, role);
     const setupText = role === 'her' ? activeSpot.sceneSetupHer : activeSpot.sceneSetupHim;
     const spokenCue = role === 'her' ? activeSpot.spokenCueHer : activeSpot.spokenCueHim;
     const followUpSeq = getWildFollowUpSequence(
@@ -130,6 +154,15 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
     );
     const activeFollowStep =
       beatStage === 2 ? followUpSeq.beat2 : beatStage === 3 ? followUpSeq.beat3 : null;
+    const beat1Order =
+      choices.length === 3 ? getDeterministicWildOrder(`${activeSpot.id}:${role}:b1`) : [0, 1, 2];
+    const followOrder =
+      activeFollowStep && activeFollowStep.choices.length === 3
+        ? getDeterministicWildOrder(`${activeSpot.id}:${role}:b${beatStage}`)
+        : [0, 1, 2];
+    const firstPassOrigIdx = activeFollowStep
+      ? activeFollowStep.choices.findIndex((c) => !('isMemeFail' in c && c.isMemeFail))
+      : 0;
     const signalPct = outcomeCard?.unlockedLeadId
       ? 100
       : outcomeCard?.isMemeFail
@@ -394,6 +427,70 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
               </div>
             </div>
 
+            {/* Interactive 3-Signal Room Scanner (Decipher Body Language, Left Hand & Room Rules Before Speaking) */}
+            {!outcomeCard && (
+              <div
+                data-testid="wild-room-scanner"
+                className="rounded-xl border border-white/14 bg-white/[0.04] p-3.5 space-y-2.5"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <span className="inline-flex items-center gap-1.5 font-semibold text-zinc-200">
+                    <Eye className="h-3.5 w-3.5 text-amber-300" />
+                    <span>Decipher Intentions: Tap Micro-Signals Before You Speak</span>
+                  </span>
+                  <span className="rounded-md bg-white/10 px-2 py-0.5 font-semibold text-amber-200">
+                    {revealedClueIndices.length}/3 Signals Read
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {roomClues.map((clue, cIdx) => {
+                    const isRead = revealedClueIndices.includes(cIdx);
+                    return (
+                      <button
+                        key={clue.label}
+                        type="button"
+                        onClick={() => {
+                          sfx.cardHoverTick();
+                          if (!isRead) {
+                            const next = [...revealedClueIndices, cIdx];
+                            setRevealedClueIndices(next);
+                            if (next.length === 3) {
+                              awardPassportBonusXp(
+                                `wild_scan_${activeSpot.id}_${role}`,
+                                5,
+                                'Room Signals Decoded!',
+                                '👁️ +5 XP',
+                              );
+                            }
+                          }
+                        }}
+                        className={`rounded-lg border p-2.5 text-left text-xs transition cursor-pointer ${
+                          isRead
+                            ? 'border-amber-300/45 bg-amber-300/10 text-zinc-100'
+                            : 'border-white/15 bg-white/[0.05] text-zinc-300 hover:border-white/35 hover:bg-white/[0.1]'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-1.5 font-semibold">
+                          <span>
+                            {clue.icon} {clue.label}
+                          </span>
+                          {!isRead && (
+                            <span className="text-[11px] text-amber-300">Inspect</span>
+                          )}
+                        </div>
+                        {isRead && (
+                          <p className="mt-1 text-xs leading-snug text-zinc-200">
+                            {clue.detail.trim()}
+                          </p>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* Split Stage Direction vs Spoken/Visual Cue */}
             <div className="space-y-3 rounded-xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
               {pendingApproach?.lastReplyCue && !outcomeCard && (
@@ -509,36 +606,46 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
               </div>
             ) : activeFollowStep ? (
               <div className="grid gap-2.5 pt-1">
-                {activeFollowStep.choices.map((choice, idx) => (
-                  <button
-                    key={choice.label}
-                    type="button"
-                    data-testid={idx === 0 ? 'wild-followup-pass-option' : undefined}
-                    onClick={() => handleFollowStepPick(idx)}
-                    className="group flex items-start gap-3.5 w-full rounded-xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-white/40 transition cursor-pointer"
-                  >
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/15 text-xs font-semibold text-white group-hover:bg-white group-hover:text-zinc-950 transition">
-                      {CHOICE_KEYS[idx] ?? idx + 1}
-                    </span>
-                    <span className="flex-1 leading-snug">{choice.label}</span>
-                  </button>
-                ))}
+                {followOrder.map((origIdx, displayIdx) => {
+                  const choice = activeFollowStep.choices[origIdx];
+                  if (!choice) return null;
+                  return (
+                    <button
+                      key={choice.label}
+                      type="button"
+                      data-testid={
+                        origIdx === firstPassOrigIdx ? 'wild-followup-pass-option' : undefined
+                      }
+                      onClick={() => handleFollowStepPick(origIdx)}
+                      className="group flex items-start gap-3.5 w-full rounded-xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-white/40 transition cursor-pointer"
+                    >
+                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/15 text-xs font-semibold text-white group-hover:bg-white group-hover:text-zinc-950 transition">
+                        {CHOICE_KEYS[displayIdx] ?? displayIdx + 1}
+                      </span>
+                      <span className="flex-1 leading-snug">{choice.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             ) : (
               <div className="grid gap-2.5 pt-1">
-                {choices.map((choice, idx) => (
-                  <button
-                    key={choice.label}
-                    type="button"
-                    onClick={() => handleBeat1Pick(choice)}
-                    className="group flex items-start gap-3.5 w-full rounded-xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-white/40 transition cursor-pointer"
-                  >
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/15 text-xs font-semibold text-white group-hover:bg-white group-hover:text-zinc-950 transition">
-                      {CHOICE_KEYS[idx] ?? idx + 1}
-                    </span>
-                    <span className="flex-1 leading-snug">{choice.label}</span>
-                  </button>
-                ))}
+                {beat1Order.map((origIdx, displayIdx) => {
+                  const choice = choices[origIdx];
+                  if (!choice) return null;
+                  return (
+                    <button
+                      key={choice.label}
+                      type="button"
+                      onClick={() => handleBeat1Pick(choice)}
+                      className="group flex items-start gap-3.5 w-full rounded-xl border border-white/18 bg-white/[0.08] p-3.5 sm:p-4 text-left text-sm sm:text-base font-medium text-white whitespace-normal hover:bg-white/[0.15] hover:border-white/40 transition cursor-pointer"
+                    >
+                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/15 text-xs font-semibold text-white group-hover:bg-white group-hover:text-zinc-950 transition">
+                        {CHOICE_KEYS[displayIdx] ?? displayIdx + 1}
+                      </span>
+                      <span className="flex-1 leading-snug">{choice.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>

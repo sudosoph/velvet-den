@@ -261,46 +261,17 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
         aria-label="Campaign Progress and Next Step"
         className="w-full border-b border-zinc-200 bg-white"
       >
-        <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 sm:py-5 space-y-4">
-          {/* Top Row: Clean Stacked Headline + Badges (Zero Dot-Soup) + Role Switcher */}
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-md bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-xs font-bold text-rose-700">
-                  Older Women × Younger Men
-                </span>
-                <span
-                  data-testid="hud-friday-hearts"
-                  className="rounded-md bg-zinc-100 px-2.5 py-0.5 text-xs font-semibold text-zinc-700"
-                  title="Friday Date Energy (3 Hearts)"
-                >
-                  {heartsDisplay} 3 Hearts
-                </span>
-                <button
-                  type="button"
-                  onClick={onOpenPassportModal}
-                  className="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 hover:bg-zinc-200 px-2.5 py-0.5 text-xs font-bold text-zinc-900 transition-colors cursor-pointer"
-                >
-                  <Award className="h-3.5 w-3.5 text-rose-600" />
-                  <span>
-                    Lv.{summary.level} {summary.levelTitle}
-                  </span>
-                </button>
-              </div>
-
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 leading-snug">
-                How do you want to play tonight?
-              </h2>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
+        <div className="mx-auto w-full max-w-6xl px-4 py-3 sm:px-6 space-y-2.5">
+          {/* Row 1: Story-First Dating Sim HUD (Prowl vs. Out In The Wild + Live Inbox + Role Switcher) */}
+          <div className="flex flex-wrap items-center justify-between gap-2.5">
+            <div className="flex flex-wrap items-center gap-2">
               {onSwitchRole && (
                 <div className="inline-flex rounded-xl bg-zinc-100 p-1">
                   <button
                     type="button"
                     onClick={() => onSwitchRole('her')}
                     className={cn(
-                      'rounded-lg px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
+                      'rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors cursor-pointer',
                       role === 'her'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -312,7 +283,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                     type="button"
                     onClick={() => onSwitchRole('him')}
                     className={cn(
-                      'rounded-lg px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors cursor-pointer',
+                      'rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors cursor-pointer',
                       role === 'him'
                         ? 'bg-zinc-950 text-white shadow-2xs'
                         : 'text-zinc-600 hover:text-zinc-950',
@@ -323,209 +294,178 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 </div>
               )}
 
+              <a
+                href="#hinge-stage"
+                onClick={() => setShowModeGrid(false)}
+                className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-3 text-xs font-semibold text-white transition-colors"
+              >
+                <Heart className="h-3.5 w-3.5" />
+                <span>Prowl App</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowModeGrid(false);
+                  onOpenWildMap();
+                }}
+                className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-300 bg-white hover:border-zinc-900 hover:bg-zinc-50 px-3 text-xs font-semibold text-zinc-900 transition-colors cursor-pointer"
+              >
+                <Compass className="h-3.5 w-3.5 text-rose-600" />
+                <span>In The Wild · Read IRL Signals</span>
+              </button>
+
+              {activeThreads.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => onNavigateStep(summary.nextStep)}
+                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 hover:bg-rose-100 px-2.5 text-xs font-semibold text-rose-700 transition-colors cursor-pointer"
+                >
+                  <span className="h-2 w-2 rounded-full bg-rose-600 animate-pulse" />
+                  <span>{summary.nextStep.ctaLabel}</span>
+                </button>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                data-testid="hud-friday-hearts"
+                className="inline-flex h-8 items-center rounded-lg bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700"
+                title="Friday Date Energy (3 Hearts)"
+              >
+                {heartsDisplay}
+              </span>
+              <button
+                type="button"
+                onClick={onOpenPassportModal}
+                className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 px-2.5 text-xs font-semibold text-zinc-900 transition-colors cursor-pointer"
+              >
+                <Award className="h-3.5 w-3.5 text-rose-600" />
+                <span>
+                  Lv.{summary.level} {summary.levelTitle}
+                </span>
+              </button>
               <button
                 type="button"
                 onClick={() => {
                   setShowModeGrid(false);
                   setCollapsedHomeLobby(true);
                 }}
-                className="inline-flex h-9 items-center rounded-lg border border-zinc-200 bg-white px-3 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 cursor-pointer"
+                className="inline-flex h-8 items-center rounded-lg border border-zinc-200 bg-white px-2.5 text-xs font-medium text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900 cursor-pointer"
               >
-                Hide Modes
+                Compact
               </button>
             </div>
           </div>
 
-          {/* 4 First-Class Game Modes (Clean shadcn Cards, Zero Spec Clutter) */}
+          {/* Row 2: Slim Secondary Club Lounge & Side-Activities Strip (Keeps Story Profiles Above the Fold!) */}
           <div
             data-testid="club-onboarding-mode-grid"
-            className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-zinc-50/90 px-3 py-2"
           >
-            <div className="group flex flex-col justify-between rounded-2xl border-2 border-rose-200 bg-rose-50/40 p-4 transition hover:border-rose-400">
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-600 text-white">
-                    <Heart className="h-4 w-4" />
-                  </span>
-                  <span className="rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-rose-700 border border-rose-200">
-                    Dating Sim
-                  </span>
-                </div>
-                <h3 className="text-base font-bold text-zinc-950">Prowl &amp; Offline Dates</h3>
-                <p className="text-xs text-zinc-600 leading-snug">
-                  Match on Prowl or meet offline out in town, spot disguised red flags, and go on 3 dates.
-                </p>
-              </div>
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                <a
-                  href="#hinge-stage"
-                  onClick={() => setShowModeGrid(false)}
-                  className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-rose-600 hover:bg-rose-700 px-3 text-xs font-bold text-white transition-colors"
-                >
-                  <span>Browse Prowl ↓</span>
-                </a>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="inline-flex h-7 items-center gap-1.5 rounded-lg bg-white border border-rose-200 px-2.5 text-xs font-semibold text-rose-700">
+                <Heart className="h-3.5 w-3.5" />
+                <span>Prowl &amp; Offline Dates</span>
+              </span>
+
+              {onOpenChecklist && (
                 <button
                   type="button"
                   onClick={() => {
                     setShowModeGrid(false);
-                    onOpenWildMap();
+                    onOpenChecklist();
                   }}
-                  className="inline-flex h-8 items-center justify-center gap-1 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 px-2.5 text-xs font-bold text-zinc-900 cursor-pointer"
+                  className="inline-flex h-7 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:border-zinc-900 px-2.5 text-xs font-medium text-zinc-800 transition-colors cursor-pointer"
                 >
-                  <Compass className="h-3.5 w-3.5 text-rose-600" />
-                  <span>In The Wild</span>
+                  <CheckSquare className="h-3.5 w-3.5 text-amber-600" />
+                  <span>&ldquo;Have You Ever?&rdquo; Checklist</span>
                 </button>
-              </div>
-            </div>
+              )}
 
-            {onOpenChecklist && (
-              <button
-                type="button"
-                onClick={() => {
-                  setShowModeGrid(false);
-                  onOpenChecklist();
-                }}
-                className="group flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white hover:border-zinc-900 p-4 text-left transition cursor-pointer"
-              >
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-900">
-                      <CheckSquare className="h-4 w-4" />
-                    </span>
-                    <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-800">
-                      Score 0 to 100
-                    </span>
-                  </div>
-                  <h3 className="text-base font-bold text-zinc-950">
-                    &ldquo;Have You Ever?&rdquo; Checklist
-                  </h3>
-                  <p className="text-xs text-zinc-600 leading-snug">
-                    Cougars Only, Cubs Only, and Couples Date-Night editions with full score meaning.
-                  </p>
-                </div>
-                <span className="mt-3 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-zinc-950 group-hover:bg-rose-600 px-3 text-xs font-bold text-white transition-colors">
-                  <span>Take Checklist</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </span>
-              </button>
-            )}
+              {onOpenPopTrivia && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModeGrid(false);
+                    onOpenPopTrivia();
+                  }}
+                  className="inline-flex h-7 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white hover:border-zinc-900 px-2.5 text-xs font-medium text-zinc-800 transition-colors cursor-pointer"
+                >
+                  <Film className="h-3.5 w-3.5 text-sky-600" />
+                  <span>Pop-Culture Trivia</span>
+                </button>
+              )}
 
-            {onOpenPopTrivia && (
-              <button
-                type="button"
-                onClick={() => {
-                  setShowModeGrid(false);
-                  onOpenPopTrivia();
-                }}
-                className="group flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white hover:border-zinc-900 p-4 text-left transition cursor-pointer"
-              >
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-sky-100 text-sky-900">
-                      <Film className="h-4 w-4" />
-                    </span>
-                    <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-800">
-                      Easy or Hard
-                    </span>
-                  </div>
-                  <h3 className="text-base font-bold text-zinc-950">Pop-Culture Trivia</h3>
-                  <p className="text-xs text-zinc-600 leading-snug">
-                    8-question rounds across Movies, TV, Books, Celebs, Sports, Royals &amp; 90s vs. Gen-Z.
-                  </p>
-                </div>
-                <span className="mt-3 inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-zinc-950 group-hover:bg-rose-600 px-3 text-xs font-bold text-white transition-colors">
-                  <span>Play Trivia</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </span>
-              </button>
-            )}
-
-            <div className="flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white hover:border-zinc-400 p-4 transition">
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-900">
-                    <GraduationCap className="h-4 w-4" />
-                  </span>
-                  <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">
-                    Etiquette &amp; Tea
-                  </span>
-                </div>
-                <h3 className="text-base font-bold text-zinc-950">Cub School &amp; Courtroom</h3>
-                <p className="text-xs text-zinc-600 leading-snug">
-                  Train rookie Cubs in Obedience School or vote on real Crown-or-Dump cases.
-                </p>
-              </div>
-              <div className="mt-3 flex flex-wrap gap-1.5">
+              <div className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-white px-2 py-0.5 text-xs">
+                <GraduationCap className="h-3.5 w-3.5 text-emerald-700 shrink-0" />
+                <span className="sr-only">Cub School &amp; Courtroom</span>
                 <button
                   type="button"
                   onClick={() => {
                     setShowModeGrid(false);
                     onOpenCubSchool();
                   }}
-                  className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-zinc-950 hover:bg-zinc-800 px-2.5 text-xs font-bold text-white cursor-pointer"
+                  className="rounded px-1.5 py-0.5 font-medium text-zinc-800 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer"
                 >
-                  <span>Cub School</span>
+                  Cub School
                 </button>
                 {onOpenCourtroom && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowModeGrid(false);
-                      onOpenCourtroom();
-                    }}
-                    className="inline-flex h-8 items-center justify-center gap-1 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-50 px-2.5 text-xs font-bold text-rose-600 cursor-pointer"
-                  >
-                    <Scale className="h-3.5 w-3.5" />
-                    <span>Daily Court</span>
-                  </button>
+                  <>
+                    <span className="text-zinc-300">/</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowModeGrid(false);
+                        onOpenCourtroom();
+                      }}
+                      className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-medium text-rose-600 hover:bg-rose-50 cursor-pointer"
+                    >
+                      <Scale className="h-3 w-3" />
+                      <span>Courtroom</span>
+                    </button>
+                  </>
                 )}
               </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-zinc-600">
+              {streakDays > 0 && (
+                <span className="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-amber-900 font-semibold">
+                  🔥 Day {streakDays}
+                </span>
+              )}
+              {onOpenMatchmaking && (
+                <button
+                  type="button"
+                  onClick={onOpenMatchmaking}
+                  className="font-semibold text-rose-600 hover:text-rose-700 transition-colors cursor-pointer"
+                >
+                  🥂 Matchmaking &amp; Discord →
+                </button>
+              )}
+              {onSendPartnerAudition && (
+                <button
+                  type="button"
+                  onClick={onSendPartnerAudition}
+                  className="inline-flex items-center gap-1 text-zinc-700 hover:text-zinc-950 transition-colors cursor-pointer"
+                >
+                  <Send className="h-3 w-3 text-rose-600" />
+                  <span>60s Audition</span>
+                </button>
+              )}
+              {onOpenGuides && (
+                <button
+                  type="button"
+                  onClick={onOpenGuides}
+                  className="inline-flex items-center gap-1 text-zinc-700 hover:text-zinc-950 transition-colors cursor-pointer"
+                >
+                  <Sparkles className="h-3 w-3 text-amber-600" />
+                  <span>Astro &amp; Guides</span>
+                </button>
+              )}
             </div>
           </div>
-
-          {/* Quick Matchmaking / Astro / Partner Audition Strip (Clean Separate Links, Zero Dots) */}
-          {(onOpenMatchmaking || onSendPartnerAudition || onOpenGuides) && (
-            <div className="pt-1 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 text-xs font-semibold text-zinc-600">
-              <div className="flex flex-wrap items-center gap-2">
-                {streakDays > 0 && (
-                  <span className="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-amber-900">
-                    🔥 Day {streakDays} Streak
-                  </span>
-                )}
-                {onOpenMatchmaking && (
-                  <button
-                    type="button"
-                    onClick={onOpenMatchmaking}
-                    className="inline-flex items-center gap-1 font-bold text-rose-600 hover:text-rose-700 transition-colors cursor-pointer"
-                  >
-                    <span>🥂 Join Real-Life Matchmaking &amp; Discord Waitlist →</span>
-                  </button>
-                )}
-              </div>
-              <div className="flex flex-wrap items-center gap-4">
-                {onSendPartnerAudition && (
-                  <button
-                    type="button"
-                    onClick={onSendPartnerAudition}
-                    className="inline-flex items-center gap-1 text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer"
-                  >
-                    <Send className="h-3.5 w-3.5 text-rose-600" />
-                    <span>Send 60s Partner Audition →</span>
-                  </button>
-                )}
-                {onOpenGuides && (
-                  <button
-                    type="button"
-                    onClick={onOpenGuides}
-                    className="inline-flex items-center gap-1 text-zinc-700 hover:text-rose-600 transition-colors cursor-pointer"
-                  >
-                    <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-                    <span>Astro Pairing &amp; Photo Listicles →</span>
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
         </div>
       </section>
     );

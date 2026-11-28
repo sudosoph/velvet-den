@@ -417,6 +417,70 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     crownHim: 14,
     dumpHim: 86,
   },
+  {
+    id: 'court-grocery-mistaken-hip-tap',
+    aslTag: '42F × 26M • Portland',
+    subject: 'him',
+    headline:
+      'Accidentally Snuck Up & Hugged a Stranger in Matching Camel Cashmere at the Olive Bar While I Watched Five Feet Away',
+    story:
+      'Went to grab marinated artichokes, spotted a blonde bun in an identical camel coat, whispered "Missed you today" into a startled realtor’s scarf, then bought both of us apology bouquets.',
+    vibeBadge: '🫒 Aisle Mistaken Identity',
+    topComment:
+      'Buying apology peonies for BOTH women in the produce section is elite crisis management.',
+    crownHer: 82,
+    dumpHer: 18,
+    crownHim: 89,
+    dumpHim: 11,
+  },
+  {
+    id: 'court-seedy-motel-autocorrect-roleplay',
+    aslTag: '51F × 29M • Philadelphia',
+    subject: 'him',
+    headline:
+      'Tried to Send a Moody Noir Roleplay Text About Meeting as Strangers, Autocorrected "Sultry Boutique Hotel" to "Seedy Motel"',
+    story:
+      'Wanted to surprise me with a cinematic cocktail-bar meetup after my conference, hit send while walking his dog, and frantically followed up with four voice notes swearing he booked the Four Seasons.',
+    vibeBadge: '📱 Autocorrect Disaster',
+    topComment:
+      'Only forgive him if the Four Seasons confirmation screenshot arrived within ninety seconds of "seedy motel."',
+    crownHer: 76,
+    dumpHer: 24,
+    crownHim: 88,
+    dumpHim: 12,
+  },
+  {
+    id: 'court-whey-tub-vs-herbal-apothecary',
+    aslTag: '44F × 25M • Charlotte',
+    subject: 'him',
+    headline:
+      'Alphabetized My Fourteen Loose-Leaf Herbal Teas by Caffeine Level to Make Room for His Five-Pound Vanilla Whey Tub',
+    story:
+      'Gave him one weekend pantry shelf. Came downstairs Monday to find chamomile through tulsi labeled in neat calligraphy beside a giant plastic protein drum and his marathon finisher mug.',
+    vibeBadge: '🍵 Pantry Diplomacy',
+    topComment:
+      'Any 25-year-old who alphabetizes chamomile-to-tulsi earns permanent shelf clearance for the giant whey drum.',
+    crownHer: 91,
+    dumpHer: 9,
+    crownHim: 94,
+    dumpHim: 6,
+  },
+  {
+    id: 'court-lat-diagonal-king-bed-rule',
+    aslTag: '29M × 48F • San Francisco',
+    subject: 'her',
+    headline:
+      'Turned Down Moving In Together After Two Amazing Years Because "Separate Leases Keep Us Obsessed & I Sleep Diagonally"',
+    story:
+      'We spend four nights a week cooking, traveling, and laughing, yet she renewed her sunny townhouse lease solo so Tuesday and Wednesday remain sacred quiet starfish-sleep nights.',
+    vibeBadge: '🛏️ Living Apart Together',
+    topComment:
+      'Living Apart Together within ten minutes of each other is the undefeated secret weapon of modern relationships.',
+    crownHer: 95,
+    dumpHer: 5,
+    crownHim: 61,
+    dumpHim: 39,
+  },
 ];
 
 function isLiveHttpRuntime(): boolean {

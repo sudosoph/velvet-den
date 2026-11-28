@@ -325,13 +325,13 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
   },
   {
     id: 'big-carl-giant-wine-glass',
-    name: 'Original Big Betty 750ml Full-Bottle XL Stemmed Wine Goblet',
+    name: 'Original Big Betty 750ml Full-Bottle XL Stemmed Patio Wine Goblet',
     category: 'funny_cute',
     priceDisplay: '750ml Goblet Classic',
-    badge: '🍷 Cougar Town "Big Carl" Tribute',
+    badge: '🍷 Full-Bottle Patio Goblet',
     cheekyPitch:
-      'Channel Jules Cobb on patio wine night: technically "just one glass of Pinot Noir" when the crystal goblet holds the entire 750ml bottle.',
-    whyItConverts: 'Classic pop-culture tribute gift.',
+      'Unapologetic patio wine-night comedy: technically "just one glass of Pinot Noir" when the crystal goblet holds the entire 750ml bottle.',
+    whyItConverts: 'Hilarious patio-hostess gift for wine nights.',
     merchantUrl: 'https://www.amazon.com/dp/B0053T01UM',
   },
   {
@@ -602,7 +602,7 @@ const VISUAL_SPEC_BY_ID: Record<string, AffiliateVisualSpec> = {
     emoji: '🍷',
     accentFrom: '#FFE4E6',
     accentTo: '#FDA4AF',
-    studioLabel: '750ml "Big Carl"',
+    studioLabel: '750ml Goblet',
   },
   'chic-candlelit-menu-readers': {
     motif: 'menu_readers',
@@ -786,6 +786,7 @@ export interface ExtraPrimeVideoStreamPick {
   goSlug: string;
   label: string;
   merchantUrl: string;
+  ctaPrefix?: string;
 }
 
 export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStreamPick> = {
@@ -913,6 +914,30 @@ export const EXTRA_TRIVIA_PRIME_VIDEO_STREAMS: Record<string, ExtraPrimeVideoStr
     goSlug: 'fleabag-prime',
     label: 'Fleabag',
     merchantUrl: 'https://www.amazon.com/dp/B0875L39FQ',
+  },
+  'miranda-july-all-fours': {
+    goSlug: 'all-fours-book',
+    label: 'All Fours by Miranda July (Kindle & Hardcover)',
+    merchantUrl: 'https://www.amazon.com/dp/B0CLKZ582G',
+    ctaPrefix: '📚 Read on Amazon',
+  },
+  'curtis-sittenfeld-romantic-comedy': {
+    goSlug: 'romantic-comedy-book',
+    label: 'Romantic Comedy by Curtis Sittenfeld',
+    merchantUrl: 'https://www.amazon.com/dp/B0B6G6R2PH',
+    ctaPrefix: '📚 Read on Amazon',
+  },
+  'vladimir-julia-may-jonas': {
+    goSlug: 'vladimir-book',
+    label: 'Vladimir by Julia May Jonas',
+    merchantUrl: 'https://www.amazon.com/dp/B096TTBFYR',
+    ctaPrefix: '📚 Read on Amazon',
+  },
+  'fleetwood-mac-dreams-cranberry-2020': {
+    goSlug: 'rumours-vinyl',
+    label: 'Fleetwood Mac · Rumours (Vinyl & Streaming)',
+    merchantUrl: 'https://www.amazon.com/dp/B004OKFISQ',
+    ctaPrefix: '🎵 Vinyl & Album on Amazon',
   },
 };
 

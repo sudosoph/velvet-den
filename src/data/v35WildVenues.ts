@@ -1428,7 +1428,567 @@ export interface WildFollowUpSequence {
   beat3: WildFollowUpStep;
 }
 
+export interface WildRoomClue {
+  icon: string;
+  label: string;
+  detail: string;
+}
+
+const WILD_ROOM_CLUES: Record<string, [WildRoomClue, WildRoomClue, WildRoomClue]> = {
+  'velvet-room:her': [
+    {
+      icon: '👁️',
+      label: 'Eye Contact',
+      detail: 'Practiced 100-watt smile, angling his barstool toward yours a beat too smoothly.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Bare finger right now, except a pale tan line circles the base of his left ring finger.',
+    },
+    {
+      icon: '⌚',
+      label: 'Watch Check',
+      detail: 'Checked his watch twice at 6:38 PM claiming "Tokyo markets just opened" (Tokyo opened at 5 PM).',
+    },
+  ],
+  'velvet-room:him': [
+    {
+      icon: '👁️',
+      label: 'Poker Face',
+      detail: 'Classic executive poker face to deter creeps, until she catches your eye twice in the backbar mirror.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand & Phone',
+      detail: 'Statement emerald on her RIGHT hand only; phone placed face-down beside a three-olive Gibson.',
+    },
+    {
+      icon: '🎧',
+      label: 'Room Rule',
+      detail: 'Savoring twenty quiet minutes off-duty: give a low-pressure note and an easy out, zero hovering.',
+    },
+  ],
+  'hawthorne-campus:her': [
+    {
+      icon: '👁️',
+      label: 'Body Angle',
+      detail: 'Steps away from the faculty crowd holding two espressos, scanning specifically for your reaction.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Ink smudge on his cuff, zero ring, rolled linen sleeves despite the autumn drizzle.',
+    },
+    {
+      icon: '🎧',
+      label: 'Vibe Check',
+      detail: 'Craves sharp intellectual pushback, whereas any "you speak so well for your age" pat kills the spark.',
+    },
+  ],
+  'hawthorne-campus:him': [
+    {
+      icon: '⌚',
+      label: 'Clock Rule',
+      detail: ' Campus boundary is ironclad: never flirt before 5:00 PM when final grades seal with the registrar.',
+    },
+    {
+      icon: '👁️',
+      label: 'Posture Shift',
+      detail: 'At 5:04 PM she caps her red pen, exhales, and lingers by the espresso urn instead of rushing to her car.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'No wedding band; annotated Colette paperback tucked atop her leather folio.',
+    },
+  ],
+  'terminal-b-airport:her': [
+    {
+      icon: '👁️',
+      label: 'Effort Signal',
+      detail: 'Tracked Flight 418 tail radar himself rather than waiting for you to text from baggage claim.',
+    },
+    {
+      icon: '☕',
+      label: 'Memory Tell',
+      detail: 'Holding your exact hot oat cortado remembered from one brief chat at Jade’s party a month ago.',
+    },
+    {
+      icon: '🧳',
+      label: 'Intent Check',
+      detail: 'Took both heavy bags in one hand, now test whether Jade drafted him or he is asking you out.',
+    },
+  ],
+  'terminal-b-airport:him': [
+    {
+      icon: '👁️',
+      label: 'Open Cue',
+      detail: 'Closed her sculpture catalog during the 40-minute gate delay and tossed out an open-ended remark.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Silver desert cuff on her wrist, bare left ring finger, zero rush to FaceTime anyone.',
+    },
+    {
+      icon: '🍸',
+      label: 'Taste Tell',
+      detail: 'Asked specifically about cocktail onions for a proper Gibson, never mention your mom or her age.',
+    },
+  ],
+  'havana-salsa:her': [
+    {
+      icon: '👁️',
+      label: 'Partner Hold',
+      detail: 'Steady, unhurried lead on the cross-body turn while holding warm eye contact past the three-minute bell.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Calloused woodworker hands from his Silver Lake shop, completely bare left ring finger.',
+    },
+    {
+      icon: '🎧',
+      label: 'Self-Sabotage Trap',
+      detail: 'He stepped into your rotation line on purpose, don’t pre-reject yourself with age-gap self-deprecation.',
+    },
+  ],
+  'havana-salsa:him': [
+    {
+      icon: '👁️',
+      label: 'Bounce-Back Cue',
+      detail: 'Laughing openly across the prep island and looking to share the joke with someone competent.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand & Knife',
+      detail: 'No ring; watching closely to see who actually knows how to hold a chef’s knife vs. posing.',
+    },
+    {
+      icon: '🚩',
+      label: 'Instant Ick',
+      detail: 'Any "cougar night" safari line gets you exiled straight to the dish pit.',
+    },
+  ],
+  'palisades-racquet:her': [
+    {
+      icon: '👁️',
+      label: 'Court Signal',
+      detail: 'Passed up two younger guys by the bench to wave you onto his side of the net for mixed doubles.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Clean white wrist tape, bare left hand, relaxed Nordic dry humor.',
+    },
+    {
+      icon: '🎾',
+      label: 'Play Style',
+      detail: 'Respects fearless net play and direct banter over timid sideline excuses.',
+    },
+  ],
+  'palisades-racquet:him': [
+    {
+      icon: '👁️',
+      label: 'Sightline Tell',
+      detail: 'Glanced over your shoulder at Court 4 three times in sixty seconds where her ex Richard is serving.',
+    },
+    {
+      icon: '📱',
+      label: 'Phone Angle',
+      detail: 'Framing her phone camera toward the cabana rail whenever Court 4 switches sides.',
+    },
+    {
+      icon: '🕵️',
+      label: 'Table 9 Link',
+      detail: 'Keep your eyes open: is she into you, or recruiting a Friday patio prop across from Table 9?',
+    },
+  ],
+  'st-jude-coffee:her': [
+    {
+      icon: '👁️',
+      label: 'Character Tell',
+      detail: 'Quietly paid for the exhausted triage nurse’s espresso ahead of him without making a show of it.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'No ring; station jacket slung over one shoulder coming off a twelve-hour rescue shift.',
+    },
+    {
+      icon: '🥐',
+      label: 'Opening',
+      detail: 'Asked you a playful either/or question about the last almond croissant, clear green light.',
+    },
+  ],
+  'st-jude-coffee:him': [
+    {
+      icon: '👁️',
+      label: 'Roast Reflex',
+      detail: 'Trauma RN humor: playfully butchered your cup name at 6:45 AM to see if you have a sense of humor.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Bare left hand around an iced cardamom cold brew; leather jacket over navy scrubs.',
+    },
+    {
+      icon: '🎧',
+      label: 'Off-Duty Rule',
+      detail: 'After twelve hours running trauma triage, she wants zero medical questions and zero decision fatigue.',
+    },
+  ],
+  'left-bank-books:her': [
+    {
+      icon: '👁️',
+      label: 'Stack Linger',
+      detail: 'Stayed in the French fiction aisle instead of grabbing the book and walking to the register.',
+    },
+    {
+      icon: '📖',
+      label: 'Book Choice',
+      detail: 'Reaching for Colette’s 1920 older-woman × younger-man classic Chéri with a knowing half-smile.',
+    },
+    {
+      icon: '🍷',
+      label: 'Easy Pivot',
+      detail: 'Gallery prosecco is lukewarm; suggesting the quiet wine bar next door tests his spontaneity.',
+    },
+  ],
+  'left-bank-books:him': [
+    {
+      icon: '👁️',
+      label: 'Crowd Fatigue',
+      detail: 'Polite glazed smile whenever guys in scarves recite press-release art jargon at her.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Sculptural silver ring on her index finger only; sipping dry prosecco solo.',
+    },
+    {
+      icon: '🎨',
+      label: 'Direct Prompt',
+      detail: 'Explicitly asked you for one honest unpretentious observation, don’t bluff or name-drop.',
+    },
+  ],
+  'dawn-lap-pool:her': [
+    {
+      icon: '👁️',
+      label: 'Shared Laugh',
+      detail: 'Caught your eye immediately when the park ranger yelled about "wild cougars in New Jersey."',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Bare left hand pushing up swim goggles after a clean 1,500-meter set.',
+    },
+    {
+      icon: '🏊',
+      label: 'Timing Rule',
+      detail: 'Wait until he is resting at the wall or smoothie counter, never grab a swimmer mid-flip-turn.',
+    },
+  ],
+  'dawn-lap-pool:him': [
+    {
+      icon: '🎧',
+      label: 'Sacred Earbuds',
+      detail: 'Both white AirPods are firmly IN during cooldown: approaching mid-stretch is an automatic 99% gym fail.',
+    },
+    {
+      icon: '👁️',
+      label: 'Green Window',
+      detail: 'Three minutes later at the smoothie bar she clicks both AirPods into the case and glances over.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'No ring; mineral SPF 50 bottle in hand.',
+    },
+  ],
+  'cougarmarket:her': [
+    {
+      icon: '👁️',
+      label: 'Blush Tell',
+      detail: 'Turned bright crimson to his ears after mistaking you from behind for his friend’s sister Hannah.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand & Basket',
+      detail: 'No ring; basket holds trail sourdough, Manchego, and black figs (real groceries, not a prowler prop).',
+    },
+    {
+      icon: '🧀',
+      label: 'Recovery Cue',
+      detail: 'Stayed to banter instead of bolting down Aisle 5, tease him lightly without "kiddo" patting.',
+    },
+  ],
+  'cougarmarket:him': [
+    {
+      icon: '👁️',
+      label: 'Linger vs. Chore',
+      detail: 'Paused past the Rioja rack and made a dry side-comment to you instead of pushing her cart away.',
+    },
+    {
+      icon: '🛒',
+      label: 'Prowler Contrast',
+      detail: 'Just roasted the guy circling Aisle 4 for 40 minutes with one single lime in an empty basket.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Bare left hand; off-duty chef who respects men who actually cook dinner.',
+    },
+  ],
+  'velvet-palms-bbq:her': [
+    {
+      icon: '👁️',
+      label: 'Hostess Co-Sign',
+      detail: 'Neighbor bestie Jade pre-vetted him and is practically cheering from the kitchen window.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand & Craft',
+      detail: 'No ring; brought a hand-joined walnut shelf he built himself and took over the grill calmly.',
+    },
+    {
+      icon: '🍑',
+      label: 'Direct Invite',
+      detail: 'Waved you specifically to the cedar grill to taste-test the bourbon peaches before anyone else.',
+    },
+  ],
+  'velvet-palms-bbq:him': [
+    {
+      icon: '👁️',
+      label: 'Social Test',
+      detail: 'Watching whether you stay cool and unbothered when her nephew Sam’s twenty-something friends walk by.',
+    },
+    {
+      icon: '💍',
+      label: 'Left Hand',
+      detail: 'Divorced, thriving, bare left hand, fiercely protective of her peaceful Pasadena house.',
+    },
+    {
+      icon: '🍷',
+      label: 'Bounce-Back Cue',
+      detail: 'Stepped away from fantasy-football noise to stand beside you by the firepit.',
+    },
+  ],
+};
+
+export function getWildRoomClues(
+  venueId: string,
+  role: 'her' | 'him',
+): [WildRoomClue, WildRoomClue, WildRoomClue] {
+  return (
+    WILD_ROOM_CLUES[`${venueId}:${role}`] ?? [
+      {
+        icon: '👁️',
+        label: 'Eye Contact',
+        detail: 'Held eye contact twice and angled open instead of turning back to their phone.',
+      },
+      {
+        icon: '💍',
+        label: 'Left Hand',
+        detail: 'Check for a ring or a 6:45 watch-check curfew before committing.',
+      },
+      {
+        icon: '🎧',
+        label: 'Exit Rule',
+        detail: 'Keep the opener situational and leave a low-pressure out.',
+      },
+    ]
+  );
+}
+
 const BESPOKE_WILD_FOLLOWUPS: Record<string, WildFollowUpSequence> = {
+  'velvet-room:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Test the 6:45 Curfew Tell',
+      prompt:
+        'Graham slides closer with a velvet-smooth smile, yet that pale ring-tan line and 6:44 PM rush scream disguised weekday alibi. Read his story without tipping your hand.',
+      spokenCue:
+        '"Honestly I hate dating apps, Thursday early drinks at 5:30 are so much more civilized before my... late Tokyo calls."',
+      choices: [
+        {
+          label:
+            'Keep your poker face silk-smooth: "5:30 is fun, though I usually prefer Friday at 8:00 right here past Table 9."',
+          replyCue:
+            'Graham blinks once before recovering with a fast laugh: "Haha Fridays are tricky with deal closings, text me and we’ll figure it out!"',
+          bonus: 10,
+        },
+        {
+          label:
+            'Smile dryly over your coupe: "Funny, most M&A guys take Tokyo calls at 5 PM Pacific, not 6:45."',
+          replyCue:
+            'Graham’s collar tightens half an inch as he chuckles: "Sharp memory! Let me give you my cell before I run."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Gush that an unavailable mystery man with a strict 6:44 PM bedtime sounds super romantic.',
+          failText:
+            'Buying a "6:45 PM Tokyo call" hook, line, and sinker walks you straight into married-finance-bro purgatory!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Pocket the Number & Receipt',
+      prompt:
+        'It is 6:43 PM and Graham is already reaching for his coat. Lock his real cell number cleanly so you can expose or block his alibi in iMessage.',
+      spokenCue:
+        '"Driver’s outside, put your number in my phone quick so I can text you tomorrow!"',
+      choices: [
+        {
+          label:
+            'Have him text your phone right at the bar so you capture his real number and Table 9 receipt.',
+          replyCue:
+            'Your screen lights up as Graham sprints out at 6:44 PM sharp. Direct thread + clue unlocked!',
+          bonus: 10,
+        },
+        {
+          label:
+            'Take his card and tap a quick one-word hello from your cell while clocking which exit car he climbs into.',
+          replyCue:
+            'Card pocketed, number verified, and zero illusions. Time to grill him in iMessage!',
+          bonus: 10,
+        },
+        {
+          label:
+            'Offer to hop into his car right now to "keep him company during his Tokyo call."',
+          failText:
+            'Graham practically knocks over a barstool fleeing toward the valet stand before you even get his number!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'hawthorne-campus:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Mentor Zone vs. Real Spark',
+      prompt:
+        'Julian is beaming over his espresso, yet smart 27-year-old fellows get polite academic small talk from senior women constantly. He tests whether you actually see him as a man.',
+      spokenCue:
+        '"Most people at faculty receptions ask about my grant footnotes. Please tell me you’re rescuing me from campus talk tonight."',
+      choices: [
+        {
+          label:
+            'Make your intent unmistakable: "Zero footnotes after five o’clock. I was much more interested in the man giving the lecture."',
+          replyCue:
+            'Julian’s ears flush slightly under a delighted grin: "Thank God. Was hoping I wasn’t misreading that smile."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Hold playful eye contact: "Only if you promise not to treat dinner like an architectural symposium."',
+          replyCue:
+            'Julian sets his espresso cup down immediately: "Symposium officially adjourned."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Pivot nervously into offering to proofread his fellowship CV like an academic advisor.',
+          failText:
+            'Julian thanks you politely like a department chair and heads out in the rain. Never advisor-zone your own crush!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • The Low-Pressure Close',
+      prompt:
+        'Faculty stragglers are drifting toward the espresso table. Close the number cleanly in thirty seconds before a dean interrupts.',
+      spokenCue:
+        '"The department chair is heading straight toward us with budget binders. Quick, how do I find you off campus?"',
+      choices: [
+        {
+          label:
+            'Type your cell into Julian’s phone with a slow smile: "Text me tonight and pick a proper quiet Barolo spot for half seven."',
+          replyCue:
+            'Julian fires off an instant text to lock your screen in: "Half seven Thursday is officially ours."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Slip him your card and step cleanly toward the courtyard arch: "Message me once you escape the budget binders."',
+          replyCue:
+            'Your phone buzzes before you reach the quad steps: "Escaped in record time. Save Thursday for me."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Tell him to email your university office inbox next semester if he’s still around.',
+          failText:
+            'Routing a rainy-evening romance through an outlook calendar invite kills 100% of the tension!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'hawthorne-campus:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Read the Executive Poker Face',
+      prompt:
+        'Elena listens with composed, dry-humored poise. On Reddit, older women note they keep a calm poker face in public to filter out nervous validation-seekers.',
+      spokenCue:
+        '"Bold wager. Half the men under thirty who walk up after lectures either want a letter of recommendation or freeze up mid-sentence."',
+      choices: [
+        {
+          label:
+            'Stay completely unhurried: "Zero recommendations needed, Elena. I waited all week for 5:01 PM just to ask you out properly."',
+          replyCue:
+            'The faculty poker face melts into a warm, genuine smile: "First name, clean timing, and steady nerves. Impressive."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Match her dry wit: "Good thing my degree is long finished, I’m strictly auditing your taste in Sancerre."',
+          replyCue:
+            'Elena laughs softly, tilting her head: "Fair warning, my Sancerre standards are unforgiving."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Get rattled by her calm expression and apologize three times for "bothering a busy professor."',
+          failText:
+            'Over-apologizing when she was actively talking to you talks her right out of saying yes! Hold your frame calmly.',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Give Her the Clean Out',
+      prompt:
+        'Rain taps the gallery glass as Elena gathers her leather folio. Nail the adult low-pressure close: decisive plan, zero cornering.',
+      spokenCue:
+        '"I have a 6:00 PM dinner across town, though my Friday evening is mercifully unscheduled."',
+      choices: [
+        {
+          label:
+            'Offer your number on a clean slip with an easy exit: "Let me book an 8 PM corner table off campus Friday. Text me if you’re in, and enjoy dinner tonight."',
+          replyCue:
+            'Elena texts your phone right before stepping under her umbrella: "Decisive and zero hovering. Friday at eight."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Hand her your unlocked Contacts screen for ten seconds: "Put your personal cell in, I’ll send a quiet Westside wine bar by noon tomorrow."',
+          replyCue:
+            'Elena types her digits cleanly: "Noon confirmations are my favorite language."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Insist on walking all the way to her tonight’s restaurant in the rain while quizzing her on grading rubrics.',
+          failText:
+            'Shadowing someone into their existing 6 PM plans turns a smooth approach into an awkward hostage walk!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
   'terminal-b-airport:her': {
     beat2: {
       stageLabel: 'Beat 2 of 3 • Read His Real Intent',
@@ -1491,6 +2051,68 @@ const BESPOKE_WILD_FOLLOWUPS: Record<string, WildFollowUpSequence> = {
       ],
     },
   },
+  'terminal-b-airport:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Polite Gate Chat vs. Real Intrigue',
+      prompt:
+        'Airport lounges breed friendly 20-minute travel chats that vanish at boarding. Watch Celeste’s bounce-back question to see if the door is genuinely open.',
+      spokenCue:
+        '"Most twenty-somethings in lounges put headphones on and stare at crypto charts. Are you heading to Palm Springs for business or trouble?"',
+      choices: [
+        {
+          label:
+            'Lean into the playful bounce-back: "Strictly good trouble, especially if Palm Springs comes with a gallery tour from the best-dressed woman in Terminal B."',
+          replyCue:
+            'Celeste’s eyes glint over her Gibson rim: "Flattery with good posture. Dangerous combination."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Keep it grounded and direct: "Weekend break, zero meetings, and hoping our conversation doesn’t end at Gate 24."',
+          replyCue:
+            'Celeste sets her glass down with a slow, pleased smile: "No reason it has to."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Take her crypto joke literally and spend twelve minutes explaining layer-two tokenomics.',
+          failText:
+            'Celeste politely checks her boarding pass and discovers an urgent phone call by the window. Read the cue!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • First-Class Boarding Call',
+      prompt:
+        'Group 1 boarding chimes over the terrace speaker. Close her number in fifteen seconds without rushing her down the jetway.',
+      spokenCue:
+        '"That’s my boarding group calling. Impress me before I pick up my carry-on."',
+      choices: [
+        {
+          label:
+            'Hand her your card with your cell written on back: "Text me when we land so I can take you to dinner properly on the Westside."',
+          replyCue:
+            'Your phone buzzes before she reaches the gate scanner: "Seat 2A approves. Thursday night is open."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Offer your unlocked phone cleanly: "Ten seconds for your number, and I’ll carry that catalog bag to the gate door."',
+          replyCue:
+            'Celeste taps her personal cell in smoothly: "Chivalry lives in Terminal B."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Ask the gate agent loudly to swap your middle economy seat into her row uninvited.',
+          failText:
+            'Hijacking someone’s peaceful flight seat before Date #1 violates every rule of grown-adult space!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
   'velvet-room:him': {
     beat2: {
       stageLabel: 'Beat 2 of 3 • Ring Check & Intent Pivot',
@@ -1548,6 +2170,874 @@ const BESPOKE_WILD_FOLLOWUPS: Record<string, WildFollowUpSequence> = {
             'Ask to split an Uber home together right now so you can keep talking about mergers.',
           failText:
             'Claire laughs dryly at the elevator doors: "Never rush a good first act, rookie." Rewind and close cleanly!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'havana-salsa:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Dance-Class Friendly vs. Real Pursuit',
+      prompt:
+        'Salsa socials are full of friendly dancers who spin everyone warmly and go home solo. Watch how Rafael lingers when the rotation bell rings.',
+      spokenCue:
+        '"Technically the bell says rotate one partner left... unless you’re conspiring to skip the rotation with me at the courtyard bar."',
+      choices: [
+        {
+          label:
+            'Meet his eyes with zero hesitation: "Definitely conspiring. Buy me an agua fresca on the patio."',
+          replyCue:
+            'Rafael’s grin lights up the terracotta courtyard as he guides you smoothly off the floor.',
+          bonus: 10,
+        },
+        {
+          label:
+            'Tease him lightly: "Bold mutiny against the instructor, Rafael. Prove your conversation matches your lead."',
+          replyCue:
+            'Rafael laughs, pulling two patio stools into the lantern light: "Happily."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Assume he says that to every partner in class and wave him briskly down the line.',
+          failText:
+            'You rotated away from a man literally asking to ditch class with you! Read the linger signal!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Lock Friday Without Rushing',
+      prompt:
+        'The band wraps its final set at 9:45 PM. Close the real date plan cleanly while keeping your Thursday night peace.',
+      spokenCue:
+        '"I have a 7 AM walnut slab delivery tomorrow, otherwise I’d keep talking all night. Can I take you to dinner Friday?"',
+      choices: [
+        {
+          label:
+            'Swap numbers cleanly: "Love a man with real morning work. Put your cell in and text me Friday’s spot by noon."',
+          replyCue:
+            'Rafael texts you on the spot with a warm squeeze of your hand: "Noon Friday confirmation, promise."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Tap your number into his phone: "8 PM Friday works, zero three-minute bells allowed."',
+          replyCue:
+            'Rafael’s smile stays with you all the way to your car: "Whole evening is yours."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Test him with passive-aggressive games by refusing to swap numbers and saying "find me next month if you mean it."',
+          failText:
+            'Grown romance dies on cryptic guessing games. When a high-EQ man asks clearly, lock the digits!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'havana-salsa:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Group Banter vs. One-on-One Spark',
+      prompt:
+        'Cooking classes are easy for group laughs, harder for pivoting cleanly into one-on-one romantic intent without making the station awkward.',
+      spokenCue:
+        '"Okay, best knife work at this island by a mile. Did a girlfriend teach you that julienne, or do you actually cook for yourself?"',
+      choices: [
+        {
+          label:
+            'Catch her subtle availability check cleanly: "Very single, cook four nights a week, and happy to prove it properly on Friday."',
+          replyCue:
+            'Sienna’s hazel-green eyes warm immediately: "Caught my subtle question AND answered it cleanly. Ten points."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Smile straight at her: "Strictly solo kitchen right now, though I’m much better cooking for someone who appreciates good olive oil."',
+          replyCue:
+            'Sienna clinks her Albariño glass lightly against yours: "Smooth answer."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Miss her single-check completely and brag for five minutes about your ex-girlfriend’s culinary school.',
+          failText:
+            'Bringing up an ex the exact second a gorgeous woman checks if you are single is tragic clock management!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Patio Close Before the Crowd',
+      prompt:
+        'Class lets out onto the string-lit courtyard. Step up decisively before six classmates crowd around with Instagram handles.',
+      spokenCue:
+        '"Everyone’s trading group-chat links, though I barely check Instagram DMs."',
+      choices: [
+        {
+          label:
+            'Skip social media completely and offer your phone: "Real phone numbers only. Let me book us an 8 PM Friday table."',
+          replyCue:
+            'Sienna types her personal cell in with a grin: "Thank goodness, an adult who uses actual text messages."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Hand her your number on a tasting card with zero pressure: "Text me tomorrow if Friday wine sounds better than group chats."',
+          replyCue:
+            'Your phone chimes before you hit the sidewalk: "Much better. Friday at eight."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Ask for her Snapchat username so you can "start a streak."',
+          failText:
+            'Asking an accomplished 38-year-old designer for a Snapchat streak deals instant, irreversible psychic damage!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'palisades-racquet:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Nordic Dry Wit vs. Flirtation',
+      prompt:
+        'Courtside on the terrace, Søren towels off calmly. Scandinavian understatement can read cool until you test the subtext directly.',
+      spokenCue:
+        '"Most partners in Palisades play safe lob shots all evening. You went straight down the line on match point."',
+      choices: [
+        {
+          label:
+            'Hold his ice-blue gaze: "I don’t play safe shots on or off the court, Søren. Still brave enough for dinner?"',
+          replyCue:
+            'A slow, unmistakable smirk breaks across Søren’s face: "Counted on it."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Clink tonic glasses lightly: "Only when my partner actually covers his half of the net."',
+          replyCue:
+            'Søren leans closer against the cabana rail: "Wait until you see how I handle Thursday reservations."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Misread his calm Nordic cadence as boredom and abruptly excuse yourself to the parking lot.',
+          failText:
+            'Calm eye contact without frantic chatter is confidence, not boredom! Stay in the pocket.',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Lock the Raw-Bar Wager',
+      prompt:
+        'Twilight settles over the clay courts. Seal the date cleanly in twenty seconds.',
+      spokenCue:
+        '"Eight o’clock Thursday by the water. Give me your number so I send the pin instead of guessing."',
+      choices: [
+        {
+          label:
+            'Type your cell into his phone cleanly: "Thursday at eight. Send the pin by noon so I dress accordingly."',
+          replyCue:
+            'Søren sends a crisp confirmation text on the spot: "Pin incoming. Looking forward to Thursday."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Let him text you right there by the cabana: "Deal, architect, and Saturday morning rematch on Court 3."',
+          replyCue:
+            'Your phone buzzes immediately: "Court 3 reserved. Thursday dinner first."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Insist on splitting a post-match protein shake audit of the entire club roster for forty minutes.',
+          failText:
+            'Overstaying after clinching the Thursday date drains the mystery. Take the win and glide out!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'palisades-racquet:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Decipher the Ex-Husband Sightline',
+      prompt:
+        'Brooke hands you an Aperol spritz, yet her eyes flick toward Court 4 again as her ex Richard walks toward the clubhouse. Test what game you are actually in.',
+      spokenCue:
+        '"Ugh, Palisades is such a fishbowl. Tell me you’re free Friday at 8:00 for patio steaks right by Table 9?"',
+      choices: [
+        {
+          label:
+            'Call the play with amused poise: "Happy to grab a drink, Brooke, as long as I’m your date and not a billboard for Court 4."',
+          replyCue:
+            'Brooke blinks, then lets out a startled real laugh: "Okay, sharp eyes! Give me your number anyway, trouble."',
+          bonus: 8,
+        },
+        {
+          label:
+            'Play cool recon: "Table 9 sounds famous around here. Put your number in and tell me why everyone whispers about it."',
+          replyCue:
+            'Brooke leans in conspiratorially: "Text me tonight and I might spill the whole club tea."',
+          bonus: 8,
+        },
+        {
+          label:
+            'Volunteer to walk over to Court 4 right now and challenge her silver-haired ex-husband to singles.',
+          failText:
+            'Starting country-club turf wars for a woman using you as divorce theater gets you banned by security!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Grab the Number & Table 9 Clue',
+      prompt:
+        'Richard heads into the locker room and Brooke’s performance energy instantly drops two notches. Lock her digits cleanly so you keep all the leverage.',
+      spokenCue:
+        '"Anyway, dash time before traffic! Put your number in quick, handsome."',
+      choices: [
+        {
+          label:
+            'Have her text your cell on the spot so you verify her real number and log the Table 9 clue.',
+          replyCue:
+            'Screen buzzes with Brooke’s sparkle emoji text. Direct thread unlocked, stay sharp in iMessage!',
+          bonus: 10,
+        },
+        {
+          label:
+            'Swap numbers in ten seconds without promising to wear her requested "revenge blazer" yet.',
+          replyCue:
+            'Digits locked in with your dignity 100% intact. Watch her Friday staging demands in chat!',
+          bonus: 10,
+        },
+        {
+          label:
+            'Offer to carry her racquet bag around the parking lot filming TikTok transitions.',
+          failText:
+            'Never audition as unpaid social-media crew on Court 1! Keep your self-respect.',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'st-jude-coffee:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Polite First-Responder Manners vs. Spark',
+      prompt:
+        'Marcus is naturally warm to everyone in a two-block radius. Read whether he’s just being a Southern gentleman or genuinely lingered for you.',
+      spokenCue:
+        '"Normally I’m asleep in my truck, uh, parked at home, by 7:15 AM, yet somehow I’m still sitting on this bench."',
+      choices: [
+        {
+          label:
+            'Catch that cue warmly: "Glad you stayed five extra minutes, Marcus. When is your next night off shift?"',
+          replyCue:
+            'Marcus’s shoulders drop into an easy, unmistakable grin: "Off Thursday and Friday both, and hoping you’d ask."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Smile over your coffee: "Sounds like we owe this almond croissant a proper sequel when you’re rested."',
+          replyCue:
+            'Marcus nods immediately: "Count on it. Dinner with actual plates."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Say "Well don’t let an old lady keep you from your nap!" and shoo him off the bench.',
+          failText:
+            'Calling yourself "an old lady" to a 30-year-old man actively flirting with you at sunrise is tragic self-sabotage!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Post-Shift Clean Close',
+      prompt:
+        'His shift relief waves from across the courtyard. Close his number cleanly so he gets real sleep and wakes up excited to text you.',
+      spokenCue:
+        '"Before my brain turns into pumpkin foam, let me get your number properly."',
+      choices: [
+        {
+          label:
+            'Type your cell into his phone: "Go get eight hours of sleep, firefighter, and text me tonight for Thursday dinner."',
+          replyCue:
+            'Marcus taps a quick heart-eyed hello text to your screen: "Best shift handoff all year."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Take his number with a warm smile: "Sleep first, I’ll text you this evening so Thursday is easy."',
+          replyCue:
+            'Marcus grins all the way across the brick courtyard as your iMessage thread unlocks.',
+          bonus: 12,
+        },
+        {
+          label:
+            'Keep him talking on the bench for ninety more minutes while he’s running on zero sleep.',
+          failText:
+            'Holding a night-shift paramedic hostage after a 12-hour tour drains the battery! Let him rest and text tonight.',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'st-jude-coffee:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Survive the Shit-Test Without Folding',
+      prompt:
+        'Priya sips her iced cardamom coffee, testing whether your confidence holds up when she isn’t coddling your ego.',
+      spokenCue:
+        '"Bold offering Friday tacos before seven AM. Most younger guys talk big in line and then text \'so what do u wanna do\' four days later."',
+      choices: [
+        {
+          label:
+            'Back it up with zero fluff: "No \'wyd\' texts from me. 7:30 Friday, quiet corner booth, mezcal and street tacos handled."',
+          replyCue:
+            'Priya’s eyebrows lift in genuine approval: "Okay, actual follow-through is dangerously attractive."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Grin calmly: "Your job is making hundred-mile-an-hour decisions all night. Friday night your only job is showing up."',
+          replyCue:
+            'Priya lets out a soft exhale and smiles for real: "You have no idea how rare that sentence is."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Backpedal nervously: "Totally no pressure, whatever restaurant you research and book works for me!"',
+          failText:
+            'Dumping restaurant homework right back onto an exhausted charge nurse kills the whole pitch!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Respect Her Sleep Window',
+      prompt:
+        'Priya’s ride pulls up to the hospital loop. Lock the number in ten seconds and respect her daytime blackout-curtain sleep.',
+      spokenCue:
+        '"Blackout curtains are calling my name until 4 PM. Don’t blow up my phone while I’m asleep."',
+      choices: [
+        {
+          label:
+            'Hand her your unlocked phone: "Put your number in, sleep great, and I’ll send one clean Friday confirmation at 5 PM."',
+          replyCue:
+            'Priya types her personal cell in ten seconds flat: "5 PM sharp. Don’t forget."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Give her your number with an easy smile: "Zero double-texts while you sleep. Ping me when you’re up."',
+          replyCue:
+            'Priya texts you one word ("Locked.") before climbing into her car with a grin.',
+          bonus: 12,
+        },
+        {
+          label:
+            'Promise not to text, then immediately send four memes and a question mark at 9:15 AM.',
+          failText:
+            'Waking up a night-shift trauma nurse with anxious double-texts is an instant block!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'left-bank-books:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Literary Banter vs. Real Date Intent',
+      prompt:
+        'Next door at the courtyard bar, Julian turns the paperback of Chéri in his hands, watching your eyes to make sure the flirtation is mutual.',
+      spokenCue:
+        '"Confession: I spotted you by the cello quartet ten minutes before you reached the French fiction shelf."',
+      choices: [
+        {
+          label:
+            'Reward his honesty with a slow smile: "Then it’s a very good thing we reached for the same book, Julian."',
+          replyCue:
+            'Julian’s grin is pure London charm: "Best stroke of luck I’ve had in California."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Raise your glass playfully: "Ten minutes of recon? Glad you finally made your move."',
+          replyCue:
+            'Julian clinks his glass gently against yours: "Worth every second of working up the nerve."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Laugh it off awkwardly and say "Oh stop, you’re just being polite to a neighborhood regular!"',
+          failText:
+            'Brushing off a direct, vulnerable confession as "just being polite" slams the door shut on his courage!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Seal the Chapter-Four Wager',
+      prompt:
+        'First-Friday crowds start spilling into the wine bar. Close the real dinner date while the moment is intimate.',
+      spokenCue:
+        '"Let me take you to a proper quiet table this week so we aren’t shouting over gallery cellos."',
+      choices: [
+        {
+          label:
+            'Swap numbers smoothly: "Half seven Thursday. Text me the spot and bring your verdict on chapter four."',
+          replyCue:
+            'Julian texts you immediately with a warm smile: "Bookmarking chapter four for Thursday night."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Put your cell in his phone: "Friday night works, pick somewhere with real candles and good Rioja."',
+          replyCue:
+            'Your phone buzzes with Julian’s message before you slip your coat on. Number pulled!',
+          bonus: 12,
+        },
+        {
+          label:
+            'Suggest just "running into each other at next month’s First-Friday reading" without trading numbers.',
+          failText:
+            'Waiting thirty days for fate when chemistry is right across the table is a felony against romance!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'left-bank-books:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Hold Frame Past the Age-Gap Test',
+      prompt:
+        'Out by the courtyard fountain, Celeste appraises you with amused silver-fox poise to see if you get weird about the age difference.',
+      spokenCue:
+        '"You have a good eye and good manners. Tell me honestly, do you realize I opened my first Palm Springs gallery the year you were in grade school?"',
+      choices: [
+        {
+          label:
+            'Smile without a trace of flinching: "Which explains why you’re effortlessly the most interesting woman in the courtyard."',
+          replyCue:
+            'Celeste laughs warmly, eyes shining: "Zero hesitation and zero weirdness. Very well played."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Keep it light and confident: "Good thing we’re both grown adults drinking prosecco in 2026 then."',
+          replyCue:
+            'Celeste tilts her glass toward you: "Cleanest answer in Los Angeles."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Get flustered and blurt out, "Yeah crazy right, I’ve never talked to an older lady before, bucket list!!"',
+          failText:
+            '"Older lady + bucket list" is the fastest way on earth to get left standing alone by a fountain!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Respect Her Sanctuary & Close',
+      prompt:
+        'Celeste’s town car pulls up by the gallery curb. Close Thursday drinks cleanly without invading her space.',
+      spokenCue:
+        '"I’m heading back up to my quiet house in the hills now. How bold is your Thursday calendar?"',
+      choices: [
+        {
+          label:
+            'Offer your unlocked phone cleanly: "Thursday at 7:45 for two icy Gibsons. Put your number in and I’ll book the corner booth."',
+          replyCue:
+            'Celeste taps her personal cell into your phone with a radiant smile: "See you Thursday, darling."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Hand her your card and open her car door smoothly: "Text me tomorrow if Thursday evening works, get home safe."',
+          replyCue:
+            'Your screen lights up thirty seconds later from the backseat: "Classy exit. Thursday at eight."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Invite yourself up to her hills sanctuary tonight at 10:30 PM on zero notice.',
+          failText:
+            'Rule #1 of r/datingoverforty: an accomplished woman’s peaceful house is a fortress, never self-invite on Night Zero!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'dawn-lap-pool:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Gym Buddy Nod vs. Real Chemistry',
+      prompt:
+        'At the towel rack, Marcus hands you a cold electrolyte water. Morning lap pools are full of friendly regulars, so check if he means real dinner.',
+      spokenCue:
+        '"I swim Lane 4 every Tuesday and Friday, though I was hoping I wouldn’t have to wait until Tuesday to talk to you again."',
+      choices: [
+        {
+          label:
+            'Match his directness warmly: "You definitely don’t have to wait until Tuesday. Take me somewhere dry this weekend."',
+          replyCue:
+            'Marcus’s dimpled smile widens instantly: "Friday at eight, zero goggles required."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Tease him lightly: "Good thing, because my hair looks significantly better at a wine bar than Lane 3."',
+          replyCue:
+            'Marcus laughs softly: "Hard to imagine improving on right now, though I’d love to see for myself."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Fist-bump his shoulder and say "See ya around the pool deck, champ!" before walking into the locker room.',
+          failText:
+            'Fist-bumping a 6\'1" firefighter calling him "champ" puts both of you straight into the buddy zone!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Quick Locker-Room Exit Close',
+      prompt:
+        'Morning work commuters are heading for the showers. Swap numbers in twenty seconds before routine takes over.',
+      spokenCue:
+        '"Grabbing my keys from Locker 12, put your number in so I can lock Friday down today."',
+      choices: [
+        {
+          label:
+            'Type your cell into his phone cleanly: "Text me by lunchtime with your favorite Friday spot, Marcus."',
+          replyCue:
+            'Marcus sends an instant wave emoji so you have his cell: "Lunchtime confirmation incoming."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Have him text your line right by the smoothie counter: "Friday at eight is a date."',
+          replyCue:
+            'Screen lights up cleanly. Personal iMessage unlocked!',
+          bonus: 12,
+        },
+        {
+          label:
+            'Tell him you never give out your number before six weeks of lap-lane small talk.',
+          failText:
+            'Six weeks of 6:30 AM chlorine small talk is how somebody else snaps him up by Saturday!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'dawn-lap-pool:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Keep It Ultra-Low Pressure at the Gym',
+      prompt:
+        'Because you waited until Summer took her AirPods out at the smoothie counter, she is actually smiling. Keep it breezy so she never feels cornered at her own gym.',
+      spokenCue:
+        '"Seriously, gold star for waiting until the earbuds came out. Do you live out toward Malibu or just swim here?"',
+      choices: [
+        {
+          label:
+            'Answer warmly and keep it light: "Ten minutes down the coast, and happy to meet you in Malibu for sunset tacos if you’re free Friday."',
+          replyCue:
+            'Summer’s smile turns unmistakably flirty: "Smooth, local, and decisive. Love that."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Match her sunny energy: "Close enough that a Friday oceanfront drink requires zero 405 freeway heroics."',
+          replyCue:
+            'Summer laughs: "Zero 405 traffic might be the hottest pickup line in Southern California."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Launch into an intense critique of her reformer Pilates form to sound athletic.',
+          failText:
+            'Unsolicited form-coaching at the smoothie bar evaporates your earbud goodwill in three seconds flat!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • The Zero-Awkwardness Gym Close',
+      prompt:
+        'Rule #1 of approaching at a gym or pool: give an effortless out so even if schedules clash, Lane 3 stays zero-awkwardness.',
+      spokenCue:
+        '"My first dermatology consult starts at 8:30, so I have sixty seconds before I sprint."',
+      choices: [
+        {
+          label:
+            'Hand her your number with zero pressure: "Take mine so you aren’t late for clinic, text me if Friday Malibu drinks sound fun."',
+          replyCue:
+            'Summer texts you ten seconds later walking to her car: "Already texting so you have mine too ☀️"',
+          bonus: 12,
+        },
+        {
+          label:
+            'Offer your Contacts screen for ten seconds: "Drop your cell in and go crush your 8:30, I’ll text a Malibu spot tonight."',
+          replyCue:
+            'Summer taps her number in with a bright grin: "Talk tonight!"',
+          bonus: 12,
+        },
+        {
+          label:
+            'Follow her all the way to her car door talking while she’s visibly rushing for clinic.',
+          failText:
+            'Never walk someone down to their car uninvited at a gym when they just said they have 60 seconds!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'cougarmarket:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Disarm the Cute Panic',
+      prompt:
+        'Rory is still pink-eared beside the fig display, clearly smitten now that you turned around, yet terrified of overstepping in a grocery aisle.',
+      spokenCue:
+        '"Right, full honesty since I’ve already embarrassed myself: I’m Rory, very single, and relieved you weren’t Hannah’s sister."',
+      choices: [
+        {
+          label:
+            'Give him an unmistakable green light: "Very single too, Rory, and your recovery is charming enough to earn a glass of wine."',
+          replyCue:
+            'Rory lights up like golden hour on Hampstead Heath: "Best grocery run of my entire life."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Smile warmly into his eyes: "Good honesty. Tell me you’re free Thursday evening when neither of us is pushing a cart."',
+          replyCue:
+            'Rory’s shoulders relax into an easy grin: "Wide open Thursday."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Give a tight, one-word polite "Thanks" and push your cart briskly toward frozen foods.',
+          failText:
+            'In grocery-store code, a closed one-word reply + moving cart tells a respectful guy to leave you alone immediately!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Checkout Line Number Swap',
+      prompt:
+        'Register 3 opens up ahead of you. Close the number cleanly before bagging groceries breaks the spell.',
+      spokenCue:
+        '"Before Register 3 steals you away, let me put my number in your phone properly."',
+      choices: [
+        {
+          label:
+            'Hand Rory your phone with a playful smile: "Put your number in and text me your favorite coastal wine bar tonight."',
+          replyCue:
+            'Rory types his cell in and beams as your screen chimes: "Counting down to Thursday!"',
+          bonus: 12,
+        },
+        {
+          label:
+            'Tap your digits into his screen: "Text me once those figs make it home safely, ranger."',
+          replyCue:
+            'Your phone buzzes before the cashier scans your olive oil. Direct iMessage unlocked!',
+          bonus: 12,
+        },
+        {
+          label:
+            'Panic when a neighbor walks down Aisle 4 and pretend Rory works at the cheese counter.',
+          failText:
+            'Treating a sweet 24-year-old park ranger like secret contraband in Aisle 4 crushes the vibe!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'cougarmarket:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Friendly Shopper vs. Open Door',
+      prompt:
+        'In grocery aisles, women make polite food remarks all the time without wanting to be hit on. Watch Camila’s follow-up to see if she extends the beat.',
+      spokenCue:
+        '"Good pick on the Spanish arbequina oil. Wait, are you cooking sea bass for two tonight, or flying solo?"',
+      choices: [
+        {
+          label:
+            'Catch her open-ended availability check smoothly: "Solo tonight, Chef, unless I convince you to let me cook for you on your Monday off."',
+          replyCue:
+            'Camila’s dark eyes flash with genuine delight: "Bold offer! Nobody ever cooks for the chef."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Hold warm eye contact: "Strictly solo right now, though I’d love to take you for a glass of Rioja when your kitchen closes."',
+          replyCue:
+            'Camila leans an elbow on her cart handle, smiling: "Now that is how you talk in Aisle 4."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Miss her cue completely, say "Yep just meal prepping macros, bye!" and sprint to self-checkout.',
+          failText:
+            'She literally asked if you were cooking for two or solo! Don’t sprint away from an open door!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Low-Pressure Aisle 4 Close',
+      prompt:
+        'Frozen gelato in Camila’s basket is starting to soften. Close in twenty seconds with zero aisle-blocking.',
+      spokenCue:
+        '"My pistachio gelato is melting, handsome. Make your move."',
+      choices: [
+        {
+          label:
+            'Offer your unlocked phone cleanly: "Ten seconds for your number so your gelato survives, and Monday dinner is on me."',
+          replyCue:
+            'Camila taps her personal cell in with a wicked grin: "Text me tomorrow, sous-chef."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Slip her your number with an easy grin: "Save the gelato, text me tonight, and I’ll book Thursday drinks."',
+          replyCue:
+            'Your phone buzzes before you reach your car: "Gelato saved, number saved."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Block the entire olive bar for fifteen minutes asking for free restaurant recipes.',
+          failText:
+            'Turning a hot grocery meet-cute into unpaid culinary consulting melts the gelato and the spark!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'velvet-palms-bbq:her': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Confirm It Isn’t Just Hostess Courtesy',
+      prompt:
+        'Backyard cookouts are warm and social. Make sure Rafael isn’t just being polite to Jade’s best friend while working the grill.',
+      spokenCue:
+        '"Full disclosure: when Jade said you might come over tonight, I volunteered to bring the grill wood in about four seconds flat."',
+      choices: [
+        {
+          label:
+            'Reward that confession with a slow, unmistakable smile: "Best thing Jade has arranged all year, Rafael."',
+          replyCue:
+            'Rafael’s eyes crinkle warmly in the string light: "Wait until you see what I plan without a crowd around."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Clink your glass softly against his: "Four seconds? Sounds like you owe me a real one-on-one dinner this week."',
+          replyCue:
+            'Rafael grins: "Friday at eight, already had a courtyard spot in mind."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Turn bright red and loudly announce to the whole patio that you’re "retiring to bed at 8:15 with magnesium tea."',
+          failText:
+            'Protecting your bedtime is sacred, ejecting mid-flirt out of sheer nerves is optional! Stay for two more minutes.',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Lock the Friday Date & Protect Your Peace',
+      prompt:
+        'It’s 9:30 PM on Sunday and your peaceful king bed next door is calling. Pull his number cleanly and exit like a queen.',
+      spokenCue:
+        '"Walk you across the cul-de-sac before the party gets loud?"',
+      choices: [
+        {
+          label:
+            'Let him walk you to your gate, swap numbers cleanly, and lock Friday at 8:00 before heading inside solo.',
+          replyCue:
+            'Rafael kisses the back of your hand at the gate as your phone buzzes with his text: "Sleep well. Friday is ours."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Put your cell in his phone by the firepit: "Text me tomorrow with Friday’s plan, woodworker."',
+          replyCue:
+            'Jade beams from the porch as Rafael locks your number in with a grin.',
+          bonus: 12,
+        },
+        {
+          label:
+            'Ghost out the side hedge without saying goodbye so you don’t seem "too eager."',
+          failText:
+            'Irish-exiting a man who built shelves and grilled peaches to meet you leaves him thinking you hated him!',
+          isMemeFail: true,
+        },
+      ],
+    },
+  },
+  'velvet-palms-bbq:him': {
+    beat2: {
+      stageLabel: 'Beat 2 of 3 • Public Poise Around Peer Friends',
+      prompt:
+        'Sam and two buddies walk past the firepit tossing sidelong grins. Sienna watches quietly: nothing kills age-gap attraction faster than a younger guy acting sheepish around his peers.',
+      spokenCue:
+        '"Careful, Sam’s friends are staring like you just stole the family rosé."',
+      choices: [
+        {
+          label:
+            'Don’t flinch an inch, top off her glass calmly: "Let them stare. Best conversation at this party isn’t even close."',
+          replyCue:
+            'Sienna’s smile turns electric: "Unbothered in broad daylight. You have no idea how rare that is."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Nod easily to Sam and turn your full attention right back to Sienna: "Sam knows I have good taste."',
+          replyCue:
+            'Sienna laughs softly into her glass: "Smooth and zero juvenile weirdness."',
+          bonus: 10,
+        },
+        {
+          label:
+            'Take three giant steps backward when your friends look over and pretend you were inspecting the rain gutters.',
+          failText:
+            'Acting like you got caught stealing cookies the second your buddies walk by is an instant Dump!',
+          isMemeFail: true,
+        },
+      ],
+    },
+    beat3: {
+      stageLabel: 'Beat 3 of 3 • Respect Her Sunday Sanctuary',
+      prompt:
+        'Sienna sets her empty glass down at 9:45 PM. Classic Living-Apart-Together boundary: she loves great company and loves going home to her own quiet bed.',
+      spokenCue:
+        '"Alright, Sunday social battery officially spent. I’m escaping before someone starts karaoke."',
+      choices: [
+        {
+          label:
+            'Walk her out to her car and offer your phone cleanly: "Let me take you to a real 8 PM Friday dinner, zero backyard crowds."',
+          replyCue:
+            'Sienna taps her personal number into your screen with a warm look: "Friday at eight. Text me tomorrow."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Give her your number with a calm smile: "Enjoy your quiet Sunday night, Sienna. Let me plan Friday if you’re free."',
+          replyCue:
+            'Your phone buzzes as her taillights pull away: "Love a man who respects a 9:45 exit. Friday works."',
+          bonus: 12,
+        },
+        {
+          label:
+            'Beg her to stay until 1 AM drinking warm seltzers with Sam’s roommates.',
+          failText:
+            'Trying to drag a 39-year-old woman into a 1 AM roommate hang after she called time is rookie self-destruction!',
           isMemeFail: true,
         },
       ],
