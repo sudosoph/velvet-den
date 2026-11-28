@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import {
   Award,
   CheckCircle2,
+  Copy,
+  Download,
   ExternalLink,
   Heart,
   MessageCircle,
   Share2,
   Sparkles,
 } from 'lucide-react';
+import { BRAND_CONFIG } from '../config/brand';
 import { MONETIZATION_CONFIG } from '../config/monetization';
 import {
   EXPRESSION_MOTION_PRESETS,
@@ -21,13 +24,19 @@ import {
 import { buildAffiliateUrl, getAffiliateById } from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
 import { awardPassportBonusXp, emitXpBurst } from '../lib/gamification';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { sfx } from '../lib/sound';
 import { shareOrCopy } from '../lib/viral';
+import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
 
 export interface CubSchoolViewProps {
   role: 'her' | 'him';
+  playerName?: string;
   initialGoldStars?: number;
+  initialOpenCertificate?: boolean;
+  initialCertHolder?: string | null;
+  initialCertSeal?: string | null;
   activeMatchName?: string | null;
   onUpdateGoldStars?: (stars: number) => void;
   onEarnDiploma?: () => void;
@@ -43,9 +52,40 @@ const SCHOOL_LEVEL_SPECS = [
   { level: 3, startIdx: 8, endIdx: 11, badge: 'Lv.3 • 301 Sanctuary Honours', shortLabel: '👑 Lv.3 Honours' },
 ] as const;
 
+const CERTIFICATE_SEAL_PRESETS = [
+  {
+    id: 'cub_diploma',
+    label: '🐕 Certified Housebroken Cub Diploma',
+    shortOption: '🐕 Cub Diploma Seal',
+    citation: 'Passed Lidded-Bin, 4-Pillow Sanctuary, Noon-Confirmation & Zero-Cubsplaining Honours',
+  },
+  {
+    id: 'cougar_vetter',
+    label: '👑 Certified Sovereign Cougar & Master Vetter',
+    shortOption: '👑 Sovereign Cougar Seal',
+    citation: 'Conferred for Undefeated Red-Flag Radar, 63°F Sanctuary Standards & Zero Curfew Tolerance',
+  },
+  {
+    id: 'trap_detective',
+    label: '🕵️ Certified Trap-Proof Alibi Detective',
+    shortOption: '🕵️ Alibi Detective Seal',
+    citation: 'Authorized to Spot 6:45 Tokyo-Call Excuses, Borrowed IDs & Slide-5 Unicorn Ambushes',
+  },
+  {
+    id: 'power_couple',
+    label: '🥂 Certified Sunset Hills Age-Gap Power Couple',
+    shortOption: '🥂 Power Couple Seal',
+    citation: 'Verified Mutual Chemistry, Proportional Generosity & Living-Apart-Together Harmony',
+  },
+] as const;
+
 export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   role,
+  playerName = '',
   initialGoldStars = 0,
+  initialOpenCertificate = false,
+  initialCertHolder = null,
+  initialCertSeal = null,
   activeMatchName,
   onUpdateGoldStars,
   onEarnDiploma,
@@ -59,8 +99,21 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   const [pickedIdx, setPickedIdx] = useState<number | null>(null);
   const [goldStars, setGoldStars] = useState(0);
   const [results, setResults] = useState<Record<number, boolean>>({});
-  const [graduated, setGraduated] = useState(false);
+  const [graduated, setGraduated] = useState(initialOpenCertificate);
   const [copiedDiploma, setCopiedDiploma] = useState(false);
+  const [copiedRedditCert, setCopiedRedditCert] = useState(false);
+  const [recipientName, setRecipientName] = useState(
+    initialCertHolder || playerName || (role === 'her' ? 'Sovereign Cougar' : 'Vetted Cub'),
+  );
+  const [selectedSealId, setSelectedSealId] = useState<string>(() => {
+    if (initialCertSeal) {
+      const hit = CERTIFICATE_SEAL_PRESETS.find((p) =>
+        p.label.toLowerCase().includes(initialCertSeal.toLowerCase().slice(0, 14)),
+      );
+      if (hit) return hit.id;
+    }
+    return role === 'her' ? 'cougar_vetter' : 'cub_diploma';
+  });
 
   useEffect(() => {
     setMode(role === 'her' ? 'headmistress' : 'candidate');
@@ -68,8 +121,16 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
     setPickedIdx(null);
     setGoldStars(0);
     setResults({});
-    setGraduated(false);
-  }, [role]);
+    if (!initialOpenCertificate) {
+      setGraduated(false);
+    }
+    if (!initialCertHolder && !playerName) {
+      setRecipientName(role === 'her' ? 'Sovereign Cougar' : 'Vetted Cub');
+    }
+    if (!initialCertSeal) {
+      setSelectedSealId(role === 'her' ? 'cougar_vetter' : 'cub_diploma');
+    }
+  }, [role, initialOpenCertificate, initialCertHolder, initialCertSeal, playerName]);
 
   const bestStars = Math.max(goldStars, initialGoldStars);
   const perkUnlocked = bestStars >= 4;
@@ -118,93 +179,211 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
 
   const fixProduct = getAffiliateById(drill.fixItAffiliateId);
 
+  const activeSealPreset =
+    CERTIFICATE_SEAL_PRESETS.find((p) => p.id === selectedSealId) ?? CERTIFICATE_SEAL_PRESETS[0];
+  const displayStars = Math.max(goldStars, initialGoldStars, graduated ? 10 : 0);
+  const cleanRecipient = recipientName.trim() || (role === 'her' ? 'Sovereign Cougar' : 'Vetted Cub');
+  const certShareUrl =
+    typeof window !== 'undefined' && window.location.origin.startsWith('http')
+      ? `${window.location.origin}/?cert=1&holder=${encodeURIComponent(cleanRecipient)}&seal=${encodeURIComponent(activeSealPreset.label)}`
+      : `${BRAND_CONFIG.publicBaseUrl}/?cert=1&holder=${encodeURIComponent(cleanRecipient)}&seal=${encodeURIComponent(activeSealPreset.label)}`;
+
   if (graduated) {
     return (
-      <div className="mx-auto w-full max-w-2xl animate-stage-in">
-        <section className="rounded-2xl border border-zinc-200 bg-white p-7 sm:p-9 text-center space-y-5 shadow-2xs">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 border border-amber-200 text-amber-800">
-            <Award className="h-7 w-7" />
-          </div>
-          <div className="space-y-1.5">
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950">
-              Certified Housebroken Cub Diploma
-            </h1>
-            <p className="text-sm sm:text-base text-zinc-600 max-w-lg mx-auto leading-relaxed">
-              {mode === 'headmistress' ? (
-                <>
-                  Conferred with <strong className="text-zinc-950">{goldStars}/12 Headmistress Gold Stars</strong>.
-                </>
-              ) : (
-                <>
-                  Passed with <strong className="text-zinc-950">{goldStars}/12 Gold Stars</strong>.
-                </>
+      <div className="mx-auto w-full max-w-2xl space-y-5 animate-stage-in">
+        <CelebrationBurstCanvas active={true} palette="gold" />
+
+        {/* Ornate Gold-Seal Parchment Vetting Certificate Preview */}
+        <section
+          data-testid="official-vetting-certificate"
+          className="rounded-2xl border-2 border-amber-400 bg-amber-50/40 p-5 sm:p-7 shadow-lg space-y-5"
+        >
+          <div className="rounded-xl border-2 border-rose-700/80 bg-white p-5 sm:p-7 text-center space-y-4 shadow-xs">
+            <div className="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-rose-800">
+              🏛️ Sunset Hills Academy of Courtship &amp; Discernment
+            </div>
+            <div className="text-xs italic text-zinc-500">
+              Know All Cougars, Pumas, Jaguars &amp; Cubs By These Presents That
+            </div>
+
+            <div className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 border-b-2 border-amber-400 pb-2 max-w-md mx-auto">
+              {cleanRecipient}
+            </div>
+
+            <div className="space-y-1">
+              <h1 className="text-lg sm:text-2xl font-bold text-rose-700">
+                {activeSealPreset.label}
+              </h1>
+              {activeSealPreset.id !== 'cub_diploma' && (
+                <span className="sr-only">Certified Housebroken Cub Diploma</span>
               )}
-            </p>
+              <p className="text-xs sm:text-sm text-zinc-700 max-w-lg mx-auto leading-relaxed">
+                {activeSealPreset.citation} • Conferred with{' '}
+                <strong className="text-zinc-950">{displayStars}/12 Academy Gold Stars</strong>.
+              </p>
+            </div>
+
+            {/* Dual Signatures + Embossed Seal */}
+            <div className="grid grid-cols-3 items-center gap-2 pt-3 border-t border-zinc-100 text-xs">
+              <div>
+                <div className="italic font-semibold text-zinc-900">Prof. Elena Vance, 44</div>
+                <div className="text-[10px] font-bold uppercase text-zinc-400">Dean of Etiquette</div>
+              </div>
+              <div className="mx-auto flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-amber-400 bg-rose-700 text-[10px] font-extrabold leading-tight text-amber-100 shadow-sm">
+                <span>VETTED</span>
+                <span>21+ SEAL</span>
+              </div>
+              <div>
+                <div className="italic font-semibold text-zinc-900">Claire Sterling, 46</div>
+                <div className="text-[10px] font-bold uppercase text-zinc-400">Senior Partner</div>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1">
-            <button
-              type="button"
-              onClick={async () => {
-                await shareOrCopy({
-                  title: 'Certified Housebroken Cub Diploma',
-                  text: `🎓 Scored ${goldStars}/12 Gold Stars in Cougars & Cubs Club Obedience School. Certified Housebroken! Test your etiquette:`,
-                  url: 'https://cougarsandcubs.club',
-                });
-                setCopiedDiploma(true);
-              }}
-              className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-5 text-xs sm:text-sm font-semibold text-white cursor-pointer"
-            >
-              <Share2 className="h-4 w-4" />
-              <span>{copiedDiploma ? 'Diploma Link Copied!' : 'Share Official Diploma'}</span>
-            </button>
+          {/* Personalize Recipient Name & Seal Type (Issue to Yourself OR a Partner!) */}
+          <div className="rounded-xl border border-zinc-200 bg-white p-4 space-y-3">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block space-y-1">
+                <span className="text-xs font-bold text-zinc-800">
+                  Awarded To (Your Name or Partner’s Name):
+                </span>
+                <input
+                  type="text"
+                  maxLength={28}
+                  data-testid="certificate-recipient-input"
+                  value={recipientName}
+                  onChange={(e) => setRecipientName(e.target.value)}
+                  placeholder="Enter first name or handle..."
+                  className="h-9 w-full rounded-lg border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-950"
+                />
+              </label>
 
-            <button
-              type="button"
-              onClick={() => {
-                setDrillIdx(0);
-                setPickedIdx(null);
-                setGoldStars(0);
-                setResults({});
-                setGraduated(false);
-              }}
-              className="inline-flex h-10 items-center rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
-            >
-              Play Again
-            </button>
+              <label className="block space-y-1">
+                <span className="text-xs font-bold text-zinc-800">Official Certificate Seal:</span>
+                <select
+                  aria-label="Select Certificate Seal"
+                  value={selectedSealId}
+                  onChange={(e) => setSelectedSealId(e.target.value)}
+                  className="h-9 w-full rounded-lg border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-950"
+                >
+                  {CERTIFICATE_SEAL_PRESETS.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.shortOption}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
 
-            {onReturnToActiveMatch && activeMatchName ? (
+            <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1">
               <button
                 type="button"
-                onClick={onReturnToActiveMatch}
-                className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
+                data-testid="download-gold-certificate-btn"
+                onClick={() => {
+                  downloadReceiptPng({
+                    style: 'certificate',
+                    badge: `ACADEMY HONOURS · ${displayStars}/12 GOLD STARS`,
+                    bigStat: cleanRecipient,
+                    verdictLabel: activeSealPreset.label,
+                    title: activeSealPreset.citation,
+                    bullets: [
+                      'Lidded Bathroom Bin, Real Hand Soap & Four Plumped Cotton Pillows',
+                      'Zero Cubsplaining, Zero "For Your Age" Clichés & Fluent Gen-X Punctuation',
+                      'Noon Date Confirmations, Warm 2700K Lamps & 63°F Sanctuary Respect',
+                    ],
+                    filename: `vetting-certificate-${cleanRecipient.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`,
+                  });
+                }}
+                className="inline-flex h-10 items-center gap-2 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-bold text-white cursor-pointer"
               >
-                <MessageCircle className="h-4 w-4" />
-                <span>Return to Active Match ({activeMatchName}) →</span>
+                <Download className="h-4 w-4" />
+                <span>Download Gold-Seal Certificate PNG</span>
               </button>
-            ) : onGoToHinge ? (
+
               <button
                 type="button"
-                onClick={onGoToHinge}
-                className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
+                onClick={async () => {
+                  await shareOrCopy({
+                    title: `${cleanRecipient} · ${activeSealPreset.label}`,
+                    text: `🎓 Official Sunset Hills Vetting Certificate conferred upon ${cleanRecipient}: ${activeSealPreset.label} (${displayStars}/12 Gold Stars)!`,
+                    url: certShareUrl,
+                  });
+                  setCopiedDiploma(true);
+                }}
+                className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-xs sm:text-sm font-semibold text-white cursor-pointer"
               >
-                <Sparkles className="h-4 w-4" />
-                <span>Use +8% Spark on Prowl →</span>
+                <Share2 className="h-4 w-4" />
+                <span>{copiedDiploma ? 'Verified Link Copied!' : 'Share Official Diploma'}</span>
               </button>
-            ) : null}
 
-            <a
-              href={MONETIZATION_CONFIG.tipJarUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-4 text-xs sm:text-sm font-semibold text-zinc-900"
-            >
-              <Heart className="h-3.5 w-3.5 fill-rose-600 text-rose-600" />
-              <span>Support This Project</span>
-            </a>
+              <button
+                type="button"
+                data-testid="copy-reddit-certificate-btn"
+                onClick={async () => {
+                  const md = `**🏛️ Sunset Hills Official Vetting Certificate**\n- **Conferred Upon:** ${cleanRecipient}\n- **Official Seal:** ${activeSealPreset.label} (${displayStars}/12 Gold Stars)\n- **Citation:** ${activeSealPreset.citation}`;
+                  try {
+                    await navigator.clipboard?.writeText(md);
+                  } catch {
+                    // Ignore clipboard restriction
+                  }
+                  setCopiedRedditCert(true);
+                  window.setTimeout(() => setCopiedRedditCert(false), 2400);
+                }}
+                className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-3.5 text-xs sm:text-sm font-semibold text-zinc-900 cursor-pointer"
+              >
+                <Copy className="h-3.5 w-3.5" />
+                <span>{copiedRedditCert ? '✓ Copied for Reddit!' : 'Copy Reddit Flair'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setDrillIdx(0);
+                  setPickedIdx(null);
+                  setGoldStars(0);
+                  setResults({});
+                  setGraduated(false);
+                }}
+                className="inline-flex h-10 items-center rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-4 text-xs sm:text-sm font-semibold text-zinc-800 cursor-pointer"
+              >
+                Back to Drills
+              </button>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+              {onReturnToActiveMatch && activeMatchName ? (
+                <button
+                  type="button"
+                  onClick={onReturnToActiveMatch}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 text-xs font-semibold text-white cursor-pointer"
+                >
+                  <MessageCircle className="h-3.5 w-3.5" />
+                  <span>Return to Active Match ({activeMatchName}) →</span>
+                </button>
+              ) : onGoToHinge ? (
+                <button
+                  type="button"
+                  onClick={onGoToHinge}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 text-xs font-semibold text-white cursor-pointer"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>Use +8% Spark on Prowl →</span>
+                </button>
+              ) : null}
+
+              <a
+                href={MONETIZATION_CONFIG.tipJarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-3.5 text-xs font-semibold text-zinc-900"
+              >
+                <Heart className="h-3.5 w-3.5 fill-rose-600 text-rose-600" />
+                <span>Support This Project</span>
+              </a>
+            </div>
           </div>
 
-          <div className="text-left pt-2">
+          <div className="text-left">
             <CrowdsourceSubmissionBar
               surface={mode === 'headmistress' ? 'cub_school_her' : 'cub_school_him'}
             />
@@ -233,6 +412,19 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              data-testid="open-vetting-certificate-btn"
+              onClick={() => {
+                sfx.victoryFanfare();
+                setGraduated(true);
+              }}
+              className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100 px-3 text-xs font-bold text-amber-950 cursor-pointer"
+            >
+              <Award className="h-3.5 w-3.5 text-amber-700" />
+              <span>Official Certificate</span>
+            </button>
+
             {onReturnToActiveMatch && activeMatchName && (
               <button
                 type="button"

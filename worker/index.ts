@@ -2702,20 +2702,28 @@ function handleDynamicOgSvg(url: URL): Response {
   const matchedStory = caseId
     ? DEFAULT_COURTROOM_STORIES.find((s) => s.id === caseId)
     : undefined;
+  const isCert = url.searchParams.get('cert') === '1';
+  const certHolder = (url.searchParams.get('holder') || 'Honourable Member').slice(0, 34);
+  const certSeal = (
+    url.searchParams.get('seal') || 'Certified Housebroken Cub & Sanctuary Vetter'
+  ).slice(0, 52);
 
   const badgeRaw =
     url.searchParams.get('badge') ||
+    (isCert ? 'OFFICIAL SUNSET HILLS VETTING CERTIFICATE' : '') ||
     (matchedStory ? `CLUB COURTROOM · ${matchedStory.aslTag}` : '') ||
     (url.searchParams.get('archetype') ? 'MARLOW LOUNGE ARCHETYPE RECEIPT' : '') ||
     'COUGARS & CUBS CLUB · INTERACTIVE ROM-COM';
 
   const statRaw =
     url.searchParams.get('stat') ||
+    (isCert ? `CONFERRED: ${certHolder.toUpperCase()}` : '') ||
     url.searchParams.get('archetype') ||
     (matchedStory ? matchedStory.vibeBadge : '22 LEADS · ROAST LAB · COURTROOM');
 
   const titleRaw =
     url.searchParams.get('title') ||
+    (isCert ? `Official Seal: ${certSeal} · Signed Dean Elena & Partner Claire` : '') ||
     (matchedStory ? matchedStory.headline : 'Read IRL Signals, Dodge Red Flags & Pull Numbers');
 
   const subRaw =
@@ -2759,12 +2767,17 @@ function handleDynamicOgSvg(url: URL): Response {
 
 function injectDynamicOpenGraphMeta(html: string, url: URL): string {
   const archetype = url.searchParams.get('archetype');
+  const isCert = url.searchParams.get('cert') === '1';
+  const certHolder = (url.searchParams.get('holder') || 'Honourable Member').slice(0, 34);
+  const certSeal = (
+    url.searchParams.get('seal') || 'Certified Housebroken Cub & Sanctuary Vetter'
+  ).slice(0, 52);
   const caseId = sanitizeId(url.searchParams.get('case'), 64);
   const isCourt = url.searchParams.get('court') === '1' || Boolean(caseId);
   const hasChallenge = url.searchParams.has('challenge');
   const hasSync = url.searchParams.has('sync');
 
-  if (!archetype && !isCourt && !hasChallenge && !hasSync) {
+  if (!archetype && !isCert && !isCourt && !hasChallenge && !hasSync) {
     return html;
   }
 
@@ -2776,7 +2789,13 @@ function injectDynamicOpenGraphMeta(html: string, url: URL): string {
   let dynDesc = 'Swipe 22 leads, decode IRL approach signals, and vote in the Crown or Dump Courtroom.';
   const ogParams = new URLSearchParams();
 
-  if (archetype) {
+  if (isCert) {
+    dynTitle = `Official Vetting Certificate: ${certHolder} (${certSeal})`;
+    dynDesc = 'Conferred by the Sunset Hills Academy of Courtship & Red-Flag Discernment. Earn or issue your own Official Cougar or Cub Certificate!';
+    ogParams.set('cert', '1');
+    ogParams.set('holder', certHolder);
+    ogParams.set('seal', certSeal);
+  } else if (archetype) {
     const cleanArch = archetype.slice(0, 60);
     dynTitle = `My Club Archetype: ${cleanArch} · Cougars & Cubs Club`;
     dynDesc = 'Take the 60-second Monster-Prom style 4-Stat Archetype Run and print your Marlow Lounge Thermal Receipt.';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ExternalLink, X } from 'lucide-react';
+import { Check, Copy, ExternalLink, Search, X } from 'lucide-react';
 import { FIELD_GUIDE_ENTRIES } from '../domain/taxonomy';
 import {
   AFFILIATE_SUPPORT_COPY,
@@ -218,13 +218,20 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
   const [activeFilter, setActiveFilter] = useState<
     'all' | 'feline_scale' | 'cub_taxonomy' | 'crossover_lore' | 'pop_culture'
   >('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   if (!open) return null;
 
-  const visibleEntries =
-    activeFilter === 'all'
-      ? FIELD_GUIDE_ENTRIES
-      : FIELD_GUIDE_ENTRIES.filter((entry) => entry.category === activeFilter);
+  const qLower = searchQuery.trim().toLowerCase();
+  const visibleEntries = FIELD_GUIDE_ENTRIES.filter((entry) => {
+    const catOk = activeFilter === 'all' || entry.category === activeFilter;
+    if (!catOk) return false;
+    if (!qLower) return true;
+    return `${entry.label} ${entry.ageRange} ${entry.insiderLore} ${entry.signatureTell}`
+      .toLowerCase()
+      .includes(qLower);
+  });
 
   const modalNode = (
     <div
@@ -253,27 +260,41 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
             </button>
           </div>
 
-          <div className="inline-flex flex-wrap items-center gap-1 rounded-xl bg-zinc-100 p-1">
-            {[
-              { id: 'all', label: `All (${FIELD_GUIDE_ENTRIES.length})` },
-              { id: 'feline_scale', label: 'Feline Scale' },
-              { id: 'cub_taxonomy', label: 'Cubs vs. Goblins' },
-              { id: 'crossover_lore', label: 'Polarity' },
-              { id: 'pop_culture', label: 'Celebrity Icons' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
-                className={`rounded-lg px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
-                  activeFilter === tab.id
-                    ? 'bg-white font-semibold text-zinc-950 shadow-2xs'
-                    : 'text-zinc-600 hover:text-zinc-950'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div className="inline-flex flex-wrap items-center gap-1 rounded-xl bg-zinc-100 p-1">
+              {[
+                { id: 'all', label: `All (${FIELD_GUIDE_ENTRIES.length})` },
+                { id: 'feline_scale', label: 'Feline Scale' },
+                { id: 'cub_taxonomy', label: 'Cubs vs. Goblins' },
+                { id: 'crossover_lore', label: 'Polarity' },
+                { id: 'pop_culture', label: 'Celebrity Icons' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveFilter(tab.id as typeof activeFilter)}
+                  className={`rounded-lg px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+                    activeFilter === tab.id
+                      ? 'bg-white font-semibold text-zinc-950 shadow-2xs'
+                      : 'text-zinc-600 hover:text-zinc-950'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="relative w-full sm:w-56">
+              <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
+              <input
+                type="search"
+                data-testid="field-guide-search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search Puma, Cher, Goblin..."
+                className="h-9 w-full rounded-lg border border-zinc-200 bg-zinc-50 pl-8 pr-3 text-xs text-zinc-900 focus:bg-white focus:border-zinc-900 focus:outline-none"
+              />
+            </div>
           </div>
         </div>
 
@@ -366,9 +387,39 @@ export const FieldGuideModal: React.FC<FieldGuideModalProps> = ({
                 </div>
 
                 <div className="space-y-1.5 pt-1">
-                  <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700">
-                    <strong className="font-semibold text-zinc-950">Tell:</strong> {entry.signatureTell}
-                  </p>
+                  <div className="flex items-center justify-between gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs text-zinc-700">
+                    <span>
+                      <strong className="font-semibold text-zinc-950">Tell:</strong>{' '}
+                      {entry.signatureTell}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label={`Copy ${entry.label} definition`}
+                      onClick={async () => {
+                        const snippet = `${portrait.emojiBadge} ${entry.label} (${entry.ageRange}): ${entry.insiderLore} Signature tell: ${entry.signatureTell}`;
+                        try {
+                          await navigator.clipboard?.writeText(snippet);
+                        } catch {
+                          // Ignore clipboard restriction
+                        }
+                        setCopiedId(entry.id);
+                        window.setTimeout(() => setCopiedId(null), 2000);
+                      }}
+                      className="shrink-0 inline-flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2 py-1 text-[11px] font-semibold text-zinc-700 hover:text-rose-600 cursor-pointer"
+                    >
+                      {copiedId === entry.id ? (
+                        <>
+                          <Check className="h-3 w-3 text-emerald-600" />
+                          <span>Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="h-3 w-3" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                   {portrait.credit && (
                     <p className="text-xs text-zinc-400">{portrait.credit}</p>
                   )}

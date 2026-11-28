@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Award, CheckSquare, Play, RotateCcw, Share2, Sparkles, Square, X } from 'lucide-react';
+import { Award, CheckSquare, Download, Play, RotateCcw, Share2, Sparkles, Square, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { trackEvent } from '../lib/analytics';
 import { awardPassportBonusXp } from '../lib/gamification';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { sfx } from '../lib/sound';
+import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
@@ -1212,16 +1214,43 @@ export const CougarCubChecklistModal: React.FC<CougarCubChecklistModalProps> = (
               )}
             </section>
 
-            {/* Bottom Share + Play Matched Scenario Funnel */}
+            {/* Bottom Share + Certificate + Play Matched Scenario Funnel */}
+            <CelebrationBurstCanvas active={score >= 30} palette="gold" />
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-4">
-              <button
-                type="button"
-                onClick={handleShareScore}
-                className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
-              >
-                <Share2 className="h-4 w-4" />
-                <span>Share {tabDisplayLabel} Score ({score}/100)</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleShareScore}
+                  className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+                >
+                  <Share2 className="h-4 w-4" />
+                  <span>Share {tabDisplayLabel} Score ({score}/100)</span>
+                </button>
+
+                <button
+                  type="button"
+                  data-testid="checklist-download-certificate-btn"
+                  onClick={() => {
+                    downloadReceiptPng({
+                      style: 'certificate',
+                      badge: `${tabDisplayLabel.toUpperCase()} RITE-OF-PASSAGE CERTIFICATE`,
+                      bigStat: `${score}/100 PTS`,
+                      verdictLabel: rank.title,
+                      title: `${diagnostic.percentileLabel} · ${checkedIds.length}/${activeItems.length} Milestones Checked`,
+                      bullets: [
+                        `Initiation Fluency: ${rookieCount}/10`,
+                        `Sanctuary Standards: ${interCount}/10`,
+                        `Deep-Cut Legends: ${deepCount}/10`,
+                      ],
+                      filename: `rite-of-passage-certificate-${score}.png`,
+                    });
+                  }}
+                  className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-3.5 text-sm font-semibold text-amber-950 hover:bg-amber-100 transition-colors cursor-pointer"
+                >
+                  <Download className="h-4 w-4" />
+                  <span>Certificate PNG</span>
+                </button>
+              </div>
 
               <button
                 type="button"

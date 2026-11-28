@@ -1,5 +1,5 @@
 export interface ReceiptCanvasOptions {
-  style?: 'luxury' | 'thermal';
+  style?: 'luxury' | 'thermal' | 'certificate';
   badge: string;
   title: string;
   bigStat: string;
@@ -149,6 +149,132 @@ function renderThermalPaperReceipt(
   ctx.textAlign = 'left';
 }
 
+function renderGoldSealCertificate(
+  ctx: CanvasRenderingContext2D,
+  opts: ReceiptCanvasOptions,
+): void {
+  // Obsidian Gallery Matting
+  ctx.fillStyle = '#09090B';
+  ctx.fillRect(0, 0, 1080, 1350);
+
+  // Ivory Museum Parchment Sheet
+  ctx.fillStyle = '#FCF9F2';
+  ctx.fillRect(54, 54, 972, 1242);
+
+  // Outer Metallic Gold Frame + Inner Crimson Hairline
+  ctx.strokeStyle = '#D97706';
+  ctx.lineWidth = 8;
+  ctx.strokeRect(78, 78, 924, 1194);
+
+  ctx.strokeStyle = '#E11D48';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(96, 96, 888, 1158);
+
+  ctx.textAlign = 'center';
+
+  // Top Academy Crest
+  ctx.fillStyle = '#9F1239';
+  ctx.font = '800 24px ui-monospace, SFMono-Regular, Menlo, monospace';
+  ctx.fillText('🏛️ SUNSET HILLS ACADEMY OF COURTSHIP & DISCERNMENT', 540, 168);
+
+  ctx.fillStyle = '#D97706';
+  ctx.font = '700 20px Inter, system-ui, sans-serif';
+  ctx.fillText(opts.badge.slice(0, 48).toUpperCase(), 540, 208);
+
+  // Formal Conferral Lead-In
+  ctx.fillStyle = '#52525B';
+  ctx.font = 'italic 28px Georgia, serif';
+  ctx.fillText('Know All Cougars, Pumas, Jaguars & Cubs That', 540, 286);
+
+  // Recipient Name Banner
+  ctx.fillStyle = '#09090B';
+  ctx.font = '800 68px Georgia, serif';
+  ctx.fillText(opts.bigStat.slice(0, 26), 540, 382);
+
+  ctx.fillStyle = '#D97706';
+  ctx.fillRect(220, 408, 640, 3);
+
+  // Official Conferred Seal Title
+  ctx.fillStyle = '#BE123C';
+  ctx.font = '800 36px Inter, system-ui, sans-serif';
+  const sealLines = wrapCanvasLines(ctx, opts.verdictLabel, 780).slice(0, 2);
+  let y = 472;
+  for (const line of sealLines) {
+    ctx.fillText(line, 540, y);
+    y += 46;
+  }
+
+  // Citation Subhead
+  ctx.fillStyle = '#27272A';
+  ctx.font = '600 28px Georgia, serif';
+  const citeLines = wrapCanvasLines(ctx, opts.title, 780).slice(0, 2);
+  y += 18;
+  for (const line of citeLines) {
+    ctx.fillText(line, 540, y);
+    y += 40;
+  }
+
+  // Honours Bullet Box
+  ctx.textAlign = 'left';
+  y += 28;
+  ctx.fillStyle = '#F5F0E4';
+  ctx.fillRect(140, y, 800, 310);
+  ctx.strokeStyle = '#E4D8C1';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(140, y, 800, 310);
+
+  let by = y + 52;
+  ctx.font = '600 25px Inter, system-ui, sans-serif';
+  for (const b of opts.bullets.slice(0, 4)) {
+    ctx.fillStyle = '#D97706';
+    ctx.fillText('★', 172, by);
+    ctx.fillStyle = '#18181B';
+    const wrapped = wrapCanvasLines(ctx, b, 690).slice(0, 2);
+    for (const wl of wrapped) {
+      ctx.fillText(wl, 210, by);
+      by += 36;
+    }
+    by += 18;
+  }
+
+  // Dual Faculty Signatures + Embossed Crimson/Gold Wax Seal
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#18181B';
+  ctx.font = 'italic 28px Georgia, serif';
+  ctx.fillText('Prof. Elena Vance, 44', 280, 1086);
+  ctx.fillText('Claire Sterling, 46', 800, 1086);
+
+  ctx.fillStyle = '#71717A';
+  ctx.fillRect(160, 1100, 240, 2);
+  ctx.fillRect(680, 1100, 240, 2);
+  ctx.font = '700 18px Inter, system-ui, sans-serif';
+  ctx.fillText('DEAN OF ETIQUETTE', 280, 1128);
+  ctx.fillText('SENIOR VETTING PARTNER', 800, 1128);
+
+  // Center Wax Seal
+  ctx.beginPath();
+  ctx.arc(540, 1094, 68, 0, Math.PI * 2);
+  ctx.fillStyle = '#BE123C';
+  ctx.fill();
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = '#F59E0B';
+  ctx.stroke();
+
+  ctx.fillStyle = '#FEF3C7';
+  ctx.font = '800 20px ui-monospace, SFMono-Regular, Menlo, monospace';
+  ctx.fillText('VETTED', 540, 1088);
+  ctx.fillText('21+ SEAL', 540, 1114);
+
+  ctx.fillStyle = '#52525B';
+  ctx.font = '700 20px ui-monospace, SFMono-Regular, Menlo, monospace';
+  ctx.fillText(
+    opts.footerNote || 'VERIFIED AT COUGARSANDCUBS.CLUB · OFFICIAL CLUB REGISTRY',
+    540,
+    1218,
+  );
+  ctx.textAlign = 'left';
+}
+
 export function downloadReceiptPng(opts: ReceiptCanvasOptions): boolean {
   if (typeof document === 'undefined') return false;
   try {
@@ -158,7 +284,9 @@ export function downloadReceiptPng(opts: ReceiptCanvasOptions): boolean {
     const ctx = canvas.getContext('2d');
     if (!ctx) return false;
 
-    if (opts.style === 'thermal') {
+    if (opts.style === 'certificate') {
+      renderGoldSealCertificate(ctx, opts);
+    } else if (opts.style === 'thermal') {
       renderThermalPaperReceipt(ctx, opts);
     } else {
       // Obsidian Luxury Receipt Background

@@ -251,6 +251,9 @@ function readInitialUrlState() {
       courtCaseId: null as string | null,
       syncChallenge: null as string | null,
       openArchetype: false,
+      openCert: false,
+      certHolder: null as string | null,
+      certSeal: null as string | null,
       openAbout: false,
     };
   }
@@ -270,6 +273,9 @@ function readInitialUrlState() {
   const courtCaseId = params.get('case');
   const syncChallenge = params.get('sync');
   const openArchetype = Boolean(params.get('archetype'));
+  const openCert = params.get('cert') === '1';
+  const certHolder = params.get('holder');
+  const certSeal = params.get('seal');
   const openCourt = params.get('court') === '1' || Boolean(courtCaseId);
   const openAbout = params.get('about') === '1';
 
@@ -284,11 +290,14 @@ function readInitialUrlState() {
     openChecklist,
     openQuiz,
     openWorld,
-    openAcademy,
+    openAcademy: openAcademy || openCert,
     openCourt,
     courtCaseId,
     syncChallenge,
     openArchetype,
+    openCert,
+    certHolder,
+    certSeal,
     openAbout,
   };
 }
@@ -1319,7 +1328,11 @@ export default function App() {
         ) : activeTab === 'school' ? (
           <CubSchoolView
             role={role}
+            playerName={wallet.playerName}
             initialGoldStars={cubSchoolStars}
+            initialOpenCertificate={initialUrl.openCert}
+            initialCertHolder={initialUrl.certHolder}
+            initialCertSeal={initialUrl.certSeal}
             activeMatchName={
               (() => {
                 const activeMatch = activeVisibleThreads[0];

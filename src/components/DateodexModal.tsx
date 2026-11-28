@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Award, Flag, Search, Share2, X } from 'lucide-react';
+import { Award, Download, Flag, Search, Share2, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { V35_CAST_VISUALS } from '../data/v35AssetManifest';
 import { V35_CAST_PROFILES } from '../data/v35Cast';
 import { CLUB_POLAROIDS, type DateodexState } from '../domain/dateodex';
 import type { WalletState } from '../domain/economy';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
 interface DateodexModalProps {
@@ -24,12 +25,21 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
   onClose,
 }) => {
   const [subTab, setSubTab] = useState<'cast' | 'polaroids'>('cast');
+  const [castFilter, setCastFilter] = useState<'all' | 'her' | 'him' | 'logged'>('all');
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
 
   if (!open) return null;
 
   const stampedCount = Object.keys(dateodex.stamps).length + cutLooseIds.length;
   const sRanks = Object.values(dateodex.stamps).filter((s) => s.rank === 'S').length;
+  const filteredCast = V35_CAST_PROFILES.filter((p) => {
+    if (castFilter === 'her') return p.role === 'her';
+    if (castFilter === 'him') return p.role === 'him';
+    if (castFilter === 'logged') {
+      return Boolean(dateodex.stamps[p.id] || cutLooseIds.includes(p.id));
+    }
+    return true;
+  });
 
   const modalNode = (
     <>
@@ -89,28 +99,80 @@ export const DateodexModal: React.FC<DateodexModalProps> = ({
                 </button>
               </div>
 
-              <button
-                type="button"
-                onClick={() =>
-                  setSharePayload({
-                    title: `Share Dateodex (${stampedCount}/${V35_CAST_PROFILES.length})`,
-                    message: `🐆📸 Cougars & Cubs Club Dateodex: ${stampedCount}/${V35_CAST_PROFILES.length} Cast Logged, ${sRanks} 5-Star Romances, ${cutLooseIds.length} Traps Dodged (${wallet.discernmentXp} XP)!`,
-                    url: `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}${wallet.referralCode ? `?ref=${encodeURIComponent(wallet.referralCode)}` : ''}`,
-                    shareSurface: 'verdict_receipt',
-                  })
-                }
-                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs sm:text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors cursor-pointer"
-              >
-                <Share2 className="h-3.5 w-3.5 text-rose-600" />
-                <span>Share Dateodex</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  data-testid="dateodex-download-dossier-btn"
+                  onClick={() => {
+                    downloadReceiptPng({
+                      style: 'certificate',
+                      badge: 'OFFICIAL SUNSET HILLS DATEODEX DOSSIER',
+                      bigStat: wallet.playerName || 'Club Member',
+                      verdictLabel: `${stampedCount}/${V35_CAST_PROFILES.length} Cast Vetted · ${sRanks} S-Ranks`,
+                      title: `${cutLooseIds.length} Disguised Traps Exposed · ${wallet.conspiracyClues.length}/3 Table 9 Clues`,
+                      bullets: [
+                        `Discernment XP Logged: ${wallet.discernmentXp} XP`,
+                        `Polaroid Memories Unlocked: ${dateodex.unlockedPolaroidIds.length}/${CLUB_POLAROIDS.length}`,
+                        'Verified by Sunset Hills Inner-Circle Registry',
+                      ],
+                      filename: 'sunset-hills-dateodex-certificate.png',
+                    });
+                  }}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-900 px-3.5 text-xs sm:text-sm font-semibold text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+                >
+                  <Download className="h-3.5 w-3.5 text-amber-300" />
+                  <span>Certificate PNG</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSharePayload({
+                      title: `Share Dateodex (${stampedCount}/${V35_CAST_PROFILES.length})`,
+                      message: `🐆📸 Cougars & Cubs Club Dateodex: ${stampedCount}/${V35_CAST_PROFILES.length} Cast Logged, ${sRanks} 5-Star Romances, ${cutLooseIds.length} Traps Dodged (${wallet.discernmentXp} XP)!`,
+                      url: `${BRAND_CONFIG.publicBaseUrl.replace(/\/?$/, '/')}${wallet.referralCode ? `?ref=${encodeURIComponent(wallet.referralCode)}` : ''}`,
+                      shareSurface: 'verdict_receipt',
+                    })
+                  }
+                  className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3.5 text-xs sm:text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors cursor-pointer"
+                >
+                  <Share2 className="h-3.5 w-3.5 text-rose-600" />
+                  <span>Share Dateodex</span>
+                </button>
+              </div>
             </div>
+
+            {subTab === 'cast' && (
+              <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                {(
+                  [
+                    ['all', 'All 22'],
+                    ['her', '🐆 11 Women'],
+                    ['him', '🐕 11 Men'],
+                    ['logged', `✓ Logged (${stampedCount})`],
+                  ] as const
+                ).map(([fid, flabel]) => (
+                  <button
+                    key={fid}
+                    type="button"
+                    onClick={() => setCastFilter(fid)}
+                    className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition cursor-pointer ${
+                      castFilter === fid
+                        ? 'bg-rose-600 text-white'
+                        : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
+                    }`}
+                  >
+                    {flabel}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex-1 min-h-0 overflow-y-auto bg-zinc-50/70 p-5 sm:p-7">
             {subTab === 'cast' ? (
               <div className="grid gap-3.5 sm:grid-cols-2 md:grid-cols-3">
-                {V35_CAST_PROFILES.map((person) => {
+                {filteredCast.map((person) => {
                   const visual = V35_CAST_VISUALS[person.id];
                   const stamp = dateodex.stamps[person.id];
                   const wasCutLoose = cutLooseIds.includes(person.id);

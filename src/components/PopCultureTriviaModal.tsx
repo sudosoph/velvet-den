@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Award, CheckCircle2, ExternalLink, Share2, Shuffle, X } from 'lucide-react';
+import { Award, CheckCircle2, Download, ExternalLink, Flame, Share2, Shuffle, X } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import {
   POP_CULTURE_TRIVIA,
@@ -21,7 +21,9 @@ import {
 } from '../lib/affiliates';
 import { trackEvent } from '../lib/analytics';
 import { awardPassportBonusXp, emitXpBurst } from '../lib/gamification';
+import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { sfx } from '../lib/sound';
+import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
 import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareSheetModal';
 
@@ -122,6 +124,11 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
   const current = deck[qIdx] ?? POP_CULTURE_TRIVIA[0];
   const matchedAffiliate = current.affiliateId ? getAffiliateById(current.affiliateId) : undefined;
   const extraPrimeStream = EXTRA_TRIVIA_PRIME_VIDEO_STREAMS[current.id];
+  let liveStreak = 0;
+  for (let i = history.length - 1; i >= 0; i -= 1) {
+    if (history[i]) liveStreak += 1;
+    else break;
+  }
 
   const handlePick = (idx: number) => {
     if (selectedOpt !== null) return;
@@ -196,6 +203,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
 
   const modalNode = (
     <>
+      <CelebrationBurstCanvas active={finished && score >= 6} palette="gold" />
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-3 sm:p-6"
         role="dialog"
@@ -385,6 +393,31 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                   )}
                   <button
                     type="button"
+                    data-testid="trivia-download-certificate-btn"
+                    onClick={() => {
+                      downloadReceiptPng({
+                        style: 'certificate',
+                        badge: 'ALL-ERA POP-CULTURE HISTORIAN CERTIFICATE',
+                        bigStat: `${score}/${deck.length} SCORE`,
+                        verdictLabel:
+                          score >= 6
+                            ? 'Red-Carpet Cougar & Cub Historian'
+                            : 'Certified All-Era Club Insider',
+                        title: 'Verified Across Boomer, Gen-X, Millennial & Gen-Z Icons',
+                        bullets: [
+                          'Fluent in Fleetwood Mac, Cher, Studio 54 & Modern A24 Cinema',
+                          `Sprint Level Completed: ${difficultyFilter.toUpperCase()}`,
+                        ],
+                        filename: `pop-trivia-certificate-${score}-${deck.length}.png`,
+                      });
+                    }}
+                    className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-4 text-sm font-semibold text-amber-950 hover:bg-amber-100 transition-colors cursor-pointer"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Download Certificate PNG</span>
+                  </button>
+                  <button
+                    type="button"
                     onClick={openQuizShareSheet}
                     className="inline-flex h-10 items-center gap-2 rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 transition-colors cursor-pointer"
                   >
@@ -435,9 +468,20 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                           : 'Lv.1 Hit'}
                     </span>
                   </div>
-                  <span className="text-zinc-500">
-                    Question {qIdx + 1} of {deck.length} · Score: {score}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {liveStreak >= 2 && (
+                      <span
+                        data-testid="trivia-hot-streak-pill"
+                        className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-2.5 py-0.5 text-xs font-extrabold text-amber-950"
+                      >
+                        <Flame className="h-3.5 w-3.5 text-rose-600" />
+                        <span>{liveStreak}x Streak!</span>
+                      </span>
+                    )}
+                    <span className="text-zinc-500">
+                      Question {qIdx + 1} of {deck.length} · Score: {score}
+                    </span>
+                  </div>
                 </div>
 
                 <p className="text-base sm:text-lg font-semibold text-zinc-950 leading-snug">
