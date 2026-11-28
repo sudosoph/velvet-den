@@ -1918,6 +1918,7 @@ async function handleRoastUtility(request: Request, env: WorkerEnv): Promise<Res
         `Tool mode: ${tool}. User role: ${role === 'her' ? 'Cougar (confident older woman)' : 'Cub (younger man)'}.`,
         `Evaluate this real-world dating submission: "${input.replace(/"/g, "'")}".`,
         `Spot clichés ("for your age", Snapchat asks, "wyd", passive "play it by ear", Gen-X punctuation misreads, married 6:30 PM curfews, Slide-5 surprise-husband Brad unicorn ambushes, or fake Telegram Don't Ask Don't Tell excuses vs upfront Solo-Poly calendar honesty) with affectionate comedy, then write a 10/10 ready-to-send upgrade!`,
+        `If tool is enm_check: score 8..18 with 🚨 FAKE-ENM / UNICORN AMBUSH for Telegram/DADT/secret-spouse/surprise-husband Brad traps, and score 88..96 with 🍍 VERIFIED ETHICAL SOLO-POLY for upfront Prompt #1 ENM with open calendar honesty!`,
         `STRICT RULE: No em-dashes, no semicolons. Output valid single-line JSON only:`,
         `{"score":number(5..98),"verdictBadge":"short uppercase badge with 1 emoji","panelSpeaker":"Claire, 46 & Julian, 27","roastRead":"2 witty, specific sentences","upgradedRewrite":"1 to 2 crisp ready-to-send sentences","whyItWorks":"1 short sentence explaining why it wins"}`,
       ].join(' ');
@@ -2810,10 +2811,16 @@ function injectDynamicOpenGraphMeta(html: string, url: URL): string {
   const safeTitle = escapeXml(dynTitle);
   const safeDesc = escapeXml(dynDesc);
   const safeImg = escapeXml(ogImageUrl);
+  const safeUrl = escapeXml(url.toString());
+
+  const strippedHtml = html
+    .replace(/<meta\s+property=["']og:(?:title|description|image|url)["'][\s\S]*?\/>/gi, '')
+    .replace(/<meta\s+name=["']twitter:(?:card|title|description|image)["'][\s\S]*?\/>/gi, '');
 
   const injectedBlock = [
     `<meta property="og:title" content="${safeTitle}" />`,
     `<meta property="og:description" content="${safeDesc}" />`,
+    `<meta property="og:url" content="${safeUrl}" />`,
     `<meta property="og:image" content="${safeImg}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${safeTitle}" />`,
@@ -2821,10 +2828,10 @@ function injectDynamicOpenGraphMeta(html: string, url: URL): string {
     `<meta name="twitter:image" content="${safeImg}" />`,
   ].join('\n    ');
 
-  if (html.includes('</head>')) {
-    return html.replace('</head>', `    ${injectedBlock}\n  </head>`);
+  if (strippedHtml.includes('</head>')) {
+    return strippedHtml.replace('</head>', `    ${injectedBlock}\n  </head>`);
   }
-  return html;
+  return strippedHtml;
 }
 
 export default {

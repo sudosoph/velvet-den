@@ -252,14 +252,18 @@ describe('v38 ENM/Poly Radar, Monster Prom 4-Stat Archetype Run, Thermal Receipt
       {
         ASSETS: {
           fetch: async () =>
-            new Response('<!doctype html><html><head><title>App</title></head><body></body></html>', {
-              headers: { 'content-type': 'text/html; charset=utf-8' },
-            }),
+            new Response(
+              '<!doctype html><html><head><meta property="og:title" content="Old" /><meta property="og:image" content="https://cougarsandcubs.club/images/cast/hero-couple.jpg" /><title>App</title></head><body></body></html>',
+              {
+                headers: { 'content-type': 'text/html; charset=utf-8' },
+              },
+            ),
         },
       },
     );
     const html = await htmlRes.text();
-    expect(html).toContain('property="og:image"');
+    expect(html.match(/property="og:image"/g)).toHaveLength(1);
+    expect(html).not.toContain('hero-couple.jpg');
     expect(html).toContain('/api/og?case=court-slide-five-brad-unicorn-ambush');
   });
 });
