@@ -37,6 +37,12 @@ export interface CubSchoolViewProps {
 
 const OPTION_LETTERS = ['A', 'B', 'C'] as const;
 
+const SCHOOL_LEVEL_SPECS = [
+  { level: 1, startIdx: 0, endIdx: 3, badge: 'Lv.1 • 101 Housebreaking', shortLabel: '🐾 Lv.1 Basics' },
+  { level: 2, startIdx: 4, endIdx: 7, badge: 'Lv.2 • 201 Social & Era Poise', shortLabel: '🍸 Lv.2 Social' },
+  { level: 3, startIdx: 8, endIdx: 11, badge: 'Lv.3 • 301 Sanctuary Honours', shortLabel: '👑 Lv.3 Honours' },
+] as const;
+
 export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   role,
   initialGoldStars = 0,
@@ -71,6 +77,10 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
   const activeDeck =
     mode === 'headmistress' ? V35_HEADMISTRESS_DRILLS : V35_CUB_SCHOOL_DRILLS;
   const drill = activeDeck[drillIdx] ?? activeDeck[0];
+  const currentLevelSpec =
+    SCHOOL_LEVEL_SPECS.find((s) => drillIdx >= s.startIdx && drillIdx <= s.endIdx) ??
+    SCHOOL_LEVEL_SPECS[0];
+  const stepInLevel = drillIdx - currentLevelSpec.startIdx + 1;
   const pickedOption = pickedIdx !== null ? drill.options[pickedIdx] : null;
   const activeExpression: PortraitExpression = pickedOption ? pickedOption.expression : 'smirk';
   const preset = EXPRESSION_MOTION_PRESETS[activeExpression];
@@ -262,26 +272,58 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
         </div>
       </div>
 
-      {/* Visual 12-Step Progress Strip */}
-      <div className="flex items-center gap-1.5" aria-label="Drill progress">
-        {activeDeck.map((d, i) => {
-          const passed = results[i];
-          const isCurrent = i === drillIdx;
-          return (
-            <div
-              key={d.id}
-              className={`h-1.5 flex-1 rounded-full transition-all ${
-                isCurrent
-                  ? 'bg-zinc-900'
-                  : passed === true
-                    ? 'bg-emerald-500'
-                    : passed === false
-                      ? 'bg-rose-500'
-                      : 'bg-zinc-200'
-              }`}
-            />
-          );
-        })}
+      {/* 3-Level Curriculum Switcher + Bite-Sized 4-Scenario Module Progress */}
+      <div className="space-y-2">
+        <div
+          data-testid="cub-school-level-bar"
+          className="grid grid-cols-3 gap-1.5 rounded-xl bg-zinc-100 p-1"
+        >
+          {SCHOOL_LEVEL_SPECS.map((spec) => {
+            const isCurrentLevel = currentLevelSpec.level === spec.level;
+            const levelCleared = [0, 1, 2, 3].every(
+              (offset) => results[spec.startIdx + offset] !== undefined,
+            );
+            return (
+              <button
+                key={spec.level}
+                type="button"
+                onClick={() => {
+                  setDrillIdx(spec.startIdx);
+                  setPickedIdx(null);
+                }}
+                className={`rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
+                  isCurrentLevel
+                    ? 'bg-white text-zinc-950 shadow-2xs'
+                    : 'text-zinc-600 hover:text-zinc-950'
+                }`}
+              >
+                {levelCleared ? `✓ ${spec.shortLabel}` : spec.shortLabel}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex items-center gap-1.5" aria-label="Drill progress">
+          {[0, 1, 2, 3].map((offset) => {
+            const absIdx = currentLevelSpec.startIdx + offset;
+            const passed = results[absIdx];
+            const isCurrent = absIdx === drillIdx;
+            return (
+              <div
+                key={absIdx}
+                className={`h-1.5 flex-1 rounded-full transition-all ${
+                  isCurrent
+                    ? 'bg-zinc-900'
+                    : passed === true
+                      ? 'bg-emerald-500'
+                      : passed === false
+                        ? 'bg-rose-500'
+                        : 'bg-zinc-200'
+                }`}
+              />
+            );
+          })}
+        </div>
       </div>
 
       {/* Visual Scene Quiz Card. Question First, Clean shadcn Surface */}
@@ -296,10 +338,13 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
 
-          {/* Top-Left Topic Pill */}
-          <div className="absolute top-3.5 left-4 flex items-center gap-2">
+          {/* Top-Left Level & Step Pill */}
+          <div className="absolute top-3.5 left-4 flex flex-wrap items-center gap-1.5">
+            <span className="rounded-md bg-zinc-950/85 px-2.5 py-1 text-xs font-semibold text-amber-300 shadow-2xs">
+              {currentLevelSpec.badge}
+            </span>
             <span className="rounded-md bg-white/95 px-2.5 py-1 text-xs font-medium text-zinc-900 shadow-2xs">
-              Scenario {drill.moduleNumber} of 12 • {drill.topicTag}
+              Step {stepInLevel} of 4 · {drill.topicTag}
             </span>
           </div>
 
@@ -432,7 +477,9 @@ export const CubSchoolView: React.FC<CubSchoolViewProps> = ({
                   className="shrink-0 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white transition-colors cursor-pointer"
                 >
                   {drillIdx + 1 < activeDeck.length
-                    ? `Next Scenario (#${drillIdx + 2} of 12) →`
+                    ? stepInLevel === 4
+                      ? `Unlock Lv.${currentLevelSpec.level + 1} (Next Scenario) →`
+                      : `Next Scenario (Step ${stepInLevel + 1} of 4) →`
                     : 'Claim Official Diploma →'}
                 </button>
               </div>

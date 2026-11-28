@@ -573,7 +573,910 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       'Fair question before Friday: dressed-up corner table in town, or low-key drinks somewhere with a view?',
   };
 
-  // Clean role-accurate 6-beat arc for all other Genuine Main Leads & Cameos
+  interface PersonaChatCustomization {
+    beat1ChoiceA: string;
+    beat1ReplyA: string;
+    beat1ChoiceB: string;
+    beat1ReplyB: string;
+    beat1Vip: string;
+    beat1VipReply: string;
+    beat2ChoiceA: string;
+    beat2ReplyA: string;
+    beat2ChoiceB: string;
+    beat2ReplyB: string;
+    beat2Vip: string;
+    beat2VipReply: string;
+    beat3Incoming: string;
+    beat3ChoiceA: string;
+    beat3ReplyA: string;
+    beat3ChoiceB: string;
+    beat3ReplyB: string;
+    beat3Vip: string;
+    beat3VipReply: string;
+    beat4Incoming: string;
+    beat4PhotoNote: string;
+    beat4ChoiceA: string;
+    beat4ReplyA: string;
+    beat4ChoiceB: string;
+    beat4ReplyB: string;
+    beat4Vip: string;
+    beat4VipReply: string;
+    beat5Incoming: string;
+    beat5ChoiceA: string;
+    beat5ReplyA: string;
+    beat5ChoiceB: string;
+    beat5ReplyB: string;
+    beat5Vip: string;
+    beat5VipReply: string;
+    imsg1Incoming: string;
+    imsg1ReplyA: string;
+    imsg1ReplyB: string;
+    imsg2Incoming: string;
+    imsg2ChoiceA: string;
+    imsg2ReplyA: string;
+    imsg3Incoming: string;
+    imsg3ReplyA: string;
+    imsg4Incoming: string;
+    imsg4PhotoNote: string;
+    imsg5Incoming: string;
+    imsg6Incoming: string;
+    spicy: [string, string, string];
+  }
+
+  const GENUINE_PERSONA_PACKS: Record<string, PersonaChatCustomization> = {
+    soren: {
+      beat1ChoiceA: 'Wait, do Danes actually skip small talk completely, or is that just your excuse?',
+      beat1ReplyA: 'Both. In Copenhagen if you ask "how are you," people actually tell you the truth for ten minutes.',
+      beat1ChoiceB: 'Slide 3 caught my eye, how long have you been living on the Westside?',
+      beat1ReplyB: 'Two years now, still baffled that Angelenos wear puffer jackets when it hits 63 degrees.',
+      beat1Vip: '💎 Skip the polite intro, Søren: what’s one thing American dating gets hilarious wrong?',
+      beat1VipReply: 'Waiting three days to text back like teenagers. If I want to see you Friday, you will know by Tuesday.',
+      beat2ChoiceA: 'Ruthlessly competitive at backgammon, though I smile politely while winning.',
+      beat2ReplyA: 'Dangerous combination. Consider a rematch board packed for Date #2.',
+      beat2ChoiceB: 'Playful until someone gloats, then all bets are off.',
+      beat2ReplyB: 'Fair warning received, zero gloating from my side of the table.',
+      beat2Vip: '💎 Ruthless when it counts, though I let handsome Danes think they have a chance in round one.',
+      beat2VipReply: 'Bold talk before the first glass is even poured. I like my odds.',
+      beat3Incoming: 'Full disclosure: my friends back home joke I’m allergic to twenty-something LA club nights. Give me one quiet candlelit table over a velvet rope any night.',
+      beat3ChoiceA: 'Thank heaven, my days of shouting over a DJ at midnight are happily retired.',
+      beat3ReplyA: 'Good. Real conversation and being home before midnight beats sticky floors every time.',
+      beat3ChoiceB: 'Wait, so no surprise invites to a 1 AM warehouse techno set?',
+      beat3ReplyB: 'Only if we both want migraines. Quiet wine bar wins.',
+      beat3Vip: '💎 Save your stamina for good conversation and after-hours company, never nightclub lines.',
+      beat3VipReply: 'Now that is a philosophy I can get behind completely.',
+      beat4Incoming: 'Quick espresso break on the studio steps before wrapping up for the day.',
+      beat4PhotoNote: 'Proof I own clean linen without any workshop dust on it.',
+      beat4ChoiceA: 'Clean linen and afternoon sun, Copenhagen did good work here.',
+      beat4ReplyA: 'High praise, wait until Friday evening.',
+      beat4ChoiceB: 'Looking very composed for 4 PM on a weekday.',
+      beat4ReplyB: 'Double espresso is doing half the heavy lifting.',
+      beat4Vip: '💎 Unfair mid-afternoon distraction, Søren. Keep that shirt in rotation for Friday.',
+      beat4VipReply: 'Already pressed and hanging on the door for you.',
+      beat5Incoming: 'Booked us an 8 PM patio table for Friday, and yes, I keep a spare cashmere throw in the trunk because LA restaurants freeze every patio.',
+      beat5ChoiceA: 'Trunk blanket prep? Okay, you clearly paid attention in adulting class.',
+      beat5ReplyA: 'Learned quickly that shivering ruins even the best Pinot Noir.',
+      beat5ChoiceB: 'Love a man who plans ahead without turning it into a questionnaire.',
+      beat5ReplyB: 'Easy call. You make enough decisions all week.',
+      beat5Vip: '💎 Smart prep, good manners, and zero "idk what u want" texts. You’re setting a high bar.',
+      beat5VipReply: 'Intend to clear it comfortably on Friday night.',
+      imsg1Incoming: 'Off the app at last. Saved your contact properly, zero notifications muted.',
+      imsg1ReplyA: 'Calm and punctual, I don’t blow up phones during work hours.',
+      imsg1ReplyB: 'Pouring sparkling water and sketching a chair joint, peaceful night here.',
+      imsg2Incoming: 'Quick check for Friday: want to meet inside by the fireplace at 7:55, or would you rather I scoop you up?',
+      imsg2ChoiceA: 'Meet me by the fireplace five minutes early, classic Date #1 rule.',
+      imsg2ReplyA: 'Agreed. I will be by the hearth with two glasses ready.',
+      imsg3Incoming: 'Drove past the coast on Sunset earlier and the marine layer cleared right at dusk. Friday weather looks crisp.',
+      imsg3ReplyA: 'Good excuse to test that spare cashmere blanket after dinner.',
+      imsg4Incoming: 'Debating between navy wool or dark olive overshirt for tomorrow night.',
+      imsg4PhotoNote: 'Honest tie-breaker vote before tomorrow?',
+      imsg5Incoming: 'Hey! Just confirming our 7:45 table is all set for tonight. Looking forward to seeing you.',
+      imsg6Incoming: 'Just got here and claimed the quiet table near the fireplace. Take your time parking.',
+      spicy: [
+        'Wear the dark olive shirt Friday, brings out those Nordic eyes.',
+        'Keep planning this smoothly and one drink might turn into two.',
+        'Tell me the boldest compliment you kept to yourself when we matched.',
+      ],
+    },
+    miles: {
+      beat1ChoiceA: 'Quieter than the 405 is a low bar, Miles, though pouring a Sancerre definitely helps.',
+      beat1ReplyA: 'Sancerre beats evening traffic by about forty miles. Glad you answered.',
+      beat1ChoiceB: 'Wait, do litigators ever actually clock out, or are you cross-examining your dates too?',
+      beat1ReplyB: 'Cross-examination stays strictly in downtown courthouses, off the clock I’m all ears.',
+      beat1Vip: '💎 You carry 38-year-old poise for 31, Miles. Did law school age you fast or were you born in a suit?',
+      beat1VipReply: 'Haha oldest brother of four, had to learn how to stay calm while chaos flew around the kitchen.',
+      beat2ChoiceA: 'Men who recite their LinkedIn resume for forty minutes without asking a single question.',
+      beat2ReplyA: 'Painful. If dinner feels like a quarterly earnings call, I’m signaling for the check.',
+      beat2ChoiceB: 'Anyone who pulls out their phone every time a notification buzzes on the table.',
+      beat2ReplyB: 'Instant dealbreaker for me too. Airplane mode exists for a reason.',
+      beat2Vip: '💎 Indecisive planners who ask "so where should we go?" ten minutes before seven.',
+      beat2VipReply: 'Rest easy, Friday’s reservation was locked in before I even sent question two.',
+      beat3Incoming: 'Funny moment today: opposing counsel assumed I was the junior associate carrying briefcases until oral arguments started. Happens in dating too until we sit down.',
+      beat3ChoiceA: 'Letting people underestimate you for five minutes is secretly a superpower.',
+      beat3ReplyA: 'Exactly my strategy, watching their expression shift never gets old.',
+      beat3ChoiceB: 'At least nobody asks you to explain TikTok slang in court.',
+      beat3ReplyB: 'Thank God, I barely survived Instagram Reels.',
+      beat3Vip: '💎 Substance shows in two minutes flat across a dinner table, birth year never enters it.',
+      beat3VipReply: 'Couldn’t have put it better myself.',
+      beat4Incoming: 'Out of a four-hour deposition with my sanity intact and ten minutes of sunshine left.',
+      beat4PhotoNote: 'Tie officially loosened until Monday morning.',
+      beat4ChoiceA: 'Post-courtroom relief suits you remarkably well.',
+      beat4ReplyA: 'Winning the motion helped, matching with you helped more.',
+      beat4ChoiceB: 'Okay, the loosened-tie look is doing strong persuasive work.',
+      beat4ReplyB: 'Motion granted, counsel.',
+      beat4Vip: '💎 Dangerous jawline for 4:30 PM on a weekday, Counselor.',
+      beat4VipReply: 'Wait until there’s candlelight across the table on Friday.',
+      beat5Incoming: 'Valet is pre-arranged at the lounge for Friday at 7:45 so you aren’t walking two blocks in heels. Any dietary notes I should flag?',
+      beat5ChoiceA: 'Pre-arranged valet? Okay, gold star before appetizers even arrive.',
+      beat5ReplyA: 'Downtown cobblestones vs. heels is a losing case every time.',
+      beat5ChoiceB: 'Zero allergies, just keep the martinis cold and dry.',
+      beat5ReplyB: 'Chilled gin and dry vermouth noted.',
+      beat5Vip: '💎 Turn-my-brain-off Friday logistics executed to perfection. Impressively smooth, Miles.',
+      beat5VipReply: 'You run enough all week. Friday night is off-duty.',
+      imsg1Incoming: 'Good to have your direct line. Friday at 7:45 is confirmed on my calendar.',
+      imsg1ReplyA: 'Don’t worry, my daytime pings stay brief and civil.',
+      imsg1ReplyB: 'Two fingers of rye and reading a novel with zero footnotes for once.',
+      imsg2Incoming: 'Quick check before Friday: prefer meeting right inside at the lounge bar, or shall I send a car?',
+      imsg2ChoiceA: 'I’ll meet you inside by the bar five minutes early for Date #1.',
+      imsg2ReplyA: 'Smart rule. I’ll be standing near the host stand at 7:40.',
+      imsg3Incoming: 'My paralegal just asked why I looked unusually cheerful reviewing a contract. Blaming you.',
+      imsg3ReplyA: 'Plead the Fifth until after tomorrow’s dinner.',
+      imsg4Incoming: 'Charcoal blazer vs. midnight navy jacket for tomorrow night.',
+      imsg4PhotoNote: 'Counsel requests your ruling before 8 PM tomorrow.',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed our table away from the bar crowd. Let the valet leave your car up front.',
+      spicy: [
+        'Skip the tie Friday, top button open suits you way better.',
+        'Keep handling logistics like this and Date #2 is already yours.',
+        'Tell me what made you stop on my profile first.',
+      ],
+    },
+    rafael: {
+      beat1ChoiceA: 'Glad I caught you before you closed the app, long night in the kitchen?',
+      beat1ReplyA: 'Wrapped menu tasting twenty minutes ago, legs tired, spirits way up now.',
+      beat1ChoiceB: 'Wait, do chefs judge everyone’s restaurant picks on first dates?',
+      beat1ReplyB: 'Haha never! After cooking all week, honestly someone handing me a warm taco feels romantic.',
+      beat1Vip: '💎 Dangerous timing is my specialty, Rafael. What were you cooking tonight?',
+      beat1VipReply: 'Brown-butter sage agnolotti, and yes, saving that recipe in my back pocket for you.',
+      beat2ChoiceA: 'Slow candlelit dinner and real conversation every single time.',
+      beat2ReplyA: 'Same here. After loud kitchen tickets all week, peace and a great bottle win.',
+      beat2ChoiceB: 'Depends on the company, good chemistry makes a Tuesday feel electric.',
+      beat2ReplyB: 'True, the right person across the table changes the whole room.',
+      beat2Vip: '💎 Unhurried dinner first, and if sparks fly, lingering over one late nightcap.',
+      beat2VipReply: 'Now you’re speaking my exact language.',
+      beat3Incoming: 'Chef pet peeve confession: guys my age bragging they "cook" when they just boiled penne and poured cold jar sauce on top. My grandmother would disown me.',
+      beat3ChoiceA: 'Haha finally someone said it! Jar sauce presented like Michelin cuisine is comedy gold.',
+      beat3ReplyA: 'Garlic, olive oil, and twelve minutes is all it takes, zero excuse!',
+      beat3ChoiceB: 'Careful, now my expectations for eventual Sunday pasta are sky-high.',
+      beat3ReplyB: 'Challenge happily accepted whenever I earn kitchen privileges.',
+      beat3Vip: '💎 Any man who respects real butter, salt, and sharp knives jumps straight to the front of the line.',
+      beat3VipReply: 'Best culinary endorsement I’ve heard all year.',
+      beat4Incoming: 'Five minutes of fresh air behind the market after grabbing black mission figs.',
+      beat4PhotoNote: 'Pre-prep espresso before the evening rush kicks off.',
+      beat4ChoiceA: 'Rolled sleeves and farmers-market figs, very strong argument.',
+      beat4ReplyA: 'Wait until you taste the fig and prosciutto flatbread.',
+      beat4ChoiceB: 'Hope tonight’s dinner rush flies by smoothly.',
+      beat4ReplyB: 'Easy breeze tonight with Friday to look forward to.',
+      beat4Vip: '💎 Unfairly handsome between prep shifts, Rafael.',
+      beat4VipReply: 'Making me grin in the middle of the produce aisle.',
+      beat5Incoming: 'Booked us a cozy corner at a friend’s wine bistro Friday at 7:45. Real printed menus, zero QR codes, and the sommelier owes me a favor.',
+      beat5ChoiceA: 'Zero QR codes?! You know the fastest route to a woman’s heart.',
+      beat5ReplyA: 'Squinting at a PDF menu over candlelight should be illegal.',
+      beat5ChoiceB: 'Chef connections at a wine bistro sound dangerously hard to beat.',
+      beat5ReplyB: 'Wait until the warm olive oil bread hits the table.',
+      beat5Vip: '💎 Thoughtful, decisive, and zero homework handed to me. Friday is officially a lock.',
+      beat5VipReply: 'Count on it, I’ll take great care of the evening.',
+      imsg1Incoming: 'Got your number saved! Way easier texting you here than on Prowl.',
+      imsg1ReplyA: 'Kitchen hours respected, text me once the knives are down.',
+      imsg1ReplyB: 'Just wrapped clean-down, sipping chamomile tea like an eighty-year-old.',
+      imsg2Incoming: 'Quick question for Friday: want to meet right inside by the wine bar at 7:40, or want me to swing by?',
+      imsg2ChoiceA: 'Meet me right inside by the wine bar five minutes early.',
+      imsg2ReplyA: 'Done. I’ll have two glasses breathing before you step in.',
+      imsg3Incoming: 'Tested a new espresso-martini reduction at tasting today and immediately thought you’d have opinions on it.',
+      imsg3ReplyA: 'Save the verdict for tomorrow night’s toast.',
+      imsg4Incoming: 'Out of chef whites and trying on real civilian clothes for tomorrow.',
+      imsg4PhotoNote: 'Crisp black collar or open linen shirt for Friday?',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed our quiet corner away from the kitchen swing door. No rush walking in.',
+      spicy: [
+        'Definitely the rolled sleeves Friday, chef.',
+        'If Date #1 goes half as well as your banter, start planning that fig pasta.',
+        'Tell me one dish you only cook when you really like someone.',
+      ],
+    },
+    marcus: {
+      beat1ChoiceA: 'Glad to rescue your inbox, Marcus, how wild were the other openers?',
+      beat1ReplyA: 'Three bicep emojis and someone asking my bench max. Yours won by a mile.',
+      beat1ChoiceB: 'Do sports PTs secretly diagnose everyone’s posture walking into a bar?',
+      beat1ReplyB: 'Haha occupational hazard, though I promise zero posture notes on Friday.',
+      beat1Vip: '💎 You look way too grounded for 26, Marcus. Who raised you with actual manners?',
+      beat1VipReply: 'My mom and two older sisters! Try acting cocky at that dinner table and you get humbled in four seconds.',
+      beat2ChoiceA: 'Cold pizza the morning after beats fancy brunch lines every single time.',
+      beat2ReplyA: '100% facts. Standing forty-five minutes on concrete for eggs makes zero sense.',
+      beat2ChoiceB: '90s R&B clears every modern playlist without breaking a sweat.',
+      beat2ReplyB: 'Instant green flag, that’s literally half my clinic playlist.',
+      beat2Vip: '💎 Movie theaters need intermissions again, and dinner at 7:30 beats 9:30 every time.',
+      beat2VipReply: 'Preach. Eating steak at 10 PM ruins Saturday recovery.',
+      beat3Incoming: 'Funny contrast: my buddies just invited me to a midnight rooftop rager Friday, and all I could think was how much rather I’d sit across from you with good pasta and be horizontal by eleven.',
+      beat3ChoiceA: 'A 26-year-old who respects an 11 PM wind-down? Unicorn behavior.',
+      beat3ReplyA: '6 AM training blocks cured me of 2 AM clubs permanently.',
+      beat3ChoiceB: 'Your buddies don’t know what they’re missing.',
+      beat3ReplyB: 'Trust me, I know I got the better Friday plan.',
+      beat3Vip: '💎 Smart man. Quiet chemistry behind closed doors beats shouting over a DJ every night of the week.',
+      beat3VipReply: 'Okay yeah, Friday cannot get here fast enough.',
+      beat4Incoming: 'Stepped down to the Santa Monica bluff for ten minutes after my last athlete cleared rehab.',
+      beat4PhotoNote: 'Finally out of clinic scrubs and into ocean air.',
+      beat4ChoiceA: 'Ocean breeze suits you way better than fluorescent clinic lighting.',
+      beat4ReplyA: 'Couldn’t agree more, needed some real sky.',
+      beat4ChoiceB: 'Looking very relaxed for the end of a busy clinic day.',
+      beat4ReplyB: 'Good company in my notifications helps.',
+      beat4Vip: '💎 Okay, the post-work ocean glow is unfair competition, Marcus.',
+      beat4VipReply: 'Saving my A-game for Friday evening.',
+      beat5Incoming: 'Locked in a 7:30 patio table near the beach for Friday, and I promise zero talk about protein macros or marathon splits.',
+      beat5ChoiceA: 'Zero macro math over bread and butter? Deal of the century.',
+      beat5ReplyA: 'Sourdough basket is sacred territory, I never interfere.',
+      beat5ChoiceB: '7:30 near the water sounds effortless.',
+      beat5ReplyB: 'Easy parking right next door too, checked earlier.',
+      beat5Vip: '💎 Early reservation, ocean air, and zero gym-bro monologues. Gold star, Marcus.',
+      beat5VipReply: 'Mom and sisters would be proud!',
+      imsg1Incoming: 'Got your number saved! Way easier texting you here than on Prowl.',
+      imsg1ReplyA: 'Deal, I keep workdays focused and evenings relaxed.',
+      imsg1ReplyB: 'Foam-rolling my shoulders and watching classic basketball highlights.',
+      imsg2Incoming: 'Quick check before Friday: want to meet right out front at 7:25, or want me to pick you up?',
+      imsg2ChoiceA: 'Meet me inside by the host stand five minutes early.',
+      imsg2ReplyA: 'Locked in, I’ll be there ten early just to be safe.',
+      imsg3Incoming: 'My older sister asked why I ironed two shirts on a Thursday night. Told her mind her business.',
+      imsg3ReplyA: 'Tell your sister she raised a gentleman.',
+      imsg4Incoming: 'Quick shirt check before tomorrow’s coastal breeze.',
+      imsg4PhotoNote: 'Tailored knit polo or crisp button-down?',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed us the warm booth under the patio heaters. Take your time.',
+      spicy: [
+        'Tailored knit polo wins by a landslide for tomorrow.',
+        'Keep bringing this energy and Friday won’t end at nine.',
+        'What’s one thing you noticed in my photos that you didn’t mention yet?',
+      ],
+    },
+    rory: {
+      beat1ChoiceA: 'Grinning at your phone on the Tube or in LA traffic, Rory?',
+      beat1ReplyA: 'Coffee line in Silver Lake, barista fully clocked me blushing at my screen x',
+      beat1ChoiceB: 'Does every British musician in LA lead with charm like that?',
+      beat1ReplyB: 'Only the well-behaved ones who actually write back in full sentences x',
+      beat1Vip: '💎 Cute grin, Rory. Just promise you don’t serenade dates with acoustic Wonderwall on Night 1.',
+      beat1VipReply: 'God no, playing guitar AT a woman uninvited should carry jail time xx',
+      beat2ChoiceA: 'Five minutes of grace granted, provided you don’t call 2003 "retro."',
+      beat2ReplyA: '2003 produced the best records of the century, sacred ground in my flat x',
+      beat2ChoiceB: 'Accents earn three bonus points, follow-through earns the rest.',
+      beat2ReplyB: 'Fair terms, I’m much stronger on follow-through than sweet talk x',
+      beat2Vip: '💎 Talk as fast as you like across a candlelit booth, I keep up effortlessly.',
+      beat2VipReply: 'Already counting down to testing that live xx',
+      beat3Incoming: 'Honest confession: you dropped a cultural reference earlier that I quietly Googled over tea rather than pretending I knew it. Points for candor? x',
+      beat3ChoiceA: 'Ten points for candor! Guys who fake knowing everything are exhausting.',
+      beat3ReplyA: 'Brilliant, curiosity is half the fun anyway x',
+      beat3ChoiceB: 'Adorable, consider your cultural syllabus officially started.',
+      beat3ReplyB: 'Taking diligent notes in the front row x',
+      beat3Vip: '💎 Owning what you don’t know with a grin is ten times hotter than bluffing, Rory.',
+      beat3VipReply: 'Best relief of my week hearing that xx',
+      beat4Incoming: 'Ducking into Amoeba Records between studio sessions to hunt vinyl.',
+      beat4PhotoNote: 'Found an original Sade pressing and thought of Friday x',
+      beat4ChoiceA: 'Pulling Sade off the vinyl wall? Dangerously good taste for 24.',
+      beat4ReplyA: 'Diamond Life stays undefeated in every decade x',
+      beat4ChoiceB: 'Record-store lighting suits you.',
+      beat4ReplyB: 'Beats studio fluorescents any afternoon x',
+      beat4Vip: '💎 Sade and tousled hair is a lethal mid-week combination, Rory.',
+      beat4VipReply: 'Behaving myself until Friday night is getting tricky xx',
+      beat5Incoming: 'Sorted us a tucked-away booth at a hi-fi vinyl lounge for Friday at 7:45. Proper cocktails and low volume so we can actually talk x',
+      beat5ChoiceA: 'Low volume and real cocktails? You’re speaking fluent grown-up.',
+      beat5ReplyA: 'Can’t flirt properly if we’re miming across a speaker stack x',
+      beat5ChoiceB: 'Hi-fi vinyl lounge sounds right up my alley.',
+      beat5ReplyB: 'Wait until you see their Japanese whisky shelf x',
+      beat5Vip: '💎 Thoughtful spot, real reservation, zero prompting needed. Top marks x',
+      beat5VipReply: 'Trying to earn a permanent gold star here xx',
+      imsg1Incoming: 'Properly off that noisy app now x Saved your number with a star.',
+      imsg1ReplyA: 'Promise not to spam your phone while you’re tracking guitars x',
+      imsg1ReplyB: 'Making Yorkshire tea at 9 PM like a proper expat x',
+      imsg2Incoming: 'Quick check before Friday: fancy meeting right inside by the record wall at 7:40, or shall I pick you up? x',
+      imsg2ChoiceA: 'Meet me by the record wall five minutes early x',
+      imsg2ReplyA: 'Sorted, I’ll be there at 7:40 sharp with a gin & tonic waiting x',
+      imsg3Incoming: 'Walked past a florist with white peonies in the window earlier and nearly got ahead of myself x',
+      imsg3ReplyA: 'Pace yourself, charmer, Friday is tomorrow night.',
+      imsg4Incoming: 'Suede jacket or dark vintage blazer for tomorrow night? x',
+      imsg4PhotoNote: 'Quick check before tomorrow night, too dressed up or about right? x',
+      imsg5Incoming: 'Friday check-in: table is all set for 7:45 tonight, weather’s lovely, looking forward to seeing you xx',
+      imsg6Incoming: 'Just got here and grabbed us a great table near the turntables, take your time walking in x',
+      spicy: [
+        'Suede jacket tomorrow night, zero contest.',
+        'Keep charming me like this and I’m picking the late-night vinyl.',
+        'Whisper one thing in that accent across the booth Friday.',
+      ],
+    },
+    jin: {
+      beat1ChoiceA: 'Waving-hand emojis really are the bare-minimum epidemic on here.',
+      beat1ReplyA: 'Right? Feels like getting poked on Facebook in 2009.',
+      beat1ChoiceB: 'Do cinematographers judge every restaurant strictly by the lighting?',
+      beat1ReplyB: '100%. Harsh overhead white bulbs after sunset are an immediate walk-out.',
+      beat1Vip: '💎 Glad I raised the bar, Jin. What movie frame sums up your ideal Friday night?',
+      beat1VipReply: 'Wong Kar-wai warm tungsten glow, two drinks, zero phones on the table.',
+      beat2ChoiceA: 'Quiet neighborhood bar with warm lamps and phones buried in pockets.',
+      beat2ReplyA: 'Exact right answer. Eye contact beats glowing screens every time.',
+      beat2ChoiceB: 'Anywhere we don’t have to repeat "WHAT?" three times per sentence.',
+      beat2ReplyB: 'My ears and my sanity agree completely.',
+      beat2Vip: '💎 Moody corner booth, great mezcal, and zero rush on the clock.',
+      beat2VipReply: 'Already picturing the exact spot in Koreatown.',
+      beat3Incoming: 'Funny realization on set today: everyone assumes twenty-five means chasing chaotic parties, when honestly my favorite night is cooking Midnight Diner ramen and debating movies.',
+      beat3ChoiceA: 'Midnight Diner ramen and film debates beat crowded clubs ten to zero.',
+      beat3ReplyA: 'Knew you had impeccable taste the second we matched.',
+      beat3ChoiceB: 'Okay, what’s one recent movie you’ll defend to the end?',
+      beat3ReplyB: 'Past Lives and Babygirl back-to-back, wildly different, both electric.',
+      beat3Vip: '💎 Quiet confidence beats loud twenty-something party energy every single time, Jin.',
+      beat3VipReply: 'Glad you aren’t looking for a frat boy.',
+      beat4Incoming: 'Catching the last ten minutes of real golden hour on a rooftop location scout.',
+      beat4PhotoNote: 'Camera finally packed in the Pelican case for the day.',
+      beat4ChoiceA: 'Of course the cinematographer nails golden-hour lighting effortlessly.',
+      beat4ReplyA: 'Had to earn my day rate somehow.',
+      beat4ChoiceB: 'Great view up there, hope wrap went smoothly.',
+      beat4ReplyB: 'Clean wrap, free all evening Friday.',
+      beat4Vip: '💎 Framing, lighting, and collar all 10/10, Jin.',
+      beat4VipReply: 'Making the guy behind the camera blush for once.',
+      beat5Incoming: 'Reserved two seats at a hidden speakeasy lounge for Friday at 8 PM. Warm amber lamps, vinyl spinning, and my phone stays off.',
+      beat5ChoiceA: 'Amber lamps and phone off? Cinematographer privileges approved.',
+      beat5ReplyA: 'Lighting vetted in person last week, promise it delivers.',
+      beat5ChoiceB: 'Sounds moody and effortless, count me in.',
+      beat5ReplyB: 'Locked in under Jin for Friday.',
+      beat5Vip: '💎 Curated lighting, real plan, zero texting games. Smooth work, Jin.',
+      beat5VipReply: 'Can’t wait to see you across the table.',
+      imsg1Incoming: 'Off the app at last. Saved your contact properly.',
+      imsg1ReplyA: 'Set hours respected, text whenever they call wrap.',
+      imsg1ReplyB: 'Editing color grades with Miles Davis on low.',
+      imsg2Incoming: 'Quick check before Friday: meet right outside the unmarked speakeasy door at 7:55, or want a lift?',
+      imsg2ChoiceA: 'Meet me right outside the door five minutes early.',
+      imsg2ReplyA: 'Easy. Look for the brass lamp over the doorway.',
+      imsg3Incoming: 'Just drove past the Alamo Drafthouse marquee playing 35mm classics, filing that away for Date #2 if I pass Date #1.',
+      imsg3ReplyA: '35mm archive screening is a very strong Date #2 pitch.',
+      imsg4Incoming: 'Minimalist black mock-neck or open charcoal collar for tomorrow?',
+      imsg4PhotoNote: 'Director’s cut wardrobe check before Friday.',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed our candlelit table in the back alcove. Text me if the hidden door is tricky.',
+      spicy: [
+        'Black mock-neck wins hands down tomorrow night.',
+        'Keep setting scenes like this and Friday might run past closing.',
+        'What’s the first detail you clock when someone walks into a room?',
+      ],
+    },
+    liam: {
+      beat1ChoiceA: 'Refreshing is rare on dating apps, surviving ER shifts this week?',
+      beat1ReplyA: 'Two twelve-hour nights down, seventy-two hours completely off starting Friday morning.',
+      beat1ChoiceB: 'Do ER doctors stay eerie-calm when everyone else panics?',
+      beat1ReplyB: 'In trauma bays yes, around a stunning match I’m decidedly human.',
+      beat1Vip: '💎 Glad we matched, Liam. Tell me doctors actually own furniture and real coffee mugs.',
+      beat1VipReply: 'Haha four real pillows, oak bedframe, and an espresso machine that saved my residency!',
+      beat2ChoiceA: 'Low-key neighborhood drinks with an ocean view where we can relax.',
+      beat2ReplyA: 'After hospital beeping all week, ocean air and a quiet glass sound heavenly.',
+      beat2ChoiceB: 'Dressed-up corner booth, good excuse to wear heels.',
+      beat2ReplyB: 'Love an excuse to trade scrubs for a tailored blazer.',
+      beat2Vip: '💎 Start with sunset drinks overlooking the water, then play dinner by ear if chemistry hits.',
+      beat2VipReply: 'Best plan on the board. Zero pressure, great setting.',
+      beat3Incoming: 'Funny ER side effect: trivial dating drama bounces right off me, all I really care about is warmth, dry humor, and someone comfortable in her own skin.',
+      beat3ChoiceA: 'Same here, past thirty-five your patience for manufactured drama drops to zero.',
+      beat3ReplyA: 'Exactly why I matched with you instead of twenty-four-year-old chaos.',
+      beat3ChoiceB: 'Dry humor and calm energy are my two best vital signs.',
+      beat3ReplyB: 'Chart looks exceptional already, doctor’s orders.',
+      beat3Vip: '💎 Grounded men who don’t flinch or play games are worth their weight in gold, Liam.',
+      beat3VipReply: 'No games here. Just glad you swiped back.',
+      beat4Incoming: 'First real sunlight in forty-eight hours outside the hospital coffee cart.',
+      beat4PhotoNote: 'Pager officially handed off until Monday morning.',
+      beat4ChoiceA: 'Post-shift sunshine looks remarkably good on you, Doc.',
+      beat4ReplyA: 'Eight hours of sleep tonight will make me look even more alive for Friday.',
+      beat4ChoiceB: 'Enjoy that freedom, well earned!',
+      beat4ReplyB: 'Tasting every drop of this iced espresso.',
+      beat4Vip: '💎 Unfairly charming even coming off a twelve-hour shift, Liam.',
+      beat4VipReply: 'Best pick-me-up all week reading that.',
+      beat5Incoming: 'Reserved a coastal terrace table for 7:45 Friday, and cross my heart, zero gross hospital stories at dinner.',
+      beat5ChoiceA: 'Appreciated! Keep dinner strictly wine, laughter, and civilian life.',
+      beat5ReplyA: 'Civilian mode locked in 100%.',
+      beat5ChoiceB: '7:45 by the water sounds restorative for both of us.',
+      beat5ReplyB: 'Couldn’t ask for a better Friday reset.',
+      beat5Vip: '💎 Thoughtful spot, pager off, and full presence. You’re acing pre-date triage.',
+      beat5VipReply: 'Saving my best focus for Friday night.',
+      imsg1Incoming: 'Got your number saved! Way easier texting you here than on Prowl.',
+      imsg1ReplyA: 'Rest up post-shift, zero rush replying during hospital days.',
+      imsg1ReplyB: 'Cooking salmon and enjoying complete silence in my apartment.',
+      imsg2Incoming: 'Quick check before Friday: want to meet at the terrace bar at 7:40, or want me to swing by?',
+      imsg2ChoiceA: 'Meet me at the terrace bar five minutes early.',
+      imsg2ReplyA: 'Deal, I’ll be there early enjoying the sea breeze.',
+      imsg3Incoming: 'Slept nine straight hours like a normal citizen. Officially dangerous company for tomorrow night.',
+      imsg3ReplyA: 'Well-rested ER resident sounds like formidable company.',
+      imsg4Incoming: 'Navy sport coat or relaxed cashmere sweater for the coastal breeze tomorrow?',
+      imsg4PhotoNote: 'Post-residency civilian wardrobe check.',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed us a warm terrace table facing the water. Take your time.',
+      spicy: [
+        'Cashmere sweater for the ocean breeze, zero hesitation.',
+        'Good thing your pager is off until Monday morning.',
+        'Tell me what caught your eye first when my card popped up.',
+      ],
+    },
+    elena: {
+      beat1ChoiceA: 'Glad I cleared seminar standards, Professor, rough stack of essays today?',
+      beat1ReplyA: 'Two undergraduates cited quotes that do not exist on Earth. Pouring Pinot to recover.',
+      beat1ChoiceB: 'What’s the fastest way a guy fails your app filter in message two?',
+      beat1ReplyB: 'Calling me "intimidating" like having a vocabulary is a felony.',
+      beat1Vip: '💎 Zero intimidation here, Elena: give me your most ruthless unpopular literary opinion.',
+      beat1VipReply: 'Half the men carrying Infinite Jest on airplanes never made it past page thirty. Glad you asked.',
+      beat2ChoiceA: 'Hold completely steady. Grown adults have real jobs before 6 PM.',
+      beat2ReplyA: 'Miracles happen. Last guy panicked because I was teaching a three-hour seminar.',
+      beat2ChoiceB: 'A crisp period just tells me you punctuate properly.',
+      beat2ReplyB: 'Finally, a younger man who doesn’t treat grammar like hostility.',
+      beat2Vip: '💎 Zero fragile ego here, crush your lectures all day and bring that sharp wit to dinner.',
+      beat2VipReply: 'Okay, you just jumped to the top of the curve.',
+      beat3Incoming: 'Full confession so you don’t put me on an ivory pedestal: after teaching comparative literature all day, I watch trashy Bravo reality shows in silk pajamas with zero shame.',
+      beat3ChoiceA: 'Highbrow by day, Bravo chaos by night is peak human balance.',
+      beat3ReplyA: 'Exactly, my brain refuses subtitles after 9 PM on Wednesdays.',
+      beat3ChoiceB: 'Promise never to bluff reading Russian novels if you share the popcorn.',
+      beat3ReplyB: 'Deal. Bluffers get caught in ninety seconds anyway.',
+      beat3Vip: '💎 Smart, self-aware, and zero pretension. That combination is lethal, Elena.',
+      beat3VipReply: 'Flattery with actual rhythm to it, nicely done.',
+      beat4Incoming: 'Five quiet minutes under the sycamores after my last office-hours student left.',
+      beat4PhotoNote: 'Red pen capped until Monday morning.',
+      beat4ChoiceA: 'If professors looked like that at my college I never would have skipped a Friday lecture.',
+      beat4ReplyA: 'Careful, smooth lines earn extra-credit oral exams.',
+      beat4ChoiceB: 'Autumn campus light looks incredible on you.',
+      beat4ReplyB: 'Golden hour on the quad is the best perk of the department.',
+      beat4Vip: '💎 Unfair distraction mid-afternoon, Elena. Save that smirk for across the wine bar.',
+      beat4VipReply: 'Consider it reserved for Friday at eight.',
+      beat5Incoming: 'My Friday evening is clear after five. Tell me you pick an actual spot and time instead of asking "idk what are u in the mood for?"',
+      beat5ChoiceA: 'Quiet wine bar near Westwood, 7:45 table held under my name, parking right behind.',
+      beat5ReplyA: 'Decisive, local, and parking scouted. A+ execution.',
+      beat5ChoiceB: 'Already have two candlelit spots ready so you don’t make a single work decision after five.',
+      beat5ReplyB: 'Music to my ears after grading all week.',
+      beat5Vip: '💎 Table is held for 7:45, phone stays off the wood, and first glass of Pinot is waiting.',
+      beat5VipReply: 'Rare composure. Now I’m genuinely excited for Friday.',
+      imsg1Incoming: 'Much cleaner off the app. You have my direct line now.',
+      imsg1ReplyA: 'Sounds good. Punctuality goes a long way with me.',
+      imsg1ReplyB: 'Glass of Sancerre on the sofa and zero student emails allowed.',
+      imsg2Incoming: 'Quick litmus test before Friday: are you an "arrive ten minutes early" man or a traffic-excuse sprinter?',
+      imsg2ChoiceA: 'Ten minutes early at the bar so you never walk in looking around alone.',
+      imsg2ReplyA: 'Exact right answer. Chivalry isn’t complicated.',
+      imsg3Incoming: 'Just walked past the faculty club and laughed remembering how stuffy campus dinners are. Glad tomorrow is off-campus.',
+      imsg3ReplyA: 'Zero faculty politics allowed tomorrow night, strictly good wine.',
+      imsg4Incoming: 'Debating burgundy silk blouse vs. black cashmere for tomorrow night.',
+      imsg4PhotoNote: 'Honest vote before Friday dinner?',
+      imsg5Incoming: 'Sounds good for 7:45 tonight. Looking forward to trading campus talk for real wine.',
+      imsg6Incoming: 'Just sat down at our table near the bookshelves. No rush walking in.',
+      spicy: [
+        'Burgundy silk tomorrow night is going to test my focus.',
+        'Save one glass of Pinot for a quiet nightcap after they close.',
+        'What’s one thing men my age usually get nervous to ask you?',
+      ],
+    },
+    claire: {
+      beat1ChoiceA: 'Happy to rescue your evening from boring openers, surviving biotech board week?',
+      beat1ReplyA: 'Barely, three clinical-trial decks down and zero patience left for small talk.',
+      beat1ChoiceB: 'What’s the fastest way someone loses your attention in three texts?',
+      beat1ReplyB: 'Asking "wyd" at 2 PM on a Tuesday like I’m sitting in a dorm lounge.',
+      beat1Vip: '💎 Direct women are my favorite match, Claire. What does your ideal off-the-clock Friday look like?',
+      beat1VipReply: 'Someone sharp taking the wheel on dinner plans so I don’t make decision #201 of the day.',
+      beat2ChoiceA: 'Booked a last-minute weekend flight to Oaxaca with carry-on only and zero itinerary.',
+      beat2ReplyA: 'Okay, carry-on only to Oaxaca earns serious respect.',
+      beat2ChoiceB: 'Signed up for coastal sailing lessons just to stop staring at screens.',
+      beat2ReplyB: 'Smart move, salt water resets everything.',
+      beat2Vip: '💎 Swiping on a razor-sharp Biotech VP who clearly doesn’t suffer fools.',
+      beat2VipReply: 'Smooth delivery, and accurate on the fools count.',
+      beat3Incoming: 'Let’s get the obvious elephant out of the way early: does sitting across from a woman who owns her home and runs a division make you weird about the check, or relaxed?',
+      beat3ChoiceA: 'Completely relaxed. If I invite you to dinner, I’ve got the tab proudly within my own lane.',
+      beat3ReplyA: 'Best answer possible. Effort and pride beat ego games every time.',
+      beat3ChoiceB: 'Accomplished women inspire me, zero fragile ego over here.',
+      beat3ReplyB: 'Refreshing, half the men my age turn dinner into a résumé contest.',
+      beat3Vip: '💎 Your success is attractive, never intimidating. Tonight’s plan and tab are handled cleanly on my end.',
+      beat3VipReply: 'Consider me officially impressed.',
+      beat4Incoming: 'Out of the lab tower before dark for the first Thursday all month.',
+      beat4PhotoNote: 'Boardroom blazer officially off duty.',
+      beat4ChoiceA: 'Executive poise in sunset lighting is an unfair combination.',
+      beat4ReplyA: 'Wait until Friday when work is completely out of mind.',
+      beat4ChoiceB: 'Well-deserved breather after three board decks.',
+      beat4ReplyB: 'Cold Sancerre is calling my name.',
+      beat4Vip: '💎 Stunning photo, Claire. Every head in that restaurant is turning tomorrow night.',
+      beat4VipReply: 'Keep your eyes on our side of the booth and we’ll get along great.',
+      beat5Incoming: 'Calendar is clear Friday after six. One non-negotiable question: does your phone stay off the table during dinner?',
+      beat5ChoiceA: 'Do Not Disturb inside my jacket pocket from hello until I walk you to your car.',
+      beat5ReplyA: 'Rare manners. Friday is officially locked.',
+      beat5ChoiceB: '100%, nothing on a screen beats the woman across the table.',
+      beat5ReplyB: 'Good instinct.',
+      beat5Vip: '💎 Phone buried, 7:45 banquette booked, and car door handled. Just show up and unwind.',
+      beat5VipReply: 'Now that is how you lock in a Friday date.',
+      imsg1Incoming: 'Much cleaner off the app. You have my direct line now.',
+      imsg1ReplyA: 'Sounds good. Zero midday text spam from my end.',
+      imsg1ReplyB: 'Unwinding on the patio with chilled white wine and zero Slack alerts.',
+      imsg2Incoming: 'Quick check before Friday: I’ll meet you inside at the bar at 7:40, trust you aren’t chronically late?',
+      imsg2ChoiceA: 'I’ll be at the bar at 7:35 with your Sancerre already ordered.',
+      imsg2ReplyA: 'Sounds good. Exact right move.',
+      imsg3Incoming: 'My best friend Jade asked who had me smiling between budget reviews today. Told her jury’s out until Friday.',
+      imsg3ReplyA: 'Tell Jade I plan on winning a unanimous verdict tomorrow.',
+      imsg4Incoming: 'Emerald cocktail cut or tailored black jumpsuit for tomorrow night.',
+      imsg4PhotoNote: 'Quick verdict before 7:45 tomorrow?',
+      imsg5Incoming: 'Sounds good for 7:45 tonight. Looking forward to it.',
+      imsg6Incoming: 'Just sat down at our table near the patio. No rush parking.',
+      spicy: [
+        'That tailored black jumpsuit is lethal, wear that.',
+        'Keep that smile past dessert and we’re finding a late wine bar.',
+        'Tell me the exact second you decided I wasn’t like other guys on Prowl.',
+      ],
+    },
+    sienna: {
+      beat1ChoiceA: 'Best part of my week was matching with an architect who appreciates good lighting.',
+      beat1ReplyA: 'Careful, compliment my lighting taste and we’ll talk for three hours straight.',
+      beat1ChoiceB: 'Do interior architects silently redesign every restaurant they walk into?',
+      beat1ReplyB: 'Within four seconds of sitting down! Bad acoustic tile haunts my dreams.',
+      beat1Vip: '💎 Give me your #1 bachelor-apartment design crime so I can brag I already passed.',
+      beat1VipReply: 'Shiny black polyester sheets and a bare bulb brighter than an operating room. Tell me you’re innocent!',
+      beat2ChoiceA: 'Dim candlelit wine bar every time, shouting over house music is torture.',
+      beat2ReplyA: 'Thank heaven, acoustic warmth and real glassware win.',
+      beat2ChoiceB: 'Quiet courtyard patio with olive trees and low music.',
+      beat2ReplyB: 'Now you’re painting my exact dream Friday.',
+      beat2Vip: '💎 Warm amber lamps, corner leather booth, and zero TV screens on the walls.',
+      beat2VipReply: 'You speak fluent design language, dangerous.',
+      beat3Incoming: 'Playful honesty check: if things go great and I eventually see your apartment, is there an actual hand towel and soap in your bathroom or a roll of Bounty?',
+      beat3ChoiceA: 'Lidded trash bin, botanical hand soap, and two fresh white linen towels ready.',
+      beat3ReplyA: 'Stop it, did my girlfriends coach you?! Instant top 1% score.',
+      beat3ChoiceB: 'Real cotton sheets, four pillows, AND warm table lamps, zero Bounty in sight.',
+      beat3ReplyB: 'Miracles really do live in Los Angeles.',
+      beat3Vip: '💎 Spotless bathroom, 64-degree sleep AC, and a spare phone cord on the nightstand.',
+      beat3VipReply: 'Okay, hang a gold plaque on your front door immediately.',
+      beat4Incoming: 'Quick iced cortado outside the stone showroom after talking a client out of grey vinyl floors.',
+      beat4PhotoNote: 'Doing public service for Los Angeles interiors one house at a time.',
+      beat4ChoiceA: 'Saving LA from sad grey floors AND looking radiant doing it.',
+      beat4ReplyA: 'Hard work, someone had to step in!',
+      beat4ChoiceB: 'Showroom courtyard sun suits you.',
+      beat4ReplyB: 'Needed five minutes away from paint swatches.',
+      beat4Vip: '💎 Effortless style, Sienna. Friday’s restaurant better live up to you.',
+      beat4VipReply: 'With good company I promise not to grade the wallpaper.',
+      beat5Incoming: 'Friday evening is wide open. Pick somewhere with warm lighting and real linen napkins and you have my undivided attention.',
+      beat5ChoiceA: 'Courtyard wine bar in West Hollywood at 7:45, olive trees and real candlelight.',
+      beat5ReplyA: 'Oh I love that courtyard, ten out of ten pick.',
+      beat5ChoiceB: 'Booked an intimate booth with plaster walls and zero neon signs for 7:45.',
+      beat5ReplyB: 'You actually listened! Count me very in.',
+      beat5Vip: '💎 7:45 corner booth under warm lanterns is locked in. Bring your sharp eye and appetite.',
+      beat5VipReply: 'Counting down to Friday already ✨',
+      imsg1Incoming: 'Officially off Prowl ✨ Saved your number, much easier texting here.',
+      imsg1ReplyA: 'Punctual and zero rambling, green flag already 🍷',
+      imsg1ReplyB: 'Sketching patio tile with Chet Baker playing and a candle lit.',
+      imsg2Incoming: 'Honest check before Friday: ten minutes early at the bar, or sprinting from valet at 7:48?',
+      imsg2ChoiceA: 'Ten minutes early so your glass is waiting when you walk in.',
+      imsg2ReplyA: 'Smooth and considerate, love that.',
+      imsg3Incoming: 'Just passed a courtyard draped in jasmine and warm string lights, good omen for tomorrow night.',
+      imsg3ReplyA: 'Save that exact mood for 7:45 tomorrow.',
+      imsg4Incoming: 'Cream silk slip + blazer or terracotta wrap dress for tomorrow night?',
+      imsg4PhotoNote: 'Architect wardrobe tie-breaker before Friday ✨',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed our table under the courtyard lanterns! Text me when you walk in ✨',
+      spicy: [
+        'Cream silk slip + blazer is untouchable for tomorrow.',
+        'Play your cards right and you can audit my lamp lighting on Date #2.',
+        'Tell me what made you swipe yes before reading prompt three.',
+      ],
+    },
+    priya: {
+      beat1ChoiceA: 'Quick in person and zero squeamishness if ER stories slip out over wine.',
+      beat1ReplyA: 'Haha strong stomach AND quick banter? Rare breed.',
+      beat1ChoiceB: 'Survived your trauma shift streak this week?',
+      beat1ReplyB: 'Just clocked off three twelves, running on espresso and pure freedom until Monday.',
+      beat1Vip: '💎 Charge Trauma RN means zero patience for nonsense, Priya. What’s your #1 green flag on Date 1?',
+      beat1VipReply: 'A man who picks the spot decisively and laughs with me instead of acting like dinner is a job interview.',
+      beat2ChoiceA: 'Complete distraction: cold cocktails, great stories, and zero work talk unless you start it.',
+      beat2ReplyA: 'Yes please! Leaving hospital fluorescents behind is the entire goal.',
+      beat2ChoiceB: 'Five minutes to vent if needed, then straight into laughing until midnight.',
+      beat2ReplyB: 'Ideal ratio honestly, five minutes clears the slate.',
+      beat2Vip: '💎 Good food in front of you immediately, phone put away, and making you laugh until your shoulders drop.',
+      beat2VipReply: 'Sold. Prescribe that every Friday.',
+      beat3Incoming: 'Real-life check: I parallel park in one smooth move, talk fast, and pay my own mortgage. Does a woman who moves decisively rattle you or turn you on?',
+      beat3ChoiceA: 'Turns me way on. Helpless damsel routines put me to sleep.',
+      beat3ReplyA: 'Thank God, last guy sulked because I backed his SUV into a tight spot!',
+      beat3ChoiceB: 'Competence is the most attractive trait on earth, bring all of it.',
+      beat3ReplyB: 'Okay, we are going to have a dangerously good time Friday.',
+      beat3Vip: '💎 Decisive women are electric, Priya. And on Friday night, let me handle the driving so you actually rest.',
+      beat3VipReply: 'Smooth pivot, keeping my fierce side AND spoiling me a little.',
+      beat4Incoming: 'Hair finally out of a scrub cap and blinking into real daylight.',
+      beat4PhotoNote: 'Seventy-two hours off duty starts right now.',
+      beat4ChoiceA: 'Off-duty glow hits ten out of ten, Priya.',
+      beat4ReplyA: 'Amazing what sunshine and real coffee can do!',
+      beat4ChoiceB: 'Freedom looks great on you, enjoy every hour off.',
+      beat4ReplyB: 'Starting with a nap, ending with Friday drinks.',
+      beat4Vip: '💎 Devastating smile for someone coming off three twelve-hour shifts.',
+      beat4VipReply: 'Flattery works embarrassingly fast post-shift.',
+      beat5Incoming: 'I am wide awake and free Friday night. Pitch me an actual plan instead of making the off-duty nurse triage restaurants!',
+      beat5ChoiceA: '7:45 booth at a lively tapas & wine spot on 3rd, patatas bravas and sangria ready.',
+      beat5ReplyA: 'Tapas and zero dishes to wash? Instant yes.',
+      beat5ChoiceB: 'Quiet cocktail lounge with plush seating at 7:45 so your feet get royal treatment.',
+      beat5ReplyB: 'Plush seating after hospital floors wins my whole heart.',
+      beat5Vip: '💎 Plush corner banquette held for 7:45, easy valet out front, and zero decisions required from you.',
+      beat5VipReply: 'Triage complete, 10/10 plan.',
+      imsg1Incoming: 'Officially off Prowl ✨ Saved your number, much easier texting here.',
+      imsg1ReplyA: 'Punctual and zero rambling, green flag already 🍷',
+      imsg1ReplyB: 'Curled up on the couch in cashmere socks watching terrible heist movies.',
+      imsg2Incoming: 'Quick check before Friday: ten minutes early at the bar, or sprinting through parking at 7:46?',
+      imsg2ChoiceA: 'Ten minutes early with two seats secured away from the door.',
+      imsg2ReplyA: 'ER precision approved.',
+      imsg3Incoming: 'Slept ten glorious hours and woke up actually excited for a first date for once.',
+      imsg3ReplyA: 'Well-rested Priya doesn’t stand a chance of being bored tomorrow.',
+      imsg4Incoming: 'Deep crimson lip + black halter or gold satin top for tomorrow night?',
+      imsg4PhotoNote: 'Post-scrubs transformation check ✨',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed our plush booth! Text me when you pull up ✨',
+      spicy: [
+        'Crimson lip + black halter is going to stop my pulse.',
+        'Good thing you don’t have a morning shift Saturday.',
+        'What’s one bold thought you edited out of your first message?',
+      ],
+    },
+    summer: {
+      beat1ChoiceA: 'Do guys seriously open with "hey trouble" in the year 2026?',
+      beat1ReplyA: 'At least four times a day! Usually paired with a bathroom mirror flex.',
+      beat1ChoiceB: 'Week’s rolling smoothly, how many reformer classes did you teach today?',
+      beat1ReplyB: 'Four packed morning classes, legs are humming, iced matcha in hand.',
+      beat1Vip: '💎 Glad I skipped the clichés, Summer. What’s the funniest thing a guy tried in your Pilates studio?',
+      beat1VipReply: 'A 24-year-old marathon bro swore reformer Pilates was "just stretching" before shaking like a leaf ninety seconds in!',
+      beat2ChoiceA: 'Singing 2000s pop hooks at full volume whenever I’m driving solo on PCH.',
+      beat2ReplyA: 'Haha elite habit, zero judgment from my passenger seat.',
+      beat2ChoiceB: 'Ordering two desserts for the table even when I claim I’m full.',
+      beat2ReplyB: 'Always two spoons AND two desserts, non-negotiable rule.',
+      beat2Vip: '💎 Canceling loud late-night plans just to stay in somewhere cozy with great company.',
+      beat2VipReply: 'Wait, a younger man who appreciates cozy evenings? Pinch me.',
+      beat3Incoming: 'Honest vibe check: because I own wellness studios in Brentwood, guys either pitch me supplement startups or try to mansplain fitness. Promise you’re just normal and fun?',
+      beat3ChoiceA: 'Zero startup decks and I respect that your plank crushes mine by three minutes.',
+      beat3ReplyA: 'Haha secure AND self-aware, dream answer.',
+      beat3ChoiceB: 'Strictly off-the-clock fun, wine and real laughs only.',
+      beat3ReplyB: 'Yes! Off-duty Summer loves bread baskets and Pinot.',
+      beat3Vip: '💎 Zero gym-bro ego here, Summer. You run studios all week, Friday night is strictly about spoiling you.',
+      beat3VipReply: 'Okay, my cheeks actually warmed up reading that ✨',
+      beat4Incoming: 'Sneakers finally swapped for sandals in the studio courtyard.',
+      beat4PhotoNote: 'Last reformer springs reset for the afternoon.',
+      beat4ChoiceA: 'California sunshine clearly picked a favorite in Brentwood.',
+      beat4ReplyA: 'Smooth talker, I’ll allow it.',
+      beat4ChoiceB: 'Looking effortless after teaching four classes.',
+      beat4ReplyB: 'Matcha + sunshine works wonders!',
+      beat4Vip: '💎 Unfair courtyard glow, Summer. Friday night can’t arrive fast enough.',
+      beat4VipReply: 'Counting down right there with you.',
+      beat5Incoming: 'I wrap my last private client at five Friday. Just promise your plan doesn’t start at 10:30 PM when half of me is ready for silk pajamas!',
+      beat5ChoiceA: '7:30 coastal bistro reservation locked in, golden hour to candlelight.',
+      beat5ReplyA: '7:30 coastal dinner is absolute perfection.',
+      beat5ChoiceB: 'Early 7:30 table near the beach so the whole night feels unhurried.',
+      beat5ReplyB: 'You read my mind completely.',
+      beat5Vip: '💎 7:30 oceanfront booth booked, warm sourdough on deck, and zero late-night chaos.',
+      beat5VipReply: 'Gold star before we even clink glasses ✨',
+      imsg1Incoming: 'Officially off Prowl ✨ Saved your number, much easier texting here.',
+      imsg1ReplyA: 'Punctual and zero rambling, green flag already 🍷',
+      imsg1ReplyB: 'Stretching on the living room rug with acoustic Fleetwood Mac playing.',
+      imsg2Incoming: 'Honest check before Friday: ten minutes early at the bar, or sprinting through parking at 7:34?',
+      imsg2ChoiceA: 'Ten minutes early holding the warm booth away from the breeze.',
+      imsg2ReplyA: 'Gentleman points climbing fast.',
+      imsg3Incoming: 'Drove down Sunset toward the ocean today and the sky turned pure peach, hope tomorrow puts on a repeat.',
+      imsg3ReplyA: 'Ordered us the exact same sunset for 7:30 tomorrow.',
+      imsg4Incoming: 'White backless linen dress or espresso silk midi for tomorrow night?',
+      imsg4PhotoNote: 'Trading Pilates leggings for real Friday attire ✨',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed our coastal table! Text me when you pull up ✨',
+      spicy: [
+        'Espresso silk midi is going to ruin my train of thought.',
+        'If chemistry hits like this in person, silk-pajama curfew might slip an hour.',
+        'Bet I still make you laugh mid-plank if I ever take your class.',
+      ],
+    },
+    celeste: {
+      beat1ChoiceA: 'Pleasure is mine, Celeste. Do former prima ballerinas still out-posture every room?',
+      beat1ReplyA: 'Forty years after Lincoln Center and my spine still refuses to slouch.',
+      beat1ChoiceB: 'What inspired you to join an app full of mortals in Los Angeles?',
+      beat1ReplyB: 'Curiosity and a refusal to spend Friday nights listening to men my age recite medical charts.',
+      beat1Vip: '💎 Most men wouldn’t know what to do with genuine elegance, Celeste. Glad I caught your eye.',
+      beat1VipReply: 'Directness without trembling. Very promising opening movement.',
+      beat2ChoiceA: 'Ten minutes early every time, blaming traffic is for amateurs.',
+      beat2ReplyA: 'Thank goodness. Curtain time never waited at the Met and neither do I.',
+      beat2ChoiceB: 'Early at the bar with a chilled dry Gibson ready to order.',
+      beat2ReplyB: 'A younger man who knows what a dry Gibson is? Intriguing.',
+      beat2Vip: '💎 Five minutes early, standing when you arrive, and coat handled before you sit.',
+      beat2VipReply: 'Old-world manners never go out of style.',
+      beat3Incoming: 'Let us be candid: I have outlasted three artistic directors and two marriages. Youth alone does not dazzle me, curiosity, backbone, and wit do.',
+      beat3ChoiceA: 'Good, because coasting on birth years is lazy. Judge me on conversation.',
+      beat3ReplyA: 'Spoken with real spine. I like that.',
+      beat3ChoiceB: 'Curiosity and wit are way more interesting than trying to impress you with buzzwords.',
+      beat3ReplyB: 'Wise instinct. Pretension bores me in three minutes.',
+      beat3Vip: '💎 I wouldn’t dare coast with you, Celeste. Matching wits with an icon is the entire appeal.',
+      beat3VipReply: 'Careful, keep talking like that and you will earn a second act.',
+      beat4Incoming: 'Brief intermission on the conservatory terrace after coaching young soloists.',
+      beat4PhotoNote: 'Rehearsal piano finally quiet for the afternoon.',
+      beat4ChoiceA: 'Pure grace even between rehearsals, Celeste.',
+      beat4ReplyA: 'Kind of you to say, darling.',
+      beat4ChoiceB: 'That conservatory terrace looks wonderfully peaceful.',
+      beat4ReplyB: 'Lovely breeze once the violinists pack up.',
+      beat4Vip: '💎 Timeless magnetism, Celeste. Friday evening is going to be unforgettable.',
+      beat4VipReply: 'Bring that exact energy to the table and we shall see.',
+      beat5Incoming: 'My Friday evening is open at 7:45. Tell me you prefer a civilized supper club over noisy trendy chaos.',
+      beat5ChoiceA: 'Booked a quiet velvet banquette at a classic supper lounge for 7:45.',
+      beat5ReplyA: 'Impeccable choice. Real tablecloths still matter.',
+      beat5ChoiceB: 'Jazz quartet playing low and proper martinis at 7:45, already held.',
+      beat5ReplyB: 'Now that is how an evening is staged.',
+      beat5Vip: '💎 Corner banquette reserved for 7:45, phone silenced, and zero rushing between courses.',
+      beat5VipReply: 'Bravo. Friday is yours.',
+      imsg1Incoming: 'Much better off the app. You have my actual line now, use it wisely.',
+      imsg1ReplyA: 'Punctual and concise. Keep it up.',
+      imsg1ReplyB: 'Dry Gibson on the terrace and Debussy on low. Peaceful.',
+      imsg2Incoming: 'One logistical question: do you arrive five minutes early, or make excuses about Sunset Boulevard?',
+      imsg2ChoiceA: 'Early by the mahogany bar so you never enter an empty booth.',
+      imsg2ReplyA: 'Sounds good. Exact right answer.',
+      imsg3Incoming: 'Passed a quiet courtyard with white tablecloths and Bill Evans playing earlier. Good omen for tomorrow.',
+      imsg3ReplyA: 'Save that exact atmosphere for 7:45 tomorrow.',
+      imsg4Incoming: 'Brief preview before 7:45 tomorrow evening.',
+      imsg4PhotoNote: 'Black velvet collar or ivory silk shawl for supper?',
+      imsg5Incoming: 'Friday confirmation: we are set for 7:45 tonight. See you shortly.',
+      imsg6Incoming: 'I’m at a quiet table near the bar with a cold martini. Come say hello.',
+      spicy: [
+        'Black velvet collar is unmistakable perfection for tomorrow.',
+        'Save room for a quiet cognac nightcap after the quartet wraps.',
+        'Tell me what makes a man unforgettable in your eyes, Celeste.',
+      ],
+    },
+    astrid: {
+      beat1ChoiceA: 'Clean delivery is easy when your profile actually has dry humor in it, Astrid.',
+      beat1ReplyA: 'Stockholm dryness confuses half of California, glad you caught the wavelength.',
+      beat1ChoiceB: 'How long did it take you to adjust from Nordic winters to Pacific sun?',
+      beat1ReplyB: 'Roughly twelve minutes! Though I still miss real thunderstorms.',
+      beat1Vip: '💎 Direct Nordic founders are rare in LA, Astrid. What Silicon Beach habit makes you roll your eyes hardest?',
+      beat1VipReply: 'Men bringing sleep-tracker scores and cold-plunge speeches to first dates. Just drink the wine!',
+      beat2ChoiceA: 'Easily, watching waves roll in without checking notifications is the best reset.',
+      beat2ReplyA: 'Rare calm in a city addicted to refreshing screens.',
+      beat2ChoiceB: 'Ten quiet minutes is easy when the company feels natural.',
+      beat2ReplyB: 'True, comfortable silence tells you everything about chemistry.',
+      beat2Vip: '💎 Phone stays in the glovebox from sunset on, Astrid.',
+      beat2VipReply: 'Strong answer. Very strong.',
+      beat3Incoming: 'Candid Nordic note: I don’t drop coy hints. When I enjoy someone I show up warmly, and if someone plays hot-and-cold games I vanish cleanly.',
+      beat3ChoiceA: 'Zero coy hints needed here, straightforward communication is pure relief.',
+      beat3ReplyA: 'Good. Life is way too short for guessing games.',
+      beat3ChoiceB: 'Refreshing clarity, I’m wired the exact same way.',
+      beat3ReplyB: 'Then Friday is going to feel very easy.',
+      beat3Vip: '💎 Direct warmth met with direct follow-through. Zero guessing where I stand, Astrid.',
+      beat3VipReply: 'Okay, I like your style a lot.',
+      beat4Incoming: 'Pulled off PCH near Malibu for five minutes of salt air between founder calls.',
+      beat4PhotoNote: 'Laptop closed in the trunk where it belongs.',
+      beat4ChoiceA: 'PCH salt air and Nordic poise, tough combination to beat.',
+      beat4ReplyA: 'Highway 1 cures every investor call.',
+      beat4ChoiceB: 'Best office view in California right there.',
+      beat4ReplyB: 'Beats Zoom grids ten times out of ten.',
+      beat4Vip: '💎 Striking photo, Astrid. Friday dinner just became the highlight of my week.',
+      beat4VipReply: 'Feeling is mutual from this side of the coast.',
+      beat5Incoming: 'Friday evening is clear. Pick somewhere clean and coastal without a two-hour valet bottleneck and I am in.',
+      beat5ChoiceA: 'Ocean-view wine bar in Santa Monica at 7:45, easy lot right behind.',
+      beat5ReplyA: 'Clean, coastal, smart parking. Approved.',
+      beat5ChoiceB: '7:45 fireplace patio near Venice canals, quiet and unpretentious.',
+      beat5ReplyB: 'Love that spot, zero scene-chasing.',
+      beat5Vip: '💎 7:45 coastal booth locked in, zero biohacker talk, crisp white wine waiting.',
+      beat5VipReply: 'Sold. Looking forward to Friday.',
+      imsg1Incoming: 'Much cleaner off the app. You have my direct line now.',
+      imsg1ReplyA: 'Sounds good. Scandinavian efficiency respected.',
+      imsg1ReplyB: 'Sauna session done, herbal tea on the deck.',
+      imsg2Incoming: 'Quick check before Friday: ten minutes early at the bar, or blaming Pacific Coast Highway?',
+      imsg2ChoiceA: 'Ten minutes early so two glasses are waiting when you arrive.',
+      imsg2ReplyA: 'Exact right instinct.',
+      imsg3Incoming: 'Clear sky all the way out to Catalina this afternoon, tonight’s coastal air will be crisp.',
+      imsg3ReplyA: 'Saved us the table right beside the outdoor hearth.',
+      imsg4Incoming: 'Ivory cashmere turtleneck or sleek black blazer for coastal wind tomorrow?',
+      imsg4PhotoNote: 'Quick tie-breaker before Friday dinner.',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for 7:45 tonight. Looking forward to it.',
+      imsg6Incoming: 'Just sat down at our table near the coastal glass. No rush parking.',
+      spicy: [
+        'Sleek black blazer over silk is unbeatable tomorrow.',
+        'If conversation flows like this, Highway 1 drive for Date #2.',
+        'Tell me one bold question you love asking across a dinner table.',
+      ],
+    },
+    camila: {
+      beat1ChoiceA: 'Late glass of red sounds well earned, Camila, busy night on the floor?',
+      beat1ReplyA: 'Full dining room and one table tried ordering ice cubes in aged Barolo, survived with a smile!',
+      beat1ChoiceB: 'Wait, is picking a wine bar for a sommelier terrifying or flattering?',
+      beat1ReplyB: 'Flattering! Off the clock I’m just as happy splitting cold cervezas and tacos.',
+      beat1Vip: '💎 Sommelier confession time, Camila: what’s the funniest fake wine flex a date ever tried on you?',
+      beat1VipReply: 'Swirling tap water by accident while lecturing me about "legs." Nearly bit right through my lip!',
+      beat2ChoiceA: 'Adventurous every time, order four plates for the middle and share everything.',
+      beat2ReplyA: 'Yes! People who guard one entrée like prison rations break my heart.',
+      beat2ChoiceB: 'Tell me your two favorite dishes on the menu and let’s dive straight in.',
+      beat2ReplyB: 'Sharing plates + trusting the house specialty always wins.',
+      beat2Vip: '💎 Family-style sharing plates, and zero insecurity handing you the wine list.',
+      beat2VipReply: 'Wait, a man who actually enjoys letting me pick the bottle? Marry me.',
+      beat3Incoming: 'Funny sommelier occupational hazard: half the men my age get weirdly competitive when the server hands me the leather wine book. Tell me your ego survives good Burgundy?',
+      beat3ChoiceA: 'Survives and celebrates! Watching someone in her element is magnetic.',
+      beat3ReplyA: 'Music to my ears, I promise to pick something unforgettable.',
+      beat3ChoiceB: 'I handle the reservation and tab, you curate the bottle, dream team.',
+      beat3ReplyB: 'Best division of labor ever invented.',
+      beat3Vip: '💎 Nothing hotter than a woman who knows her palate, Camila. Wine list is 100% yours.',
+      beat3VipReply: 'Okay, I am already pulling mental bottles for Friday ✨',
+      beat4Incoming: 'Checking afternoon deliveries on the patio before unlocking the cellar.',
+      beat4PhotoNote: 'Sunlight before five hours of candlelight.',
+      beat4ChoiceA: 'Patio sunlight suits you even better than cellar candlelight.',
+      beat4ReplyA: 'Sweet talker, making me blush next to crates of Rioja.',
+      beat4ChoiceB: 'Hope tonight’s service runs like clockwork.',
+      beat4ReplyB: 'Smooth crew tonight, off early tomorrow for Friday!',
+      beat4Vip: '💎 Gorgeous photo, Camila. Friday’s table won’t know what hit it.',
+      beat4VipReply: 'Save a toast like that for our first pour.',
+      beat5Incoming: 'Miracle of miracles: I gave myself Friday night completely off the floor. Where are you taking a sommelier off duty?',
+      beat5ChoiceA: 'Cozy neighborhood osteria at 7:45 where nobody knows your work email.',
+      beat5ReplyA: 'Handmade pasta off my own turf sounds heavenly.',
+      beat5ChoiceB: 'Intimate mezcal & small-plates courtyard at 7:45 for a total change of pace.',
+      beat5ReplyB: 'Ooh switching from wine to smoky mezcal is genius!',
+      beat5Vip: '💎 7:45 candlelit corner table far from your own restaurant so you actually get taken care of.',
+      beat5VipReply: 'Being the guest instead of the host feels downright luxurious ✨',
+      imsg1Incoming: 'Officially off Prowl ✨ Saved your number, much easier texting here.',
+      imsg1ReplyA: 'Punctual and zero rambling, green flag already 🍷',
+      imsg1ReplyB: 'Midnight grilled cheese in silk pajamas after closing out the cellar.',
+      imsg2Incoming: 'Quick check before Friday: ten minutes early at the bar, or sliding into the booth out of breath?',
+      imsg2ChoiceA: 'Ten minutes early so your chair is ready when you walk in.',
+      imsg2ReplyA: 'Hospitality pro move, love that.',
+      imsg3Incoming: 'Walked past the flower market downtown and the jasmine smelled like summer in Madrid.',
+      imsg3ReplyA: 'Bringing Madrid patio energy straight into tomorrow night.',
+      imsg4Incoming: 'Off-the-shoulder wine-red knit or black satin camisole for tomorrow?',
+      imsg4PhotoNote: 'Off-the-clock Friday fit check ✨',
+      imsg5Incoming: 'Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.',
+      imsg6Incoming: 'Just got here and grabbed our corner table! Text me when you pull up ✨',
+      spicy: [
+        'Off-the-shoulder wine-red knit is pure trouble tomorrow.',
+        'Save a mystery nightcap bottle for back home if sparks fly.',
+        'What’s one flavor note you associate with great chemistry?',
+      ],
+    },
+    vivienne: {
+      beat1ChoiceA: 'Happy to spare you "how was your weekend," busy week at the auction house?',
+      beat1ReplyA: 'Appraising a mid-century estate in Holmby Hills. Spectacular art, absurd heirs.',
+      beat1ChoiceB: 'Do auction directors spot a counterfeit personality as fast as a fake Rothko?',
+      beat1ReplyB: 'Faster. Fake Rothkos at least took effort with a brush.',
+      beat1Vip: '💎 Concise and unintimidated is my baseline, Vivienne. What earned your right swipe?',
+      beat1VipReply: 'Clear eyes and zero frat-boy posturing in your prompts. Rare combination.',
+      beat2ChoiceA: 'Deal. Backhanded age qualifiers belong in the trash bin.',
+      beat2ReplyA: 'Smart man. Compliment a woman straight or stay home.',
+      beat2ChoiceB: 'Agreed 100%, "you’re stunning" requires zero extra words at the end.',
+      beat2ReplyB: 'Exactly. Three words, clean period.',
+      beat2Vip: '💎 Never crossed my mind, Vivienne. You outclass ninety-nine percent of any room regardless of decade.',
+      beat2VipReply: 'Composed and articulate. You may proceed to question three.',
+      beat3Incoming: 'Fair warning before Friday: I enjoy men in their twenties and thirties because they still laugh easily, provided they aren’t secretly hunting a patroness.',
+      beat3ChoiceA: 'My rent and career are squared away, strictly here for razor-sharp company.',
+      beat3ReplyA: 'Good. Self-respect is non-negotiable at my table.',
+      beat3ChoiceB: 'Zero patroness applications here, I plan and cover the dates I ask for.',
+      beat3ReplyB: 'Refreshing clarity. You’d be amazed how many try.',
+      beat3Vip: '💎 Independent lane on my side, Vivienne. I want chemistry across the table, never sponsorship.',
+      beat3VipReply: 'Exact right answer.',
+      beat4Incoming: 'Five minutes on the sculpture garden terrace before the evening preview opens.',
+      beat4PhotoNote: 'Gavel stays locked in my desk until Monday.',
+      beat4ChoiceA: 'Effortless gallery poise, Vivienne.',
+      beat4ReplyA: 'Kind of you. Fresh air beats auction spotlights.',
+      beat4ChoiceB: 'Hope tonight’s bidding breaks house records.',
+      beat4ReplyB: 'Two collectors are already glaring at each other, promising signs.',
+      beat4Vip: '💎 Half the collectors tonight won’t even be looking at the paintings, Vivienne.',
+      beat4VipReply: 'Flattery delivered with poise. Approved.',
+      beat5Incoming: 'My Friday calendar clears at seven. Tell me you booked an actual table with quiet acoustics rather than improvising on the sidewalk.',
+      beat5ChoiceA: '7:45 corner banquette at the hotel bar in Beverly Hills, quiet and classic.',
+      beat5ReplyA: 'Proper choice. Their martinis are ice-cold.',
+      beat5ChoiceB: 'Reserved a candlelit supper table at 7:45 with real linen and zero shouting.',
+      beat5ReplyB: 'Civilized planning. I approve.',
+      beat5Vip: '💎 7:45 corner banquette confirmed, valet handled, and phone off the table all evening.',
+      beat5VipReply: 'Impeccable execution.',
+      imsg1Incoming: 'Much better off the app. You have my actual line now, use it wisely.',
+      imsg1ReplyA: 'Punctual and concise. Keep it up.',
+      imsg1ReplyB: 'Chilled Sancerre on the terrace reviewing Paris catalog proofs.',
+      imsg2Incoming: 'One logistical question: do you arrive five minutes early, or make excuses about Wilshire traffic?',
+      imsg2ChoiceA: 'Ten minutes early by the bar so you walk straight to a ready table.',
+      imsg2ReplyA: 'Sounds good. Exact right answer.',
+      imsg3Incoming: 'Acquired a stunning 1962 French jazz pressing from an estate today. Good mood heading into Friday.',
+      imsg3ReplyA: 'Sounds like Date #2 soundtrack material if I pass inspection tomorrow.',
+      imsg4Incoming: 'Brief preview before 7:45 tomorrow.',
+      imsg4PhotoNote: 'Tailored ivory silk blazer or classic black Saint Laurent cut?',
+      imsg5Incoming: 'Friday confirmation: we are set for 7:45 tonight. 👍',
+      imsg6Incoming: 'I’m at a quiet table near the bar with a cold martini. Come say hello.',
+      spicy: [
+        'Black Saint Laurent cut is devastatingly sharp.',
+        'If dinner sparks properly, tell me about that 1962 French pressing over a nightcap.',
+        'What is the boldest bid someone ever placed for your attention?',
+      ],
+    },
+  };
+
+  const pPack = GENUINE_PERSONA_PACKS[profile.id];
+
+  // Clean bespoke 6-beat arc for every Genuine Main Lead & Cameo
   return {
     tinder: [
       {
@@ -586,30 +1489,42 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         ],
         choices: [
           {
-            text: isHimMatch
-              ? `Your profile actually sounded written by a human, what’s the story behind Slide 2?`
-              : `Happy to raise the curve, what’s the funniest opener someone tried on you this week?`,
-            reply: isHimMatch
-              ? `Haha caught right in my element, friend snapped that mid-laugh when I didn’t know the camera was up.`
-              : `Someone sent seventeen fire emojis and zero words. You’re winning by a landslide.`,
+            text:
+              pPack?.beat1ChoiceA ||
+              (isHimMatch
+                ? `Your profile actually sounded written by a human, what’s the story behind Slide 2?`
+                : `Happy to raise the curve, what’s the funniest opener someone tried on you this week?`),
+            reply:
+              pPack?.beat1ReplyA ||
+              (isHimMatch
+                ? `Haha caught right in my element, friend snapped that mid-laugh when I didn’t know the camera was up.`
+                : `Someone sent seventeen fire emojis and zero words. You’re winning by a landslide.`),
             delta: 16,
           },
           {
-            text: isHimMatch
-              ? `Quick vibe check: dry banter or polite small talk?`
-              : `Slide 2 caught my eye, what’s your go-to way to unwind after a long day?`,
-            reply: isHimMatch
-              ? `Dry banter every single time, polite small talk puts me straight to sleep.`
-              : `Phone on silent, something great in a glass, and zero work talk.`,
+            text:
+              pPack?.beat1ChoiceB ||
+              (isHimMatch
+                ? `Quick vibe check: dry banter or polite small talk?`
+                : `Slide 2 caught my eye, what’s your go-to way to unwind after a long day?`),
+            reply:
+              pPack?.beat1ReplyB ||
+              (isHimMatch
+                ? `Dry banter every single time, polite small talk puts me straight to sleep.`
+                : `Phone on silent, something great in a glass, and zero work talk.`),
             delta: 14,
           },
           {
-            text: isHimMatch
-              ? `💎 Skip the rehearsed dating-app script, ${profile.name}, tell me one thing about you nobody guesses right away.`
-              : `💎 No generic small talk here, give me one unpopular opinion you stand by 100%.`,
-            reply: isHimMatch
-              ? `People expect nonstop extrovert energy, when really I’m happiest cooking late-night pasta for one person.`
-              : `Dessert menus beat networking events ten times out of ten, glad you skipped the script.`,
+            text:
+              pPack?.beat1Vip ||
+              (isHimMatch
+                ? `💎 Skip the rehearsed dating-app script, ${profile.name}, tell me one thing about you nobody guesses right away.`
+                : `💎 No generic small talk here, give me one unpopular opinion you stand by 100%.`),
+            reply:
+              pPack?.beat1VipReply ||
+              (isHimMatch
+                ? `People expect nonstop extrovert energy, when really I’m happiest cooking late-night pasta for one person.`
+                : `Dessert menus beat networking events ten times out of ten, glad you skipped the script.`),
             delta: 24,
             cost: 1,
             badge: 'VIP Spark',
@@ -626,30 +1541,42 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         ],
         choices: [
           {
-            text: isHimMatch
-              ? `People who brag nonstop or rush straight to scheduling before we’ve even laughed once.`
-              : `Zero panic here. I stay busy with my own craft and catch up warmly when you’re off.`,
-            reply: isHimMatch
-              ? `Couldn’t agree more, if the banter isn’t effortless here, dinner would feel like homework.`
-              : `Thank heaven, self-assured patience is rarer than gold.`,
+            text:
+              pPack?.beat2ChoiceA ||
+              (isHimMatch
+                ? `People who brag nonstop or rush straight to scheduling before we’ve even laughed once.`
+                : `Zero panic here. I stay busy with my own craft and catch up warmly when you’re off.`),
+            reply:
+              pPack?.beat2ReplyA ||
+              (isHimMatch
+                ? `Couldn’t agree more, if the banter isn’t effortless here, dinner would feel like homework.`
+                : `Thank heaven, self-assured patience is rarer than gold.`),
             delta: 16,
           },
           {
-            text: isHimMatch
-              ? `Secretly super competitive, though I’m graceful when I win.`
-              : `Candlelit vinyl bar every time, shouting over bass is an instant pass.`,
-            reply: isHimMatch
-              ? `Haha noted, now I definitely know not to go easy on you.`
-              : `Impeccable taste. My ears thank you already.`,
+            text:
+              pPack?.beat2ChoiceB ||
+              (isHimMatch
+                ? `Secretly super competitive, though I’m graceful when I win.`
+                : `Candlelit vinyl bar every time, shouting over bass is an instant pass.`),
+            reply:
+              pPack?.beat2ReplyB ||
+              (isHimMatch
+                ? `Haha noted, now I definitely know not to go easy on you.`
+                : `Impeccable taste. My ears thank you already.`),
             delta: 15,
           },
           {
-            text: isHimMatch
-              ? `💎 Boring texters, thankfully you’re passing round two with flying colors.`
-              : `💎 Zero fragile ego here, take all the space your day needs and bring your wit at six.`,
-            reply: isHimMatch
-              ? `High praise, now I’m determined to keep that streak alive.`
-              : `Consider me officially intrigued.`,
+            text:
+              pPack?.beat2Vip ||
+              (isHimMatch
+                ? `💎 Boring texters, thankfully you’re passing round two with flying colors.`
+                : `💎 Zero fragile ego here, take all the space your day needs and bring your wit at six.`),
+            reply:
+              pPack?.beat2VipReply ||
+              (isHimMatch
+                ? `High praise, now I’m determined to keep that streak alive.`
+                : `Consider me officially intrigued.`),
             delta: 24,
             cost: 1,
             badge: 'High-EQ Banter',
@@ -659,34 +1586,43 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       {
         beatNumber: 3,
         incomingMessages: [
-          profile.vulnerabilityNote
-            ? isHimMatch
+          pPack?.beat3Incoming ||
+            (isHimMatch
               ? `Honest moment: sometimes people assume a ${profile.age}-year-old isn’t looking for something real, when that’s the whole reason I’m here.`
-              : `Fair warning up front: I’ve built a very peaceful life on my own, so I pace things intentionally.`
-            : `Halfway through the week and you’re easily my favorite notification.`,
+              : `Fair warning up front: I’ve built a very peaceful life on my own, so I pace things intentionally.`),
         ],
         choices: [
           {
-            text: isHimMatch
-              ? `Actions prove way more than birth years, keep showing up consistently and you’ll stand out fast.`
-              : `I love that you guard your peace, no rushing from my side, just good company.`,
-            reply: isHimMatch
-              ? `Consistent is my baseline. You won’t have to guess where I stand.`
-              : `Best possible answer you could have given.`,
+            text:
+              pPack?.beat3ChoiceA ||
+              (isHimMatch
+                ? `Actions prove way more than birth years, keep showing up consistently and you’ll stand out fast.`
+                : `I love that you guard your peace, no rushing from my side, just good company.`),
+            reply:
+              pPack?.beat3ReplyA ||
+              (isHimMatch
+                ? `Consistent is my baseline. You won’t have to guess where I stand.`
+                : `Best possible answer you could have given.`),
             delta: 18,
           },
           {
-            text: `Let’s see how our chemistry feels across a real table before writing the memoir.`,
-            reply: `Haha fair call, one great dinner at a time.`,
+            text:
+              pPack?.beat3ChoiceB ||
+              `Let’s see how our chemistry feels across a real table before writing the memoir.`,
+            reply: pPack?.beat3ReplyB || `Haha fair call, one great dinner at a time.`,
             delta: 14,
           },
           {
-            text: isHimMatch
-              ? `💎 Good to hear. I’m way past casual games, so honesty goes a long way with me.`
-              : `💎 Unhurried pace respected, earning your trust slowly is half the fun.`,
-            reply: isHimMatch
-              ? `Loud and clear, wouldn’t want it any other way.`
-              : `Okay, you definitely know what you’re doing.`,
+            text:
+              pPack?.beat3Vip ||
+              (isHimMatch
+                ? `💎 Good to hear. I’m way past casual games, so honesty goes a long way with me.`
+                : `💎 Unhurried pace respected, earning your trust slowly is half the fun.`),
+            reply:
+              pPack?.beat3VipReply ||
+              (isHimMatch
+                ? `Loud and clear, wouldn’t want it any other way.`
+                : `Okay, you definitely know what you’re doing.`),
             delta: 24,
             cost: 1,
             badge: 'Real Talk',
@@ -696,7 +1632,8 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       {
         beatNumber: 4,
         incomingMessages: [
-          `Stepped outside for five minutes of fresh air before my afternoon wraps.`,
+          pPack?.beat4Incoming ||
+            `Stepped outside for five minutes of fresh air before my afternoon wraps.`,
         ],
         photoDrop: {
           id: `photo-${profile.id}-candid`,
@@ -704,24 +1641,31 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
           imageUrl: photos[5],
           unlockCost: 1,
           exifClue: `📍 Live Photo · Taken 6 min ago · Natural camera roll, zero filters.`,
-          secretNote: isHimMatch
-            ? `Quick coffee breather before my last call. Counting down to Friday.`
-            : `Finally off work calls for five minutes. How is your afternoon going?`,
+          secretNote:
+            pPack?.beat4PhotoNote ||
+            (isHimMatch
+              ? `Quick coffee breather before my last call. Counting down to Friday.`
+              : `Finally off work calls for five minutes. How is your afternoon going?`),
         },
         choices: [
           {
-            text: `Okay, that golden-hour lighting is doing very persuasive work.`,
-            reply: `Wait until Friday night, even better in person.`,
+            text:
+              pPack?.beat4ChoiceA ||
+              `Okay, that golden-hour lighting is doing very persuasive work.`,
+            reply: pPack?.beat4ReplyA || `Wait until Friday night, even better in person.`,
             delta: 16,
           },
           {
-            text: `Looking sharp, hope your afternoon wraps smoothly.`,
-            reply: `Just wrapped the hardest part, smooth sailing toward Friday.`,
+            text: pPack?.beat4ChoiceB || `Looking sharp, hope your afternoon wraps smoothly.`,
+            reply:
+              pPack?.beat4ReplyB || `Just wrapped the hardest part, smooth sailing toward Friday.`,
             delta: 13,
           },
           {
-            text: `💎 Unfair distraction mid-afternoon, ${profile.name}, save that smile for across the table.`,
-            reply: `Saved exclusively for Friday at eight.`,
+            text:
+              pPack?.beat4Vip ||
+              `💎 Unfair distraction mid-afternoon, ${profile.name}, save that smile for across the table.`,
+            reply: pPack?.beat4VipReply || `Saved exclusively for Friday at eight.`,
             delta: 23,
             cost: 1,
             badge: 'Spark Boost',
@@ -731,36 +1675,49 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
       {
         beatNumber: 5,
         incomingMessages: [
-          isHimMatch
-            ? `Reservation is locked in under ${profile.name}. Anything I should know so Friday feels completely effortless for you?`
-            : `Friday is looking clear on my calendar, do you actually keep your phone off the table at dinner?`,
+          pPack?.beat5Incoming ||
+            (isHimMatch
+              ? `Reservation is locked in under ${profile.name}. Anything I should know so Friday feels completely effortless for you?`
+              : `Friday is looking clear on my calendar, do you actually keep your phone off the table at dinner?`),
         ],
         choices: [
           {
-            text: isHimMatch
-              ? `Just show up on time, smell great, and don’t check sports scores mid-sentence.`
-              : `Silent mode from the moment you sit down until I walk you to your car.`,
-            reply: isHimMatch
-              ? `Phone stays on Do Not Disturb in my jacket pocket all night.`
-              : `Rare breed. Now I’m genuinely looking forward to Friday.`,
+            text:
+              pPack?.beat5ChoiceA ||
+              (isHimMatch
+                ? `Just show up on time, smell great, and don’t check sports scores mid-sentence.`
+                : `Silent mode from the moment you sit down until I walk you to your car.`),
+            reply:
+              pPack?.beat5ReplyA ||
+              (isHimMatch
+                ? `Phone stays on Do Not Disturb in my jacket pocket all night.`
+                : `Rare breed. Now I’m genuinely looking forward to Friday.`),
             delta: 17,
           },
           {
-            text: isHimMatch
-              ? `Quiet booth away from the kitchen door and we’re set.`
-              : `Always, real conversation beats scrolling every time.`,
-            reply: isHimMatch
-              ? `Already requested the corner banquette when I called.`
-              : `Good instinct.`,
+            text:
+              pPack?.beat5ChoiceB ||
+              (isHimMatch
+                ? `Quiet booth away from the kitchen door and we’re set.`
+                : `Always, real conversation beats scrolling every time.`),
+            reply:
+              pPack?.beat5ReplyB ||
+              (isHimMatch
+                ? `Already requested the corner banquette when I called.`
+                : `Good instinct.`),
             delta: 15,
           },
           {
-            text: isHimMatch
-              ? `💎 Just bring steady eye contact and zero rehearsed lines. I spot fake bravado in ten seconds.`
-              : `💎 Phone stays buried, car door handled, and zero rushing the evening.`,
-            reply: isHimMatch
-              ? `Real conversation only, wouldn’t insult your intelligence with a script.`
-              : `Smooth from start to finish.`,
+            text:
+              pPack?.beat5Vip ||
+              (isHimMatch
+                ? `💎 Just bring steady eye contact and zero rehearsed lines. I spot fake bravado in ten seconds.`
+                : `💎 Phone stays buried, car door handled, and zero rushing the evening.`),
+            reply:
+              pPack?.beat5VipReply ||
+              (isHimMatch
+                ? `Real conversation only, wouldn’t insult your intelligence with a script.`
+                : `Smooth from start to finish.`),
             delta: 24,
             cost: 1,
             badge: '5-Star Chemistry',
@@ -774,7 +1731,7 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
             ? `Friday is sorted on my end x Only if you fancy getting off this app, let me text you from my proper number.`
             : isHimMatch
               ? profile.age >= 30
-                ? `Friday at eight is handled. Share your number when you are ready and I will send the confirmation directly.`
+                ? `Friday at 7:45 is handled. Share your number when you are ready and I will send the confirmation directly.`
                 : `Everything is set for Friday night. Whenever you’re ready to get off Prowl, I’d love to text you directly.`
               : profile.age >= 55
                 ? `You passed my filter cleanly. Take my personal number, and do not waste it on small talk.`
@@ -832,18 +1789,20 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
         ],
       },
     ],
-    imessage: buildImessageFollowup(profile, photos[5]),
-    spicySuggestions: isHimMatch
-      ? [
-          `Wear that dark linen shirt with rolled sleeves Friday. I’m not subtle when I like a view.`,
-          `Keep making Friday this effortless and dessert might move back to Sunset Hills.`,
-          `Tell me one thing you’ve been wanting to do since we matched.`,
-        ]
-      : [
-          `Fair warning: if you wear silk on Friday it’s going to test my composure.`,
-          `Save the last glass of Pinot for a quiet nightcap after the restaurant closes.`,
-          `What’s one thing most men are too timid to say across a candlelit table?`,
-        ],
+    imessage: buildImessageFollowup(profile, photos[5], pPack),
+    spicySuggestions:
+      pPack?.spicy ||
+      (isHimMatch
+        ? [
+            `Wear that dark linen shirt with rolled sleeves Friday. I’m not subtle when I like a view.`,
+            `Keep making Friday this effortless and dessert might move back to Sunset Hills.`,
+            `Tell me one thing you’ve been wanting to do since we matched.`,
+          ]
+        : [
+            `Fair warning: if you wear silk on Friday it’s going to test my composure.`,
+            `Save the last glass of Pinot for a quiet nightcap after the restaurant closes.`,
+            `What’s one thing most men are too timid to say across a candlelit table?`,
+          ]),
     cutLooseVerdict: {
       isActualTrap: false,
       headline: `Wait, ${profile.name} Is a Genuine Match!`,
@@ -855,9 +1814,25 @@ function buildLeadOrCameoChapter(profile: V35CastProfile): {
   };
 }
 
+interface ImessageCustomSubset {
+  imsg1Incoming?: string;
+  imsg1ReplyA?: string;
+  imsg1ReplyB?: string;
+  imsg2Incoming?: string;
+  imsg2ChoiceA?: string;
+  imsg2ReplyA?: string;
+  imsg3Incoming?: string;
+  imsg3ReplyA?: string;
+  imsg4Incoming?: string;
+  imsg4PhotoNote?: string;
+  imsg5Incoming?: string;
+  imsg6Incoming?: string;
+}
+
 function buildImessageFollowup(
   profile: V35CastProfile,
   candidUrl: string,
+  custom?: ImessageCustomSubset,
 ): ChatBeat[] {
   const name = profile.name;
   const isHimMatch = profile.role === 'him';
@@ -868,69 +1843,104 @@ function buildImessageFollowup(
   const isIconHer = !isHimMatch && profile.age >= 55;
   const isGenXHer = !isHimMatch && profile.age >= 40 && profile.age < 55;
 
-  const beat1Incoming = isGenZTrap
-    ? `yo blue bubbles unlocked 👀 saved ur contact, what are u up to rn`
-    : profile.id === 'graham'
-      ? `Saved under my Tokyo Equities contact card! Keep texts strictly between 9 AM and 6:30 PM so notifications stay tidy.`
+  const julianCustom: ImessageCustomSubset | undefined =
+    profile.id === 'julian'
+      ? {
+          imsg1Incoming:
+            'Properly off that noisy app now x Saved your number with a star next to my rare-books notes.',
+          imsg1ReplyA: 'Promise zero fellowship essays in your texts before noon x',
+          imsg1ReplyB: 'Pouring a glass of claret and cataloguing a 1924 Colette edition x',
+          imsg2Incoming:
+            'Quick check before tomorrow night: fancy meeting right inside by the mahogany bar at half seven, or shall I collect you? x',
+          imsg2ChoiceA: 'Meet me by the mahogany bar five minutes early, classic London standard.',
+          imsg2ReplyA: 'Proper standard. Two Sancerres will be breathing at 7:25 sharp x',
+          imsg3Incoming:
+            'My flatmate saw me ironing two white linen shirts on a Wednesday and asked if I was meeting royalty. Didn’t say no x',
+          imsg3ReplyA: 'Smart flatmate, make sure those cuffs are crisp.',
+          imsg4Incoming: 'Tweed blazer over rolled linen or classic dark navy jacket for tomorrow? x',
+          imsg4PhotoNote: 'Hampstead vs. Los Angeles tie-breaker before dinner x',
+          imsg5Incoming:
+            'Afternoon check-in: table is all confirmed for tonight, weather looks lovely, genuinely excited to see you xx',
+          imsg6Incoming:
+            'Just arrived and claimed our quiet alcove table away from the bar crowd, take your time walking in x',
+        }
+      : undefined;
+
+  const pack = custom ?? julianCustom;
+
+  const beat1Incoming =
+    pack?.imsg1Incoming ||
+    (isGenZTrap
+      ? `yo blue bubbles unlocked 👀 saved ur contact, what are u up to rn`
+      : profile.id === 'graham'
+        ? `Saved under my Tokyo Equities contact card! Keep texts strictly between 9 AM and 6:30 PM so notifications stay tidy.`
+        : isUkCub
+          ? `Properly off that noisy app now x Saved your number with a star.`
+          : isUnderstatedMid20sCub
+            ? `Off the app at last. Saved your contact properly.`
+            : isComposed30sZaddy
+              ? `Good to have your direct line. Friday at 7:45 is confirmed on my calendar.`
+              : isHimMatch
+                ? `Got your number saved! Way easier texting you here than on Prowl.`
+                : isIconHer
+                  ? `Much better off the app. You have my actual line now, use it wisely.`
+                  : isGenXHer
+                    ? `Much cleaner off the app. You have my direct line now.`
+                    : `Officially off Prowl ✨ Saved your number, much easier texting here.`);
+
+  const beat1ReplyA =
+    pack?.imsg1ReplyA ||
+    (isGenZTrap
+      ? `haha chill i text whenever vibes hit lol`
       : isUkCub
-        ? `Properly off that noisy app now x Saved your number with a star.`
-        : isUnderstatedMid20sCub
-          ? `Off the app at last. Saved your contact properly.`
-          : isComposed30sZaddy
-            ? `Good to have your direct line. Friday at 7:45 is confirmed on my calendar.`
-            : isHimMatch
-              ? `Got your number saved! Way easier texting you here than on Prowl.`
-              : isIconHer
-                ? `Much better off the app. You have my actual line now, use it wisely.`
-                : isGenXHer
-                  ? `Much cleaner off the app. You have my direct line now.`
-                  : `Officially off Prowl ✨ Saved your number, much easier texting here.`;
+        ? `Promise not to blow up your phone during meetings x`
+        : isHimMatch
+          ? `Deal, I won’t blow up your phone while you’re working.`
+          : isIconHer
+            ? `Punctual and concise. Keep it up.`
+            : isGenXHer
+              ? `Sounds good. Punctuality goes a long way with me.`
+              : `Punctual and zero rambling, green flag already 🍷`);
 
-  const beat1ReplyA = isGenZTrap
-    ? `haha chill i text whenever vibes hit lol`
-    : isUkCub
-      ? `Promise not to blow up your phone during meetings x`
-      : isHimMatch
-        ? `Deal, I won’t blow up your phone while you’re working.`
+  const beat2Incoming =
+    pack?.imsg2Incoming ||
+    (isGenZTrap
+      ? `quick q before friday tho... u cool driving or splitting the uber lol`
+      : isUkCub
+        ? `Quick check before Friday: want to meet me right inside at 7:40, or shall I pick you up? x`
+        : isHimMatch
+          ? `Quick check before Friday: want to meet there around 7:40, or would you rather I pick you up?`
+          : isIconHer
+            ? `One logistical question: do you arrive five minutes early, or make excuses about traffic?`
+            : isGenXHer
+              ? `Quick litmus test: are you an "arrive ten minutes early" adult or a last-second sprinter?`
+              : `Honest check before Friday: ten minutes early at the bar, or sprinting through parking at 7:46?`);
+
+  const beat5Incoming =
+    pack?.imsg5Incoming ||
+    (isGenZTrap
+      ? `hey so friday is lowkey getting hectic on my end... still figuring tonight out lol`
+      : isUkCub
+        ? `Friday check-in: table is all set for 7:45 tonight, weather’s lovely, looking forward to seeing you xx`
         : isIconHer
-          ? `Punctual and concise. Keep it up.`
+          ? `Friday confirmation: we are set for 7:45 tonight. 👍`
           : isGenXHer
-            ? `Sounds good. Punctuality goes a long way with me.`
-            : `Punctual and zero rambling, green flag already 🍷`;
+            ? `Sounds good for 7:45 tonight. Looking forward to it.`
+            : `Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.`);
 
-  const beat2Incoming = isGenZTrap
-    ? `quick q before friday tho... u cool driving or splitting the uber lol`
-    : isUkCub
-      ? `Quick check before Friday: want to meet me right inside at 7:40, or shall I pick you up? x`
-      : isHimMatch
-        ? `Quick check before Friday: want to meet there around 7:40, or would you rather I pick you up?`
+  const beat6Incoming =
+    pack?.imsg6Incoming ||
+    (isGenZTrap
+      ? `wait just pulled up outside where r u sitting 👀`
+      : isUkCub
+        ? `Just got here and grabbed us a great table near the back, take your time walking in x`
         : isIconHer
-          ? `One logistical question: do you arrive five minutes early, or make excuses about traffic?`
+          ? `I’m at a quiet table near the bar with a cold martini. Come say hello.`
           : isGenXHer
-            ? `Quick litmus test: are you an "arrive ten minutes early" adult or a last-second sprinter?`
-            : `Honest check before Friday: ten minutes early at the bar, or sprinting through parking at 7:46?`;
-
-  const beat5Incoming = isGenZTrap
-    ? `hey so friday is lowkey getting hectic on my end... still figuring tonight out lol`
-    : isUkCub
-      ? `Friday check-in: table is all set for 7:45 tonight, weather’s lovely, looking forward to seeing you xx`
-      : isIconHer
-        ? `Friday confirmation: we are set for 7:45 tonight. 👍`
-        : isGenXHer
-          ? `Sounds good for 7:45 tonight. Looking forward to it.`
-          : `Hey! Just confirming we’re all set for 7:45 tonight. Can’t wait to see you.`;
-
-  const beat6Incoming = isGenZTrap
-    ? `wait just pulled up outside where r u sitting 👀`
-    : isUkCub
-      ? `Just got here and grabbed us a great table near the back, take your time walking in x`
-      : isIconHer
-        ? `I’m at a quiet table near the bar with a cold martini. Come say hello.`
-        : isGenXHer
-          ? `Just sat down at our table near the patio. No rush parking.`
-          : isUnderstatedMid20sCub || isComposed30sZaddy
-            ? `Just got here and grabbed our table. Let me know what you want to drink if you’re two minutes out.`
-            : `Just got here and grabbed our table! Text me when you pull up ✨`;
+            ? `Just sat down at our table near the patio. No rush parking.`
+            : isUnderstatedMid20sCub || isComposed30sZaddy
+              ? `Just got here and grabbed our table. Let me know what you want to drink if you’re two minutes out.`
+              : `Just got here and grabbed our table! Text me when you pull up ✨`);
 
   return [
     {
@@ -946,13 +1956,15 @@ function buildImessageFollowup(
         },
         {
           text: `So much easier off the app, how’s your night winding down?`,
-          reply: isGenZTrap
-            ? `just chillin on the couch scrolling tiktok lol wbu`
-            : isUkCub
-              ? `Pouring a proper glass of red with vinyl on low x Wish you were picking the next record.`
-              : isIconHer
-                ? `Dry Gibson on the terrace and zero emails. Peaceful.`
-                : `Glass of red and vinyl spinning on low, wish you were here to pick the next record.`,
+          reply:
+            pack?.imsg1ReplyB ||
+            (isGenZTrap
+              ? `just chillin on the couch scrolling tiktok lol wbu`
+              : isUkCub
+                ? `Pouring a proper glass of red with vinyl on low x Wish you were picking the next record.`
+                : isIconHer
+                  ? `Dry Gibson on the terrace and zero emails. Peaceful.`
+                  : `Glass of red and vinyl spinning on low, wish you were here to pick the next record.`),
           delta: 15,
         },
         {
@@ -975,18 +1987,22 @@ function buildImessageFollowup(
       incomingMessages: [beat2Incoming],
       choices: [
         {
-          text: isHimMatch
-            ? `Meet me at the bar five minutes early with a drink already ordered, classic first-date rule.`
-            : `Ten minutes early at the bar so you never walk into an empty table.`,
-          reply: isGenZTrap
-            ? `ok wait ordering ahead is kinda fancy i got u lol`
-            : isUkCub
-              ? `Proper rule. I’ll be by the mahogany bar at 7:40 sharp x`
-              : isHimMatch
-                ? `Smart rule. I’ll be waiting by the mahogany bar at 7:40.`
-                : isIconHer || isGenXHer
-                  ? `Sounds good. Exact right answer.`
-                  : `Exact right answer.`,
+          text:
+            pack?.imsg2ChoiceA ||
+            (isHimMatch
+              ? `Meet me at the bar five minutes early with a drink already ordered, classic first-date rule.`
+              : `Ten minutes early at the bar so you never walk into an empty table.`),
+          reply:
+            pack?.imsg2ReplyA ||
+            (isGenZTrap
+              ? `ok wait ordering ahead is kinda fancy i got u lol`
+              : isUkCub
+                ? `Proper rule. I’ll be by the mahogany bar at 7:40 sharp x`
+                : isHimMatch
+                  ? `Smart rule. I’ll be waiting by the mahogany bar at 7:40.`
+                  : isIconHer || isGenXHer
+                    ? `Sounds good. Exact right answer.`
+                    : `Exact right answer.`),
           delta: 18,
         },
         {
@@ -1018,33 +2034,36 @@ function buildImessageFollowup(
     {
       beatNumber: 3,
       incomingMessages: [
-        isGenZTrap
-          ? `ngl walked past that lounge patio earlier and the lighting looked kinda fire`
-          : isIconHer
-            ? `Passed a quiet courtyard with proper candlelight and Chet Baker playing. Good omen for tomorrow.`
-            : `Just passed a candlelit patio with string lights and good vinyl playing, made me think of Friday.`,
+        pack?.imsg3Incoming ||
+          (isGenZTrap
+            ? `ngl walked past that lounge patio earlier and the lighting looked kinda fire`
+            : isIconHer
+              ? `Passed a quiet courtyard with proper candlelight and Chet Baker playing. Good omen for tomorrow.`
+              : `Just passed a candlelit patio with string lights and good vinyl playing, made me think of Friday.`),
       ],
       choices: [
         {
-          text: `Save that view for us tomorrow night.`,
-          reply: isGenZTrap
-            ? `locked in fr`
-            : isIconHer || isGenXHer
-              ? `Already reserved.`
-              : `Already counting down.`,
+          text: `Save that mood for us tomorrow night.`,
+          reply:
+            pack?.imsg3ReplyA ||
+            (isGenZTrap
+              ? `locked in fr`
+              : isIconHer || isGenXHer
+                ? `Already reserved.`
+                : `Already counting down.`),
           delta: 15,
         },
         {
-          text: `Did you spot Jade or Sam holding court by the piano?`,
+          text: `Okay, now tomorrow night officially has high expectations.`,
           reply: isGenZTrap
             ? `wait somebody in a silk blazer def gave me the side eye lol`
             : isIconHer
-              ? `Jade raised her martini glass from across the room.`
-              : `Pretty sure Jade waved at me from the martini rail.`,
+              ? `High standards are the only ones worth keeping.`
+              : `Good, high expectations keep dinner interesting.`,
           delta: 16,
         },
         {
-          text: `💎 Good scouting, make sure they hold the corner away from Table 9’s drama.`,
+          text: `💎 Good scouting, make sure we get a quiet booth where we can actually hear each other.`,
           reply: isUkCub
             ? `Quiet alcove booth is sorted with the maitre d’ x`
             : `Quiet alcove corner is locked in with the host.`,
@@ -1057,11 +2076,12 @@ function buildImessageFollowup(
     {
       beatNumber: 4,
       incomingMessages: [
-        isGenZTrap
-          ? `fit check before tmrw night 👀 lmk`
-          : isIconHer
-            ? `Brief preview before 7:45 tomorrow.`
-            : `Quick wardrobe check before tomorrow night.`,
+        pack?.imsg4Incoming ||
+          (isGenZTrap
+            ? `fit check before tmrw night 👀 lmk`
+            : isIconHer
+              ? `Brief preview before 7:45 tomorrow.`
+              : `Quick wardrobe check before tomorrow night.`),
       ],
       photoDrop: {
         id: `photo-${name.toLowerCase()}-imessage`,
@@ -1069,13 +2089,15 @@ function buildImessageFollowup(
         imageUrl: candidUrl,
         unlockCost: 1,
         exifClue: `📍 Live Photo · Sent just now on iMessage · Getting ready for dinner.`,
-        secretNote: isGenZTrap
-          ? `honest fit check before tmrw lol thoughts?`
-          : isUkCub
-            ? `Quick check before tomorrow night, too dressed up or about right? x`
-            : isHimMatch
-              ? `Trying to decide between this jacket or keeping it more casual tomorrow night. Honest thoughts?`
-              : `Thinking of wearing this tomorrow night. What do you think?`,
+        secretNote:
+          pack?.imsg4PhotoNote ||
+          (isGenZTrap
+            ? `honest fit check before tmrw lol thoughts?`
+            : isUkCub
+              ? `Quick check before tomorrow night, too dressed up or about right? x`
+              : isHimMatch
+                ? `Trying to decide between this jacket or keeping it more casual tomorrow night. Honest thoughts?`
+                : `Thinking of wearing this tomorrow night. What do you think?`),
       },
       choices: [
         {
@@ -1111,7 +2133,7 @@ function buildImessageFollowup(
       choices: [
         {
           text: isHimMatch
-            ? `Love a man who confirms at noon without prompting, see you tonight!`
+            ? `Love a man who confirms early without prompting, see you tonight!`
             : `Love a woman who locks in Friday with zero ambiguity, see you tonight!`,
           reply: isGenZTrap
             ? `yeah totally see u soon haha`
@@ -1132,7 +2154,7 @@ function buildImessageFollowup(
           delta: 16,
         },
         {
-          text: `💎 Noon confirmation sealed it, bring your best smile tonight.`,
+          text: `💎 Afternoon confirmation sealed it, bring your best smile tonight.`,
           reply: isIconHer
             ? `Always. 7:45 sharp.`
             : `Counting the hours until 7:45.`,

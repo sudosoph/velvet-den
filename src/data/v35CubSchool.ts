@@ -1,8 +1,11 @@
 import type { PortraitExpression } from './v35AssetManifest';
 
+export type CubSchoolLevel = 1 | 2 | 3;
+
 export interface CubSchoolDrill {
   id: string;
   moduleNumber: number;
+  level?: CubSchoolLevel;
   topicTag: string;
   sceneImage: string;
   punchyQuestion: string;
@@ -225,76 +228,78 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     fixItAffiliateId: 'cooling-bamboo-sheets',
   },
   {
-    id: 'drill-06-overhead-big-light-crime',
+    id: 'drill-06-waiter-son-brunch-save',
     moduleNumber: 6,
-    topicTag: '💡 Mood Lighting',
+    level: 2,
+    topicTag: '🥂 Waiter Blunder',
     sceneImage: './images/scenes/cougarmarket-wine.jpg',
-    punchyQuestion: 'She steps into your living room at 9:30 PM for wine. How is the room lit?',
-    title: 'Banishing Surgical Ceiling Bulbs After Sunset',
+    punchyQuestion: 'At brunch the waiter smiles at her and asks: "And coffee for your son?" Your move?',
+    title: 'Turning the Classic Waiter "Son" Blunder Into Instant Chemistry',
     redditComplaintQuote:
-      '"Walked into his apartment feeling glamorous and he flipped on an overhead bulb brighter than CVS."',
+      '"Waiter asked if I was her son; I squeezed her hand over the table and said Definitely not related, bring us two mimosas. She melted."',
     scenarioSetup:
-      'Dinner sparked effortlessly and she comes up to your place for one glass of red and vinyl.',
+      'Sunday patio brunch is going great until an oblivious twenty-year-old server assumes you two are mother and son.',
     rookieCrime:
-      'Blasting harsh 5000K overhead ceiling glare instead of warm corner lamps.',
+      'Freezing in awkward silence, blushing into your menu, or snapping angrily at minimum-wage staff.',
     options: [
       {
-        label: 'Flip on the overhead ceiling fixture so the room glows like a dental clinic.',
+        label: 'Stare silently into your napkin and pretend you really are her nephew until the check.',
         isGoldStar: false,
         headmistressVerdict:
-          'Detention. Overhead fluorescent glare after 8 PM is an instant romance felony.',
+          'Detention. Shrinking in embarrassment turns a five-second mix-up into an all-day cringe.',
         expression: 'icked',
       },
       {
-        label: 'Warm table lamps dimmed low, candle lit on the counter, overhead switch off.',
+        label: 'Kiss the back of her hand with an easy grin: "Definitely my date, two mimosas please."',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Twenty-dollar warm bulbs make any apartment feel like a boutique lounge.',
+          'Gold Star. Zero anger, zero awkwardness, 100% relaxed romantic claim.',
         expression: 'blush',
       },
       {
-        label: 'Pitch-black room lit solely by a paused video-game menu flashing on your TV.',
+        label: 'Stand up and demand to speak to the restaurant manager about age assumptions.',
         isGoldStar: false,
         headmistressVerdict:
-          'Dorm-cave lighting belongs in freshman year, not date night.',
+          'Making a scene ruins brunch ten times faster than the waiter ever could.',
         expression: 'icked',
       },
     ],
-    fixItAffiliateId: 'part-of-your-world-book',
+    fixItAffiliateId: 'funny-cougar-stemless-wine-glass',
   },
   {
-    id: 'drill-07-youth-charitable-donation',
+    id: 'drill-07-rave-energy-mismatch',
     moduleNumber: 7,
-    topicTag: '💈 Zero Ego',
+    level: 2,
+    topicTag: '🌙 Date Energy',
     sceneImage: './images/scenes/palm-springs-resort.jpg',
-    punchyQuestion: 'You’re fit, 25, and across from a stunning 46-year-old architect. Your vibe?',
-    title: 'Treating Your Birth Year Like a Charitable Donation',
+    punchyQuestion: 'You have 25-year-old boundless stamina; it is 10:15 PM Friday after dinner. Next stop?',
+    title: 'Respecting the 10 PM Sanctuary Window Over Sticky-Floor Marathons',
     redditComplaintQuote:
-      '"Some 23-year-old with abs acts like showing up is community service, youth is a timestamp, not a personality."',
+      '"Sweet 24M tried to take me from sushi to an 11:30 PM standing-room warehouse DJ set. Baby, I needed ibuprofen just reading the flyer."',
     scenarioSetup:
-      'You are fit, twenty-five, and getting plenty of attention. You sit down across from a stunning 46-year-old architect.',
+      'Dinner and drinks sparked effortlessly, and you still have energy to burn after 10 PM.',
     rookieCrime:
-      'Assuming being younger gives you leverage to coast on charm, show up late, or fish for praise.',
+      'Dragging an accomplished woman in heels to a deafening standing-room-only midnight club with sticky floors.',
     options: [
       {
-        label: 'Smirk: "Bet guys your age at the club don\'t still have a six-pack like this."',
+        label: 'Surprise her with midnight wristbands to a packed standing-room EDM warehouse.',
         isGoldStar: false,
         headmistressVerdict:
-          'Detention. Arrogance ages faster than milk in August.',
+          'Detention. Nobody over 36 wants mystery tequila spilled on suede heels at 1 AM.',
         expression: 'icked',
       },
       {
-        label: 'Arrive five minutes early in pressed linen, ask sharp questions, zero ego.',
+        label: 'Offer a quiet vinyl lounge booth or a relaxed walk back for tea, wine, and zero noise.',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Fitness gets you noticed; manners and substance get you invited back.',
+          'Gold Star. Save your 25-year-old stamina for behind closed doors, never nightclub lines.',
         expression: 'laugh',
       },
       {
-        label: 'Check your reflection in the wine glass and brag about your Prowl queue.',
+        label: 'Pitch a 5:45 AM steep canyon sprint tomorrow morning right after midnight drinks.',
         isGoldStar: false,
         headmistressVerdict:
-          'She flags the bartender for the check while you admire your jawline.',
+          'She wants a weekend lover, not Marine Corps boot camp.',
         expression: 'icked',
       },
     ],
@@ -415,38 +420,39 @@ export const V35_CUB_SCHOOL_DRILLS: CubSchoolDrill[] = [
     fixItAffiliateId: 'short-leash-leather-dog-leash',
   },
   {
-    id: 'drill-11-dim-bistro-menu-tact',
+    id: 'drill-11-sanctuary-ps5-colonizer',
     moduleNumber: 11,
-    topicTag: '🕯️ Bistro Tact',
+    level: 3,
+    topicTag: '🏡 Her Sanctuary',
     sceneImage: './images/scenes/canyon-sunrise-trail.jpg',
-    punchyQuestion: 'In a dark candlelit bistro, she squints at tiny italic print. Your move?',
-    title: 'Handling Moody Restaurant Menus With Zero Weirdness',
+    punchyQuestion: 'After three dreamy weekends at her serene townhouse, what do you leave behind?',
+    title: 'Respecting Her Peaceful Home Without Turning It Into a Frat Annex',
     redditComplaintQuote:
-      '"Trendy bars print menus in six-point grey ink; he quietly slid the candle closer and won my heart."',
+      '"I spent ten years curating a quiet, clutter-free home. Do NOT leave a giant neon whey-protein tub on my marble counter."',
     scenarioSetup:
-      'The cocktail lounge is romantic and dim, and the wine card was printed in microscopic font.',
+      'You stay over on Sundays at her immaculate townhouse and she offers you a small drawer.',
     rookieCrime:
-      'Cracking a loud joke about reading glasses or blinding the whole room with your phone strobe.',
+      'Colonizing her living room with tangled console wires, gym bags, and unwashed shakers.',
     options: [
       {
-        label: 'Joke loudly about needing bifocals and wave the waiter for a large-print menu.',
+        label: 'Hook your console up to her living-room TV and leave controllers on the rug.',
         isGoldStar: false,
         headmistressVerdict:
-          'Immediate expulsion. Roasting your date across the booth guarantees solo dessert.',
+          'Immediate eviction. Her peaceful living room is not a sophomore rec room.',
         expression: 'icked',
       },
       {
-        label: 'Slide the table candle closer smoothly and suggest the two best dishes aloud.',
+        label: 'Keep a spare shirt in the drawer, strip the sheets, and leave zero clutter.',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star. Subtle, observant chivalry without making a production of it.',
+          'Gold Star. Leaving her space calmer than you found it earns permanent key privileges.',
         expression: 'laugh',
       },
       {
-        label: 'Turn your phone flashlight to 100% brightness and shine it straight at her face.',
+        label: 'Line five giant plastic supplement tubs across her espresso counter.',
         isGoldStar: false,
         headmistressVerdict:
-          'Interrogation-lamp tactics ruin candlelight in half a second.',
+          'Nothing kills morning romance like neon blue pre-workout dust next to French press coffee.',
         expression: 'icked',
       },
     ],
@@ -689,39 +695,40 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
     fixItAffiliateId: 'princess-mulberry-silk-robe',
   },
   {
-    id: 'hm-06-sugar-mama-fishing',
+    id: 'hm-06-helpless-life-coach-trap',
     moduleNumber: 6,
-    topicTag: '🚩 Moocher Vetting',
+    level: 2,
+    topicTag: '🧾 No Mom Duty',
     sceneImage: './images/scenes/cougarmarket-wine.jpg',
     punchyQuestion:
-      'On Date #2, a 24M date jokes: "Maybe an exec like you can sponsor my Cabo trip." Verdict?',
-    title: 'Spotting the Disguised Purse-Moocher Early',
+      'Your 25M match texts: "Ugh taxes & dentist calls confuse me, help me adult tonight?" Move?',
+    title: 'Shutting Down Weaponized Youth Before Becoming His Unpaid Life Coach',
     redditComplaintQuote:
-      '"Every hobosexual floats a joke on Date #2 to test if your wallet is open."',
+      '"The second you schedule his dentist or fix his resume before Date #3, the bedroom spark dies forever."',
     scenarioSetup:
-      'He flashes a dimpled grin across the wine bar right after mentioning his rent went up.',
+      'He is cute and affectionate, yet testing whether you will step into a cozy administrative mom role.',
     rookieCrime:
-      'Laughing past financial fishing hooks until you find yourself subsidizing a grown adult.',
+      'Taking over his basic adult errands and wondering two weeks later why attraction vanished.',
     options: [
       {
-        label: 'Offer to put his ticket on your airline miles so you seem generous.',
+        label: 'Spend two hours organizing his spreadsheets in pajamas for zero romance.',
         isGoldStar: false,
         headmistressVerdict:
-          'Direct violation of Club Rule #1: accomplished women are partners, never ATMs.',
+          'Direct violation of Club Law: you are his hot date, never his guidance counselor.',
         expression: 'icked',
       },
       {
-        label: 'Pretend you missed the comment and hope the mooching jokes stop later.',
+        label: 'Do his errands while sighing passive-aggressively about twenty-somethings.',
         isGoldStar: false,
         headmistressVerdict:
-          'Trial balloons always turn into real requests if you smile past them.',
+          'Martyrdom kills chemistry for both of you.',
         expression: 'icked',
       },
       {
-        label: 'Hold his gaze dryly: "Cute try. I spoil partners with company, never allowances."',
+        label: 'Reply playfully: "Handle your admin like a big boy today and reward awaits at 8 PM."',
         isGoldStar: true,
         headmistressVerdict:
-          'Gold Star vetting. A real peer laughs with respect; a moocher sours in five minutes.',
+          'Gold Star Headmistress move! Keep boundaries clear and reward competence with romance.',
         expression: 'smirk',
       },
     ],
@@ -845,39 +852,40 @@ export const V35_HEADMISTRESS_DRILLS: CubSchoolDrill[] = [
     fixItAffiliateId: 'no-hard-feelings-jlaw-prime',
   },
   {
-    id: 'hm-10-neon-body-wash-upgrade',
+    id: 'hm-10-high-school-classmate-run-in',
     moduleNumber: 10,
-    topicTag: '🧴 Scent Upgrade',
+    level: 3,
+    topicTag: '🥂 Classmate Run-In',
     sceneImage: './images/scenes/wedding-gala-cheers.jpg',
     punchyQuestion:
-      'His shower holds a giant jug of neon "Sport Blast" wash before weekend #2. Upgrade move?',
-    title: 'The Art of Ethical Scent & Grooming Upgrades',
+      'Someone from your 1999 graduating class spots you holding your 26M date’s hand and stares. Move?',
+    title: 'Owning the Hometown Run-In With Unbothered Main-Character Glow',
     redditComplaintQuote:
-      '"Gifted him cedar-bergamot wash once with a compliment; he smelled like a boutique hotel by Friday."',
+      '"Ran into my ex’s nosy sister at the wine bar while my 27M pulled out my chair; watching her jaw drop added five years to my life."',
     scenarioSetup:
-      'Everything else about him is dreamy, except soap engineered to smell like blue Gatorade.',
+      'An old acquaintance walks up fishing for gossip: "Oh! And who is your young friend?"',
     rookieCrime:
-      'Roasting him mercilessly or enduring chemical body spray against silk sheets.',
+      'Fumbling an awkward excuse or acting sheepish when you are two consenting adults having a blast.',
     options: [
       {
-        label: 'Roast his shower shelf to your group chat while saying nothing to him.',
+        label: 'Mumble that he is your real-estate intern and drop his hand.',
         isGoldStar: false,
         headmistressVerdict:
-          'Good Cubs cannot fix blind spots nobody mentions.',
+          'Never hide a great man to appease nosy onlookers.',
         expression: 'icked',
       },
       {
-        label: 'Deliver a stern thirty-minute lecture on parabens before coffee.',
+        label: 'Over-explain your entire dating philosophy for ten defensive minutes.',
         isGoldStar: false,
         headmistressVerdict:
-          'Positive reinforcement beats nagging one hundred times out of one hundred.',
+          'Confidence never writes a permission slip.',
         expression: 'icked',
       },
       {
-        label: 'Drop cedarwood wash by his sink with a wink: "Wear this Friday and don’t make plans."',
+        label: 'Introduce him warmly by name with a radiant smile, toast once, and return to your booth.',
         isGoldStar: true,
         headmistressVerdict:
-          'Unstoppable positive reinforcement. That neon bottle hits the trash inside sixty seconds.',
+          'Iconic poise. He feels ten feet tall beside you, and your classmate leaves dazzled.',
         expression: 'smirk',
       },
     ],

@@ -6,6 +6,7 @@ import {
   POP_CULTURE_TRIVIA,
   resolveTriviaCategory,
   resolveTriviaDifficulty,
+  resolveTriviaLevel,
   type PopCultureTriviaQuestion,
   type TriviaCategory,
   type TriviaDifficulty,
@@ -76,9 +77,10 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
   const shouldAutoShuffle = !import.meta.env.VITEST || forceRandomizeInTests;
 
   const [categoryFilter, setCategoryFilter] = useState<TriviaCategoryFilter>('all');
-  const [difficultyFilter, setDifficultyFilter] = useState<TriviaDifficultyFilter>('all');
+  const [difficultyFilter, setDifficultyFilter] = useState<TriviaDifficultyFilter>('easy');
+  const [clearedLevels, setClearedLevels] = useState<TriviaDifficultyFilter[]>([]);
   const [deck, setDeck] = useState<PopCultureTriviaQuestion[]>(() =>
-    buildTriviaSprintDeck('all', 'all', shouldAutoShuffle),
+    buildTriviaSprintDeck('all', 'easy', shouldAutoShuffle),
   );
   const [qIdx, setQIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
@@ -91,8 +93,8 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
   useEffect(() => {
     if (!open) return;
     setCategoryFilter('all');
-    setDifficultyFilter('all');
-    setDeck(buildTriviaSprintDeck('all', 'all', shouldAutoShuffle));
+    setDifficultyFilter('easy');
+    setDeck(buildTriviaSprintDeck('all', 'easy', shouldAutoShuffle));
     setQIdx(0);
     setSelectedOpt(null);
     setScore(0);
@@ -138,16 +140,19 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
     if (qIdx + 1 >= deck.length) {
       sfx.victoryFanfare();
       setFinished(true);
+      setClearedLevels((prev) =>
+        prev.includes(difficultyFilter) ? prev : [...prev, difficultyFilter],
+      );
       const granted = onEarnTriviaReward('pop_culture_trivia_ace', 0);
       if (granted) setStampUnlocked(true);
       const freshBonus = awardPassportBonusXp(
         `trivia_sprint_${categoryFilter}_${difficultyFilter}`,
         20,
-        'Pop-Culture Sprint Cleared!',
+        'Pop-Culture Level Cleared!',
         '🎬 +20 XP',
       );
       if (!freshBonus) {
-        emitXpBurst(5, 'Sprint Replay Complete!', '🎬 DONE');
+        emitXpBurst(5, 'Level Replay Complete!', '🎬 DONE');
       }
       trackEvent('trivia_completed', {
         score,
@@ -209,7 +214,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                   Pop-Culture Trivia
                 </h2>
                 <p className="text-xs text-zinc-500">
-                  Pick a category and difficulty below, or shuffle a fresh 8-question round.
+                  Start on Level 1 Blockbusters and work your way up to Level 3 Deep Cuts across 76 questions.
                 </p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
@@ -217,7 +222,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                   <button
                     type="button"
                     onClick={handleRestartWithShuffle}
-                    title="Shuffle 8-question sprint"
+                    title="Shuffle 8-question round"
                     className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-xs font-medium text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950 transition-colors cursor-pointer"
                   >
                     <Shuffle className="h-3.5 w-3.5" />
@@ -235,7 +240,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
               </div>
             </div>
 
-            {/* Category + Easy/Hard Sprint Switcher */}
+            {/* Category + 3-Level Progression Switcher */}
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div
                 data-testid="trivia-category-bar"
@@ -243,11 +248,11 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
               >
                 {(
                   [
-                    { id: 'all', label: '⚡ Mashup' },
+                    { id: 'all', label: '⚡ All-Star Mix' },
                     { id: 'movies', label: '🎬 Movies' },
-                    { id: 'tv', label: '📺 TV' },
+                    { id: 'tv', label: '📺 TV & Reality' },
                     { id: 'books', label: '📚 Books' },
-                    { id: 'music_celebs', label: '🎤 Music & Icons' },
+                    { id: 'music_celebs', label: '🎤 Celebs & Music' },
                   ] as const
                 ).map((cat) => (
                   <button
@@ -267,28 +272,32 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
 
               <div
                 data-testid="trivia-difficulty-bar"
-                className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-white p-0.5"
+                className="inline-flex flex-wrap items-center gap-1 rounded-lg border border-zinc-200 bg-white p-0.5"
               >
                 {(
                   [
+                    { id: 'easy', label: '🥂 Lv.1 Hits' },
+                    { id: 'medium', label: '🔥 Lv.2 Insider' },
+                    { id: 'hard', label: '👑 Lv.3 Deep Cuts' },
                     { id: 'all', label: 'All' },
-                    { id: 'easy', label: '🥂 Easy' },
-                    { id: 'hard', label: '🔥 Hard' },
                   ] as const
-                ).map((diff) => (
-                  <button
-                    key={diff.id}
-                    type="button"
-                    onClick={() => applyFilterChange(categoryFilter, diff.id)}
-                    className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-colors cursor-pointer ${
-                      difficultyFilter === diff.id
-                        ? 'bg-zinc-900 text-white'
-                        : 'text-zinc-600 hover:text-zinc-950'
-                    }`}
-                  >
-                    {diff.label}
-                  </button>
-                ))}
+                ).map((diff) => {
+                  const isCleared = clearedLevels.includes(diff.id);
+                  return (
+                    <button
+                      key={diff.id}
+                      type="button"
+                      onClick={() => applyFilterChange(categoryFilter, diff.id)}
+                      className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-colors cursor-pointer ${
+                        difficultyFilter === diff.id
+                          ? 'bg-zinc-900 text-white'
+                          : 'text-zinc-600 hover:text-zinc-950'
+                      }`}
+                    >
+                      {isCleared ? `✓ ${diff.label}` : diff.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -353,6 +362,24 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                   </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-2.5 pt-2">
+                  {difficultyFilter === 'easy' && (
+                    <button
+                      type="button"
+                      onClick={() => applyFilterChange(categoryFilter, 'medium', true)}
+                      className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 px-4 text-sm font-semibold text-white hover:bg-rose-700 transition-colors cursor-pointer"
+                    >
+                      <span>Advance to Lv.2 Insider →</span>
+                    </button>
+                  )}
+                  {difficultyFilter === 'medium' && (
+                    <button
+                      type="button"
+                      onClick={() => applyFilterChange(categoryFilter, 'hard', true)}
+                      className="inline-flex h-10 items-center gap-1.5 rounded-lg bg-rose-600 px-4 text-sm font-semibold text-white hover:bg-rose-700 transition-colors cursor-pointer"
+                    >
+                      <span>Advance to Lv.3 Deep Cuts →</span>
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={openQuizShareSheet}
@@ -367,7 +394,7 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                     className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-900 hover:bg-zinc-50 transition-colors cursor-pointer"
                   >
                     <Shuffle className="h-4 w-4" />
-                    <span>Deal New 8-Question Sprint</span>
+                    <span>Shuffle New Round</span>
                   </button>
                   <button
                     type="button"
@@ -391,12 +418,18 @@ export const PopCultureTriviaModal: React.FC<PopCultureTriviaModalProps> = ({
                     </span>
                     <span
                       className={`rounded-md px-2 py-0.5 text-[11px] font-bold uppercase ${
-                        resolveTriviaDifficulty(current) === 'hard'
+                        resolveTriviaLevel(current) === 3
                           ? 'bg-rose-100 text-rose-800'
-                          : 'bg-emerald-100 text-emerald-800'
+                          : resolveTriviaLevel(current) === 2
+                            ? 'bg-amber-100 text-amber-900'
+                            : 'bg-emerald-100 text-emerald-800'
                       }`}
                     >
-                      {resolveTriviaDifficulty(current) === 'hard' ? 'Hard' : 'Easy'}
+                      {resolveTriviaLevel(current) === 3
+                        ? 'Lv.3 Deep Cut'
+                        : resolveTriviaLevel(current) === 2
+                          ? 'Lv.2 Insider'
+                          : 'Lv.1 Hit'}
                     </span>
                   </div>
                   <span className="text-zinc-500">

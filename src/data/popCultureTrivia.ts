@@ -1,5 +1,6 @@
 export type TriviaCategory = 'movies' | 'tv' | 'books' | 'music_celebs';
-export type TriviaDifficulty = 'easy' | 'hard';
+export type TriviaDifficulty = 'easy' | 'medium' | 'hard';
+export type TriviaLevel = 1 | 2 | 3;
 
 export interface PopCultureTriviaQuestion {
   id: string;
@@ -14,6 +15,7 @@ export interface PopCultureTriviaQuestion {
   affiliateId?: string;
   category?: TriviaCategory;
   difficulty?: TriviaDifficulty;
+  level?: TriviaLevel;
 }
 
 /**
@@ -1059,7 +1061,369 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "imageUrl": "./images/products/cinema-books.jpg",
     "imageCredit": "",
     "category": "books",
-    "difficulty": "hard"
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "the-office-jan-hunter-cd",
+    "badge": "💿 Sitcom Cringe Masterpiece",
+    "question": "In \"The Office\" Season 4 classic \"Dinner Party,\" Jan Levinson closes her eyes and sways blissfully to an indie acoustic track (\"You took me by the hand, made me a man\") recorded by her former teenage assistant named whom?",
+    "options": [
+      "Hunter",
+      "Ryan",
+      "Gabe",
+      "Plop"
+    ],
+    "correctIndex": 0,
+    "funFact": "Written by Lee Eisenberg and Gene Stupnitsky, Hunter’s \"That One Night\" remains television’s funniest unspoken older-boss / young-assistant musical confession.",
+    "imageUrl": "./images/products/martini-barware-goblet.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "challengers-tashi-duncan-2024",
+    "badge": "🎾 2024 Tennis Power Triangle",
+    "question": "In Luca Guadagnino’s electric 2024 hit \"Challengers,\" Zendaya plays injury-sidelined tennis phenomenon Tashi Duncan, whose hotel-room dare locks which two lifelong friends into over a decade of romantic obsession?",
+    "options": [
+      "Nick & Shane",
+      "Art & Patrick",
+      "Julian & Miles",
+      "Lukas & Liam"
+    ],
+    "correctIndex": 1,
+    "funFact": "Josh O’Connor and Mike Faist orbiting Zendaya’s razor-sharp Tashi Duncan made \"Challengers\" the ultimate movie-night debate on ambition and desire.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "tlc-milf-manor-plot-twist",
+    "badge": "🏖️ Unhinged Reality-TV Twist",
+    "question": "In Episode 1 of TLC’s viral 2023 dating series \"MILF Manor,\" eight single women in their 40s and 50s step onto a Mexican beach expecting twenty-something suitors, only for the doors to open and reveal the young men are all whom?",
+    "options": [
+      "Their ex-husbands’ tennis coaches",
+      "Undercover soap-opera actors",
+      "Each other’s actual adult sons",
+      "Local surf instructors from Tulum"
+    ],
+    "correctIndex": 2,
+    "funFact": "Even seasoned reality-TV viewers gasped out loud when Episode 1 dropped the twist, inspiring legendary late-night comedy parodies.",
+    "imageUrl": "./images/products/weekender-picnic.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "madonna-akeem-morris-soccer",
+    "badge": "👑 37-Year Gap • Portofino to Paris",
+    "question": "From her Italian birthday getaway in Portofino through 2025 and 2026 Paris Fashion Week, Queen of Pop Madonna stepped out alongside 37-years-younger Jamaican partner Akeem Morris, who played collegiate and semi-pro what in New York?",
+    "options": [
+      "Track & Field",
+      "Soccer",
+      "Basketball",
+      "Fencing"
+    ],
+    "correctIndex": 1,
+    "funFact": "Former Stony Brook University forward Akeem Morris first met Madonna during a 2022 Paper Magazine shoot before their globe-trotting romance.",
+    "imageUrl": "./images/icons/pop_madonna_mariahc_sarandon.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "friends-monica-young-ethan",
+    "badge": "☕ 1995 Central Perk Shock",
+    "question": "Long before dating older ophthalmologist Dr. Richard Burke, 26-year-old Monica Geller gets blindsided in \"Friends\" Season 1 (\"The One with the Ick Factor\") when \"college senior\" Young Ethan confesses in bed that he is actually a what?",
+    "options": [
+      "Freshman dorm RA",
+      "High school senior",
+      "Gap-year backpacker",
+      "Twenty-year-old intern"
+    ],
+    "correctIndex": 1,
+    "funFact": "Monica’s horrified \"That’s icky!\" set the sitcom gold standard for checking IDs before catching feelings.",
+    "imageUrl": "./images/products/mugs-love-coupons.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "kate-beckinsale-msg-pete-davidson",
+    "badge": "🏒 Viral Rinkside Reaction Meme",
+    "question": "Actress Kate Beckinsale (20 years older) sparked one of the internet’s funniest three-person memes in 2019 while passionately kissing \"SNL\" star Pete Davidson rinkside at a Rangers game right next to which visibly third-wheeling \"Queer Eye\" host?",
+    "options": [
+      "Tan France",
+      "Jonathan Van Ness",
+      "Karamo Brown",
+      "Antoni Porowski"
+    ],
+    "correctIndex": 3,
+    "funFact": "Antoni Porowski staring straight ahead into space next to Kate and Pete became an instant hall-of-fame reaction image.",
+    "imageUrl": "./images/icons/pop_demi_ashton.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "nora-goes-off-script-monaghan",
+    "badge": "☕ BookTok Porch-Coffee Smash",
+    "question": "In Annabel Monaghan’s beloved bestseller \"Nora Goes Off Script\" (2022), divorced romance screenwriter Nora Hamilton rents her backyard tea house for a film shoot, and younger superstar Leo Vance offers $1,000 a day just to do what after wrap?",
+    "options": [
+      "Stay an extra week drinking morning coffee on her porch",
+      "Turn her garage into a private recording studio",
+      "Adopt her children’s golden retriever puppy",
+      "Buy the neighboring Hudson Valley farmhouse"
+    ],
+    "correctIndex": 0,
+    "funFact": "Leo Vance slipping seamlessly into school drop-off, grocery runs, and quiet morning coffee made \"Nora Goes Off Script\" pure Chapter-Two wish fulfillment.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "books",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "idea-of-you-august-moon-band",
+    "badge": "🎤 Boy-Band Lore • Book & Film",
+    "question": "In both Robinne Lee’s hit novel \"The Idea of You\" and its blockbuster adaptation, 24-year-old British heartthrob Hayes Campbell fronts which fictional chart-topping boy band?",
+    "options": [
+      "Midnight Sun",
+      "Silver Tide",
+      "August Moon",
+      "Velvet West"
+    ],
+    "correctIndex": 2,
+    "funFact": "Prime Video even recorded a full real-world EP under the name August Moon, complete with tour merch and earworm pop singles!",
+    "imageUrl": "./images/products/idea-of-you-movie-book.jpg",
+    "imageCredit": "",
+    "affiliateId": "idea-of-you-movie-book",
+    "category": "books",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "kristin-cavallari-montana-boyz",
+    "badge": "🤠 2024 TikTok Age-Gap Frenzy",
+    "question": "In 2024, \"Laguna Beach\" founder Kristin Cavallari sparked months of viral TikTok chatter with her 13-year age-gap romance alongside 24-year-old Mark Estes, a member of which country lip-sync group?",
+    "options": [
+      "Montana Boyz",
+      "Bozeman Crew",
+      "Nashville Cowboys",
+      "Big Sky Trio"
+    ],
+    "correctIndex": 0,
+    "funFact": "Kristin’s candid podcast reflections, first defending the chemistry and then lovingly parting ways so a 24-year-old could live his twenties, resonated across every age-gap forum.",
+    "imageUrl": "./images/icons/pop_kristin_montana.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "shakira-lucien-laviscount-punteria",
+    "badge": "🏹 Post-Breakup Glow-Up Era",
+    "question": "Following her post-Piqué comeback, Shakira sparked 15-year-gap NYC dinner headlines in 2024 with British \"Emily in Paris\" star Lucien Laviscount right after casting him as a pink-haired centaur in which music video?",
+    "options": [
+      "\"Monotonía\"",
+      "\"Copa Vacía\"",
+      "\"Puntería\"",
+      "\"Te Felicito\""
+    ],
+    "correctIndex": 2,
+    "funFact": "Shakira & Cardi B’s \"Puntería\" video featuring Lucien Laviscount proved there is no rebound quite like casting a British heartthrob in mythological armor.",
+    "imageUrl": "./images/icons/pop_sienna_oli.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "olivia-wilde-harry-styles-booksmart",
+    "badge": "🎬 Director’s Chair Spark",
+    "question": "Before her globe-spanning 10-year-gap romance with pop superstar Harry Styles on 2022’s \"Don’t Worry Darling,\" actress-filmmaker Olivia Wilde earned rave reviews directing which beloved 2019 comedy?",
+    "options": [
+      "\"Lady Bird\"",
+      "\"Booksmart\"",
+      "\"Bottoms\"",
+      "\"Bodies Bodies Bodies\""
+    ],
+    "correctIndex": 1,
+    "funFact": "Between Wembley Stadium front-row dancing and viral \"special salad dressing\" lore, Olivia & Harry owned two straight years of pop-culture headlines.",
+    "imageUrl": "./images/icons/pop_olivia_harry.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "love-is-blind-jessica-age-math",
+    "badge": "🍷 Reality-TV Wine Math",
+    "question": "In Netflix’s \"Love Is Blind\" Season 1, 34-year-old Jessica Batten turned date-math anxiety into viral television history while fretting over 24-year-old fitness trainer Mark Cuevas: \"When he’s 40, I’m gonna be...\" what?",
+    "options": [
+      "44",
+      "48",
+      "54",
+      "50"
+    ],
+    "correctIndex": 3,
+    "funFact": "Jessica recalculating a 10-year gap across every decade over Italian red wine became Netflix’s most quoted math lesson.",
+    "imageUrl": "./images/products/big-carl-giant-wine-glass.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "satc-carrie-twentysomething-sam",
+    "badge": "🧻 SATC Apartment Wake-Up Call",
+    "question": "In \"Sex and the City\" Season 1 (\"Valley of the Twenty-Something Guys\"), which future \"Justified\" and \"The White Lotus\" star played Carrie Bradshaw’s charming 20-something fling Sam, whose chaotic roommate apartment had zero toilet paper?",
+    "options": [
+      "Timothy Olyphant",
+      "Bradley Cooper",
+      "Justin Theroux",
+      "Gabriel Macht"
+    ],
+    "correctIndex": 0,
+    "funFact": "Before Bradley Cooper, David Duchovny, and Jon Bon Jovi guest-starred on \"SATC,\" 30-year-old Timothy Olyphant immortalized why bathroom prep matters!",
+    "imageUrl": "./images/products/hosting-lidded-bin-soap.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "unfaithful-diane-lane-soho",
+    "badge": "🌬️ 2002 Oscar-Nominated Heat",
+    "question": "In Adrian Lyne’s 2002 drama \"Unfaithful,\" Diane Lane earned an Academy Award nomination as suburban wife Connie Sumner after literally colliding in a SoHo windstorm with younger French rare-book dealer Paul Martel, played by whom?",
+    "options": [
+      "Vincent Cassel",
+      "Gilles Marini",
+      "Olivier Martinez",
+      "Jean Dujardin"
+    ],
+    "correctIndex": 2,
+    "funFact": "A stack of spilled art books during a New York windstorm remains cinema’s steamiest excuse to come upstairs for band-aids and espresso.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "may-december-julianne-charles",
+    "badge": "🦋 2023 Cannes & Oscar Buzz",
+    "question": "In Todd Haynes’s razor-sharp 2023 film \"May December,\" Natalie Portman plays an actress shadowing Julianne Moore’s Gracie and her 23-years-younger husband Joe, earning universal acclaim for which breakout actor?",
+    "options": [
+      "Charles Melton",
+      "Jacob Elordi",
+      "Paul Mescal",
+      "Barry Keoghan"
+    ],
+    "correctIndex": 0,
+    "funFact": "Charles Melton swept critics’ awards opposite Oscar winners Julianne Moore and Natalie Portman in Savannah.",
+    "imageUrl": "./images/icons/pop_julianne_bart.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "evie-drake-starts-over-holmes",
+    "badge": "⚾ Maine Guesthouse Slow-Burn",
+    "question": "In NPR critic Linda Holmes’s NYT bestseller \"Evie Drake Starts Over,\" a young Maine widow rents her apartment wing to Dean Tenney, a charming former pro athlete battling a sudden mental block in which sport?",
+    "options": [
+      "NHL goaltending",
+      "PGA golf putting",
+      "MLB baseball pitching",
+      "ATP tennis serving"
+    ],
+    "correctIndex": 2,
+    "funFact": "Rule #1 of their guesthouse lease (Evie never asks about baseball, Dean never asks about her late husband) sets up peak slow-burn banter.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "books",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "30-rock-liz-frank-mom-coffee-guy",
+    "badge": "☕ 30 Rock \"Cougars\" Episode",
+    "question": "In \"30 Rock\" Season 2 (\"Cougars\"), Liz Lemon steels her nerves to go out with adorable 20-year-old coffee delivery guy Jamie, until meeting Jamie’s mom and discovering she once had a scandalous past with which \"TGS\" writer?",
+    "options": [
+      "Toofer Spurlock",
+      "Lutz",
+      "Frank Rossitano",
+      "Pete Hornberger"
+    ],
+    "correctIndex": 2,
+    "funFact": "Tina Fey turning her baseball cap sideways to \"blend in\" with twenty-somethings before realizing Frank loves Jamie’s mom is peak 2000s comedy.",
+    "imageUrl": "./images/products/mugs-love-coupons.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "y-tu-mama-tambien-cuaron",
+    "badge": "🌊 2001 Road-Trip Masterpiece",
+    "question": "In Alfonso Cuarón’s Oscar-nominated 2001 classic \"Y Tu Mamá También,\" Spanish star Maribel Verdú plays 28-year-old Luisa, who spontaneously joins two teenage best friends on a road trip to which invented beach name?",
+    "options": [
+      "Playa Escondida",
+      "Costa Dorada",
+      "Puerto Sol",
+      "Boca del Cielo"
+    ],
+    "correctIndex": 3,
+    "funFact": "Gael García Bernal, Diego Luna, and Maribel Verdú turned a made-up Oaxacan beach bluff into one of the 21st century’s greatest coming-of-age films.",
+    "imageUrl": "./images/products/weekender-picnic.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "tea-and-sympathy-be-kind",
+    "badge": "🎭 1953 Broadway & MGM Classic",
+    "question": "Which landmark 1953 play by Robert Anderson (later filmed with Deborah Kerr) ends with a compassionate boarding-school wife whispering the famous line: \"Years from now, when you talk about this, and you will, be kind\"?",
+    "options": [
+      "\"Separate Tables\"",
+      "\"The Chalk Garden\"",
+      "\"Summer and Smoke\"",
+      "\"Tea and Sympathy\""
+    ],
+    "correctIndex": 3,
+    "funFact": "Deborah Kerr originated Laura Reynolds on Broadway before reprising the role on screen in Vincente Minnelli’s 1956 adaptation.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "books",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "francoise-sagan-aimez-vous-brahms",
+    "badge": "🥐 1959 Parisian Romance Novel",
+    "question": "In Françoise Sagan’s celebrated 1959 French novel \"Aimez-vous Brahms...\" (adapted into \"Goodbye Again\" with Ingrid Bergman and 29-year-old Anthony Perkins), 39-year-old Parisian decorator Paula is courted passionately by a 25-year-old law clerk named whom?",
+    "options": [
+      "Laurent",
+      "Simon",
+      "Julien",
+      "Henri"
+    ],
+    "correctIndex": 1,
+    "funFact": "Anthony Perkins won Best Actor at the 1961 Cannes Film Festival for playing love-struck younger suitor Philip (Simon in Sagan’s novel) opposite Ingrid Bergman.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "books",
+    "difficulty": "hard",
+    "level": 3
   }
 ];
 
@@ -1076,6 +1440,12 @@ const TV_QUESTION_IDS = new Set([
   'white-lotus-resort-canon',
   'desperate-housewives-gaby-gardener',
   'fleabag-belinda-hotel-bar-speech',
+  'the-office-jan-hunter-cd',
+  'tlc-milf-manor-plot-twist',
+  'friends-monica-young-ethan',
+  'love-is-blind-jessica-age-math',
+  'satc-carrie-twentysomething-sam',
+  '30-rock-liz-frank-mom-coffee-guy',
 ]);
 
 const BOOK_QUESTION_IDS = new Set([
@@ -1090,6 +1460,11 @@ const BOOK_QUESTION_IDS = new Set([
   'curtis-sittenfeld-romantic-comedy',
   'terry-mcmillan-stella-novel-1996',
   'agatha-christie-max-mallowan-memoir',
+  'nora-goes-off-script-monaghan',
+  'idea-of-you-august-moon-band',
+  'evie-drake-starts-over-holmes',
+  'tea-and-sympathy-be-kind',
+  'francoise-sagan-aimez-vous-brahms',
 ]);
 
 const MUSIC_CELEB_QUESTION_IDS = new Set([
@@ -1112,20 +1487,52 @@ const MUSIC_CELEB_QUESTION_IDS = new Set([
   'kim-kardashian-lewis-hamilton-2026',
   'nicole-scherzinger-athlete-streak',
   'nicole-scherzinger-sunset-blvd-tony',
+  'madonna-akeem-morris-soccer',
+  'kate-beckinsale-msg-pete-davidson',
+  'kristin-cavallari-montana-boyz',
+  'shakira-lucien-laviscount-punteria',
+  'olivia-wilde-harry-styles-booksmart',
 ]);
 
-const HARD_DEEP_CUT_IDS = new Set([
-  'the-graduate-real-age-gap',
-  'colette-cheri-1920',
+const LEVEL_2_INSIDER_IDS = new Set([
+  'yung-gravy-betty-vmas',
+  'shakira-strawberry-jam-clue',
   'heidi-klum-tom-kaulitz',
-  'bull-durham-sarandon-robbins',
+  'succession-gerri-roman',
   'sienna-miller-oli-green',
   'emily-in-paris-sylvie-erik',
   'caroline-stanbury-sergio-carrallo',
+  'miranda-july-all-fours',
+  'younger-liza-josh-tattoo',
+  'no-hard-feelings-piano-song',
+  'on-the-island-graves',
+  '30-rock-liz-lemon-criss',
+  'a-family-affair-2024',
+  'zeta-jones-the-rebound',
+  'robinne-lee-idea-of-you-ending',
+  'magic-mike-last-dance-london',
+  'white-lotus-resort-canon',
+  'lonely-planet-morocco',
+  'happiness-for-beginners-trail',
+  'kristin-cavallari-montana-boyz',
+  'shakira-lucien-laviscount-punteria',
+  'olivia-wilde-harry-styles-booksmart',
+  'love-is-blind-jessica-age-math',
+  'satc-carrie-twentysomething-sam',
+  'unfaithful-diane-lane-soho',
+  'may-december-julianne-charles',
+  'evie-drake-starts-over-holmes',
+]);
+
+const LEVEL_3_DEEP_CUT_IDS = new Set([
+  'the-graduate-real-age-gap',
+  'colette-cheri-1920',
+  'rod-stewart-maggie-may',
   'mariah-carey-touch-my-body-set',
+  'demi-moore-ashton-kutcher-watershed',
+  'bull-durham-sarandon-robbins',
   'hacks-deborah-vance',
   'julian-barnes-the-only-story',
-  'zeta-jones-the-rebound',
   'mrs-robinson-grammy-record',
   'mrs-fletcher-kathryn-hahn',
   'leo-grande-emma-thompson',
@@ -1138,11 +1545,13 @@ const HARD_DEEP_CUT_IDS = new Set([
   'harold-and-maude-cat-stevens',
   'home-again-reese-witherspoon',
   'sunset-boulevard-norma-desmond',
-  'demi-moore-ashton-kutcher-watershed',
-  'happiness-for-beginners-trail',
   'nicole-scherzinger-sunset-blvd-tony',
   'fleabag-belinda-hotel-bar-speech',
   'agatha-christie-max-mallowan-memoir',
+  '30-rock-liz-frank-mom-coffee-guy',
+  'y-tu-mama-tambien-cuaron',
+  'tea-and-sympathy-be-kind',
+  'francoise-sagan-aimez-vous-brahms',
 ]);
 
 export function resolveTriviaCategory(q: PopCultureTriviaQuestion): TriviaCategory {
@@ -1153,7 +1562,16 @@ export function resolveTriviaCategory(q: PopCultureTriviaQuestion): TriviaCatego
   return 'movies';
 }
 
+export function resolveTriviaLevel(q: PopCultureTriviaQuestion): TriviaLevel {
+  if (q.level) return q.level;
+  if (LEVEL_3_DEEP_CUT_IDS.has(q.id)) return 3;
+  if (LEVEL_2_INSIDER_IDS.has(q.id)) return 2;
+  return 1;
+}
+
 export function resolveTriviaDifficulty(q: PopCultureTriviaQuestion): TriviaDifficulty {
-  if (q.difficulty) return q.difficulty;
-  return HARD_DEEP_CUT_IDS.has(q.id) ? 'hard' : 'easy';
+  const lvl = resolveTriviaLevel(q);
+  if (lvl === 3) return 'hard';
+  if (lvl === 2) return 'medium';
+  return 'easy';
 }

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import {
   ArrowBigUp,
   CheckSquare,
+  ChevronDown,
   ExternalLink,
   MessageCircle,
-  Play,
   Share2,
   Sparkles,
   Square,
@@ -328,23 +328,23 @@ interface GuideVisualMeta {
 
 const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
   'cougar-vs-puma-vs-jaguar-dating-age-chart': {
-    categoryPill: '🐆 Viral Club Taxonomy • #1 Most Shared',
+    categoryPill: '🐆 Subculture Slang • #1 Most Shared',
     heroPhoto: './images/scenes/velvet-room-bar.jpg',
     sectionPhotos: [
-      './images/cast/claire-45f.jpg',
-      './images/cast/miles-zaddy-31m.jpg',
-      './images/cast/celeste-62f.jpg',
       './images/scenes/candlelit-cocktails.jpg',
+      './images/scenes/wine-bar-booth.jpg',
+      './images/scenes/coastal-convertible.jpg',
+      './images/scenes/palm-springs-resort.jpg',
     ],
     dontText: 'ngl never been with a cougar before, bucket list check tonight??',
-    doText: 'Booked us the quiet corner booth at 7:30 Friday. Sancerre is already on deck.',
+    doText: 'Booked us the quiet patio booth at 7:30 Friday. Sancerre is already on deck.',
     greenFlag: 'Knows Cougar never means Sugar Mama and takes Friday planning off her plate.',
     redFlag: 'Treats accomplished women like an Xbox achievement badge or expects rent money.',
     redditReceipt: {
       handle: 'u/SilverJaguar_52F • 40s/50s Regular',
       upvotes: '2.4k',
       quote:
-        'PSA to every 25M entering the sub: I own my house, my car, and my retirement account. I don’t need a provider OR a dependent. I want a hot, emotionally present man who books a 7:30 booth.',
+        'PSA to every 25M entering the sub: I own my house, my car, and my retirement account. I don’t need a provider OR a dependent. I want a hot, emotionally present man who books a 7:30 table.',
       topReply: '↳ u/HampsteadCub_27M: Printed, framed, and taped above the espresso machine.',
     },
     poll: {
@@ -360,10 +360,10 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '🏠 Viral 10-Point Hosting Audit',
     heroPhoto: './images/scenes/sunday-kitchen-sanctuary.jpg',
     sectionPhotos: [
+      './images/products/hosting-lidded-bin-soap.jpg',
       './images/scenes/luxury-bedroom-sanctuary.jpg',
-      './images/cast/soren-26m.jpg',
       './images/scenes/wine-bar-booth.jpg',
-      './images/cast/rafael-4.jpg',
+      './images/products/golden-retriever-boyfriend-mug.jpg',
     ],
     dontText: 'come thru whenever lol my roommate left dishes in the sink',
     doText: 'Dinner is simmering, lamps are dimmed, and chilled Pellegrino is poured whenever you arrive.',
@@ -386,12 +386,12 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'best-gifts-for-older-woman-girlfriend-dating-guide': {
-    categoryPill: '🎁 Gift & Soft-Life Playbook',
+    categoryPill: '🎁 Gift & Soft-Life Listicles',
     heroPhoto: './images/scenes/palm-springs-resort.jpg',
     sectionPhotos: [
       './images/scenes/sunday-kitchen-sanctuary.jpg',
-      './images/cast/rafael-2.jpg',
-      './images/cast/sienna-2.jpg',
+      './images/products/princess-mulberry-silk-robe.jpg',
+      './images/products/date-night-oud-bergamot.jpg',
       './images/scenes/candlelit-cocktails.jpg',
     ],
     dontText: 'i didnt know what to get u since u already buy everything lol',
@@ -418,10 +418,10 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '📱 Generational Texting Decoder',
     heroPhoto: './images/scenes/wine-bar-booth.jpg',
     sectionPhotos: [
-      './images/cast/elena-prof-44f.jpg',
-      './images/cast/julian-27m.jpg',
+      './images/scenes/campus-autumn-sushi.jpg',
       './images/scenes/velvet-room-bar.jpg',
-      './images/cast/claire-5.jpg',
+      './images/scenes/neon-bowling-lounge.jpg',
+      './images/scenes/candlelit-cocktails.jpg',
     ],
     dontText: 'yo u look crazy good for ur age whats ur snap??',
     doText: 'Here is my cell, free for a quick 6 PM call Thursday before our Friday 7:30 reservation?',
@@ -447,10 +447,10 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '💬 Real Talk • Stares, Mirrors & Timelines',
     heroPhoto: './images/scenes/cozy-rain-suite.jpg',
     sectionPhotos: [
-      './images/cast/julian-5.jpg',
-      './images/cast/summer-2.jpg',
+      './images/scenes/luxury-bedroom-sanctuary.jpg',
+      './images/scenes/canyon-sunrise-trail.jpg',
       './images/scenes/wedding-gala-cheers.jpg',
-      './images/cast/miles-5.jpg',
+      './images/scenes/sunday-kitchen-sanctuary.jpg',
     ],
     dontText: 'wait are those people at the next table staring at us??',
     doText: 'Let them stare, gives the sommelier an excuse to comp our dessert.',
@@ -476,10 +476,10 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '🐈‍⬛ × 🐕 #1 Fan-Favorite Polarity',
     heroPhoto: './images/scenes/candlelit-cocktails.jpg',
     sectionPhotos: [
-      './images/cast/claire-45f.jpg',
-      './images/cast/rory-24m.jpg',
-      './images/scenes/cozy-rain-suite.jpg',
+      './images/products/black-cat-girlfriend-leopard-mug.jpg',
       './images/products/golden-retriever-boyfriend-mug.jpg',
+      './images/scenes/cozy-rain-suite.jpg',
+      './images/scenes/sunday-kitchen-sanctuary.jpg',
     ],
     dontText: 'fine guess ur too busy for me then!!',
     doText: 'Zero rush at all, held Thursday next week just in case, and my evening stays yours.',
@@ -508,7 +508,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       './images/icons/pop_tina_erwin.jpg',
       './images/icons/pop_cher_icons.jpg',
       './images/icons/pop_sienna_oli.jpg',
-      './images/icons/pop_miley_maxx.jpg',
+      './images/icons/pop_kristin_montana.jpg',
     ],
     dontText: 'wait celebrity age gaps never last more than a summer right??',
     doText: 'Tina Turner & Erwin Bach went 38 years strong, queueing up our Capri era.',
@@ -526,7 +526,7 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       options: [
         { label: '👑 Tina Turner & Erwin Bach (16-yr gap • 38 yrs)', pct: 48 },
         { label: '💎 Priyanka Chopra & Nick Jonas / Heidi & Tom', pct: 32 },
-        { label: '🎸 Cher ("Mom, I AM a rich man") & Sienna × Oli', pct: 20 },
+        { label: '🎸 Cher ("Mom, I AM a rich man") & Kim K × Lewis Hamilton', pct: 20 },
       ],
     },
   },
@@ -534,9 +534,9 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '🌙 62°F Sleep & Candid Intimacy Guide',
     heroPhoto: './images/scenes/luxury-bedroom-sanctuary.jpg',
     sectionPhotos: [
+      './images/products/cooling-bamboo-sheets.jpg',
       './images/scenes/hotel-pool-sauna.jpg',
-      './images/cast/brooke-glam-42f.jpg',
-      './images/cast/marcus-26m.jpg',
+      './images/products/silk-pillowcase-sleepover-duo.jpg',
       './images/scenes/cozy-rain-suite.jpg',
     ],
     dontText: 'why do u have the bedroom AC cranked so cold lol',
@@ -560,12 +560,12 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'junior-cougar-6-year-age-gap-relationship-guide': {
-    categoryPill: '🥂 5-to-9 Year "Junior Cougar" Sweet Spot',
+    categoryPill: '🥂 3-to-9 Year "Junior Cougar" Sweet Spot',
     heroPhoto: './images/scenes/cougarmarket-wine.jpg',
     sectionPhotos: [
-      './images/cast/sienna-38f.jpg',
       './images/icons/pop_miley_maxx.jpg',
       './images/icons/pop_eva_ryan.jpg',
+      './images/icons/pop_cameron_benji.jpg',
       './images/scenes/wedding-gala-cheers.jpg',
     ],
     dontText: 'six years barely even counts as an age gap lol',
@@ -592,10 +592,10 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '🥂 Grown Kids, Same-Age Moms & Wedding +1s',
     heroPhoto: './images/scenes/wedding-gala-cheers.jpg',
     sectionPhotos: [
-      './images/cast/claire-4.jpg',
-      './images/cast/marcus-4.jpg',
-      './images/cast/rafael-6.jpg',
+      './images/scenes/campus-autumn-sushi.jpg',
       './images/scenes/sunday-kitchen-sanctuary.jpg',
+      './images/scenes/wedding-gala-cheers.jpg',
+      './images/scenes/wine-bar-booth.jpg',
     ],
     dontText: 'so since im dating ur mom im basically in charge now right??',
     doText: 'Already told my mom all about you, she cannot wait to swap 90s concert stories on Sunday.',
@@ -618,12 +618,12 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man': {
-    categoryPill: '🗺️ Anti-Boring Date Blueprint',
+    categoryPill: '🗺️ Anti-Boring Date Listicles',
     heroPhoto: './images/scenes/campus-autumn-sushi.jpg',
     sectionPhotos: [
       './images/scenes/hotel-pool-sauna.jpg',
-      './images/scenes/neon-bowling-lounge.jpg',
       './images/products/linen-picnic-insulated-tote.jpg',
+      './images/scenes/neon-bowling-lounge.jpg',
       './images/scenes/coastal-convertible.jpg',
     ],
     dontText: 'wanna just come sit on my couch and scroll streaming menus??',
@@ -651,9 +651,9 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     heroPhoto: './images/scenes/canyon-sunrise-trail.jpg',
     sectionPhotos: [
       './images/icons/pop_cougar_town.jpg',
+      './images/products/big-carl-giant-wine-glass.jpg',
       './images/scenes/cougarmarket-wine.jpg',
       './images/scenes/wedding-gala-cheers.jpg',
-      './images/cast/elena-6.jpg',
     ],
     dontText: 'arent divorced women in their 40s supposed to stay home quietly??',
     doText: 'Brought Pinot Noir and an oversized Big Carl goblet to toast our six-month mark.',
@@ -676,12 +676,12 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     },
   },
   'astrology-zodiac-compatibility-older-woman-younger-man': {
-    categoryPill: '🔮 Interactive 12×12 Star-Sign Toy',
+    categoryPill: '🔮 Interactive 12×12 Star-Sign Guide',
     heroPhoto: './images/scenes/havana-salsa-studio.jpg',
     sectionPhotos: [
-      './images/cast/astrid-41f.jpg',
-      './images/cast/claire-45f.jpg',
-      './images/cast/elena-prof-44f.jpg',
+      './images/scenes/hotel-pool-sauna.jpg',
+      './images/scenes/sunday-kitchen-sanctuary.jpg',
+      './images/scenes/velvet-room-bar.jpg',
       './images/scenes/coastal-convertible.jpg',
     ],
     dontText: 'astrology is dumb lol anyway wyd tonight',
@@ -708,9 +708,9 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '🎬 Definitive 22-Film Watchlist',
     heroPhoto: './images/scenes/neon-bowling-lounge.jpg',
     sectionPhotos: [
-      './images/scenes/velvet-room-bar.jpg',
-      './images/scenes/cozy-rain-suite.jpg',
-      './images/scenes/palm-springs-resort.jpg',
+      './images/products/bridget-jones-cougar-town-watch.jpg',
+      './images/products/babygirl-movie-prime.jpg',
+      './images/products/the-rebound-zeta-jones-prime.jpg',
       './images/icons/pop_stella_cinema.jpg',
     ],
     dontText: 'never heard of any of those movies lol put on sports highlights',
@@ -737,9 +737,9 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     categoryPill: '🍿 Friday Watch-Night Pairing Guide',
     heroPhoto: './images/scenes/hotel-pool-sauna.jpg',
     sectionPhotos: [
-      './images/scenes/velvet-room-bar.jpg',
-      './images/scenes/candlelit-cocktails.jpg',
-      './images/scenes/wine-bar-booth.jpg',
+      './images/products/babygirl-movie-prime.jpg',
+      './images/products/idea-of-you-movie-book.jpg',
+      './images/products/bridget-jones-cougar-town-watch.jpg',
       './images/scenes/cozy-rain-suite.jpg',
     ],
     dontText: 'idk pick whatever movie u want i guess',
@@ -768,8 +768,8 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
     sectionPhotos: [
       './images/scenes/canyon-sunrise-trail.jpg',
       './images/scenes/velvet-room-bar.jpg',
-      './images/cast/marcus-3.jpg',
       './images/scenes/cougarmarket-wine.jpg',
+      './images/scenes/havana-salsa-studio.jpg',
     ],
     dontText: 'hey wave wave take off ur headphones mid-squat real quick!!',
     doText: 'Waited until you wrapped up at the smoothie counter. I’m Marcus, by the way.',
@@ -854,12 +854,14 @@ function loadHostingChecks(): number[] {
 
 export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   initialSlug,
-  onPlayScenario,
 }) => {
   const [selectedSlug, setSelectedSlug] = useState<string>(
     initialSlug && JOURNAL_ARTICLES.some((a) => a.slug === initialSlug)
       ? initialSlug
       : JOURNAL_ARTICLES[0].slug,
+  );
+  const [astroOpen, setAstroOpen] = useState<boolean>(
+    initialSlug === 'astrology-zodiac-compatibility-older-woman-younger-man',
   );
   const [hostingChecks, setHostingChecks] = useState<number[]>(() => loadHostingChecks());
   const [herSignId, setHerSignId] = useState<string>('scorpio');
@@ -870,9 +872,14 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   const active =
     JOURNAL_ARTICLES.find((a) => a.slug === selectedSlug) ?? JOURNAL_ARTICLES[0];
   const visualMeta = getGuideVisualMeta(active.slug);
+  const showAstroMatcher =
+    astroOpen || active.slug === 'astrology-zodiac-compatibility-older-woman-younger-man';
 
   const handleSelectArticle = (slug: string) => {
     setSelectedSlug(slug);
+    if (slug === 'astrology-zodiac-compatibility-older-woman-younger-man') {
+      setAstroOpen(true);
+    }
     trackEvent('guide_opened', { slug });
   };
 
@@ -926,39 +933,45 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
   return (
     <>
       <div className="w-full space-y-5 animate-stage-in">
-        {/* Clean Anchored Magazine Header + shadcn Filter Bar */}
-        <div className="space-y-4 border-b border-zinc-200 pb-5">
+        {/* Clean Standalone Magazine Header (Zero Unrelated Game Buttons) */}
+        <div className="space-y-4 border-b border-zinc-200 pb-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-1 max-w-3xl">
-              <span className="text-xs font-medium text-rose-600">
-                Club Magazine • 16 Photo Listicles &amp; Live Quick Astro Matcher
+              <span className="text-xs font-semibold uppercase tracking-wider text-rose-600">
+                Cougars &amp; Cubs Magazine
               </span>
               <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-950">
-                Playful Photo Guides &amp; Star-Sign Chemistry
+                Playful Photo Listicles &amp; Subculture Field Notes
               </h1>
             </div>
 
-            <div className="flex flex-wrap gap-2 shrink-0">
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => setAstroOpen((v) => !v)}
+                className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50/70 hover:bg-rose-100 px-3.5 text-xs sm:text-sm font-semibold text-zinc-950 cursor-pointer transition-colors"
+              >
+                <span>
+                  🔮 Quick Astro: {herSign.symbol} × {himSign.symbol}
+                </span>
+                <ChevronDown
+                  className={`h-3.5 w-3.5 text-rose-600 transition-transform ${
+                    showAstroMatcher ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
               <button
                 type="button"
                 onClick={handleShareGuide}
                 className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 text-sm font-medium text-zinc-900 cursor-pointer"
               >
                 <Share2 className="h-4 w-4 text-zinc-500" />
-                <span>Share Guide</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => onPlayScenario(active.featuredEpisodeId)}
-                className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 px-4 text-sm font-medium text-white cursor-pointer"
-              >
-                <Play className="h-3.5 w-3.5 fill-white" />
-                <span>Play Scenario</span>
+                <span>Share Listicle</span>
               </button>
             </div>
           </div>
 
-          {/* 1-Tap Jump Bar (Clean Pill-Free Underline Tabs) */}
+          {/* 1-Tap Jump Bar (Clean Editorial Underline Tabs) */}
           <div className="flex flex-wrap items-center gap-6 border-b border-zinc-200">
             {[
               {
@@ -966,20 +979,20 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                 label: '🐆 Feline Age Chart',
               },
               {
-                slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
-                label: '🔮 12×12 Astro Matcher',
-              },
-              {
                 slug: 'first-time-hosting-older-woman-apartment-checklist',
                 label: '🏠 10-Pt Apartment Audit',
               },
               {
-                slug: 'black-cat-older-woman-golden-retriever-younger-man-dating-guide',
-                label: '🐈‍⬛ Black Cat × 🐕 Golden Cub',
-              },
-              {
                 slug: 'master-list-cougar-cub-movies-older-woman-younger-man',
                 label: '🎬 22-Film Watchlist',
+              },
+              {
+                slug: 'celebrity-cougars-and-cubs-pop-culture-guide',
+                label: '✨ Celeb Hall of Fame',
+              },
+              {
+                slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
+                label: '🔮 12×12 Astro Matcher',
               },
             ].map((pill) => {
               const isCurrent = active.slug === pill.slug;
@@ -1001,11 +1014,12 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
           </div>
         </div>
 
-        {/* Pinned Quick Astro Pairing Toy: Always Accessible Right at the Top of Club Magazine */}
-        <section
-          className="rounded-2xl border border-rose-200 bg-gradient-to-br from-[#FFFDF9] via-rose-50/40 to-amber-50/40 p-4 sm:p-5 space-y-4 shadow-2xs"
-          data-testid="zodiac-12x12-matcher"
-        >
+        {/* On-Demand Quick Astro Pairing Toy: Opens When Toggled or on the Astrology Guide */}
+        {showAstroMatcher && (
+          <section
+            className="rounded-2xl border border-rose-200 bg-gradient-to-br from-[#FFFDF9] via-rose-50/40 to-amber-50/40 p-4 sm:p-5 space-y-4 shadow-2xs"
+            data-testid="zodiac-12x12-matcher"
+          >
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 border border-amber-300 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-950">
@@ -1198,9 +1212,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               ))}
             </div>
           </div>
-        </section>
+          </section>
+        )}
 
-        <div className="grid gap-6 lg:grid-cols-[310px_1fr] items-start">
+        <div className="grid gap-6 lg:grid-cols-[290px_1fr] items-start">
           {/* Illustrated Sidebar With Thumbnail Previews */}
           <aside className="editorial-hinge-card rounded-2xl bg-white p-3.5 space-y-2 lg:sticky lg:top-20 max-h-[82vh] overflow-y-auto">
             <div className="px-2 pb-1 text-xs font-bold uppercase tracking-wider text-zinc-500">
@@ -1243,76 +1258,46 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
             </div>
           </aside>
 
-          <article className="editorial-hinge-card rounded-2xl bg-white p-5 sm:p-8 space-y-6">
-            {/* True 16:9 Widescreen Hero Editorial Photo */}
-            <div className="relative overflow-hidden rounded-2xl border border-zinc-200 aspect-[16/9] bg-zinc-950">
-              <img
-                src={visualMeta.heroPhoto}
-                alt={active.headline}
-                data-testid="guide-hero-photo"
-                className="h-full w-full object-cover object-center opacity-95"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent flex flex-col justify-end p-5 sm:p-7">
-                <div className="text-xs font-bold uppercase tracking-widest text-rose-400">
-                  {active.readTime}
-                </div>
-                <h2 className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight text-white leading-tight">
-                  {active.headline}
-                </h2>
+          <article className="editorial-hinge-card rounded-2xl bg-white p-5 sm:p-8 space-y-7">
+            {/* Editorial Magazine Header + 16:9 Widescreen Hero Photo */}
+            <header className="space-y-4 border-b border-zinc-200 pb-6">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-600">
+                <span>{visualMeta.categoryPill}</span>
+                <span className="text-zinc-300">/</span>
+                <span className="text-zinc-500">{active.readTime}</span>
               </div>
-            </div>
-
-            {/* Clean Magazine Standfirst */}
-            <p className="font-editorial italic text-base sm:text-lg leading-relaxed text-stone-700 border-b border-stone-200/80 pb-4">
-              {active.intro}
-            </p>
-
-            {/* Authentic iPhone iMessage Mockup (Grey Bubble vs. Blue Bubble) */}
-            <div
-              data-testid="guide-text-this-not-that"
-              className="rounded-3xl border border-stone-200 bg-stone-50/60 p-5 space-y-3.5"
-            >
-              <div className="flex items-center justify-between gap-2 border-b border-stone-200/70 pb-2.5">
-                <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#18101E]">
-                  <MessageCircle className="h-3.5 w-3.5 text-[#007AFF]" />
-                  <span>💬 Real DM Translation: Left-on-Read vs. Friday Yes</span>
-                </div>
-                <span className="text-[11px] font-semibold text-stone-400">iMessage</span>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 leading-tight">
+                {active.headline}
+              </h2>
+              <p className="text-base sm:text-lg leading-relaxed text-zinc-600">
+                {active.intro}
+              </p>
+              <div className="overflow-hidden rounded-2xl border border-zinc-200 aspect-[16/9] bg-zinc-950">
+                <img
+                  src={visualMeta.heroPhoto}
+                  alt={active.headline}
+                  data-testid="guide-hero-photo"
+                  className="h-full w-full object-cover object-center"
+                />
               </div>
+            </header>
 
-              <div className="flex flex-col gap-2.5">
-                <div className="self-start max-w-[88%] rounded-2xl rounded-bl-sm bg-[#E9E9EB] px-4 py-2.5 text-xs sm:text-sm font-medium text-[#18101E]">
-                  <div className="text-[10px] font-bold uppercase tracking-wide text-stone-500 mb-0.5">
-                    Gets Left on Read
-                  </div>
-                  &ldquo;{visualMeta.dontText}&rdquo;
-                </div>
-
-                <div className="self-end max-w-[88%] rounded-2xl rounded-br-sm bg-[#007AFF] px-4 py-2.5 text-xs sm:text-sm font-medium text-white shadow-2xs">
-                  <div className="text-[10px] font-bold uppercase tracking-wide text-sky-100 mb-0.5">
-                    Gets the Friday 7:30 Table ✓
-                  </div>
-                  &ldquo;{visualMeta.doText}&rdquo;
-                </div>
-              </div>
-            </div>
-
-            {/* Interactive 10-Point Apartment Hosting Checklist */}
+            {/* Interactive 10-Point Apartment Hosting Checklist (On Hosting Guide Only) */}
             {active.checklistItems && active.checklistItems.length > 0 && (
               <div
                 data-testid="guide-hosting-checklist"
-                className="rounded-3xl border border-amber-300 bg-amber-50/60 p-5 sm:p-6 space-y-4"
+                className="rounded-2xl border border-amber-300 bg-amber-50/50 p-5 sm:p-6 space-y-4"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <span className="inline-flex items-center gap-1 rounded-full bg-amber-200/80 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-950">
-                      <Sparkles className="h-3.5 w-3.5" /> Interactive Pre-Date Audit
+                      <Sparkles className="h-3.5 w-3.5" /> Interactive 10-Point Audit
                     </span>
-                    <h3 className="mt-1 font-editorial text-xl font-bold text-[#18101E]">
-                      ✅ Check Off All {active.checklistItems.length} Hosting Essentials
+                    <h3 className="mt-1 text-xl font-bold text-zinc-950">
+                      Check Off All {active.checklistItems.length} Hosting Essentials
                     </h3>
                   </div>
-                  <div className="rounded-full border border-stone-300 bg-white px-3.5 py-1.5 text-xs sm:text-sm font-extrabold text-[#18101E]">
+                  <div className="rounded-full border border-zinc-300 bg-white px-3.5 py-1.5 text-xs sm:text-sm font-extrabold text-zinc-950">
                     {hostingChecks.length}/{active.checklistItems.length} Ready
                   </div>
                 </div>
@@ -1325,10 +1310,10 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                     return (
                       <div
                         key={itemText}
-                        className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-2xl border px-3.5 py-2.5 text-sm transition ${
+                        className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl border px-3.5 py-2.5 text-sm transition ${
                           checked
-                            ? 'border-[#18101E] bg-amber-50/70 text-[#18101E] font-bold'
-                            : 'border-stone-200 bg-white text-[#18101E] font-medium'
+                            ? 'border-zinc-900 bg-amber-50 text-zinc-950 font-bold'
+                            : 'border-zinc-200 bg-white text-zinc-900 font-medium'
                         }`}
                       >
                         <button
@@ -1337,9 +1322,9 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                           className="flex items-start gap-2.5 text-left whitespace-normal cursor-pointer flex-1"
                         >
                           {checked ? (
-                            <CheckSquare className="h-4 w-4 shrink-0 text-[#18101E] mt-0.5" />
+                            <CheckSquare className="h-4 w-4 shrink-0 text-zinc-950 mt-0.5" />
                           ) : (
-                            <Square className="h-4 w-4 shrink-0 text-stone-400 mt-0.5" />
+                            <Square className="h-4 w-4 shrink-0 text-zinc-400 mt-0.5" />
                           )}
                           <span>
                             <strong className="mr-1.5">#{idx + 1}.</strong>
@@ -1351,9 +1336,9 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
                             href={buildAffiliateUrl(linkedProduct, `checklist_row_${idx + 1}`)}
                             target="_blank"
                             rel="noopener noreferrer sponsored"
-                            className="shrink-0 inline-flex items-center gap-1 rounded-full bg-stone-100 hover:bg-[#18101E] hover:text-white px-3 py-1 text-[11px] font-extrabold text-[#18101E] transition"
+                            className="shrink-0 inline-flex items-center gap-1 rounded-full bg-zinc-100 hover:bg-zinc-950 hover:text-white px-3 py-1 text-[11px] font-bold text-zinc-900 transition"
                           >
-                            <span>🛍️ Get Pick</span>
+                            <span>🛍️ See Pick</span>
                             <ExternalLink className="h-3 w-3" />
                           </a>
                         )}
@@ -1364,81 +1349,118 @@ export const VelvetJournalView: React.FC<VelvetJournalViewProps> = ({
               </div>
             )}
 
-            {/* Punchy Playful Photo Listicles (2 Crisp Takeaways Max Per Photo Card) */}
-            <div className="space-y-4">
+            {/* Uninterrupted Numbered Photo Listicle Stream (01, 02, 03...) */}
+            <div className="space-y-6">
               {active.sections.map((sec, idx) => {
                 const photoUrl =
                   visualMeta.sectionPhotos[idx % visualMeta.sectionPhotos.length];
                 const cleanHeading = sec.heading.replace(/^\d+\.\s*/, '');
                 const emoji = SECTION_EMOJIS[idx % SECTION_EMOJIS.length];
-                const beats = splitIntoScannableBeats(sec.body).slice(0, 2);
+                const hasExplicitBullets = sec.body.includes('\n•');
+                const beats = splitIntoScannableBeats(sec.body);
 
                 return (
-                  <React.Fragment key={sec.heading}>
-                    <section
-                      data-testid="guide-section-visual-card"
-                      className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
-                    >
-                      <div className="grid md:grid-cols-[220px_1fr] items-stretch">
-                        <div className="relative min-h-[175px] bg-zinc-950">
-                          <img
-                            src={photoUrl}
-                            alt={cleanHeading}
-                            className="h-full w-full object-cover object-top"
-                          />
-                          <div className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-md bg-zinc-950/85 px-2.5 py-1 text-xs font-bold text-white">
-                            <span>#{idx + 1}</span>
-                          </div>
+                  <section
+                    key={sec.heading}
+                    data-testid="guide-section-visual-card"
+                    className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
+                  >
+                    <div className="grid md:grid-cols-[240px_1fr] items-stretch">
+                      <div className="relative min-h-[190px] bg-zinc-950">
+                        <img
+                          src={photoUrl}
+                          alt={cleanHeading}
+                          className="h-full w-full object-cover object-center"
+                        />
+                        <div className="absolute top-3 left-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-950/90 text-xs font-extrabold text-white shadow-xs">
+                          {String(idx + 1).padStart(2, '0')}
                         </div>
+                      </div>
 
-                        <div className="p-4 sm:p-5 space-y-2.5 flex flex-col justify-center">
-                          <h3 className="text-base sm:text-lg font-bold tracking-tight text-zinc-950 leading-snug">
-                            {emoji} {cleanHeading}
-                          </h3>
-                          <ul className="space-y-1.5">
+                      <div className="p-5 sm:p-6 space-y-2.5 flex flex-col justify-center">
+                        <h3 className="text-lg sm:text-xl font-bold tracking-tight text-zinc-950 leading-snug">
+                          {emoji} {cleanHeading}
+                        </h3>
+                        {hasExplicitBullets ? (
+                          <ul className="space-y-2">
                             {beats.map((beat, bIdx) => (
                               <li
                                 key={bIdx}
-                                className="flex items-start gap-2 text-sm leading-relaxed text-zinc-600"
+                                className="flex items-start gap-2 text-sm leading-relaxed text-zinc-700"
                               >
-                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-600" />
+                                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-600" />
                                 <span>{beat}</span>
                               </li>
                             ))}
                           </ul>
-                        </div>
+                        ) : (
+                          <p className="text-sm sm:text-base leading-relaxed text-zinc-600">
+                            {sec.body}
+                          </p>
+                        )}
                       </div>
-                    </section>
-
-                    {/* Community Receipt Callout After Card #1 */}
-                    {idx === 0 && (
-                      <div
-                        data-testid="guide-reddit-receipt"
-                        className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 sm:p-5 space-y-2"
-                      >
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <span className="inline-flex items-center gap-2 text-xs font-bold text-zinc-950">
-                            <span className="rounded bg-rose-600 px-2 py-0.5 text-xs font-bold text-white">
-                              CLUB RECEIPT
-                            </span>
-                            <span>{visualMeta.redditReceipt.handle}</span>
-                          </span>
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500">
-                            <ArrowBigUp className="h-4 w-4 text-rose-600" />
-                            <span>{visualMeta.redditReceipt.upvotes} upvotes</span>
-                          </span>
-                        </div>
-                        <p className="text-sm font-medium text-zinc-900 leading-relaxed">
-                          &ldquo;{visualMeta.redditReceipt.quote}&rdquo;
-                        </p>
-                        <div className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-600">
-                          {visualMeta.redditReceipt.topReply}
-                        </div>
-                      </div>
-                    )}
-                  </React.Fragment>
+                    </div>
+                  </section>
                 );
               })}
+            </div>
+
+            {/* Post-Listicle Quick Laughs: Overheard Texts + Reader Receipt Side-by-Side */}
+            <div className="grid gap-4 lg:grid-cols-2 border-t border-zinc-200 pt-6">
+              <div
+                data-testid="guide-text-this-not-that"
+                className="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-4 sm:p-5 space-y-3"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-950">
+                    <MessageCircle className="h-3.5 w-3.5 text-[#007AFF]" />
+                    <span>Text This, Not That</span>
+                  </div>
+                  <span className="text-[11px] font-medium text-zinc-400">iMessage</span>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <div className="self-start max-w-[92%] rounded-2xl rounded-bl-sm bg-[#E9E9EB] px-3.5 py-2 text-xs sm:text-sm font-medium text-zinc-900">
+                    <div className="text-[10px] font-bold uppercase tracking-wide text-zinc-500 mb-0.5">
+                      Left on Read
+                    </div>
+                    &ldquo;{visualMeta.dontText}&rdquo;
+                  </div>
+
+                  <div className="self-end max-w-[92%] rounded-2xl rounded-br-sm bg-[#007AFF] px-3.5 py-2 text-xs sm:text-sm font-medium text-white shadow-2xs">
+                    <div className="text-[10px] font-bold uppercase tracking-wide text-sky-100 mb-0.5">
+                      Gets the Friday Table ✓
+                    </div>
+                    &ldquo;{visualMeta.doText}&rdquo;
+                  </div>
+                </div>
+              </div>
+
+              <div
+                data-testid="guide-reddit-receipt"
+                className="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-4 sm:p-5 flex flex-col justify-between gap-2.5"
+              >
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-2 text-xs font-bold text-zinc-950">
+                      <span className="rounded bg-rose-600 px-2 py-0.5 text-[10px] font-bold text-white uppercase">
+                        Top Comment
+                      </span>
+                      <span>{visualMeta.redditReceipt.handle}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-zinc-500">
+                      <ArrowBigUp className="h-4 w-4 text-rose-600" />
+                      <span>{visualMeta.redditReceipt.upvotes}</span>
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-zinc-900 leading-relaxed">
+                    &ldquo;{visualMeta.redditReceipt.quote}&rdquo;
+                  </p>
+                </div>
+                <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-zinc-600">
+                  {visualMeta.redditReceipt.topReply}
+                </div>
+              </div>
             </div>
 
             {/* Interactive 1-Tap Club Poll */}

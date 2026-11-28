@@ -231,8 +231,12 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
         body: 'Some couples enthusiastically build late-30s or 40s families together (like Sienna Miller & Oli Green or Summer’s Reformer-Pilates baby chapter), while many Cougars and Jaguars are happily child-free or done raising kids. Naming what you both want by Month 3 prevents heartbreak five years later.',
       },
       {
-        heading: '3. Turning Public Side-Eyes & Waiterumbles Into Shared Comedy',
+        heading: '3. Turning Public Side-Eyes & Waiter Fumbles Into Shared Comedy',
         body: 'When a nervous waiter stammers over separate checks or Table 9 whispers at a wedding, calm hand-holding and an unbothered laugh make you untouchable. Confidence sets the room’s temperature in five seconds.',
+      },
+      {
+        heading: '4. Keeping Independence Sexy: Why Separate Hobbies & Sanctuaries Matter',
+        body: 'The healthiest cross-generational couples never merge into codependency. Keeping his independent career drive and friend group intact alongside her established home sanctuary makes every Friday reunion feel chosen rather than obligatory.',
       },
     ],
     faqs: [
@@ -322,6 +326,10 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       {
         heading: '3. New-Wave Glow & Sweet-Spot Micro-Gaps: Alba, Sienna, Miley, Gabrielle & Meghan Markle',
         body: 'Jessica Alba & Danny Ramirez, Sienna Miller & Oli Green, and Ellie Goulding & Beau Minniear headline the 11-to-15-year wave, while Gabrielle Union & Dwyane Wade (9 yrs), Miley Cyrus & Maxx Morando (6 yrs), Cameron Diaz & Benji Madden (6.5 yrs), Eva Mendes & Ryan Gosling (6.5 yrs), and Meghan Markle & Prince Harry (3 yrs) prove woman-older chemistry shines at every gap.',
+      },
+      {
+        heading: '4. 2024 to 2026 Headline Makers: Kim & Lewis, Nicole Scherzinger, Madonna & Shakira',
+        body: 'From Kim Kardashian & 7-time F1 champion Sir Lewis Hamilton stepping out from the Cotswolds to Super Bowl LX, to Tony winner Nicole Scherzinger’s iconic younger-athlete streak (fiancé Thom Evans, Lewis Hamilton, and Grigor Dimitrov), Madonna & Jamaican soccer alum Akeem Morris, Shakira casting Lucien Laviscount in "Puntería," and Kristin Cavallari’s viral Montana Boyz chapter, pop culture’s boldest women date strictly on chemistry.',
       },
     ],
     faqs: [

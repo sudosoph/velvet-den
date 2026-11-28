@@ -3,7 +3,11 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { SEED_COURTROOM_STORIES } from '../src/components/ClubCourtroomView';
 import { COUGAR_CUB_CHECKLIST_ITEMS } from '../src/components/CougarCubChecklistModal';
-import { POP_CULTURE_TRIVIA } from '../src/data/popCultureTrivia';
+import {
+  POP_CULTURE_TRIVIA,
+  resolveTriviaCategory,
+  resolveTriviaLevel,
+} from '../src/data/popCultureTrivia';
 import { V35_CAST_PROFILES } from '../src/data/v35Cast';
 import {
   V35_CHAT_CHAPTERS,
@@ -269,5 +273,42 @@ describe('v35 7-bucket non-overlapping content vault, banned-trope purge & 55-Q 
       expect(m, `Invalid YouTube embed URL: ${q.youtubeEmbedUrl}`).not.toBeNull();
       expect(VERIFIED_YOUTUBE_IDS.has(m![1]), `Unverified YouTube ID: ${m![1]}`).toBe(true);
     }
+  });
+
+  it('guarantees 17/17 bespoke non-repeating Prowl & iMessage beats across genuine leads and 75+ Trivia questions organized across 3 Levels x 4 Categories', () => {
+    expect(POP_CULTURE_TRIVIA.length).toBeGreaterThanOrEqual(75);
+    for (const cat of ['movies', 'tv', 'books', 'music_celebs'] as const) {
+      for (const lvl of [1, 2, 3] as const) {
+        const count = POP_CULTURE_TRIVIA.filter(
+          (q) => resolveTriviaCategory(q) === cat && resolveTriviaLevel(q) === lvl,
+        ).length;
+        expect(count, `Category ${cat} Level ${lvl} should have >= 4 questions`).toBeGreaterThanOrEqual(4);
+      }
+    }
+
+    const genuineProfiles = V35_CAST_PROFILES.filter((p) => p.tier !== 'trap');
+    expect(genuineProfiles).toHaveLength(17);
+
+    const beat3Set = new Set(
+      genuineProfiles.map((p) => V35_CHAT_CHAPTERS[p.id].tinder[2].incomingMessages[0]),
+    );
+    const beat4Set = new Set(
+      genuineProfiles.map((p) => V35_CHAT_CHAPTERS[p.id].tinder[3].incomingMessages[0]),
+    );
+    const beat5Set = new Set(
+      genuineProfiles.map((p) => V35_CHAT_CHAPTERS[p.id].tinder[4].incomingMessages[0]),
+    );
+    const imsg3Set = new Set(
+      genuineProfiles.map((p) => V35_CHAT_CHAPTERS[p.id].imessage[2].incomingMessages[0]),
+    );
+    const imsg4NoteSet = new Set(
+      genuineProfiles.map((p) => V35_CHAT_CHAPTERS[p.id].imessage[3].photoDrop?.secretNote),
+    );
+
+    expect(beat3Set.size).toBe(17);
+    expect(beat4Set.size).toBe(17);
+    expect(beat5Set.size).toBe(17);
+    expect(imsg3Set.size).toBe(17);
+    expect(imsg4NoteSet.size).toBe(17);
   });
 });
