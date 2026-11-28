@@ -3,6 +3,12 @@ export interface JournalFaq {
   answer: string;
 }
 
+export interface JournalSection {
+  heading: string;
+  subhead?: string;
+  body: string;
+}
+
 export interface JournalArticle {
   slug: string;
   seoTitle: string;
@@ -12,7 +18,7 @@ export interface JournalArticle {
   readTime: string;
   intro: string;
   checklistItems?: string[];
-  sections: { heading: string; body: string }[];
+  sections: JournalSection[];
   faqs: JournalFaq[];
   featuredEpisodeId: string;
   featuredAffiliateIds: string[];
@@ -21,43 +27,56 @@ export interface JournalArticle {
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
     slug: 'cougar-vs-puma-vs-jaguar-dating-age-chart',
-    seoTitle: 'Cougar vs. Puma vs. Jaguar Age Chart: Older Woman Dating Younger Man Guide',
+    seoTitle: 'The Official Feline Age Chart: Junior Cougar, Puma, Cougar, Jaguar & Panther',
     metaDescription:
-      'What is the difference between a Puma, Cougar, Jaguar, and Panther in age-gap dating? Learn the real older-woman / younger-man relationship slang, rules, and etiquette.',
+      'What age is a Puma vs. a Cougar, Jaguar, or Silver Panther? The quick visual breakdown of every tier on the older-woman / younger-man dating chart.',
     targetKeywords: [
       'cougar vs puma dating meaning',
       'older woman younger man age chart',
       'what age is a cougar vs jaguar',
-      'cougar and cub relationship rules',
+      'junior cougar meaning',
     ],
-    headline: 'Cougar vs. Puma vs. Jaguar Age Chart: Older Woman Dating Younger Man Guide',
-    readTime: '5 min read',
+    headline: 'The Official Feline Age Chart: Where Every Decade Lands',
+    readTime: '2 min listicle',
     intro:
-      'Step into any seasoned older-woman / younger-man dating circle and you quickly learn that not every woman dating younger calls herself a Cougar, and getting the etiquette wrong is the fastest way to get left on Read.',
+      'Not every woman dating younger is a Cougar. Here is the 60-second cheat sheet to every tier on the chart.',
     sections: [
       {
-        heading: '1. The Real Feline Scale (From Junior Cougar & Puma to Panther)',
-        body: 'In modern age-gap dating culture, a Puma refers to a woman in her 30s (ages 30 to 39) who dates younger men, while a 5-to-9 year gap at any age earns the playful "Junior Cougar" badge. Official Cougar territory begins at age 40+ with a 10+ year gap alongside a younger male partner (Cub) or younger female partner (Kitten). Women in their 50s claim Jaguar status, and radiant women 60+ own Panther (or "Glam-ma Gigi" when grandkids are in the picture!).',
+        heading: '1. Junior Cougar (3 to 9 Years Older)',
+        subhead: 'Same pop-culture fluency, subtle woman-older spark.',
+        body: 'Think Miley Cyrus & Maxx Morando (6 yrs) or Eva Mendes & Ryan Gosling (6.5 yrs). Nobody stares at dinner, yet you still get to tease him about where he was in 2009.',
       },
       {
-        heading: '2. Rule #1: Cougar Never Means Sugar Mama or Novelty Checkbox',
-        body: 'The fastest unmatch in the Club comes from "Bucket-List Tourists" opening with "never been with a cougar before" or assuming an accomplished woman wants to fund a 24-year-old’s lifestyle. Self-sufficient women date younger men for emotional openness, playful stamina, and genuine chemistry, never to adopt a dependent.',
+        heading: '2. Puma (Ages 30 to 39 • 8+ Years Older)',
+        subhead: 'Thirties stride, zero patience for vague "situationships."',
+        body: 'She knows her career lane, orders without checking prices twice, and spots low-effort texting inside thirty seconds.',
       },
       {
-        heading: '3. Choose Your Polarity: Princess Romance, Soft Mommy-Domme, or "Cub Daddy" Lead',
-        body: 'Great age-gap chemistry spans multiple consensual styles: Any-Age "Princess Cougars" (30s to 60s+) who crave old-school flowers, car doors, and candlelit planning; poised Soft Mommy-Dommes whose quiet "Good boy" melts an overthinking Cub; and decisive 25-to-35 "Cub Daddies" who book the 7:30 booth by Tuesday so she can turn her brain completely off.',
+        heading: '3. Cougar (Ages 40 to 49 • 10+ Years Older)',
+        subhead: 'The classic benchmark: peaceful home, sharp wit, clear standards.',
+        body: 'Forty-plus with a double-digit gap is where official Cougar territory begins, paired with a consenting adult Cub (10+ years younger).',
+      },
+      {
+        heading: '4. Jaguar (Ages 50 to 59 • 10+ Years Older)',
+        subhead: 'Gen-X poise, peak self-assurance, allergic to small talk.',
+        body: 'She built a life she genuinely loves, keeps her circle tight, and dates strictly for chemistry, laughter, and great company.',
+      },
+      {
+        heading: '5. Silver Panther (Ages 60+)',
+        subhead: 'Cannes-producer energy: passport stamped and zero apologies.',
+        body: 'Think Cher or Emma Thompson in Leo Grande: magnetic conversation, impeccable taste in wine, and zero tolerance for the phrase "for your age."',
       },
     ],
     faqs: [
       {
         question: 'What age qualifies as a Cougar versus a Puma in dating?',
         answer:
-          'In age-gap dating communities, a Puma is a woman aged 30 to 39 dating a younger partner, whereas a Cougar is a woman aged 40 or older who is at least 10 years older than her partner.',
+          'A Puma is a woman aged 30 to 39 dating younger, whereas a Cougar is a woman aged 40+ who is at least 10 years older than her partner.',
       },
       {
         question: 'What does Cub mean in an age-gap relationship?',
         answer:
-          'A Cub is a consenting adult younger man (typically 10+ years younger) who dates or is in a committed relationship with a Cougar, Puma, Jaguar, or Panther.',
+          'A Cub is a consenting adult younger man (typically 10+ years younger) dating a Puma, Cougar, Jaguar, or Panther.',
       },
     ],
     featuredEpisodeId: 'check-drop',
@@ -65,142 +84,154 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
   },
   {
     slug: 'first-time-hosting-older-woman-apartment-checklist',
-    seoTitle: 'First Time Hosting an Older Woman at Your Place: The 10-Point Apartment Checklist',
+    seoTitle: 'First Time Hosting an Older Woman at Your Place: 10-Point Apartment Check',
     metaDescription:
-      'Inviting an older woman back to your apartment in your 20s? Pass all 10 points of the silent bathroom, bedroom, and kitchen audit before she steps inside.',
+      'Inviting an older woman over for the first time? Pass the 30-second bathroom, lighting, and bedroom check with zero dorm-room red flags.',
     targetKeywords: [
       'how to prepare apartment for older woman date',
       'dating an older woman in your 20s tips',
       'bathroom trash can with lid dating rule',
-      'first time hosting girlfriend apartment checklist',
     ],
-    headline: 'First Time Hosting an Older Woman at Your Place: The Complete 10-Point Apartment Audit',
-    readTime: '6 min read',
+    headline: '10 Apartment Upgrades Before You Ever Invite Her Over',
+    readTime: '3 min checklist',
     intro:
-      'Nothing ends a promising age-gap romance faster than bringing an accomplished 44-year-old woman back to an apartment with a bare floor mattress, neon 5-in-1 body wash, and an open wire wastebasket. Check off all 10 items below before she crosses your threshold.',
+      'Small square footage never scares off a grown woman, but a bare floor mattress and open wire trash bin will.',
     checklistItems: [
-      'Bathroom Trash Can With a Closed Lid (lined with a fresh bag, non-negotiable #1 rule)',
-      'Botanical Liquid Hand Soap + Two Freshly Washed Plush Hand Towels (retire the damp grey mystery towel)',
-      'Spotless Mirror, Sink Faucet & Toilet Base (zero toothpaste flecks or beard trimmings)',
-      'Real Bedframe With Headboard (mattress off the floor and off milk crates)',
-      'Crisp 100% Cotton Percale or Cooling Bamboo Sheets + Four Real Pillows in Clean Cases',
-      'Thermostat Set to 62°F to 66°F + Extra Throw Blanket at the Foot of the Bed',
-      'Zero Harsh Overhead "Big Light" Bulbs: Warm Table Lamps or Dimmer Bulbs Switched On',
-      'Chilled Sparkling Water, Her Preferred Wine or Tea & Two Matching Glassware Goblets',
-      'Clear Nightstand With an Extra USB-C / MagSafe Phone Charger Ready on Her Side',
-      'Morning-After Coffee Station Stocked (fresh beans, oat milk or half-and-half, and real mugs)',
+      'Covered, lined bathroom bin right beside the sink (#1 non-negotiable)',
+      'Real liquid hand soap + two fresh hand towels (retire the damp bath towel)',
+      'Spotless mirror and sink faucet with zero toothpaste flecks',
+      'Real bedframe and headboard (mattress off the floor)',
+      'Clean cotton or breathable sheets + four real pillows',
+      'Thermostat set to 62°F–65°F + extra throw blanket on the bed',
+      'Warm table lamps switched on (turn the harsh ceiling "Big Light" off)',
+      'Chilled sparkling water + two real wine glasses',
+      'Extra USB-C / iPhone charger plugged in on her nightstand',
+      'Real coffee setup stocked for 8 AM (fresh beans + milk or oat milk)',
     ],
     sections: [
       {
-        heading: '1. The 30-Second Bathroom Litmus Test (Items #1 to #3)',
-        body: 'Ask a hundred women over 38 their #1 hosting green flag in a younger man’s apartment and ninety-nine name the exact same duo: dedicated botanical liquid hand soap beside two fresh hand towels, and a bathroom trash can with a closed lid. It silently communicates that women feel considered and comfortable in your space.',
+        heading: '1. The 30-Second Bathroom Test',
+        subhead: 'Covered bin, real soap, fresh hand towel.',
+        body: 'Every woman checks these three things on her first visit. Passing takes twenty dollars and ten minutes at Target.',
       },
       {
-        heading: '2. Bedroom Adulthood: Oak Frame, Breathable Sheets & Four Pillows (Items #4 to #6)',
-        body: 'Entry-level square footage never disqualifies a thoughtful 25-year-old, but shiny polyester dorm sheets and a single flat pancake pillow will. A sturdy bedframe, crisp cotton percale or cooling bamboo sheets, and keeping the room cool for sleep immediately put you in the top 2% of hosts.',
+        heading: '2. Retire the Single Pancake Pillow',
+        subhead: 'Four real pillows + a sturdy bedframe.',
+        body: 'Nobody with crisp linen at home wants to wake up on one flat college pillow and shiny polyester sheets.',
       },
       {
-        heading: '3. Ban the Overhead "Big Light" & Stock Her Glassware (Items #7 to #8)',
-        body: 'Switch off surgical ceiling fluorescents before you leave for dinner so you return to warm lamp glow. Having chilled Pellegrino and two real wine glasses (never plastic stadium cups) turns a simple nightcap into an effortless lounge.',
+        heading: '3. Kill the Overhead Ceiling Light',
+        subhead: 'Two warm lamps instantly double the vibe.',
+        body: 'Flip your lamps on before leaving for dinner so walking back in for a nightcap feels calm and inviting.',
       },
       {
-        heading: '4. The Morning-After Landing Strip: Spare Charger & Real Coffee (Items #9 to #10)',
-        body: 'Handing her a spare bedside phone cord at 11 PM and pouring hot coffee with her exact milk preference at 8 AM is how a Friday date turns into a standing Sunday invitation.',
+        heading: '4. Nail the 8 AM Coffee Landing',
+        subhead: 'Spare charger at night, hot coffee in the morning.',
+        body: 'Handing her a bedside cord at 11 PM and pouring her exact coffee order at 8 AM turns Date #3 into a ritual.',
       },
     ],
     faqs: [
       {
         question: 'Do older women care if a younger man has a small apartment?',
         answer:
-          'Rarely. Established women care far more about spotless hygiene, a real bedframe, breathable clean sheets, and a lidded bathroom bin than luxury square footage.',
-      },
-      {
-        question: 'Why is a bathroom trash can with a lid so important when hosting?',
-        answer:
-          'A lidded, lined bathroom trash can provides basic privacy and signals that you host like a considerate adult rather than living in a college frat house.',
+          'Rarely. Spotless hygiene, a real bedframe, clean cotton sheets, and a covered bathroom bin matter far more than square footage.',
       },
     ],
     featuredEpisodeId: 'vip-apartment-soap-audit',
-    featuredAffiliateIds: ['hosting-lidded-bin-soap', 'percale-hosting-sheets', 'cooling-bamboo-sheets', 'silk-pillowcase-sleepover-duo'],
+    featuredAffiliateIds: ['hosting-lidded-bin-soap', 'percale-hosting-sheets'],
   },
   {
     slug: 'best-gifts-for-older-woman-girlfriend-dating-guide',
-    seoTitle: 'Best Gifts for an Older Woman Girlfriend Who Already Has Everything',
+    seoTitle: '5 Gifts That Actually Impress a Woman Who Buys Everything Herself',
     metaDescription:
-      'Dating a successful woman in her 40s, 50s, or 60s? Skip generic clichés and choose observant, romantic date-night and soft-life gifts that prove emotional maturity.',
+      'Dating a successful woman in her 40s, 50s, or 60s? Skip generic mall jewelry and win with sharp observation, zero-decision dates, and cooking from scratch.',
     targetKeywords: [
       'gifts for older woman girlfriend',
       'what to buy a woman in her 40s who has everything',
       'romantic gifts from younger boyfriend',
-      'date night gifts for cougar girlfriend',
     ],
-    headline: 'Best Gifts for an Older Woman Who Already Has Everything (A Younger Man’s Guide)',
-    readTime: '5 min read',
+    headline: '5 Gifts That Impress a Woman Who Already Buys Her Own Luxury',
+    readTime: '2 min listicle',
     intro:
-      'When she already owns her home and buys whatever luxury handbag she wants, you never try to out-spend her bank account. You win with sharp observation, sensory comfort, and taking Friday mental load off her plate.',
+      'You will never out-spend her bank account, so stop trying. Win with observation, effort, and taking Friday off her plate.',
     sections: [
       {
-        heading: '1. Gift Specific Observation Over Generic Price Tags',
-        body: 'Remembering the exact Sicilian olive oil she praised three Tuesdays ago, replacing her tangled travel charger, or showing up with her favorite pink peonies on an ordinary Wednesday hits ten times harder than panic-buying a generic mall necklace.',
+        heading: '1. The Exact Thing She Mentioned Three Weeks Ago',
+        subhead: 'Proof you actually listen beats a $300 panic gift.',
+        body: 'Grabbing the Sicilian olive oil, indie novel, or tea she praised once in passing hits ten times harder than generic jewelry.',
       },
       {
-        heading: '2. Lead With Soft-Life Rituals & Playful Inside Jokes',
-        body: 'A 22-momme mulberry silk robe for her 9:30 PM wind-down, a comically oversized "Big Carl" wine goblet for movie night, or arriving on Sunday in a heavyweight linen apron to cook dinner from scratch creates rituals she brags about to her best friends.',
+        heading: '2. A Zero-Decision Friday Itinerary',
+        subhead: '7:30 table booked, parking handled, dress code texted.',
+        body: 'When she makes two hundred decisions a day at work, telling her "Just be ready at seven" is pure romance.',
       },
       {
-        heading: '3. Upgrade Your Own Scent, Skincare & Hosting Touchpoints',
-        body: 'Trading harsh locker-room body spray for subtle oud-and-bergamot cologne, keeping silk pillowcases on your guest side, and bringing an after-dark conversation deck turns every stayover into a five-star escape.',
+        heading: '3. Sunday Dinner Cooked From Scratch (Plus Dishes)',
+        subhead: 'She sits on the guest side of the counter with wine.',
+        body: 'Show up with groceries, cook one great pasta or steak dinner, and leave her kitchen cleaner than you found it.',
+      },
+      {
+        heading: '4. Cozy Night-In Upgrades',
+        subhead: 'Soft silk loungewear, bath oil, or a late-night card game.',
+        body: 'Anything that upgrades a quiet Friday stayover shows you love unrushed time together.',
+      },
+      {
+        heading: '5. Fresh Flowers on a Random Tuesday',
+        subhead: 'Skip Valentine’s clichés and surprise her mid-week.',
+        body: 'Peonies or eucalyptus dropped off before a busy Wednesday presentation guarantees she brags to her group chat.',
       },
     ],
     faqs: [
       {
         question: 'How do you impress an older woman financially when she earns more?',
         answer:
-          'Plan dates thoughtfully within your real budget, pay decisively when you invite her out, handle driving and reservations, and choose observant personal gifts rather than overextending for status logos.',
+          'Plan dates cleanly inside your real budget, pay decisively when you invite her out, and choose observant personal gifts.',
       },
     ],
     featuredEpisodeId: 'princess-soft-life',
-    featuredAffiliateIds: [
-      'trophy-boyfriend-cooking-apron',
-      'leopard-print-cougar-apron',
-      'funny-cougar-stemless-wine-glass',
-      'princess-mulberry-silk-robe',
-    ],
+    featuredAffiliateIds: ['trophy-boyfriend-cooking-apron', 'princess-mulberry-silk-robe'],
   },
   {
     slug: 'millennial-vs-gen-z-age-gap-dating-code-switching',
-    seoTitle: 'Millennial & Gen-X Women Dating Gen-Z Men: The Courting Code-Switch Guide',
+    seoTitle: '4 Texting Rules Every Younger Guy Needs Before Messaging Her',
     metaDescription:
-      'Why asking a 45-year-old woman for Snapchat is an instant red flag, why a Gen-X 👍 text does not mean she hates you, and how to code-switch across generations.',
+      'Why asking for Snapchat past 30 is an instant block, what a Gen-X period or thumbs-up actually means, and how to confirm Friday plans.',
     targetKeywords: [
       'dating an older woman texting rules',
-      'gen z dating millennial or gen x woman',
       'why older women hate snapchat dating',
       'older woman younger man communication differences',
     ],
-    headline: 'Millennial & Gen-X Women Dating Gen-Z Men: Mastering the Courting Code-Switch',
-    readTime: '5 min read',
+    headline: '4 Generational Texting Rules That Save You From Instant Unmatch',
+    readTime: '2 min listicle',
     intro:
-      'Gen-Z and young Millennial men win rave reviews from older women for emotional fluency and enthusiasm, right up until they ask a 46-year-old executive for her Snapchat or spiral for three hours over a Gen-X thumbs-up emoji.',
+      'Half of age-gap fumbles happen before Date #1 even starts because two generations read the exact same text differently.',
     sections: [
       {
-        heading: '1. Decoding Her Generation: Elder Millennial Pumas vs. Gen-X Cougars & Jaguars',
-        body: 'An Elder Millennial (34 to 44) loves a playful text before a phone call, uses 😂 warmly, and melts for a Wednesday calendar invite. A Gen-X Jaguar (45 to 60) writes "Sounds good." with a period and sends 👍 completely sincerely. Do not panic: she is not furious at you, she is just busy winning her workday!',
+        heading: '1. "Sounds good." With a Period Means She Is Happy',
+        subhead: 'Do not spiral over normal grammar.',
+        body: 'Gen-X and Xennial women punctuate sentences properly between meetings. If she were mad, she wouldn’t be seeing you Friday.',
       },
       {
-        heading: '2. Delete "What’s Your Snap?" & "WYD" From Your Vocabulary Forever',
-        body: 'Past age 33, asking for Snapchat reads like hiding a girlfriend or collecting disappearing streaks. Offer your real phone number, propose a concrete neighborhood spot for Thursday at 7:30, and confirm the afternoon of.',
+        heading: '2. The Thumbs-Up Emoji (👍) Is 100% Sincere',
+        subhead: 'Zero sarcasm, zero passive aggression.',
+        body: 'To a 24-year-old, 👍 looks icy. To a busy 46-year-old partner or physician, it literally means "Great, locked in, see you at eight!"',
       },
       {
-        heading: '3. British Charm, Band-Tee Quizzes & Banning Backhanded Compliments',
-        body: 'Playful banter wins ("Half seven is sorted xx" if you are British, or actually knowing three tracks off Nirvana’s In Utero when she spots your vintage tee). Just never utter "You look incredible for your age" or call her 1999 road-trip album "music my mom cleaned the house to."',
+        heading: '3. Never Ask for Her Snapchat',
+        subhead: 'Trade real phone numbers like an adult.',
+        body: 'Past age 32, asking "do u have snap" screams either college dorms or hiding a girlfriend at home.',
+      },
+      {
+        heading: '4. Send the Noon Confirmation Text',
+        subhead: '"Still excited for 7:30 at Osteria tonight!"',
+        body: 'One calm noon confirmation with the restaurant pin lets her get ready without wondering if you’re going to flake.',
       },
     ],
     faqs: [
       {
         question: 'Should I ask an older woman for her Snapchat on a dating app?',
         answer:
-          'Never. Women in their 30s, 40s, 50s, and 60s overwhelmingly view Snapchat requests as immature or sneaky. Exchange real phone numbers and set a real date.',
+          'Never. Exchange real phone numbers and propose a clear neighborhood spot and time.',
       },
     ],
     featuredEpisodeId: 'code-switch-texting',
@@ -208,42 +239,45 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
   },
   {
     slug: 'older-woman-younger-man-relationship-problems-kids-stigma',
-    seoTitle: 'Older Woman, Younger Man Relationships: Navigating Kids, Waiters & Insecurities',
+    seoTitle: '4 Real-Talk Crossroads Every Age-Gap Couple Faces (And How to Win Them)',
     metaDescription:
-      'Real solutions to the biggest older-woman / younger-man relationship challenges: family and kids timelines, public stares, mirror insecurities, and meeting adult children.',
+      'From the 3-month kids conversation to clueless hotel clerks asking "Two Queen beds?", here is how lasting couples handle real life.',
     targetKeywords: [
       'older woman younger man relationship problems',
       'dating older woman who doesnt want more kids',
-      'age gap relationship insecurities older woman',
-      'meeting older girlfriends adult kids',
+      'age gap relationship insecurities',
     ],
-    headline: 'Older Woman, Younger Man Relationships: Navigating Kids, Public Stares & Secret Doubts',
-    readTime: '6 min read',
+    headline: '4 Real-World Tests That Separate a Two-Week Fling From a Real Partner',
+    readTime: '3 min listicle',
     intro:
-      'Behind the sparkling chemistry, lasting age-gap couples navigate real-world crossroads together, from clueless hotel clerks asking "Two Queen beds?" to honest conversations about kids and long-term timelines.',
+      'Great chemistry gets you through Month 1; handling these four moments with humor and honesty gets you past Year 1.',
     sections: [
       {
-        heading: '1. The Symmetric Mirror Secret Neither Partner Admits at First',
-        body: 'In bright Sunday morning light, a 48-year-old woman may quietly wonder how real skin texture compares to 24-year-olds on Instagram, at the exact moment her 27-year-old partner is praying he has enough presence and composure to keep an extraordinary woman interested.',
+        heading: '1. Laugh Through the "Two Queen Beds?" Mix-Up',
+        subhead: 'Confidence resets the room in three seconds.',
+        body: 'When a hotel clerk or young waiter stumbles over your gap, an easy grin and "One King is plenty, thanks" turns awkwardness into an inside joke.',
       },
       {
-        heading: '2. Aligning Kids & Family Timelines by Month Three',
-        body: 'Some couples enthusiastically build late-30s or 40s families together (like Sienna Miller & Oli Green or Summer’s Reformer-Pilates baby chapter), while many Cougars and Jaguars are happily child-free or done raising kids. Naming what you both want by Month 3 prevents heartbreak five years later.',
+        heading: '2. Have the Kids Conversation by Month Three',
+        subhead: 'Never kick timeline math two years down the road.',
+        body: 'Some couples want a family together; many 40+ women are happily done or child-free. Aligning early protects both hearts.',
       },
       {
-        heading: '3. Turning Public Side-Eyes & Waiter Fumbles Into Shared Comedy',
-        body: 'When a nervous waiter stammers over separate checks or Table 9 whispers at a wedding, calm hand-holding and an unbothered laugh make you untouchable. Confidence sets the room’s temperature in five seconds.',
+        heading: '3. Hold Her Hand in Daylight',
+        subhead: 'Zero weirdness when people look twice.',
+        body: 'Nothing kills attraction faster than a guy who is affectionate on the sofa and suddenly walks three paces ahead on the sidewalk.',
       },
       {
-        heading: '4. Keeping Independence Sexy: Why Separate Hobbies & Sanctuaries Matter',
-        body: 'The healthiest cross-generational couples never merge into codependency. Keeping his independent career drive and friend group intact alongside her established home sanctuary makes every Friday reunion feel chosen rather than obligatory.',
+        heading: '4. Keep Two Full, Independent Lives',
+        subhead: 'Separate friend groups + chosen weekends.',
+        body: 'Healthy couples never merge into needy codependency. Keeping his career drive and her peaceful home rhythm keeps the spark high.',
       },
     ],
     faqs: [
       {
         question: 'How do older-woman / younger-man couples handle the kids question?',
         answer:
-          'Successful age-gap couples discuss family goals transparently in the first few months rather than avoiding the topic, ensuring both partners genuinely want the same future.',
+          'Talk openly within the first three months so both partners know whether marriage, children, or Living-Apart-Together fits their future.',
       },
     ],
     featuredEpisodeId: 'mirror-game-insecurities',
@@ -251,135 +285,143 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
   },
   {
     slug: 'black-cat-older-woman-golden-retriever-younger-man-dating-guide',
-    seoTitle:
-      'Black Cat Older Woman × Golden Retriever Younger Man: Why Slow-Burn Pushback Drives Cubs Wild',
-    headline:
-      'Why Sunny "Golden Retriever" Younger Men Fall Hardest for "Black Cat" Older Women Who Take Their Time',
+    seoTitle: 'Black Cat Older Woman × Golden Retriever Younger Man: Why This Pairing Works',
+    metaDescription:
+      'Why upbeat, warm-hearted younger men fall hardest for selective, unhurried older women with strong boundaries.',
     targetKeywords: [
       'black cat girlfriend golden retriever boyfriend',
       'older woman younger man chemistry',
       'slow burn cougar and cub dating',
     ],
-    metaDescription:
-      'Why sunny Golden-Retriever younger men fall hardest for cool, unhurried "Black Cat" older women who take their time, set boundaries, and push back playfully at first.',
-    readTime: '5 min read',
+    headline: '4 Reasons "Golden Retriever" Guys Fall Hardest for Selective "Black Cat" Women',
+    readTime: '2 min listicle',
     intro:
-      'Across modern romance culture and Cougars & Cubs Club, one dynamic outlasts every flash-in-the-pan fling: the selective, unhurried "Black Cat" older woman paired with the sunny, devoted "Golden Retriever" younger man. Where fragile egos bristle when a woman takes her time, a high-EQ Golden-Retriever Cub lights up at the joy of earning her trust.',
+      'It is the #1 pairing across modern romance for a reason: calm standards meet upbeat, zero-ego enthusiasm.',
     sections: [
       {
-        heading: '1. Why Accomplished Women Naturally Radiate "Black Cat" Calm',
-        body: 'By 38, 48, or 58, an independent woman has built a peaceful sanctuary, rich friendships, and zero appetite for performative fawning. Pacing the first three dates is not a mind game; it is healthy self-possession that filters out entitled tourists immediately.',
+        heading: '1. Her Boundaries Aren’t Games, They’re Peace',
+        subhead: 'She already built a life she enjoys.',
+        body: 'Pacing the first three dates isn’t playing hard to get; it naturally filters out impatient tourists before Friday.',
       },
       {
-        heading: '2. Why Golden-Retriever Cubs Find Her Pushback Intoxicating',
-        body: 'Warm-hearted younger men are tired of chaotic situationships yet unimpressed when nothing feels earned. When a poised woman raises one eyebrow and says "Slow down, sunshine, convince me," his Golden-Retriever optimism kicks into high gear without an ounce of sulking.',
+        heading: '2. He Enjoys Earning Her Trust',
+        subhead: 'Warmth without love-bombing.',
+        body: 'Fragile egos pout when a woman takes her time. High-EQ younger men bring steady humor, good plans, and patience.',
       },
       {
-        heading: '3. The Rainy-Friday Thaw: Earned Intimacy Hits Deeper',
-        body: 'Because she did not hand over her trust on Tuesday #1, the Friday night a Black Cat Cougar finally kicks off her heels, steals his hoodie, and curls into his lap feels electric.',
+        heading: '3. Zero Jaded Scorekeeping',
+        subhead: 'Fresh energy meets clear communication.',
+        body: 'She skips cryptic hints and says what she likes; he skips cynical baggage and actually listens.',
+      },
+      {
+        heading: '4. When She Finally Lets Her Guard Down, It Means Everything',
+        subhead: 'Earned closeness hits ten times deeper.',
+        body: 'The first Sunday morning she trades heels for your oversized hoodie and stays for pancakes feels earned.',
       },
     ],
     faqs: [
       {
-        question: 'What does Black Cat girlfriend and Golden Retriever boyfriend mean in age-gap dating?',
+        question: 'What does Black Cat girlfriend and Golden Retriever boyfriend mean?',
         answer:
-          'In age-gap romance, a Black Cat older woman is selective, unhurried, and comfortable setting playful boundaries, while a Golden Retriever Cub brings sunny, steady devotion until real trust is earned.',
-      },
-      {
-        question: 'How should a younger man respond when an older woman slows the pace at first?',
-        answer:
-          'Respond with warm, unbothered consistency rather than double-texting or sulking. Keep planning thoughtful low-pressure dates and match her rhythm.',
+          'A Black Cat partner is poised, selective, and unhurried, while a Golden Retriever partner brings warm, steady affection and enthusiasm.',
       },
     ],
     featuredEpisodeId: 'black-cat-pushback-golden-retriever-test',
-    featuredAffiliateIds: [
-      'golden-retriever-boyfriend-mug',
-      'black-cat-girlfriend-leopard-mug',
-      'good-boy-brass-training-clicker',
-      'short-leash-leather-dog-leash',
-    ],
+    featuredAffiliateIds: ['golden-retriever-boyfriend-mug', 'black-cat-girlfriend-leopard-mug'],
   },
   {
     slug: 'celebrity-cougars-and-cubs-pop-culture-guide',
-    seoTitle: 'Celebrity Cougars and Cubs: Priyanka, Tina Turner, Cher, Sienna Miller & Meghan Markle',
+    seoTitle: 'Celebrity Cougars & Cubs Hall of Fame: Tina Turner, Priyanka, Cher, Sienna & Kim K',
     metaDescription:
-      'From Tina Turner & Erwin Bach and Priyanka Chopra & Nick Jonas to Jessica Alba, Sienna Miller, Miley Cyrus, Goldie Hawn, and Meghan Markle: the complete Celebrity Hall of Fame.',
+      'From Tina Turner & Erwin Bach (38 years) and Priyanka & Nick to Cher, Sienna Miller, Nicole Scherzinger, and Kim Kardashian × Lewis Hamilton.',
     targetKeywords: [
       'celebrity cougars and cubs',
       'priyanka chopra nick jonas age gap',
       'tina turner erwin bach relationship',
-      'sienna miller oli green relationship',
+      'kim kardashian lewis hamilton',
     ],
-    headline: 'Celebrity Cougars & Cubs: How Pop Culture Entered Its Unapologetic Golden Era',
-    readTime: '6 min read',
+    headline: '5 Iconic Celebrity Age-Gap Eras That Killed the Double Standard',
+    readTime: '3 min listicle',
     intro:
-      'Hollywood and global pop culture’s old double standard around woman-older couples has officially collapsed, led by self-made icons across every gap size from 3 years to 40 years.',
+      'Hollywood’s old double standard is officially dead. Here are the couples who rewrote the playbook from 3-year micro-gaps to 38-year marriages.',
     sections: [
       {
-        heading: '1. Lifetime Devotion Legends: Tina Turner, Goldie Hawn, Julianne Moore & Brigitte Macron',
-        body: 'Skeptics who claim age-gap romances are "just a phase" always forget Tina Turner & Erwin Bach (16-year gap, 38 years on Lake Zurich, where Erwin donated his kidney to save Tina’s life), Goldie Hawn & Kurt Russell (40+ years of laughter), Julianne Moore & Bart Freundlich (25+ years married), and Brigitte & Emmanuel Macron.',
+        heading: '1. The Multi-Decade Legends (Tina & Erwin • Goldie & Kurt • Julianne Moore)',
+        subhead: 'So much for "it’s just a fling."',
+        body: 'Tina Turner & Erwin Bach spent 38 devoted years together in Switzerland (16-yr gap), right alongside Julianne Moore & Bart Freundlich (28+ yrs) and Goldie Hawn & Kurt Russell (40+ yrs).',
       },
       {
-        heading: '2. Red-Carpet & Reality Powerhouses: Priyanka, Heidi, Caroline Stanbury, Demi & Kris',
-        body: 'Priyanka Chopra & Nick Jonas (exact 10-year Cougar cutoff), Heidi Klum & Tom Kaulitz (16-year Capri yacht bliss), *Real Housewives of Dubai* favorites Caroline Stanbury & Sergio Carrallo (18-year British Black Cat × Spanish Golden Retriever marriage), Kris Jenner & Corey Gamble (25-year gap going a decade strong), Demi Moore & Ashton Kutcher’s trailblazing 2003–2013 watershed marriage (which shattered Hollywood’s double standard overnight even though they later parted ways), and Cher ("Mom, I AM a rich man") turned woman-older confidence into global aspiration.',
+        heading: '2. Red-Carpet Hype Husbands (Priyanka & Nick • Heidi & Tom)',
+        subhead: 'Zero ego when she owns the spotlight.',
+        body: 'Nick Jonas (10 yrs younger) and Tom Kaulitz (16 yrs younger) turned cheering from the front row into an art form.',
       },
       {
-        heading: '3. New-Wave Glow & Sweet-Spot Micro-Gaps: Alba, Sienna, Miley, Gabrielle & Meghan Markle',
-        body: 'Jessica Alba & Danny Ramirez, Sienna Miller & Oli Green, and Ellie Goulding & Beau Minniear headline the 11-to-15-year wave, while Gabrielle Union & Dwyane Wade (9 yrs), Miley Cyrus & Maxx Morando (6 yrs), Cameron Diaz & Benji Madden (6.5 yrs), Eva Mendes & Ryan Gosling (6.5 yrs), and Meghan Markle & Prince Harry (3 yrs) prove woman-older chemistry shines at every gap.',
+        heading: '3. Pop Divas Who Never Checked Birth Certificates (Cher • Madonna • Mariah)',
+        subhead: '"Mom, I AM a rich man."',
+        body: 'From Cher’s 80s romance with young Tom Cruise and Val Kilmer to Alexander "AE" Edwards, pop icons dated strictly on spark.',
       },
       {
-        heading: '4. 2024 to 2026 Headline Makers: Kim & Lewis, Nicole Scherzinger, Madonna & Shakira',
-        body: 'From Kim Kardashian & 7-time F1 champion Sir Lewis Hamilton stepping out from the Cotswolds to Super Bowl LX, to Tony winner Nicole Scherzinger’s iconic younger-athlete streak (fiancé Thom Evans, Lewis Hamilton, and Grigor Dimitrov), Madonna & Jamaican soccer alum Akeem Morris, Shakira casting Lucien Laviscount in "Puntería," and Kristin Cavallari’s viral Montana Boyz chapter, pop culture’s boldest women date strictly on chemistry.',
+        heading: '4. The Cool-Girl Wave (Sienna Miller • Jessica Alba • Miley Cyrus)',
+        subhead: 'London red carpets to Cabo getaways.',
+        body: 'Sienna Miller & Oli Green (15 yrs), Jessica Alba & Danny Ramirez (11 yrs), Gabrielle Union & Dwyane Wade (9 yrs), and Miley Cyrus & Maxx Morando (6 yrs) made it effortless.',
+      },
+      {
+        heading: '5. Headline Athlete Crossovers (Nicole Scherzinger • Kim K × Lewis Hamilton)',
+        subhead: 'F1 paddocks to West End stages.',
+        body: 'Tony winner Nicole Scherzinger dated F1 champ Lewis Hamilton before getting engaged to rugby star Thom Evans, and now Kim Kardashian & Sir Lewis Hamilton have the whole internet talking.',
       },
     ],
     faqs: [
       {
         question: 'Who are the longest-lasting celebrity older-woman / younger-man couples?',
         answer:
-          'Enduring icons include Tina Turner & Erwin Bach (38 years together), Goldie Hawn & Kurt Russell (40+ years), Julianne Moore & Bart Freundlich (28+ years), Brigitte & Emmanuel Macron, Heidi Klum & Tom Kaulitz, and Priyanka Chopra & Nick Jonas.',
+          'Tina Turner & Erwin Bach (38 years), Goldie Hawn & Kurt Russell (40+ years), Julianne Moore & Bart Freundlich (28+ years), Heidi Klum & Tom Kaulitz, and Priyanka Chopra & Nick Jonas.',
       },
     ],
     featuredEpisodeId: 'pop-culture-cougar-renaissance',
-    featuredAffiliateIds: [
-      'idea-of-you-movie-book',
-      'babygirl-movie-prime',
-      'cub-grooming-beard-skincare-kit',
-      'princess-mulberry-silk-robe',
-    ],
+    featuredAffiliateIds: ['idea-of-you-movie-book', 'babygirl-movie-prime'],
   },
   {
     slug: 'dating-younger-man-perimenopause-menopause-intimacy',
-    seoTitle: 'Dating a Younger Man in Perimenopause & Menopause: Real Intimacy & Sleep Guide',
+    seoTitle: 'The 62°F Bedroom Rule: Sleep, Perimenopause & Honest Intimacy With a Younger Partner',
     metaDescription:
-      'Honest advice on perimenopause libido surges, 3 AM hot flashes, menopause intimacy, cooling bamboo sheets, and high-EQ communication with a younger male partner.',
+      'Why setting the AC to 62°F, keeping ice water on the nightstand, and dropping guesswork makes 40s and 50s intimacy better than ever.',
     targetKeywords: [
       'dating younger man perimenopause',
       'menopause intimacy younger boyfriend',
-      'cooling bamboo sheets night sweats',
+      'cooling sheets night sweats',
     ],
-    headline: 'Dating a Younger Man in Perimenopause & Menopause: Real Intimacy, 62°F Sleep & High-EQ Care',
-    readTime: '5 min read',
+    headline: '4 Sleep & Intimacy Upgrades Every 40+ Stayover Deserves',
+    readTime: '2 min listicle',
     intro:
-      'One of the best-kept secrets of 40s, 50s, and 60+ Cougar, Jaguar, and Panther relationships is how liberating intimacy becomes once candid communication replaces guesswork.',
+      'The best secret of dating in your 40s and 50s? Saying exactly what feels good and banning 72-degree bedrooms.',
     sections: [
       {
-        heading: '1. When 10 PM Desire Surges Meet 3 AM Flash-Furnace Heat Waves',
-        body: 'During perimenopause (often ages 40 to 52), many women experience electric late-evening libido surges paired with sudden 3 AM temperature spikes. High-EQ Cubs treat a 62°F thermostat and breathable cooling bamboo viscose sheets like baseline hospitality.',
+        heading: '1. Lock the Bedroom Thermostat at 62°F–64°F',
+        subhead: 'He gets an extra blanket; you get real sleep.',
+        body: '3 AM heat spikes are real. High-EQ partners pre-chill the bedroom without making a single joke about it.',
       },
       {
-        heading: '2. Unhurried Foreplay, Zero Ego & Joyful Teamwork',
-        body: 'Post-menopause shifts are effortless when a younger partner brings enthusiasm, unhurried touch, quality bedside essentials, and zero fragile ego, turning communication into part of the chemistry.',
+        heading: '2. Use Breathable Cotton or Two Separate Duvets',
+        subhead: 'The Scandinavian sleep trick saves relationships.',
+        body: 'Ditching heat-trapping synthetic comforters for light breathable layers means nobody plays tug-of-war at 2 AM.',
       },
       {
-        heading: '3. Protecting Deep Sleep So You Both Glow at 7 AM Coffee',
-        body: 'Keeping ice water on her nightstand, swapping heavy duvets for layered breathable blankets, and respecting her sleep window ensures Sunday morning feels restorative instead of depleted.',
+        heading: '3. Slow Down the Warmup',
+        subhead: 'Curiosity beats 2x-speed acrobatics every night.',
+        body: 'Younger men have plenty of enthusiasm; guiding his pace calmly turns raw energy into five-star chemistry.',
+      },
+      {
+        heading: '4. Ice Water on the Nightstand, Coffee at 8 AM',
+        subhead: 'Tiny acts of care > grand speeches.',
+        body: 'Waking up rested next to cold sparkling water and zero morning rush is how weekend flings turn serious.',
       },
     ],
     faqs: [
       {
-        question: 'How do couples handle perimenopause night sweats and menopause intimacy shifts?',
+        question: 'How do couples handle night sweats and sleep temperature differences?',
         answer:
-          'Pair breathable cooling bamboo sheets and a 62°F bedroom with unhurried warmup, open communication, and chilled bedside water.',
+          'Set the bedroom between 62°F and 65°F, use breathable natural-fiber sheets, and keep an extra throw blanket on his side.',
       },
     ],
     featuredEpisodeId: 'cougar-perimenopause-surge-nightsweats',
@@ -387,80 +429,91 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
   },
   {
     slug: 'junior-cougar-6-year-age-gap-relationship-guide',
-    seoTitle: 'Junior Cougar Meaning: Why a 3-to-9 Year Woman-Older Gap Is Modern Dating’s Sweet Spot',
+    seoTitle: 'The "Junior Cougar" Sweet Spot: Why a 4-to-9 Year Gap Works So Well',
     metaDescription:
-      'Under strict 10-year Cougar rules, a 3-to-9 year older-woman / younger-man gap earns the Junior Cougar badge. Learn why couples from Miley Cyrus to Meghan Markle love this sweet spot.',
+      'Why a 4-to-9 year woman-older gap blends shared cultural references with zero dating-app games.',
     targetKeywords: [
       'junior cougar meaning',
       '6 year age gap older woman younger man',
       '5 to 9 year age gap dating',
     ],
-    headline: 'Junior Cougar Meaning: Why a 3-to-9 Year Woman-Older Gap Is Modern Dating’s Sweet Spot',
-    readTime: '4 min read',
+    headline: '4 Reasons the 4-to-9 Year "Junior Cougar" Gap Is Dating’s Secret Sweet Spot',
+    readTime: '2 min listicle',
     intro:
-      'While strict Cougars & Cubs Club law reserves official Cougar status for a 10+ year gap at age 40+, women who are 3 to 9 years older than their partner proudly claim the "Junior Cougar" track.',
+      'Purists say official Cougar starts at 10+ years, which makes the 4-to-9 year gap the most underrated lane in dating.',
     sections: [
       {
-        heading: '1. Shared Cultural Overlap Plus Unmistakable Woman-Older Spark',
-        body: 'Pairs like 38F × 32M, Miley Cyrus & Maxx Morando (6 yrs), Cameron Diaz & Benji Madden (6.5 yrs), or Meghan Markle & Prince Harry (3 yrs) enjoy shared references and zero restaurant stares alongside playful "Wait, what grade were you in during 2009?" banter.',
+        heading: '1. Zero Public Stares, Full Playful Teasing',
+        subhead: 'Nobody blinks at the host stand.',
+        body: 'A 39F × 33M couple blends right into any wine bar while still laughing that she had a car when he was in ninth grade.',
       },
       {
-        heading: '2. Why Men in Their Late 20s & Early 30s Seek Out Women 5+ Years Up',
-        body: 'Men who know what they want love skipping games for a woman with clear communication, financial footing, and self-assured humor, while bringing high energy and zero bitterness from past divorces.',
+        heading: '2. Same Pop-Culture Dictionary',
+        subhead: 'Nobody has to Google Fleetwood Mac under the table.',
+        body: 'You share 90% of the same movie and music references, minus the stalled-commitment fatigue of guys your exact age.',
       },
       {
-        heading: '3. Owning the Gatekeeper Tease Inside the Club',
-        body: 'Veteran 18-year-gap Jaguars will playfully tease a 6-year pair at the host stand, right before pouring them a glass and welcoming them into the exact same high-EQ courtship culture.',
+        heading: '3. High Energy Without Dorm Chaos',
+        subhead: 'Late-20s / early-30s men already own real furniture.',
+        body: 'He already passed his starter-apartment era and brings genuine excitement to building a life together.',
+      },
+      {
+        heading: '4. Clear Timelines From Month One',
+        subhead: 'Whether child-free or family-bound, zero stalling.',
+        body: 'Lowering your app slider by just six years unlocks a massive pool of emotionally ready men.',
       },
     ],
     faqs: [
       {
         question: 'Does a 5-to-9 year age gap count as a Cougar relationship?',
         answer:
-          'Purists dub a 3-to-9 year woman-older match a "Junior Cougar" pairing, blending older-woman confidence with closely aligned life stages.',
+          'Community slang calls a 3-to-9 year woman-older pairing a "Junior Cougar" match: older-woman poise with closely aligned life stages.',
       },
     ],
     featuredEpisodeId: 'junior-cougar-gatekeeper-tease',
-    featuredAffiliateIds: [
-      'fill-in-love-coupon-cards',
-      'idea-of-you-movie-book',
-      'cast-iron-steak-skillet',
-      'after-dark-couples-deck',
-    ],
+    featuredAffiliateIds: ['fill-in-love-coupon-cards', 'cast-iron-steak-skillet'],
   },
   {
     slug: 'older-woman-grown-son-same-age-meeting-parents-guide',
-    seoTitle: 'Dating an Older Woman With a Grown Son Your Age (Plus Meeting Parents & Wedding +1)',
+    seoTitle: 'How to Handle Grown Kids, Same-Age Moms & Your First Wedding Together',
     metaDescription:
-      'Real advice on navigating grown children the same age as her partner, meeting his same-age parents, and attending your first wedding together as a +1.',
+      'Practical etiquette for meeting her college-age kids, prepping his parents a week early, and walking into a wedding as +1s.',
     targetKeywords: [
       'dating older woman with son my age',
       'meeting boyfriend parents same age',
       'older woman younger man wedding plus one',
     ],
-    headline: 'Dating an Older Woman With a Grown Son Your Age (Plus Meeting Parents & First Wedding +1)',
-    readTime: '5 min read',
+    headline: '4 Family & Wedding Rules for Couples With a 15+ Year Gap',
+    readTime: '2 min listicle',
     intro:
-      'In 18+ year older-woman / younger-man relationships, three real-world milestones separate casual flings from real partners: meeting her adult kids, meeting his same-age mom, and walking into your first wedding together.',
+      'Meeting the family with a 15-to-20 year gap is only awkward if someone wings it. Follow these four rules instead.',
     sections: [
       {
-        heading: '1. Meeting Her Grown Kids: Peer Warmth, Never Fake Stepdad Authority',
-        body: 'When her 24-year-old son realizes you are 26, trying to act like an authority figure guarantees disaster. Show up on neutral brunch turf, ask genuine questions about his life, and let him see over time that you make his mom laugh and treat her like gold.',
+        heading: '1. With Her Adult Kids: Be a Warm Peer, Never "Stepdad"',
+        subhead: 'Zero authority posturing at brunch.',
+        body: 'If her son is 22 and you’re 27, meet on neutral coffee or brunch turf, ask about his world, and treat his mom well.',
       },
       {
-        heading: '2. Meeting His Same-Age Parents: Brief Them a Week Ahead',
-        body: 'Never spring a 20-year age gap as a Thanksgiving doorway ambush. When he briefs his parents warmly ahead of time ("Mom, she’s smart, kind, and makes me really happy"), common ground over 80s music and travel melts awkwardness before appetizers arrive.',
+        heading: '2. Prep His Mom One Full Week Ahead',
+        subhead: 'Never spring a holiday doorway surprise.',
+        body: 'When he tells his mom warmly on Tuesday ("She’s smart, funny, and makes me happy"), Sunday dinner starts with a hug.',
       },
       {
-        heading: '3. The First Wedding +1 Debut: Own the Slow Dance',
-        body: 'Walking into a formal reception together invites five minutes of curious glances from Table 9. Pull out her chair, fetch her champagne, and lead her onto the dance floor with zero hesitation.',
+        heading: '3. Bond Over Shared Era Touchstones',
+        subhead: 'Graduating the same decade = instant table conversation.',
+        body: 'Sharing 90s concerts, travel stories, and dry humor turns his mom into your biggest fan inside twenty minutes.',
+      },
+      {
+        heading: '4. Own the First Wedding Slow-Dance',
+        subhead: 'Five minutes of curiosity, three hours of respect.',
+        body: 'Walk in holding hands, pull out her chair, grab two glasses of Champagne, and let everyone see how easy you look together.',
       },
     ],
     faqs: [
       {
         question: 'How should a younger man act when meeting an older girlfriend’s grown children?',
         answer:
-          'Treat them with warm peer-level respect, zero step-parent posturing, and steady long-term consistency.',
+          'Show warm peer-level respect with zero step-parent posturing, and let consistency build trust naturally.',
       },
     ],
     featuredEpisodeId: 'grown-son-same-age-collision',
@@ -468,259 +521,290 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
   },
   {
     slug: 'spontaneous-weekend-getaway-date-ideas-older-woman-younger-man',
-    seoTitle: 'Best Cougar & Cub Date Ideas: 18-Hour Pool Getaways, Meadow Picnics & Retro Bowling',
+    seoTitle: '5 Date Ideas That Beat Another Stiff $200 Steakhouse Interview',
     metaDescription:
-      'Skip stiff dinner interviews: why spontaneous 18-hour hotel pool & sauna getaways, hand-packed meadow picnics, campus sushi, and retro neon bowling spark real chemistry.',
+      'Skip loud dinner interviews: 5 playful, high-chemistry date ideas on any budget, from bluff picnics to overnight hotel escapes.',
     targetKeywords: [
       'cougar and cub date ideas',
       'spontaneous weekend getaway older woman',
       'creative date ideas younger boyfriend',
     ],
-    headline: 'Best Cougar & Cub Date Ideas: 18-Hour Pool & Sauna Getaways, Meadow Picnics & Neon Bowling',
-    readTime: '5 min read',
+    headline: '5 High-Chemistry Dates That Beat a Stiff Dinner Interview Every Time',
+    readTime: '2 min listicle',
     intro:
-      'Accomplished women in their late 30s, 40s, 50s, and 60s have sat through enough stiff corporate dinner interviews for three lifetimes. Playful movement, sensory luxury, and decisive planning win every time.',
+      'She sits in meetings all week; don’t make Friday feel like a job interview across a loud table.',
     sections: [
       {
-        heading: '1. The 18-Hour Rooftop, Heated Pool & Cedar Sauna Micro-Escape',
-        body: 'Once a quick video call confirms real chemistry, booking a boutique hotel day-to-morning escape with sunset rooftop mocktails or martinis, a midnight heated pool swim, and morning espresso feels like a week in Capri packed into eighteen hours.',
+        heading: '1. Sunset Bluff Picnic + Competitive Retro Bowling',
+        subhead: '$35 budget, 10/10 banter.',
+        body: 'Pack fresh figs, Brie, and a baguette for golden hour, then put a drink wager on two frames of neon bowling.',
       },
       {
-        heading: '2. Early-Career Budget Magic: Linen-Blanket Picnics & Retro Neon Bowling',
-        body: 'You never need trust-fund flash (and never pretend your parents’ beach rental is "your place"!). Packing fresh figs, Brie, and crusty baguette in an insulated linen tote followed by competitive retro bowling beats pretentious posturing ten times out of ten.',
+        heading: '2. 12-Seat Vinyl Listening Bar',
+        subhead: 'Side-by-side seating > shouting across a four-top.',
+        body: 'Sitting next to each other over good records and small plates creates ten times more spark than a noisy restaurant.',
       },
       {
-        heading: '3. Twilight Campus Strolls, Omakase Counters & Gallery Openings',
-        body: 'Pairing each partner’s world, such as a breezy sneaker walk across an autumn university quad into an intimate sushi bar or Thursday gallery opening, turns your age gap into shared discovery.',
+        heading: '3. 8 AM Farmers Market + Cooking Together',
+        subhead: 'Two coffees, one basket, zero rush.',
+        body: 'Grab heirloom tomatoes and sourdough before the crowds hit, then head back to make brunch barefoot.',
+      },
+      {
+        heading: '4. Late Classic-Film Screening + Midnight Fries',
+        subhead: 'Instant conversation starter afterward.',
+        body: 'Pick a 35mm revival or indie thriller so you walk out debating the ending over red wine and fries.',
+      },
+      {
+        heading: '5. The 18-Hour Coastal or Desert Overnight',
+        subhead: 'One carry-on bag each, phones on silent.',
+        body: 'Check in at 4 PM for a hotel pool swim, dinner, and slow morning espresso. It feels like a full vacation in under a day.',
       },
     ],
     faqs: [
       {
-        question: 'How can a younger man on an early-career budget plan an unforgettable date?',
+        question: 'How can a younger man on an early-career budget plan a standout date?',
         answer:
-          'Pack a thoughtful linen-blanket meadow picnic and book retro bowling or a gallery walk; authentic planning effort always beats fake luxury flexing.',
+          'Thoughtful planning, like a packed sunset picnic paired with a vinyl bar or bowling, always beats pretentious spending.',
       },
     ],
     featuredEpisodeId: 'spontaneous-18h-pool-sauna-getaway',
-    featuredAffiliateIds: [
-      'linen-picnic-insulated-tote',
-      'velvet-travel-weekender-duffel',
-      'zero-proof-botanical-mocktail-set',
-      'espresso-martini-barware',
-    ],
+    featuredAffiliateIds: ['linen-picnic-insulated-tote', 'velvet-travel-weekender-duffel'],
   },
   {
     slug: 'cougar-town-pop-culture-age-gap-dating-history',
-    seoTitle: 'From Cougar Town’s "Big Carl" to Modern Icons: How Pop Culture Rewrote Age-Gap Romance',
+    seoTitle: '5 TV Shows That Rewrote Older-Woman, Younger-Man Romance',
     metaDescription:
-      'How Courteney Cox’s Cougar Town ("Big Carl" wine glasses & post-divorce joy) paved the way for modern Cougar and Cub romances in film, TV, and real life.',
+      'From Samantha & Smith in Sex and the City to Cougar Town, Younger, Hacks, and The White Lotus: 5 bingeworthy TV chapters.',
     targetKeywords: [
-      'cougar town big carl wine glass',
-      'courteney cox cougar town age gap',
-      'pop culture cougar history',
+      'older woman younger man tv shows',
+      'samantha smith jerrod sex and the city',
+      'younger tv show cougar town',
     ],
-    headline: 'From Cougar Town’s "Big Carl" to Modern Icons: How Pop Culture Rewrote Age-Gap Joy',
-    readTime: '4 min read',
+    headline: '5 Bingeworthy TV Shows That Rewrote Woman-Older Romance',
+    readTime: '3 min listicle',
     intro:
-      'When Courteney Cox launched Cougar Town armed with her comically oversized red-wine goblet "Big Carl," television began shifting older-woman / younger-man stories from tired punchlines to joyful self-reclamation.',
+      'Before recent movies caught up, television quietly gave older-woman / younger-man couples some of the sharpest writing on screen.',
     sections: [
       {
-        heading: '1. How Jules Cobb & "Big Carl" Retired the Post-Divorce Shelf Myth',
-        body: 'In 2009, 40-something divorcées on TV were usually written as cautionary background characters. Jules Cobb’s shameless laughter, loyalty to her Cul-de-Sac Crew, and refusal to apologize for dating younger men helped reclaim the word Cougar as a badge of warmth.',
+        heading: '1. Sex and the City (Samantha Jones & Smith Jerrod)',
+        subhead: 'The gold-standard Golden Retriever boyfriend.',
+        body: 'Waiter-turned-actor Smith shaved his own head in solidarity during Samantha’s chemo and stayed fiercely loyal for five years.',
       },
       {
-        heading: '2. From Sitcom Tropes to Real Emotional Intelligence',
-        body: 'While early-2000s sitcoms treated younger boyfriends as two-episode flings, real-world couples proved that younger men often bring deeper emotional availability, egalitarian partnership, and earnest devotion than jaded peers.',
+        heading: '2. Younger (Liza Miller & Josh)',
+        subhead: 'Seven seasons of Brooklyn tattoo-artist chemistry.',
+        body: 'Forty-year-old Liza may have faked her age to land a publishing job, yet 26-year-old Josh loved the real her first.',
       },
       {
-        heading: '3. Toasting 6-Month & 1-Year Milestones Past Every Skeptic',
-        body: 'Today, couples clinking oversized "Big Carl" glasses on their one-year anniversary celebrate the sweetest revenge of all: thriving happily long after skeptics gave them "two weekends."',
+        heading: '3. Cougar Town (Jules Cobb’s Second Act)',
+        subhead: 'Post-divorce 40s laughter with zero shame.',
+        body: 'Courteney Cox turned a cheeky 2009 sitcom premise into six seasons celebrating female friendship and joyful chapter-two dating.',
+      },
+      {
+        heading: '4. 30 Rock & Hacks (Sharp Comedy Icons)',
+        subhead: 'Liz Lemon’s "Jamie" episode to Jean Smart’s Vegas.',
+        body: 'Tina Fey’s coffee-delivery crush and Deborah Vance’s unapologetic flings nailed the humor of generational cross-wires.',
+      },
+      {
+        heading: '5. Mrs. Fletcher & The White Lotus',
+        subhead: 'Empty-nest freedom and resort temptation.',
+        body: 'Kathryn Hahn’s empty-nest awakening in HBO’s Mrs. Fletcher remains one of the realest second-act stories ever filmed.',
       },
     ],
     faqs: [
       {
-        question: 'What was Jules Cobb’s giant wine glass called on Cougar Town?',
+        question: 'What are the best TV shows featuring older-woman younger-man storylines?',
         answer:
-          'Courteney Cox’s character Jules Cobb named her oversized red wine glass "Big Carl" (later succeeded by Big Joe and Big Lou).',
+          'Top picks include Sex and the City (Samantha & Smith), Younger (Liza & Josh), Cougar Town, Mrs. Fletcher, and Hacks.',
       },
     ],
     featuredEpisodeId: 'milestone-six-month-anniversary',
-    featuredAffiliateIds: [
-      'big-carl-giant-wine-glass',
-      'bridget-jones-cougar-town-watch',
-      'chic-candlelit-menu-readers',
-      'fill-in-love-coupon-cards',
-    ],
+    featuredAffiliateIds: ['bridget-jones-cougar-town-watch', 'chic-candlelit-menu-readers'],
   },
   {
     slug: 'astrology-zodiac-compatibility-older-woman-younger-man',
-    seoTitle: 'Zodiac & Star-Sign Compatibility in Older-Woman / Younger-Man Relationships (All 12 Signs)',
+    seoTitle: 'Cougar × Cub Zodiac Chemistry: All 12 Star Signs Matched',
     metaDescription:
-      'Test any Her × Him zodiac combination across all 12 star signs: Fire, Earth, Air, and Water polarity, date ideas, and signature Cougar-Cub chemistry.',
+      'Test any Her × Him star-sign pairing with the interactive 12×12 matcher and see how Fire, Earth, Air, and Water signs spark.',
     targetKeywords: [
       'zodiac compatibility older woman younger man',
       'scorpio woman taurus younger man',
-      'astrology age gap dating all 12 signs',
+      'astrology age gap dating',
     ],
-    headline: '12-Sign Cougar × Cub Zodiac Chemistry Guide (Interactive Her × Him Matcher Below)',
-    readTime: '6 min read',
+    headline: 'How Every Star-Sign Element Dates Across the Age Gap',
+    readTime: '2 min + matcher',
     intro:
-      'Whether you check Co-Star religiously or just want an excuse to ask his birth time over martinis, star-sign archetypes map uncannily onto age-gap polarity. Use the interactive 12 × 12 Her × Him Matcher below to test your exact signs!',
+      'Tap any two signs in the interactive matcher above, then check your element’s signature courtship move below.',
     sections: [
       {
-        heading: '1. Fire Cougars (Aries, Leo, Sagittarius): Trailblazers Who Love Unintimidated Cubs',
-        body: 'Fire-sign women bring magnetic main-character energy, spontaneous flights, and blunt honesty. They thrive with Earth Cubs (Taurus, Virgo, Capricorn) who handle logistics calmly, or fellow Fire/Air Cubs who hype their shine without ever competing for the spotlight.',
+        heading: '1. Fire Women (Aries, Leo, Sagittarius)',
+        subhead: 'Direct, spontaneous, allergic to timid men.',
+        body: 'Match best with grounded Earth men who handle Friday reservations calmly or Air men who keep up with fast banter.',
       },
       {
-        heading: '2. Earth & Water Cougars (Taurus, Cancer, Virgo, Scorpio, Capricorn, Pisces): Sanctuary & Slow Burn',
-        body: 'Sensory-driven Taurus, Capricorn, and Virgo women notice thread counts, reservations, and follow-through immediately, while Cancer, Scorpio, and Pisces women read emotional sincerity in three seconds flat. Devoted Water and Earth Cubs unlock deep domestic magic here.',
+        heading: '2. Earth Women (Taurus, Virgo, Capricorn)',
+        subhead: 'Sensory luxury, punctuality, and real follow-through.',
+        body: 'Notice clean counters, good linen, and kept promises immediately; melt for devoted Water or fellow Earth partners.',
       },
       {
-        heading: '3. Air Cougars (Gemini, Libra, Aquarius): Banter First, Boring Men Never',
-        body: 'For Gemini, Libra, and Aquarius women, foreplay starts in voice notes, gallery debates, and razor-sharp humor. A quick-witted Cub with curious questions and zero mansplaining wins their heart before appetizers land.',
+        heading: '3. Air Women (Gemini, Libra, Aquarius)',
+        subhead: 'Foreplay starts in conversation and dry wit.',
+        body: 'Win her mind first at a gallery, bookstore, or dim wine bar. Boring small talk never gets a Date #2.',
+      },
+      {
+        heading: '4. Water Women (Cancer, Scorpio, Pisces)',
+        subhead: 'Deep intuition and locked-in eye contact.',
+        body: 'Spot fake bravado in three seconds flat and thrive with emotionally steady men who protect private sanctuary time.',
       },
     ],
     faqs: [
       {
         question: 'Which zodiac signs match best in Cougar and Cub dating?',
         answer:
-          'Every pair of signs has its own lane: Fire + Air sparks instant banter and adventure, Earth + Water builds deep sensory loyalty, and opposite sister signs (like Scorpio × Taurus or Aries × Libra) generate electric polarity.',
+          'Fire + Air brings instant banter and travel spark, while Earth + Water builds deep sensory loyalty and calm home chemistry.',
       },
     ],
     featuredEpisodeId: 'fiery-foreign-cougar-passion-test',
-    featuredAffiliateIds: ['date-night-oud-bergamot', 'cooling-bamboo-sheets', 'after-dark-couples-deck', 'princess-mulberry-silk-robe'],
+    featuredAffiliateIds: ['date-night-oud-bergamot', 'after-dark-couples-deck'],
   },
   {
     slug: 'master-list-cougar-cub-movies-older-woman-younger-man',
-    seoTitle:
-      'Complete Master List of Cougar & Cub Movies (22 Films): From Catherine Zeta-Jones’ "The Rebound" to Natalie Portman’s Upcoming "Good Sex"',
+    seoTitle: 'The 22-Film Cougar & Cub Watchlist: Classics to New Streaming Hits',
     metaDescription:
-      'The ultimate Older-Woman / Younger-Man movie master list: Catherine Zeta-Jones in The Rebound, Natalie Portman’s upcoming Netflix rom-com Good Sex, Babygirl, The Idea of You, Bridget Jones, How Stella Got Her Groove Back & Bull Durham.',
+      'Bookmark all 22 essential older-woman / younger-man movies: Babygirl, The Idea of You, Bridget Jones: Mad About the Boy, No Hard Feelings, The Rebound, and How Stella Got Her Groove Back.',
     targetKeywords: [
       'cougar cub movies list',
       'older woman younger man movies complete list',
-      'catherine zeta jones cougar movie the rebound',
-      'natalie portman good sex netflix younger man movie',
+      'catherine zeta jones the rebound',
     ],
-    headline:
-      'The Complete Master List of Cougar & Cub Movies: From Catherine Zeta-Jones’ "The Rebound" to Natalie Portman’s Upcoming "Good Sex"',
-    readTime: '8 min read',
+    headline: 'The Essential Cougar & Cub Movie Watchlist (By Era)',
+    readTime: '3 min watchlist',
     intro:
-      'Bookmark this for every Friday watch night: the definitive 22-film master guide to older-woman / younger-man ("Cougar & Cub") cinema, spanning classic trailblazers, 2000s rom-com gems, the streaming renaissance, and upcoming Netflix releases.',
+      'Stop scrolling streaming menus for forty minutes and pick one of these proven classics or new-wave hits for Friday night.',
     sections: [
       {
-        heading: '1. Upcoming & New-Wave Releases',
-        body: '• Good Sex (Upcoming Netflix Event): Written and directed by Lena Dunham, Natalie Portman stars as Ally, a pragmatic 40-year-old NYC couples therapist swept into a passionate love triangle between a 20-something Brooklyn creative (Tucker Pillsbury / Role Model) and a 50-something Manhattan executive (Mark Ruffalo).\n• Bridget Jones: Mad About the Boy (2025): Renée Zellweger returns as 50-something single mom Bridget matching on Tinder with Leo Woodall’s golden-hearted 29-year-old Hampstead Heath park ranger "Roxster."',
+        heading: '1. New-Wave Streaming Hits (2023 to Present)',
+        subhead: 'High-voltage drama to laugh-out-loud rom-coms.',
+        body: '• Bridget Jones: Mad About the Boy (Renée Zellweger × Leo Woodall)\n• Babygirl (Nicole Kidman × Harris Dickinson)\n• The Idea of You (Anne Hathaway × Nicholas Galitzine)\n• No Hard Feelings (Jennifer Lawrence × Andrew Barth Feldman)\n• Good Sex (Natalie Portman’s upcoming NYC love-triangle comedy)',
       },
       {
-        heading: '2. The Streaming & A24 Cougar Renaissance',
-        body: '• Babygirl (2024, A24): Nicole Kidman & Harris Dickinson’s electric corporate power-play thriller (home of the iconic hotel-bar tall glass of milk).\n• The Idea of You (2024, Prime Video): Anne Hathaway (40F Silver Lake gallery owner) × Nicholas Galitzine (24M Coachella lead).\n• Lonely Planet (2024, Netflix): Laura Dern & Liam Hemsworth sparking at a sun-drenched writers’ retreat in Morocco.\n• A Family Affair (2024, Netflix): Nicole Kidman & Zac Efron turning a chaotic boss-assistant collision into surprising tenderness.',
+        heading: '2. 2000s & 2010s Rom-Com Favorites',
+        subhead: 'Cozy banter and golden-hearted younger leads.',
+        body: '• The Rebound (Catherine Zeta-Jones × 25M barista Justin Bartha)\n• The Proposal (Sandra Bullock × Ryan Reynolds)\n• Prime (Uma Thurman × Bryan Greenberg)\n• Something’s Gotta Give (Keanu Reeves pursuing Diane Keaton)\n• Home Again (Reese Witherspoon × Pico Alexander)',
       },
       {
-        heading: '3. 2000s to 2020s Rom-Com & Indie Essentials (Led by Catherine Zeta-Jones)',
-        body: '• The Rebound (2009): Catherine Zeta-Jones shines as Sandy, a newly divorced 40-year-old mom of two who moves above a Manhattan coffee shop and falls hard for Aram (Justin Bartha), her 25-year-old Golden-Retriever barista, setting the gold-standard Cougar × Cub rom-com blueprint.\n• Good Luck to You, Leo Grande (2022): Emma Thompson & Daryl McCormack celebrating 60+ Panther candor and joy.\n• Cha Cha Real Smooth (2022), Home Again (2017, Reese Witherspoon & Pico Alexander), Prime (2005, Uma Thurman & Bryan Greenberg), and Something’s Gotta Give (2003, Keanu Reeves worshipping Diane Keaton).',
+        heading: '3. Indie Gems With Real Heart',
+        subhead: 'Intimate, funny, and unforgettable performances.',
+        body: '• Good Luck to You, Leo Grande (Emma Thompson × Daryl McCormack)\n• Cha Cha Real Smooth (Dakota Johnson × Cooper Raiff)\n• Lonely Planet (Laura Dern × Liam Hemsworth)',
       },
       {
-        heading: '4. Foundational Cinema Legends (1955 to 1998)',
-        body: '• How Stella Got Her Groove Back (1998): Angela Bassett (40F executive) & Taye Diggs in Jamaica, the film that permanently rewired cultural conversations around successful women choosing pleasure.\n• White Palace (1990): Susan Sarandon (43F) & James Spader (27M) in electric cross-class chemistry.\n• Bull Durham (1988): Susan Sarandon’s Annie Savoy mentoring rookie fireballer Tim Robbins, cinema’s original "Cub Training" masterpiece.\n• Plus timeless rebels Harold and Maude (1971), The Graduate (1967), and All That Heaven Allows (1955).',
+        heading: '4. Trailblazing Cinema Classics',
+        subhead: 'The films that started the whole genre.',
+        body: '• How Stella Got Her Groove Back (Angela Bassett × Taye Diggs in Jamaica)\n• White Palace (Susan Sarandon × James Spader)\n• Bull Durham (Susan Sarandon × Tim Robbins)\n• Harold and Maude & The Graduate',
       },
     ],
     faqs: [
       {
-        question: 'What is Catherine Zeta-Jones’ Cougar and Cub romantic comedy movie called?',
+        question: 'What is Catherine Zeta-Jones’ Cougar and Cub romantic comedy called?',
         answer:
-          'Catherine Zeta-Jones stars in The Rebound (2009) as Sandy, a 40-year-old newly divorced mother in NYC who falls in love with Aram (Justin Bartha), a warm 25-year-old barista working downstairs.',
-      },
-      {
-        question: 'What is Natalie Portman’s upcoming older-woman younger-man Netflix movie?',
-        answer:
-          'Natalie Portman stars in Lena Dunham’s Netflix romantic comedy Good Sex as Ally, a 40-year-old NYC couples therapist torn between a 20-something Brooklyn creative (Tucker Pillsbury / Role Model) and a 50-something businessman (Mark Ruffalo).',
+          'The Rebound (2009), starring Catherine Zeta-Jones as a 40-year-old newly divorced mom in NYC who falls for her 25-year-old neighbor Aram (Justin Bartha).',
       },
     ],
     featuredEpisodeId: 'babygirl-hotel-bar-milk-or-martini',
-    featuredAffiliateIds: [
-      'the-rebound-zeta-jones-prime',
-      'babygirl-movie-prime',
-      'idea-of-you-movie-book',
-      'bridget-jones-cougar-town-watch',
-    ],
+    featuredAffiliateIds: ['the-rebound-zeta-jones-prime', 'babygirl-movie-prime'],
   },
   {
     slug: 'movies-like-babygirl-idea-of-you-bridget-jones-older-woman-younger-man',
-    seoTitle: 'Best Older-Woman / Younger-Man Movies: Babygirl, The Idea of You, Bridget Jones & Stella',
+    seoTitle: 'What to Watch Tonight Based on Your Exact Friday Mood',
     metaDescription:
-      'Loved Babygirl’s hotel-bar scene, The Idea of You, Bridget Jones: Mad About the Boy, or How Stella Got Her Groove Back? Explore the golden wave of Cougar & Cub cinema.',
+      'Pick the right older-woman / younger-man movie in 30 seconds: hotel-bar tension, sun-soaked vacation glow, or London rom-com laughs.',
     targetKeywords: [
       'movies like babygirl older woman younger man',
       'the idea of you bridget jones mad about the boy',
       'older woman younger man romance movies',
     ],
-    headline: 'Best Older-Woman / Younger-Man Movies: Pairing Your Friday Watch Night by Vibe',
-    readTime: '5 min read',
+    headline: 'Pick Tonight’s Watch-Night Movie in 30 Seconds by Vibe',
+    readTime: '2 min listicle',
     intro:
-      'Not every Cougar-Cub movie hits the same mood: some bring electric hotel-bar tension while others deliver cozy Hampstead Heath laughs. Here is how to pick the exact right film for Friday night.',
+      'Skip the trailer rabbit hole and match tonight’s movie directly to the mood in the room.',
     sections: [
       {
-        heading: '1. High-Voltage Polarity & Hotel-Bar Tension: Babygirl & White Palace',
-        body: 'When you want sharp suits, unspoken power dynamics, and Nicole Kidman receiving a tall glass of milk across a candlelit hotel lounge from Harris Dickinson, queue up A24’s Babygirl (borrowed from director Halina Reijn’s real life!) or Susan Sarandon & James Spader in White Palace.',
+        heading: '1. Want Electric Hotel-Bar Tension?',
+        subhead: 'Queue up: Babygirl (2024) or White Palace (1990).',
+        body: 'Sharp tailoring, bold eye contact across a dim lounge, and undeniable chemistry that skips polite small talk.',
       },
       {
-        heading: '2. Sweeping Escapism & Vacation Glow: Stella, The Idea of You & Lonely Planet',
-        body: 'For pure chemistry under warm skies, pair Angela Bassett & Taye Diggs in How Stella Got Her Groove Back with Anne Hathaway & Nicholas Galitzine in The Idea of You or Laura Dern & Liam Hemsworth in Morocco in Lonely Planet.',
+        heading: '2. Craving Sun-Drenched Vacation Chemistry?',
+        subhead: 'Queue up: How Stella Got Her Groove Back or The Idea of You.',
+        body: 'Warm ocean air, getaway playlists, and watching a high-powered woman finally exhale and choose joy.',
       },
       {
-        heading: '3. Cozy Second-Act Comedy: Bridget Jones: Mad About the Boy & The Rebound',
-        body: 'For warm banter, school-run chaos, and golden-hearted late-20s Cubs who show up when it counts, pair Renée Zellweger & Leo Woodall ("Roxster") with Catherine Zeta-Jones & Justin Bartha in The Rebound.',
+        heading: '3. In the Mood for Big Laughs & Real Warmth?',
+        subhead: 'Queue up: Bridget Jones: Mad About the Boy or The Rebound.',
+        body: 'Witty banter, chaotic real life, and an upbeat younger guy who shows up reliably when things get messy.',
+      },
+      {
+        heading: '4. Want Candid Two-Person Conversation?',
+        subhead: 'Queue up: Good Luck to You, Leo Grande.',
+        body: 'Ninety razor-sharp, funny, and deeply human minutes between Emma Thompson and Daryl McCormack.',
       },
     ],
     faqs: [
       {
-        question: 'Why did the glass of milk scene in Babygirl become so famous?',
+        question: 'Which older-woman / younger-man movie is best for a lighthearted date night?',
         answer:
-          'Harris Dickinson’s younger character sends Nicole Kidman’s CEO character a tall glass of milk across a hotel bar, a cheeky real-life moment borrowed from director Halina Reijn.',
+          'The Rebound, Bridget Jones: Mad About the Boy, and How Stella Got Her Groove Back balance humor, chemistry, and warmth.',
       },
     ],
     featuredEpisodeId: 'babygirl-hotel-bar-milk-or-martini',
-    featuredAffiliateIds: [
-      'babygirl-movie-prime',
-      'idea-of-you-movie-book',
-      'bridget-jones-cougar-town-watch',
-      'princess-mulberry-silk-robe',
-    ],
+    featuredAffiliateIds: ['babygirl-movie-prime', 'idea-of-you-movie-book'],
   },
   {
     slug: 'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',
-    seoTitle: 'How to Meet Older Women "In the Wild": Hotel Bars, Gym Headphones & Zero Cubsplaining',
+    seoTitle: '5 Places to Meet Confident Older Women Offline (Without Being Weird)',
     metaDescription:
-      'Real etiquette on meeting Cougars, Pumas & Jaguars offline: upscale hotel bars, 6 PM wine shops, the sacred gym headphone rule, and avoiding Cubsplaining.',
+      'How to meet women in their late 30s, 40s, 50s, and 60s in real life: the gym AirPod rule, 6:30 PM hotel bars, wine tastings, and giving your number cleanly.',
     targetKeywords: [
       'how to meet older women in real life',
       'approaching older woman gym headphones',
       'what is cubsplaining age gap dating',
     ],
-    headline: 'How to Meet Older Women "In the Wild": Hotel Bars, Gym Headphone Law & Zero Cubsplaining',
-    readTime: '5 min read',
+    headline: '5 Real-Life Places to Meet Older Women Offline (And How Not to Fumble)',
+    readTime: '2 min listicle',
     intro:
-      'Meeting confident women in their late 30s, 40s, 50s, and 60s offline comes down to situational awareness, unhurried rapport, and never lecturing her on life skills she mastered twenty years ago.',
+      'Half of the best women over 38 barely open dating apps. Here is where they actually unwind, and how to say hello like an adult.',
     sections: [
       {
-        heading: '1. Respect the Sacred Gym Headphone Law (Build the Three-Week Nod)',
-        body: 'Never interrupt a woman mid-set while her headphones are on. Rerack your 45-lb plates cleanly, share a warm nod over two or three weeks, and say hello naturally at the smoothie bar or lobby counter once her headphones come off.',
+        heading: '1. The 6:30 PM Hotel Lobby Bar or Wine Bar',
+        subhead: 'Sit at the bar, skip 1 AM nightclubs.',
+        body: 'Accomplished women grab an early glass between 6 PM and 8:30 PM. Catch eye contact, make one natural comment, and read her body language.',
       },
       {
-        heading: '2. High-Success "In The Wild" Venues: 6 PM Wine Shops, Hotel Lobby Bars & Art Openings',
-        body: 'Skip deafening 1 AM nightclubs. Upscale hotel lobby bars between 6 PM and 8:30 PM, neighborhood wine tastings, Saturday farmers markets, museum member nights, and charity run clubs are where accomplished women actually unwind and welcome real conversation.',
+        heading: '2. The Gym or Run Club (Obey the AirPod Rule)',
+        subhead: 'Never interrupt a set while headphones are in.',
+        body: 'Share a friendly nod for two or three weeks, rerack your weights, and introduce yourself naturally at the coffee or smoothie counter.',
       },
       {
-        heading: '3. Cure "Cubsplaining" & Offer Your Number With Zero Hovering',
-        body: 'Nothing kills chemistry faster than a 25-year-old "Cubsplaining" fixed-rate mortgages, wine tannins, or Fleetwood Mac vinyl to a woman who already owns two homes. Ask curious questions, make her laugh, hand her your number on a card or napkin, and give her graceful space.',
+        heading: '3. Saturday Morning Farmers Markets & Wine Shops',
+        subhead: 'Daylight, relaxed pace, easy icebreakers.',
+        body: 'Asking which olive oil or Pinot she swears by opens a warm two-minute conversation with zero pressure.',
+      },
+      {
+        heading: '4. Never "Cubsplain" Her Own Expertise',
+        subhead: 'Ask curious questions instead of auditioning.',
+        body: 'Do not lecture a homeowner on interest rates, tannins, or 1990s records. Humor and curiosity beat flexing every time.',
+      },
+      {
+        heading: '5. Offer YOUR Number, Then Give Her Space',
+        subhead: '"I’d love to take you to dinner, here’s my number."',
+        body: 'Handing her your number and walking away warmly puts zero pressure on her and projects ten-out-of-ten confidence.',
       },
     ],
     faqs: [
       {
         question: 'What does Cubsplaining mean in age-gap dating?',
         answer:
-          'Cubsplaining is when an eager younger man patronizingly lectures an accomplished older woman on finance, careers, wine, or music history she mastered decades earlier.',
+          'Cubsplaining is when an eager younger man lectures an accomplished woman on finance, wine, or music history she mastered years ago.',
       },
     ],
     featuredEpisodeId: 'cubsplaining-and-bouncer-id-check',

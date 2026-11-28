@@ -1,7 +1,10 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FieldGuideModal } from '../src/components/FieldGuideModal';
-import { VelvetJournalView } from '../src/components/VelvetJournalView';
+import {
+  computeExactPollPercentages,
+  VelvetJournalView,
+} from '../src/components/VelvetJournalView';
 import { JOURNAL_ARTICLES } from '../src/data/journalArticles';
 import { FIELD_GUIDE_ENTRIES } from '../src/domain/taxonomy';
 
@@ -10,38 +13,69 @@ describe('v35 Illustrated Visual Club Guides, Astro Toy & Full-Art Field Guide',
     window.localStorage.clear();
   });
 
-  it('renders visual section photo cards, upvoted community receipts, interactive 1-tap polls, and bespoke bubbles across all 16 guides', () => {
-    render(<VelvetJournalView onPlayScenario={vi.fn()} />);
+  it('renders airy BuzzFeed numbered photo listicles, zero fake Reddit handles, real vote-incrementing Club Polls summing to 100%, and topic-pure copy across all 16 guides', () => {
+    const { container } = render(<VelvetJournalView onPlayScenario={vi.fn()} />);
+
+    // Guide #1 (Feline Age Chart) stays strictly on the 5 feline tiers with brief listicle copy
+    const ageChartArticle = JOURNAL_ARTICLES[0];
+    expect(ageChartArticle.sections).toHaveLength(5);
+    expect(ageChartArticle.sections.map((s) => s.heading).join(' ')).toMatch(
+      /Junior Cougar.*Puma.*Cougar.*Jaguar.*Panther/,
+    );
+
+    // Every non-bullet listicle section across all 16 guides stays brief and scannable (< 240 chars)
+    for (const art of JOURNAL_ARTICLES) {
+      expect(art.intro.length).toBeLessThan(160);
+      for (const sec of art.sections) {
+        expect(sec.subhead, `Missing subhead in ${art.slug}`).toBeTruthy();
+        if (!sec.body.includes('\n•')) {
+          expect(sec.body.length, `Long wall-of-text in ${art.slug}: ${sec.heading}`).toBeLessThan(
+            240,
+          );
+        }
+      }
+    }
 
     // Visual section cards with real photos break up every guide (zero wall of text)
     const sectionCards = screen.getAllByTestId('guide-section-visual-card');
-    expect(sectionCards.length).toBeGreaterThanOrEqual(3);
+    expect(sectionCards.length).toBeGreaterThanOrEqual(4);
     for (const card of sectionCards) {
       expect(card.querySelector('img')).not.toBeNull();
     }
 
-    // Community receipt callout is present
-    expect(screen.getByTestId('guide-reddit-receipt')).toBeInTheDocument();
+    // Zero fake u/ Reddit handles or fake upvote callouts; clean Quick Takeaway card instead
+    expect(screen.getByTestId('guide-quick-takeaway')).toBeInTheDocument();
+    expect(screen.queryByTestId('guide-reddit-receipt')).toBeNull();
+    expect(container.textContent).not.toMatch(/\bu\/[A-Za-z0-9_]+/);
 
-    // Interactive 1-tap Club Poll votes and reveals percentage bars
+    // Real Club Poll math: increments total votes on click, persists to localStorage, and percentages always sum to 100%
+    expect(computeExactPollPercentages([68, 49, 33]).reduce((a, b) => a + b, 0)).toBe(100);
+    expect(computeExactPollPercentages([1, 1, 1]).reduce((a, b) => a + b, 0)).toBe(100);
+
     const poll = screen.getByTestId('guide-club-poll');
+    expect(poll.textContent).toContain('150 votes');
     const pollButtons = within(poll).getAllByRole('button');
-    expect(pollButtons.length).toBeGreaterThanOrEqual(3);
+    expect(pollButtons).toHaveLength(3);
     fireEvent.click(pollButtons[0]);
-    expect(poll.textContent).toMatch(/%/);
+    expect(poll.textContent).toContain('151 total votes');
+    const renderedPcts = Array.from(poll.textContent?.matchAll(/(\d+)%/g) ?? []).map((m) =>
+      Number(m[1]),
+    );
+    expect(renderedPcts).toHaveLength(3);
+    expect(renderedPcts.reduce((a, b) => a + b, 0)).toBe(100);
 
-    // Every single one of the 16 guides has a widescreen ./images/scenes/ hero banner, bespoke iMessage copy, and zero weird emerald/rose traffic-light cards!
+    // Every single one of the 16 guides has a widescreen ./images/scenes/ hero banner and bespoke iMessage copy
     const seenDoTexts = new Set<string>();
     for (const art of JOURNAL_ARTICLES) {
-      fireEvent.click(screen.getByRole('button', { name: new RegExp(art.seoTitle.slice(0, 24), 'i') }));
+      fireEvent.click(
+        screen.getByRole('button', { name: new RegExp(art.seoTitle.slice(0, 22), 'i') }),
+      );
       const heroSrc = screen.getByTestId('guide-hero-photo').getAttribute('src') || '';
       expect(heroSrc, `Guide ${art.slug} hero must be a widescreen scene`).toMatch(
         /^\.\/images\/scenes\/.+\.jpg$/,
       );
       const bubbleBox = screen.getByTestId('guide-text-this-not-that');
       expect(bubbleBox.textContent).not.toContain('idk what do u wanna do tonight?? u pick');
-      expect(bubbleBox.innerHTML).not.toContain('bg-rose-50');
-      expect(screen.queryByTestId('guide-green-red-flags')).toBeNull();
       seenDoTexts.add(bubbleBox.textContent || '');
     }
     expect(seenDoTexts.size).toBe(16);
@@ -60,7 +94,7 @@ describe('v35 Illustrated Visual Club Guides, Astro Toy & Full-Art Field Guide',
     const astroImgs = astro.querySelectorAll('img');
     expect(astroImgs.length).toBeGreaterThanOrEqual(3);
 
-    // 4 visual emoji compatibility progress bars break up the reading into scannable meters
+    // 4 visual compatibility progress bars break up the reading into scannable meters
     const meterGrid = within(astro).getByTestId('zodiac-meter-grid');
     expect(meterGrid.textContent).toMatch(/🔥/);
     expect(meterGrid.textContent).toMatch(/%/);

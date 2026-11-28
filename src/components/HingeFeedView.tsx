@@ -633,7 +633,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               <div className="text-xs font-medium text-zinc-500">
                 {currentProfile.prompts[0].question}
               </div>
-              <p className="mt-1.5 font-hinge-quote text-2xl leading-snug text-zinc-950">
+              <p className="mt-1.5 font-hinge-quote text-lg sm:text-xl leading-snug text-zinc-950">
                 {currentProfile.prompts[0].answer}
               </p>
               <button
@@ -822,7 +822,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               <div className="text-xs font-medium text-zinc-500">
                 {currentProfile.prompts[1].question}
               </div>
-              <p className="mt-1.5 font-hinge-quote text-2xl leading-snug text-zinc-950">
+              <p className="mt-1.5 font-hinge-quote text-lg sm:text-xl leading-snug text-zinc-950">
                 {currentProfile.prompts[1].answer}
               </p>
               <button
@@ -910,7 +910,7 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
               <div className="text-xs font-medium text-zinc-500">
                 {currentProfile.prompts[2].question}
               </div>
-              <p className="mt-1.5 font-hinge-quote text-2xl leading-snug text-zinc-950">
+              <p className="mt-1.5 font-hinge-quote text-lg sm:text-xl leading-snug text-zinc-950">
                 {currentProfile.prompts[2].answer}
               </p>
               <button
