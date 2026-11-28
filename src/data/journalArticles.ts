@@ -1164,4 +1164,88 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     featuredEpisodeId: 'check-drop',
     featuredAffiliateIds: ['date-night-oud-bergamot', 'espresso-martini-barware'],
   },
+  {
+    slug: 'elizabeth-holmes-billy-evans-katie-holmes-plot-twist-couples',
+    seoTitle:
+      '6 Plot-Twist Celebrity Cougar & Cub Couples: Elizabeth Holmes & Billy Evans, Katie Holmes, Joan Collins & Ryan Gosling',
+    metaDescription:
+      'From Elizabeth Holmes & Billy Evans’s asset-proof MIT ring and Katie Holmes’s NYC toyboy era to Dame Joan Collins and Sandra Bullock & Ryan Gosling.',
+    targetKeywords: [
+      'elizabeth holmes billy evans age difference',
+      'katie holmes younger boyfriends bobby wooten',
+      'joan collins percy gibson age gap quote',
+      'sandra bullock ryan gosling age gap',
+    ],
+    headline:
+      '6 Plot-Twist Celebrity Cougar & Cub Couples Nobody Had on Their Bingo Card',
+    readTime: '5 min read',
+    intro:
+      'Beyond Cher and Madonna lies a wilder vault: Silicon Valley heiresses, post-divorce NYC pasta dates, and secret A-list romances.',
+    buzzfeedLede: [
+      'Everyone already knows Cher, Madonna, and Priyanka & Nick. What makes pop-culture age-gap lore genuinely addictive are the curveball couples nobody saw coming: the courtroom cliffhangers, the quiet post-divorce Manhattan reinventions, and the A-list actors you completely forgot dated in their early twenties.',
+      'From an asset-forfeiture-proof MIT signet ring in Silicon Valley to Katie Holmes reclaiming downtown New York with musicians and chefs, here are the six greatest real-life Cougar-and-Cub plot twists in modern celebrity history.',
+    ],
+    insiderCallout:
+      'Silicon Valley Lore: Billy Evans giving Elizabeth Holmes his MIT class ring instead of a seizable diamond amid federal fraud indictments remains the most surreal Cub gesture of the century.',
+    sections: [
+      {
+        heading: '1. Elizabeth Holmes & Billy Evans (8-Yr Gap • The Theranos Pendulum Swing)',
+        subhead: 'From 19-years-older Sunny Balwani to Burning Man & an MIT signet ring.',
+        storyHook:
+          'After spending her twenties in a secretive power dynamic with Theranos COO Sunny Balwani (19 years her senior), Elizabeth Holmes swung 27 years in the opposite direction when she met San Diego Evans Hotels heir Billy Evans in 2017 right as federal investigators closed in.',
+        body: 'Born in 1992 (8 years younger), MIT grad Billy Evans debuted with Holmes at Burning Man 2018, proposed with his unseizable MIT class ring, and stood by her through two kids and prison.',
+      },
+      {
+        heading: '2. Katie Holmes’s Manhattan Creative "Toyboy" Era (8–10 Yr Gaps)',
+        subhead: 'Trading Hollywood scrutiny for SoHo pasta chefs & Broadway bassists.',
+        storyHook:
+          'After high-profile chapters with older superstars Tom Cruise (16 years older) and Jamie Foxx (11 years older), Katie Holmes stepped into her forties in downtown Manhattan and started dating strictly for creative joy.',
+        body: 'She sparked lockdown headlines at Emilio’s Ballato with chef Emilio Vitolo Jr. (8 yrs younger), then beamed on the 2022 Moth Ball carpet with Grammy-nominated bassist Bobby Wooten III (10 yrs younger).',
+      },
+      {
+        heading: '3. Dame Joan Collins & Percy Gibson (32-Yr Gap • 24+ Years Married)',
+        subhead: '"If he dies, he dies!" - Hollywood’s coldest deadpan clapback.',
+        storyHook:
+          'When Dame Joan Collins married fifth husband Percy Gibson in 2002 with a 32-year age difference, tabloid reporters practically tripped over their microphones asking how she planned to handle the gap.',
+        body: 'Collins delivered an immortal five-word answer ("If he dies, he dies!") and proceeded to enjoy over two decades of glamorous, drama-free marriage.',
+        affiliateId: 'all-fours-book',
+      },
+      {
+        heading: '4. Sandra Bullock & 21-Year-Old Ryan Gosling (16-Yr Gap)',
+        subhead: 'Why Gosling still calls her one of the "greatest girlfriends of all time."',
+        storyHook:
+          'Long before "The Notebook," 37-year-old superstar Sandra Bullock and a 21-year-old newcomer named Ryan Gosling met filming 2002’s "Murder by Numbers" and quietly dated for nearly two years.',
+        body: 'Bullock nicknamed young Gosling her "little Buddha" for grounding her hectic schedule, and years later Gosling declared nobody ever topped her.',
+      },
+      {
+        heading: '5. Pete Davidson’s Iconic Streak: Kate Beckinsale (20 Yrs) & Kim K (13 Yrs)',
+        subhead: 'From the Rangers hockey meme to an SNL magic-carpet kiss.',
+        storyHook:
+          'Few twenty-somethings ever united two eras of internet culture quite like Pete Davidson: first turning Antoni Porowski into a viral third-wheel meme beside Kate Beckinsale at Madison Square Garden, then winning over Kim Kardashian on SNL.',
+        body: 'Whether courtside at 25 with 45-year-old Beckinsale or grabbing Staten Island pizza with 41-year-old Kim K, zero-intimidation humor did all the heavy lifting.',
+      },
+      {
+        heading: '6. Courteney Cox & Johnny McDaid + Deborra-Lee Furness & Hugh Jackman',
+        subhead: 'Ed Sheeran’s Malibu setup and pre-Wolverine Australian TV sparks.',
+        storyHook:
+          'Right as "Cougar Town" wrapped, houseguest Ed Sheeran introduced Courteney Cox to Snow Patrol’s Johnny McDaid (12 years younger), echoing Deborra-Lee Furness meeting unknown 26-year-old Hugh Jackman on 1995’s "Correlli."',
+        body: 'Both pairings lasted over a decade (27 years for Furness & Jackman), proving genuine creative partnership outlasts every tabloid punchline.',
+        affiliateId: 'bridget-jones-cougar-town-watch',
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is the age difference between Elizabeth Holmes and Billy Evans?',
+        answer:
+          'Elizabeth Holmes (born February 1984) is roughly 8 years older than husband Billy Evans (born January 1992), an MIT graduate and heir to San Diego’s Evans Hotels group.',
+      },
+      {
+        question: 'Who were Katie Holmes’s younger boyfriends in New York?',
+        answer:
+          'Katie Holmes famously dated NYC chef Emilio Vitolo Jr. (8 years younger) in 2020–2021 and Grammy-nominated Broadway bassist Bobby Wooten III (10 years younger) in 2022.',
+      },
+    ],
+    featuredEpisodeId: 'pop-culture-cougar-renaissance',
+    featuredAffiliateIds: ['all-fours-book', 'bridget-jones-cougar-town-watch'],
+  },
 ];

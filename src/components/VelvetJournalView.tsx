@@ -812,6 +812,31 @@ const GUIDE_VISUAL_BY_SLUG: Record<string, GuideVisualMeta> = {
       ],
     },
   },
+  'elizabeth-holmes-billy-evans-katie-holmes-plot-twist-couples': {
+    categoryLabel: 'Plot-Twist Couples',
+    directoryGroup: 'pop_culture',
+    heroPhoto: './images/scenes/velvet-room-bar.jpg',
+    sectionPhotos: [
+      './images/icons/pop_kristin_montana.jpg',
+      './images/icons/pop_sienna_oli.jpg',
+      './images/icons/pop_cher_icons.jpg',
+      './images/icons/pop_olivia_harry.jpg',
+      './images/icons/pop_cougar_town.jpg',
+      './images/icons/pop_julianne_bart.jpg',
+    ],
+    dontText: 'wait older woman younger man couples only happen in rom-coms right??',
+    doText: 'Wait until you hear about Billy Evans proposing to Elizabeth Holmes with his MIT ring.',
+    doSummary: 'Real-world plot twists beat fiction every single decade.',
+    skipSummary: 'Assuming every celebrity age-gap story looks the same.',
+    poll: {
+      question: 'Wildest real-life celebrity Cougar & Cub plot twist on this list?',
+      options: [
+        { label: 'Elizabeth Holmes & Billy Evans (Burning Man + MIT class ring)', baseVotes: 74 },
+        { label: 'Dame Joan Collins ("If he dies, he dies!" - 24+ yrs married)', baseVotes: 58 },
+        { label: 'Katie Holmes’s NYC era & Sandra Bullock × 21yo Ryan Gosling', baseVotes: 49 },
+      ],
+    },
+  },
 };
 
 function getGuideVisualMeta(slug: string): GuideVisualMeta {

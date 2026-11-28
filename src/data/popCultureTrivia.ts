@@ -2334,6 +2334,258 @@ export const POP_CULTURE_TRIVIA: PopCultureTriviaQuestion[] = [
     "category": "music_celebs",
     "difficulty": "easy",
     "level": 1
+  },
+  {
+    "id": "katie-holmes-bobby-wooten-emilio-vitolo",
+    "badge": "🗽 Manhattan Toyboy Renaissance",
+    "question": "After high-profile marriages and romances with older A-listers (Tom Cruise and Jamie Foxx), Katie Holmes pivoted to creative younger men in NYC, dating SoHo pasta chef Emilio Vitolo Jr. (8 years younger) and making a 2022 red-carpet debut with which Grammy-nominated Broadway bassist (10 years younger)?",
+    "options": [
+      "Jon Batiste",
+      "Bobby Wooten III",
+      "Jack Antonoff",
+      "Leon Bridges"
+    ],
+    "correctIndex": 1,
+    "funFact": "Katie Holmes (43 at the time) and David Byrne’s \"American Utopia\" bassist Bobby Wooten III (33) beamed across The Moth Ball red carpet in Manhattan, cementing her post-divorce creative younger-man era.",
+    "imageUrl": "./images/icons/pop_sienna_oli.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "elizabeth-holmes-billy-evans-mit-ring",
+    "badge": "🕵️ Silicon Valley Cougar Plot Twist",
+    "question": "Theranos founder Elizabeth Holmes (born 1984) pivoted from 19-years-older Sunny Balwani to marrying San Diego Evans Hotels heir Billy Evans (8 years younger). Why did Billy famously propose with his MIT class signet ring instead of a diamond?",
+    "options": [
+      "They got engaged impulsively on the playa at Burning Man",
+      "A luxury diamond risked federal asset forfeiture amid civil fraud lawsuits",
+      "Holmes was allergic to platinum and white gold",
+      "It held a hidden micro-engraving of Palo Alto coordinates"
+    ],
+    "correctIndex": 1,
+    "funFact": "Billy Evans (an MIT economics grad and heir to San Diego’s Lodge at Torrey Pines & Bahia Resort) met Holmes in 2017 as Theranos collapsed, gave her his asset-forfeiture-proof MIT ring, and stood by her through two kids and federal prison in Texas.",
+    "imageUrl": "./images/products/mocktail-card-deck.jpg",
+    "imageCredit": "",
+    "category": "era_culture",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "the-dropout-hulu-sunny-to-billy-pivot",
+    "badge": "📺 True-Crime Age-Gap Whiplash",
+    "question": "After Hulu’s Emmy-winning series \"The Dropout\" dramatized Elizabeth Holmes’s secret relationship with much-older COO Sunny Balwani, where did real-life Holmes and 8-years-younger fiancé Billy Evans make their eyebrow-raising 2018 public debut while awaiting federal indictment?",
+    "options": [
+      "The Met Gala steps",
+      "Sun Valley Billionaires Camp",
+      "Burning Man in Nevada",
+      "Monaco Grand Prix Yacht Club"
+    ],
+    "correctIndex": 2,
+    "funFact": "Spotted in dusty futuristic goggles at Burning Man 2018 just weeks after her federal indictment, Elizabeth Holmes and Billy Evans delivered Silicon Valley’s wildest Cougar-and-Cub plot twist.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "joan-collins-percy-gibson-quote",
+    "badge": "👑 32-Year Gap • Married Since 2002",
+    "question": "When interviewers pressed \"Dynasty\" legend Dame Joan Collins about the 32-year age difference with her fifth husband, theatrical producer Percy Gibson (married happily since 2002), what iconic deadpan reply did she give?",
+    "options": [
+      "\"Darling, math is for accountants.\"",
+      "\"If he dies, he dies!\"",
+      "\"I only check passports, never birth certificates.\"",
+      "\"Husbands age faster than diamonds anyway.\""
+    ],
+    "correctIndex": 1,
+    "funFact": "More than two decades into her fifth and happiest marriage, Dame Joan Collins’s razor-sharp \"If he dies, he dies!\" remains the undisputed mic-drop of age-gap interviews.",
+    "imageUrl": "./images/icons/pop_cher_icons.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "sandra-bullock-ryan-gosling-murder-by-numbers",
+    "badge": "🎬 Secret 16-Year Hollywood Romance",
+    "question": "Sandra Bullock (37) and a 21-year-old Ryan Gosling quietly dated for nearly two years after meeting on the set of which 2002 thriller, leading Gosling years later to call her one of the \"greatest girlfriends of all time\"?",
+    "options": [
+      "Murder by Numbers",
+      "Practical Magic",
+      "The Net",
+      "Miss Congeniality"
+    ],
+    "correctIndex": 0,
+    "funFact": "Bullock affectionately nicknamed young Gosling her \"little Buddha\" for reminding her to slow down outside Hollywood chaos, and Gosling still praises her decades later.",
+    "imageUrl": "./images/products/cinema-books.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "jennifer-lopez-casper-smart-dance",
+    "badge": "💃 18-Year World-Tour Spark",
+    "question": "At 42, Jennifer Lopez began a high-profile five-year relationship with which 24-year-old backup dancer (18 years her junior), eventually naming him creative choreographer for her Las Vegas residency?",
+    "options": [
+      "Derek Hough",
+      "Val Chmerkovskiy",
+      "Beau \"Casper\" Smart",
+      "Kevin Federline"
+    ],
+    "correctIndex": 2,
+    "funFact": "J.Lo and Casper Smart turned backup-dancer romance into five years of red carpets before remaining friendly collaborators.",
+    "imageUrl": "./images/icons/pop_madonna_mariahc_sarandon.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "britney-spears-sam-asghari-slumber-party",
+    "badge": "🎵 Music-Video Casting Spark",
+    "question": "Pop icon Britney Spears hand-picked 22-year-old Sam Asghari (12 years her junior) from casting headshots on the set of which 2016 music video, kicking off a six-year romance and 2022 wedding?",
+    "options": [
+      "\"Toxic\"",
+      "\"Womanizer\"",
+      "\"Work B**ch\"",
+      "\"Slumber Party\""
+    ],
+    "correctIndex": 3,
+    "funFact": "Britney found Sam’s phone number tucked inside her bag months after wrapping the \"Slumber Party\" shoot and called him out for sushi.",
+    "imageUrl": "./images/icons/pop_miley_maxx.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "kim-kardashian-pete-davidson-aladdin-snl",
+    "badge": "🧞 SNL Magic-Carpet Spark",
+    "question": "Before Pete Davidson’s 20-year gap with Kate Beckinsale became a hockey-arena meme, he sparked a viral 13-year-gap romance with 41-year-old Kim Kardashian during which October 2021 \"Saturday Night Live\" sketch?",
+    "options": [
+      "Princess Jasmine & Aladdin on a magic carpet",
+      "Romeo & Juliet on a Staten Island ferry",
+      "Barbie & Ken in Malibu traffic court",
+      "Cleopatra & Marc Antony at Caesar’s Palace"
+    ],
+    "correctIndex": 0,
+    "funFact": "Kim admitted on \"The Kardashians\" that feeling a real spark during their Aladdin carpet kiss made her ask SNL producers for Pete’s number.",
+    "imageUrl": "./images/icons/pop_olivia_harry.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "easy",
+    "level": 1
+  },
+  {
+    "id": "courteney-cox-johnny-mcdaid-ed-sheeran",
+    "badge": "🎸 Life Imitating Cougar Town",
+    "question": "Right as \"Cougar Town\" wrapped its run, Courteney Cox fell in love in real life with Snow Patrol musician Johnny McDaid (12 years younger) after being set up at a house party by which mutual singer-songwriter friend?",
+    "options": [
+      "Chris Martin",
+      "Ed Sheeran",
+      "Harry Styles",
+      "Niall Horan"
+    ],
+    "correctIndex": 1,
+    "funFact": "Ed Sheeran was living as Courteney’s Malibu houseguest while recording with McDaid and played matchmaker, sparking a 10+ year relationship.",
+    "imageUrl": "./images/icons/pop_cougar_town.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "deborra-lee-furness-hugh-jackman-correlli",
+    "badge": "🇦🇺 13-Year Gap Before Wolverine",
+    "question": "When established Australian star Deborra-Lee Furness met unknown 26-year-old drama-school graduate Hugh Jackman (13 years younger), she was the headliner on which 1995 Australian prison drama series?",
+    "options": [
+      "Wentworth",
+      "Neighbours",
+      "Correlli",
+      "Blue Heelers"
+    ],
+    "correctIndex": 2,
+    "funFact": "Jackman confessed to having a massive crush on his famous leading lady during hair-and-makeup on \"Correlli,\" leading to a 27-year marriage that guided his entire rise to global stardom.",
+    "imageUrl": "./images/icons/pop_julianne_bart.jpg",
+    "imageCredit": "",
+    "category": "tv",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "lisa-bonet-jason-momoa-jazz-club-guinness",
+    "badge": "🍺 12-Year Gap • Sunrise Diner Lore",
+    "question": "Jason Momoa had a childhood TV crush on Lisa Bonet (12 years his senior) long before meeting her at a 2005 Los Angeles jazz club, where she won him over instantly by ordering what drink before sunrise grits?",
+    "options": [
+      "A neat smoky mezcal",
+      "A pint of Guinness",
+      "An ice-cold dirty martini",
+      "A double espresso tonic"
+    ],
+    "correctIndex": 1,
+    "funFact": "Momoa recalled fireworks going off in his head when Lisa turned around at the bar and ordered his exact favorite stout, followed by cornmeal grits at Café 101.",
+    "imageUrl": "./images/icons/pop_gabrielle_dwyane.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "cher-tom-cruise-top-5-lovers",
+    "badge": "🕶️ 1985 Pre-Top-Gun Secret Romance",
+    "question": "Long before AE Edwards, a 39-year-old Cher quietly dated a 23-year-old pre-\"Top Gun\" Tom Cruise in 1985 after bonding at a White House dyslexia event. Where did Cher later tell Andy Cohen that young Cruise ranked?",
+    "options": [
+      "\"Sweetest gentleman in Malibu\"",
+      "\"Best dancer in Hollywood\"",
+      "\"In my Top 5 Lovers of All Time\"",
+      "\"Only actor who cooked me breakfast\""
+    ],
+    "correctIndex": 2,
+    "funFact": "Cher dated both 23-year-old Tom Cruise (16-year gap) and 20s Val Kilmer (13-year gap) in the 1980s, openly praising younger men for never acting intimidated by her icon status.",
+    "imageUrl": "./images/icons/pop_cher_icons.jpg",
+    "imageCredit": "",
+    "category": "music_celebs",
+    "difficulty": "medium",
+    "level": 2
+  },
+  {
+    "id": "robin-wright-clement-giraudet-cannes",
+    "badge": "🇫🇷 18-Year Cannes Fashion Spark",
+    "question": "\"House of Cards\" powerhouse Robin Wright wed French fashion executive Clément Giraudet (roughly 18 years her junior) in bohemian Provence after meeting at the Cannes Film Festival while he ran VIP relations for which luxury house?",
+    "options": [
+      "Saint Laurent",
+      "Louis Vuitton",
+      "Bottega Veneta",
+      "Maison Margiela"
+    ],
+    "correctIndex": 0,
+    "funFact": "Before meeting Saint Laurent’s Clément Giraudet at Cannes, Robin Wright was also engaged to actor Ben Foster (14 years younger).",
+    "imageUrl": "./images/icons/pop_macrons.jpg",
+    "imageCredit": "",
+    "category": "movies",
+    "difficulty": "hard",
+    "level": 3
+  },
+  {
+    "id": "vivienne-westwood-andreas-kronthaler-vienna",
+    "badge": "🧷 25-Year Gap • 30-Year Creative Reign",
+    "question": "British punk-fashion empress Dame Vivienne Westwood met 22-year-old Austrian designer Andreas Kronthaler (25 years younger) while teaching fashion in which city in 1988, remaining married creative partners for 30 years?",
+    "options": [
+      "Antwerp",
+      "Milan",
+      "Berlin",
+      "Vienna"
+    ],
+    "correctIndex": 3,
+    "funFact": "Westwood and Kronthaler shared a tiny London flat before building a global couture empire together for three decades until her passing in 2022.",
+    "imageUrl": "./images/icons/pop_heidi_tom.jpg",
+    "imageCredit": "",
+    "category": "royals_history",
+    "difficulty": "hard",
+    "level": 3
   }
 ];
 

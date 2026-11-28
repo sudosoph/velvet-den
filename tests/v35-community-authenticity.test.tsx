@@ -121,7 +121,7 @@ describe('v35 Bespoke 10-Lead Subreddit Scenarios, Fixed Local Field Guide Portr
     // Render CougarCubChecklistModal and verify all 30 3-Tier items + 56 Pop Quiz items + 16 Guides remain intact
     expect(COUGAR_CUB_CHECKLIST_ITEMS).toHaveLength(30);
     expect(POP_CULTURE_TRIVIA.length).toBeGreaterThanOrEqual(55);
-    expect(JOURNAL_ARTICLES).toHaveLength(16);
+    expect(JOURNAL_ARTICLES).toHaveLength(17);
 
     render(
       <CougarCubChecklistModal

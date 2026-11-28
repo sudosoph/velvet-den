@@ -26,7 +26,7 @@ describe('v37 BuzzFeed Shoppable Photo Listicles, Pure Astrological Matcher, 11x
     // Directory browser is immediately visible with all 16 articles and category filters
     const directory = screen.getByTestId('guide-directory-browser');
     expect(directory).toBeInTheDocument();
-    expect(JOURNAL_ARTICLES).toHaveLength(16);
+    expect(JOURNAL_ARTICLES).toHaveLength(17);
 
     // All 10/10 items on the 10-point apartment checklist render with their own section photo AND illustrated inline Shop Pick card
     const sectionCards = screen.getAllByTestId('guide-section-visual-card');

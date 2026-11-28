@@ -78,7 +78,7 @@ describe('v35 Illustrated Visual Club Guides, Astro Toy & Full-Art Field Guide',
       expect(bubbleBox.textContent).not.toContain('idk what do u wanna do tonight?? u pick');
       seenDoTexts.add(bubbleBox.textContent || '');
     }
-    expect(seenDoTexts.size).toBe(16);
+    expect(seenDoTexts.size).toBe(JOURNAL_ARTICLES.length);
   });
 
   it('opens the illustrated 12x12 Astro Matcher in 1 tap from the top bar with cast portraits, date scene photo, clickable emoji sign chips, and 4 visual compatibility meters', () => {

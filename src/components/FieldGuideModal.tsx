@@ -210,6 +210,18 @@ const ENTRY_PORTRAITS: Record<string, { url: string; credit?: string; subtitleTa
     credit: 'Photo: Wikimedia Commons • CC BY-SA 4.0',
     subtitleTag: 'F1 & West End',
   },
+  pop_elizabeth_holmes_billy: {
+    url: './images/icons/pop_kristin_montana.jpg',
+    subtitleTag: '8-Yr Plot Twist',
+  },
+  pop_katie_holmes_manhattan: {
+    url: './images/icons/pop_sienna_oli.jpg',
+    subtitleTag: 'NYC Creative Era',
+  },
+  pop_joan_collins_percy: {
+    url: './images/icons/pop_cher_icons.jpg',
+    subtitleTag: '32-Yr Mic Drop',
+  },
 };
 
 type GuideFilterTab = 'all' | 'feline_scale' | 'cub_taxonomy' | 'crossover_lore' | 'pop_culture';

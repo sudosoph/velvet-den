@@ -71,8 +71,8 @@ describe('v41 Radix shadcn/ui Overhaul, AI Vision Profile Teardown, BuzzFeed Gui
     expect(savedAfter.claimedRewards).toEqual(['stripe_cs_live_vip999']);
   });
 
-  it('audits all 16 Club Guides for warm BuzzFeed ledes, insider callouts & story hooks BEFORE any sells', () => {
-    expect(JOURNAL_ARTICLES).toHaveLength(16);
+  it('audits all 17 Club Guides for warm BuzzFeed ledes, insider callouts & story hooks BEFORE any sells', () => {
+    expect(JOURNAL_ARTICLES).toHaveLength(17);
 
     let totalSections = 0;
     for (const article of JOURNAL_ARTICLES) {
@@ -87,7 +87,7 @@ describe('v41 Radix shadcn/ui Overhaul, AI Vision Profile Teardown, BuzzFeed Gui
         expect((sec.storyHook || '').length).toBeGreaterThan(45);
       }
     }
-    expect(totalSections).toBe(79);
+    expect(totalSections).toBe(85);
 
     // Astrology guide has zero inline sells, and dilemma/texting guides never stuff every section
     const astroHit = JOURNAL_ARTICLES.find(

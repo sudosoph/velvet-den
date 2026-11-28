@@ -2123,6 +2123,36 @@ export const FIELD_GUIDE_ENTRIES: FieldGuideEntry[] = [
       'Tony-winning "Sunset Blvd." powerhouse Nicole Scherzinger wrote the athlete-cub playbook alongside Lewis Hamilton, tennis star Grigor Dimitrov, and Scottish rugby fiance Thom Evans, right before Kim Kardashian (45) and Sir Lewis Hamilton (41) broke the internet from the Cotswolds to Super Bowl LX in 2026.',
     signatureTell: 'Front-row paddock sunglasses, Broadway standing ovations, and zero apologies.',
   },
+  {
+    id: 'pop_elizabeth_holmes_billy',
+    label: 'Elizabeth Holmes & Billy Evans (The Silicon Valley Plot Twist)',
+    ageRange: '8-Yr Gap • Born 1984 & 1992',
+    category: 'pop_culture',
+    headline: 'From Older Tech Mogul to San Diego Hotel Scion & An MIT Signet Ring',
+    insiderLore:
+      'In one of pop culture’s wildest pendulum swings, Theranos founder Elizabeth Holmes went from 19-years-older Sunny Balwani to marrying Evans Hotels heir Billy Evans (8 years her junior), debuting at Burning Man 2018 and wearing his MIT class ring because a luxury diamond risked federal asset forfeiture.',
+    signatureTell: 'Swapping black turtlenecks and older CEOs for a loyal 90s-born MIT grad.',
+  },
+  {
+    id: 'pop_katie_holmes_manhattan',
+    label: 'Katie Holmes’s Manhattan Creative "Toyboy" Era',
+    ageRange: '8-to-10 Yr Gaps • NYC Chef & Broadway Bassist',
+    category: 'pop_culture',
+    headline: 'Post-Divorce Downtown Freedom With Musicians & Chefs',
+    insiderLore:
+      'After years in high-control older-man Hollywood relationships, Katie Holmes reclaimed effortless Manhattan joy alongside SoHo pasta heir Emilio Vitolo Jr. (8 yrs younger) and Grammy-nominated "American Utopia" bassist Bobby Wooten III (10 yrs younger).',
+    signatureTell: 'Sidewalk red wine in SoHo, Broadway stage doors, and radiant post-divorce ease.',
+  },
+  {
+    id: 'pop_joan_collins_percy',
+    label: 'Dame Joan Collins & Percy Gibson ("If He Dies, He Dies!")',
+    ageRange: '32-Yr Gap • Married Happily Since 2002',
+    category: 'pop_culture',
+    headline: 'Two+ Decades of Glamour & History’s Coldest Age-Gap Mic Drop',
+    insiderLore:
+      'When reporters asked "Dynasty" icon Dame Joan Collins how she handled the 32-year age difference with fifth husband Percy Gibson, she delivered eternal Silver Panther scripture: "If he dies, he dies!" Twenty-four years later, they remain inseparable.',
+    signatureTell: 'Delivering deadpan British one-liners while outlasting every Hollywood critic.',
+  },
 ];
 
 const DELIGHT_DETAILS: Record<string, { idealSunday: string; softSpot: string; extraInterests?: string[] }> = {
