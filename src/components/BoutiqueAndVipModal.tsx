@@ -349,19 +349,19 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <ul className="space-y-2 text-sm text-zinc-700">
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span>Extra <strong className="text-zinc-950">Standout Roses</strong> &amp; bold openers</span>
+                      <span><strong className="text-zinc-950">+15 Club Credits</strong> for Standout Roses &amp; bold openers</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span><strong className="text-zinc-950">Post-Date Group-Chat Leaks</strong></span>
+                      <span>Extra <strong className="text-zinc-950">Roast My Opener &amp; ENM Trap Radar</strong> runs</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span><strong className="text-zinc-950">6-Month Weekend Escape Epilogues</strong></span>
+                      <span>Unlock <strong className="text-zinc-950">Midnight After-Dark</strong>, Group-Chat Leaks &amp; Epilogues</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span>Supports ad-free indie hosting</span>
+                      <span>Supports 100% banner-ad-free indie hosting</span>
                     </li>
                   </ul>
                 </div>
@@ -409,19 +409,19 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <ul className="space-y-2 text-sm text-zinc-200">
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-                      <span><strong className="text-white">Unlimited</strong> Standout Roses &amp; VIP Flirt Choices</span>
+                      <span><strong className="text-white">Unlimited</strong> Roast My Opener, Subtext &amp; ENM Trap Lab</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-                      <span><strong className="text-white">Every</strong> Group-Chat Leak &amp; Polaroid Free</span>
+                      <span><strong className="text-white">All 22</strong> Midnight After-Dark Routes &amp; Standout Roses</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-                      <span><strong className="text-white">All 10</strong> Weekend Escape Epilogues Unlocked</span>
+                      <span><strong className="text-white">Every</strong> Group-Chat Leak, Polaroid &amp; Weekend Escape Epilogue</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-                      <span><strong className="text-white">+15 Bonus Credits</strong> &amp; email device restore</span>
+                      <span><strong className="text-white">+15 Bonus Credits</strong> &amp; instant email device restore</span>
                     </li>
                   </ul>
                 </div>
@@ -474,19 +474,19 @@ export const BoutiqueAndVipModal: React.FC<BoutiqueAndVipModalProps> = ({
                   <ul className="space-y-2 text-sm text-zinc-700">
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span><strong className="text-zinc-950">Custom 6-photo Prowl profile</strong> &amp; banter</span>
+                      <span><strong className="text-zinc-950">Custom 6-photo Prowl profile</strong>, voice note &amp; banter</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span>Includes <strong className="text-zinc-950">Lifetime VIP Black Card</strong></span>
+                      <span>Includes <strong className="text-zinc-950">Lifetime VIP Black Card</strong> + <strong className="text-zinc-950">50 Credits</strong></span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span>Unlocks every leak, Polaroid &amp; epilogue</span>
+                      <span>Unlimited <strong className="text-zinc-950">Roast Lab, After-Dark</strong>, leaks &amp; epilogues</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
-                      <span>Private character brief unlocks after checkout</span>
+                      <span>Private Producer brief unlocks immediately after checkout</span>
                     </li>
                   </ul>
                 </div>

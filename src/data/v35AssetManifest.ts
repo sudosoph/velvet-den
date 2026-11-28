@@ -379,6 +379,12 @@ export const V35_PRODUCT_IMAGES: Record<string, string> = {
   'the-rebound-zeta-jones-prime': './images/products/the-rebound-zeta-jones-prime.jpg',
   'linen-picnic-insulated-tote': './images/products/linen-picnic-insulated-tote.jpg',
   'velvet-travel-weekender-duffel': './images/products/velvet-travel-weekender-duffel.jpg',
+  'all-fours-book': './images/products/all-fours-book.jpg',
+  'ethical-slut-enm-guide': './images/products/ethical-slut-enm-guide.jpg',
+  'rumours-vinyl': './images/products/rumours-vinyl.jpg',
+  'warm-amber-table-lamp': './images/products/warm-amber-table-lamp.jpg',
+  'bedside-braided-charger-duo': './images/products/bedside-braided-charger-duo.jpg',
+  'pineapple-upside-down-cocktail-pins': './images/products/pineapple-upside-down-cocktail-pins.jpg',
 };
 
 const MOTIF_TO_PRODUCT_IMAGE_KEY: Record<string, keyof typeof V35_PRODUCT_IMAGES> = {

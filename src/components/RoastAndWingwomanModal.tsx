@@ -25,6 +25,7 @@ import { SocialShareSheetModal, type ShareSheetPayload } from './SocialShareShee
 export type WingwomanToolMode =
   | 'roast_opener'
   | 'decode_text'
+  | 'enm_check'
   | 'fix_bio'
   | 'friday_plan';
 
@@ -185,6 +186,48 @@ export function evaluateRoastLocally(
     };
   }
 
+  if (tool === 'enm_check') {
+    if (/telegram|whatsapp only|don'?t ask don'?t tell|dadt|wife doesn'?t want to know|husband doesn'?t need to know|cash only|practically separated/i.test(lower)) {
+      return {
+        score: 7,
+        verdictBadge: '🚨 FAKE-DADT CHEATER TRAP',
+        panelSpeaker: 'Astrid, 41 (Solo-Poly Founder) & Priya, 36',
+        roastRead:
+          '99% red-alert siren: real ethical non-monogamy never relies on vanishing chat apps, cash-only tabs, or "my spouse doesn’t want to know" secrecy.',
+        upgradedRewrite:
+          'I only date single partners or transparently verified kitchen-table ENM with zero secrecy. Wishing you well!',
+        whyItWorks:
+          'Draws an unshakeable ethical boundary in one calm sentence and saves you months of suburban drama.',
+      };
+    }
+
+    if (/brad|package deal|third for us|spoil a third|unicorn|join my husband|surprise we/i.test(lower)) {
+      return {
+        score: 16,
+        verdictBadge: '🍍 UNDISCLOSED UNICORN AMBUSH',
+        panelSpeaker: 'Jade, 42 & Astrid, 41',
+        roastRead:
+          'Hiding a spouse behind four solo photos and springing a "package deal" mid-conversation violates Rule #1 of ethical non-monogamy and couples privilege.',
+        upgradedRewrite:
+          'Looking strictly for one-on-one connection rather than joining an established couple, good luck out there!',
+        whyItWorks:
+          'Clean, zero-judgment exit before you become an unpaid marriage experiment.',
+      };
+    }
+
+    return {
+      score: 93,
+      verdictBadge: '🍍 ETHICAL SOLO-POLY / ENM GREEN LIGHT',
+      panelSpeaker: 'Astrid, 41 & Claire, 46',
+      roastRead:
+        'Upfront disclosure, clear calendar boundaries, and zero sneaking around! As long as your own relationship goals align with non-escalator dating, this is textbook adult honesty.',
+      upgradedRewrite:
+        'Appreciate the upfront clarity! Let’s grab a Thursday drink and align on pace and weekend rhythm.',
+      whyItWorks:
+        'Rewards radical transparency and checks practical compatibility early.',
+    };
+  }
+
   if (tool === 'fix_bio') {
     const hasCringe = /fluent in sarcasm|partner in crime|just ask|idk what to write|pineapple on pizza|looking for a cougar|sugar/i.test(
       lower,
@@ -222,6 +265,8 @@ export interface RoastAndWingwomanModalProps {
   open: boolean;
   role: PlayerRole;
   wallet: WalletState;
+  initialTool?: WingwomanToolMode;
+  initialPrefillText?: string;
   onClose: () => void;
   onSpendCredit: (cost: number) => boolean;
   onOpenVip: () => void;
@@ -238,6 +283,11 @@ const PRESET_EXAMPLES: Record<WingwomanToolMode, string[]> = {
     'Can only do 5:15 PM drinks before my 6:45 Tokyo call, phone stays on DND after!',
     'Work is super crazy rn let’s play Friday by ear!',
   ],
+  enm_check: [
+    'We have an open Don’t Ask Don’t Tell marriage, message me on Telegram only after 9 AM!',
+    'Actually my husband Brad is parking right now so all three of us can grab margaritas 🍍',
+    'Solo-poly homeowner in Prompt #1: Thursday is metamour jazz night, Friday–Sunday open for us.',
+  ],
   fix_bio: [
     '26M fluent in sarcasm, looking for a partner in crime. Just ask!',
     '42F divorced, tired of games and guys who cannot plan a simple dinner.',
@@ -252,17 +302,29 @@ export const RoastAndWingwomanModal: React.FC<RoastAndWingwomanModalProps> = ({
   open,
   role,
   wallet,
+  initialTool = 'roast_opener',
+  initialPrefillText = '',
   onClose,
   onSpendCredit,
   onOpenVip,
 }) => {
-  const [tool, setTool] = useState<WingwomanToolMode>('roast_opener');
-  const [inputText, setInputText] = useState('');
+  const [tool, setTool] = useState<WingwomanToolMode>(initialTool);
+  const [inputText, setInputText] = useState(initialPrefillText);
   const [loading, setLoading] = useState(false);
   const [freeUsed, setFreeUsed] = useState(() => getFreeRoastRunsUsed());
   const [result, setResult] = useState<RoastUtilityResult | null>(null);
   const [copiedRewrite, setCopiedRewrite] = useState(false);
   const [sharePayload, setSharePayload] = useState<ShareSheetPayload | null>(null);
+
+  React.useEffect(() => {
+    if (open) {
+      setTool(initialTool);
+      if (initialPrefillText) {
+        setInputText(initialPrefillText);
+        setResult(null);
+      }
+    }
+  }, [open, initialTool, initialPrefillText]);
 
   if (!open) return null;
 
@@ -340,14 +402,15 @@ export const RoastAndWingwomanModal: React.FC<RoastAndWingwomanModalProps> = ({
   const handleDownloadPng = () => {
     if (!result) return;
     downloadReceiptPng({
-      badge: 'Cougars & Cubs Roast Lab',
+      style: 'thermal',
+      badge: 'MARLOW LOUNGE ROAST RECEIPT',
       bigStat: `${result.score}/100`,
       verdictLabel: result.verdictBadge,
       title: `“${inputText.trim().slice(0, 96)}”`,
       bullets: [
-        `Panel Read: ${result.roastRead}`,
-        `10/10 Upgrade: "${result.upgradedRewrite}"`,
-        `Why It Wins: ${result.whyItWorks}`,
+        `PANEL: ${result.roastRead}`,
+        `10/10 REWRITE: "${result.upgradedRewrite}"`,
+        `WHY IT WINS: ${result.whyItWorks}`,
       ],
       filename: `roast-score-${result.score}.png`,
     });
@@ -396,14 +459,15 @@ export const RoastAndWingwomanModal: React.FC<RoastAndWingwomanModalProps> = ({
               </button>
             </div>
 
-            {/* 4 Real-World Utility Tabs */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 rounded-xl bg-zinc-100 p-1">
+            {/* 5 Real-World Utility Tabs (Including ENM vs. Trap Check!) */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-1 rounded-xl bg-zinc-100 p-1">
               {(
                 [
                   ['roast_opener', '🔥 Roast Opener'],
                   ['decode_text', '🕵️ Decode Text'],
-                  ['fix_bio', '✨ Fix My Bio'],
-                  ['friday_plan', '🍸 60s Date Plan'],
+                  ['enm_check', '🍍 ENM / Trap'],
+                  ['fix_bio', '✨ Fix Bio'],
+                  ['friday_plan', '🍸 60s Plan'],
                 ] as const
               ).map(([id, label]) => (
                 <button

@@ -11,6 +11,7 @@ import {
   Pause,
   Play,
   Ruler,
+  Search,
   Sparkles,
   Volume2,
   X,
@@ -24,6 +25,10 @@ import {
 } from '../data/v35Cast';
 import type { WalletState } from '../domain/economy';
 import { awardPassportBonusXp } from '../lib/gamification';
+import {
+  emitOrganicBingoUnlock,
+  IN_FEED_INTERMISSION_CARDS,
+} from '../lib/organicInterspersion';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
 import { liveAiInboxService } from '../services/adapters';
 import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
@@ -52,6 +57,10 @@ export interface HingeFeedViewProps {
   onSwitchRole: (role: 'her' | 'him') => void;
   onOpenWildMap: () => void;
   onOpenChats?: (leadId?: string) => void;
+  onOpenAstroMatcher?: () => void;
+  onLaunchIntermissionTarget?: (
+    target: 'courtroom' | 'trivia' | 'roast_enm' | 'guides_dilemmas',
+  ) => void;
 }
 
 interface ActiveReplyTarget {
@@ -142,7 +151,118 @@ const PROFILE_MICRO_DETAILS: Record<
     pollOptions: ['4 PM hotel wine bar', 'Saturday night dinner party', 'Sunday brunch at yours'],
     pollReaction: 'Vanessa: "4 PM hotel bar is perfection, weekends are chaotic with contractors!"',
   },
+  astrid: {
+    pills: ['♒ Aquarius', '🍍 Solo-Poly (Calendar Open)', '❄️ Nordic Cold Plunge'],
+    pollQuestion: 'Ideal non-escalator weekend rhythm:',
+    pollOptions: [
+      'Friday Malibu sauna + separate Sunday mornings',
+      '24/7 texting all week',
+      'Surprise unannounced drop-ins',
+    ],
+    pollReaction: 'Astrid: "Upfront honesty and sacred solo Sundays? You already get my rhythm."',
+  },
+  brooke: {
+    pills: ['♎ Libra', '🎾 Court 1 Regular', '👀 Insists on Table 9'],
+    pollQuestion: 'Dress code for Friday patio steak night:',
+    pollOptions: [
+      'Navy blazer facing Table 9',
+      'Quiet booth in the back room',
+      'Cook dinner at home away from crowds',
+    ],
+    pollReaction: 'Brooke: "Definitely the front patio by Table 9 so everyone sees us toast!"',
+  },
+  vivienne: {
+    pills: ['♐ Sagittarius', '🎬 Signs Texts "-V"', '🥂 Cannes to Pacific'],
+    pollQuestion: 'How do you handle a 6-point dim bistro menu?',
+    pollOptions: [
+      'Order Barolo & let the chef send courses',
+      'Pull out a blinding phone flashlight',
+      'Ask if they have chicken tenders',
+    ],
+    pollReaction: 'Vivienne: "Chef’s courses and Barolo. Splendid instinct. -V"',
+  },
 };
+
+const PHOTO_MAGNIFIER_CLUES: Record<
+  string,
+  { tone: 'green' | 'red'; clueText: string }
+> = {
+  julian: {
+    tone: 'green',
+    clueText:
+      '🔍 Background Zoom: Dog-eared Colette paperback, pressed linen cuff, and zero ring tan on his espresso hand.',
+  },
+  soren: {
+    tone: 'green',
+    clueText:
+      '🔍 Background Zoom: Spotless birch countertop, two linen hand towels, and fresh coffee beans beside his racquet bag.',
+  },
+  miles: {
+    tone: 'green',
+    clueText:
+      '🔍 Background Zoom: Seasoned 12-inch cast-iron skillet, botanical hand soap, and four plumped cotton pillows down the hall.',
+  },
+  graham: {
+    tone: 'red',
+    clueText:
+      '🔍 Background Zoom: Watch dial reads 6:41 PM while a suburban carpool decal glints in the SUV side mirror!',
+  },
+  connor: {
+    tone: 'red',
+    clueText:
+      '🔍 Background Zoom: Unlined plastic grocery-bag bathroom wastebasket + 3-in-1 body wash on the tub ledge ("App glitched my age lol").',
+  },
+  devon: {
+    tone: 'red',
+    clueText:
+      '🔍 Background Zoom: Three ring lights and an air mattress tucked behind his acoustic guitar stand.',
+  },
+  claire: {
+    tone: 'green',
+    clueText:
+      '🔍 Background Zoom: Statement emerald on her RIGHT hand only; phone face-down beside a three-olive Gibson.',
+  },
+  sienna: {
+    tone: 'green',
+    clueText:
+      '🔍 Background Zoom: Al Green spinning on walnut vinyl, olive-tree courtyard keys, and zero clutter.',
+  },
+  vanessa: {
+    tone: 'red',
+    clueText:
+      '🔍 Background Zoom: Framed 20th-anniversary couple portrait reflected upside-down in her Bordeaux glass!',
+  },
+  brooke: {
+    tone: 'red',
+    clueText:
+      '🔍 Background Zoom: Camera angled directly past her spritz toward Court 4 where her silver-haired ex is serving!',
+  },
+  astrid: {
+    tone: 'green',
+    clueText:
+      '🔍 Background Zoom: Shared color-coded Solo-Poly calendar on her tablet, 100% upfront with zero sneaking.',
+  },
+  vivienne: {
+    tone: 'green',
+    clueText:
+      '🔍 Background Zoom: Cannes Festival laminate tucked beside tortoiseshell bistro readers and vintage Burgundy.',
+  },
+};
+
+function resolvePhotoMagnifierClue(profile: V35CastProfile) {
+  if (PHOTO_MAGNIFIER_CLUES[profile.id]) return PHOTO_MAGNIFIER_CLUES[profile.id];
+  return profile.tier === 'trap'
+    ? {
+        tone: 'red' as const,
+        clueText:
+          '🔍 Background Zoom: Suspiciously cropped dinner reflection + muted weekend notifications.',
+      }
+    : {
+        tone: 'green' as const,
+        clueText:
+          '🔍 Background Zoom: Real bedframe, warm table lamps (zero overhead glare), and bare left ring finger.',
+      };
+}
 
 function resolveProfileMicroDetails(profile: V35CastProfile) {
   if (PROFILE_MICRO_DETAILS[profile.id]) return PROFILE_MICRO_DETAILS[profile.id];
@@ -182,6 +302,8 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   onSwitchRole,
   onOpenWildMap,
   onOpenChats,
+  onOpenAstroMatcher,
+  onLaunchIntermissionTarget,
 }) => {
   const targetRole = role === 'her' ? 'him' : 'her';
 
@@ -190,6 +312,9 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
   const [heardVoiceIds, setHeardVoiceIds] = useState<string[]>([]);
   const [profilePollPicks, setProfilePollPicks] = useState<Record<string, number>>({});
+  const [zoomedClueLeadIds, setZoomedClueLeadIds] = useState<string[]>([]);
+  const [intermissionVotes, setIntermissionVotes] = useState<Record<string, number>>({});
+  const [dismissedIntermissionIds, setDismissedIntermissionIds] = useState<string[]>([]);
   const voiceCleanupRef = useRef<(() => void) | null>(null);
 
   const stopVoicePlayback = () => {
@@ -651,6 +776,88 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
         </section>
       )}
 
+      {/* Organic Every-2nd-Swipe In-Feed Lounge Intermission Card (Courtroom / ENM / Trivia Bluff) */}
+      {(() => {
+        const swipeTotal = passedIds.length + matchedLeadIds.length;
+        if (swipeTotal < 2) return null;
+        const card =
+          IN_FEED_INTERMISSION_CARDS[
+            Math.floor((swipeTotal - 2) / 2) % IN_FEED_INTERMISSION_CARDS.length
+          ];
+        if (!card || dismissedIntermissionIds.includes(card.id)) return null;
+        const picked = intermissionVotes[card.id];
+
+        return (
+          <section
+            data-testid="hinge-intermission-card"
+            className="rounded-2xl border border-rose-200 bg-white p-5 shadow-2xs space-y-3"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <span className="rounded-md bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-xs font-bold text-rose-700">
+                {card.badge}
+              </span>
+              <button
+                type="button"
+                aria-label="Dismiss intermission card"
+                onClick={() =>
+                  setDismissedIntermissionIds((prev) => [...prev, card.id])
+                }
+                className="text-xs font-medium text-zinc-400 hover:text-zinc-900 cursor-pointer"
+              >
+                Skip ✕
+              </button>
+            </div>
+            <p className="text-sm sm:text-base font-bold text-zinc-950 leading-snug">
+              {card.question}
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {[card.optionA, card.optionB].map((optLabel, idx) => {
+                const isPicked = picked === idx;
+                return (
+                  <button
+                    key={optLabel}
+                    type="button"
+                    onClick={() => {
+                      sfx.greenFlag();
+                      if (picked === undefined) {
+                        awardPassportBonusXp(
+                          `intermission_${card.id}`,
+                          5,
+                          'Quick Check Answered!',
+                          '⚡ +5 XP',
+                        );
+                      }
+                      setIntermissionVotes((prev) => ({ ...prev, [card.id]: idx }));
+                    }}
+                    className={`rounded-xl border px-3.5 py-2.5 text-left text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                      isPicked
+                        ? 'border-zinc-950 bg-zinc-950 text-white'
+                        : 'border-zinc-200 bg-zinc-50 hover:border-rose-300 text-zinc-900'
+                    }`}
+                  >
+                    {optLabel}
+                  </button>
+                );
+              })}
+            </div>
+            {picked !== undefined && (
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-emerald-200 bg-emerald-50/70 px-3.5 py-2.5 text-xs sm:text-sm text-emerald-950">
+                <span>{card.verdictText}</span>
+                {onLaunchIntermissionTarget && (
+                  <button
+                    type="button"
+                    onClick={() => onLaunchIntermissionTarget(card.targetAction)}
+                    className="font-bold text-rose-600 hover:text-zinc-950 cursor-pointer"
+                  >
+                    {card.linkedSurfaceLabel}
+                  </button>
+                )}
+              </div>
+            )}
+          </section>
+        );
+      })()}
+
       {/* Empty Deck State */}
       {!currentProfile ? (
         <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center space-y-4 shadow-2xs">
@@ -734,8 +941,53 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 </button>
               </div>
               {currentProfile.slides[0].caption && (
-                <div className="border-t border-zinc-100 bg-white px-4 py-3 text-sm font-medium text-zinc-800 leading-snug">
-                  {currentProfile.slides[0].caption}
+                <div className="border-t border-zinc-100 bg-white px-4 py-3 space-y-2">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-sm font-medium text-zinc-800 leading-snug">
+                      {currentProfile.slides[0].caption}
+                    </span>
+                    <button
+                      type="button"
+                      data-testid="hinge-photo-magnifier-btn"
+                      onClick={() => {
+                        sfx.cardHoverTick();
+                        if (!zoomedClueLeadIds.includes(currentProfile.id)) {
+                          setZoomedClueLeadIds((prev) => [...prev, currentProfile.id]);
+                          awardPassportBonusXp(
+                            `photo_zoom_${currentProfile.id}`,
+                            5,
+                            'Photo Detail Spotted!',
+                            '🔍 +5 XP',
+                          );
+                          emitOrganicBingoUnlock(
+                            'liddedbin',
+                            'Zoomed a dating profile photo to inspect background red/green flags',
+                            3,
+                          );
+                        }
+                      }}
+                      className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 hover:border-rose-300 hover:text-rose-600 px-2.5 py-1 text-xs font-semibold text-zinc-700 transition cursor-pointer"
+                    >
+                      <Search className="h-3 w-3" />
+                      <span>
+                        {zoomedClueLeadIds.includes(currentProfile.id)
+                          ? 'Clue Spotted'
+                          : 'Inspect Background'}
+                      </span>
+                    </button>
+                  </div>
+                  {zoomedClueLeadIds.includes(currentProfile.id) && (
+                    <div
+                      data-testid="hinge-photo-magnifier-clue"
+                      className={`rounded-xl border px-3 py-2 text-xs font-medium leading-relaxed ${
+                        resolvePhotoMagnifierClue(currentProfile).tone === 'red'
+                          ? 'border-rose-200 bg-rose-50 text-rose-950'
+                          : 'border-emerald-200 bg-emerald-50 text-emerald-950'
+                      }`}
+                    >
+                      {resolvePhotoMagnifierClue(currentProfile).clueText}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -895,14 +1147,26 @@ export const HingeFeedView: React.FC<HingeFeedViewProps> = ({
                 <span className="rounded-md bg-zinc-100 px-2.5 py-1">
                   {currentProfile.vitals.kidsStance}
                 </span>
-                {resolveProfileMicroDetails(currentProfile).pills.map((pill) => (
-                  <span
-                    key={pill}
-                    className="rounded-md bg-rose-50/70 border border-rose-200/70 px-2.5 py-1 text-zinc-800"
-                  >
-                    {pill}
-                  </span>
-                ))}
+                {resolveProfileMicroDetails(currentProfile).pills.map((pill, pillIdx) =>
+                  pillIdx === 0 && onOpenAstroMatcher ? (
+                    <button
+                      key={pill}
+                      type="button"
+                      onClick={onOpenAstroMatcher}
+                      title="Open 12×12 Cougar × Cub Zodiac Matcher"
+                      className="rounded-md bg-rose-50 border border-rose-200 hover:border-rose-500 px-2.5 py-1 text-zinc-900 font-semibold cursor-pointer transition"
+                    >
+                      {pill} · Match Signs ↗
+                    </button>
+                  ) : (
+                    <span
+                      key={pill}
+                      className="rounded-md bg-rose-50/70 border border-rose-200/70 px-2.5 py-1 text-zinc-800"
+                    >
+                      {pill}
+                    </span>
+                  ),
+                )}
               </div>
             </div>
 

@@ -207,6 +207,7 @@ interface CampaignCompassBarProps {
   onOpenMatchmaking?: () => void;
   onOpenBlindSync?: () => void;
   onOpenRoastLab?: () => void;
+  onOpenClubLounge?: (initialMode?: 'hub' | 'quiz') => void;
   onResetHearts?: () => void;
 }
 
@@ -234,6 +235,7 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
   onOpenMatchmaking,
   onOpenBlindSync,
   onOpenRoastLab,
+  onOpenClubLounge,
   onResetHearts,
 }) => {
   const [showModeGrid, setShowModeGrid] = useState(false);
@@ -374,6 +376,21 @@ export const CampaignCompassBar: React.FC<CampaignCompassBarProps> = ({
                 <Heart className="h-3.5 w-3.5" />
                 <span>Prowl &amp; Offline Dates</span>
               </span>
+
+              {onOpenClubLounge && (
+                <button
+                  type="button"
+                  data-testid="open-archetype-prom-pill"
+                  onClick={() => {
+                    setShowModeGrid(false);
+                    onOpenClubLounge('quiz');
+                  }}
+                  className="inline-flex h-7 items-center gap-1.5 rounded-lg border border-rose-300 bg-rose-50 hover:bg-rose-100 px-2.5 text-xs font-semibold text-rose-800 transition-colors cursor-pointer"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-rose-600" />
+                  <span>60s Archetype Run</span>
+                </button>
+              )}
 
               {onOpenChecklist && (
                 <button

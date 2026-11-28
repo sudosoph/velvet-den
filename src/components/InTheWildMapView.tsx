@@ -26,6 +26,7 @@ import {
   type WildVenueSpot,
 } from '../data/v35WildVenues';
 import { awardPassportBonusXp, emitXpBurst } from '../lib/gamification';
+import { emitOrganicBingoUnlock } from '../lib/organicInterspersion';
 import { sfx } from '../lib/sound';
 import { CelebrationBurstCanvas } from './CelebrationBurstCanvas';
 import { CrowdsourceSubmissionBar } from './CrowdsourceSubmissionBar';
@@ -63,6 +64,7 @@ export interface InTheWildMapViewProps {
   onCompleteCameo: (venueId: string, leadId: string, bonus: number) => void;
   onLoseHeart?: () => void;
   onOpenChatWithLead?: (leadId: string) => void;
+  onOpenGuideSlug?: (slug: string) => void;
   onClearInitialVenue?: () => void;
 }
 
@@ -85,6 +87,7 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
   onCompleteCameo,
   onLoseHeart,
   onOpenChatWithLead,
+  onOpenGuideSlug,
   onClearInitialVenue,
 }) => {
   const [selectedSpotId, setSelectedSpotId] = useState<string | null>(initialVenueId ?? null);
@@ -357,6 +360,11 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
         35,
         `${getCastProfileById(pendingApproach.leadId)?.name ?? 'Match'}’s Number Earned!`,
         '🏆 +35 XP',
+      );
+      emitOrganicBingoUnlock(
+        'gymheadphones',
+        `Pulled ${getCastProfileById(pendingApproach.leadId)?.name ?? 'a match'}’s number offline in the wild`,
+        3,
       );
       setTurnPopBanner({
         tone: 'jackpot',
@@ -779,6 +787,20 @@ export const InTheWildMapView: React.FC<InTheWildMapViewProps> = ({
                         <ArrowRight className="h-4 w-4" />
                       </button>
                     )
+                  )}
+
+                  {(outcomeCard.isMemeFail || outcomeCard.isPoliteBrushOff) && onOpenGuideSlug && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onOpenGuideSlug(
+                          'how-to-meet-older-women-in-the-wild-hotel-bar-gym-etiquette',
+                        )
+                      }
+                      className="inline-flex min-h-10 items-center rounded-lg border border-amber-300/50 bg-amber-300/15 hover:bg-amber-300/25 px-3.5 text-xs sm:text-sm font-semibold text-amber-100 cursor-pointer"
+                    >
+                      📖 Read 60s Offline Field Guide →
+                    </button>
                   )}
 
                   <button

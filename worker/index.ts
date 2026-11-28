@@ -115,9 +115,13 @@ const AFFILIATE_REDIRECT_URLS: Record<string, string> = {
   'linen-picnic-insulated-tote': 'https://www.amazon.com/dp/B0GS1TFTY6',
   'velvet-travel-weekender-duffel': 'https://www.amazon.com/dp/B0GTQF7ZK9',
   'all-fours-book': 'https://www.amazon.com/dp/B0CLKZ582G',
+  'ethical-slut-enm-guide': 'https://www.amazon.com/dp/0399579664',
   'romantic-comedy-book': 'https://www.amazon.com/dp/B0B6G6R2PH',
   'vladimir-book': 'https://www.amazon.com/dp/B096TTBFYR',
   'rumours-vinyl': 'https://www.amazon.com/dp/B004OKFISQ',
+  'warm-amber-table-lamp': 'https://www.amazon.com/dp/B0B24R6J78',
+  'bedside-braided-charger-duo': 'https://www.amazon.com/dp/B0BPCBP46P',
+  'pineapple-upside-down-cocktail-pins': 'https://www.amazon.com/dp/B089Q3GVWM',
 };
 
 const JSON_HEADERS = {
@@ -1480,6 +1484,90 @@ const DEFAULT_COURTROOM_STORIES: StoredCourtStory[] = [
     crownHim: 86,
     dumpHim: 14,
   },
+  {
+    id: 'court-slide-five-brad-unicorn-ambush',
+    aslTag: '27M × 43F • Scottsdale',
+    subject: 'her',
+    headline:
+      'Matched on Four Solo Pilates Photos, Then Showed Up to Friday Wine With Her Husband Brad in Wraparound Oakleys',
+    story:
+      'Zero mention of a spouse anywhere on her profile until a tanned guy in a golf polo slid into our banquette announcing "We’re a package deal, bro!"',
+    vibeBadge: '🍍 Surprise Package Foul',
+    crownHer: 4,
+    dumpHer: 96,
+    crownHim: 6,
+    dumpHim: 94,
+  },
+  {
+    id: 'court-solo-poly-shared-google-calendar',
+    aslTag: '28M × 46F • Portland',
+    subject: 'her',
+    headline:
+      'Upfront Solo-Poly Architect Sent a Color-Coded Calendar ("Thu: Metamour Jazz • Fri–Sun: Yours") Before Date #2',
+    story:
+      'Disclosed her solo-poly setup on Prompt #1, shared clear weekend availability with zero secrets, and made fresh blueberry scones Saturday morning.',
+    vibeBadge: '📅 Radical ENM Clarity',
+    crownHer: 83,
+    dumpHer: 17,
+    crownHim: 69,
+    dumpHim: 31,
+  },
+  {
+    id: 'court-fake-dadt-parking-garage-telegram',
+    aslTag: '42F × 31M • Orange County',
+    subject: 'him',
+    headline:
+      'Swore He Had an "Ethical Don’t Ask Don’t Tell Marriage," Yet Insisted on Telegram Only & Ducked Behind a Patio Fern',
+    story:
+      'Claimed his wife totally signed off on solo dates, right until her yoga friend walked past the restaurant and he dove under the table for his napkin.',
+    vibeBadge: '🚨 Fake-DADT Cheater',
+    crownHer: 2,
+    dumpHer: 98,
+    crownHim: 8,
+    dumpHim: 92,
+  },
+  {
+    id: 'court-tech-cub-out-earns-pottery-cougar',
+    aslTag: '45F × 27M • San Francisco',
+    subject: 'him',
+    headline:
+      '27-Year-Old Staff Engineer Quietly Replaced My Broken Pottery-Studio Kiln Relay, Then Worried He Hurt My Pride',
+    story:
+      'Flipping the classic income stereotype: he earns double my ceramicist studio income, ordered the replacement part silently, and apologized profusely in case he overstepped.',
+    vibeBadge: '🏺 Role-Flipped Keeper',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 95,
+    dumpHim: 5,
+  },
+  {
+    id: 'court-town-crier-menu-zoom-assist',
+    aslTag: '47F × 26M • Chicago',
+    subject: 'him',
+    headline:
+      'Saw Me Holding the Candlelit Menu at Full Town-Crier Arm’s Length & Smoothly Read All Six Specials Like a Sommelier',
+    story:
+      'Forgot my tortoiseshell readers in my other coat. Without a single age joke, he leaned in warmly and narrated the pasta list like theater.',
+    vibeBadge: '👓 Dim-Bistro Hero',
+    crownHer: 99,
+    dumpHer: 1,
+    crownHim: 96,
+    dumpHim: 4,
+  },
+  {
+    id: 'court-single-dad-cub-empty-nest-soccer',
+    aslTag: '49F × 29M • Raleigh',
+    subject: 'him',
+    headline:
+      'Sweet 29-Year-Old Single Dad Invited Me to 7:30 AM Saturday U-8 Soccer Three Weeks After My Youngest Left for Dorms',
+    story:
+      'Adore his maturity and warmth, yet sitting on damp aluminum bleachers at dawn right after graduating eighteen years of carpool gave me flashbacks.',
+    vibeBadge: '⚽ Empty-Nest Crossroads',
+    crownHer: 62,
+    dumpHer: 38,
+    crownHim: 78,
+    dumpHim: 22,
+  },
 ];
 
 async function handleCourtroomGet(env: WorkerEnv): Promise<Response> {
@@ -1829,7 +1917,7 @@ async function handleRoastUtility(request: Request, env: WorkerEnv): Promise<Res
         `You are the razor-sharp, hilarious Cougars & Cubs Club Dating Lab Panel (Claire 46F M&A Partner, Prof. Elena 44F, and Julian 27M).`,
         `Tool mode: ${tool}. User role: ${role === 'her' ? 'Cougar (confident older woman)' : 'Cub (younger man)'}.`,
         `Evaluate this real-world dating submission: "${input.replace(/"/g, "'")}".`,
-        `Spot clichés ("for your age", Snapchat asks, "wyd", passive "play it by ear", Gen-X punctuation misreads, or married 6:30 PM curfews) with affectionate comedy, then write a 10/10 ready-to-send upgrade!`,
+        `Spot clichés ("for your age", Snapchat asks, "wyd", passive "play it by ear", Gen-X punctuation misreads, married 6:30 PM curfews, Slide-5 surprise-husband Brad unicorn ambushes, or fake Telegram Don't Ask Don't Tell excuses vs upfront Solo-Poly calendar honesty) with affectionate comedy, then write a 10/10 ready-to-send upgrade!`,
         `STRICT RULE: No em-dashes, no semicolons. Output valid single-line JSON only:`,
         `{"score":number(5..98),"verdictBadge":"short uppercase badge with 1 emoji","panelSpeaker":"Claire, 46 & Julian, 27","roastRead":"2 witty, specific sentences","upgradedRewrite":"1 to 2 crisp ready-to-send sentences","whyItWorks":"1 short sentence explaining why it wins"}`,
       ].join(' ');
@@ -1880,6 +1968,35 @@ async function handleRoastUtility(request: Request, env: WorkerEnv): Promise<Res
     } catch {
       // Fall back to deterministic heuristic response below
     }
+  }
+
+  if (tool === 'enm_check') {
+    const isShadyTrap =
+      /telegram|whatsapp|signal|don'?t ask don'?t tell|dadt|husband brad|all three of us|package deal|secret|after 9\s*am|6:?30/i.test(
+        input,
+      );
+    const isEthicalEnm = /solo[- ]poly|prompt #?1|calendar|metamour|upfront|kitchen[- ]table/i.test(
+      input,
+    );
+    return jsonResponse({
+      score: isShadyTrap ? 9 : isEthicalEnm ? 92 : 68,
+      verdictBadge: isShadyTrap
+        ? '🚨 FAKE-ENM / UNICORN AMBUSH'
+        : isEthicalEnm
+          ? '🍍 VERIFIED ETHICAL SOLO-POLY'
+          : '🔍 VERIFY DAYLIGHT & CALENDAR',
+      panelSpeaker: 'Astrid, 41 (Solo-Poly Founder) & Claire, 46',
+      roastRead: isShadyTrap
+        ? 'Real ethical non-monogamy never hides on vanishing apps or springs a surprise spouse at the booth. That is either an affair or a Slide-5 unicorn ambush.'
+        : isEthicalEnm
+          ? 'Prompt #1 disclosure plus open weekend calendar clarity is textbook ethical non-monogamy. Decide purely on whether that cadence matches your peace.'
+          : 'Ask one calm question about weekend availability and public dinner spots to separate genuine ENM transparency from secret curfews.',
+      upgradedRewrite: isShadyTrap
+        ? 'I only date people who disclose their setup upfront and meet in normal daylight spots, wishing you well!'
+        : 'Appreciate the upfront calendar clarity! Friday 7:45 at The Marlow works great on my end.',
+      whyItWorks: 'Protects your peace immediately while respecting transparent adult boundaries.',
+      source: 'local-heuristic',
+    });
   }
 
   const hasFatalCliche = /for your age|for ur age|snap|snapchat|wyd|bucket list|milf/i.test(input);
@@ -2570,9 +2687,156 @@ async function handleVerifyCheckout(
   }
 }
 
+function escapeXml(raw: string): string {
+  return raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function handleDynamicOgSvg(url: URL): Response {
+  const caseId = sanitizeId(url.searchParams.get('case'), 64);
+  const matchedStory = caseId
+    ? DEFAULT_COURTROOM_STORIES.find((s) => s.id === caseId)
+    : undefined;
+
+  const badgeRaw =
+    url.searchParams.get('badge') ||
+    (matchedStory ? `CLUB COURTROOM · ${matchedStory.aslTag}` : '') ||
+    (url.searchParams.get('archetype') ? 'MARLOW LOUNGE ARCHETYPE RECEIPT' : '') ||
+    'COUGARS & CUBS CLUB · INTERACTIVE ROM-COM';
+
+  const statRaw =
+    url.searchParams.get('stat') ||
+    url.searchParams.get('archetype') ||
+    (matchedStory ? matchedStory.vibeBadge : '22 LEADS · ROAST LAB · COURTROOM');
+
+  const titleRaw =
+    url.searchParams.get('title') ||
+    (matchedStory ? matchedStory.headline : 'Read IRL Signals, Dodge Red Flags & Pull Numbers');
+
+  const subRaw =
+    url.searchParams.get('sub') ||
+    'Play Free at cougarsandcubs.club · Zero Banner Ads · 21+';
+
+  const badge = escapeXml(badgeRaw.slice(0, 56));
+  const stat = escapeXml(statRaw.slice(0, 44));
+  const titleLine1 = escapeXml(titleRaw.slice(0, 58));
+  const titleLine2 = escapeXml(titleRaw.length > 58 ? titleRaw.slice(58, 114) : '');
+  const sub = escapeXml(subRaw.slice(0, 72));
+
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#09090B" />
+      <stop offset="100%" stop-color="#18181B" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="44" y="44" width="1112" height="542" rx="28" fill="#FAF8F2" stroke="#E4E4E7" stroke-width="3" />
+  <rect x="84" y="86" width="480" height="44" rx="22" fill="#E11D48" />
+  <text x="108" y="115" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="19" font-weight="700" fill="#FFFFFF">${badge}</text>
+  <text x="84" y="218" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="54" font-weight="800" fill="#09090B">${stat}</text>
+  <line x1="84" y1="254" x2="1116" y2="254" stroke="#A1A1AA" stroke-width="2" stroke-dasharray="10,8" />
+  <text x="84" y="330" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="36" font-weight="700" fill="#18181B">${titleLine1}</text>
+  ${titleLine2 ? `<text x="84" y="382" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="36" font-weight="700" fill="#18181B">${titleLine2}</text>` : ''}
+  <rect x="84" y="476" width="1032" height="68" rx="16" fill="#09090B" />
+  <text x="114" y="518" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" font-weight="700" fill="#FDE68A">${sub}</text>
+</svg>`;
+
+  return new Response(svg, {
+    status: 200,
+    headers: {
+      'Content-Type': 'image/svg+xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
+}
+
+function injectDynamicOpenGraphMeta(html: string, url: URL): string {
+  const archetype = url.searchParams.get('archetype');
+  const caseId = sanitizeId(url.searchParams.get('case'), 64);
+  const isCourt = url.searchParams.get('court') === '1' || Boolean(caseId);
+  const hasChallenge = url.searchParams.has('challenge');
+  const hasSync = url.searchParams.has('sync');
+
+  if (!archetype && !isCourt && !hasChallenge && !hasSync) {
+    return html;
+  }
+
+  const matchedStory = caseId
+    ? DEFAULT_COURTROOM_STORIES.find((s) => s.id === caseId)
+    : undefined;
+
+  let dynTitle = 'Cougars & Cubs Club · Interactive Rom-Com & Vetting Sim';
+  let dynDesc = 'Swipe 22 leads, decode IRL approach signals, and vote in the Crown or Dump Courtroom.';
+  const ogParams = new URLSearchParams();
+
+  if (archetype) {
+    const cleanArch = archetype.slice(0, 60);
+    dynTitle = `My Club Archetype: ${cleanArch} · Cougars & Cubs Club`;
+    dynDesc = 'Take the 60-second Monster-Prom style 4-Stat Archetype Run and print your Marlow Lounge Thermal Receipt.';
+    ogParams.set('badge', '60S ARCHETYPE RECEIPT');
+    ogParams.set('stat', cleanArch);
+    ogParams.set('title', 'Can you beat my Cougars & Cubs Club Archetype Rank?');
+  } else if (matchedStory) {
+    dynTitle = `Courtroom Verdict (${matchedStory.aslTag}): ${matchedStory.headline.slice(0, 68)}`;
+    dynDesc = matchedStory.story.slice(0, 150);
+    ogParams.set('case', matchedStory.id);
+  } else if (isCourt) {
+    dynTitle = 'Crown Her or Dump Him? · Cougars & Cubs Daily Courtroom';
+    dynDesc = 'Vote Crown or Dump on 46 anonymous age-gap & ENM plot-twist field reports.';
+    ogParams.set('badge', 'DAILY COURTROOM DOCKET');
+    ogParams.set('stat', 'CROWN OR DUMP?');
+    ogParams.set('title', '46 Real-Feeling Age-Gap & ENM Field Reports');
+  } else if (hasSync) {
+    dynTitle = '2-Player Couples Blind Sync Challenge · Cougars & Cubs Club';
+    dynDesc = 'Lock in your 5 answers blind and reveal your exact Compatibility % receipt.';
+    ogParams.set('badge', '2-PLAYER BLIND SYNC');
+    ogParams.set('stat', 'MATCH MY ANSWERS');
+    ogParams.set('title', 'Tap to Reveal Our Cougars & Cubs Compatibility Score');
+  } else if (hasChallenge) {
+    dynTitle = 'Pass My 60-Second Cougars & Cubs Vetting Audition';
+    dynDesc = 'Think you would survive Friday drinks with me? Take my 4-scene audition.';
+    ogParams.set('badge', '60-SECOND PARTNER AUDITION');
+    ogParams.set('stat', 'PASS MY VETTING TEST');
+    ogParams.set('title', '4 Scenarios · Zero Second Chances · Instant Score');
+  }
+
+  const ogImageUrl = `${url.origin}/api/og?${ogParams.toString()}`;
+  const safeTitle = escapeXml(dynTitle);
+  const safeDesc = escapeXml(dynDesc);
+  const safeImg = escapeXml(ogImageUrl);
+
+  const injectedBlock = [
+    `<meta property="og:title" content="${safeTitle}" />`,
+    `<meta property="og:description" content="${safeDesc}" />`,
+    `<meta property="og:image" content="${safeImg}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:title" content="${safeTitle}" />`,
+    `<meta name="twitter:description" content="${safeDesc}" />`,
+    `<meta name="twitter:image" content="${safeImg}" />`,
+  ].join('\n    ');
+
+  if (html.includes('</head>')) {
+    return html.replace('</head>', `    ${injectedBlock}\n  </head>`);
+  }
+  return html;
+}
+
 export default {
   async fetch(request: Request, env: WorkerEnv, ctx?: ExecutionContextLike): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.pathname === '/api/og') {
+      if (request.method === 'GET' || request.method === 'HEAD') {
+        return handleDynamicOgSvg(url);
+      }
+      return jsonResponse({ error: 'Method Not Allowed' }, 405);
+    }
 
     if (url.pathname === '/ingest' || url.pathname.startsWith('/ingest/')) {
       return handlePostHogIngestProxy(request, url, env);
@@ -2703,7 +2967,9 @@ export default {
         const headers = new Headers(assetRes.headers);
         headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
         headers.set('CDN-Cache-Control', 'no-store');
-        return new Response(assetRes.body, {
+        const rawHtml = await assetRes.text();
+        const finalHtml = injectDynamicOpenGraphMeta(rawHtml, url);
+        return new Response(finalHtml, {
           status: assetRes.status,
           headers,
         });

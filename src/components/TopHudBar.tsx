@@ -4,9 +4,12 @@ import {
   BookOpen,
   Camera,
   ChevronDown,
+  Compass,
   Crown,
+  Heart,
   Info,
   Menu,
+  MessageCircle,
   Newspaper,
   Send,
   ShoppingBag,
@@ -49,6 +52,7 @@ interface TopHudBarProps {
   onOpenBoutique: (initialTab?: BoutiqueSectionTab) => void;
   onOpenPopTrivia: () => void;
   onOpenChecklist: () => void;
+  onOpenClubLounge?: (initialMode?: 'hub' | 'quiz') => void;
   onSendPartnerAudition: () => void;
   onResetHearts?: () => void;
   onRequestFounderModal?: () => void;
@@ -70,6 +74,7 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
   onOpenBoutique,
   onOpenPopTrivia,
   onOpenChecklist,
+  onOpenClubLounge,
   onSendPartnerAudition,
   onRequestFounderModal,
   onGoHome,
@@ -207,6 +212,15 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
                   className="absolute right-0 top-14 w-64 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl space-y-0.5 z-50"
                 >
                   {[
+                    ...(onOpenClubLounge
+                      ? [
+                          {
+                            icon: Sparkles,
+                            label: '60s Archetype & Party Lounge',
+                            action: () => onOpenClubLounge('quiz'),
+                          },
+                        ]
+                      : []),
                     {
                       icon: Sparkles,
                       label: 'Real Matchmaking & Discord',
@@ -427,6 +441,18 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-zinc-200 bg-white px-4 py-3 space-y-2">
           <div className="grid grid-cols-2 gap-2 text-sm font-medium">
+            {onOpenClubLounge && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenClubLounge('quiz');
+                }}
+                className="col-span-2 rounded-lg border border-zinc-900 bg-zinc-950 px-3 py-2 text-left font-semibold text-white"
+              >
+                🎭 60s Archetype Run &amp; Party Lounge
+              </button>
+            )}
             <button
               type="button"
               onClick={() => {
@@ -510,6 +536,93 @@ export const TopHudBar: React.FC<TopHudBarProps> = ({
           )}
         </div>
       )}
+
+      {/* Thumb-Friendly Sticky Mobile Bottom Tab Bar (< lg) */}
+      <nav
+        aria-label="Mobile Bottom Navigation"
+        data-testid="mobile-bottom-tab-bar"
+        className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/95 backdrop-blur-xs px-2 py-1.5 shadow-lg"
+      >
+        <div className="mx-auto grid max-w-md grid-cols-5 gap-1">
+          <button
+            type="button"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onSelectTab('hinge');
+            }}
+            className={cn(
+              'flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition cursor-pointer',
+              activeTab === 'hinge' ? 'bg-rose-50 text-rose-600' : 'text-zinc-600 hover:text-zinc-950',
+            )}
+          >
+            <Heart className="h-4 w-4" />
+            <span>Prowl</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onSelectTab('wild');
+            }}
+            className={cn(
+              'flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition cursor-pointer',
+              activeTab === 'wild' ? 'bg-rose-50 text-rose-600' : 'text-zinc-600 hover:text-zinc-950',
+            )}
+          >
+            <Compass className="h-4 w-4" />
+            <span>Wild</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onSelectTab('chats');
+            }}
+            className={cn(
+              'relative flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold transition cursor-pointer',
+              activeTab === 'chats' ? 'bg-rose-50 text-rose-600' : 'text-zinc-600 hover:text-zinc-950',
+            )}
+          >
+            <MessageCircle className="h-4 w-4" />
+            <span>Chats</span>
+            {activeChatCount > 0 && (
+              <span className="absolute right-3 top-1 rounded-full bg-rose-600 px-1.5 py-0.2 text-[10px] font-bold text-white">
+                {activeChatCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              if (onOpenClubLounge) {
+                onOpenClubLounge('hub');
+              } else {
+                onOpenPopTrivia();
+              }
+            }}
+            className="flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold text-zinc-600 hover:text-rose-600 transition cursor-pointer"
+          >
+            <Sparkles className="h-4 w-4 text-rose-600" />
+            <span>Lounge</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenBoutique('vip');
+            }}
+            className="flex flex-col items-center justify-center gap-0.5 rounded-xl py-1.5 text-[11px] font-semibold text-zinc-800 hover:text-rose-600 transition cursor-pointer"
+          >
+            <Crown className="h-4 w-4 text-amber-500" />
+            <span>{wallet.isVip ? 'VIP ✓' : 'VIP'}</span>
+          </button>
+        </div>
+      </nav>
     </header>
   );
 };

@@ -43,6 +43,7 @@ import {
   type WalletState,
 } from '../domain/economy';
 import { playVoiceNotePreview, sfx } from '../lib/sound';
+import { awardPassportBonusXp } from '../lib/gamification';
 import { downloadReceiptPng } from '../lib/receiptCanvas';
 import { shareOrCopy } from '../lib/viral';
 import { liveAiInboxService } from '../services/adapters';
@@ -132,6 +133,14 @@ function incrementFreeAfterDarkTurnsUsed(): number {
   return next;
 }
 
+export const IOS_UNSENT_TRAP_SLIPS: Record<string, string> = {
+  graham: 'Babe grabbing organic milk & pull-ups on my way home from soccer carpool',
+  vanessa: 'Lawrence don’t forget Sunday 9 AM couples golf with the Millers',
+  connor: 'Bro can I borrow ur 27yo ID for The Marlow bouncer tonight pls',
+  devon: 'Dude my lease ends Friday I just need a cougar w/ a guest house & Wi-Fi',
+  brooke: 'Make sure Richard sees me walk past Table 9 at eight sharp',
+};
+
 export function getEmilyDraftHesitation(
   beatNumber: number,
   role: 'her' | 'him',
@@ -139,12 +148,17 @@ export function getEmilyDraftHesitation(
   isBold: boolean,
 ): string | null {
   if (isTrap && beatNumber >= 3) {
-    return 'Wait, why does your schedule sound like someone is waiting at home...';
+    return 'Wait did they just say Don’t Ask Don’t Tell, or is someone waiting at home after 6:30 PM?!';
   }
   if (isBold) {
     return role === 'her'
-      ? 'Okay don’t play it safe, just say what I actually want...'
-      : 'Don’t sound like an eager kid, keep it cool...';
+      ? 'Okay don’t play it safe, skip the polite small talk and say what I actually want...'
+      : 'Don’t sound like an eager kid asking 20 questions, lock in a real plan...';
+  }
+  if (beatNumber === 2) {
+    return role === 'him'
+      ? 'Wait why did she put a period after Sounds good. Is she mad at me?? Delete delete...'
+      : 'Wait let me check if his calendar is actually open past 7 PM...';
   }
   if (beatNumber === 3) {
     return role === 'her'
@@ -249,6 +263,7 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
   const [dmReactions, setDmReactions] = useState<Record<string, string>>({});
   const [sparkToast, setSparkToast] = useState<{ delta: number; nonce: number } | null>(null);
   const [inspectedExifIds, setInspectedExifIds] = useState<string[]>([]);
+  const [recoveredUnsentIds, setRecoveredUnsentIds] = useState<string[]>([]);
   const [calloutPromptLeadId, setCalloutPromptLeadId] = useState<string | null>(null);
   const [snoozedImessageIds, setSnoozedImessageIds] = useState<string[]>([]);
   const [showArchivedHinge, setShowArchivedHinge] = useState(false);
@@ -2163,9 +2178,19 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                       </div>
 
                       {isLastPlayerBubble && (
-                        <span className="mt-1 pr-2 text-xs font-medium text-slate-400">
-                          {dmReadStatus === 'delivered' ? 'Delivered' : 'Read'}
-                        </span>
+                        <div className="mt-1 pr-2 flex flex-wrap items-center justify-end gap-2 text-xs font-medium text-slate-400">
+                          {['claire', 'elena', 'celeste', 'vivienne'].includes(
+                            currentThread.leadId,
+                          ) && (
+                            <span
+                              data-testid="genx-sincere-tapback"
+                              className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-900"
+                            >
+                              👍 Liked · Gen-X Translation: 100% happy, zero sarcasm
+                            </span>
+                          )}
+                          <span>{dmReadStatus === 'delivered' ? 'Delivered' : 'Read'}</span>
+                        </div>
                       )}
 
                       {!isPlayer && (
@@ -2199,6 +2224,52 @@ export const ChatsAndDatesView: React.FC<ChatsAndDatesViewProps> = ({
                     </div>
                   );
                 })}
+
+                {IOS_UNSENT_TRAP_SLIPS[currentThread.leadId] && currentThread.currentBeat >= 2 && (
+                  <div
+                    data-testid="ios-unsent-slip-card"
+                    className="mx-auto w-full max-w-lg rounded-2xl border border-dashed border-amber-300 bg-amber-50/75 px-4 py-3 text-xs space-y-2"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="font-semibold text-zinc-700">
+                        📲 {currentProfile.name} unsent a message · 1m ago
+                      </span>
+                      {!recoveredUnsentIds.includes(currentThread.leadId) ? (
+                        <button
+                          type="button"
+                          data-testid="recover-unsent-preview-btn"
+                          onClick={() => {
+                            sfx.redFlag();
+                            setRecoveredUnsentIds((prev) => [...prev, currentThread.leadId]);
+                            awardPassportBonusXp(
+                              `unsent_slip_${currentThread.leadId}`,
+                              10,
+                              'Lock-Screen Slip Caught!',
+                              '📲 +10 XP',
+                            );
+                          }}
+                          className="inline-flex items-center gap-1 rounded-full bg-zinc-900 hover:bg-rose-600 px-3 py-1 text-[11px] font-bold text-white transition cursor-pointer"
+                        >
+                          <Smartphone className="h-3 w-3" />
+                          <span>Recover Lock-Screen Preview (+10 XP)</span>
+                        </button>
+                      ) : (
+                        <span className="rounded-full bg-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-800">
+                          🚨 Lock-Screen Cached!
+                        </span>
+                      )}
+                    </div>
+                    {recoveredUnsentIds.includes(currentThread.leadId) && (
+                      <div
+                        data-testid="ios-unsent-recovered-text"
+                        className="rounded-xl border border-rose-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-rose-950 shadow-2xs"
+                      >
+                        Lock-Screen Banner Preview: &ldquo;
+                        {IOS_UNSENT_TRAP_SLIPS[currentThread.leadId]}&rdquo;
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {dmTypingLabel && (
                   <div

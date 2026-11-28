@@ -675,6 +675,102 @@ export const SEED_COURTROOM_STORIES: CourtroomStory[] = [
     crownHim: 86,
     dumpHim: 14,
   },
+  {
+    id: 'court-slide-five-brad-unicorn-ambush',
+    aslTag: '27M × 43F • Scottsdale',
+    subject: 'her',
+    headline:
+      'Matched on Four Solo Pilates Photos, Then Showed Up to Friday Wine With Her Husband Brad in Wraparound Oakleys',
+    story:
+      'Zero mention of a spouse anywhere on her profile until a tanned guy in a golf polo slid into our banquette announcing "We’re a package deal, bro!"',
+    vibeBadge: '🍍 Surprise Package Foul',
+    topComment:
+      'Ethical non-monogamy puts it in Bio Line #1; springing a surprise spouse at the booth is straight to courtroom detention.',
+    crownHer: 4,
+    dumpHer: 96,
+    crownHim: 6,
+    dumpHim: 94,
+  },
+  {
+    id: 'court-solo-poly-shared-google-calendar',
+    aslTag: '28M × 46F • Portland',
+    subject: 'her',
+    headline:
+      'Upfront Solo-Poly Architect Sent a Color-Coded Calendar ("Thu: Metamour Jazz • Fri–Sun: Yours") Before Date #2',
+    story:
+      'Disclosed her solo-poly setup on Prompt #1, shared clear weekend availability with zero secrets, and made fresh blueberry scones Saturday morning.',
+    vibeBadge: '📅 Radical ENM Clarity',
+    topComment:
+      'Total honesty from Day One lets monogamous folks bow out kindly and ENM folks thrive.',
+    crownHer: 83,
+    dumpHer: 17,
+    crownHim: 69,
+    dumpHim: 31,
+  },
+  {
+    id: 'court-fake-dadt-parking-garage-telegram',
+    aslTag: '42F × 31M • Orange County',
+    subject: 'him',
+    headline:
+      'Swore He Had an "Ethical Don’t Ask Don’t Tell Marriage," Yet Insisted on Telegram Only & Ducked Behind a Patio Fern',
+    story:
+      'Claimed his wife totally signed off on solo dates, right until her yoga friend walked past the restaurant and he dove under the table for his napkin.',
+    vibeBadge: '🚨 Fake-DADT Cheater',
+    topComment:
+      'Real open marriages never require vanishing chat apps or diving behind patio shrubbery.',
+    crownHer: 2,
+    dumpHer: 98,
+    crownHim: 8,
+    dumpHim: 92,
+  },
+  {
+    id: 'court-tech-cub-out-earns-pottery-cougar',
+    aslTag: '45F × 27M • San Francisco',
+    subject: 'him',
+    headline:
+      '27-Year-Old Staff Engineer Quietly Replaced My Broken Pottery-Studio Kiln Relay, Then Worried He Hurt My Pride',
+    story:
+      'Flipping the classic income stereotype: he earns double my ceramicist studio income, ordered the replacement part silently, and apologized profusely in case he overstepped.',
+    vibeBadge: '🏺 Role-Flipped Keeper',
+    topComment:
+      'A high-earning younger man who fixes studio hardware humbly without flexing is unicorn-rare.',
+    crownHer: 98,
+    dumpHer: 2,
+    crownHim: 95,
+    dumpHim: 5,
+  },
+  {
+    id: 'court-town-crier-menu-zoom-assist',
+    aslTag: '47F × 26M • Chicago',
+    subject: 'him',
+    headline:
+      'Saw Me Holding the Candlelit Menu at Full Town-Crier Arm’s Length & Smoothly Read All Six Specials Like a Sommelier',
+    story:
+      'Forgot my tortoiseshell readers in my other coat. Without a single age joke, he leaned in warmly and narrated the pasta list like theater.',
+    vibeBadge: '👓 Dim-Bistro Hero',
+    topComment:
+      'Saving us from the phone-flashlight walk of shame deserves immediate dessert privileges.',
+    crownHer: 99,
+    dumpHer: 1,
+    crownHim: 96,
+    dumpHim: 4,
+  },
+  {
+    id: 'court-single-dad-cub-empty-nest-soccer',
+    aslTag: '49F × 29M • Raleigh',
+    subject: 'him',
+    headline:
+      'Sweet 29-Year-Old Single Dad Invited Me to 7:30 AM Saturday U-8 Soccer Three Weeks After My Youngest Left for Dorms',
+    story:
+      'Adore his maturity and warmth, yet sitting on damp aluminum bleachers at dawn right after graduating eighteen years of carpool gave me flashbacks.',
+    vibeBadge: '⚽ Empty-Nest Crossroads',
+    topComment:
+      'Wholesome guy AND valid boundary: empty-nest Saturdays are hard-earned territory.',
+    crownHer: 62,
+    dumpHer: 38,
+    crownHim: 78,
+    dumpHim: 22,
+  },
 ];
 
 function isLiveHttpRuntime(): boolean {

@@ -149,7 +149,7 @@ describe('Wallet economy, affiliate router & Worker security seams (v35)', () =>
     expect(percentages).toHaveLength(3);
     expect(percentages.reduce((sum, n) => sum + n, 0)).toBe(100);
 
-    expect(AFFILIATE_CATALOG.length).toBe(33);
+    expect(AFFILIATE_CATALOG.length).toBe(39);
     for (const guide of JOURNAL_ARTICLES) {
       expect(guide.featuredAffiliateIds.length).toBeGreaterThanOrEqual(2);
       for (const affId of guide.featuredAffiliateIds) {

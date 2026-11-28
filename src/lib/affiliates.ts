@@ -38,7 +38,12 @@ export type AffiliateVisualMotif =
   | 'menu_readers'
   | 'cinema_poster'
   | 'picnic_basket'
-  | 'weekender_bag';
+  | 'weekender_bag'
+  | 'book_hardcover'
+  | 'vinyl_record'
+  | 'amber_lamp'
+  | 'braided_charger'
+  | 'cocktail_pins';
 
 export interface AffiliateVisualSpec {
   motif: AffiliateVisualMotif;
@@ -433,6 +438,72 @@ const RAW_AFFILIATE_CATALOG: Omit<AffiliateProduct, 'visualSpec' | 'photoUrl'>[]
     whyItConverts: 'Handsome weekend travel bag tied to Date #4 epilogues.',
     merchantUrl: 'https://www.amazon.com/dp/B0GTQF7ZK9',
   },
+  {
+    id: 'all-fours-book',
+    name: 'All Fours: A Novel by Miranda July (New York Times Bestseller)',
+    category: 'cinema_pop_culture',
+    priceDisplay: 'Hardcover & Kindle Pick',
+    badge: '📖 Chapter-Two Reinvention Hit',
+    cheekyPitch:
+      'Miranda July’s fearless, razor-funny bestseller about midlife desire, hotel-room reinvention, and designing an unconventional arrangement on your own terms.',
+    whyItConverts: 'Viral book-club conversation starter across r/CougarsAndCubs and Literary Twitter.',
+    merchantUrl: 'https://www.amazon.com/dp/B0CLKZ582G',
+  },
+  {
+    id: 'ethical-slut-enm-guide',
+    name: 'The Ethical Slut (3rd Ed.): Practical Guide to Polyamory & Open Relationships',
+    category: 'cinema_pop_culture',
+    priceDisplay: 'Updated 3rd Edition',
+    badge: '🍍 Solo-Poly & ENM Gold Standard',
+    cheekyPitch:
+      'Separates real calendar-honest Solo-Poly and Kitchen-Table ENM from shady "Don’t Ask Don’t Tell" excuses in one warm, zero-jargon classic.',
+    whyItConverts: 'Go-to reference for navigating modern non-monogamy and clear boundaries.',
+    merchantUrl: 'https://www.amazon.com/dp/0399579664',
+  },
+  {
+    id: 'rumours-vinyl',
+    name: 'Fleetwood Mac: Rumours (180-Gram Audiophile Vinyl LP Pressing)',
+    category: 'date_night',
+    priceDisplay: '180g Audiophile Vinyl',
+    badge: '🎶 Undefeated Side-A Stayover LP',
+    cheekyPitch:
+      'Drop the needle on "Dreams" while pouring two glasses of Sancerre. Zero algorithm ads, warm analog crackle, and instant cross-generational credibility.',
+    whyItConverts: 'Universal stayover vinyl staple featured in Cub School and Velour Lounge dates.',
+    merchantUrl: 'https://www.amazon.com/dp/B004OKFISQ',
+  },
+  {
+    id: 'warm-amber-table-lamp',
+    name: 'Cordless Rechargeable Brass Touch Table Lamp (3-Level Warm Amber Dimmer)',
+    category: 'hosting_upgrade',
+    priceDisplay: 'Warm Dimmer Lamp',
+    badge: '🕯️ Banish The Overhead Big Light',
+    cheekyPitch:
+      'Rule two of hosting a grown partner: turn off the blinding surgical ceiling fixture forever and set warm 2700K bistro glow on the nightstand.',
+    whyItConverts: 'Solves harsh apartment lighting in ten seconds with zero wiring.',
+    merchantUrl: 'https://www.amazon.com/dp/B0B24R6J78',
+  },
+  {
+    id: 'bedside-braided-charger-duo',
+    name: 'Anker 10-Foot Braided Fast-Charge USB-C Bedside Cable Duo (2-Pack)',
+    category: 'hosting_upgrade',
+    priceDisplay: '10-Foot 2-Pack Pick',
+    badge: '🔌 Guest-Side Nightstand Hero',
+    cheekyPitch:
+      'Nothing says five-star sleepover sanctuary faster than having a dedicated ten-foot woven fast charger waiting right on their side of the bed.',
+    whyItConverts: 'High-utility checklist staple #10 for overnight hosting.',
+    merchantUrl: 'https://www.amazon.com/dp/B0BPCBP46P',
+  },
+  {
+    id: 'pineapple-upside-down-cocktail-pins',
+    name: 'Solid Brass Pineapple Cocktail Picks & Martini Garnish Skewers (Set of 6)',
+    category: 'funny_cute',
+    priceDisplay: '6-Piece Brass Bar Picks',
+    badge: '🍸 Subtle Lounge Wink Skewers',
+    cheekyPitch:
+      'Skewer three Castelvetrano olives for a proper Dirty Gibson while dropping the funniest subtle "if you know, you know" wink at home bar night.',
+    whyItConverts: 'Cheeky barware conversation piece for cocktail hosts and ENM insiders alike.',
+    merchantUrl: 'https://www.amazon.com/dp/B089Q3GVWM',
+  },
 ];
 
 const VISUAL_SPEC_BY_ID: Record<string, AffiliateVisualSpec> = {
@@ -666,6 +737,48 @@ const VISUAL_SPEC_BY_ID: Record<string, AffiliateVisualSpec> = {
     accentFrom: '#F5F5F4',
     accentTo: '#FDE68A',
     studioLabel: 'Leather Weekender',
+  },
+  'all-fours-book': {
+    motif: 'book_hardcover',
+    emoji: '📖',
+    accentFrom: '#FFE4E6',
+    accentTo: '#FDE68A',
+    studioLabel: 'Miranda July',
+  },
+  'ethical-slut-enm-guide': {
+    motif: 'book_hardcover',
+    emoji: '🍍',
+    accentFrom: '#FEF3C7',
+    accentTo: '#FBCFE8',
+    studioLabel: 'ENM Classic',
+  },
+  'rumours-vinyl': {
+    motif: 'vinyl_record',
+    emoji: '🎶',
+    accentFrom: '#F5F5F4',
+    accentTo: '#FDE68A',
+    studioLabel: '180g Vinyl LP',
+  },
+  'warm-amber-table-lamp': {
+    motif: 'amber_lamp',
+    emoji: '🕯️',
+    accentFrom: '#FEF3C7',
+    accentTo: '#FDBA74',
+    studioLabel: '2700K Bistro Lamp',
+  },
+  'bedside-braided-charger-duo': {
+    motif: 'braided_charger',
+    emoji: '🔌',
+    accentFrom: '#F1F5F9',
+    accentTo: '#E2E8F0',
+    studioLabel: '10ft Nightstand Duo',
+  },
+  'pineapple-upside-down-cocktail-pins': {
+    motif: 'cocktail_pins',
+    emoji: '🍸',
+    accentFrom: '#FEF9C3',
+    accentTo: '#FDE68A',
+    studioLabel: 'Brass Martini Picks',
   },
 };
 

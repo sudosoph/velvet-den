@@ -3,6 +3,7 @@ import { Check, Lock, ShieldCheck, Wrench, X } from 'lucide-react';
 import { BRAND_CONFIG } from './config/brand';
 import { MONETIZATION_CONFIG } from './config/monetization';
 import { AboutClubView } from './components/AboutClubView';
+import { ArchetypeAndPromModal } from './components/ArchetypeAndPromModal';
 import {
   BoutiqueAndVipModal,
   type BoutiqueSectionTab,
@@ -28,7 +29,10 @@ import { InTheWildMapView } from './components/InTheWildMapView';
 import { LiveIncomingTextBanner } from './components/LiveIncomingTextBanner';
 import { PartnerAuditionView } from './components/PartnerAuditionView';
 import { PopCultureTriviaModal } from './components/PopCultureTriviaModal';
-import { RoastAndWingwomanModal } from './components/RoastAndWingwomanModal';
+import {
+  RoastAndWingwomanModal,
+  type WingwomanToolMode,
+} from './components/RoastAndWingwomanModal';
 import { TopHudBar, type ClubTopTab } from './components/TopHudBar';
 import { VelvetJournalView } from './components/VelvetJournalView';
 import { getCastProfileById, V35_CAST_PROFILES } from './data/v35Cast';
@@ -70,6 +74,7 @@ import {
   resolvePassportLevel,
   XP_BURST_EVENT,
 } from './lib/gamification';
+import type { ExperienceBingoEventDetail } from './lib/organicInterspersion';
 import {
   decodeChallengeParam,
   encodeChallengeLink,
@@ -245,6 +250,7 @@ function readInitialUrlState() {
       openCourt: false,
       courtCaseId: null as string | null,
       syncChallenge: null as string | null,
+      openArchetype: false,
       openAbout: false,
     };
   }
@@ -263,6 +269,7 @@ function readInitialUrlState() {
   const openAcademy = params.get('academy') === '1';
   const courtCaseId = params.get('case');
   const syncChallenge = params.get('sync');
+  const openArchetype = Boolean(params.get('archetype'));
   const openCourt = params.get('court') === '1' || Boolean(courtCaseId);
   const openAbout = params.get('about') === '1';
 
@@ -281,6 +288,7 @@ function readInitialUrlState() {
     openCourt,
     courtCaseId,
     syncChallenge,
+    openArchetype,
     openAbout,
   };
 }
@@ -404,14 +412,36 @@ export default function App() {
   const [checklistOpen, setChecklistOpen] = useState(initialUrl.openChecklist);
   const [blindSyncOpen, setBlindSyncOpen] = useState(Boolean(initialUrl.syncChallenge));
   const [roastLabOpen, setRoastLabOpen] = useState(false);
+  const [roastInitialTool, setRoastInitialTool] = useState<WingwomanToolMode>('roast_opener');
+  const [roastInitialPrefill, setRoastInitialPrefill] = useState('');
+  const [clubLoungeOpen, setClubLoungeOpen] = useState(initialUrl.openArchetype);
+  const [clubLoungeInitialMode, setClubLoungeInitialMode] = useState<'hub' | 'quiz'>(
+    initialUrl.openArchetype ? 'quiz' : 'hub',
+  );
+  const [liveBannerSimNonce, setLiveBannerSimNonce] = useState(0);
+  const [journalSlugFocus, setJournalSlugFocus] = useState<string | null>(initialUrl.journalSlug);
+  const [bingoToast, setBingoToast] = useState<ExperienceBingoEventDetail | null>(null);
   const [passportModalOpen, setPassportModalOpen] = useState(false);
   const [passportMeta, setPassportMeta] = useState(() => loadPassportMeta());
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const syncMeta = () => setPassportMeta(loadPassportMeta());
+    let toastTimer: number | null = null;
+    const onBingo = (ev: Event) => {
+      const custom = ev as CustomEvent<ExperienceBingoEventDetail>;
+      if (!custom.detail) return;
+      setBingoToast(custom.detail);
+      if (toastTimer) window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => setBingoToast(null), 5500);
+    };
     window.addEventListener(XP_BURST_EVENT, syncMeta);
-    return () => window.removeEventListener(XP_BURST_EVENT, syncMeta);
+    window.addEventListener('cc:experience-bingo', onBingo);
+    return () => {
+      window.removeEventListener(XP_BURST_EVENT, syncMeta);
+      window.removeEventListener('cc:experience-bingo', onBingo);
+      if (toastTimer) window.clearTimeout(toastTimer);
+    };
   }, []);
 
   const activeVisibleThreads = useMemo(
@@ -532,6 +562,7 @@ export default function App() {
       checklistOpen ||
       blindSyncOpen ||
       roastLabOpen ||
+      clubLoungeOpen ||
       fieldGuideOpen ||
       dateodexOpen ||
       personaModalOpen ||
@@ -544,6 +575,7 @@ export default function App() {
       setChecklistOpen(false);
       setBlindSyncOpen(false);
       setRoastLabOpen(false);
+      setClubLoungeOpen(false);
       setFieldGuideOpen(false);
       setDateodexOpen(false);
       setPersonaModalOpen(false);
@@ -557,6 +589,7 @@ export default function App() {
     checklistOpen,
     blindSyncOpen,
     roastLabOpen,
+    clubLoungeOpen,
     fieldGuideOpen,
     dateodexOpen,
     personaModalOpen,
@@ -848,16 +881,25 @@ export default function App() {
       <LiveIncomingTextBanner
         activeThreads={activeVisibleThreads}
         activeTab={activeTab}
+        role={role}
+        simulateNonce={liveBannerSimNonce}
         anyModalOpen={
           boutiqueOpen ||
           popTriviaOpen ||
           checklistOpen ||
           blindSyncOpen ||
+          roastLabOpen ||
+          clubLoungeOpen ||
           fieldGuideOpen ||
           dateodexOpen ||
           personaModalOpen ||
           passportModalOpen
         }
+        onDecodePingInRoastLab={(pingText) => {
+          setRoastInitialTool('decode_text');
+          setRoastInitialPrefill(pingText);
+          setRoastLabOpen(true);
+        }}
         onOpenBannerLead={(leadId, pingText) => {
           setThreads((prev) =>
             prev.map((t) => {
@@ -901,6 +943,10 @@ export default function App() {
         onOpenBoutique={openBoutiqueWithTab}
         onOpenPopTrivia={() => setPopTriviaOpen(true)}
         onOpenChecklist={() => setChecklistOpen(true)}
+        onOpenClubLounge={(mode = 'hub') => {
+          setClubLoungeInitialMode(mode);
+          setClubLoungeOpen(true);
+        }}
         onSendPartnerAudition={handleSendPartnerAudition}
         onResetHearts={() => updateWallet(resetFridayHearts(wallet))}
         onRequestFounderModal={
@@ -1006,7 +1052,15 @@ export default function App() {
             onOpenPopTrivia={() => setPopTriviaOpen(true)}
             onOpenChecklist={() => setChecklistOpen(true)}
             onOpenBlindSync={() => setBlindSyncOpen(true)}
-            onOpenRoastLab={() => setRoastLabOpen(true)}
+            onOpenRoastLab={() => {
+              setRoastInitialTool('roast_opener');
+              setRoastInitialPrefill('');
+              setRoastLabOpen(true);
+            }}
+            onOpenClubLounge={(mode = 'hub') => {
+              setClubLoungeInitialMode(mode);
+              setClubLoungeOpen(true);
+            }}
             onOpenGuides={() => setActiveTab('journal')}
             onOpenCourtroom={() => setActiveTab('courtroom')}
             onSendPartnerAudition={handleSendPartnerAudition}
@@ -1015,6 +1069,38 @@ export default function App() {
         )}
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8 space-y-6">
+
+        {bingoToast && (
+          <div
+            data-testid="organic-bingo-toast"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-xs sm:text-sm font-semibold text-emerald-950 shadow-sm animate-stage-in"
+          >
+            <span>
+              ☑️ <strong>Experience Bingo Auto-Checked (+{bingoToast.points} pts):</strong>{' '}
+              {bingoToast.title}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setBingoToast(null);
+                  setChecklistOpen(true);
+                }}
+                className="rounded-lg bg-emerald-700 hover:bg-emerald-800 px-3 py-1 text-xs font-bold text-white cursor-pointer"
+              >
+                View My 3-Tier Card →
+              </button>
+              <button
+                type="button"
+                aria-label="Dismiss Bingo Toast"
+                onClick={() => setBingoToast(null)}
+                className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-zinc-700 cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
 
         {noticeBanner && (
           <div className="editorial-hinge-card flex items-center justify-between gap-3 rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-xs sm:text-sm font-bold text-amber-950">
@@ -1060,7 +1146,7 @@ export default function App() {
           />
         ) : activeTab === 'journal' ? (
           <VelvetJournalView
-            initialSlug={initialUrl.journalSlug}
+            initialSlug={journalSlugFocus}
             onPlayScenario={handleLaunchScenarioSlug}
           />
         ) : activeTab === 'wild' ? (
@@ -1071,6 +1157,10 @@ export default function App() {
             completedWildVenues={completedWildVenues}
             initialVenueId={wildVenueFocusId}
             onClearInitialVenue={() => setWildVenueFocusId(undefined)}
+            onOpenGuideSlug={(slug) => {
+              setJournalSlugFocus(slug);
+              setActiveTab('journal');
+            }}
             onUnlockWildLead={(leadId, venueId, bonus, clueId) => {
               if (clueId) {
                 updateWallet(addConspiracyClue(wallet, clueId));
@@ -1300,11 +1390,30 @@ export default function App() {
               if (leadId) setSelectedChatLeadId(leadId);
               setActiveTab('chats');
             }}
+            onOpenAstroMatcher={() => {
+              setJournalSlugFocus(
+                'astrology-zodiac-compatibility-older-woman-younger-man',
+              );
+              setActiveTab('journal');
+            }}
+            onLaunchIntermissionTarget={(target) => {
+              if (target === 'courtroom') {
+                setActiveTab('courtroom');
+              } else if (target === 'trivia') {
+                setPopTriviaOpen(true);
+              } else if (target === 'roast_enm') {
+                setRoastInitialTool('enm_check');
+                setRoastInitialPrefill('');
+                setRoastLabOpen(true);
+              } else if (target === 'guides_dilemmas') {
+                setActiveTab('journal');
+              }
+            }}
           />
         )}
       </main>
 
-      <footer className="border-t border-zinc-200 bg-white py-10 text-sm text-zinc-600">
+      <footer className="border-t border-zinc-200 bg-white pt-10 pb-24 lg:pb-10 text-sm text-zinc-600">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 grid gap-8 md:grid-cols-[1.5fr_1fr_1fr] items-start">
           <div className="space-y-2.5">
             <div className="flex items-center gap-2">
@@ -1660,10 +1769,31 @@ export default function App() {
         onClose={() => setBlindSyncOpen(false)}
       />
 
+      <ArchetypeAndPromModal
+        open={clubLoungeOpen}
+        role={role}
+        initialMode={clubLoungeInitialMode}
+        onClose={() => setClubLoungeOpen(false)}
+        onOpenChecklist={() => setChecklistOpen(true)}
+        onOpenTrivia={() => setPopTriviaOpen(true)}
+        onOpenRoastLab={() => {
+          setRoastInitialTool('roast_opener');
+          setRoastInitialPrefill('');
+          setRoastLabOpen(true);
+        }}
+        onOpenBlindSync={() => setBlindSyncOpen(true)}
+        onOpenCourtroom={() => setActiveTab('courtroom')}
+        onOpenGuides={() => setActiveTab('journal')}
+        onOpenCubSchool={() => setActiveTab('school')}
+        onTriggerLiveBannerPing={() => setLiveBannerSimNonce((n) => n + 1)}
+      />
+
       <RoastAndWingwomanModal
         open={roastLabOpen}
         role={role}
         wallet={wallet}
+        initialTool={roastInitialTool}
+        initialPrefillText={roastInitialPrefill}
         onClose={() => setRoastLabOpen(false)}
         onSpendCredit={(cost) => {
           const res = spendCredits(wallet, cost);

@@ -308,6 +308,52 @@ export const V35_DISCORD_CHANNELS: DiscordChannelSpec[] = [
     ],
     conspiracyClueId: 'clue-discord-table9',
   },
+  {
+    id: 'enm-and-plot-twists',
+    handleLabel: '#enm-and-plot-twists',
+    topicSubtitle: 'Solo-poly calendars, stag/vixen etiquette vs. fake DADT & Slide-5 surprises',
+    seededMessages: [
+      {
+        sender: 'Astrid_Stockholm',
+        badge: '🍍 Solo-Poly Founder',
+        text: 'Friendly PSA from the Solo-Poly corner: ethical non-monogamy goes in Prompt #1 with a shared calendar, NEVER as a surprise "my husband Brad is parking the car" ambush on Date #1!',
+      },
+      {
+        sender: 'Miles_31M',
+        badge: '🥂 Vetted Regular',
+        text: 'Preach. Huge difference between an honest open dynamic with clear boundaries vs. someone whispering in a parking garage claiming "Don’t Ask Don’t Tell" on Telegram.',
+      },
+      {
+        sender: 'Jade_42F',
+        badge: '🐆 Lounge Host',
+        text: 'Also laughing forever at yesterday’s confession where a 46F held her date’s iPhone at full medieval town-crier arm’s length to read his tiny font and he smoothly narrated the menu like a sommelier.',
+      },
+    ],
+    suggestionsHer: [
+      'How do Solo-Poly women in here filter out guys who say they are cool with it and then get possessive by Week 3?',
+      'Matched with a guy claiming an "open DADT marriage" who refuses to meet within ten miles of his zip code.',
+      'Anyone else love Living-Apart-Together or Solo-Poly purely because diagonal king-bed sleep is sacred?',
+    ],
+    suggestionsHim: [
+      'Matched with four solo photos and then Slide 5 said "Looking for a third for Brad & me 🍍", instant left swipe?',
+      'If an accomplished Solo-Poly woman shares her Google Calendar upfront, what is the best green-flag etiquette?',
+      'How do you verify a Stag/Vixen or open-marriage setup is actually 100% consensual and drama-free?',
+    ],
+    repliesHer: [
+      'Astrid_Stockholm: Watch how he handles your existing Thursday plans in Month One; secure men enjoy their own hobbies instead of auditing your calendar.',
+      'Priya_TraumaRN: "Open marriage + secret zip code + vanishing app" is a cheating husband in a trench coat. Block immediately!',
+      'Claire_M&A: Starfish diagonal sleep in a 63-degree bedroom with zero snoring negotiations is peak civilization.',
+    ],
+    repliesHim: [
+      'Jade_42F: Unless you explicitly signed up for couples, hiding Brad until Slide 5 (or worse, at the bar!) is a textbook unicorn-hunter foul.',
+      'Astrid_Stockholm: Respect her scheduled nights without pouting, show up reliably on your shared Fridays, and communicate directly.',
+      'Miles_31M: Real ethical couples are transparent, unhurried, and can verify consent openly without weird midnight secrecy.',
+    ],
+    botReplies: [
+      'Astrid_Stockholm: Real ENM is calm, upfront in Bio Line #1, and never requires hiding behind patio ferns.',
+      'Jade_42F: Run any questionable ENM or DADT excuse through the Wingwoman Roast Lab up top!',
+    ],
+  },
 ];
 
 function buildLeadOrCameoChapter(profile: V35CastProfile): {
